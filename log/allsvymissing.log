@@ -1,0 +1,249 @@
+--------------------------------------------------------------------------------
+      name:  allsvymissing
+       log:  /home/research/ca_ed_lab/chesun/gsr/caschls/log/allsvymissing.log
+  log type:  text
+ opened on:   2 May 2021, 11:22:31
+
+. /* missing value patterns for schol climate questions */
+/ is not a valid command name
+r(199);
+
+. mvpatterns parentqoi9mean_pooled parentqoi16mean_pooled parentqoi17mean_pooled
+>  parentqoi27mean_pooled secqoi22mean_pooled secqoi23mean_pooled secqoi24mean_p
+> ooled secqoi25mean_pooled secqoi26mean_pooled secqoi27mean_pooled secqoi28mean
+> _pooled secqoi29mean_pooled secqoi30mean_pooled staffqoi20mean_pooled staffqoi
+> 24mean_pooled staffqoi41mean_pooled staffqoi44mean_pooled staffqoi64mean_poole
+> d staffqoi87mean_pooled staffqoi98mean_pooled
+Variable     | type     obs   mv   variable label
+-------------+------------------------------------------------------------------
+parentqoi9mean_pooled|float 1282 1018weighted mean of qoi9 responses over years
+             |                     for a given school
+parentqoi16mean_pooled|float 1281 1019weighted mean of qoi16 responses over year
+> s
+             |                     for a given school
+parentqoi17mean_pooled|float 1281 1019weighted mean of qoi17 responses over year
+> s
+             |                     for a given school
+parentqoi27mean_pooled|float 1281 1019weighted mean of qoi27 responses over year
+> s
+             |                     for a given school
+secqoi22mean_pooled|float 1364  936weighted mean of qoi22 responses over years
+             |                     for a given school
+secqoi23mean_pooled|float 1364  936weighted mean of qoi23 responses over years
+             |                     for a given school
+secqoi24mean_pooled|float 1364  936weighted mean of qoi24 responses over years
+             |                     for a given school
+secqoi25mean_pooled|float 1364  936weighted mean of qoi25 responses over years
+             |                     for a given school
+secqoi26mean_pooled|float 1364  936weighted mean of qoi26 responses over years
+             |                     for a given school
+secqoi27mean_pooled|float 1340  960weighted mean of qoi27 responses over years
+             |                     for a given school
+secqoi28mean_pooled|float 1340  960weighted mean of qoi28 responses over years
+             |                     for a given school
+secqoi29mean_pooled|float 1340  960weighted mean of qoi29 responses over years
+             |                     for a given school
+secqoi30mean_pooled|float 1340  960weighted mean of qoi30 responses over years
+             |                     for a given school
+staffqoi20mean_pooled|float 1339  961weighted mean of qoi20 responses over years
+             |                     for a given school
+staffqoi24mean_pooled|float 1051 1249weighted mean of qoi24 responses over years
+             |                     for a given school
+staffqoi41mean_pooled|float 1343  957weighted mean of qoi41 responses over years
+             |                     for a given school
+staffqoi44mean_pooled|float 1342  958weighted mean of qoi44 responses over years
+             |                     for a given school
+staffqoi64mean_pooled|float 1051 1249weighted mean of qoi64 responses over years
+             |                     for a given school
+staffqoi87mean_pooled|float 1264 1036weighted mean of qoi87 responses over years
+             |                     for a given school
+staffqoi98mean_pooled|float 1343  957weighted mean of qoi98 responses over years
+             |                     for a given school
+--------------------------------------------------------------------------------
+
+Patterns of missing values
+
+  +------------------------------------+
+  |             _pattern   _mv   _freq |
+  |------------------------------------|
+  | ++++++++++++++++++++     0    1023 |
+  | ....................    20     936 |
+  | ++++++++++++++.++.++     2     195 |
+  | ++++++++++++++.++..+     3      29 |
+  | ....++++++++++.++..+     7      28 |
+  |------------------------------------|
+  | ....++++++++++++++++     4      23 |
+  | +++++++++++++.......     7      21 |
+  | ....++++++++++.++.++     6      15 |
+  | ....+++++....+.++..+    11      15 |
+  | +++++++++....+.++..+     7       7 |
+  |------------------------------------|
+  | +++++++++++++.++++++     1       3 |
+  | ++++++++++++++++.+++     1       1 |
+  | +++++++++++++..++.++     3       1 |
+  | +...++++++++++++++++     3       1 |
+  | +++++++++....+.++.++     6       1 |
+  |------------------------------------|
+  | ....+++++....+.++.++    10       1 |
+  +------------------------------------+
+
+. /* missing value patterns for schol teacher and staff quality questions*/
+/ is not a valid command name
+r(199);
+
+. mvpatterns parentqoi30mean_pooled parentqoi31mean_pooled parentqoi32mean_poole
+> d parentqoi33mean_pooled parentqoi34mean_pooled secqoi35mean_pooled secqoi36me
+> an_pooled secqoi37mean_pooled secqoi38mean_pooled secqoi39mean_pooled secqoi40
+> mean_pooled staffqoi103mean_pooled staffqoi104mean_pooled staffqoi105mean_pool
+> ed staffqoi109mean_pooled staffqoi111mean_pooled staffqoi112mean_pooled
+Variable     | type     obs   mv   variable label
+-------------+------------------------------------------------------------------
+parentqoi30mean_pooled|float 1161 1139weighted mean of qoi30 responses over year
+> s
+             |                     for a given school
+parentqoi31mean_pooled|float 1277 1023weighted mean of qoi31 responses over year
+> s
+             |                     for a given school
+parentqoi32mean_pooled|float 1045 1255weighted mean of qoi32 responses over year
+> s
+             |                     for a given school
+parentqoi33mean_pooled|float 1278 1022weighted mean of qoi33 responses over year
+> s
+             |                     for a given school
+parentqoi34mean_pooled|float 1161 1139weighted mean of qoi34 responses over year
+> s
+             |                     for a given school
+secqoi35mean_pooled|float 1364  936weighted mean of qoi35 responses over years
+             |                     for a given school
+secqoi36mean_pooled|float 1364  936weighted mean of qoi36 responses over years
+             |                     for a given school
+secqoi37mean_pooled|float 1364  936weighted mean of qoi37 responses over years
+             |                     for a given school
+secqoi38mean_pooled|float 1364  936weighted mean of qoi38 responses over years
+             |                     for a given school
+secqoi39mean_pooled|float 1364  936weighted mean of qoi39 responses over years
+             |                     for a given school
+secqoi40mean_pooled|float 1364  936weighted mean of qoi40 responses over years
+             |                     for a given school
+staffqoi103mean_pooled|float 1342  958weighted mean of qoi103 responses over yea
+> rs
+             |                     for a given school
+staffqoi104mean_pooled|float 1342  958weighted mean of qoi104 responses over yea
+> rs
+             |                     for a given school
+staffqoi105mean_pooled|float 1342  958weighted mean of qoi105 responses over yea
+> rs
+             |                     for a given school
+staffqoi109mean_pooled|float 1342  958weighted mean of qoi109 responses over yea
+> rs
+             |                     for a given school
+staffqoi111mean_pooled|float 1342  958weighted mean of qoi111 responses over yea
+> rs
+             |                     for a given school
+staffqoi112mean_pooled|float 1342  958weighted mean of qoi112 responses over yea
+> rs
+             |                     for a given school
+--------------------------------------------------------------------------------
+
+Patterns of missing values
+
+  +---------------------------------+
+  |          _pattern   _mv   _freq |
+  |---------------------------------|
+  | +++++++++++++++++     0    1029 |
+  | .................    17     936 |
+  | ++.++++++++++++++     1     115 |
+  | .+.+.++++++++++++     3     111 |
+  | .....++++++++++++     5      85 |
+  |---------------------------------|
+  | +++++++++++......     6      15 |
+  | .+.+.++++++......     9       6 |
+  | +..++++++++++++++     2       1 |
+  | ..+..++++++++++++     4       1 |
+  | ++.++++++++......     7       1 |
+  +---------------------------------+
+
+. /* missing value patterns for student support questions*/
+/ is not a valid command name
+r(199);
+
+. mvpatterns parentqoi15mean_pooled parentqoi64mean_pooled staffqoi10mean_pooled
+>  staffqoi128mean_pooled
+Variable     | type     obs   mv   variable label
+-------------+------------------------------------------------------------------
+parentqoi15mean_pooled|float 1282 1018weighted mean of qoi15 responses over year
+> s
+             |                     for a given school
+parentqoi64mean_pooled|float 1275 1025weighted mean of qoi64 responses over year
+> s
+             |                     for a given school
+staffqoi10mean_pooled|float 1342  958weighted mean of qoi10 responses over years
+             |                     for a given school
+staffqoi128mean_pooled|float 1319  981weighted mean of qoi128 responses over yea
+> rs
+             |                     for a given school
+--------------------------------------------------------------------------------
+
+Patterns of missing values
+
+  +------------------------+
+  | _pattern   _mv   _freq |
+  |------------------------|
+  |     ++++     0    1239 |
+  |     ....     4     936 |
+  |     ..++     2      78 |
+  |     ++..     2      18 |
+  |     +++.     1      17 |
+  |------------------------|
+  |     ..+.     3       4 |
+  |     +.+.     2       3 |
+  |     +...     3       3 |
+  |     ++.+     1       1 |
+  |     +.++     1       1 |
+  +------------------------+
+
+. /* missing value patterns for student motivation questions */
+/ is not a valid command name
+r(199);
+
+. mvpatterns parentqoi15mean_pooled parentqoi64mean_pooled staffqoi10mean_pooled
+>  staffqoi128mean_pooled
+Variable     | type     obs   mv   variable label
+-------------+------------------------------------------------------------------
+parentqoi15mean_pooled|float 1282 1018weighted mean of qoi15 responses over year
+> s
+             |                     for a given school
+parentqoi64mean_pooled|float 1275 1025weighted mean of qoi64 responses over year
+> s
+             |                     for a given school
+staffqoi10mean_pooled|float 1342  958weighted mean of qoi10 responses over years
+             |                     for a given school
+staffqoi128mean_pooled|float 1319  981weighted mean of qoi128 responses over yea
+> rs
+             |                     for a given school
+--------------------------------------------------------------------------------
+
+Patterns of missing values
+
+  +------------------------+
+  | _pattern   _mv   _freq |
+  |------------------------|
+  |     ++++     0    1239 |
+  |     ....     4     936 |
+  |     ..++     2      78 |
+  |     ++..     2      18 |
+  |     +++.     1      17 |
+  |------------------------|
+  |     ..+.     3       4 |
+  |     +.+.     2       3 |
+  |     +...     3       3 |
+  |     ++.+     1       1 |
+  |     +.++     1       1 |
+  +------------------------+
+
+. log close allsvymissing
+      name:  allsvymissing
+       log:  /home/research/ca_ed_lab/chesun/gsr/caschls/log/allsvymissing.log
+  log type:  text
+ closed on:   2 May 2021, 11:22:48
+--------------------------------------------------------------------------------
