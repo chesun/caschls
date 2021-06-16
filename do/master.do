@@ -451,6 +451,13 @@ if `docompcasecategoryindex' == 1 {
 }
 
 
+/* lienar regressions of VA vars on all 4 index vars in a "horse race" type regression
+for both complete case and imputed data  */
+local doindexhorserace = 0
+if `doindexhorserace' == 1 {
+  do $projdir/do/share/factoranalysis/indexhorserace 
+}
+
 
 /* VA regs with index vars and school characteristics controls */
 ////////////////////////////////////////////////////////////////////////////////
