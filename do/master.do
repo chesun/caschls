@@ -451,15 +451,32 @@ if `docompcasecategoryindex' == 1 {
 }
 
 
+/* lienar regressions of VA vars on all 4 index vars in a "horse race" type regression
+for both complete case and imputed data  */
+local doindexhorserace = 0
+if `doindexhorserace' == 1 {
+  do $projdir/do/share/factoranalysis/indexhorserace
+}
+
 
 /* VA regs with index vars and school characteristics controls */
 ////////////////////////////////////////////////////////////////////////////////
+
 /* making pooled school demographics dataset */
 //pool cleaned CDE enrollment datasets over 5 years: 1415 - 1819
+/*
+Note: deprecated. Updated index regs use school characteristics from Matt Naven's data
 local dopoolenrollment = 0
 if `dopoolenrollment' == 1 {
   do $projdir/do/build/prepare/poolenrollment
+}  */
+
+
+local domattschlchar = 0
+if `domattschlchar' == 1 {
+  do $projdir/do/share/factoranalysis/mattschlchar
 }
+
 
 /* Bivariate VA regressions on each category index with school demographics as controls  */
 local doindexregwithdemo = 0

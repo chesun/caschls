@@ -18,8 +18,7 @@ use $projdir/dta/allsvyfactor/categoryindex/compcasecategoryindex, clear
 local vasdvars z_va_ela z_va_math z_va_enr z_va_enrela z_va_enrmath z_va_enrdk z_va_2yr z_va_2yrela z_va_2yrmath z_va_2yrdk z_va_4yr z_va_4yrela z_va_4yrmath z_va_4yrdk
 
 //local macro for z score index vars
-local indexsdvars z_climateindex z_qualityindex z_supportindex z_motivationindex
-
+local indexsdvars z_climateindex z_qualityindex z_supportindex
 
 // regress va vars on index vars
 foreach i of local vasdvars {
@@ -45,7 +44,7 @@ use $projdir/dta/allsvyfactor/categoryindex/imputedcategoryindex, clear
 local vasdvars z_va_ela z_va_math z_va_enr z_va_enrela z_va_enrmath z_va_enrdk z_va_2yr z_va_2yrela z_va_2yrmath z_va_2yrdk z_va_4yr z_va_4yrela z_va_4yrmath z_va_4yrdk
 
 //local macro for z score index vars
-local indexsdvars z_climateindex z_qualityindex z_supportindex z_motivationindex
+local indexsdvars z_climateindex z_qualityindex z_supportindex
 
 
 // regress va vars on index vars

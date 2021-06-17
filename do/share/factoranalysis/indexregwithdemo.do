@@ -1,5 +1,5 @@
 ********************************************************************************
-/* Bivariate VA regressions on each category index with school demographics as controls */
+/* Bivariate VA regressions on each category index with school demographics from Matt Naven's data as controls */
 ********************************************************************************
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************
@@ -15,8 +15,8 @@ local datatype compcase imputed
 foreach type of local datatype {
   use $projdir/dta/allsvyfactor/categoryindex/`type'categoryindex, clear
 
-  //merge with pooled average enrollment characteristics over 1415-1819
-  merge 1:1 cdscode using $projdir/dta/enrollment/pooledavgenr
+  //merge with pooled average enrollment characteristics over 1415-1718 constructed from Matt Naven's data
+  merge 1:1 cdscode using $projdir/dta/schoolchar/schlcharpooledmeans
   //keep only merged observations
   keep if _merge == 3
   drop _merge
@@ -26,17 +26,23 @@ foreach type of local datatype {
   local vavars va_ela va_math va_enr va_enrela va_enrmath va_enrdk va_2yr va_2yrela va_2yrmath va_2yrdk va_4yr va_4yrela va_4yrmath va_4yrdk
 
   // local macro for index vars
-  local indexvars climateindex qualityindex supportindex motivationindex
+  local indexvars climateindex qualityindex supportindex
 
   //local macro for demographics vars
-  local demovars femaleenrpct blackenrpct whiteenrpct hispanicenrpct
+  local demovars minorityenrprop maleenrprop freemealprop elprop maleteachprop minoritystaffprop newteachprop fullcredprop fteteachperstudent fteadminperstudent fteserviceperstudent
+
+  //log transform the demo vars
+  foreach i of local demovars {
+    gen ln_`i' = log(`i')
+  }
+
 
   // bivariate regressions va vars on index vars and demographics controls
   //regsave with append overwrites the same variables
   foreach i of local vavars {
 
     foreach j of local indexvars {
-      reg z_`i' z_`j' `demovars'
+      reg z_`i' z_`j' ln_*
       regsave using $projdir/out/dta/factor/indexregwcontrols/`type'/`i'_`j'_indexwcontrols_`type'regs, replace table(`i', format(%7.2f) parentheses(stderr) asterisk())
 
     }
@@ -45,7 +51,7 @@ foreach type of local datatype {
 
   //save dataset
   compress
-  save $projdir/dta/allsvyfactor/categoryindex/`type'categoryindex, replace
+  save $projdir/dta/allsvyfactor/categoryindex/`type'indexwithdemo, replace
 
 
   //merge the va index reg datasets to produce combined table
