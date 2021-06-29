@@ -472,9 +472,18 @@ if `dopoolenrollment' == 1 {
 }  */
 
 
+/* clean and pull school characteristics from the dataset created by Matt Naven, for use in
+VA regressions with index + school characteristics  */
 local domattschlchar = 0
 if `domattschlchar' == 1 {
   do $projdir/do/share/factoranalysis/mattschlchar
+}
+
+/* pull SBAC test score data from Matt dataset to create controls for index regressions using 6th and 8th grade test scores  */
+
+local dotestscore = 0
+if `dotestscore' == 1 {
+  do $projdir/do/share/factoranalysis/testscore
 }
 
 

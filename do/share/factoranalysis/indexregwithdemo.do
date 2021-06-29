@@ -17,8 +17,12 @@ foreach type of local datatype {
 
   //merge with pooled average enrollment characteristics over 1415-1718 constructed from Matt Naven's data
   merge 1:1 cdscode using $projdir/dta/schoolchar/schlcharpooledmeans
-  //keep only merged observations
-  keep if _merge == 3
+  //keep only merged observations or unmatched master observations
+  drop if _merge == 2
+  drop _merge
+
+  merge 1:1 cdscode using $projdir/dta/schoolchar/testscorecontrols
+  drop if _merge == 2
   drop _merge
 
 
@@ -31,6 +35,9 @@ foreach type of local datatype {
   //local macro for demographics vars
   local demovars minorityenrprop maleenrprop freemealprop elprop maleteachprop minoritystaffprop newteachprop fullcredprop fteteachperstudent fteadminperstudent fteserviceperstudent
 
+  //local macro for SBAC test scores
+  local scorevars avg_gr6math_zscore avg_gr8ela_zscore
+
   //log transform the demo vars
   foreach i of local demovars {
     gen ln_`i' = log(`i')
@@ -42,7 +49,7 @@ foreach type of local datatype {
   foreach i of local vavars {
 
     foreach j of local indexvars {
-      reg z_`i' z_`j' ln_*
+      reg z_`i' z_`j' ln_* `scorevars'
       regsave using $projdir/out/dta/factor/indexregwcontrols/`type'/`i'_`j'_indexwcontrols_`type'regs, replace table(`i', format(%7.2f) parentheses(stderr) asterisk())
 
     }
