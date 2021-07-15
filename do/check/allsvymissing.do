@@ -26,7 +26,7 @@ tab nmissclimate
 egen nmissquality = rmiss(`qualityvars')
 tab nmissquality
 
-egen nmisssupport = rmiss`supportvars')
+egen nmisssupport = rmiss(`supportvars')
 tab nmisssupport
 
 egen nmissmotivation = rmiss(`motivationvars')

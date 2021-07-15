@@ -1,0 +1,16 @@
+familyid,year,state_student_id,firstname,lastname,address,city,state
+4,2016,1112,Christina,Anderson,2 East 8th St,Davis,CA
+4,2016,1113,Anna,Anderson,2 East 8th St,Davis,CA
+2,2017,1111,Maria,Anderson,1 Main St,Davis,CA
+2,2017,1112,Christina,Anderson,1 Main St,Davis,CA
+2,2017,1113,Anna,Anderson,1 Main St,Davis,CA
+1,2018,1111,Maria,Anderson,1 Main St,Davis,CA
+1,2018,1112,Christina,Anderson,1 Main St,Davis,CA
+3,2019,1111,Maria,Anderson,1 Main St,Davis,CA
+3,2019,1112,Christina,Anderson,1 Main St,Davis,CA
+5,2020,1111,Maria,Anderson,1 Main St,Davis,CA
+5,2020,1114,Annie,Anderson,1 Main St,Davis,CA
+6,2021,1111,Maria,Anderson,3 Davis St,Davis,CA
+6,2021,1114,Annie,Anderson,3 Davis St,Davis,CA
+7,2022,2001,Mike,Anderson,1 Main St,Davis,CA
+7,2022,2002,Amy,Anderson,1 Main St,Davis,CA

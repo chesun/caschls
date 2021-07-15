@@ -52,15 +52,14 @@ foreach i of local indexvars {
   gen z_`i' = (`i' - r(mean))/r(sd)
 }
 
-// regress va vars on index vars
-foreach i of local vavars {
-  local append replace
+// regress va vars on index vars, have one file for each index to save N in the dataset 
+foreach i of local indexvars {
 
-  foreach j of local indexvars {
-    qui reg z_`i' z_`j'
-    regsave using $projdir/out/dta/factor/compcase/`i'_index_compregs, `append' table(`i', format(%7.2f) parentheses(stderr) asterisk())
 
-    local append append
+  foreach j of local vavars {
+    reg z_`j' z_`i'
+    regsave using $projdir/out/dta/factor/compcase/`i'_`j'_compregs, replace table(`j', format(%7.2f) parentheses(stderr) asterisk())
+
   }
 }
 
@@ -73,12 +72,12 @@ save $projdir/dta/allsvyfactor/categoryindex/compcasecategoryindex, replace
 // local macro for all va vars except the first one (va_ela) for merging loop
 local vaminusfirst va_math va_enr va_enrela va_enrmath va_enrdk va_2yr va_2yrela va_2yrmath va_2yrdk va_4yr va_4yrela va_4yrmath va_4yrdk
 
-use $projdir/out/dta/factor/compcase/va_ela_index_compregs, clear
-foreach i of local vaminusfirst {
-  merge 1:1 var using $projdir/out/dta/factor/compcase/`i'_index_compregs
-  drop _merge
+foreach i of local indexvars {
+  use $projdir/out/dta/factor/compcase/`i'_va_ela_compregs, clear
+  foreach j of local vaminusfirst {
+    merge 1:1 var using $projdir/out/dta/factor/compcase/`i'_`j'_compregs
+    drop _merge
+  }
+  save $projdir/out/dta/factor/compcase/`i'_va_compregs, replace
+  export excel using $projdir/out/xls/factor/compcase/`i'_va_compregs, replace
 }
-
-save $projdir/out/dta/factor/compcase/vaindex_compregs_all, replace
-
-export excel using $projdir/out/xls/factor/compcase/vaindex_compregs_all, replace

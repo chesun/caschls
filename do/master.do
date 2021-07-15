@@ -40,6 +40,8 @@ if `installssc' == 1 {
   ssc install estout, replace
   ssc install outreg2, replace
   ssc install regsave, replace
+  /* install ssc package that group observations by the connected components of two variables  */
+  ssc install group_twoway, replace
 }
 
 
@@ -494,7 +496,15 @@ if `doindexregwithdemo' == 1 {
 }
 
 
+/* matching siblings using CST data */
+////////////////////////////////////////////////////////////////////////////////
 
+/* Use CST data to match students with their siblings. Code taken mostly from
+do file by Matt Naven  */
+local dosiblingmatch = 0
+if `dosiblingmatch' == 1 {
+  do $projdir/do/share/siblingxwalk/siblingmatch
+}
 
 
 /* log close master // close the master log file */

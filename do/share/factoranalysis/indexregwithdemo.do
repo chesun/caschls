@@ -38,11 +38,19 @@ foreach type of local datatype {
   //local macro for SBAC test scores
   local scorevars avg_gr6math_zscore avg_gr8ela_zscore
 
-  //log transform the demo vars
+  //log transform the demo vars, adding 0.0000001 does not affect interpretation because it is small compared to variable values
   foreach i of local demovars {
-    gen ln_`i' = log(`i')
+    gen ln_`i' = log(`i'+ 0.0000001)
   }
 
+/*
+  foreach i of local demovars {
+    sum `i'
+    gen z_`i' = (`i' - r(mean))/r(sd)
+  }
+
+  local zdemovars z_minorityenrprop z_maleenrprop z_freemealprop z_elprop z_maleteachprop z_minoritystaffprop z_newteachprop z_fullcredprop z_fteteachperstudent z_fteadminperstudent z_fteserviceperstudent
+ */
 
   // bivariate regressions va vars on index vars and demographics controls
   //regsave with append overwrites the same variables

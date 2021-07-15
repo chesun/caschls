@@ -16,14 +16,18 @@ merge 1:1 merge_id_k12_test_scores using /home/research/ca_ed_lab/msnaven/data/r
 keep if _merge == 3
 drop _merge
 
-//keep only the 6th grade math score (L5) and 8th grade (L3) ELA score
-keep state_student_id grade year cdscode merge_id_k12_test_scores dataset L5_cst_math_z_score L3_cst_ela_z_score
+/* use grade 7 ELA score for grade 8 in year 2017 due to missing data */
+gen prior_gr8_zscore = L3_cst_ela_z_score if inrange(year, 2015, 2016)
+replace prior_gr8_zscore = L4_cst_ela_z_score if year==2017
 
-//collapse to get average test scores for each school
-collapse L5_cst_math_z_score L3_cst_ela_z_score, by (cdscode year)
+//keep only the 6th grade math score (L5) and 8th grade (L3) ELA score
+keep state_student_id grade year cdscode merge_id_k12_test_scores dataset L5_cst_math_z_score prior_gr8_zscore
+
+//collapse to get average test scores for each school per year
+collapse L5_cst_math_z_score prior_gr8_zscore, by (cdscode year)
 
 //collapse again to average across years
-collapse avg_gr6math_zscore=L5_cst_math_z_score avg_gr8ela_zscore=L3_cst_ela_z_score, by(cdscode)
+collapse avg_gr6math_zscore=L5_cst_math_z_score avg_gr8ela_zscore=prior_gr8_zscore, by(cdscode)
 
 label var avg_gr6math_zscore "pooled avg 6th grade math z score for 11th graders in 2014-15 to 2016-17 "
 label var avg_gr8ela_zscore "pooled avg 8th grade ELA z score for 11th graders in 2014-15 to 2016-17"
