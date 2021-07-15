@@ -40,6 +40,8 @@ if `installssc' == 1 {
   ssc install estout, replace
   ssc install outreg2, replace
   ssc install regsave, replace
+  /* install ssc package that group observations by the connected components of two variables  */
+  ssc install group_twoway, replace
 }
 
 
@@ -472,9 +474,18 @@ if `dopoolenrollment' == 1 {
 }  */
 
 
+/* clean and pull school characteristics from the dataset created by Matt Naven, for use in
+VA regressions with index + school characteristics  */
 local domattschlchar = 0
 if `domattschlchar' == 1 {
   do $projdir/do/share/factoranalysis/mattschlchar
+}
+
+/* pull SBAC test score data from Matt dataset to create controls for index regressions using 6th and 8th grade test scores  */
+
+local dotestscore = 0
+if `dotestscore' == 1 {
+  do $projdir/do/share/factoranalysis/testscore
 }
 
 
@@ -485,7 +496,15 @@ if `doindexregwithdemo' == 1 {
 }
 
 
+/* matching siblings using CST data */
+////////////////////////////////////////////////////////////////////////////////
 
+/* Use CST data to match students with their siblings. Code taken mostly from
+do file by Matt Naven  */
+local dosiblingmatch = 0
+if `dosiblingmatch' == 1 {
+  do $projdir/do/share/siblingxwalk/siblingmatch
+}
 
 
 /* log close master // close the master log file */

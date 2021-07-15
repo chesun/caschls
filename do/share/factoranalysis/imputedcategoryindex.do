@@ -53,7 +53,7 @@ foreach i of local indexvars {
   gen z_`i' = (`i' - r(mean))/r(sd)
 }
 
-// regress va vars on index vars
+// regress va vars on index vars, N is all the same across index because of imputed data so can append
 foreach i of local vavars {
   local append replace
 

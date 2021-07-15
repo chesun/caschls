@@ -26,4 +26,8 @@ global projdir "/home/research/ca_ed_lab/chesun/gsr/caschls"
 
 
 /* create global macro for the value added estimates file directory */
-global vadtadir "/home/research/ca_ed_lab/common_core_va/data/sbac"
+global vadtadir "/home/research/ca_ed_lab/msnaven/common_core_va/data/sbac"
+
+
+/* create global macro for CST data directory */
+global cstdtadir "/home/research/ca_ed_lab/data/restricted_access/clean/cst"
