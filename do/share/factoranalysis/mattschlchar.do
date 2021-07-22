@@ -25,8 +25,7 @@ if `clean' == 1 {
   rename frpm_prop freemealprop
   label var freemealprop "proportion eleigible for free or reduced price meals"
 
-  rename el_prop elprop
-  label var elprop "proportion of English learners"
+  drop el_prop
 
   rename male_prop maleteachprop
   label var maleteachprop "proportion of male teachers"
@@ -63,18 +62,33 @@ if `clean' == 1 {
   save $projdir/dta/schoolchar/mattschlchar, replace
 }
 
+//create elprop by collapsing student test score data to avoid missing data problem in the CDE school level dataset
+use cdscode year limited_eng_prof all_students_sample if all_students_sample==1 & inrange(year, 2015, 2017) using /home/research/ca_ed_lab/msnaven/data/restricted_access/clean/k12_test_scores/k12_test_scores_clean.dta, clear
+collapse elprop = limited_eng_prof, by(cdscode year)
+collapse elprop, by(cdscode)
+drop if missing(cdscode)
+label var elprop "proportion of English Leaners"
+compress
+label data "Proportion of English Learners from collapsing student level test score dataset"
+save $projdir/dta/schoolchar/elprop, replace
+
 
 
 use $projdir/dta/schoolchar/mattschlchar, clear
 
-// keep observations from 14-15 to 18-19 since year is the year of spring semester
-keep if year >= 2015
+// keep observations from 14-15 to 16-17 to condition on the same year as VA estimates since year is the year of spring semester
+keep if inrange(year, 2015, 2017)
 drop if missing(cdscode)
 
 drop enrtotal fteteach fteadmin ftepupil
 
 collapse *prop fte*, by(cdscode)
 
-label data "Pooled average over 14-15 to 17-18 school characteristics data by Matt Naven"
+merge 1:1 cdscode using $projdir/dta/schoolchar/elprop
+//keep only merged obs
+keep if _merge==3
+drop _merge
 
+label data "Pooled average over 14-15 to 16-17 school characteristics data"
+compress
 save $projdir/dta/schoolchar/schlcharpooledmeans, replace
