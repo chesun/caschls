@@ -38,4 +38,6 @@ label var ufamilyid "unique family ID after linking all siblings in same family"
 last name lived in the same address at a certain point so that links all of the cousins etc */
 drop siblings_name_address_year
 order ufamilyid year numsiblings state_student_id first_name  last_name birth_date street_address_line_one street_address_line_two city state zip_code
+hist numsiblings
+graph export $projdir/out/graph/siblingxwalk/numsiblingdist.png, replace
 save $projdir/dta/siblingxwalk/uniquelinkedfamilyclean, replace
