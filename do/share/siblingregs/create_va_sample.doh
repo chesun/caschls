@@ -8,7 +8,8 @@ use merge_id_k12_test_scores all_students_sample first_scores_sample ///
 	`va_control_vars' ///
 	/*if substr(cdscode, 1, 7)=="3768338"*/ ///
 	using `k12_test_scores'/k12_test_scores_clean.dta, clear
-merge 1:1 merge_id_k12_test_scores using data/sbac/va_samples.dta ///
+	//va_samples is the crosswalk file that identifies va sample
+merge 1:1 merge_id_k12_test_scores using `common_core_va'/data/sbac/va_samples.dta ///
 	, nogen keepusing(touse_*)
 
 * Merge to lagged scores

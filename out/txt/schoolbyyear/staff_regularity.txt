@@ -1,0 +1,46 @@
+                                                       ___  ____  ____  ____  ____(R)
+                                                      /__    /   ____/   /   ____/   
+                                                     ___/   /   /___/   /   /___/    
+                                                       Statistics/Data analysis      
+      
+      
+     1 . tab svyallyears
+      
+          Fielded |
+           survey |
+       every year |
+        from 1415 |
+          to 1819 |      Freq.     Percent        Cum.
+      ------------+-----------------------------------
+                0 |      3,946       93.68       93.68
+                1 |        266        6.32      100.00
+      ------------+-----------------------------------
+            Total |      4,212      100.00
+      
+     2 . tab svy1415_1617_1819
+      
+          Fielded |
+      survey only |
+         in 1415, |
+        1617, and |
+             1819 |      Freq.     Percent        Cum.
+      ------------+-----------------------------------
+                0 |      4,212      100.00      100.00
+      ------------+-----------------------------------
+            Total |      4,212      100.00
+      
+     3 . tab svy1516_1718
+      
+          Fielded |
+      survey only |
+      in 1516 and |
+             1718 |      Freq.     Percent        Cum.
+      ------------+-----------------------------------
+                0 |      4,212      100.00      100.00
+      ------------+-----------------------------------
+            Total |      4,212      100.00
+      
+     4 . translate @Results $projdir/out/txt/schoolbyyear/staff_regularity.txt, replace
+      (file
+          /home/research/ca_ed_lab/chesun/gsr/caschls/out/txt/schoolbyyear/staff_reg
+          > ularity.txt not found)

@@ -6,6 +6,8 @@ Same combination with different orders are different observations. */
 *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************
 ********************************************************************************
 
+***this resulting dataset can be used to merge siblings into a dataset with sibling pairs 
+
 clear all
 set more off
 
