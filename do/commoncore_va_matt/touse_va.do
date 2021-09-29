@@ -129,6 +129,8 @@ rename enr_ontime_4year enr_4year
 
 
 
+/* the touse_* variables marks various observations as included/excluded in the sample for the different outcomes,
+because some students have math scores but are missing ELA scores etc */
 
 
 
@@ -147,8 +149,7 @@ rename enr_ontime_4year enr_4year
 
 
 
-
-******************************** 11th Grade (8th Grade ELA Controls, 6th Grade Math Controls)
+_*&******************************** 11th Grade (8th Grade ELA Controls, 6th Grade Math Controls)
 gen diff_school_prop = gr11_L3_diff_school_prop if year!=2017
 replace diff_school_prop = gr11_L4_diff_school_prop if year==2017
 
@@ -184,9 +185,9 @@ foreach subject in ela math {
 		`peer_demographic_controls' ///
 		`peer_ela_score_controls' ///
 		`peer_math_score_controls'
-	
+
 	replace touse_g11_`subject' = 0 if touse==0
-	
+
 	egen n_g11_`subject' = count(state_student_id) ///
 		if touse_g11_`subject'==1 ///
 		, by(cdscode year)
@@ -208,9 +209,9 @@ foreach outcome in enr enr_2year enr_4year {
 		`peer_demographic_controls' ///
 		`peer_ela_score_controls' ///
 		`peer_math_score_controls'
-	
+
 	replace touse_g11_`outcome' = 0 if touse==0
-	
+
 	egen n_g11_`outcome' = count(state_student_id) ///
 		if touse_g11_`outcome'==1 ///
 		, by(cdscode year)
