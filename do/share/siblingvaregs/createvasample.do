@@ -24,13 +24,36 @@ local k12_public_schools "/home/research/ca_ed_lab/msnaven/data/public_access/cl
 local k12_test_scores_public "/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_test_scores"
 
 
-//create VA sample
+ ** this creates the full VA sample
 
 //run the do helper file to set the local macros
-include $projdir/do/share/siblingregs/macros_va.doh
+include $projdir/do/share/siblingvaregs/macros_va.doh
 //run the do helper file to create the VA sample
-include $projdir/do/share/siblingregs/create_va_sample.doh
+include $projdir/do/share/siblingvaregs/create_va_sample.doh
 
+
+save $projdir/dta/common_core_va/va_dataset, replace
+
+//Save it as a temporary dataset
+compress
+tempfile va_dataset
+save `va_dataset'
+
+
+********************************************************************************
+**create the VA dataset for the VA CFR regressions (score VA)
+** use onoy 11th Grade (8th Grade ELA Controls, 6th Grade Math Controls)
+include $projdir/do/share/siblingvaregs/create_va_g11_sample.doh
+
+**the above steps create the VA dataset for the VA CFR regressions (score VA)
+
+save $projdir/dta/common_core_va/va_g11_dataset, replace
+
+
+
+********************************************************************************
+** create the VA dataset for the long term outcome VA regressions
+use $projdir/dta/common_core_va/va_dataset, clear
 // merge on postsecondary Outcomes
 do `ca_ed_lab'/msnaven/data/do_files/merge_k12_postsecondary.doh enr_only
 drop enr enr_2year enr_4year
@@ -38,22 +61,16 @@ rename enr_ontime enr
 rename enr_ontime_2year enr_2year
 rename enr_ontime_4year enr_4year
 
-//Save it as a temporary dataset
+* Save temporary dataset
 compress
 tempfile va_dataset
 save `va_dataset'
 
-save $projdir/dta/common_core_va/va_dataset, replace
-
-
+** need to create grade 11 sample for long term outcome VA, use create_va_g11_sample.doh
 
 // use only 11th Grade (8th Grade ELA Controls, 6th Grade Math Controls)
-include do_files/sbac/create_va_g11_sample.doh
+include $projdir/do/share/siblingvaregs/create_va_g11_out_sample.doh
 
-
-
-
-
-
-
-//merge on sibling outcomes
+** this creates the VA dataset for the long term outcome VA regressions
+compress
+save $projdir/dta/common_core_va/va_g11_out_dataset, replace

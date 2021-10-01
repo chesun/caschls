@@ -5,6 +5,11 @@ to link siblings from the same family across years and delete duplicates  */
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************
 ********************************************************************************
+
+/* to run this do file:
+do $projdir/do/share/siblingxwalk/uniquefamily.do 
+ */
+
 clear all
 set more off
 
@@ -41,3 +46,10 @@ order ufamilyid year numsiblings state_student_id first_name  last_name birth_da
 hist numsiblings
 graph export $projdir/out/graph/siblingxwalk/numsiblingdist.png, replace
 save $projdir/dta/siblingxwalk/uniquelinkedfamilyclean, replace
+
+//artificial cutoff of max 10 children per family, anything above that likely to be matching error
+drop if numsiblings >= 9
+keep ufamilyid numsiblings state_student_id
+compress
+label data "dataset with unique family ID for each SSID, family size capped at 10 children"
+save $projdir/dta/siblingxwalk/ufamilyxwalk, replace

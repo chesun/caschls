@@ -1,4 +1,4 @@
-/* This is the same block of code as the beginning of touse_va.do */
+
 
 **************** Create VA Dataset
 use merge_id_k12_test_scores all_students_sample first_scores_sample ///
