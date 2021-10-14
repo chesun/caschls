@@ -19,6 +19,7 @@ if `dok12nscmerge' == 1 {
   use merge_id_k12_test_scores all_students_sample first_scores_sample dataset ///
   test cdscode state_student_id year grade	///
   using `k12_test_scores_dir'/k12_test_scores_clean.dta, clear
+  compress
   tempfile k12
   save `k12'
 
@@ -27,7 +28,7 @@ if `dok12nscmerge' == 1 {
   use `k12', clear
   gen k12_nsc_match = 0
 
-  compress
+
   merge m:1 state_student_id using `crosswalks_dir'/nsc_2010_2017_outcomes_crosswalk_ssid.dta, gen(merge_k12_nsc) keep(1 3)
   replace k12_nsc_match = 1 if merge_k12_nsc==3
   drop merge_k12_nsc
@@ -63,7 +64,7 @@ use $projdir/dta/outcomesumstats/k12_nsc_2010_2017_merge, clear
 
 
 cls //clear results window
-
+//CDE naming convention for years is the year of spring semester, so 2016 11th graders is the 2017 graduating cohort, etc.
 //summary stats for 11th graders in 2016 to 2010 conditional on matching to NSC outcomes 2010-2017
 forvalues year = 2016(-1)2010 {
   di `year'
