@@ -78,7 +78,10 @@ label var age "Age in Years"
 merge 1:1 merge_id_k12_test_scores using `k12_test_scores'/k12_lag_test_scores_clean.dta, nogen keep(1 3) ///
 	keepusing( ///
 		L3_cst_ela_z_score ///
+		L3_sbac_ela_z_score ///
 		L4_cst_ela_z_score ///
+		L3_sbac_math_z_score ///
+		L4_sbac_math_z_score ///
 		L5_cst_math_z_score ///
 		L6_cst_math_z_score ///
 	)
@@ -88,7 +91,10 @@ merge 1:1 merge_id_k12_test_scores using `k12_test_scores'/k12_peer_test_scores_
 	keepusing( ///
 		`peer_demographic_controls' ///
 		peer_L3_cst_ela_z_score ///
+		peer_L3_sbac_ela_z_score ///
 		peer_L4_cst_ela_z_score ///
+		peer_L3_sbac_math_z_score ///
+		peer_L4_sbac_math_z_score ///
 		peer_L5_cst_math_z_score ///
 		peer_L6_cst_math_z_score ///
 	)
@@ -174,7 +180,7 @@ save `va_dataset'
 
 
 ******************************** 11th Grade (8th Grade ELA Controls, 6th Grade Math Controls)
-use if grade==11 & dataset=="CAASPP" & test=="SBAC" & inrange(year, `test_score_min_year', `test_score_max_year') using `va_dataset', clear
+use if grade==11 & dataset=="CAASPP" & inrange(year, `test_score_min_year', `test_score_max_year') using `va_dataset', clear
 
 gen diff_school_prop = gr11_L3_diff_school_prop if year!=2017
 replace diff_school_prop = gr11_L4_diff_school_prop if year==2017
@@ -185,20 +191,22 @@ sum
 
 **************** Prior Scores
 ******** ELA
-gen prior_ela_z_score = L3_cst_ela_z_score if year!=2017
+gen prior_ela_z_score = L3_cst_ela_z_score if inrange(year, `star_min_year' + 3, `star_max_year' + 3) & year!=2017
+replace prior_ela_z_score = L3_sbac_ela_z_score if inrange(year, `caaspp_min_year' + 3, `caaspp_max_year' + 3) & year!=2017
 replace prior_ela_z_score = L4_cst_ela_z_score if year==2017
-label var prior_ela_z_score "Prior CST ELA Z-Score"
-gen peer_prior_ela_z_score = peer_L3_cst_ela_z_score if year!=2017
+label var prior_ela_z_score "Prior ELA Z-Score"
+gen peer_prior_ela_z_score = peer_L3_cst_ela_z_score if inrange(year, `star_min_year' + 3, `star_max_year' + 3) & year!=2017
+replace peer_prior_ela_z_score = peer_L3_sbac_ela_z_score if inrange(year, `caaspp_min_year' + 3, `caaspp_max_year' + 3) & year!=2017
 replace peer_prior_ela_z_score = peer_L4_cst_ela_z_score if year==2017
-label var peer_prior_ela_z_score "Peer Avg. Prior CST ELA Z-Score"
+label var peer_prior_ela_z_score "Peer Avg. Prior ELA Z-Score"
 
 ******** Math
-gen prior_math_z_score = L5_cst_math_z_score if year!=2019
-replace prior_math_z_score = L6_cst_math_z_score if year==2019
-label var prior_math_z_score "Prior CST Math Z-Score"
-gen peer_prior_math_z_score = peer_L5_cst_math_z_score if year!=2019
-replace peer_prior_math_z_score = peer_L6_cst_math_z_score if year==2019
-label var peer_prior_math_z_score "Peer Avg. Prior CST Math Z-Score"
+gen prior_math_z_score = L5_cst_math_z_score if inrange(year, `star_min_year' + 5, `star_max_year' + 5) & !inrange(year, `caaspp_min_year' + 3, `caaspp_max_year' + 3)
+replace prior_math_z_score = L3_sbac_math_z_score if inrange(year, `caaspp_min_year' + 3, `caaspp_max_year' + 3)
+label var prior_math_z_score "Prior Math Z-Score"
+gen peer_prior_math_z_score = peer_L5_cst_math_z_score if inrange(year, `star_min_year' + 5, `star_max_year' + 5) & !inrange(year, `caaspp_min_year' + 3, `caaspp_max_year' + 3)
+replace peer_prior_math_z_score = peer_L3_sbac_math_z_score if inrange(year, `caaspp_min_year' + 3, `caaspp_max_year' + 3)
+label var peer_prior_math_z_score "Peer Avg. Prior Math Z-Score"
 
 **************** Sample
 gen byte count_var = 1

@@ -14,7 +14,7 @@
 		* $$ Y_{ist} = \phi_0 + \phi_1 X_{ist} + \text{Sibling FE}_{i} + \gamma_{t} + \hat{\lambda}_{st} + \epsilon_{ist} $$
 	4. [ ] Proportion of older siblings that attended college as a leave-out variable to use for a forecast bias test.
 		* $$ \text{Prop. Siblings College}_{i} = \phi_0 + \phi_1 X_{ist} + \gamma_{t} + \hat{\lambda}_{st} + \epsilon_{ist} $$
-	5. [ ] Sibling FE as an additional control for regressions of long-run outcomes on value added.
+	5. [ ] Sibling FE as an additional control for regressions of long-run outcomes on value added (lambda is test score VA, beta is long run outcome VA).
 		* $$ Y_{ist} = \alpha_{0} + \alpha_{1} X_{ist} + \text{Sibling FE}_{i} + \gamma_{t} + \underbrace{\rho \lambda_{st} + \beta_{st} + \theta_{st} + e_{ist}}_{\nu_{ist}} $$
 	6. [ ] Proportion of older siblings that attended college as an additional control for regressions of long-run outcomes on value added.
 		* $$ Y_{ist} = \alpha_{0} + \alpha_{1} X_{ist} + \text{Prop. Siblings College}_{i} + \gamma_{t} + \underbrace{\rho \lambda_{st} + \beta_{st} + \theta_{st} + e_{ist}}_{\nu_{ist}} $$

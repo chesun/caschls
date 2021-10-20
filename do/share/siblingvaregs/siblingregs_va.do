@@ -15,3 +15,7 @@ Current models:
 
 //install VAM package to estimate value added models a la Chetty, Freidman, and Rockoff
 /* ssc install vam, replace  */
+
+
+//specify a macro for the va g11 outcomes dataset to reconcile with dataset calls in matt's do files
+local va_g11_dataset "$projdir/dta/common_core_va/va_g11_out_dataset"

@@ -7,7 +7,7 @@ to link siblings from the same family across years and delete duplicates  */
 ********************************************************************************
 
 /* to run this do file:
-do $projdir/do/share/siblingxwalk/uniquefamily.do 
+do $projdir/do/share/siblingxwalk/uniquefamily.do
  */
 
 clear all
@@ -49,7 +49,22 @@ save $projdir/dta/siblingxwalk/uniquelinkedfamilyclean, replace
 
 //artificial cutoff of max 10 children per family, anything above that likely to be matching error
 drop if numsiblings >= 9
-keep ufamilyid numsiblings state_student_id
+keep ufamilyid numsiblings state_student_id first_name last_name birth_date
+
+rename numsiblings numsiblings_exclude_sef
+gen numsiblings_total = numsiblings_exclude_sef + 1
+label var numsiblings_total "Total number of siblings in the family"
+
+//order the siblings within a family by birth order, oldest sibling is first born so has birth order 1, etc.
+sort ufamilyid birth_date
+by ufamilyid: gen birth_order = _n
+label var birth_order "Order of birth in the family"
+
+//number of older siblings
+gen numsiblings_older = birth_order - 1
+label var numsiblings_older "Number of older siblings"
+
+
 compress
 label data "dataset with unique family ID for each SSID, family size capped at 10 children"
 save $projdir/dta/siblingxwalk/ufamilyxwalk, replace

@@ -1,5 +1,3 @@
-
-
 **************** Create VA Dataset
 use merge_id_k12_test_scores all_students_sample first_scores_sample ///
 	dataset test cdscode school_id state_student_id year grade ///
@@ -8,15 +6,17 @@ use merge_id_k12_test_scores all_students_sample first_scores_sample ///
 	`va_control_vars' ///
 	/*if substr(cdscode, 1, 7)=="3768338"*/ ///
 	using `k12_test_scores'/k12_test_scores_clean.dta, clear
-	//va_samples is the crosswalk file that identifies va sample
-merge 1:1 merge_id_k12_test_scores using `common_core_va'/data/sbac/va_samples.dta ///
+merge 1:1 merge_id_k12_test_scores using data/sbac/va_samples.dta ///
 	, nogen keepusing(touse_*)
 
 * Merge to lagged scores
 merge 1:1 merge_id_k12_test_scores using `k12_test_scores'/k12_lag_test_scores_clean.dta, nogen keep(1 3) ///
 	keepusing( ///
 		L3_cst_ela_z_score ///
+		L3_sbac_ela_z_score ///
 		L4_cst_ela_z_score ///
+		L3_sbac_math_z_score ///
+		L4_sbac_math_z_score ///
 		L5_cst_math_z_score ///
 		L6_cst_math_z_score ///
 	)
@@ -26,7 +26,10 @@ merge 1:1 merge_id_k12_test_scores using `k12_test_scores'/k12_peer_test_scores_
 	keepusing( ///
 		`peer_demographic_controls' ///
 		peer_L3_cst_ela_z_score ///
+		peer_L3_sbac_ela_z_score ///
 		peer_L4_cst_ela_z_score ///
+		peer_L3_sbac_math_z_score ///
+		peer_L4_sbac_math_z_score ///
 		peer_L5_cst_math_z_score ///
 		peer_L6_cst_math_z_score ///
 	)

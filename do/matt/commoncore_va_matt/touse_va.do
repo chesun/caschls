@@ -192,9 +192,9 @@ foreach subject in ela math {
 		`peer_demographic_controls' ///
 		`peer_ela_score_controls' ///
 		`peer_math_score_controls'
-
+	
 	replace touse_g11_`subject' = 0 if touse==0
-
+	
 	egen n_g11_`subject' = count(state_student_id) ///
 		if touse_g11_`subject'==1 ///
 		, by(cdscode year)
@@ -216,9 +216,9 @@ foreach outcome in enr enr_2year enr_4year {
 		`peer_demographic_controls' ///
 		`peer_ela_score_controls' ///
 		`peer_math_score_controls'
-
+	
 	replace touse_g11_`outcome' = 0 if touse==0
-
+	
 	egen n_g11_`outcome' = count(state_student_id) ///
 		if touse_g11_`outcome'==1 ///
 		, by(cdscode year)

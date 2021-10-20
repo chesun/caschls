@@ -8,6 +8,22 @@ local test_score_max_year
 	2019
 	;
 
+local star_min_year
+	2003
+	;
+
+local star_max_year
+	2013
+	;
+
+local caaspp_min_year
+	2015
+	;
+
+local caaspp_max_year
+	2019
+	;
+
 local outcome_min_year
 	2015
 	;
@@ -56,35 +72,19 @@ local peer_demographic_controls
 	;
 
 local ela_score_controls
-	c.prior_ela_z_score##c.prior_ela_z_score##c.prior_ela_z_score
-	;
-
-local math_mizero_controls
-	c.prior_math_z_score_mizero##c.prior_math_z_score_mizero##c.prior_math_z_score_mizero
-	i.mi_prior_math_z_score
-	i.mi_prior_math_z_score#(
-		c.prior_ela_z_score##c.prior_ela_z_score##c.prior_ela_z_score
-	)
+	i.year#(c.prior_ela_z_score##c.prior_ela_z_score##c.prior_ela_z_score)
 	;
 
 local peer_ela_score_controls
-	c.peer_prior_ela_z_score##c.peer_prior_ela_z_score##c.peer_prior_ela_z_score
+	i.year#(c.peer_prior_ela_z_score##c.peer_prior_ela_z_score##c.peer_prior_ela_z_score)
 	;
 
 local math_score_controls
-	c.prior_math_z_score##c.prior_math_z_score##c.prior_math_z_score
-	;
-
-local ela_mizero_controls
-	c.prior_ela_z_score_mizero##c.prior_ela_z_score_mizero##c.prior_ela_z_score_mizero
-	i.mi_prior_ela_z_score
-	i.mi_prior_ela_z_score#(
-		c.prior_math_z_score##c.prior_math_z_score##c.prior_math_z_score
-	)
+	i.year#(c.prior_math_z_score##c.prior_math_z_score##c.prior_math_z_score)
 	;
 
 local peer_math_score_controls
-	c.peer_prior_math_z_score##c.peer_prior_math_z_score##c.peer_prior_math_z_score
+	i.year#(c.peer_prior_math_z_score##c.peer_prior_math_z_score##c.peer_prior_math_z_score)
 	;
 
 local va_control_vars "`school_controls' `demographic_controls'" ;

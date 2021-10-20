@@ -40,7 +40,7 @@ set seed 1984
 * Description *
 ***************
 /*
-This do file estimates school value added on long-run outcomes using the
+This do file estimates school value added on long-run outcomes using the 
 Chetty, Friedman, and Rockoff methodology.
 */
 
@@ -145,7 +145,7 @@ foreach outcome in enr enr_2year enr_4year {
 		driftlimit(`drift_limit')
 	rename tv va_tfx_g11_`outcome'
 	drop score_r
-
+	
 	corr va_cfr_g11_`outcome' va_tfx_g11_`outcome'
 
 	**** Peer Controls
@@ -185,7 +185,7 @@ foreach outcome in enr enr_2year enr_4year {
 		driftlimit(`drift_limit')
 	rename tv va_tfx_g11_`outcome'_peer
 	drop score_r
-
+	
 	corr va_cfr_g11_`outcome'_peer va_tfx_g11_`outcome'_peer
 
 
@@ -206,10 +206,10 @@ foreach outcome in enr enr_2year enr_4year {
 		merge m:1 cdscode year using data/sbac/va_g11_`subject'.dta, nogen keep(1 3) keepusing(va_cfr_g11_`subject' va_cfr_g11_`subject'_peer)
 		gen touse_g11_`outcome'_`subject' = touse_g11_`outcome'
 		replace touse_g11_`outcome'_`subject' = 0 if mi(va_cfr_g11_`subject')
-
+		
 		/*sum va_cfr_g11_`subject'
 		replace va_cfr_g11_`subject' = va_cfr_g11_`subject' / r(sd)*/
-
+		
 		**** No Peer Controls
 		** No TFX
 		vam `outcome' ///
@@ -246,7 +246,7 @@ foreach outcome in enr enr_2year enr_4year {
 			estimates(estimates/sbac/vam_tfx_g11_`outcome'_`subject'.ster, replace)
 		rename tv va_tfx_g11_`outcome'_`subject'
 		drop score_r
-
+		
 		corr va_cfr_g11_`outcome'_`subject' va_tfx_g11_`outcome'_`subject'
 
 		**** Peer Controls
@@ -290,7 +290,7 @@ foreach outcome in enr enr_2year enr_4year {
 			estimates(estimates/sbac/vam_tfx_g11_`outcome'_`subject'_peer.ster, replace)
 		rename tv va_tfx_g11_`outcome'_`subject'_peer
 		drop score_r
-
+		
 		corr va_cfr_g11_`outcome'_`subject'_peer va_tfx_g11_`outcome'_`subject'_peer
 
 
@@ -308,7 +308,7 @@ foreach outcome in enr enr_2year enr_4year {
 	gen touse_g11_`outcome'_dk = touse_g11_`outcome'
 	replace touse_g11_`outcome'_dk = 0 if mi(va_cfr_g11_ela)
 	replace touse_g11_`outcome'_dk = 0 if mi(va_cfr_g11_math)
-
+	
 	**** No Peer Controls
 	** No TFX
 	vam `outcome' ///
@@ -346,9 +346,9 @@ foreach outcome in enr enr_2year enr_4year {
 		estimates(estimates/sbac/vam_tfx_g11_`outcome'_dk.ster, replace)
 	rename tv va_tfx_g11_`outcome'_dk
 	drop score_r
-
+	
 	corr va_cfr_g11_`outcome'_dk va_tfx_g11_`outcome'_dk
-
+	
 	drop va_cfr_g11_ela va_cfr_g11_math
 
 	**** Peer Controls
@@ -394,9 +394,9 @@ foreach outcome in enr enr_2year enr_4year {
 		estimates(estimates/sbac/vam_tfx_g11_`outcome'_dk_peer.ster, replace)
 	rename tv va_tfx_g11_`outcome'_dk_peer
 	drop score_r
-
+	
 	corr va_cfr_g11_`outcome'_dk_peer va_tfx_g11_`outcome'_dk_peer
-
+	
 	drop va_cfr_g11_ela_peer va_cfr_g11_math_peer
 
 
@@ -408,8 +408,8 @@ foreach outcome in enr enr_2year enr_4year {
 	**** Peer Controls
 	reg g11_`outcome'_dk_r_peer va_cfr_g11_`outcome'_dk_peer, cluster(school_id)
 	estimates save estimates/sbac/spec_test_va_cfr_g11_`outcome'_dk_peer.ster, replace
-
-
+	
+	
 	**************** Save Value Added Estimates
 	collapse (firstnm) va_* ///
 		(mean) g11_`outcome'* ///
