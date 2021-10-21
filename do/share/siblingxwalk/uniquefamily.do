@@ -64,6 +64,8 @@ label var birth_order "Order of birth in the family"
 gen numsiblings_older = birth_order - 1
 label var numsiblings_older "Number of older siblings"
 
+gen sibling_full_sample = 1
+label var sibling_full_sample "Indicator for the entire matched siblings sample"
 
 compress
 label data "dataset with unique family ID for each SSID, family size capped at 10 children"

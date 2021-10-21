@@ -1,48 +1,52 @@
-version 16.1
-cap log close _all
+********************************************************************************
+/* create the VA samples markers with sibling outcomes merged on to make it easier
+to create sample sum stats.
+Using doh helpher files each time to recreate the data takes too much time
+ */
+********************************************************************************
+********************************************************************************
+*************** written by Che Sun. Email: ucsun@ucdavis.edu *******************
+********************** First written on Sep 22, 2021 ***************************
 
-*****************************************************
-* First created by Matthew Naven on August 30, 2018 *
-*****************************************************
-
-if inlist(c(hostname), "sapper", "scribe") {
-	global S_ADO BASE;.;PERSONAL;PLUS;SITE;OLDPLACE
-	local home "/home/research/ca_ed_lab/msnaven/common_core_va"
-	local ca_ed_lab "/home/research/ca_ed_lab"
-	local k12_test_scores "/home/research/ca_ed_lab/msnaven/data/restricted_access/clean/k12_test_scores"
-	local public_access "/home/research/ca_ed_lab/msnaven/data/public_access"
-	local k12_public_schools "/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_public_schools"
-	local k12_test_scores_public "/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_test_scores"
-}
-else if c(machine_type)=="Macintosh (Intel 64-bit)" & c(username)=="naven" {
-	local home "/Users/naven/Documents/research/ca_ed_lab/common_core_va"
-}
-else if c(machine_type)=="Macintosh (Intel 64-bit)" & c(username)=="navenm" {
-	local home "/Users/navenm/Documents/research/ca_ed_lab/common_core_va"
-}
-else if c(machine_type)=="Macintosh (Intel 64-bit)" & c(username)=="Naven" {
-	local home "/Users/Naven/Documents/research/ca_ed_lab/common_core_va"
-}
-cd `home'
-
-log using log_files/sbac/touse_va.smcl, replace
-
-clear all
-graph drop _all
-set more off
-set varabbrev off
-set graphics off
-set scheme s1color
-set seed 1984
-
-
-***************
-* Description *
-***************
-/*
-
+/* to run this do file:
+do $projdir/do/share/siblingvaregs/siblingvasamples.do
 */
 
+clear all
+set more off
+set varabbrev off
+
+*** macros for Matt's data directories
+local matthomedir "/home/research/ca_ed_lab/msnaven/common_core_va"
+local mattdofiles "/home/research/ca_ed_lab/msnaven/common_core_va/do_files/sbac"
+local common_core_va "/home/research/ca_ed_lab/msnaven/common_core_va"
+local ca_ed_lab "/home/research/ca_ed_lab"
+local k12_test_scores "/home/research/ca_ed_lab/msnaven/data/restricted_access/clean/k12_test_scores"
+local public_access "/home/research/ca_ed_lab/data/public_access"
+local k12_public_schools "/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_public_schools"
+local k12_test_scores_public "/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_test_scores"
+
+*** macros for my own datasets
+local va_dataset "$projdir/dta/common_core_va/va_dataset"
+local va_g11_dataset "$projdir/dta/common_core_va/va_g11_dataset"
+local va_g11_out_dataset "$projdir/dta/common_core_va/va_g11_out_dataset"
+local siblingxwalk "$projdir/dta/siblingxwalk/siblingpairxwalk"
+local ufamilyxwalk "$projdir/dta/siblingxwalk/ufamilyxwalk"
+local k12_postsecondary_out_merge "$projdir/dta/common_core_va/k12_postsecondary_out_merge"
+local sibling_out_xwalk "$projdir/dta/siblingxwalk/sibling_out_xwalk"
+
+//starting log file
+log using $projdir/log/share/siblingvaregs/siblingvasamples.smcl, replace
+
+
+//set a timer for this do file to see how long it runs
+timer on 1
+
+//merge sibling info to grade 11 va dataset
+cd `matthomedir'
+
+********************************************************************************
+/* This first block of code is directly taken from Matt's touse_Va.do */
 
 **********
 * Macros *
@@ -133,27 +137,6 @@ rename enr_ontime_4year enr_4year
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ******************************** 11th Grade (8th Grade ELA Controls, 6th Grade Math Controls)
 gen diff_school_prop = gr11_L3_diff_school_prop if year!=2017
 replace diff_school_prop = gr11_L4_diff_school_prop if year==2017
@@ -226,19 +209,20 @@ foreach outcome in enr enr_2year enr_4year {
 }
 
 
+********************************************************************************
+/* Merge onto sibling outcomes xwalk  */
 
+merge m:1 state_student_id using `sibling_out_xwalk'
 
-keep merge_id_k12_test_scores touse*
-sort merge_id_k12_test_scores
+keep state_student_id merge_id_k12_test_scores touse* sibling_out_sample sibling_full_sample
+
 compress
-save data/sbac/va_samples.dta, replace
+save $projdir/dta/common_core_va/va_sibling_samples, replace
 
 
 timer off 1
 timer list
 log close
-translate log_files/sbac/touse_va.smcl log_files/sbac/touse_va.log, replace
 
-if c(hostname)=="sapper" {
-	exit, STATA clear
-}
+//translate the log file to a text log file
+translate $projdir/log/share/siblingvaregs/siblingvasamples.smcl $projdir/log/share/siblingvaregs/siblingvasamples.log, replace

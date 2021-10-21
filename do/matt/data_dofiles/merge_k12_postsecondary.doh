@@ -2,6 +2,8 @@ version 16.1
 
 *****************************************************
 * First created by Matthew Naven on June 11, 2018 *
+* Edited by Che Sun October 20, 2021 to keep all obs from using datasets when merging *
+* This resuts in the same number of matches with sibling sample 
 *****************************************************
 
 local crosswalks "/home/research/ca_ed_lab/msnaven/data/restricted_access/clean/crosswalks/"
@@ -65,7 +67,7 @@ compress
 ** NSC 2010-2017
 merge m:1 state_student_id ///
 	using `crosswalks'/nsc_2010_2017_outcomes_crosswalk_ssid.dta ///
-	, gen(merge_k12_nsc_2010_2017_ssid) keep(1 3) update
+	, gen(merge_k12_nsc_2010_2017_ssid) update
 replace k12_nsc_match = 1 if merge_k12_nsc_2010_2017_ssid==3
 replace k12_nsc_2010_2017_match = 1 if merge_k12_nsc_2010_2017_ssid==3
 drop merge_k12_nsc_2010_2017_ssid
@@ -81,7 +83,7 @@ drop merge_k12_nsc_2010_2017_lsid*/
 ** NSC 2010-2018
 merge m:1 state_student_id ///
 	using `crosswalks'/nsc_2018cde_outcomes_crosswalk_ssid.dta ///
-	, gen(merge_k12_nsc_2018cde_ssid) keep(1 3) update
+	, gen(merge_k12_nsc_2018cde_ssid) update
 replace k12_nsc_match = 1 if merge_k12_nsc_2018cde_ssid==3
 replace k12_nsc_2018cde_match = 1 if merge_k12_nsc_2018cde_ssid==3
 drop merge_k12_nsc_2018cde_ssid
@@ -112,14 +114,14 @@ if "`enr_only'"!="enr_only" {
 	foreach v of varlist nsc_persist_year2 nsc_persist_year3 nsc_persist_year4 {
 		replace `v' = . if nsc_enr!=1
 	}
-	
+
 	forvalues t = 2 (1) 4 {
 		* Replace NSC persistence variables with 0 if they could have matched to the NSC data but didn't
 		replace nsc_persist_year`t' = 0 if nsc_enr==1 & nsc_persist_year`t'!=1 & k12_nsc_match==1 & year_grad_hs + (`t' - 1)<=`max_nsc_enr_year' & !mi(year_grad_hs)
 		* Replace NSC persistence variables with missing if they could not have matched to the NSC data
 		replace nsc_persist_year`t' = . if nsc_enr==1 & /*nsc_persist_year`t'!=1 &*/ k12_nsc_match==1 & year_grad_hs + (`t' - 1)>`max_nsc_enr_year' & !mi(year_grad_hs)
 	}
-	
+
 	foreach v of varlist nsc_deg_lt2year {
 		* Replace NSC less-than-2-year degree variable with 0 if they could have matched to the NSC data but didn't
 		replace `v' = 0 if `v'!=1 & k12_nsc_match==1 & year_grad_hs + 2<=`max_nsc_deg_year' & !mi(year_grad_hs)
@@ -140,7 +142,7 @@ if "`enr_only'"!="enr_only" {
 		* Replace NSC 4-year degree variable with missing if they could not have matched to the NSC data
 		replace `v' = . if /*`v'!=1 &*/ k12_nsc_match==1 & year_grad_hs + 6>`max_nsc_deg_year' & !mi(year_grad_hs)
 	}
-	
+
 	* NSC degree receipt conditional on enrollment
 	gen nsc_enr_deg_lt2year = nsc_deg_lt2year if nsc_enr_lt2year==1
 	gen nsc_enr_deg_2year = nsc_deg_2year if nsc_enr_2year==1
@@ -156,7 +158,7 @@ compress
 
 merge m:1 state_student_id ///
 	using `crosswalks'/k12_ccc_crosswalk.dta ///
-	, gen(merge_k12_ccc) keep(1 3) keepusing(student_id)
+	, gen(merge_k12_ccc) keepusing(student_id)
 replace k12_ccc_match = 1 if merge_k12_ccc==3
 drop merge_k12_ccc
 
@@ -166,7 +168,7 @@ count if !mi(student_id)
 
 merge m:1 student_id ///
 	using `crosswalks'/ccc_outcomes_crosswalk.dta ///
-	, gen(merge_k12_ccc) keep(1 3)
+	, gen(merge_k12_ccc)
 
 
 ** Edit CCC Variables
@@ -214,7 +216,7 @@ compress
 
 merge m:1 state_student_id ///
 	using `crosswalks'/k12_csu_crosswalk.dta ///
-	, gen(merge_k12_csu) keep(1 3) keepusing(idunique)
+	, gen(merge_k12_csu) keepusing(idunique)
 replace k12_csu_match = 1 if merge_k12_csu==3
 drop merge_k12_csu
 
@@ -224,7 +226,7 @@ count if !mi(idunique)
 
 merge m:1 idunique ///
 	using `crosswalks'/csu_outcomes_crosswalk.dta ///
-	, gen(merge_k12_csu) keep(1 3)
+	, gen(merge_k12_csu)
 
 ** Edit CSU Variables
 foreach v of varlist csu_enr {
@@ -273,7 +275,7 @@ if "`enr_only'"!="enr_only" {
 		* Replace CSU degree variable with missing if they could not have matched to the CSU data
 		replace `v' = . if /*`v'!=1 &*/ !inrange(year_grad_hs + 6, `min_csu_deg_year', `max_csu_deg_year')
 	}
-	
+
 	* CSU degree receipt conditional on STEM major
 	gen csu_maj_stem_deg_stem = csu_deg_stem if csu_first_maj_stem==1
 	gen csu_maj_stem_deg_other = csu_deg_other if csu_first_maj_stem==1
@@ -292,7 +294,7 @@ if "`enr_only'"!="enr_only" {
 compress
 merge m:1 state_student_id ///
 	using `crosswalks'/k12_unique_crosswalk.dta ///
-	, gen(merge_k12_unique) keep(1 3)
+	, gen(merge_k12_unique)
 
 if "`enr_only'"=="enr_only" {
 	local varlist_ccc "ccc_enr_*"
@@ -467,4 +469,3 @@ if "`enr_only'"!="enr_only" {
 	replace csu_persist_year2 = 1 if csu_persist_year2==0 & csu_transfer_ucplus==1
 	replace csu_persist_year3 = 1 if csu_persist_year3==0 & csu_transfer_ucplus==1
 }
-

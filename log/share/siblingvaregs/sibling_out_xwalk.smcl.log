@@ -1,0 +1,131 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /home/research/ca_ed_lab/chesun/gsr/caschls/log/share/siblingvareg
+> s/createsiblingvasample.smcl
+  log type:  smcl
+ opened on:  20 Oct 2021, 14:59:59
+
+. 
+. 
+. //set a timer for this do file to see how long it runs
+. timer on 1
+
+. 
+. 
+. 
+. *****************************************************************************
+> ***
+. //create sibling college outcome vars
+. //First load the k12 test score sample matched to postsecondary outcome data
+. 
+. use `k12_postsecondary_out_merge', clear
+(Full K-12 test scores merged to postsecondary outcomes)
+
+. //collapse to ssid level
+. collapse (max) enr enr_2year enr_4year, by(state_student_id)
+
+. 
+. //merge on unique family id
+. merge 1:1 state_student_id using `ufamilyxwalk'
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                     8,718,171
+        from master                 8,590,681  (_merge==1)
+        from using                    127,490  (_merge==2)
+
+    Matched                         3,957,189  (_merge==3)
+    -----------------------------------------
+
+. /*
+> Result                      Number of obs
+>     -----------------------------------------
+>     Not matched                     8,718,171
+>         from master                 8,590,681  (_merge==1)
+>         from using                    127,490  (_merge==2)
+> 
+>     Matched                         3,957,189  (_merge==3)
+>     -----------------------------------------
+> 
+>  */
+. 
+. //keep only the sample of matched siblings
+. drop if missing(ufamilyid)
+(8,590,681 observations deleted)
+
+. //mark sibling sample for merged observations
+. gen sibling_out_sample = 0
+
+. replace sibling_out_sample = 1 if _merge==3
+(3,957,189 real changes made)
+
+. label var sibling_out_sample "Indicator for sibling sample with matched posts
+> econdary outcomes"
+
+. drop _merge
+
+. 
+. /* NEED TO CREATE PROPS ENROLLED FOR OLDER SIBLINGS  */
+. //number of siblings total in the family ranges from 1 to 10, so max number o
+> f older siblings is 9
+. 
+. /* this rangestat command calculates the sum of the variable for observations
+>  in
+> the interval between birth_order - lower_bound and birth_order - 1, which is 
+> all the older siblings  */
+. /* NOTE: rangestat treats missing enr vars as 0 */
+. 
+. sort ufamilyid birth_order
+
+. gen lower_bound = -numsiblings_older
+
+. local outcomes enr enr_2year enr_4year
+
+. foreach i of local outcomes {
+  2.   rangestat (sum) `i', interval(birth_order, lower_bound, -1) by(ufamilyid
+> )
+  3.   rename `i'_sum numsiblings_older_`i'
+  4.   label var numsiblings_older_`i' "Number of older siblings with `i'==1"
+  5.   gen propsiblings_older_`i' = numsiblings_older_`i' / numsiblings_older
+  6.   label var propsiblings_older_`i' "Proportion of older siblings with `i'=
+> =1"
+  7. }
+(1,714,556 missing values generated)
+(1,714,556 missing values generated)
+(1,714,556 missing values generated)
+
+. 
+. 
+. //create sibling outcomes crosswalk
+. compress
+  variable sibling_out_sample was float now byte
+  variable lower_bound was float now byte
+  variable numsiblings_older_enr was double now byte
+  variable numsiblings_older_enr_2year was double now byte
+  variable numsiblings_older_enr_4year was double now byte
+  (110,286,333 bytes saved)
+
+. label data "Sibling enrollment outcomes crosswalk organized by unique familie
+> s"
+
+. save $projdir/dta/siblingxwalk/sibling_out_xwalk
+file
+    /home/research/ca_ed_lab/chesun/gsr/caschls/dta/siblingxwalk/sibling_out_
+    > xwalk.dta saved
+
+. 
+. 
+. 
+. 
+.  timer off 1
+
+.  timer list
+   1:    185.50 /        1 =     185.5030
+
+.  log close
+      name:  <unnamed>
+       log:  /home/research/ca_ed_lab/chesun/gsr/caschls/log/share/siblingvareg
+> s/createsiblingvasample.smcl
+  log type:  smcl
+ closed on:  20 Oct 2021, 15:03:04
+-------------------------------------------------------------------------------

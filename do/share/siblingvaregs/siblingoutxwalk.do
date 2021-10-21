@@ -1,6 +1,7 @@
 ********************************************************************************
-/* create the VA sample dataset with sibling info merged on to save processing time.
-Using doh helpher files each time to recreate the data takes too much time
+/* create a sibling enrollment outcomes crosswalk dataset by merging k-12 test scores
+to the postsecondary outcomes and then merge to ufamilyxwalk.dta and calculuate
+number of older siblings enrolled and proportion of older siblings enrolled
  */
 ********************************************************************************
 ********************************************************************************
@@ -8,13 +9,15 @@ Using doh helpher files each time to recreate the data takes too much time
 ********************** First written on Sep 22, 2021 ***************************
 
 /* to run this do file:
-do $projdir/do/share/siblingvaregs/createsiblingvasample.do
+do $projdir/do/share/siblingvaregs/siblingoutxwalk.do
 */
+
 
 clear all
 set more off
 set varabbrev off
 
+*** macros for Matt's data directories
 local common_core_va "/home/research/ca_ed_lab/msnaven/common_core_va"
 local ca_ed_lab "/home/research/ca_ed_lab"
 local k12_test_scores "/home/research/ca_ed_lab/msnaven/data/restricted_access/clean/k12_test_scores"
@@ -22,6 +25,7 @@ local public_access "/home/research/ca_ed_lab/data/public_access"
 local k12_public_schools "/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_public_schools"
 local k12_test_scores_public "/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_test_scores"
 
+*** macros for my own datasets
 local va_dataset "$projdir/dta/common_core_va/va_dataset"
 local va_g11_dataset "$projdir/dta/common_core_va/va_g11_dataset"
 local va_g11_out_dataset "$projdir/dta/common_core_va/va_g11_out_dataset"
@@ -31,7 +35,7 @@ local k12_postsecondary_out_merge "$projdir/dta/common_core_va/k12_postsecondary
 
 
 //starting log file
-log using $projdir/log/share/siblingvaregs/createsiblingvasample.smcl, replace
+log using $projdir/log/share/siblingvaregs/sibling_out_xwalk.smcl, replace
 
 
 //set a timer for this do file to see how long it runs
@@ -46,29 +50,27 @@ timer on 1
 use `k12_postsecondary_out_merge', clear
 //collapse to ssid level
 collapse (max) enr enr_2year enr_4year, by(state_student_id)
-drop if missing(enr)
-drop if missing(enr_2year)
-drop if missing(enr_4year)
-drop if missing(state_student_id)
 
 //merge on unique family id
 merge 1:1 state_student_id using `ufamilyxwalk'
 /*
 Result                      Number of obs
------------------------------------------
-Not matched                     4,081,582
-    from master                   710,345  (_merge==1)
-    from using                  3,371,237  (_merge==2)
+    -----------------------------------------
+    Not matched                     8,718,171
+        from master                 8,590,681  (_merge==1)
+        from using                    127,490  (_merge==2)
 
-Matched                           713,442  (_merge==3)
------------------------------------------
+    Matched                         3,957,189  (_merge==3)
+    -----------------------------------------
 
  */
 
-
+//keep only the sample of matched siblings
+drop if missing(ufamilyid)
 //mark sibling sample for merged observations
-gen siblingsample = 0
-replace siblingsample = 1 if _merge==3
+gen sibling_out_sample = 0
+replace sibling_out_sample = 1 if _merge==3
+label var sibling_out_sample "Indicator for sibling sample with matched postsecondary outcomes"
 drop _merge
 
 /* NEED TO CREATE PROPS ENROLLED FOR OLDER SIBLINGS  */
@@ -76,6 +78,9 @@ drop _merge
 
 /* this rangestat command calculates the sum of the variable for observations in
 the interval between birth_order - lower_bound and birth_order - 1, which is all the older siblings  */
+/* NOTE: rangestat treats missing enr vars as 0 */
+
+sort ufamilyid birth_order
 gen lower_bound = -numsiblings_older
 local outcomes enr enr_2year enr_4year
 foreach i of local outcomes {
@@ -86,34 +91,12 @@ foreach i of local outcomes {
   label var propsiblings_older_`i' "Proportion of older siblings with `i'==1"
 }
 
+drop lower_bound
 
 //create sibling outcomes crosswalk
-
 compress
-tempfile sibling_out_xwalk
-save `sibling_out_xwalk'
-
-compress
-label data ""
-save $projdir/dta/siblingxwalk/sibling_out_xwalk
-
-
-
-
-//merge sibling info to grade 11 va dataset
-
-
-
-
-
-
-
-
-
-
-
-
-
+label data "Sibling enrollment outcomes crosswalk organized by unique families"
+save $projdir/dta/siblingxwalk/sibling_out_xwalk, replace
 
 
 
@@ -123,4 +106,4 @@ save $projdir/dta/siblingxwalk/sibling_out_xwalk
  log close
 
  //translate the log file to a text log file
- translate $projdir/log/share/siblingvaregs/createsiblingvasample.smcl $projdir/log/share/siblingvaregs/createsiblingvasample.log, replace
+ translate $projdir/log/share/siblingvaregs/sibling_out_xwalk.smcl $projdir/log/share/siblingvaregs/sibling_out_xwalk.log, replace
