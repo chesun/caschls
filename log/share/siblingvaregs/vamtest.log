@@ -1,0 +1,629 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /home/research/ca_ed_lab/chesun/gsr/caschls/log/share/siblingvareg
+> s/vamtest.smcl
+  log type:  smcl
+ opened on:  27 Oct 2021, 17:52:04
+
+. 
+. //include macros
+. include do_files/sbac/macros_va.doh
+
+. #delimit ;
+delimiter now ;
+. local test_score_min_year
+>         2015
+>         ;
+
+. local test_score_max_year
+>         2019
+>         ;
+
+. local star_min_year
+>         2003
+>         ;
+
+. local star_max_year
+>         2013
+>         ;
+
+. local caaspp_min_year
+>         2015
+>         ;
+
+. local caaspp_max_year
+>         2019
+>         ;
+
+. local outcome_min_year
+>         2015
+>         ;
+
+. local outcome_max_year
+>         2018
+>         ;
+
+. local ela_str
+>         "ELA"
+>         ;
+
+. local math_str
+>         "Math"
+>         ;
+
+. local enr_str
+>         "Enrolled On Time"
+>         ;
+
+. local enr_2year_str
+>         "Enrolled On Time 2-Year"
+>         ;
+
+. local enr_4year_str
+>         "Enrolled On Time 4-Year"
+>         ;
+
+. local school_controls
+>         /*cohort_size*/
+>         ;
+
+. local demographic_controls
+>         age
+>         i.male
+>         i.eth_asian i.eth_hispanic i.eth_black i.eth_other
+>         i.econ_disadvantage
+>         i.limited_eng_prof
+>         i.disabled
+>         ;
+
+. local peer_demographic_controls
+>         peer_age
+>         peer_male
+>         peer_eth_asian peer_eth_hispanic peer_eth_black peer_eth_other
+>         peer_econ_disadvantage
+>         peer_limited_eng_prof
+>         peer_disabled
+>         ;
+
+. local ela_score_controls
+>         i.year#(c.prior_ela_z_score##c.prior_ela_z_score##c.prior_ela_z_score
+> )
+>         ;
+
+. local peer_ela_score_controls
+>         i.year#(c.peer_prior_ela_z_score##c.peer_prior_ela_z_score##c.peer_pr
+> ior_ela_z_score)
+>         ;
+
+. local math_score_controls
+>         i.year#(c.prior_math_z_score##c.prior_math_z_score##c.prior_math_z_sc
+> ore)
+>         ;
+
+. local peer_math_score_controls
+>         i.year#(c.peer_prior_math_z_score##c.peer_prior_math_z_score##c.peer_
+> prior_math_z_score)
+>         ;
+
+. local va_control_vars "`school_controls' `demographic_controls'" ;
+
+. local va_control_vars : subinstr local va_control_vars "i." "", all ;
+
+. local va_control_vars : list uniq va_control_vars ;
+
+. local census_controls
+>         /*eth_white_pct*/ eth_asian_pct eth_hispanic_pct eth_black_pct /*eth_
+> other_pct*/
+>         educ_hs_dropout_prop /*educ_deg_2year_prop*/ educ_deg_4year_plus_prop
+>         pov_fam_child_lt18_pct
+>         inc_median_hh
+>         ;
+
+. #delimit cr
+delimiter now cr
+. 
+. 
+. #delimit ;
+delimiter now ;
+. #delimit cr
+delimiter now cr
+. macro list
+nscdtadir:      /home/research/ca_ed_lab/data/restricted_access/clean/nsc
+cstdtadir:      /home/research/ca_ed_lab/data/restricted_access/clean/cst
+vadtadir:       /home/research/ca_ed_lab/msnaven/common_core_va/data/sbac
+projdir:        /home/research/ca_ed_lab/chesun/gsr/caschls
+clndtadir:      /home/research/ca_ed_lab/data/restricted_access/clean/calschls
+rawdtadir:      /home/research/ca_ed_lab/data/restricted_access/raw/calschls/st
+                > ata
+rawcsvdir:      /home/research/ca_ed_lab/data/restricted_access/raw/calschls/cs
+                > v
+S_level:        95
+F1:             help advice;
+F2:             describe;
+F7:             save
+F8:             use
+S_ADO:          BASE;SITE;.;PERSONAL;PLUS;OLDPLACE
+S_StataMP:      MP
+S_StataSE:      SE
+S_OS:           Unix
+S_MACH:         PC (64-bit x86-64)
+_census_controls:
+                eth_asian_pct eth_hispanic_pct eth_black_pct
+                educ_hs_dropout_prop educ_deg_4year_plus_prop
+                pov_fam_child_lt18_pct inc_median_hh
+_va_control_vars:
+                age male eth_asian eth_hispanic eth_black eth_other
+                econ_disadvantage limited_eng_prof disabled
+_peer_math_score_controls:
+                i.year#(c.peer_prior_math_z_score##c.peer_prior_math_z_score##c
+                > .peer_prior_math_z_score)
+_math_score_controls:
+                i.year#(c.prior_math_z_score##c.prior_math_z_score##c.prior_mat
+                > h_z_score)
+_peer_ela_score_controls:
+                i.year#(c.peer_prior_ela_z_score##c.peer_prior_ela_z_score##c.p
+                > eer_prior_ela_z_score)
+_ela_score_controls:
+                i.year#(c.prior_ela_z_score##c.prior_ela_z_score##c.prior_ela_z
+                > _score)
+_peer_demographic_controls:
+                peer_age peer_male peer_eth_asian peer_eth_hispanic
+                peer_eth_black peer_eth_other peer_econ_disadvantage
+                peer_limited_eng_prof peer_disabled
+_demographic_controls:
+                age i.male i.eth_asian i.eth_hispanic i.eth_black i.eth_other
+                i.econ_disadvantage i.limited_eng_prof i.disabled
+_enr_4year_str: Enrolled On Time 4-Year
+_enr_2year_str: Enrolled On Time 2-Year
+_enr_str:       Enrolled On Time
+_math_str:      Math
+_ela_str:       ELA
+_outcome_max_year:
+                2018
+_outcome_min_year:
+                2015
+_caaspp_max_year:
+                2019
+_caaspp_min_year:
+                2015
+_star_max_year: 2013
+_star_min_year: 2003
+_test_score_max_year:
+                2019
+_test_score_min_year:
+                2015
+_sibling_out_xwalk:
+                /home/research/ca_ed_lab/chesun/gsr/caschls/dta/siblingxwalk/si
+                > bling_out_xwalk
+_k12_postsecondary_out_merge:
+                /home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/
+                > k12_postsecondary_out_merge
+_ufamilyxwalk:  /home/research/ca_ed_lab/chesun/gsr/caschls/dta/siblingxwalk/uf
+                > amilyxwalk
+_siblingxwalk:  /home/research/ca_ed_lab/chesun/gsr/caschls/dta/siblingxwalk/si
+                > blingpairxwalk
+_va_g11_out_dataset:
+                /home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/
+                > va_g11_out_dataset
+_va_g11_dataset:
+                /home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/
+                > va_g11_dataset
+_va_dataset:    /home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/
+                > va_dataset
+_k12_test_scores_public:
+                /home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_t
+                > est_scores
+_k12_public_schools:
+                /home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_p
+                > ublic_schools
+_public_access: /home/research/ca_ed_lab/data/public_access
+_k12_test_scores:
+                /home/research/ca_ed_lab/msnaven/data/restricted_access/clean/k
+                > 12_test_scores
+_ca_ed_lab:     /home/research/ca_ed_lab
+_common_core_va:
+                /home/research/ca_ed_lab/msnaven/common_core_va
+_mattdofiles:   /home/research/ca_ed_lab/msnaven/common_core_va/do_files/sbac
+_matthomedir:   /home/research/ca_ed_lab/msnaven/common_core_va
+
+. 
+. 
+. timer on 1
+
+. 
+. *****************************************************************************
+> ***
+. /* Add family fixed effects as an additional demographic control in SBAC
+> VA estimation */
+. 
+. //load the VA grade 11 sample
+. use `va_g11_dataset', clear
+(CST/SBAC Student Test Score Samples)
+
+. 
+. //merge on to ufamilyxwalk in order to use unique family ID for FE
+. merge m:1 state_student_id using `sibling_out_xwalk'
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                     4,360,629
+        from master                 1,252,476  (_merge==1)
+        from using                  3,108,153  (_merge==2)
+
+    Matched                         1,169,409  (_merge==3)
+    -----------------------------------------
+
+. drop _merge
+
+. /*
+> Result                      Number of obs
+>     -----------------------------------------
+>     Not matched                     4,360,629
+>         from master                 1,252,476  (_merge==1)
+>         from using                  3,108,153  (_merge==2)
+> 
+>     Matched                         1,169,409  (_merge==3)
+>     -----------------------------------------
+> 
+>  */
+. 
+. compress
+  (0 bytes saved)
+
+. tempfile va_g11_sibling_dataset
+
+. save `va_g11_sibling_dataset'
+file /home/tmp/St04618.000003 saved as .dta format
+
+. 
+. 
+. 
+. 
+. *****************************************************************************
+> ***
+. *********** VA estimates for VA samples matched to siblings sample
+. *****************************************************************************
+> ***
+. local drift_limit = max(`test_score_max_year' - `test_score_min_year' - 1, 1)
+
+. 
+. foreach subject in ela math {
+  2.   //load the VA g11 subject sample that are matched to the sibling sample
+.   use `va_g11_sibling_dataset' if touse_g11_`subject'==1 & sibling_out_sample
+>  == 1, clear
+  3. /* Only 749488 obs but 600210 families, too many variables from family fix
+> ed effects */
+.   ***************************************************************************
+> ***
+.   ************ Value added estimation with no peer controls *****************
+> ***
+.   ****** No TFX (teacher fixed effects)
+.   local test1 = 0
+  4.   if `test1' == 1 {
+  5.     vam sbac_`subject'_z_score ///
+>       , teacher(school_id) year(year) class(school_id) ///
+>       controls( ///
+>         i.year ///
+>         i.ufamilyid ///
+>         `school_controls' ///
+>         `demographic_controls' ///
+>         `ela_score_controls' ///
+>         `math_score_controls' ///
+>       ) ///
+>       data(merge tv score_r) ///
+>       driftlimit(`drift_limit')
+  6.     rename tv va_cfr_g11_`subject'_sibling
+  7.     rename score_r sbac_g11_`subject'_r_sibling
+  8.     label var va_cfr_g11_`subject'_sibling "`subject' VA with family FE wi
+> thout TFX"
+  9.     label var sbac_g11_`subject'_r_sibling "`subject' score residual with 
+> family FE without TFX"
+ 10. 
+.   }
+ 11. 
+. //test vam with dummy for older sibling enrollment
+.   vam sbac_`subject'_z_score ///
+>     , teacher(school_id) year(year) class(school_id) ///
+>     controls( ///
+>       i.year ///
+>       i.has_older_sibling_enr ///
+>       `school_controls' ///
+>       `demographic_controls' ///
+>       `ela_score_controls' ///
+>       `math_score_controls' ///
+>     ) ///
+>     data(merge tv score_r) ///
+>     driftlimit(`drift_limit')
+ 12.   rename tv va_cfr_g11_`subject'_sibling
+ 13.   rename score_r sbac_g11_`subject'_r_sibling
+ 14.   label var va_cfr_g11_`subject'_sibling "`subject' VA with family FE with
+> out TFX"
+ 15.   label var sbac_g11_`subject'_r_sibling "`subject' score residual with fa
+> mily FE without TFX"
+ 16. 
+. 
+. 
+. 
+. }
+(CST/SBAC Student Test Score Samples)
+-------------------------------------------------------------------------------
+
+      Source |       SS           df       MS      Number of obs   =   452,964
+-------------+----------------------------------   F(44, 452919)   =  15040.12
+       Model |      219109        44     4979.75   Prob > F        =    0.0000
+    Residual |  149960.493   452,919  .331097819   R-squared       =    0.5937
+-------------+----------------------------------   Adj R-squared   =    0.5936
+       Total |  369069.493   452,963  .814789493   Root MSE        =    .57541
+
+-------------------------------------------------------------------------------
+sbac_ela_z_~e | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+--------------+----------------------------------------------------------------
+         year |
+        2016  |  -.0300733     .00334    -9.00   0.000    -.0366195    -.023527
+        2017  |   .0697336   .0036648    19.03   0.000     .0625508    .0769165
+        2018  |  -.0693675   .0035909   -19.32   0.000    -.0764056   -.0623293
+        2019  |  -.0616061   .0037778   -16.31   0.000    -.0690105   -.0542017
+              |
+1.has_olde~nr |   .0095147   .0028319     3.36   0.001     .0039643     .015065
+          age |  -.0003436   5.97e-06   -57.57   0.000    -.0003553   -.0003319
+              |
+         male |
+        Male  |  -.0876544    .001749   -50.12   0.000    -.0910825   -.0842264
+  1.eth_asian |   .1012322    .002906    34.84   0.000     .0955366    .1069279
+1.eth_hispa~c |  -.0023428   .0023893    -0.98   0.327    -.0070257    .0023401
+  1.eth_black |  -.1429862   .0047273   -30.25   0.000    -.1522516   -.1337208
+  1.eth_other |   .0090726   .0052143     1.74   0.082    -.0011472    .0192924
+              |
+econ_disadv~e |
+Economic D..  |  -.0314683   .0020172   -15.60   0.000     -.035422   -.0275146
+              |
+limited_eng~f |
+Limited En..  |  -.2087587   .0043965   -47.48   0.000    -.2173758   -.2001416
+              |
+     disabled |
+    Disabled  |  -.1773358   .0043446   -40.82   0.000    -.1858512   -.1688205
+              |
+         year#|
+           c. |
+prior_ela_z~e |
+        2015  |   .6135228    .002853   215.04   0.000      .607931    .6191147
+        2016  |    .600823   .0040733   147.50   0.000     .5928395    .6088065
+        2017  |   .5765172   .0046394   124.26   0.000      .567424    .5856103
+        2018  |   .5691468   .0054022   105.35   0.000     .5585586    .5797349
+        2019  |   .5881851   .0059478    98.89   0.000     .5765275    .5998426
+              |
+         year#|
+           c. |
+prior_ela_z~e#|
+           c. |
+prior_ela_z~e |
+        2015  |    .000191   .0015046     0.13   0.899    -.0027579    .0031399
+        2016  |  -.0015702   .0019736    -0.80   0.426    -.0054385     .002298
+        2017  |  -.0125973   .0023962    -5.26   0.000    -.0172939   -.0079008
+        2018  |   .0124104   .0023818     5.21   0.000     .0077422    .0170787
+        2019  |    .002901   .0026847     1.08   0.280    -.0023609    .0081629
+              |
+         year#|
+           c. |
+prior_ela_z~e#|
+           c. |
+prior_ela_z~e#|
+           c. |
+prior_ela_z~e |
+        2015  |  -.0275665   .0006939   -39.73   0.000    -.0289266   -.0262064
+        2016  |  -.0254684   .0009609   -26.50   0.000    -.0273518    -.023585
+        2017  |   -.022987   .0009844   -23.35   0.000    -.0249163   -.0210577
+        2018  |  -.0293048   .0015717   -18.64   0.000    -.0323854   -.0262243
+        2019  |  -.0302809    .001835   -16.50   0.000    -.0338775   -.0266843
+              |
+         year#|
+           c. |
+prior_math_~e |
+        2015  |   .1701308   .0028288    60.14   0.000     .1645865    .1756751
+        2016  |   .1763389   .0042766    41.23   0.000     .1679568    .1847209
+        2017  |   .1821748   .0047904    38.03   0.000     .1727857    .1915638
+        2018  |   .2437151   .0054888    44.40   0.000     .2329572     .254473
+        2019  |    .221817   .0059773    37.11   0.000     .2101017    .2335323
+              |
+         year#|
+           c. |
+prior_math_~e#|
+           c. |
+prior_math_~e |
+        2015  |  -.0048713   .0018821    -2.59   0.010    -.0085601   -.0011825
+        2016  |  -.0116602    .002361    -4.94   0.000    -.0162877   -.0070327
+        2017  |  -.0034175   .0029322    -1.17   0.244    -.0091644    .0023295
+        2018  |   .0052293    .002321     2.25   0.024     .0006803    .0097783
+        2019  |   .0067863   .0025719     2.64   0.008     .0017455     .011827
+              |
+         year#|
+           c. |
+prior_math_~e#|
+           c. |
+prior_math_~e#|
+           c. |
+prior_math_~e |
+        2015  |   -.003064   .0007737    -3.96   0.000    -.0045805   -.0015475
+        2016  |   -.000919   .0012198    -0.75   0.451    -.0033097    .0014717
+        2017  |  -.0073803   .0012976    -5.69   0.000    -.0099236    -.004837
+        2018  |  -.0048617   .0015643    -3.11   0.002    -.0079277   -.0017956
+        2019  |   -.002776   .0017695    -1.57   0.117    -.0062441    .0006922
+              |
+        _cons |   2.269805   .0365451    62.11   0.000     2.198178    2.341432
+-------------------------------------------------------------------------------
+Standard deviations: total, classes, students, teachers same year
+.575411 .18758962 .54397422 .
+Covariances (left), correlations (middle), observations (right).  Row i indicat
+> es the relation between year t and t+i:
+                 1             2             3
+    +-------------------------------------------+
+  1 |   .020365575    .500699807          4536  |
+  2 |  .0154930833   .3876315367          3325  |
+  3 |  .0101233128   .2485563716          2148  |
+  4 |  .0083591297   .2057977015          1062  |
+    +-------------------------------------------+
+Drift limit specified:
+3
+Covariances used for VA computations:
+                 1
+    +---------------+
+  1 |   .020365575  |
+  2 |  .0154930833  |
+  3 |  .0101233128  |
+  4 |  .0101233128  |
+    +---------------+
+-------------------------------------------------------------------------------
+(CST/SBAC Student Test Score Samples)
+-------------------------------------------------------------------------------
+
+      Source |       SS           df       MS      Number of obs   =   450,884
+-------------+----------------------------------   F(44, 450839)   =  19237.25
+       Model |   259758.18        44    5903.595   Prob > F        =    0.0000
+    Residual |  138355.063   450,839  .306883528   R-squared       =    0.6525
+-------------+----------------------------------   Adj R-squared   =    0.6524
+       Total |  398113.243   450,883  .882963524   Root MSE        =    .55397
+
+-------------------------------------------------------------------------------
+sbac_math_z~e | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+--------------+----------------------------------------------------------------
+         year |
+        2016  |  -.0291136   .0032238    -9.03   0.000    -.0354321   -.0227951
+        2017  |   .0642694   .0035371    18.17   0.000     .0573368    .0712019
+        2018  |  -.0992874   .0034633   -28.67   0.000    -.1060753   -.0924994
+        2019  |   -.088031   .0036458   -24.15   0.000    -.0951767   -.0808853
+              |
+1.has_olde~nr |   .0153476   .0027319     5.62   0.000     .0099932     .020702
+          age |  -.0003448   5.76e-06   -59.86   0.000    -.0003561   -.0003335
+              |
+         male |
+        Male  |   .0451189   .0016878    26.73   0.000      .041811    .0484269
+  1.eth_asian |    .189621   .0028033    67.64   0.000     .1841266    .1951154
+1.eth_hispa~c |    -.05951   .0023068   -25.80   0.000    -.0640313   -.0549887
+  1.eth_black |  -.1616721   .0045614   -35.44   0.000    -.1706123   -.1527319
+  1.eth_other |   .0086572    .005039     1.72   0.086     -.001219    .0185335
+              |
+econ_disadv~e |
+Economic D..  |  -.0540337    .001947   -27.75   0.000    -.0578498   -.0502176
+              |
+limited_eng~f |
+Limited En..  |  -.0849044   .0042437   -20.01   0.000    -.0932219    -.076587
+              |
+     disabled |
+    Disabled  |  -.1461362   .0041989   -34.80   0.000    -.1543659   -.1379065
+              |
+         year#|
+           c. |
+prior_ela_z~e |
+        2015  |   .3481322   .0027533   126.44   0.000     .3427358    .3535285
+        2016  |   .3279625   .0039332    83.38   0.000     .3202535    .3356715
+        2017  |   .2876403   .0044761    64.26   0.000     .2788673    .2964134
+        2018  |   .1801003   .0052066    34.59   0.000     .1698956     .190305
+        2019  |   .1762794   .0057396    30.71   0.000     .1650299    .1875289
+              |
+         year#|
+           c. |
+prior_ela_z~e#|
+           c. |
+prior_ela_z~e |
+        2015  |    .024546   .0014568    16.85   0.000     .0216908    .0274013
+        2016  |   .0127022   .0019056     6.67   0.000     .0089673     .016437
+        2017  |   .0185805    .002311     8.04   0.000      .014051    .0231101
+        2018  |    .002792   .0022941     1.22   0.224    -.0017043    .0072883
+        2019  |  -.0051252   .0025934    -1.98   0.048    -.0102082   -.0000421
+              |
+         year#|
+           c. |
+prior_ela_z~e#|
+           c. |
+prior_ela_z~e#|
+           c. |
+prior_ela_z~e |
+        2015  |  -.0157977   .0006701   -23.58   0.000     -.017111   -.0144844
+        2016  |   -.011045   .0009266   -11.92   0.000    -.0128611   -.0092289
+        2017  |  -.0121202   .0009487   -12.78   0.000    -.0139796   -.0102607
+        2018  |  -.0064949    .001512    -4.30   0.000    -.0094583   -.0035314
+        2019  |  -.0044047   .0017738    -2.48   0.013    -.0078812   -.0009282
+              |
+         year#|
+           c. |
+prior_math_~e |
+        2015  |   .4898947   .0027288   179.53   0.000     .4845463    .4952431
+        2016  |   .4936273   .0041304   119.51   0.000     .4855318    .5017228
+        2017  |   .5368802   .0046238   116.11   0.000     .5278177    .5459427
+        2018  |   .6741776   .0052951   127.32   0.000     .6637994    .6845558
+        2019  |   .6694684   .0057645   116.14   0.000     .6581701    .6807667
+              |
+         year#|
+           c. |
+prior_math_~e#|
+           c. |
+prior_math_~e |
+        2015  |   .0239927   .0018178    13.20   0.000     .0204299    .0275556
+        2016  |   .0108015    .002278     4.74   0.000     .0063367    .0152663
+        2017  |   .0043172   .0028324     1.52   0.127    -.0012342    .0098685
+        2018  |   .0772392   .0022409    34.47   0.000     .0728472    .0816313
+        2019  |   .0840721   .0024821    33.87   0.000     .0792073    .0889369
+              |
+         year#|
+           c. |
+prior_math_~e#|
+           c. |
+prior_math_~e#|
+           c. |
+prior_math_~e |
+        2015  |  -.0228654   .0007461   -30.65   0.000    -.0243277   -.0214031
+        2016  |  -.0189085   .0011774   -16.06   0.000    -.0212162   -.0166008
+        2017  |  -.0224562   .0012523   -17.93   0.000    -.0249107   -.0200017
+        2018  |  -.0257879   .0015104   -17.07   0.000    -.0287482   -.0228275
+        2019  |  -.0248816   .0017073   -14.57   0.000    -.0282279   -.0215353
+              |
+        _cons |   2.185167   .0352653    61.96   0.000     2.116048    2.254286
+-------------------------------------------------------------------------------
+Standard deviations: total, classes, students, teachers same year
+.55397069 .16533717 .52872219 .
+Covariances (left), correlations (middle), observations (right).  Row i indicat
+> es the relation between year t and t+i:
+                 1             2             3
+    +-------------------------------------------+
+  1 |  .0191757742   .6159682805          4527  |
+  2 |  .0154394052   .4827314154          3319  |
+  3 |  .0098844115   .3287982505          2147  |
+  4 |  .0082466121   .2600582612          1060  |
+    +-------------------------------------------+
+Drift limit specified:
+3
+Covariances used for VA computations:
+                 1
+    +---------------+
+  1 |  .0191757742  |
+  2 |  .0154394052  |
+  3 |  .0098844115  |
+  4 |  .0098844115  |
+    +---------------+
+-------------------------------------------------------------------------------
+
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. timer off 1
+
+. timer list
+   1:     19.05 /        1 =      19.0530
+
+. log close
+      name:  <unnamed>
+       log:  /home/research/ca_ed_lab/chesun/gsr/caschls/log/share/siblingvareg
+> s/vamtest.smcl
+  log type:  smcl
+ closed on:  27 Oct 2021, 17:52:23
+-------------------------------------------------------------------------------

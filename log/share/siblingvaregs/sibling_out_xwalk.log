@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/chesun/gsr/caschls/log/share/siblingvareg
 > s/sibling_out_xwalk.smcl
   log type:  smcl
- opened on:  21 Oct 2021, 22:01:54
+ opened on:  22 Oct 2021, 19:25:43
 
 . 
 . 
@@ -80,6 +80,18 @@
 . drop _merge
 
 . 
+. /*
+> 
+> . count if k12_postsec_match == 1
+>   2,466,979
+> 
+> . count if k12_postsec_match == 1 & sibling_out_sample==1
+>   2,466,979
+> 
+> All of the k12_postsec matched observations were matched to the sibling sampl
+> e
+>  */
+. 
 . //mark students who have older siblings
 . gen has_older_sibling = 0
 
@@ -131,11 +143,14 @@
 . label var num_older_sibling_postsec_match "Number of older sibling matched to
 >  postsecondary outcomes"
 
+. 
+. /* SUPER IMPORTANT: STATA TREATS MISSING AS GREATER THAN ANY NONMISSING NUMBE
+> R!!!!!! */
 . gen has_older_sibling_postsec_match = 0
 
-. replace has_older_sibling_postsec_match = 1 if num_older_sibling_postsec_matc
-> h > 0
-(3,434,986 real changes made)
+. replace has_older_sibling_postsec_match = 1 if !missing(num_older_sibling_pos
+> tsec_match) & num_older_sibling_postsec_match > 0
+(1,720,430 real changes made)
 
 . label var has_older_sibling_postsec_match "Has at least one older sibling mat
 > ched to postsecondary outcomes"
@@ -150,13 +165,14 @@
   4.   label var numsiblings_older_`i' "Number of older siblings that are match
 > ed to postsec outcomes with `i'==1"
   5.   gen has_older_sibling_`i' = 0
-  6.   replace has_older_sibling_`i' = 1 if numsiblings_older_`i' > 0
+  6.   replace has_older_sibling_`i' = 1 if numsiblings_older_`i' > 0 & !missin
+> g(numsiblings_older_`i')
   7.   label var has_older_sibling_`i' "Has at least 1 older sibling matched to
 >  postsec outcome and with `i' = 1"
   8. }
-(3,132,318 real changes made)
-(2,817,508 real changes made)
-(2,715,347 real changes made)
+(203,574 real changes made)
+(125,140 real changes made)
+(88,538 real changes made)
 
 . 
 . drop lower_bound
@@ -194,12 +210,12 @@ file
 .  timer off 1
 
 .  timer list
-   1:    164.47 /        1 =     164.4690
+   1:    141.64 /        1 =     141.6400
 
 .  log close
       name:  <unnamed>
        log:  /home/research/ca_ed_lab/chesun/gsr/caschls/log/share/siblingvareg
 > s/sibling_out_xwalk.smcl
   log type:  smcl
- closed on:  21 Oct 2021, 22:04:38
+ closed on:  22 Oct 2021, 19:28:04
 -------------------------------------------------------------------------------

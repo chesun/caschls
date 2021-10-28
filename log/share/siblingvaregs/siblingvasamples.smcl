@@ -1,0 +1,1417 @@
+{smcl}
+{txt}{sf}{ul off}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/chesun/gsr/caschls/log/share/siblingvaregs/siblingvasamples.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}20 Oct 2021, 17:43:56
+{txt}
+{com}. 
+. 
+. //set a timer for this do file to see how long it runs
+. timer on 1
+{txt}
+{com}. 
+. //merge sibling info to grade 11 va dataset
+. cd `matthomedir'
+{res}/home/research/ca_ed_lab/msnaven/common_core_va
+{txt}
+{com}. 
+. ********************************************************************************
+. /* This first block of code is directly taken from Matt's touse_Va.do */
+. 
+. **********
+. * Macros *
+. **********
+. include do_files/sbac/macros_va.doh
+{txt}
+{com}. #delimit ;
+{txt}delimiter now ;
+{com}. local test_score_min_year
+>         2015
+>         ;
+{txt}
+{com}. local test_score_max_year
+>         2019
+>         ;
+{txt}
+{com}. local star_min_year
+>         2003
+>         ;
+{txt}
+{com}. local star_max_year
+>         2013
+>         ;
+{txt}
+{com}. local caaspp_min_year
+>         2015
+>         ;
+{txt}
+{com}. local caaspp_max_year
+>         2019
+>         ;
+{txt}
+{com}. local outcome_min_year
+>         2015
+>         ;
+{txt}
+{com}. local outcome_max_year
+>         2018
+>         ;
+{txt}
+{com}. local ela_str
+>         "ELA"
+>         ;
+{txt}
+{com}. local math_str
+>         "Math"
+>         ;
+{txt}
+{com}. local enr_str
+>         "Enrolled On Time"
+>         ;
+{txt}
+{com}. local enr_2year_str
+>         "Enrolled On Time 2-Year"
+>         ;
+{txt}
+{com}. local enr_4year_str
+>         "Enrolled On Time 4-Year"
+>         ;
+{txt}
+{com}. local school_controls
+>         /*cohort_size*/
+>         ;
+{txt}
+{com}. local demographic_controls
+>         age
+>         i.male
+>         i.eth_asian i.eth_hispanic i.eth_black i.eth_other
+>         i.econ_disadvantage
+>         i.limited_eng_prof
+>         i.disabled
+>         ;
+{txt}
+{com}. local peer_demographic_controls
+>         peer_age
+>         peer_male
+>         peer_eth_asian peer_eth_hispanic peer_eth_black peer_eth_other
+>         peer_econ_disadvantage
+>         peer_limited_eng_prof
+>         peer_disabled
+>         ;
+{txt}
+{com}. local ela_score_controls
+>         i.year#(c.prior_ela_z_score##c.prior_ela_z_score##c.prior_ela_z_score)
+>         ;
+{txt}
+{com}. local peer_ela_score_controls
+>         i.year#(c.peer_prior_ela_z_score##c.peer_prior_ela_z_score##c.peer_prior_ela_z_score)
+>         ;
+{txt}
+{com}. local math_score_controls
+>         i.year#(c.prior_math_z_score##c.prior_math_z_score##c.prior_math_z_score)
+>         ;
+{txt}
+{com}. local peer_math_score_controls
+>         i.year#(c.peer_prior_math_z_score##c.peer_prior_math_z_score##c.peer_prior_math_z_score)
+>         ;
+{txt}
+{com}. local va_control_vars "`school_controls' `demographic_controls'" ;
+{txt}
+{com}. local va_control_vars : subinstr local va_control_vars "i." "", all ;
+{txt}
+{com}. local va_control_vars : list uniq va_control_vars ;
+{txt}
+{com}. local census_controls
+>         /*eth_white_pct*/ eth_asian_pct eth_hispanic_pct eth_black_pct /*eth_other_pct*/
+>         educ_hs_dropout_prop /*educ_deg_2year_prop*/ educ_deg_4year_plus_prop
+>         pov_fam_child_lt18_pct
+>         inc_median_hh
+>         ;
+{txt}
+{com}. #delimit cr
+{txt}delimiter now cr
+{com}. {txt}
+{com}. 
+. #delimit ;
+{txt}delimiter now ;
+{com}. #delimit cr
+{txt}delimiter now cr
+{com}. macro list
+{txt}{p 0 16}
+nscdtadir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/clean/nsc
+{p_end}
+{txt}{p 0 16}
+cstdtadir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/clean/cst
+{p_end}
+{txt}{p 0 16}
+vadtadir:{space 7}{res}{res}/home/research/ca_ed_lab/msnaven/common_core_va/data/sbac
+{p_end}
+{txt}{p 0 16}
+projdir:{space 8}{res}{res}/home/research/ca_ed_lab/chesun/gsr/caschls
+{p_end}
+{txt}{p 0 16}
+clndtadir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/clean/calschls
+{p_end}
+{txt}{p 0 16}
+rawdtadir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/raw/calschls/stata
+{p_end}
+{txt}{p 0 16}
+rawcsvdir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/raw/calschls/csv
+{p_end}
+{txt}{p 0 16}
+S_level:{space 8}{res}{res}95
+{p_end}
+{txt}{p 0 16}
+F1:{space 13}{res}{res}help advice;
+{p_end}
+{txt}{p 0 16}
+F2:{space 13}{res}{res}describe;
+{p_end}
+{txt}{p 0 16}
+F7:{space 13}{res}{res}save 
+{p_end}
+{txt}{p 0 16}
+F8:{space 13}{res}{res}use 
+{p_end}
+{txt}{p 0 16}
+S_ADO:{space 10}{res}{res}BASE;SITE;.;PERSONAL;PLUS;OLDPLACE
+{p_end}
+{txt}{p 0 16}
+S_StataMP:{space 6}{res}{res}MP
+{p_end}
+{txt}{p 0 16}
+S_StataSE:{space 6}{res}{res}SE
+{p_end}
+{txt}{p 0 16}
+S_CONSOLE:{space 6}{res}{res}console
+{p_end}
+{txt}{p 0 16}
+S_OS:{space 11}{res}{res}Unix
+{p_end}
+{txt}{p 0 16}
+S_MACH:{space 9}{res}{res}PC (64-bit x86-64)
+{p_end}
+{txt}{p 0 16}
+_census_controls:{break}
+{res}eth_asian_pct eth_hispanic_pct eth_black_pct          educ_hs_dropout_prop  educ_deg_4year_plus_prop         pov_fam_child_lt18_pct         inc_median_hh
+{p_end}
+{txt}{p 0 16}
+_va_control_vars:{break}
+{res}age male eth_asian eth_hispanic eth_black eth_other econ_disadvantage limited_eng_prof disabled
+{p_end}
+{txt}{p 0 16}
+_peer_math_score_controls:{break}
+{res}i.year#(c.peer_prior_math_z_score##c.peer_prior_math_z_score##c.peer_prior_math_z_score)
+{p_end}
+{txt}{p 0 16}
+_math_score_controls:{break}
+{res}i.year#(c.prior_math_z_score##c.prior_math_z_score##c.prior_math_z_score)
+{p_end}
+{txt}{p 0 16}
+_peer_ela_score_controls:{break}
+{res}i.year#(c.peer_prior_ela_z_score##c.peer_prior_ela_z_score##c.peer_prior_ela_z_score)
+{p_end}
+{txt}{p 0 16}
+_ela_score_controls:{break}
+{res}i.year#(c.prior_ela_z_score##c.prior_ela_z_score##c.prior_ela_z_score)
+{p_end}
+{txt}{p 0 16}
+_peer_demographic_controls:{break}
+{res}peer_age         peer_male         peer_eth_asian peer_eth_hispanic peer_eth_black peer_eth_other         peer_econ_disadvantage         peer_limited_eng_prof         peer_disabled
+{p_end}
+{txt}{p 0 16}
+_demographic_controls:{break}
+{res}age         i.male         i.eth_asian i.eth_hispanic i.eth_black i.eth_other         i.econ_disadvantage         i.limited_eng_prof         i.disabled
+{p_end}
+{txt}{p 0 16}
+_enr_4year_str:{space 1}{res}{res}Enrolled On Time 4-Year
+{p_end}
+{txt}{p 0 16}
+_enr_2year_str:{space 1}{res}{res}Enrolled On Time 2-Year
+{p_end}
+{txt}{p 0 16}
+_enr_str:{space 7}{res}{res}Enrolled On Time
+{p_end}
+{txt}{p 0 16}
+_math_str:{space 6}{res}{res}Math
+{p_end}
+{txt}{p 0 16}
+_ela_str:{space 7}{res}{res}ELA
+{p_end}
+{txt}{p 0 16}
+_outcome_max_year:{break}
+{res}2018
+{p_end}
+{txt}{p 0 16}
+_outcome_min_year:{break}
+{res}2015
+{p_end}
+{txt}{p 0 16}
+_caaspp_max_year:{break}
+{res}2019
+{p_end}
+{txt}{p 0 16}
+_caaspp_min_year:{break}
+{res}2015
+{p_end}
+{txt}{p 0 16}
+_star_max_year:{space 1}{res}{res}2013
+{p_end}
+{txt}{p 0 16}
+_star_min_year:{space 1}{res}{res}2003
+{p_end}
+{txt}{p 0 16}
+_test_score_max_year:{break}
+{res}2019
+{p_end}
+{txt}{p 0 16}
+_test_score_min_year:{break}
+{res}2015
+{p_end}
+{txt}{p 0 16}
+_sibling_out_xwalk:{break}
+{res}/home/research/ca_ed_lab/chesun/gsr/caschls/dta/siblingxwalk/sibling_out_xwalk
+{p_end}
+{txt}{p 0 16}
+_k12_postsecondary_out_merge:{break}
+{res}/home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/k12_postsecondary_out_merge
+{p_end}
+{txt}{p 0 16}
+_ufamilyxwalk:{space 2}{res}{res}/home/research/ca_ed_lab/chesun/gsr/caschls/dta/siblingxwalk/ufamilyxwalk
+{p_end}
+{txt}{p 0 16}
+_siblingxwalk:{space 2}{res}{res}/home/research/ca_ed_lab/chesun/gsr/caschls/dta/siblingxwalk/siblingpairxwalk
+{p_end}
+{txt}{p 0 16}
+_va_g11_out_dataset:{break}
+{res}/home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/va_g11_out_dataset
+{p_end}
+{txt}{p 0 16}
+_va_g11_dataset:{break}
+{res}/home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/va_g11_dataset
+{p_end}
+{txt}{p 0 16}
+_va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/va_dataset
+{p_end}
+{txt}{p 0 16}
+_k12_test_scores_public:{break}
+{res}/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_test_scores
+{p_end}
+{txt}{p 0 16}
+_k12_public_schools:{break}
+{res}/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_public_schools
+{p_end}
+{txt}{p 0 16}
+_public_access:{space 1}{res}{res}/home/research/ca_ed_lab/data/public_access
+{p_end}
+{txt}{p 0 16}
+_k12_test_scores:{break}
+{res}/home/research/ca_ed_lab/msnaven/data/restricted_access/clean/k12_test_scores
+{p_end}
+{txt}{p 0 16}
+_ca_ed_lab:{space 5}{res}{res}/home/research/ca_ed_lab
+{p_end}
+{txt}{p 0 16}
+_common_core_va:{break}
+{res}/home/research/ca_ed_lab/msnaven/common_core_va
+{p_end}
+{txt}{p 0 16}
+_mattdofiles:{space 3}{res}{res}/home/research/ca_ed_lab/msnaven/common_core_va/do_files/sbac
+{p_end}
+{txt}{p 0 16}
+_matthomedir:{space 3}{res}{res}/home/research/ca_ed_lab/msnaven/common_core_va
+{p_end}
+{txt}
+{com}. 
+. 
+. timer on 1
+{txt}
+{com}. *****************
+. * Begin Do File *
+. *****************
+. **************** Create VA Dataset
+. use merge_id_k12_test_scores all_students_sample first_scores_sample ///
+>         dataset test cdscode school_id state_student_id year grade ///
+>         cohort_size ///
+>         sbac_ela_z_score sbac_math_z_score ///
+>         `va_control_vars' ///
+>         using `k12_test_scores'/k12_test_scores_clean.dta, clear
+{txt}(CST/SBAC Student Test Score Samples)
+
+{com}. mark touse
+{txt}
+{com}. 
+. * Merge to lagged scores
+. merge 1:1 merge_id_k12_test_scores using `k12_test_scores'/k12_lag_test_scores_clean.dta, nogen keep(1 3) ///
+>         keepusing( ///
+>                 L3_cst_ela_z_score ///
+>                 L3_sbac_ela_z_score ///
+>                 L4_cst_ela_z_score ///
+>                 L3_sbac_math_z_score ///
+>                 L4_sbac_math_z_score ///
+>                 L5_cst_math_z_score ///
+>                 L6_cst_math_z_score ///
+>         )
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}      78,622,143{txt}  
+{col 5}{hline 41}
+
+{com}. 
+. * Merge to peer scores
+. merge 1:1 merge_id_k12_test_scores using `k12_test_scores'/k12_peer_test_scores_clean.dta, nogen keep(1 3) ///
+>         keepusing( ///
+>                 `peer_demographic_controls' ///
+>                 peer_L3_cst_ela_z_score ///
+>                 peer_L3_sbac_ela_z_score ///
+>                 peer_L4_cst_ela_z_score ///
+>                 peer_L3_sbac_math_z_score ///
+>                 peer_L4_sbac_math_z_score ///
+>                 peer_L5_cst_math_z_score ///
+>                 peer_L6_cst_math_z_score ///
+>         )
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}      78,622,143{txt}  
+{col 5}{hline 41}
+
+{com}. 
+. * Merge to school grade spans
+. merge m:1 cdscode year using `k12_test_scores_public'/k12_diff_school_prop_schyr.dta ///
+>         , gen(merge_grade_span) keepusing(gr11_*_diff_school_prop) keep(1 3)
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}         445,910
+{txt}{col 9}from master{col 30}{res}         445,910{txt}  (merge_grade_span==1)
+{col 9}from using{col 30}{res}               0{txt}  (merge_grade_span==2)
+
+{col 5}Matched{col 30}{res}      78,176,233{txt}  (merge_grade_span==3)
+{col 5}{hline 41}
+
+{com}. 
+. * Merge to median cohort sizes
+. merge m:1 cdscode using `k12_test_scores_public'/k12_cohort_size_sch.dta ///
+>         , gen(merge_cohort_size) keepusing(med_cohort_size_first_scores) keep(1 3)
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}      78,622,143{txt}  (merge_cohort_size==3)
+{col 5}{hline 41}
+
+{com}. 
+. * Keep conventional schools
+. merge m:1 cdscode using `k12_public_schools'/k12_public_schools_clean.dta ///
+>         , gen(merge_public_schools) keepusing(conventional_school) keep(1 3)
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}       1,432,257
+{txt}{col 9}from master{col 30}{res}       1,432,257{txt}  (merge_public_schools==1)
+{col 9}from using{col 30}{res}               0{txt}  (merge_public_schools==2)
+
+{col 5}Matched{col 30}{res}      77,189,886{txt}  (merge_public_schools==3)
+{col 5}{hline 41}
+
+{com}. replace touse = 0 if conventional_school!=1
+{txt}(3,908,486 real changes made)
+
+{com}. 
+. * Exclude schools where more than 25 percent of students are receiving special education services
+. 
+. * Drop if a student is receiving instruction at home, in a hospital, or in a school serving disabled students solely
+. 
+. * Drop if 10 or fewer students per school
+. replace touse = 0 if cohort_size<=10
+{txt}(474,064 real changes made)
+
+{com}. 
+. 
+. 
+. 
+. ******** Postsecondary Outcomes
+. do `ca_ed_lab'/msnaven/data/do_files/merge_k12_postsecondary.doh enr_only
+{txt}
+{com}. version 16.1
+{txt}
+{com}. 
+. *****************************************************
+. * First created by Matthew Naven on June 11, 2018 *
+. *****************************************************
+. 
+. local crosswalks "/home/research/ca_ed_lab/msnaven/data/restricted_access/clean/crosswalks/"
+{txt}
+{com}. 
+. ***************
+. * Description *
+. ***************
+. /*
+> This file merges the K-12 data to the postsecondary data.
+> */
+. 
+. 
+. **********
+. * Macros *
+. **********
+. args enr_only
+{txt}
+{com}. 
+. local min_nsc_hs_grad_year "2010"
+{txt}
+{com}. local max_nsc_hs_grad_year "2017"
+{txt}
+{com}. 
+. local min_nsc_enr_year "2010"
+{txt}
+{com}. local max_nsc_enr_year "2018"
+{txt}
+{com}. 
+. local min_nsc_deg_year "2011"
+{txt}
+{com}. local max_nsc_deg_year "2018"
+{txt}
+{com}. 
+. local min_ccc_enr_year "1993"
+{txt}
+{com}. local max_ccc_enr_year "2017"
+{txt}
+{com}. 
+. local min_ccc_deg_year "1993"
+{txt}
+{com}. local max_ccc_deg_year "2016"
+{txt}
+{com}. 
+. local min_csu_app_year "2002"
+{txt}
+{com}. local max_csu_app_year "2017"
+{txt}
+{com}. 
+. local min_csu_enr_year "2002"
+{txt}
+{com}. local max_csu_enr_year "2017"
+{txt}
+{com}. 
+. local min_csu_deg_year "2002"
+{txt}
+{com}. local max_csu_deg_year "2016"
+{txt}
+{com}. 
+. 
+. *****************
+. * Begin Do File *
+. *****************
+. **** K-12 Variables
+. gen year_grad_hs = year + (12 - grade)
+{txt}(446,511 missing values generated)
+
+{com}. gen year_college = year + (13 - grade)
+{txt}(446,511 missing values generated)
+
+{com}. 
+. 
+. 
+. 
+. **** Merge to K-12/NSC crosswalk
+. gen k12_nsc_match = 0
+{txt}
+{com}. gen k12_nsc_2010_2017_match = 0
+{txt}
+{com}. gen k12_nsc_2010_2018_match = 0
+{txt}
+{com}. gen k12_nsc_2018cde_match = 0
+{txt}
+{com}. compress
+  {txt}variable {bf}{res}year_grad_hs{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}year_college{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}k12_nsc_match{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}k12_nsc_2010_2017_match{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}k12_nsc_2010_2018_match{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}k12_nsc_2018cde_match{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
+{txt}  (1,257,954,288 bytes saved)
+
+{com}. 
+. 
+. ** NSC 2010-2017
+. merge m:1 state_student_id ///
+>         using `crosswalks'/nsc_2010_2017_outcomes_crosswalk_ssid.dta ///
+>         , gen(merge_k12_nsc_2010_2017_ssid) keep(1 3) update
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}      51,571,518
+{txt}{col 9}from master{col 30}{res}      51,571,518{txt}  (merge_k12_nsc_2010_2017_ssid==1)
+{col 9}from using{col 30}{res}               0{txt}  (merge_k12_nsc_2010_2017_ssid==2)
+
+{col 5}Matched{col 30}{res}      27,050,625
+{txt}{col 9}not updated{col 30}{res}      27,050,625{txt}  (merge_k12_nsc_2010_2017_ssid==3)
+{col 9}missing updated{col 30}{res}               0{txt}  (merge_k12_nsc_2010_2017_ssid==4)
+{col 9}nonmissing conflict{col 30}{res}               0{txt}  (merge_k12_nsc_2010_2017_ssid==5)
+{col 5}{hline 41}
+
+{com}. replace k12_nsc_match = 1 if merge_k12_nsc_2010_2017_ssid==3
+{txt}(27,050,625 real changes made)
+
+{com}. replace k12_nsc_2010_2017_match = 1 if merge_k12_nsc_2010_2017_ssid==3
+{txt}(27,050,625 real changes made)
+
+{com}. drop merge_k12_nsc_2010_2017_ssid
+{txt}
+{com}. 
+. /*merge m:1 cdscode local_student_id ///
+>         using `crosswalks'/nsc_2010_2017_outcomes_crosswalk_lsid.dta ///
+>         , gen(merge_k12_nsc_2010_2017_lsid) keep(1 3) update
+> replace k12_nsc_match = 1 if merge_k12_nsc_2010_2017_lsid==3
+> replace k12_nsc_2010_2017_match = 1 if merge_k12_nsc_2010_2017_lsid==3
+> drop merge_k12_nsc_2010_2017_lsid*/
+. 
+. 
+. ** NSC 2010-2018
+. merge m:1 state_student_id ///
+>         using `crosswalks'/nsc_2018cde_outcomes_crosswalk_ssid.dta ///
+>         , gen(merge_k12_nsc_2018cde_ssid) keep(1 3) update
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}      74,828,899
+{txt}{col 9}from master{col 30}{res}      74,828,899{txt}  (merge_k12_nsc_2018cde_ssid==1)
+{col 9}from using{col 30}{res}               0{txt}  (merge_k12_nsc_2018cde_ssid==2)
+
+{col 5}Matched{col 30}{res}       1,632,559
+{txt}{col 9}not updated{col 30}{res}       1,632,559{txt}  (merge_k12_nsc_2018cde_ssid==3)
+{col 9}missing updated{col 30}{res}               0{txt}  (merge_k12_nsc_2018cde_ssid==4)
+{col 9}nonmissing conflict{col 30}{res}               0{txt}  (merge_k12_nsc_2018cde_ssid==5)
+{col 5}{hline 41}
+
+{com}. replace k12_nsc_match = 1 if merge_k12_nsc_2018cde_ssid==3
+{txt}(0 real changes made)
+
+{com}. replace k12_nsc_2018cde_match = 1 if merge_k12_nsc_2018cde_ssid==3
+{txt}(1,632,559 real changes made)
+
+{com}. drop merge_k12_nsc_2018cde_ssid
+{txt}
+{com}. 
+. /*merge m:1 cdscode local_student_id ///
+>         using `crosswalks'/nsc_2018cde_outcomes_crosswalk_lsid.dta ///
+>         , gen(merge_k12_nsc_2018cde_lsid) keep(1 3) update
+> replace k12_nsc_match = 1 if merge_k12_nsc_2018cde_lsid==3
+> replace k12_nsc_2018cde_match = 1 if merge_k12_nsc_2018cde_lsid==3
+> drop merge_k12_nsc_2018cde_lsid*/
+. 
+. 
+. ** Edit NSC Variables
+. if "`enr_only'"=="enr_only" {c -(}
+.         local varlist "nsc_enr nsc_enr_lt2year nsc_enr_2year nsc_enr_4year nsc_enr_ontime nsc_enr_ontime_lt2year nsc_enr_ontime_2year nsc_enr_ontime_4year"
+. {c )-}
+{txt}
+{com}. else if "`enr_only'"!="enr_only" {c -(}
+.         local varlist "nsc_*"
+. {c )-}
+{txt}
+{com}. * Replace NSC variables with missing if no chance of matching to the NSC data
+. foreach v of varlist `varlist' {c -(}
+{txt}  2{com}.         replace `v' = . if k12_nsc_match==0
+{txt}  3{com}. {c )-}
+{txt}(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+
+{com}. macro drop _varlist
+{txt}
+{com}. 
+. if "`enr_only'"!="enr_only" {c -(}
+.         * Replace NSC persistence variables with missing if never enrolled
+.         foreach v of varlist nsc_persist_year2 nsc_persist_year3 nsc_persist_year4 {c -(}
+{txt}  2{com}.                 replace `v' = . if nsc_enr!=1
+{txt}  3{com}.         {c )-}
+.         
+.         forvalues t = 2 (1) 4 {c -(}
+{txt}  2{com}.                 * Replace NSC persistence variables with 0 if they could have matched to the NSC data but didn't
+.                 replace nsc_persist_year`t' = 0 if nsc_enr==1 & nsc_persist_year`t'!=1 & k12_nsc_match==1 & year_grad_hs + (`t' - 1)<=`max_nsc_enr_year' & !mi(year_grad_hs)
+{txt}  3{com}.                 * Replace NSC persistence variables with missing if they could not have matched to the NSC data
+.                 replace nsc_persist_year`t' = . if nsc_enr==1 & /*nsc_persist_year`t'!=1 &*/ k12_nsc_match==1 & year_grad_hs + (`t' - 1)>`max_nsc_enr_year' & !mi(year_grad_hs)
+{txt}  4{com}.         {c )-}
+.         
+.         foreach v of varlist nsc_deg_lt2year {c -(}
+{txt}  2{com}.                 * Replace NSC less-than-2-year degree variable with 0 if they could have matched to the NSC data but didn't
+.                 replace `v' = 0 if `v'!=1 & k12_nsc_match==1 & year_grad_hs + 2<=`max_nsc_deg_year' & !mi(year_grad_hs)
+{txt}  3{com}.                 * Replace NSC less-than-2-year degree variable with missing if they could not have matched to the NSC data
+.                 replace `v' = . if /*`v'!=1 &*/ k12_nsc_match==1 & year_grad_hs + 2>`max_nsc_deg_year' & !mi(year_grad_hs)
+{txt}  4{com}.         {c )-}
+. 
+.         foreach v of varlist nsc_deg_2year {c -(}
+{txt}  2{com}.                 * Replace NSC 2-year degree variable with 0 if they could have matched to the NSC data but didn't
+.                 replace `v' = 0 if `v'!=1 & k12_nsc_match==1 & year_grad_hs + 3<=`max_nsc_deg_year' & !mi(year_grad_hs)
+{txt}  3{com}.                 * Replace NSC 2-year degree variable with missing if they could not have matched to the NSC data
+.                 replace `v' = . if /*`v'!=1 &*/ k12_nsc_match==1 & year_grad_hs + 3>`max_nsc_deg_year' & !mi(year_grad_hs)
+{txt}  4{com}.         {c )-}
+. 
+.         foreach v of varlist nsc_deg_4year {c -(}
+{txt}  2{com}.                 * Replace NSC 4-year degree variable with 0 if they could have matched to the NSC data but didn't
+.                 replace `v' = 0 if `v'!=1 & k12_nsc_match==1 & year_grad_hs + 6<=`max_nsc_deg_year' & !mi(year_grad_hs)
+{txt}  3{com}.                 * Replace NSC 4-year degree variable with missing if they could not have matched to the NSC data
+.                 replace `v' = . if /*`v'!=1 &*/ k12_nsc_match==1 & year_grad_hs + 6>`max_nsc_deg_year' & !mi(year_grad_hs)
+{txt}  4{com}.         {c )-}
+.         
+.         * NSC degree receipt conditional on enrollment
+.         gen nsc_enr_deg_lt2year = nsc_deg_lt2year if nsc_enr_lt2year==1
+.         gen nsc_enr_deg_2year = nsc_deg_2year if nsc_enr_2year==1
+.         gen nsc_enr_deg_4year = nsc_deg_4year if nsc_enr_4year==1
+. {c )-}
+{txt}
+{com}. 
+. 
+. 
+. 
+. **** Merge to K-12/CCC crosswalk
+. gen k12_ccc_match = 0
+{txt}
+{com}. compress
+  {txt}variable {bf}{res}k12_ccc_match{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
+{txt}  (229,384,374 bytes saved)
+
+{com}. 
+. merge m:1 state_student_id ///
+>         using `crosswalks'/k12_ccc_crosswalk.dta ///
+>         , gen(merge_k12_ccc) keep(1 3) keepusing(student_id)
+{res}{txt}(label {bf:{txt}male} already defined)
+
+{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}      57,107,614
+{txt}{col 9}from master{col 30}{res}      57,107,614{txt}  (merge_k12_ccc==1)
+{col 9}from using{col 30}{res}               0{txt}  (merge_k12_ccc==2)
+
+{col 5}Matched{col 30}{res}      19,353,844{txt}  (merge_k12_ccc==3)
+{col 5}{hline 41}
+
+{com}. replace k12_ccc_match = 1 if merge_k12_ccc==3
+{txt}(19,353,844 real changes made)
+
+{com}. drop merge_k12_ccc
+{txt}
+{com}. 
+. 
+. **** Merge to CCC data
+. count if !mi(student_id)
+  {res}19,353,844
+{txt}
+{com}. 
+. merge m:1 student_id ///
+>         using `crosswalks'/ccc_outcomes_crosswalk.dta ///
+>         , gen(merge_k12_ccc) keep(1 3)
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}      61,646,086
+{txt}{col 9}from master{col 30}{res}      61,646,086{txt}  (merge_k12_ccc==1)
+{col 9}from using{col 30}{res}               0{txt}  (merge_k12_ccc==2)
+
+{col 5}Matched{col 30}{res}      14,815,372{txt}  (merge_k12_ccc==3)
+{col 5}{hline 41}
+
+{com}. 
+. 
+. ** Edit CCC Variables
+. foreach v of varlist ccc_enr {c -(}
+{txt}  2{com}.         * Replace CCC enrollment with 0 if could have matched to the CCC data but didn't
+.         replace `v' = 0 if `v'!=1 & inrange(year_grad_hs, `min_ccc_enr_year', `max_ccc_enr_year')
+{txt}  3{com}.         * Replace CCC enrollment with missing if could not have matched to the CCC data
+.         replace `v' = . if /*`v'!=1 &*/ !inrange(year_grad_hs, `min_ccc_enr_year', `max_ccc_enr_year')
+{txt}  4{com}. {c )-}
+{txt}(33,478,689 real changes made)
+(4,995,754 real changes made, 4,995,754 to missing)
+
+{com}. 
+. * CCC on-time enrollment
+. gen ccc_enr_ontime = 1 if ccc_enr==1 ///
+>         & (ccc_enr_start_year==year_grad_hs & inlist(ccc_enr_start_term, 5, 6, 7, 8)) ///
+>         | (ccc_enr_start_year==year_grad_hs + 1 & inlist(ccc_enr_start_term, 1, 2, 3, 4))
+{txt}(72,053,540 missing values generated)
+
+{com}. 
+. if "`enr_only'"!="enr_only" {c -(}
+.         * Replace CCC remediation and persistence variables with missing if never enrolled
+.         foreach v of varlist ccc_remediation ccc_ela_remediation ccc_math_remediation ///
+>                 ccc_persist_year2 ccc_persist_year3 ///
+>                 ccc_deg ccc_deg_c ccc_deg_a ccc_deg_b {c -(}
+{txt}  2{com}.                 replace `v' = . if ccc_enr!=1
+{txt}  3{com}.         {c )-}
+. 
+.         forvalues t = 2 (1) 3 {c -(}
+{txt}  2{com}.                 * Replace CCC persistence variables with 0 if they could have matched to the CCC data but didn't
+.                 replace ccc_persist_year`t' = 0 if ccc_enr==1 & ccc_persist_year`t'!=1 & k12_ccc_match==1 & year_grad_hs + (`t' - 1)<=`max_ccc_enr_year' & !mi(year_grad_hs)
+{txt}  3{com}.                 * Replace CCC persistence variables with missing if they could not have matched to the CCC data
+.                 replace ccc_persist_year`t' = . if ccc_enr==1 & /*ccc_persist_year`t'!=1 &*/ k12_ccc_match==1 & year_grad_hs + (`t' - 1)>`max_ccc_enr_year' & !mi(year_grad_hs)
+{txt}  4{com}.         {c )-}
+. 
+.         foreach v of varlist ccc_deg ccc_deg_c ccc_deg_a ccc_deg_b {c -(}
+{txt}  2{com}.                 * Replace CCC degree variable with 0 if they could have matched to the CCC data but didn't
+.                 replace `v' = 0 if `v'!=1 & inrange(year_grad_hs + 3, `min_ccc_deg_year', `max_ccc_deg_year')
+{txt}  3{com}.                 * Replace CCC degree variable with missing if they could not have matched to the CCC data
+.                 replace `v' = . if /*`v'!=1 &*/ !inrange(year_grad_hs + 3, `min_ccc_deg_year', `max_ccc_deg_year')
+{txt}  4{com}.         {c )-}
+. {c )-}
+{txt}
+{com}. 
+. 
+. 
+. 
+. **** Merge to K-12/CSU crosswalk
+. gen k12_csu_match = 0
+{txt}
+{com}. compress
+  {txt}variable {bf}{res}ccc_enr_year{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}ccc_enr_ontime{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}k12_csu_match{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
+{txt}  (535,230,206 bytes saved)
+
+{com}. 
+. merge m:1 state_student_id ///
+>         using `crosswalks'/k12_csu_crosswalk.dta ///
+>         , gen(merge_k12_csu) keep(1 3) keepusing(idunique)
+{res}{txt}(label {bf:{txt}male} already defined)
+
+{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}      68,282,036
+{txt}{col 9}from master{col 30}{res}      68,282,036{txt}  (merge_k12_csu==1)
+{col 9}from using{col 30}{res}               0{txt}  (merge_k12_csu==2)
+
+{col 5}Matched{col 30}{res}       8,179,422{txt}  (merge_k12_csu==3)
+{col 5}{hline 41}
+
+{com}. replace k12_csu_match = 1 if merge_k12_csu==3
+{txt}(8,179,422 real changes made)
+
+{com}. drop merge_k12_csu
+{txt}
+{com}. 
+. 
+. **** Merge to CSU data
+. count if !mi(idunique)
+  {res}8,179,422
+{txt}
+{com}. 
+. merge m:1 idunique ///
+>         using `crosswalks'/csu_outcomes_crosswalk.dta ///
+>         , gen(merge_k12_csu) keep(1 3)
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}      68,282,036
+{txt}{col 9}from master{col 30}{res}      68,282,036{txt}  (merge_k12_csu==1)
+{col 9}from using{col 30}{res}               0{txt}  (merge_k12_csu==2)
+
+{col 5}Matched{col 30}{res}       8,179,422{txt}  (merge_k12_csu==3)
+{col 5}{hline 41}
+
+{com}. 
+. ** Edit CSU Variables
+. foreach v of varlist csu_enr {c -(}
+{txt}  2{com}.         * Replace CSU enrollment with 0 if could have matched to the CSU data but didn't
+.         replace `v' = 0 if `v'!=1 & inrange(year_grad_hs, `min_csu_enr_year', `max_csu_enr_year')
+{txt}  3{com}.         * Replace CSU enrollment with missing if could not have matched to the CSU data
+.         replace `v' = . if /*`v'!=1 &*/ !inrange(year_grad_hs, `min_csu_enr_year', `max_csu_enr_year')
+{txt}  4{com}. {c )-}
+{txt}(35,190,637 real changes made)
+(71,752 real changes made, 71,752 to missing)
+
+{com}. 
+. * CSU on-time enrollment
+. gen csu_enr_ontime = 1 if csu_enr==1 ///
+>         & (csu_enr_start_year==year_grad_hs & inlist(csu_enr_start_term, 3, 4)) ///
+>         | (csu_enr_start_year==year_grad_hs + 1 & inlist(csu_enr_start_term, 1, 2))
+{txt}(73,932,047 missing values generated)
+
+{com}. 
+. if "`enr_only'"!="enr_only" {c -(}
+.         foreach v of varlist csu_applied csu_applied_multiple csu_accepted {c -(}
+{txt}  2{com}.                 * Replace CSU application with 0 if could have matched to the CSU data but didn't
+.                 replace `v' = 0 if `v'!=1 & inrange(year_grad_hs, `min_csu_app_year', `max_csu_app_year')
+{txt}  3{com}.                 * Replace CSU application with missing if could not have matched to the CSU data
+.                 replace `v' = . if /*`v'!=1 &*/ !inrange(year_grad_hs, `min_csu_app_year', `max_csu_app_year')
+{txt}  4{com}.         {c )-}
+. 
+.         * Replace CSU acceptance with missing if never applied
+.         foreach v of varlist csu_accepted {c -(}
+{txt}  2{com}.                 replace `v' = . if csu_applied!=1
+{txt}  3{com}.         {c )-}
+. 
+.         * Replace CSU remediation and persistence variables with missing if never enrolled
+.         foreach v of varlist ///
+>                 csu_eng_remediation csu_math_remediation csu_first_maj_stem csu_first_maj_other csu_first_maj_undecided ///
+>                 csu_persist_year2 csu_persist_year3 csu_persist_year4 ///
+>                 csu_deg csu_deg_stem csu_deg_other {c -(}
+{txt}  2{com}.                 replace `v' = . if csu_enr!=1
+{txt}  3{com}.         {c )-}
+. 
+.         forvalues t = 2 (1) 4 {c -(}
+{txt}  2{com}.                 * Replace CSU persistence variables with 0 if they could have matched to the CSU data but didn't
+.                 replace csu_persist_year`t' = 0 if csu_enr==1 & csu_persist_year`t'!=1 & k12_csu_match==1 & year_grad_hs + (`t' - 1)<=`max_csu_enr_year' & !mi(year_grad_hs)
+{txt}  3{com}.                 * Replace CSU persistence variables with missing if they could not have matched to the CSU data
+.                 replace csu_persist_year`t' = . if csu_enr==1 & /*csu_persist_year`t'!=1 &*/ k12_csu_match==1 & year_grad_hs + (`t' - 1)>`max_csu_enr_year' & !mi(year_grad_hs)
+{txt}  4{com}.         {c )-}
+. 
+.         foreach v of varlist csu_deg csu_deg_stem csu_deg_other {c -(}
+{txt}  2{com}.                 * Replace CSU degree variable with 0 if they could have matched to the CSU data but didn't
+.                 replace `v' = 0 if `v'!=1 & inrange(year_grad_hs + 6, `min_csu_deg_year', `max_csu_deg_year')
+{txt}  3{com}.                 * Replace CSU degree variable with missing if they could not have matched to the CSU data
+.                 replace `v' = . if /*`v'!=1 &*/ !inrange(year_grad_hs + 6, `min_csu_deg_year', `max_csu_deg_year')
+{txt}  4{com}.         {c )-}
+.         
+.         * CSU degree receipt conditional on STEM major
+.         gen csu_maj_stem_deg_stem = csu_deg_stem if csu_first_maj_stem==1
+.         gen csu_maj_stem_deg_other = csu_deg_other if csu_first_maj_stem==1
+. 
+.         * Replace CSU degree receipt conditional on STEM major with missing if never enrolled
+.         foreach v of varlist ///
+>                 csu_maj_stem_deg_stem csu_maj_stem_deg_other {c -(}
+{txt}  2{com}.                 replace `v' = . if csu_enr!=1
+{txt}  3{com}.         {c )-}
+. {c )-}
+{txt}
+{com}. 
+. 
+. 
+. 
+. **** Drop observations that had no chance of matching to CCC/CSU data
+. compress
+  {txt}variable {bf}{res}csu_enr_ontime{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
+{txt}  (229,384,374 bytes saved)
+
+{com}. merge m:1 state_student_id ///
+>         using `crosswalks'/k12_unique_crosswalk.dta ///
+>         , gen(merge_k12_unique) keep(1 3)
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}       9,212,086
+{txt}{col 9}from master{col 30}{res}       9,212,086{txt}  (merge_k12_unique==1)
+{col 9}from using{col 30}{res}               0{txt}  (merge_k12_unique==2)
+
+{col 5}Matched{col 30}{res}      67,249,372{txt}  (merge_k12_unique==3)
+{col 5}{hline 41}
+
+{com}. 
+. if "`enr_only'"=="enr_only" {c -(}
+.         local varlist_ccc "ccc_enr_*"
+.         local varlist_csu "csu_enr_*"
+. {c )-}
+{txt}
+{com}. else if "`enr_only'"!="enr_only" {c -(}
+.         local varlist_ccc "ccc_*"
+.         local varlist_csu "csu_*"
+. {c )-}
+{txt}
+{com}. * Replace CCC variables with missing if could not have matched to the CCC data due to non-unique name/birth date/sex
+. foreach v of varlist `varlist_ccc' {c -(}
+{txt}  2{com}.         replace `v' = . if k12_ccc_match==0 & uniq_first_last_bday_sex==0
+{txt}  3{com}.         replace `v' = . if k12_ccc_match==0 & uniq_first3_last3_bday_sex==0 & inrange(year_grad_hs, 1993, 2011)
+{txt}  4{com}. {c )-}
+{txt}(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+
+{com}. macro drop _varlist_ccc
+{txt}
+{com}. 
+. * Replace CSU variables with missing if could not have matched to the CSU data due to non-unique name/birth date/sex
+. foreach v of varlist `varlist_csu' {c -(}
+{txt}  2{com}.         replace `v' = . if k12_csu_match==0 & uniq_first_last_bday_sex_middle==0
+{txt}  3{com}. {c )-}
+{txt}(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+(0 real changes made)
+
+{com}. macro drop _varlist_csu
+{txt}
+{com}. 
+. 
+. 
+. 
+. **** All college outcomes
+. * Enrollment
+. gen enr = 1 if nsc_enr==1 | ccc_enr==1 | csu_enr==1
+{txt}(55,533,711 missing values generated)
+
+{com}. replace enr = 0 if nsc_enr==0 & ccc_enr!=1 & csu_enr!=1
+{txt}(7,565,430 real changes made)
+
+{com}. label var enr "Enrolled at a Postsecondary Institution"
+{txt}
+{com}. 
+. gen enr_ontime = 1 if nsc_enr_ontime==1 | ccc_enr_ontime==1 | csu_enr_ontime==1
+{txt}(60,115,172 missing values generated)
+
+{com}. replace enr_ontime = 0 if nsc_enr_ontime==0 & ccc_enr_ontime!=1 & csu_enr_ontime!=1
+{txt}(10,534,356 real changes made)
+
+{com}. label var enr_ontime "Enrolled at a Postsecondary Institution"
+{txt}
+{com}. 
+. gen enr_2year = 1 if nsc_enr_2year==1 | nsc_enr_lt2year==1 | ccc_enr==1
+{txt}(59,631,196 missing values generated)
+
+{com}. replace enr_2year = 0 if nsc_enr_2year==0 & nsc_enr_lt2year==0 & ccc_enr!=1
+{txt}(11,118,569 real changes made)
+
+{com}. label var enr_2year "Enrolled at a 2-Year College"
+{txt}
+{com}. 
+. gen enr_ontime_2year = 1 if nsc_enr_ontime_2year==1 | nsc_enr_ontime_lt2year==1 | ccc_enr_ontime==1
+{txt}(66,293,578 missing values generated)
+
+{com}. replace enr_ontime_2year = 0 if nsc_enr_ontime_2year==0 & nsc_enr_ontime_lt2year==0 & ccc_enr_ontime!=1
+{txt}(16,269,889 real changes made)
+
+{com}. label var enr_ontime_2year "Enrolled at a 2-Year College"
+{txt}
+{com}. 
+. gen enr_4year = 1 if nsc_enr_4year==1 | csu_enr==1
+{txt}(67,419,002 missing values generated)
+
+{com}. replace enr_4year = 0 if nsc_enr_4year==0 & csu_enr!=1
+{txt}(17,108,725 real changes made)
+
+{com}. label var enr_4year "Enrolled at a 4-Year University"
+{txt}
+{com}. 
+. replace enr_2year = 0 if enr_4year==1
+{txt}(5,489,317 real changes made)
+
+{com}. 
+. gen enr_ontime_4year = 1 if nsc_enr_ontime_4year==1 | csu_enr_ontime==1
+{txt}(69,869,414 missing values generated)
+
+{com}. replace enr_ontime_4year = 0 if nsc_enr_ontime_4year==0 & csu_enr_ontime!=1
+{txt}(19,072,617 real changes made)
+
+{com}. label var enr_ontime_4year "Enrolled at a 4-Year University"
+{txt}
+{com}. 
+. replace enr_ontime_2year = 0 if enr_ontime_4year==1
+{txt}(856,511 real changes made)
+
+{com}. 
+. gen enr_pub = 1 if nsc_enr_pub==1 | ccc_enr==1 | csu_enr==1
+{txt}(56,470,076 missing values generated)
+
+{com}. replace enr_pub = 0 if nsc_enr_pub==0 & ccc_enr!=1 & csu_enr!=1
+{txt}(8,501,795 real changes made)
+
+{com}. label var enr_pub "Enrolled at a Public Institution"
+{txt}
+{com}. 
+. gen enr_ontime_pub = 1 if nsc_enr_ontime_pub==1 | ccc_enr_ontime==1 | csu_enr_ontime==1
+{txt}(61,384,451 missing values generated)
+
+{com}. replace enr_ontime_pub = 0 if nsc_enr_ontime_pub==0 & ccc_enr_ontime!=1 & csu_enr_ontime!=1
+{txt}(11,803,635 real changes made)
+
+{com}. label var enr_ontime_pub "Enrolled at a Public Institution"
+{txt}
+{com}. 
+. gen enr_priv = 1 if nsc_enr_priv==1
+{txt}(74,203,363 missing values generated)
+
+{com}. replace enr_priv = 0 if nsc_enr_priv==0
+{txt}(22,949,399 real changes made)
+
+{com}. label var enr_priv "Enrolled at a Private Institution"
+{txt}
+{com}. 
+. replace enr_pub = 0 if enr_priv==1
+{txt}(1,321,730 real changes made)
+
+{com}. 
+. gen enr_ontime_priv = 1 if nsc_enr_ontime_priv==1
+{txt}(75,091,647 missing values generated)
+
+{com}. replace enr_ontime_priv = 0 if nsc_enr_ontime_priv==0
+{txt}(23,837,683 real changes made)
+
+{com}. label var enr_ontime_priv "Enrolled at a Private Institution"
+{txt}
+{com}. 
+. replace enr_ontime_pub = 0 if enr_ontime_priv==1
+{txt}(100,532 real changes made)
+
+{com}. 
+. gen enr_instate = 1 if nsc_enr_instate==1 | ccc_enr==1 | csu_enr==1
+{txt}(56,625,154 missing values generated)
+
+{com}. replace enr_instate = 0 if nsc_enr_instate==0 & ccc_enr!=1 & csu_enr!=1
+{txt}(8,656,873 real changes made)
+
+{com}. label var enr_instate "Enrolled at a CA Institution"
+{txt}
+{com}. 
+. gen enr_ontime_instate = 1 if nsc_enr_ontime_instate==1 | ccc_enr_ontime==1 | csu_enr_ontime==1
+{txt}(61,454,523 missing values generated)
+
+{com}. replace enr_ontime_instate = 0 if nsc_enr_ontime_instate==0 & ccc_enr_ontime!=1 & csu_enr_ontime!=1
+{txt}(11,873,707 real changes made)
+
+{com}. label var enr_ontime_instate "Enrolled at a CA Institution"
+{txt}
+{com}. 
+. gen enr_outstate = 1 if nsc_enr_outstate==1
+{txt}(74,170,616 missing values generated)
+
+{com}. replace enr_outstate = 0 if nsc_enr_outstate==0
+{txt}(22,916,652 real changes made)
+
+{com}. label var enr_outstate "Enrolled at an Out-of-State Institution"
+{txt}
+{com}. 
+. replace enr_instate = 0 if enr_outstate==1
+{txt}(1,199,399 real changes made)
+
+{com}. 
+. gen enr_ontime_outstate = 1 if nsc_enr_ontime_outstate==1
+{txt}(75,024,777 missing values generated)
+
+{com}. replace enr_ontime_outstate = 0 if nsc_enr_ontime_outstate==0
+{txt}(23,770,813 real changes made)
+
+{com}. label var enr_ontime_outstate "Enrolled at an Out-of-State Institution"
+{txt}
+{com}. 
+. replace enr_ontime_instate = 0 if enr_ontime_outstate==1
+{txt}(97,330 real changes made)
+
+{com}. 
+. * Persistence
+. if "`enr_only'"!="enr_only" {c -(}
+.         gen persist_year2 = 1 if nsc_persist_year2==1 | ccc_persist_year2==1 | csu_persist_year2==1
+.         replace persist_year2 = 0 if nsc_persist_year2==0 & ccc_persist_year2!=1 & csu_persist_year2!=1
+.         label var persist_year2 "Persisted to Year 2"
+. 
+.         gen persist_year3 = 1 if nsc_persist_year3==1 | ccc_persist_year3==1 | csu_persist_year3==1
+.         replace persist_year3 = 0 if nsc_persist_year3==0 & ccc_persist_year3!=1 & csu_persist_year3!=1
+.         label var persist_year3 "Persisted to Year 3"
+. 
+.         gen persist_year4 = 1 if nsc_persist_year4==1 /*| ccc_persist_year4==1*/ | csu_persist_year4==1
+.         replace persist_year4 = 0 if nsc_persist_year4==0 /*& ccc_persist_year4!=1*/ & csu_persist_year4!=1
+.         label var persist_year4 "Persisted to Year 4"
+. {c )-}
+{txt}
+{com}. 
+. * Degree
+. if "`enr_only'"!="enr_only" {c -(}
+.         gen deg = 1 if nsc_deg==1 | ccc_deg==1 | csu_deg==1
+.         replace deg = 0 if nsc_deg==0 & ccc_deg!=1 & csu_deg!=1
+.         label var deg "Received a College Degree"
+. 
+.         gen deg_2year = 1 if nsc_deg_2year==1 | ccc_deg==1
+.         replace deg_2year = 0 if nsc_deg_2year==0 & ccc_deg!=1
+.         label var deg_2year "Received a 2-Year College Degree"
+. 
+.         gen deg_4year = 1 if nsc_deg_4year==1 | csu_deg==1
+.         replace deg_4year = 0 if nsc_deg_4year==0 & csu_deg!=1
+.         label var deg_4year "Received a 4-Year College Degree"
+. {c )-}
+{txt}
+{com}. 
+. 
+. * Use only NSC sample + values of 1 from other samples
+. if "`enr_only'"=="enr_only" {c -(}
+.         local varlist "enr enr_2year enr_4year enr_pub enr_priv enr_instate enr_outstate enr_ontime enr_ontime_2year enr_ontime_4year enr_ontime_pub enr_ontime_priv enr_ontime_instate enr_ontime_outstate"
+. {c )-}
+{txt}
+{com}. else if "`enr_only'"!="enr_only" {c -(}
+.         local varlist "enr enr_2year enr_4year enr_pub enr_priv enr_instate enr_outstate enr_ontime enr_ontime_2year enr_ontime_4year enr_ontime_pub enr_ontime_priv enr_ontime_instate enr_ontime_outstate deg deg_2year deg_4year"
+. {c )-}
+{txt}
+{com}. foreach v of varlist `varlist' {c -(}
+{txt}  2{com}.         replace `v' = . if /*`v'==0 &*/ k12_nsc_match==0
+{txt}  3{com}. {c )-}
+{txt}(3,285,683 real changes made, 3,285,683 to missing)
+(3,285,683 real changes made, 3,285,683 to missing)
+(943,687 real changes made, 943,687 to missing)
+(3,285,683 real changes made, 3,285,683 to missing)
+(0 real changes made)
+(3,285,683 real changes made, 3,285,683 to missing)
+(0 real changes made)
+(1,673,148 real changes made, 1,673,148 to missing)
+(1,673,148 real changes made, 1,673,148 to missing)
+(457,167 real changes made, 457,167 to missing)
+(1,673,148 real changes made, 1,673,148 to missing)
+(0 real changes made)
+(1,673,148 real changes made, 1,673,148 to missing)
+(0 real changes made)
+
+{com}. macro drop _varlist
+{txt}
+{com}. 
+. 
+. * CCC
+. if "`enr_only'"!="enr_only" {c -(}
+.         gen ccc_transfer_4year = 1 if ccc_enr==1 & enr_4year==1
+.         replace ccc_transfer_4year = 0 if ccc_enr==1 & enr_4year==0
+.         replace ccc_transfer_4year = . ///
+>                 if (inlist(ccc_enr_start_year, `max_ccc_enr_year') & inlist(ccc_enr_start_term, 7, 8)) ///
+>                 | (inlist(ccc_enr_start_year, `max_ccc_enr_year' + 1) & inlist(ccc_enr_start_term, 1, 2, 3, 4, 5, 6))
+.         label var ccc_transfer_4year "Transfered to 4-Year University"
+. 
+.         replace ccc_persist_year2 = 1 if ccc_persist_year2==0 & ccc_transfer_4year==1
+.         replace ccc_persist_year3 = 1 if ccc_persist_year3==0 & ccc_transfer_4year==1
+.         replace ccc_deg = 1 if ccc_deg==0 & ccc_transfer_4year==1
+.         replace ccc_deg_a = 1 if ccc_deg_a==0 & ccc_transfer_4year==1
+. {c )-}
+{txt}
+{com}. 
+. 
+. * CSU
+. if "`enr_only'"!="enr_only" {c -(}
+.         gen csu_transfer_uc = 1 if csu_enr==1 & nsc_enr_uc==1
+.         replace csu_transfer_uc = 0 if csu_enr==1 & nsc_enr_uc==0
+.         replace csu_transfer_uc = . ///
+>                 if (inlist(csu_enr_start_year, `max_csu_enr_year') & inlist(csu_enr_start_term, 4)) ///
+>                 | (inlist(csu_enr_start_year, `max_csu_enr_year' + 1) & inlist(csu_enr_start_term, 1, 2, 3))
+.         label var csu_transfer_uc "Transfered to a University of California"
+. 
+.         gen csu_transfer_ucplus = 1 if csu_enr==1 & nsc_enr_ucplus==1
+.         replace csu_transfer_ucplus = 0 if csu_enr==1 & nsc_enr_ucplus==0
+.         replace csu_transfer_ucplus = . ///
+>                 if (inlist(csu_enr_start_year, `max_csu_enr_year') & inlist(csu_enr_start_term, 4)) ///
+>                 | (inlist(csu_enr_start_year, `max_csu_enr_year' + 1) & inlist(csu_enr_start_term, 1, 2, 3))
+.         label var csu_transfer_ucplus "Transfered to a University of California +"
+. 
+.         replace csu_persist_year2 = 1 if csu_persist_year2==0 & csu_transfer_ucplus==1
+.         replace csu_persist_year3 = 1 if csu_persist_year3==0 & csu_transfer_ucplus==1
+. {c )-}
+{txt}
+{com}. 
+. 
+{txt}end of do-file
+
+{com}. drop enr enr_2year enr_4year
+{txt}
+{com}. rename enr_ontime enr
+{res}{txt}
+{com}. rename enr_ontime_2year enr_2year
+{res}{txt}
+{com}. rename enr_ontime_4year enr_4year
+{res}{txt}
+{com}. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. ******************************** 11th Grade (8th Grade ELA Controls, 6th Grade Math Controls)
+. gen diff_school_prop = gr11_L3_diff_school_prop if year!=2017
+{txt}(59,890,372 missing values generated)
+
+{com}. replace diff_school_prop = gr11_L4_diff_school_prop if year==2017
+{txt}(1,147,183 real changes made)
+
+{com}. 
+. **************** Prior Scores
+. ******** ELA
+. gen prior_ela_z_score = L3_cst_ela_z_score if inrange(year, `star_min_year' + 3, `star_max_year' + 3) & year!=2017
+{txt}(54,763,651 missing values generated)
+
+{com}. replace prior_ela_z_score = L3_sbac_ela_z_score if inrange(year, `caaspp_min_year' + 3, `caaspp_max_year' + 3) & year!=2017
+{txt}(3,393,212 real changes made)
+
+{com}. replace prior_ela_z_score = L4_cst_ela_z_score if year==2017
+{txt}(1,606,189 real changes made)
+
+{com}. label var prior_ela_z_score "Prior ELA Z-Score"
+{txt}
+{com}. gen peer_prior_ela_z_score = peer_L3_cst_ela_z_score if inrange(year, `star_min_year' + 3, `star_max_year' + 3) & year!=2017
+{txt}(43,737,540 missing values generated)
+
+{com}. replace peer_prior_ela_z_score = peer_L3_sbac_ela_z_score if inrange(year, `caaspp_min_year' + 3, `caaspp_max_year' + 3) & year!=2017
+{txt}(5,229,928 real changes made)
+
+{com}. replace peer_prior_ela_z_score = peer_L4_cst_ela_z_score if year==2017
+{txt}(2,442,590 real changes made)
+
+{com}. label var peer_prior_ela_z_score "Peer Avg. Prior ELA Z-Score"
+{txt}
+{com}. 
+. ******** Math
+. gen prior_math_z_score = L5_cst_math_z_score if inrange(year, `star_min_year' + 5, `star_max_year' + 5) & !inrange(year, `caaspp_min_year' + 3, `caaspp_max_year' + 3)
+{txt}(64,231,303 missing values generated)
+
+{com}. replace prior_math_z_score = L3_sbac_math_z_score if inrange(year, `caaspp_min_year' + 3, `caaspp_max_year' + 3)
+{txt}(3,402,277 real changes made)
+
+{com}. label var prior_math_z_score "Prior Math Z-Score"
+{txt}
+{com}. gen peer_prior_math_z_score = peer_L5_cst_math_z_score if inrange(year, `star_min_year' + 5, `star_max_year' + 5) & !inrange(year, `caaspp_min_year' + 3, `caaspp_max_year' + 3)
+{txt}(56,508,967 missing values generated)
+
+{com}. replace peer_prior_math_z_score = peer_L3_sbac_math_z_score if inrange(year, `caaspp_min_year' + 3, `caaspp_max_year' + 3)
+{txt}(5,229,948 real changes made)
+
+{com}. label var peer_prior_math_z_score "Peer Avg. Prior Math Z-Score"
+{txt}
+{com}. 
+. **** Test Score Sample
+. foreach subject in ela math {c -(}
+{txt}  2{com}.         mark touse_g11_`subject' ///
+>                 if grade==11 & dataset=="CAASPP" & inrange(year, `test_score_min_year', `test_score_max_year') ///
+>                 & diff_school_prop>=0.95
+{txt}  3{com}.         markout touse_g11_`subject' ///
+>                 sbac_`subject'_z_score ///
+>                 school_id i.year ///
+>                 `school_controls' ///
+>                 `demographic_controls' ///
+>                 `ela_score_controls' ///
+>                 `math_score_controls' ///
+>                 `peer_demographic_controls' ///
+>                 `peer_ela_score_controls' ///
+>                 `peer_math_score_controls'
+{txt}  4{com}. 
+.         replace touse_g11_`subject' = 0 if touse==0
+{txt}  5{com}. 
+.         egen n_g11_`subject' = count(state_student_id) ///
+>                 if touse_g11_`subject'==1 ///
+>                 , by(cdscode year)
+{txt}  6{com}.         replace touse_g11_`subject' = 0 if n_g11_`subject'<7
+{txt}  7{com}. {c )-}
+{txt}(131,827 real changes made)
+(75,044,515 missing values generated)
+(391 real changes made)
+(130,232 real changes made)
+(75,050,981 missing values generated)
+(406 real changes made)
+
+{com}. 
+. **** Postsecondary Outcomes Sample
+. foreach outcome in enr enr_2year enr_4year {c -(}
+{txt}  2{com}.         mark touse_g11_`outcome' ///
+>                 if grade==11 & dataset=="CAASPP" & inrange(year, `outcome_min_year', `outcome_max_year') ///
+>                 & diff_school_prop>=0.95
+{txt}  3{com}.         markout touse_g11_`outcome' ///
+>                 `outcome' ///
+>                 school_id i.year ///
+>                 `school_controls' ///
+>                 `demographic_controls' ///
+>                 `ela_score_controls' ///
+>                 `math_score_controls' ///
+>                 `peer_demographic_controls' ///
+>                 `peer_ela_score_controls' ///
+>                 `peer_math_score_controls'
+{txt}  4{com}. 
+.         replace touse_g11_`outcome' = 0 if touse==0
+{txt}  5{com}. 
+.         egen n_g11_`outcome' = count(state_student_id) ///
+>                 if touse_g11_`outcome'==1 ///
+>                 , by(cdscode year)
+{txt}  6{com}.         replace touse_g11_`outcome' = 0 if n_g11_`outcome'<7
+{txt}  7{com}. {c )-}
+{txt}(59,651 real changes made)
+(75,983,201 missing values generated)
+(561 real changes made)
+(59,651 real changes made)
+(75,983,201 missing values generated)
+(561 real changes made)
+(59,651 real changes made)
+(75,983,201 missing values generated)
+(561 real changes made)
+
+{com}. 
+. 
+. ********************************************************************************
+. /* Merge onto sibling outcomes xwalk  */
+. 
+. merge 1:1 state_student_id using `sibling_out_xwalk'
+{res}{err}{p 0 4 2}
+variable{err} state_student_id
+does not uniquely identify observations in the
+master data
+{p_end}
+{txt}{search r(459), local:r(459);}
+
+end of do-file
+
+{search r(459), local:r(459);}
+
+{com}. merge m:1 state_student_id using `sibling_out_xwalk'
+{res}{err}invalid file specification
+{txt}{search r(198), local:r(198);}
+
+{com}. count
+  {res}76,461,458
+
+{com}. merge m:1 state_student_id using `sibling_out_xwalk'
+{res}{err}invalid file specification
+{txt}{search r(198), local:r(198);}
+
+{com}. local sibling_out_xwalk "$projdir/dta/siblingxwalk/sibling_out_xwalk"
+
+. merge m:1 state_student_id using `sibling_out_xwalk'
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}      48,848,083
+{txt}{col 9}from master{col 30}{res}      48,720,593{txt}  (_merge==1)
+{col 9}from using{col 30}{res}         127,490{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}      27,740,865{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. keep state_student_id merge_id_k12_test_scores touse* sibling_out_sample sibling_full_sample
+
+. 
+. compress
+{txt}  (0 bytes saved)
+
+{com}. save $projdir/dta/common_core_va/va_sibling_samples, replace 
+{txt}{p 0 4 2}
+(file {bf}
+/home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/va_sibling_samples.dta{rm}
+not found)
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/va_sibling_samples.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. timer off 1
+
+. timer list
+{res}   1:   3966.69 /        1 =    3966.6890
+
+{com}. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/chesun/gsr/caschls/log/share/siblingvaregs/siblingvasamples.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}20 Oct 2021, 18:50:03
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

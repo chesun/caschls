@@ -1,12 +1,14 @@
 ********************************************************************************
-/* do file to run VA regressions with sibling effects. See VA to do list doc for details.
-Current models:
-1. Sibling FE as an additional demographic control in our value added estimation.
-2. Proportion of older siblings that attended college as an additional demographic control in our value added estimation.
-3. Specification test with sibling FE
-4. Proportion of older siblings that attended college as a leave-out variable to use for a forecast bias test.
-5. Sibling FE as an additional control for regressions of long-run outcomes on value added.
-6. Proportion of older siblings that attended college as an additional control for regressions of long-run outcomes on value added.
+/* do file to run test score VA regressions with sibling effects.
+Include dummies for
+1) has an older sibling enrolled in college (2 year or 4 year)
+2) has an older sibling enrolled in 2 year
+3) has an older sibling enrolled in 4 year
+
+Comment on family fixed effects: Too many fixed effects, not enough observations.
+Stata returns an error "attempted to fit a model with too many variables"
+Only 749488 obs but 600210 families, too many variables from family fixed effects
+
  */
 ********************************************************************************
 ********************************************************************************
@@ -68,7 +70,7 @@ VA estimation */
 use `va_g11_dataset', clear
 
 //merge on to ufamilyxwalk in order to use unique family ID for FE
-merge m:1 state_student_id using `ufamilyxwalk'
+merge m:1 state_student_id using `sibling_out_xwalk'
 drop _merge
 /*
 Result                      Number of obs
@@ -92,130 +94,139 @@ save `va_g11_sibling_dataset'
 ********************************************************************************
 *********** VA estimates for VA samples matched to siblings sample
 ********************************************************************************
-local drift_limit = max(`test_score_max_year' - `test_score_min_year' - 1, 1)
+
+/*
+error: driftlimit(3) was specified, which is greater than the number of lags (2
+> ) in the data.
+ */
+//local drift_limit = max(`test_score_max_year' - `test_score_min_year' - 1, 1)
+local drift_limit = 1
 
 foreach subject in ela math {
-  //load the VA g11 subject sample that are matched to the sibling sample
-  use `va_g11_sibling_dataset' if touse_g11_`subject'==1 & sibling_full_sample == 1, clear
 
-  ******************************************************************************
-  ************ Value added estimation with no peer controls ********************
-  ****** No TFX (teacher fixed effects)
-  vam sbac_`subject'_z_score ///
-		, teacher(school_id) year(year) class(school_id) ///
-		controls( ///
-			i.year ///
-      i.ufamilyid ///
-			`school_controls' ///
-			`demographic_controls' ///
-			`ela_score_controls' ///
-			`math_score_controls' ///
-		) ///
-		data(merge tv score_r) ///
-		driftlimit(`drift_limit')
-	rename tv va_cfr_g11_`subject'_sibling
-	rename score_r sbac_g11_`subject'_r_sibling
-  label var va_cfr_g11_`subject'_sibling "`subject' VA with family FE without TFX"
-  label var sbac_g11_`subject'_r_sibling "`subject' score residual with family FE without TFX"
+  /* use each of the dummies for older sibling enrlllment as an additional
+  demographic control  */
+  foreach enrvar in enr enr_2year enr_4year {
+    /* load the VA g11 subject sample with siblings outcome sample
+     (those who have at least one older sibling matched to the postsecondary
+   outcomes) */
+    use `va_g11_sibling_dataset' if touse_g11_`subject'==1 & sibling_out_sample == 1, clear
 
-
-  ****** With TFX, and TFX is added back in the the VA estimates
-  vam sbac_`subject'_z_score ///
-    , teacher(school_id) year(year) class(school_id) ///
-    controls( ///
-      i.year ///
-      i.ufamilyid ///
-      `school_controls' ///
-      `demographic_controls' ///
-      `ela_score_controls' ///
-      `math_score_controls' ///
-    ) ///
-    tfx_resid(school_id) ///
-    data(merge tv score_r) ///
-    driftlimit(`drift_limit')
-  rename tv va_tfx_g11_`subject'_sibling
-  drop score_r
-  label var va_tfx_g11_`subject'_sibling "`subject' VA with family FE with TFX"
+    ******************************************************************************
+    ************ Value added estimation with no peer controls ********************
+    ****** No TFX (teacher fixed effects)
+    vam sbac_`subject'_z_score ///
+  		, teacher(school_id) year(year) class(school_id) ///
+  		controls( ///
+  			i.year ///
+        i.has_older_sibling_`enrvar' ///
+  			`school_controls' ///
+  			`demographic_controls' ///
+  			`ela_score_controls' ///
+  			`math_score_controls' ///
+  		) ///
+  		data(merge tv score_r) ///
+  		driftlimit(`drift_limit')
+  	rename tv va_cfr_g11_`subject'
+  	rename score_r sbac_g11_`subject'_r
+    label var va_cfr_g11_`subject' "`subject' VA with family FE without TFX"
+    label var sbac_g11_`subject'_r "`subject' score residual with family FE without TFX"
 
 
-
-
-
-
-
-
-  ******************************************************************************
-  ************ Value added estimation with peer controls ********************
-  ****** No TFX (teacher fixed effects)
-  vam sbac_`subject'_z_score ///
-    , teacher(school_id) year(year) class(school_id) ///
-    controls( ///
-      i.year ///
-      i.ufamilyid ///
-      `school_controls' ///
-      `demographic_controls' ///
-      `ela_score_controls' ///
-      `math_score_controls' ///
-      `peer_demographic_controls' ///
-      `peer_ela_score_controls' ///
-      `peer_math_score_controls' ///
-    ) ///
-    data(merge tv score_r) ///
-    driftlimit(`drift_limit')
-  rename tv va_cfr_g11_`subject'_peer_sibling
-  rename score_r sbac_g11_`subject'_r_peer_sibling
-  label var va_cfr_g11_`subject'_peer_sibling "`subject' VA with family FE with TFX"
-  label var sbac_g11_`subject'_r_peer_sibling "`subject' score residual with family FE with TFX"
-
-
-  ****** With TFX
-  vam sbac_`subject'_z_score ///
-    , teacher(school_id) year(year) class(school_id) ///
-    controls( ///
-      i.year ///
-      i.ufamilyid ///
-      `school_controls' ///
-      `demographic_controls' ///
-      `ela_score_controls' ///
-      `math_score_controls' ///
-      `peer_demographic_controls' ///
-      `peer_ela_score_controls' ///
-      `peer_math_score_controls' ///
-    ) ///
-    tfx_resid(school_id) ///
-    data(merge tv score_r) ///
-    driftlimit(`drift_limit')
-  rename tv va_tfx_g11_`subject'_peer_sibling
-  drop score_r
-
-
-  ******************************************************************************
-  ************ specification test: regressing score residuals on VA estimates
-  ******* No peer controls
-  reg sbac_g11_`subject'_r_sibling va_cfr_g11_`subject'_sibling, cluster(school_id)
-  estimates save $projdir/out/ster/siblingvaregs/spec_test_va_cfr_g11_`subject'_sibling.ster, replace
-
-
-  ******* With peer controls
-  reg sbac_g11_`subject'_r_peer_sibling va_cfr_g11_`subject'_peer_sibling, cluster(school_id)
-  estimates save $projdir/out/ster/siblingvaregs/spec_test_va_cfr_g11_`subject'_peer_sibling.ster, replace
+    ****** With TFX, and TFX is added back in the the VA estimates
+    vam sbac_`subject'_z_score ///
+      , teacher(school_id) year(year) class(school_id) ///
+      controls( ///
+        i.year ///
+        i.has_older_sibling_`enrvar' ///
+        `school_controls' ///
+        `demographic_controls' ///
+        `ela_score_controls' ///
+        `math_score_controls' ///
+      ) ///
+      tfx_resid(school_id) ///
+      data(merge tv score_r) ///
+      driftlimit(`drift_limit')
+    rename tv va_tfx_g11_`subject'
+    drop score_r
+    label var va_tfx_g11_`subject' "`subject' VA with family FE with TFX"
 
 
 
-  **************** Save Value Added Estimates
-  collapse (firstnm) va_* ///
-		(mean) sbac_*_r* ///
-		(sum) n_g11_`subject' = touse_g11_`subject' ///
-    if sibling_full_sample == 1 ///
-		, by(school_id cdscode grade year)
-	save data/sbac/va_g11_`subject'_sibling.dta, replace
+
+
+
+
+
+    ******************************************************************************
+    ************ Value added estimation with peer controls ********************
+    ****** No TFX (teacher fixed effects)
+    vam sbac_`subject'_z_score ///
+      , teacher(school_id) year(year) class(school_id) ///
+      controls( ///
+        i.year ///
+        i.has_older_sibling_`enrvar' ///
+        `school_controls' ///
+        `demographic_controls' ///
+        `ela_score_controls' ///
+        `math_score_controls' ///
+        `peer_demographic_controls' ///
+        `peer_ela_score_controls' ///
+        `peer_math_score_controls' ///
+      ) ///
+      data(merge tv score_r) ///
+      driftlimit(`drift_limit')
+    rename tv va_cfr_g11_`subject'_peer
+    rename score_r sbac_g11_`subject'_r_peer
+    label var va_cfr_g11_`subject'_peer "`subject' VA with family FE with TFX"
+    label var sbac_g11_`subject'_r_peer "`subject' score residual with family FE with TFX"
+
+
+    ****** With TFX
+    vam sbac_`subject'_z_score ///
+      , teacher(school_id) year(year) class(school_id) ///
+      controls( ///
+        i.year ///
+        i.has_older_sibling_`enrvar' ///
+        `school_controls' ///
+        `demographic_controls' ///
+        `ela_score_controls' ///
+        `math_score_controls' ///
+        `peer_demographic_controls' ///
+        `peer_ela_score_controls' ///
+        `peer_math_score_controls' ///
+      ) ///
+      tfx_resid(school_id) ///
+      data(merge tv score_r) ///
+      driftlimit(`drift_limit')
+    rename tv va_tfx_g11_`subject'_peer
+    drop score_r
+
+
+    ******************************************************************************
+    ************ specification test: regressing score residuals on VA estimates
+    ******* No peer controls
+    reg sbac_g11_`subject'_r va_cfr_g11_`subject', cluster(school_id)
+    estimates save $projdir/est/siblingvaregs/test_score_va/spec_test_va_cfr_g11_`subject'_sibling_`enrvar'.ster, replace
+
+
+    ******* With peer controls
+    reg sbac_g11_`subject'_r_peer va_cfr_g11_`subject'_peer, cluster(school_id)
+    estimates save $projdir/est/siblingvaregs/test_score_va/spec_test_va_cfr_g11_`subject'_peer_sibling_`enrvar'.ster, replace
+
+
+
+    **************** Save Value Added Estimates
+    collapse (firstnm) va_* ///
+  		(mean) sbac_*_r* ///
+  		(sum) n_g11_`subject' = touse_g11_`subject' ///
+      if sibling_full_sample == 1 & sibling_out_sample == 1 ///
+  		, by(school_id cdscode grade year)
+  	save $projdir/dta/common_core_va/test_score_va/va_g11_`subject'_sibling_`enrvar'.dta, replace
+  }
+
 
 }
-
-
-
-
-
 
 
 
@@ -232,4 +243,5 @@ log close
 cd "/home/research/ca_ed_lab/chesun/gsr/caschls"
 
 //translate the log file to a text log file
-translate $projdir/log/share/siblingvaregs/va_sibling.smcl $projdir/log/share/siblingvaregs/va_sibling.log, replace
+translate $projdir/log/share/siblingvaregs/va_sibling.smcl ///
+ $projdir/log/share/siblingvaregs/va_sibling.log, replace

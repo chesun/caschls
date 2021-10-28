@@ -42,7 +42,8 @@ if `installssc' == 1 {
   ssc install regsave, replace
   /* install ssc package that group observations by the connected components of two variables  */
   ssc install group_twoway, replace
-  ssc install vam, replace 
+  ssc install vam, replace
+  ssc install binscatter, replace
 }
 
 

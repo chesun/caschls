@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/chesun/gsr/caschls/log/share/siblingvaregs/sibling_out_xwalk.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}21 Oct 2021, 22:01:54
+ {txt}opened on:  {res}22 Oct 2021, 19:25:43
 {txt}
 {com}. 
 . 
@@ -73,6 +73,17 @@
 {com}. drop _merge
 {txt}
 {com}. 
+. /*
+> 
+> . count if k12_postsec_match == 1
+>   2,466,979
+> 
+> . count if k12_postsec_match == 1 & sibling_out_sample==1
+>   2,466,979
+> 
+> All of the k12_postsec matched observations were matched to the sibling sample
+>  */
+. 
 . //mark students who have older siblings
 . gen has_older_sibling = 0
 {txt}
@@ -117,10 +128,12 @@
 {res}{txt}
 {com}. label var num_older_sibling_postsec_match "Number of older sibling matched to postsecondary outcomes"
 {txt}
-{com}. gen has_older_sibling_postsec_match = 0
+{com}. 
+. /* SUPER IMPORTANT: STATA TREATS MISSING AS GREATER THAN ANY NONMISSING NUMBER!!!!!! */
+. gen has_older_sibling_postsec_match = 0
 {txt}
-{com}. replace has_older_sibling_postsec_match = 1 if num_older_sibling_postsec_match > 0
-{txt}(3,434,986 real changes made)
+{com}. replace has_older_sibling_postsec_match = 1 if !missing(num_older_sibling_postsec_match) & num_older_sibling_postsec_match > 0
+{txt}(1,720,430 real changes made)
 
 {com}. label var has_older_sibling_postsec_match "Has at least one older sibling matched to postsecondary outcomes"
 {txt}
@@ -132,12 +145,12 @@
 {txt}  3{com}.   rename `i'_sum numsiblings_older_`i'
 {txt}  4{com}.   label var numsiblings_older_`i' "Number of older siblings that are matched to postsec outcomes with `i'==1"
 {txt}  5{com}.   gen has_older_sibling_`i' = 0
-{txt}  6{com}.   replace has_older_sibling_`i' = 1 if numsiblings_older_`i' > 0
+{txt}  6{com}.   replace has_older_sibling_`i' = 1 if numsiblings_older_`i' > 0 & !missing(numsiblings_older_`i')
 {txt}  7{com}.   label var has_older_sibling_`i' "Has at least 1 older sibling matched to postsec outcome and with `i' = 1"
 {txt}  8{com}. {c )-}
-{res}{txt}(3,132,318 real changes made)
-{res}{txt}(2,817,508 real changes made)
-{res}{txt}(2,715,347 real changes made)
+{res}{txt}(203,574 real changes made)
+{res}{txt}(125,140 real changes made)
+{res}{txt}(88,538 real changes made)
 
 {com}. 
 . drop lower_bound
@@ -176,13 +189,13 @@ saved
 .  timer off 1
 {txt}
 {com}.  timer list
-{res}   1:    164.47 /        1 =     164.4690
+{res}   1:    141.64 /        1 =     141.6400
 {txt}
 {com}.  log close
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/chesun/gsr/caschls/log/share/siblingvaregs/sibling_out_xwalk.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}21 Oct 2021, 22:04:38
+ {txt}closed on:  {res}22 Oct 2021, 19:28:04
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}
