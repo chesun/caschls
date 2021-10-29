@@ -16,7 +16,11 @@ Only 749488 obs but 600210 families, too many variables from family fixed effect
 ********************** First written on Sep 22, 2021 ***************************
 
 /* To run this do file:
-do $projdir/do/share/siblingvaregs/va_sibling
+for origianl drift limit
+do $projdir/do/share/siblingvaregs/va_sibling 0
+
+otherwise set a number
+
  */
 
 
@@ -27,6 +31,8 @@ set more off
 set varabbrev off
 //capture log close: Stata should not complain if there is no log open to close
 cap log close _all
+
+args setlimit
 
 *** macros for Matt's data directories
 local matthomedir "/home/research/ca_ed_lab/msnaven/common_core_va"
@@ -95,18 +101,17 @@ save `va_g11_sibling_dataset'
 *********** VA estimates for VA samples matched to siblings sample
 ********************************************************************************
 
-/*
-error: driftlimit(3) was specified, which is greater than the number of lags (2
-> ) in the data.
- */
-//local drift_limit = max(`test_score_max_year' - `test_score_min_year' - 1, 1)
-local drift_limit = 1
+
+if `setlimit' == 0 {
+  local drift_limit = max(`test_score_max_year' - `test_score_min_year' - 1, 1)
+}
+else {
+  local drift_limit = `setlimit'
+}
 
 foreach subject in ela math {
 
-  /* use each of the dummies for older sibling enrlllment as an additional
-  demographic control  */
-  foreach enrvar in enr enr_2year enr_4year {
+
     /* load the VA g11 subject sample with siblings outcome sample
      (those who have at least one older sibling matched to the postsecondary
    outcomes) */
@@ -119,7 +124,8 @@ foreach subject in ela math {
   		, teacher(school_id) year(year) class(school_id) ///
   		controls( ///
   			i.year ///
-        i.has_older_sibling_`enrvar' ///
+        i.has_older_sibling_enr_2year ///
+        i.has_older_sibling_enr_4year ///
   			`school_controls' ///
   			`demographic_controls' ///
   			`ela_score_controls' ///
@@ -138,7 +144,8 @@ foreach subject in ela math {
       , teacher(school_id) year(year) class(school_id) ///
       controls( ///
         i.year ///
-        i.has_older_sibling_`enrvar' ///
+        i.has_older_sibling_enr_2year ///
+        i.has_older_sibling_enr_4year ///
         `school_controls' ///
         `demographic_controls' ///
         `ela_score_controls' ///
@@ -165,7 +172,8 @@ foreach subject in ela math {
       , teacher(school_id) year(year) class(school_id) ///
       controls( ///
         i.year ///
-        i.has_older_sibling_`enrvar' ///
+        i.has_older_sibling_enr_2year ///
+        i.has_older_sibling_enr_4year ///
         `school_controls' ///
         `demographic_controls' ///
         `ela_score_controls' ///
@@ -187,7 +195,8 @@ foreach subject in ela math {
       , teacher(school_id) year(year) class(school_id) ///
       controls( ///
         i.year ///
-        i.has_older_sibling_`enrvar' ///
+        i.has_older_sibling_enr_2year ///
+        i.has_older_sibling_enr_4year ///
         `school_controls' ///
         `demographic_controls' ///
         `ela_score_controls' ///
@@ -207,12 +216,12 @@ foreach subject in ela math {
     ************ specification test: regressing score residuals on VA estimates
     ******* No peer controls
     reg sbac_g11_`subject'_r va_cfr_g11_`subject', cluster(school_id)
-    estimates save $projdir/est/siblingvaregs/test_score_va/spec_test_va_cfr_g11_`subject'_sibling_`enrvar'.ster, replace
+    estimates save $projdir/est/siblingvaregs/test_score_va/spec_test_va_cfr_g11_`subject'_sibling.ster, replace
 
 
     ******* With peer controls
     reg sbac_g11_`subject'_r_peer va_cfr_g11_`subject'_peer, cluster(school_id)
-    estimates save $projdir/est/siblingvaregs/test_score_va/spec_test_va_cfr_g11_`subject'_peer_sibling_`enrvar'.ster, replace
+    estimates save $projdir/est/siblingvaregs/test_score_va/spec_test_va_cfr_g11_`subject'_peer_sibling.ster, replace
 
 
 
@@ -222,8 +231,7 @@ foreach subject in ela math {
   		(sum) n_g11_`subject' = touse_g11_`subject' ///
       if sibling_full_sample == 1 & sibling_out_sample == 1 ///
   		, by(school_id cdscode grade year)
-  	save $projdir/dta/common_core_va/test_score_va/va_g11_`subject'_sibling_`enrvar'.dta, replace
-  }
+  	save $projdir/dta/common_core_va/test_score_va/va_g11_`subject'_sibling.dta, replace
 
 
 }
