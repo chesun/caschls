@@ -67,11 +67,34 @@ compress
 tempfile va_g11_sibling_dataset
 save `va_g11_sibling_dataset'
 
-//load the grade 11 test score VA sibling dataset matched to full sibling sample
-use `va_g11_sibling_dataset', clear
 
+
+
+//check the average distance between siblings
+//in the full sibling sample
+use $projdir/dta/siblingxwalk/uniquesiblingpairxwalk, clear
+
+//collapse to family level to only keep the average birth date distance in family
+collapse (mean) avg_birth_date_distance_family, by(ufamilyid)
+
+sum avg_birth_date_distance_family
+
+//in the sibling test score VA sample
+//merge average sibling birth date distance in family to test score VA sibling dataset
+
+merge 1:m ufamilyid using `va_g11_sibling_dataset'
+
+sum avg_birth_date_distance_family ///
+if grade == 11 & touse_g11_ela==1 & sibling_full_sample == 1
+
+sum avg_birth_date_distance_family ///
+if grade == 11 & touse_g11_math==1 & sibling_full_sample == 1
+
+
+
+
+use `va_g11_sibling_dataset', clear 
 //check the number of families in this sample
-
 di "number of families in the full sibling sample matched to the g11 va sample"
 
 di "ELA"

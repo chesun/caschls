@@ -1,9 +1,8 @@
 ********************************************************************************
 /* do file to run test score VA regressions with sibling effects.
-Include dummies for
-1) has an older sibling enrolled in college (2 year or 4 year)
-2) has an older sibling enrolled in 2 year
-3) has an older sibling enrolled in 4 year
+Include as controls the dummies for
+1) has an older sibling enrolled in 2 year
+2) has an older sibling enrolled in 4 year
 
 Comment on family fixed effects: Too many fixed effects, not enough observations.
 Stata returns an error "attempted to fit a model with too many variables"
@@ -29,6 +28,7 @@ otherwise set a number
 clear all
 set more off
 set varabbrev off
+set scheme s1color
 //capture log close: Stata should not complain if there is no log open to close
 cap log close _all
 
@@ -69,13 +69,12 @@ macro list
 timer on 1
 
 ********************************************************************************
-/* Add family fixed effects as an additional demographic control in SBAC
-VA estimation */
+
 
 //load the VA grade 11 sample
 use `va_g11_dataset', clear
 
-//merge on to ufamilyxwalk in order to use unique family ID for FE
+//merge on to sibling outcomes crosswalk to get sibling enrollment controls
 merge m:1 state_student_id using `sibling_out_xwalk'
 drop _merge
 /*
@@ -159,6 +158,23 @@ foreach subject in ela math {
     label var va_tfx_g11_`subject' "`subject' VA with family FE with TFX"
 
 
+    ****** No TFX, without sibling college going controls
+    vam sbac_`subject'_z_score ///
+      , teacher(school_id) year(year) class(school_id) ///
+      controls( ///
+        i.year ///
+        `school_controls' ///
+        `demographic_controls' ///
+        `ela_score_controls' ///
+        `math_score_controls' ///
+      ) ///
+      data(merge tv score_r) ///
+      driftlimit(`drift_limit')
+    rename tv va_cfr_g11_`subject'_nosiblingcontrol
+    rename score_r sbac_g11_`subject'_r_nosiblingcontrol
+    label var va_cfr_g11_`subject'_nosiblingcontrol "`subject' VA with family FE without TFX without sibling control"
+    label var sbac_g11_`subject'_r_nosiblingcontrol "`subject' score residual with family FE without TFX without sibling control"
+
 
 
 
@@ -222,6 +238,11 @@ foreach subject in ela math {
     ******* With peer controls
     reg sbac_g11_`subject'_r_peer va_cfr_g11_`subject'_peer, cluster(school_id)
     estimates save $projdir/est/siblingvaregs/test_score_va/spec_test_va_cfr_g11_`subject'_peer_sibling.ster, replace
+
+
+    ******** sibling sample without sibling controls
+    reg sbac_g11_`subject'_r_nosiblingcontrol va_cfr_g11_`subject'_nosiblingcontrol, cluster(school_id)
+    estimates save $projdir/est/siblingvaregs/test_score_va/spec_test_va_cfr_g11_`subject'_sibling_nocontrol.ster, replace
 
 
 

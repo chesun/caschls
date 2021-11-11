@@ -1,0 +1,653 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/chesun/gsr/caschls/log/share/siblingvaregs/va_sibling_out.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 3 Nov 2021, 22:57:35
+{txt}
+{com}. 
+. //include macros
+. include do_files/sbac/macros_va.doh
+{txt}
+{com}. #delimit ;
+{txt}delimiter now ;
+{com}. local test_score_min_year
+>         2015
+>         ;
+{txt}
+{com}. local test_score_max_year
+>         2019
+>         ;
+{txt}
+{com}. local star_min_year
+>         2003
+>         ;
+{txt}
+{com}. local star_max_year
+>         2013
+>         ;
+{txt}
+{com}. local caaspp_min_year
+>         2015
+>         ;
+{txt}
+{com}. local caaspp_max_year
+>         2019
+>         ;
+{txt}
+{com}. local outcome_min_year
+>         2015
+>         ;
+{txt}
+{com}. local outcome_max_year
+>         2018
+>         ;
+{txt}
+{com}. local ela_str
+>         "ELA"
+>         ;
+{txt}
+{com}. local math_str
+>         "Math"
+>         ;
+{txt}
+{com}. local enr_str
+>         "Enrolled On Time"
+>         ;
+{txt}
+{com}. local enr_2year_str
+>         "Enrolled On Time 2-Year"
+>         ;
+{txt}
+{com}. local enr_4year_str
+>         "Enrolled On Time 4-Year"
+>         ;
+{txt}
+{com}. local school_controls
+>         /*cohort_size*/
+>         ;
+{txt}
+{com}. local demographic_controls
+>         age
+>         i.male
+>         i.eth_asian i.eth_hispanic i.eth_black i.eth_other
+>         i.econ_disadvantage
+>         i.limited_eng_prof
+>         i.disabled
+>         ;
+{txt}
+{com}. local peer_demographic_controls
+>         peer_age
+>         peer_male
+>         peer_eth_asian peer_eth_hispanic peer_eth_black peer_eth_other
+>         peer_econ_disadvantage
+>         peer_limited_eng_prof
+>         peer_disabled
+>         ;
+{txt}
+{com}. local ela_score_controls
+>         i.year#(c.prior_ela_z_score##c.prior_ela_z_score##c.prior_ela_z_score)
+>         ;
+{txt}
+{com}. local peer_ela_score_controls
+>         i.year#(c.peer_prior_ela_z_score##c.peer_prior_ela_z_score##c.peer_prior_ela_z_score)
+>         ;
+{txt}
+{com}. local math_score_controls
+>         i.year#(c.prior_math_z_score##c.prior_math_z_score##c.prior_math_z_score)
+>         ;
+{txt}
+{com}. local peer_math_score_controls
+>         i.year#(c.peer_prior_math_z_score##c.peer_prior_math_z_score##c.peer_prior_math_z_score)
+>         ;
+{txt}
+{com}. local va_control_vars "`school_controls' `demographic_controls'" ;
+{txt}
+{com}. local va_control_vars : subinstr local va_control_vars "i." "", all ;
+{txt}
+{com}. local va_control_vars : list uniq va_control_vars ;
+{txt}
+{com}. local census_controls
+>         /*eth_white_pct*/ eth_asian_pct eth_hispanic_pct eth_black_pct /*eth_other_pct*/
+>         educ_hs_dropout_prop /*educ_deg_2year_prop*/ educ_deg_4year_plus_prop
+>         pov_fam_child_lt18_pct
+>         inc_median_hh
+>         ;
+{txt}
+{com}. #delimit cr
+{txt}delimiter now cr
+{com}. {txt}
+{com}. 
+. #delimit ;
+{txt}delimiter now ;
+{com}. #delimit cr
+{txt}delimiter now cr
+{com}. macro list
+{txt}{p 0 16}
+T_gm_fix_span:{space 2}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+eststo_counter:{space 1}{res}{res}6
+{p_end}
+{txt}{p 0 16}
+eststo:{space 9}{res}{res}spec_g11_enr spec_g11_enr_peer spec_g11_enr_2year spec_g11_enr_2year_peer spec_g11_enr_4year spec_g11_enr_4year_peer
+{p_end}
+{txt}{p 0 16}
+S_4:{space 12}{res}{res}.0011058952381697
+{p_end}
+{txt}{p 0 16}
+S_2:{space 12}{res}{res}300
+{p_end}
+{txt}{p 0 16}
+S_3:{space 12}{res}{res}.0056563795041362
+{p_end}
+{txt}{p 0 16}
+S_1:{space 12}{res}{res}epanechnikov
+{p_end}
+{txt}{p 0 16}
+nscdtadir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/clean/nsc
+{p_end}
+{txt}{p 0 16}
+cstdtadir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/clean/cst
+{p_end}
+{txt}{p 0 16}
+vadtadir:{space 7}{res}{res}/home/research/ca_ed_lab/msnaven/common_core_va/data/sbac
+{p_end}
+{txt}{p 0 16}
+projdir:{space 8}{res}{res}/home/research/ca_ed_lab/chesun/gsr/caschls
+{p_end}
+{txt}{p 0 16}
+clndtadir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/clean/calschls
+{p_end}
+{txt}{p 0 16}
+rawdtadir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/raw/calschls/stata
+{p_end}
+{txt}{p 0 16}
+rawcsvdir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/raw/calschls/csv
+{p_end}
+{txt}{p 0 16}
+S_level:{space 8}{res}{res}95
+{p_end}
+{txt}{p 0 16}
+F1:{space 13}{res}{res}help advice;
+{p_end}
+{txt}{p 0 16}
+F2:{space 13}{res}{res}describe;
+{p_end}
+{txt}{p 0 16}
+F7:{space 13}{res}{res}save 
+{p_end}
+{txt}{p 0 16}
+F8:{space 13}{res}{res}use 
+{p_end}
+{txt}{p 0 16}
+S_ADO:{space 10}{res}{res}BASE;SITE;.;PERSONAL;PLUS;OLDPLACE
+{p_end}
+{txt}{p 0 16}
+S_StataMP:{space 6}{res}{res}MP
+{p_end}
+{txt}{p 0 16}
+S_StataSE:{space 6}{res}{res}SE
+{p_end}
+{txt}{p 0 16}
+S_CONSOLE:{space 6}{res}{res}console
+{p_end}
+{txt}{p 0 16}
+S_OS:{space 11}{res}{res}Unix
+{p_end}
+{txt}{p 0 16}
+S_MACH:{space 9}{res}{res}PC (64-bit x86-64)
+{p_end}
+{txt}{p 0 16}
+_census_controls:{break}
+{res}eth_asian_pct eth_hispanic_pct eth_black_pct          educ_hs_dropout_prop  educ_deg_4year_plus_prop         pov_fam_child_lt18_pct         inc_median_hh
+{p_end}
+{txt}{p 0 16}
+_va_control_vars:{break}
+{res}age male eth_asian eth_hispanic eth_black eth_other econ_disadvantage limited_eng_prof disabled
+{p_end}
+{txt}{p 0 16}
+_peer_math_score_controls:{break}
+{res}i.year#(c.peer_prior_math_z_score##c.peer_prior_math_z_score##c.peer_prior_math_z_score)
+{p_end}
+{txt}{p 0 16}
+_math_score_controls:{break}
+{res}i.year#(c.prior_math_z_score##c.prior_math_z_score##c.prior_math_z_score)
+{p_end}
+{txt}{p 0 16}
+_peer_ela_score_controls:{break}
+{res}i.year#(c.peer_prior_ela_z_score##c.peer_prior_ela_z_score##c.peer_prior_ela_z_score)
+{p_end}
+{txt}{p 0 16}
+_ela_score_controls:{break}
+{res}i.year#(c.prior_ela_z_score##c.prior_ela_z_score##c.prior_ela_z_score)
+{p_end}
+{txt}{p 0 16}
+_peer_demographic_controls:{break}
+{res}peer_age         peer_male         peer_eth_asian peer_eth_hispanic peer_eth_black peer_eth_other         peer_econ_disadvantage         peer_limited_eng_prof         peer_disabled
+{p_end}
+{txt}{p 0 16}
+_demographic_controls:{break}
+{res}age         i.male         i.eth_asian i.eth_hispanic i.eth_black i.eth_other         i.econ_disadvantage         i.limited_eng_prof         i.disabled
+{p_end}
+{txt}{p 0 16}
+_enr_4year_str:{space 1}{res}{res}Enrolled On Time 4-Year
+{p_end}
+{txt}{p 0 16}
+_enr_2year_str:{space 1}{res}{res}Enrolled On Time 2-Year
+{p_end}
+{txt}{p 0 16}
+_enr_str:{space 7}{res}{res}Enrolled On Time
+{p_end}
+{txt}{p 0 16}
+_math_str:{space 6}{res}{res}Math
+{p_end}
+{txt}{p 0 16}
+_ela_str:{space 7}{res}{res}ELA
+{p_end}
+{txt}{p 0 16}
+_outcome_max_year:{break}
+{res}2018
+{p_end}
+{txt}{p 0 16}
+_outcome_min_year:{break}
+{res}2015
+{p_end}
+{txt}{p 0 16}
+_caaspp_max_year:{break}
+{res}2019
+{p_end}
+{txt}{p 0 16}
+_caaspp_min_year:{break}
+{res}2015
+{p_end}
+{txt}{p 0 16}
+_star_max_year:{space 1}{res}{res}2013
+{p_end}
+{txt}{p 0 16}
+_star_min_year:{space 1}{res}{res}2003
+{p_end}
+{txt}{p 0 16}
+_test_score_max_year:{break}
+{res}2019
+{p_end}
+{txt}{p 0 16}
+_test_score_min_year:{break}
+{res}2015
+{p_end}
+{txt}{p 0 16}
+_sibling_out_xwalk:{break}
+{res}/home/research/ca_ed_lab/chesun/gsr/caschls/dta/siblingxwalk/sibling_out_xwalk
+{p_end}
+{txt}{p 0 16}
+_k12_postsecondary_out_merge:{break}
+{res}/home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/k12_postsecondary_out_merge
+{p_end}
+{txt}{p 0 16}
+_ufamilyxwalk:{space 2}{res}{res}/home/research/ca_ed_lab/chesun/gsr/caschls/dta/siblingxwalk/ufamilyxwalk
+{p_end}
+{txt}{p 0 16}
+_siblingxwalk:{space 2}{res}{res}/home/research/ca_ed_lab/chesun/gsr/caschls/dta/siblingxwalk/siblingpairxwalk
+{p_end}
+{txt}{p 0 16}
+_va_g11_out_dataset:{break}
+{res}/home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/va_g11_out_dataset
+{p_end}
+{txt}{p 0 16}
+_va_g11_dataset:{break}
+{res}/home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/va_g11_dataset
+{p_end}
+{txt}{p 0 16}
+_va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/va_dataset
+{p_end}
+{txt}{p 0 16}
+_k12_test_scores_public:{break}
+{res}/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_test_scores
+{p_end}
+{txt}{p 0 16}
+_k12_public_schools:{break}
+{res}/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_public_schools
+{p_end}
+{txt}{p 0 16}
+_public_access:{space 1}{res}{res}/home/research/ca_ed_lab/data/public_access
+{p_end}
+{txt}{p 0 16}
+_k12_test_scores:{break}
+{res}/home/research/ca_ed_lab/msnaven/data/restricted_access/clean/k12_test_scores
+{p_end}
+{txt}{p 0 16}
+_ca_ed_lab:{space 5}{res}{res}/home/research/ca_ed_lab
+{p_end}
+{txt}{p 0 16}
+_common_core_va:{break}
+{res}/home/research/ca_ed_lab/msnaven/common_core_va
+{p_end}
+{txt}{p 0 16}
+_mattdofiles:{space 3}{res}{res}/home/research/ca_ed_lab/msnaven/common_core_va/do_files/sbac
+{p_end}
+{txt}{p 0 16}
+_matthomedir:{space 3}{res}{res}/home/research/ca_ed_lab/msnaven/common_core_va
+{p_end}
+{txt}{p 0 16}
+_setlimit:{space 6}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+_1:{space 13}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+_0:{space 13}{res}{res}0
+{p_end}
+{txt}
+{com}. 
+. 
+. timer on 1
+{txt}
+{com}. 
+. 
+. //load the VA grade 11 college outcomes sample
+. use `va_g11_out_dataset', clear
+{txt}(CST/SBAC Student Test Score Samples)
+
+{com}. 
+. //merge on to sibling outcomes crosswalk to get sibling enrollment controls
+. merge m:1 state_student_id using `sibling_out_xwalk'
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}       4,172,662
+{txt}{col 9}from master{col 30}{res}         801,425{txt}  (_merge==1)
+{col 9}from using{col 30}{res}       3,371,237{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}         801,938{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. drop _merge
+{txt}
+{com}. 
+. compress
+{txt}  (0 bytes saved)
+
+{com}. tempfile va_g11_out_sibling_dataset
+{txt}
+{com}. save `va_g11_out_sibling_dataset'
+{txt}{p 0 4 2}
+file {bf}
+/home/tmp/St198982.000001{rm}
+saved
+as .dta format
+{p_end}
+
+{com}. 
+. 
+. ********************************************************************************
+. *********** VA estimates for VA samples matched to siblings sample
+. ********************************************************************************
+. if `setlimit' == 0 {c -(}
+.   local drift_limit = max(`test_score_max_year' - `test_score_min_year' - 1, 1)
+. {c )-}
+{txt}
+{com}. else {c -(}
+.   local drift_limit = `setlimit'
+. {c )-}
+{txt}
+{com}. 
+. foreach outcome in enr enr_2year enr_4year {c -(}
+{txt}  2{com}.   use `va_g11_out_sibling_dataset' if touse_g11_`outcome'==1 & sibling_out_sample == 1, clear
+{txt}  3{com}. 
+.   ***********************Overall value added
+.   **** No Peer Controls
+.   ** No TFX
+.   vam `outcome' ///
+>     , teacher(school_id) year(year) class(school_id) ///
+>     controls( ///
+>       i.year ///
+>       i.has_older_sibling_enr_2year ///
+>       i.has_older_sibling_enr_4year ///
+>       `school_controls' ///
+>       `demographic_controls' ///
+>       `ela_score_controls' ///
+>       `math_score_controls' ///
+>     ) ///
+>     data(merge tv score_r) ///
+>     driftlimit(`drift_limit')
+{txt}  4{com}.   rename tv va_cfr_g11_`outcome'
+{txt}  5{com}.   rename score_r g11_`outcome'_r
+{txt}  6{com}. 
+. 
+.   ** TFX
+.         vam `outcome' ///
+>                 , teacher(school_id) year(year) class(school_id) ///
+>                 controls( ///
+>                         i.year ///
+>       i.has_older_sibling_enr_2year ///
+>       i.has_older_sibling_enr_4year ///
+>                         `school_controls' ///
+>                         `demographic_controls' ///
+>                         `ela_score_controls' ///
+>                         `math_score_controls' ///
+>                 ) ///
+>                 tfx_resid(school_id) ///
+>                 data(merge tv score_r) ///
+>                 driftlimit(`drift_limit')
+{txt}  7{com}.         rename tv va_tfx_g11_`outcome'
+{txt}  8{com}.         drop score_r
+{txt}  9{com}. 
+.   corr va_cfr_g11_`outcome' va_tfx_g11_`outcome'
+{txt} 10{com}. 
+. 
+.   *** No TFX, without sibling college going controls
+.   vam `outcome' ///
+>     , teacher(school_id) year(year) class(school_id) ///
+>     controls( ///
+>       i.year ///
+>       `school_controls' ///
+>       `demographic_controls' ///
+>       `ela_score_controls' ///
+>       `math_score_controls' ///
+>     ) ///
+>     data(merge tv score_r) ///
+>     driftlimit(`drift_limit')
+{txt} 11{com}.   rename tv va_cfr_g11_`outcome'_nosibctrl
+{txt} 12{com}.   rename score_r g11_`outcome'_r_nosibctrl
+{txt} 13{com}. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+.   **** Peer Controls
+.         ** No TFX
+.         vam `outcome' ///
+>                 , teacher(school_id) year(year) class(school_id) ///
+>                 controls( ///
+>                         i.year ///
+>       i.has_older_sibling_enr_2year ///
+>       i.has_older_sibling_enr_4year ///
+>                         `school_controls' ///
+>                         `demographic_controls' ///
+>                         `ela_score_controls' ///
+>                         `math_score_controls' ///
+>                         `peer_demographic_controls' ///
+>                         `peer_ela_score_controls' ///
+>                         `peer_math_score_controls' ///
+>                 ) ///
+>                 data(merge tv score_r) ///
+>                 driftlimit(`drift_limit')
+{txt} 14{com}.         rename tv va_cfr_g11_`outcome'_peer
+{txt} 15{com}.         rename score_r g11_`outcome'_r_peer
+{txt} 16{com}. 
+.         ** TFX
+.         vam `outcome' ///
+>                 , teacher(school_id) year(year) class(school_id) ///
+>                 controls( ///
+>                         i.year ///
+>       i.has_older_sibling_enr_2year ///
+>       i.has_older_sibling_enr_4year ///
+>                         `school_controls' ///
+>                         `demographic_controls' ///
+>                         `ela_score_controls' ///
+>                         `math_score_controls' ///
+>                         `peer_demographic_controls' ///
+>                         `peer_ela_score_controls' ///
+>                         `peer_math_score_controls' ///
+>                 ) ///
+>                 tfx_resid(school_id) ///
+>                 data(merge tv score_r) ///
+>                 driftlimit(`drift_limit')
+{txt} 17{com}.         rename tv va_tfx_g11_`outcome'_peer
+{txt} 18{com}.         drop score_r
+{txt} 19{com}. 
+.         corr va_cfr_g11_`outcome'_peer va_tfx_g11_`outcome'_peer
+{txt} 20{com}. 
+. 
+. 
+. 
+. 
+.   **************** Specification Test
+.   **** No Peer Controls
+.   reg g11_`outcome'_r va_cfr_g11_`outcome', cluster(school_id)
+{txt} 21{com}.   estimates save $projdir/est/siblingvaregs/outcome_va/spec_test_va_cfr_g11_`outcome'_sibling.ster, replace
+{txt} 22{com}. 
+.   **** Peer Controls
+.   reg g11_`outcome'_r_peer va_cfr_g11_`outcome'_peer, cluster(school_id)
+{txt} 23{com}.   estimates save $projdir/est/siblingvaregs/outcome_va/spec_test_va_cfr_g11_`outcome'_peer_sibling.ster, replace
+{txt} 24{com}. 
+. 
+. 
+. 
+.   **************Do we need deep knowledge VA with sibling controls??
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+.   **************** Save Value Added Estimates
+.   collapse (firstnm) va_* ///
+>     (mean) g11_`outcome'* ///
+>     (sum) n_g11_`outcome' = touse_g11_`outcome' ///
+>     , by(school_id cdscode grade year)
+{txt} 25{com}. 
+.   save $projdir/dta/common_core_va/outcome_va/va_g11_`outcome'_sibling.dta, replace
+{txt} 26{com}. 
+. 
+. {c )-}
+{txt}(CST/SBAC Student Test Score Samples)
+{txt}{hline}
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}   276,999
+{txt}{hline 13}{c +}{hline 34}   F(31, 276967)   = {res}  1558.56
+{txt}       Model {c |} {res} 9430.34958        31  304.204825   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 54059.2241   276,967  .195182907   {txt}R-squared       ={res}    0.1485
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1484
+{txt}       Total {c |} {res} 63489.5737   276,998  .229205892   {txt}Root MSE        =   {res}  .4418
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         enr{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}year {c |}
+{space 7}2016  {c |}{col 14}{res}{space 2}-.1762352{col 26}{space 2} .0024883{col 37}{space 1}  -70.83{col 46}{space 3}0.000{col 54}{space 4}-.1811121{col 67}{space 3}-.1713583
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2} -.607357{col 26}{space 2} .0177258{col 37}{space 1}  -34.26{col 46}{space 3}0.000{col 54}{space 4} -.642099{col 67}{space 3}-.5726149
+{txt}{space 12} {c |}
+1.has_~2year {c |}{col 14}{res}{space 2} .0247435{col 26}{space 2} .0035532{col 37}{space 1}    6.96{col 46}{space 3}0.000{col 54}{space 4} .0177793{col 67}{space 3} .0317077
+{txt}1.has_~4year {c |}{col 14}{res}{space 2} .0726363{col 26}{space 2} .0040416{col 37}{space 1}   17.97{col 46}{space 3}0.000{col 54}{space 4}  .064715{col 67}{space 3} .0805577
+{txt}{space 9}age {c |}{col 14}{res}{space 2}-.0002051{col 26}{space 2} 5.48e-06{col 37}{space 1}  -37.41{col 46}{space 3}0.000{col 54}{space 4}-.0002159{col 67}{space 3}-.0001944
+{txt}{space 12} {c |}
+{space 8}male {c |}
+{space 7}Male  {c |}{col 14}{res}{space 2} -.065806{col 26}{space 2} .0017146{col 37}{space 1}  -38.38{col 46}{space 3}0.000{col 54}{space 4}-.0691666{col 67}{space 3}-.0624455
+{txt}{space 1}1.eth_asian {c |}{col 14}{res}{space 2} .0865173{col 26}{space 2} .0028782{col 37}{space 1}   30.06{col 46}{space 3}0.000{col 54}{space 4} .0808762{col 67}{space 3} .0921585
+{txt}1.eth_hisp~c {c |}{col 14}{res}{space 2} -.001816{col 26}{space 2}  .002345{col 37}{space 1}   -0.77{col 46}{space 3}0.439{col 54}{space 4}-.0064122{col 67}{space 3} .0027802
+{txt}{space 1}1.eth_black {c |}{col 14}{res}{space 2} .0186584{col 26}{space 2} .0044227{col 37}{space 1}    4.22{col 46}{space 3}0.000{col 54}{space 4}   .00999{col 67}{space 3} .0273268
+{txt}{space 1}1.eth_other {c |}{col 14}{res}{space 2}-.0020038{col 26}{space 2} .0052539{col 37}{space 1}   -0.38{col 46}{space 3}0.703{col 54}{space 4}-.0123014{col 67}{space 3} .0082937
+{txt}{space 12} {c |}
+econ_disad~e {c |}
+Economic ..  {c |}{col 14}{res}{space 2}-.0680975{col 26}{space 2}  .001991{col 37}{space 1}  -34.20{col 46}{space 3}0.000{col 54}{space 4}-.0719997{col 67}{space 3}-.0641952
+{txt}{space 12} {c |}
+limited_en~f {c |}
+Limited E..  {c |}{col 14}{res}{space 2} -.046673{col 26}{space 2} .0041259{col 37}{space 1}  -11.31{col 46}{space 3}0.000{col 54}{space 4}-.0547596{col 67}{space 3}-.0385864
+{txt}{space 12} {c |}
+{space 4}disabled {c |}
+{space 3}Disabled  {c |}{col 14}{res}{space 2} .0093883{col 26}{space 2} .0046975{col 37}{space 1}    2.00{col 46}{space 3}0.046{col 54}{space 4} .0001813{col 67}{space 3} .0185953
+{txt}{space 12} {c |}
+{space 8}year#{c |}
+{space 10}c. {c |}
+prior_ela_~e {c |}
+{space 7}2015  {c |}{col 14}{res}{space 2} .0836229{col 26}{space 2} .0021425{col 37}{space 1}   39.03{col 46}{space 3}0.000{col 54}{space 4} .0794237{col 67}{space 3}  .087822
+{txt}{space 7}2016  {c |}{col 14}{res}{space 2} .0691556{col 26}{space 2} .0030495{col 37}{space 1}   22.68{col 46}{space 3}0.000{col 54}{space 4} .0631787{col 67}{space 3} .0751326
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2}-.0209736{col 26}{space 2} .0306112{col 37}{space 1}   -0.69{col 46}{space 3}0.493{col 54}{space 4}-.0809708{col 67}{space 3} .0390235
+{txt}{space 12} {c |}
+{space 8}year#{c |}
+{space 10}c. {c |}
+prior_ela_~e#{c |}
+{space 10}c. {c |}
+prior_ela_~e {c |}
+{space 7}2015  {c |}{col 14}{res}{space 2}-.0157796{col 26}{space 2} .0011086{col 37}{space 1}  -14.23{col 46}{space 3}0.000{col 54}{space 4}-.0179523{col 67}{space 3}-.0136068
+{txt}{space 7}2016  {c |}{col 14}{res}{space 2}-.0079283{col 26}{space 2} .0014534{col 37}{space 1}   -5.45{col 46}{space 3}0.000{col 54}{space 4}-.0107769{col 67}{space 3}-.0050796
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2} .0113295{col 26}{space 2} .0126733{col 37}{space 1}    0.89{col 46}{space 3}0.371{col 54}{space 4}-.0135097{col 67}{space 3} .0361688
+{txt}{space 12} {c |}
+{space 8}year#{c |}
+{space 10}c. {c |}
+prior_ela_~e#{c |}
+{space 10}c. {c |}
+prior_ela_~e#{c |}
+{space 10}c. {c |}
+prior_ela_~e {c |}
+{space 7}2015  {c |}{col 14}{res}{space 2}-.0013549{col 26}{space 2} .0005113{col 37}{space 1}   -2.65{col 46}{space 3}0.008{col 54}{space 4} -.002357{col 67}{space 3}-.0003528
+{txt}{space 7}2016  {c |}{col 14}{res}{space 2}-.0011664{col 26}{space 2} .0007079{col 37}{space 1}   -1.65{col 46}{space 3}0.099{col 54}{space 4}-.0025538{col 67}{space 3}  .000221
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2}-.0002814{col 26}{space 2} .0069722{col 37}{space 1}   -0.04{col 46}{space 3}0.968{col 54}{space 4}-.0139467{col 67}{space 3} .0133839
+{txt}{space 12} {c |}
+{space 8}year#{c |}
+{space 10}c. {c |}
+prior_math~e {c |}
+{space 7}2015  {c |}{col 14}{res}{space 2} .0579079{col 26}{space 2} .0021211{col 37}{space 1}   27.30{col 46}{space 3}0.000{col 54}{space 4} .0537506{col 67}{space 3} .0620651
+{txt}{space 7}2016  {c |}{col 14}{res}{space 2}  .048886{col 26}{space 2} .0032012{col 37}{space 1}   15.27{col 46}{space 3}0.000{col 54}{space 4} .0426117{col 67}{space 3} .0551603
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2} -.022132{col 26}{space 2} .0311719{col 37}{space 1}   -0.71{col 46}{space 3}0.478{col 54}{space 4} -.083228{col 67}{space 3}  .038964
+{txt}{space 12} {c |}
+{space 8}year#{c |}
+{space 10}c. {c |}
+prior_math~e#{c |}
+{space 10}c. {c |}
+prior_math~e {c |}
+{space 7}2015  {c |}{col 14}{res}{space 2}-.0153965{col 26}{space 2} .0013864{col 37}{space 1}  -11.11{col 46}{space 3}0.000{col 54}{space 4}-.0181138{col 67}{space 3}-.0126792
+{txt}{space 7}2016  {c |}{col 14}{res}{space 2}-.0105199{col 26}{space 2} .0017433{col 37}{space 1}   -6.03{col 46}{space 3}0.000{col 54}{space 4}-.0139368{col 67}{space 3}-.0071031
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2} -.010858{col 26}{space 2} .0158828{col 37}{space 1}   -0.68{col 46}{space 3}0.494{col 54}{space 4}-.0419879{col 67}{space 3} .0202719
+{txt}{space 12} {c |}
+{space 8}year#{c |}
+{space 10}c. {c |}
+prior_math~e#{c |}
+{space 10}c. {c |}
+prior_math~e#{c |}
+{space 10}c. {c |}
+prior_math~e {c |}
+{space 7}2015  {c |}{col 14}{res}{space 2} .0006836{col 26}{space 2} .0005718{col 37}{space 1}    1.20{col 46}{space 3}0.232{col 54}{space 4}-.0004372{col 67}{space 3} .0018043
+{txt}{space 7}2016  {c |}{col 14}{res}{space 2}  .000051{col 26}{space 2} .0009043{col 37}{space 1}    0.06{col 46}{space 3}0.955{col 54}{space 4}-.0017215{col 67}{space 3} .0018235
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2} .0033712{col 26}{space 2} .0087769{col 37}{space 1}    0.38{col 46}{space 3}0.701{col 54}{space 4}-.0138312{col 67}{space 3} .0205736
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2}  2.02621{col 26}{space 2} .0335551{col 37}{space 1}   60.38{col 46}{space 3}0.000{col 54}{space 4} 1.960443{col 67}{space 3} 2.091978
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{err}error: driftlimit(3) was specified, which is greater than the number of lags (2) in the data.
+{txt}{search r(499), local:r(499);}
+
+end of do-file
+
+{search r(499), local:r(499);}
+
+{com}. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/chesun/gsr/caschls/log/share/siblingvaregs/va_sibling_out.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 3 Nov 2021, 22:58:43
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

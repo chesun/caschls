@@ -1,6 +1,6 @@
 ********************************************************************************
 /* sum stats for the test score VA estimates with additional demographic control
-off has at least one older sibling who enrolled in college (2 year, 4 year, both)
+for has at least one older sibling who enrolled in college (2 year, 4 year)
  */
 ********************************************************************************
 ********************************************************************************
@@ -91,6 +91,51 @@ foreach subject in ela math {
   use `va_ela', clear
   merge 1:1 cdscode year using `va_math', nogen
 
+  corr va_cfr_g11_ela va_cfr_g11_ela_nosiblingcontrol
+  local corr_coef_ela_sibling : di %5.3f r(rho)
+
+  corr va_cfr_g11_math va_cfr_g11_math_nosiblingcontrol
+  local corr_coef_math_sibling : di %5.3f r(rho)
+
+  tempfile va_ela_math_sibling
+  save `va_ela_math_sibling'
+
+
+  *************** two way scatter plot of VA with and without sibling controls
+  ***ELA
+  twoway ///
+  (scatter va_cfr_g11_ela va_cfr_g11_ela_nosiblingcontrol) ///
+  (lfit va_cfr_g11_ela va_cfr_g11_ela_nosiblingcontrol) ///
+  (function y = x), ///
+  ytitle("ELA VA with Sibling Control") ///
+  xtitle("ELA VA without Sibling Control") ///
+  title("Scatter Plot of ELA VA with and without Sibling Control") ///
+  legend(label(1 "ELA VA") label(3 "45 degree line") ) ///
+  note("Correlation Coefficient = `corr_coef_ela_sibling' ")
+
+  graph export $projdir/out/graph/siblingvaregs/test_score_va/scatter_va_cfr_g11_ela_sibling.pdf, replace
+
+
+  ***math
+  twoway ///
+  (scatter va_cfr_g11_math va_cfr_g11_math_nosiblingcontrol) ///
+  (lfit va_cfr_g11_math va_cfr_g11_math_nosiblingcontrol) ///
+  (function y = x), ///
+  ytitle("Math VA with Sibling Control") ///
+  xtitle("Math VA without Sibling Control") ///
+  title("Scatter Plot of Math VA with and without Sibling Control") ///
+  legend(label(1 "Math VA") label(3 "45 degree line") ) ///
+  note("Correlation Coefficient = `corr_coef_math_sibling' ")
+
+  graph export $projdir/out/graph/siblingvaregs/test_score_va/scatter_va_cfr_g11_math_sibling.pdf, replace
+
+
+
+
+
+
+
+
 
   **** No Peer Controls
   twoway ///
@@ -118,17 +163,76 @@ foreach subject in ela math {
 
 
 
+*************** correlation with original VA estimates
+//load orignal VA dataset and merge ELA with math
+foreach subject in ela math {
+	use data/sbac/va_g11_`subject'.dta, clear
+  sort school_id year
+
+	tempfile va_`subject'_original
+	save `va_`subject'_original'
+}
+
+use `va_ela_original'
+merge 1:1 cdscode year using `va_math_original', nogen
+
+keep cdscode year va_cfr_g11_*
+rename va* va*_original
+
+merge 1:1 cdscode year using `va_ela_math_sibling', nogen
+
+corr va_cfr_g11_ela va_cfr_g11_ela_original
+local corr_coef_ela_original : di %5.3f r(rho)
+
+corr va_cfr_g11_math va_cfr_g11_math_original
+local corr_coef_math_original : di %5.3f r(rho)
+
+
+*************** two way scatter plot of VA with sibling control and original VA
+***ELA
+twoway ///
+(scatter va_cfr_g11_ela va_cfr_g11_ela_original) ///
+(lfit va_cfr_g11_ela va_cfr_g11_ela_original) ///
+(function y = x), ///
+ytitle("ELA VA with Sibling Control") ///
+xtitle("Original ELA VA") ///
+title("Scatter Plot of ELA VA with Sibling Control and Original") ///
+legend(label(1 "ELA VA") label(3 "45 degree line") ) ///
+note("Correlation Coefficient = `corr_coef_ela_original' ")
+
+graph export $projdir/out/graph/siblingvaregs/test_score_va/scatter_va_cfr_g11_ela_original.pdf, replace
+
+
+***math
+twoway ///
+(scatter va_cfr_g11_math va_cfr_g11_math_original) ///
+(lfit va_cfr_g11_math va_cfr_g11_math_original) ///
+(function y = x), ///
+ytitle("Math VA with Sibling Control") ///
+xtitle("Original Math VA") ///
+  title("Scatter Plot of Math VA with Sibling Control and Original") ///
+legend(label(1 "Math VA") label(3 "45 degree line") ) ///
+note("Correlation Coefficient = `corr_coef_math_original' ")
+
+graph export $projdir/out/graph/siblingvaregs/test_score_va/scatter_va_cfr_g11_math_original.pdf, replace
 
 
 
 
 
-***********************
+
+
+
+
+
+
+
+**************************************************
 //specification tests
 *****No peer controls
 foreach subject in ela math {
-  foreach enrvar in enr enr_2year enr_4year {
-    estimates use $projdir/est/siblingvaregs/test_score_va/spec_test_va_cfr_g11_`subject'_sibling.ster,
+
+    estimates use $projdir/est/siblingvaregs/test_score_va/spec_test_va_cfr_g11_`subject'_sibling.ster
 
     test _b[va_cfr_g11_`subject'] = 1
     matrix test_p = r(p)
@@ -149,7 +253,7 @@ foreach subject in ela math {
 
 
 ******* with peer controls
-    estimates use $projdir/est/siblingvaregs/test_score_va/spec_test_va_cfr_g11_`subject'_peer_sibling.ster,
+    estimates use $projdir/est/siblingvaregs/test_score_va/spec_test_va_cfr_g11_`subject'_peer_sibling.ster
 
     test _b[va_cfr_g11_`subject'_peer] = 1
     matrix test_p = r(p)
@@ -169,8 +273,6 @@ foreach subject in ela math {
     graph export $projdir/out/graph/siblingvaregs/test_score_va/spec_test_va_cfr_g11_`subject'_peer_sibling.pdf, replace
 
 
-  }
-
 }
 
 
@@ -183,6 +285,9 @@ foreach subject in ela math {
 
 timer off 1
 log close
+
+cd "/home/research/ca_ed_lab/chesun/gsr/caschls"
+
 
 translate $projdir/log/share/siblingvaregs/va_sibling_est_sumstats.smcl ///
 $projdir/log/share/siblingvaregs/va_sibling_est_sumstats.log, replace

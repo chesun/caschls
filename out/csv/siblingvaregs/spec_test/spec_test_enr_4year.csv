@@ -1,0 +1,17 @@
+="Spec Tests for Enrolled On Time 4-Year VA"
+
+="",="Original",="Sibling Sample",="Sibling Controls"
+
+="va_cfr_g11_enr_4year",="1.006***",="",="1.045***"
+="",="(14.49)",="",="(20.21)"
+
+="va_cfr_g11_enr_4year_nosibctrl",="",="1.005***",=""
+="",="",="(15.00)",=""
+
+="_cons",="0.00927***",="0.00952***",="0.00998***"
+="",="(4.92)",="(5.04)",="(6.47)"
+
+="N",="275290",="275290",="474364"
+
+="t statistics in parentheses"
+="* p<0.05, ** p<0.01, *** p<0.001"

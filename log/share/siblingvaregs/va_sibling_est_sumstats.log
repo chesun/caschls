@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/chesun/gsr/caschls/log/share/siblingvareg
 > s/va_sibling_est_sumstats.smcl
   log type:  smcl
- opened on:  27 Oct 2021, 21:17:58
+ opened on:   3 Nov 2021, 21:06:23
 
 . 
 . //include macros
@@ -129,9 +129,9 @@ delimiter now ;
 delimiter now cr
 . macro list
 T_gm_fix_span:  0
-S_4:            .0031631980624826
+S_4:            .0033960539142934
 S_2:            300
-S_3:            .0164088505513895
+S_3:            .0156449653054182
 S_1:            epanechnikov
 nscdtadir:      /home/research/ca_ed_lab/data/restricted_access/clean/nsc
 cstdtadir:      /home/research/ca_ed_lab/data/restricted_access/clean/cst
@@ -150,6 +150,7 @@ F8:             use
 S_ADO:          BASE;SITE;.;PERSONAL;PLUS;OLDPLACE
 S_StataMP:      MP
 S_StataSE:      SE
+S_CONSOLE:      console
 S_OS:           Unix
 S_MACH:         PC (64-bit x86-64)
 _census_controls:
@@ -239,30 +240,30 @@ _matthomedir:   /home/research/ca_ed_lab/msnaven/common_core_va
 . // 11th Grade (8th Grade ELA Controls, 6th Grade Math Controls)
 . **************** Two Way Kernel Density for ELA and Math
 . foreach subject in ela math {
-  2.   foreach enrvar in enr enr_2year enr_4year {
-  3.     use $projdir/dta/common_core_va/test_score_va/va_g11_`subject'_sibling
-> _`enrvar'.dta, clear
-  4.     sort school_id year
-  5.         xtset school_id year
-  6. 
+  2. 
+.     use $projdir/dta/common_core_va/test_score_va/va_g11_`subject'_sibling.dt
+> a, clear
+  3.     sort school_id year
+  4.         xtset school_id year
+  5. 
 .     * Normalize to have mean zero
 .         foreach v of varlist va_* {
-  7.                 sum `v', meanonly
-  8.                 replace `v' = `v' - r(mean)
-  9.         }
- 10. 
+  6.                 sum `v', meanonly
+  7.                 replace `v' = `v' - r(mean)
+  8.         }
+  9. 
 .     sum va_cfr_g11_`subject'
- 11.     local mean_`subject'_`enrvar' = 0
- 12.     local sd_`subject'_`enrvar' : di %4.3f = r(sd)
- 13. 
+ 10.     local mean_`subject' = 0
+ 11.     local sd_`subject' : di %4.3f = r(sd)
+ 12. 
 .     sum va_cfr_g11_`subject'_peer
- 14.     local mean_`subject'_`enrvar'_peer = 0
- 15.     local sd_`subject'_`enrvar'_peer : di %4.3f = r(sd)
- 16. 
-.     tempfile va_`subject'_`enrvar'
- 17.     save `va_`subject'_`enrvar''
- 18.   }
- 19. }
+ 13.     local mean_`subject'_peer = 0
+ 14.     local sd_`subject'_peer : di %4.3f = r(sd)
+ 15. 
+.     tempfile va_`subject'
+ 16.     save `va_`subject''
+ 17. 
+. }
 (CST/SBAC Student Test Score Samples)
 
 Panel variable: school_id (unbalanced)
@@ -272,51 +273,16 @@ Panel variable: school_id (unbalanced)
 (5,902 real changes made)
 (5,902 real changes made)
 (5,902 real changes made)
-
-    Variable |        Obs        Mean    Std. dev.       Min        Max
--------------+---------------------------------------------------------
-va_cfr_g11~a |      5,902    5.83e-12    .1298853  -.5319522   .4950685
-
-    Variable |        Obs        Mean    Std. dev.       Min        Max
--------------+---------------------------------------------------------
-va_cfr_g11~r |      5,902   -5.57e-10    .1148806  -.4559389   .4644651
-file /home/tmp/St04618.000003 saved as .dta format
-(CST/SBAC Student Test Score Samples)
-
-Panel variable: school_id (unbalanced)
- Time variable: year, 2015 to 2019, but with gaps
-         Delta: 1 year
-(5,902 real changes made)
-(5,902 real changes made)
-(5,902 real changes made)
 (5,902 real changes made)
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
-va_cfr_g11~a |      5,902    5.56e-10    .1298751  -.5319546   .4950261
+va_cfr_g11~a |      5,902    8.27e-10    .1253454  -.5622436   .4907941
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
-va_cfr_g11~r |      5,902    9.34e-10    .1148365  -.4557379   .4643084
-file /home/tmp/St04618.000004 saved as .dta format
-(CST/SBAC Student Test Score Samples)
-
-Panel variable: school_id (unbalanced)
- Time variable: year, 2015 to 2019, but with gaps
-         Delta: 1 year
-(5,902 real changes made)
-(5,902 real changes made)
-(5,902 real changes made)
-(5,902 real changes made)
-
-    Variable |        Obs        Mean    Std. dev.       Min        Max
--------------+---------------------------------------------------------
-va_cfr_g11~a |      5,902    6.10e-10    .1297655  -.5310828   .4949354
-
-    Variable |        Obs        Mean    Std. dev.       Min        Max
--------------+---------------------------------------------------------
-va_cfr_g11~r |      5,902    9.08e-10    .1147796  -.4550915   .4644928
-file /home/tmp/St04618.000005 saved as .dta format
+va_cfr_g11~r |      5,902   -1.11e-09     .109526  -.4662307    .442244
+file /home/tmp/St198982.000001 saved as .dta format
 (CST/SBAC Student Test Score Samples)
 
 Panel variable: school_id (unbalanced)
@@ -326,347 +292,373 @@ Panel variable: school_id (unbalanced)
 (5,895 real changes made)
 (5,895 real changes made)
 (5,895 real changes made)
-
-    Variable |        Obs        Mean    Std. dev.       Min        Max
--------------+---------------------------------------------------------
-va_cfr_g11~h |      5,895    4.09e-11    .1304266  -.4616478   .5800539
-
-    Variable |        Obs        Mean    Std. dev.       Min        Max
--------------+---------------------------------------------------------
-va_cfr_g11~r |      5,895    7.35e-11    .1130788  -.4233344   .5239416
-file /home/tmp/St04618.000006 saved as .dta format
-(CST/SBAC Student Test Score Samples)
-
-Panel variable: school_id (unbalanced)
- Time variable: year, 2015 to 2019, but with gaps
-         Delta: 1 year
-(5,895 real changes made)
-(5,895 real changes made)
-(5,895 real changes made)
 (5,895 real changes made)
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
-va_cfr_g11~h |      5,895   -6.69e-10    .1303286  -.4632705    .579084
+va_cfr_g11~h |      5,895   -4.18e-10    .1273509  -.5449818   .6124499
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
-va_cfr_g11~r |      5,895    1.72e-09    .1129727  -.4243234    .522817
-file /home/tmp/St04618.000007 saved as .dta format
-(CST/SBAC Student Test Score Samples)
-
-Panel variable: school_id (unbalanced)
- Time variable: year, 2015 to 2019, but with gaps
-         Delta: 1 year
-(5,895 real changes made)
-(5,895 real changes made)
-(5,895 real changes made)
-(5,895 real changes made)
-
-    Variable |        Obs        Mean    Std. dev.       Min        Max
--------------+---------------------------------------------------------
-va_cfr_g11~h |      5,895   -5.69e-10    .1302924  -.4611735   .5791686
-
-    Variable |        Obs        Mean    Std. dev.       Min        Max
--------------+---------------------------------------------------------
-va_cfr_g11~r |      5,895    6.54e-10    .1129398  -.4221287   .5233931
-file /home/tmp/St04618.000008 saved as .dta format
+va_cfr_g11~r |      5,895   -1.68e-11    .1078995  -.4461001   .5691642
+file /home/tmp/St198982.000002 saved as .dta format
 
 . 
-. foreach enrvar in enr enr_2year enr_4year {
-  2.   use `va_ela_`enrvar'', clear
-  3.   merge 1:1 cdscode year using `va_math_`enrvar'', nogen
-  4. 
-.   //get around the compound macro problem inside string in notes of the grpah
-.   local mean_ela =  `mean_ela_`enrvar''
-  5.   local sd_ela = `sd_ela_`enrvar''
-  6. 
-.   local mean_math = `mean_math_`enrvar''
-  7.   local sd_math = `sd_math_`enrvar''
-  8. 
+. 
+.   use `va_ela', clear
+(CST/SBAC Student Test Score Samples)
+
+.   merge 1:1 cdscode year using `va_math', nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                            15
+        from master                        12  
+        from using                          3  
+
+    Matched                             5,976  
+    -----------------------------------------
+
+. 
+.   corr va_cfr_g11_ela va_cfr_g11_ela_nosiblingcontrol
+(obs=5,902)
+
+             | va_cfr~a va_cfr..
+-------------+------------------
+va_cfr_g11~a |   1.0000
+va_cfr_g11.. |   1.0000   1.0000
+
+
+.   local corr_coef_ela_sibling : di %5.3f r(rho)
+
+. 
+.   corr va_cfr_g11_math va_cfr_g11_math_nosiblingcontrol
+(obs=5,895)
+
+             | va_cfr~h va_cfr..
+-------------+------------------
+va_cfr_g11~h |   1.0000
+va_cfr_g11.. |   0.9999   1.0000
+
+
+.   local corr_coef_math_sibling : di %5.3f r(rho)
+
+. 
+.   tempfile va_ela_math_sibling
+
+.   save `va_ela_math_sibling'
+file /home/tmp/St198982.000003 saved as .dta format
+
+. 
+. 
+.   *************** two way scatter plot of VA with and without sibling control
+> s
+.   ***ELA
+.   twoway ///
+>   (scatter va_cfr_g11_ela va_cfr_g11_ela_nosiblingcontrol) ///
+>   (lfit va_cfr_g11_ela va_cfr_g11_ela_nosiblingcontrol) ///
+>   (function y = x), ///
+>   ytitle("ELA VA with Sibling Control") ///
+>   xtitle("ELA VA without Sibling Control") ///
+>   title("Scatter Plot of ELA VA with and without Sibling Control") ///
+>   legend(label(1 "ELA VA") label(3 "45 degree line") ) ///
+>   note("Correlation Coefficient = `corr_coef_ela_sibling' ")
+
+. 
+.   graph export $projdir/out/graph/siblingvaregs/test_score_va/scatter_va_cfr_
+> g11_ela_sibling.pdf, replace
+file
+    /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
+    > score_va/scatter_va_cfr_g11_ela_sibling.pdf saved as PDF format
+
+. 
+. 
+.   ***math
+.   twoway ///
+>   (scatter va_cfr_g11_math va_cfr_g11_math_nosiblingcontrol) ///
+>   (lfit va_cfr_g11_math va_cfr_g11_math_nosiblingcontrol) ///
+>   (function y = x), ///
+>   ytitle("Math VA with Sibling Control") ///
+>   xtitle("Math VA without Sibling Control") ///
+>   title("Scatter Plot of Math VA with and without Sibling Control") ///
+>   legend(label(1 "Math VA") label(3 "45 degree line") ) ///
+>   note("Correlation Coefficient = `corr_coef_math_sibling' ")
+
+. 
+.   graph export $projdir/out/graph/siblingvaregs/test_score_va/scatter_va_cfr_
+> g11_math_sibling.pdf, replace
+file
+    /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
+    > score_va/scatter_va_cfr_g11_math_sibling.pdf saved as PDF format
+
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
 .   **** No Peer Controls
 .   twoway ///
 >         (kdensity va_cfr_g11_ela) ///
 >         (kdensity va_cfr_g11_math) ///
 >     , ytitle("Density") xtitle("Value Added") ///
->     title("11th Grade Test Score VA controlling for has older sibling `ernvar
-> '") ///
+>     title("11th Grade Test Score VA") ///
 >         legend(label(1 "ELA") label(2 "Math")) ///
 >     note("Mean (Standard Deviation) = `mean_ela' (`sd_ela')" ///
 >         "Mean (Standard Deviation) = `mean_math' (`sd_math')")
-  9.     graph export $projdir/out/graph/siblingvaregs/test_score_va/kdensity_v
-> a_cfr_g11_`enrvar'.pdf, replace
- 10. 
+
+.     graph export $projdir/out/graph/siblingvaregs/test_score_va/kdensity_va_c
+> fr_g11_sibling.pdf, replace
+file
+    /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
+    > score_va/kdensity_va_cfr_g11_sibling.pdf saved as PDF format
+
 . 
-.   local mean_ela_peer =  `mean_ela_`enrvar'_peer'
- 11.   local sd_ela_peer = `sd_ela_`enrvar'_peer'
- 12. 
-.   local mean_math_peer = `mean_math_`enrvar'_peer'
- 13.   local sd_math_peer = `sd_math_`enrvar'_peer'
- 14. 
+. 
 .   ****  Peer Controls
 .   twoway ///
 >         (kdensity va_cfr_g11_ela_peer) ///
 >         (kdensity va_cfr_g11_math_peer) ///
 >     , ytitle("Density") xtitle("Value Added") ///
->     title("11th Grade Test Score VA controlling for has older sibling `ernvar
-> '") ///
+>     title("11th Grade Test Score VA") ///
 >         legend(label(1 "ELA") label(2 "Math")) ///
 >     note("Mean (Standard Deviation) = `mean_ela_peer' (`sd_ela_peer')" ///
 >         "Mean (Standard Deviation) = `mean_math_peer' (`sd_math_peer')")
- 15.     graph export $projdir/out/graph/siblingvaregs/test_score_va/kdensity_v
-> a_cfr_g11_`enrvar'_peer.pdf, replace
- 16. 
-. }
+
+.     graph export $projdir/out/graph/siblingvaregs/test_score_va/kdensity_va_c
+> fr_g11_peer_sibling.pdf, replace
+file
+    /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
+    > score_va/kdensity_va_cfr_g11_peer_sibling.pdf saved as PDF format
+
+. 
+. 
+. 
+. 
+. *************** correlation with original VA estimates
+. //load orignal VA dataset and merge ELA with math
+. foreach subject in ela math {
+  2.         use data/sbac/va_g11_`subject'.dta, clear
+  3.   sort school_id year
+  4. 
+.         tempfile va_`subject'_original
+  5.         save `va_`subject'_original'
+  6. }
 (CST/SBAC Student Test Score Samples)
+file /home/tmp/St198982.000004 saved as .dta format
+(CST/SBAC Student Test Score Samples)
+file /home/tmp/St198982.000005 saved as .dta format
+
+. 
+. use `va_ela_original'
+(CST/SBAC Student Test Score Samples)
+
+. merge 1:1 cdscode year using `va_math_original', nogen
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                            15
-        from master                        12  
+    Not matched                            12
+        from master                         9  
         from using                          3  
 
-    Matched                             5,976  
+    Matched                             6,163  
     -----------------------------------------
-file
-    /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
-    > score_va/kdensity_va_cfr_g11_enr.pdf saved as PDF format
-file
-    /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
-    > score_va/kdensity_va_cfr_g11_enr_peer.pdf saved as PDF format
-(CST/SBAC Student Test Score Samples)
+
+. 
+. keep cdscode year va_cfr_g11_*
+
+. rename va* va*_original
+
+. 
+. merge 1:1 cdscode year using `va_ela_math_sibling', nogen
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                            15
-        from master                        12  
-        from using                          3  
+    Not matched                           184
+        from master                       184  
+        from using                          0  
 
-    Matched                             5,976  
+    Matched                             5,991  
     -----------------------------------------
-file
-    /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
-    > score_va/kdensity_va_cfr_g11_enr_2year.pdf saved as PDF format
-file
-    /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
-    > score_va/kdensity_va_cfr_g11_enr_2year_peer.pdf saved as PDF format
-(CST/SBAC Student Test Score Samples)
-
-    Result                      Number of obs
-    -----------------------------------------
-    Not matched                            15
-        from master                        12  
-        from using                          3  
-
-    Matched                             5,976  
-    -----------------------------------------
-file
-    /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
-    > score_va/kdensity_va_cfr_g11_enr_4year.pdf saved as PDF format
-file
-    /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
-    > score_va/kdensity_va_cfr_g11_enr_4year_peer.pdf saved as PDF format
 
 . 
+. corr va_cfr_g11_ela va_cfr_g11_ela_original
+(obs=5,902)
+
+             | va_cfr~a va_cfr..
+-------------+------------------
+va_cfr_g11~a |   1.0000
+v~a_original |   0.9274   1.0000
+
+
+. local corr_coef_ela_original : di %5.3f r(rho)
+
+. 
+. corr va_cfr_g11_math va_cfr_g11_math_original
+(obs=5,895)
+
+             | va_cfr~h va_cfr..
+-------------+------------------
+va_cfr_g11~h |   1.0000
+v~h_original |   0.9214   1.0000
+
+
+. local corr_coef_math_original : di %5.3f r(rho)
+
+. 
+. 
+. *************** two way scatter plot of VA with sibling control and original 
+> VA
+. ***ELA
+. twoway ///
+> (scatter va_cfr_g11_ela va_cfr_g11_ela_original) ///
+> (lfit va_cfr_g11_ela va_cfr_g11_ela_original) ///
+> (function y = x), ///
+> ytitle("ELA VA with Sibling Control") ///
+> xtitle("Original ELA VA") ///
+> title("Scatter Plot of ELA VA with Sibling Control and Original") ///
+> legend(label(1 "ELA VA") label(3 "45 degree line") ) ///
+> note("Correlation Coefficient = `corr_coef_ela_original' ")
+
+. 
+. graph export $projdir/out/graph/siblingvaregs/test_score_va/scatter_va_cfr_g1
+> 1_ela_original.pdf, replace
+file
+    /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
+    > score_va/scatter_va_cfr_g11_ela_original.pdf saved as PDF format
+
+. 
+. 
+. ***math
+. twoway ///
+> (scatter va_cfr_g11_math va_cfr_g11_math_original) ///
+> (lfit va_cfr_g11_math va_cfr_g11_math_original) ///
+> (function y = x), ///
+> ytitle("Math VA with Sibling Control") ///
+> xtitle("Original Math VA") ///
+>   title("Scatter Plot of Math VA with Sibling Control and Original") ///
+> legend(label(1 "Math VA") label(3 "45 degree line") ) ///
+> note("Correlation Coefficient = `corr_coef_math_original' ")
+
+. 
+. graph export $projdir/out/graph/siblingvaregs/test_score_va/scatter_va_cfr_g1
+> 1_math_original.pdf, replace
+file
+    /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
+    > score_va/scatter_va_cfr_g11_math_original.pdf saved as PDF format
+
 . 
 . 
 . 
 . 
 . 
 . 
-. ***********************
+. 
+. 
+. 
+. 
+. 
+. 
+. **************************************************
 . //specification tests
 . *****No peer controls
 . foreach subject in ela math {
-  2.   foreach enrvar in enr enr_2year enr_4year {
-  3.     estimates use $projdir/est/siblingvaregs/test_score_va/spec_test_va_cf
-> r_g11_`subject'_sibling_`enrvar'.ster,
-  4. 
+  2. 
+.     estimates use $projdir/est/siblingvaregs/test_score_va/spec_test_va_cfr_g
+> 11_`subject'_sibling.ster,
+  3. 
 .     test _b[va_cfr_g11_`subject'] = 1
-  5.     matrix test_p = r(p)
-  6.         matrix rownames test_p = pvalue
-  7.         matrix colnames test_p = va_cfr_g11_`subject'
-  8.         estadd matrix test_p = test_p
-  9. 
+  4.     matrix test_p = r(p)
+  5.         matrix rownames test_p = pvalue
+  6.         matrix colnames test_p = va_cfr_g11_`subject'
+  7.         estadd matrix test_p = test_p
+  8. 
 .     local slope : di %5.3f _b[va_cfr_g11_`subject']
- 10.         local std_err : di %4.3f _se[va_cfr_g11_`subject']
- 11.         binscatter sbac_g11_`subject'_r va_cfr_g11_`subject' ///
+  9.         local std_err : di %4.3f _se[va_cfr_g11_`subject']
+ 10.         binscatter sbac_g11_`subject'_r va_cfr_g11_`subject' ///
 >                 [aw = n_g11_`subject'] ///
 >                 , ytitle("11th Grade Score") xtitle("Value Added") ///
->       title("11th Grade ``subject'_str' with older sibling `enrvar' control S
-> pecification Test") ///
+>       title("11th Grade ``subject'_str' Specification Test") ///
 >                 yline(0) xline(0) ///
 >                 yscale(range(-.3 .3)) xscale(range(-.3 .3)) ylabel(-.3 (0.1) 
 > .3) xlabel(-.3 (0.1) .3) ///
 >                 note("Slope (Standard Error) = `slope' (`std_err')")
- 12.         graph export $projdir/out/graph/siblingvaregs/test_score_va/spec_t
-> est_va_cfr_g11_`subject'_`enrvar'.pdf, replace
- 13. 
+ 11.         graph export $projdir/out/graph/siblingvaregs/test_score_va/spec_t
+> est_va_cfr_g11_`subject'_sibling.pdf, replace
+ 12. 
 . 
 . ******* with peer controls
 .     estimates use $projdir/est/siblingvaregs/test_score_va/spec_test_va_cfr_g
-> 11_`subject'_peer_sibling_`enrvar'.ster,
- 14. 
+> 11_`subject'_peer_sibling.ster,
+ 13. 
 .     test _b[va_cfr_g11_`subject'_peer] = 1
- 15.     matrix test_p = r(p)
- 16.         matrix rownames test_p = pvalue
- 17.         matrix colnames test_p = va_cfr_g11_`subject'_peer
- 18.         estadd matrix test_p = test_p
- 19. 
+ 14.     matrix test_p = r(p)
+ 15.         matrix rownames test_p = pvalue
+ 16.         matrix colnames test_p = va_cfr_g11_`subject'_peer
+ 17.         estadd matrix test_p = test_p
+ 18. 
 .         local slope : di %5.3f _b[va_cfr_g11_`subject'_peer]
- 20.         local std_err : di %4.3f _se[va_cfr_g11_`subject'_peer]
- 21.         binscatter sbac_g11_`subject'_r_peer va_cfr_g11_`subject'_peer ///
+ 19.         local std_err : di %4.3f _se[va_cfr_g11_`subject'_peer]
+ 20.         binscatter sbac_g11_`subject'_r_peer va_cfr_g11_`subject'_peer ///
 >                 [aw = n_g11_`subject'] ///
 >                 , ytitle("11th Grade Score") xtitle("Value Added") ///
->       title("11th Grade ``subject'_str' with older sibling `enrevar' control 
-> Specification Test") ///
+>       title("11th Grade ``subject'_str' Specification Test") ///
 >                 yline(0) xline(0) ///
 >                 yscale(range(-.3 .3)) xscale(range(-.3 .3)) ylabel(-.3 (0.1) 
 > .3) xlabel(-.3 (0.1) .3) ///
 >                 note("Slope (Standard Error) = `slope' (`std_err')")
- 22.     graph export $projdir/out/graph/siblingvaregs/test_score_va/spec_test_
-> va_cfr_g11_`subject'_`enrvar'_peer.pdf, replace
- 23. 
+ 21.     graph export $projdir/out/graph/siblingvaregs/test_score_va/spec_test_
+> va_cfr_g11_`subject'_peer_sibling.pdf, replace
+ 22. 
 . 
-.   }
- 24. 
 . }
 
  ( 1)  va_cfr_g11_ela = 1
 
-       F(  1,  1288) =   22.15
-            Prob > F =    0.0000
+       F(  1,  1288) =    0.76
+            Prob > F =    0.3835
 
 added matrix:
              e(test_p) :  1 x 1
 file
     /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
-    > score_va/spec_test_va_cfr_g11_ela_enr.pdf saved as PDF format
+    > score_va/spec_test_va_cfr_g11_ela_sibling.pdf saved as PDF format
 
  ( 1)  va_cfr_g11_ela_peer = 1
 
-       F(  1,  1288) =   21.48
-            Prob > F =    0.0000
+       F(  1,  1288) =    0.45
+            Prob > F =    0.5030
 
 added matrix:
              e(test_p) :  1 x 1
 file
     /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
-    > score_va/spec_test_va_cfr_g11_ela_enr_peer.pdf saved as PDF format
-
- ( 1)  va_cfr_g11_ela = 1
-
-       F(  1,  1288) =   22.17
-            Prob > F =    0.0000
-
-added matrix:
-             e(test_p) :  1 x 1
-file
-    /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
-    > score_va/spec_test_va_cfr_g11_ela_enr_2year.pdf saved as PDF format
-
- ( 1)  va_cfr_g11_ela_peer = 1
-
-       F(  1,  1288) =   21.47
-            Prob > F =    0.0000
-
-added matrix:
-             e(test_p) :  1 x 1
-file
-    /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
-    > score_va/spec_test_va_cfr_g11_ela_enr_2year_peer.pdf saved as PDF
-    format
-
- ( 1)  va_cfr_g11_ela = 1
-
-       F(  1,  1288) =   22.14
-            Prob > F =    0.0000
-
-added matrix:
-             e(test_p) :  1 x 1
-file
-    /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
-    > score_va/spec_test_va_cfr_g11_ela_enr_4year.pdf saved as PDF format
-
- ( 1)  va_cfr_g11_ela_peer = 1
-
-       F(  1,  1288) =   21.48
-            Prob > F =    0.0000
-
-added matrix:
-             e(test_p) :  1 x 1
-file
-    /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
-    > score_va/spec_test_va_cfr_g11_ela_enr_4year_peer.pdf saved as PDF
-    format
+    > score_va/spec_test_va_cfr_g11_ela_peer_sibling.pdf saved as PDF format
 
  ( 1)  va_cfr_g11_math = 1
 
-       F(  1,  1287) =    4.71
-            Prob > F =    0.0302
+       F(  1,  1287) =    0.14
+            Prob > F =    0.7113
 
 added matrix:
              e(test_p) :  1 x 1
 file
     /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
-    > score_va/spec_test_va_cfr_g11_math_enr.pdf saved as PDF format
+    > score_va/spec_test_va_cfr_g11_math_sibling.pdf saved as PDF format
 
  ( 1)  va_cfr_g11_math_peer = 1
 
-       F(  1,  1287) =   10.56
-            Prob > F =    0.0012
+       F(  1,  1287) =    1.66
+            Prob > F =    0.1983
 
 added matrix:
              e(test_p) :  1 x 1
 file
     /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
-    > score_va/spec_test_va_cfr_g11_math_enr_peer.pdf saved as PDF format
-
- ( 1)  va_cfr_g11_math = 1
-
-       F(  1,  1287) =    4.72
-            Prob > F =    0.0299
-
-added matrix:
-             e(test_p) :  1 x 1
-file
-    /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
-    > score_va/spec_test_va_cfr_g11_math_enr_2year.pdf saved as PDF format
-
- ( 1)  va_cfr_g11_math_peer = 1
-
-       F(  1,  1287) =   10.55
-            Prob > F =    0.0012
-
-added matrix:
-             e(test_p) :  1 x 1
-file
-    /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
-    > score_va/spec_test_va_cfr_g11_math_enr_2year_peer.pdf saved as PDF
-    format
-
- ( 1)  va_cfr_g11_math = 1
-
-       F(  1,  1287) =    4.69
-            Prob > F =    0.0306
-
-added matrix:
-             e(test_p) :  1 x 1
-file
-    /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
-    > score_va/spec_test_va_cfr_g11_math_enr_4year.pdf saved as PDF format
-
- ( 1)  va_cfr_g11_math_peer = 1
-
-       F(  1,  1287) =   10.54
-            Prob > F =    0.0012
-
-added matrix:
-             e(test_p) :  1 x 1
-file
-    /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
-    > score_va/spec_test_va_cfr_g11_math_enr_4year_peer.pdf saved as PDF
-    format
+    > score_va/spec_test_va_cfr_g11_math_peer_sibling.pdf saved as PDF format
 
 . 
 . 
@@ -684,5 +676,5 @@ file
        log:  /home/research/ca_ed_lab/chesun/gsr/caschls/log/share/siblingvareg
 > s/va_sibling_est_sumstats.smcl
   log type:  smcl
- closed on:  27 Oct 2021, 21:18:08
+ closed on:   3 Nov 2021, 21:06:27
 -------------------------------------------------------------------------------

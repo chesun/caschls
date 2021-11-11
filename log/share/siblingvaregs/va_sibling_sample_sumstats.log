@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/chesun/gsr/caschls/log/share/siblingvareg
 > s/va_sibling_sample_sumstats.smcl
   log type:  smcl
- opened on:  27 Oct 2021, 19:57:53
+ opened on:   3 Nov 2021, 18:41:32
 
 . 
 . //include macros
@@ -263,17 +263,69 @@ _matthomedir:   /home/research/ca_ed_lab/msnaven/common_core_va
 . tempfile va_g11_sibling_dataset
 
 . save `va_g11_sibling_dataset'
-file /home/tmp/St04618.000003 saved as .dta format
+file /home/tmp/St130955.000001 saved as .dta format
 
 . 
-. //load the grade 11 test score VA sibling dataset matched to full sibling sam
-> ple
-. use `va_g11_sibling_dataset', clear
+. 
+. 
+. 
+. //check the average distance between siblings
+. //in the full sibling sample
+. use $projdir/dta/siblingxwalk/uniquesiblingpairxwalk, clear
+(Unique sibling pairs after dropping duplicate permutations)
+
+. 
+. //collapse to family level to only keep the average birth date distance in fa
+> mily
+. collapse (mean) avg_birth_date_distance_family, by(ufamilyid)
+
+. 
+. sum avg_birth_date_distance_family
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+avg_birth_~y |  1,715,347     3.11413    1.738729          0   14.90137
+
+. 
+. //in the sibling test score VA sample
+. //merge average sibling birth date distance in family to test score VA siblin
+> g dataset
+. 
+. merge 1:m ufamilyid using `va_g11_sibling_dataset'
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                     1,253,350
+        from master                       874  (_merge==1)
+        from using                  1,252,476  (_merge==2)
+
+    Matched                         4,277,562  (_merge==3)
+    -----------------------------------------
+
+. 
+. sum avg_birth_date_distance_family ///
+> if grade == 11 & touse_g11_ela==1 & sibling_full_sample == 1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+avg_birth_~y |    749,450    3.308654     1.66202          0   14.50137
+
+. 
+. sum avg_birth_date_distance_family ///
+> if grade == 11 & touse_g11_math==1 & sibling_full_sample == 1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+avg_birth_~y |    746,054    3.308995    1.662302          0   14.50137
+
+. 
+. 
+. 
+. 
+. use `va_g11_sibling_dataset', clear 
 (CST/SBAC Student Test Score Samples)
 
-. 
 . //check the number of families in this sample
-. 
 . di "number of families in the full sibling sample matched to the g11 va sampl
 > e"
 number of families in the full sibling sample matched to the g11 va sample
@@ -397,5 +449,5 @@ Math
        log:  /home/research/ca_ed_lab/chesun/gsr/caschls/log/share/siblingvareg
 > s/va_sibling_sample_sumstats.smcl
   log type:  smcl
- closed on:  27 Oct 2021, 19:59:04
+ closed on:   3 Nov 2021, 18:42:30
 -------------------------------------------------------------------------------
