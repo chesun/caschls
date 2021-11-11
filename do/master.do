@@ -42,6 +42,8 @@ if `installssc' == 1 {
   ssc install regsave, replace
   /* install ssc package that group observations by the connected components of two variables  */
   ssc install group_twoway, replace
+  ssc install vam, replace
+  ssc install binscatter, replace
 }
 
 
@@ -504,6 +506,29 @@ do file by Matt Naven  */
 local dosiblingmatch = 0
 if `dosiblingmatch' == 1 {
   do $projdir/do/share/siblingxwalk/siblingmatch
+}
+
+/* use the sibling crosswalk dataset conditional on same year and create unique family ID
+to link siblings from the same family across years and delete duplicates  */
+local douniquefamily = 0
+if `douniquefamily' == 1 {
+  do $projdir/do/share/siblingxwalk/uniquefamily
+}
+
+/* create a dataset with all pairwise combinations of siblings and their state student IDs.
+Same combination with different orders are different observations. */
+local dosiblingpairxwalk = 0
+if `dosiblingpairxwalk' == 1 {
+  do $projdir/do/share/siblingxwalk/siblingpairxwalk
+}
+
+
+
+/* Create summary stats for NSC outcomes merged to K-12 test score data, both for 2010-2017
+and 2010-2018 */
+local dooutcomesumstats = 0
+if `dooutcomesumstats' == 1 {
+  do $projdir/do/share/outcomesumstats/k12_nsc_match_sumstats.do
 }
 
 

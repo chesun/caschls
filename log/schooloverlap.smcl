@@ -1,0 +1,928 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}schooloverlap
+       {txt}log:  {res}/home/research/ca_ed_lab/chesun/gsr/caschls/log/schooloverlap.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}16 Sep 2020, 12:42:50
+{txt}
+{com}. 
+. 
+. **********First, convert csv files with cdscode and frequencies into dta ********
+. 
+. //remember to make csv files first. Note: in excel files, convert cdscode to number format, otherwise data is lost when converting to csv
+. 
+. local elemcsvname `" "elem1415" "elem1516" "elem1617" "elem1718" "elem1819" "' //local macro for elementary dataset names
+{txt}
+{com}. foreach i of local elemcsvname {c -(}
+{txt}  2{com}.   import delimited $projdir/out/csv/schooloverlap/elementary/schools`i', clear //import the corresponding csv dataset for each year
+{txt}  3{com}.   tostring cdscode, replace format("%15.0f") //apply a number format to enable string conversion
+{txt}  4{com}.   replace cdscode = "0" + cdscode if inrange(length(cdscode), 13, 13) // add leading zero if cds code is 13 digits. This is because some county codes are missing leading zeros, which results in a 13 digit cdscode
+{txt}  5{com}.   /* drop observations with incomplete cdscode to make sure cdscode is unique identifier */
+.   drop if missing(cdscode) //drop the observation if cdscode is missing
+{txt}  6{com}.   drop if inrange(length(cdscode), 1, 13) //drop observations if cdscode is 1 to 13 characters long, this means at least the county code is missing, and impossible to determine which school it is
+{txt}  7{com}.   save $clndtadir/schooloverlap/elementary/`i', replace //save as a dta dataset
+{txt}  8{com}. {c )-}
+{res}{text}(2 vars, 1,162 obs)
+cdscode was {res:double} now {res:str14}
+(128 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file /home/research/caschls/dtaclean/schooloverlap/elementary/elem1415.dta saved
+{res}{text}(2 vars, 1,824 obs)
+cdscode was {res:double} now {res:str14}
+(215 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file /home/research/caschls/dtaclean/schooloverlap/elementary/elem1516.dta saved
+{res}{text}(2 vars, 1,601 obs)
+cdscode was {res:double} now {res:str14}
+(154 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file /home/research/caschls/dtaclean/schooloverlap/elementary/elem1617.dta saved
+{res}{text}(2 vars, 2,395 obs)
+cdscode was {res:double} now {res:str14}
+(292 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file /home/research/caschls/dtaclean/schooloverlap/elementary/elem1718.dta saved
+{res}{text}(2 vars, 1,799 obs)
+cdscode was {res:double} now {res:str14}
+(155 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file /home/research/caschls/dtaclean/schooloverlap/elementary/elem1819.dta saved
+
+{com}. 
+. local parentcsvname `" "parent1415" "parent1516" "parent1617" "parent1718" "parent1819" "' //local macro for parent dataset names
+{txt}
+{com}. foreach i of local parentcsvname {c -(}
+{txt}  2{com}.   import delimited $projdir/out/csv/schooloverlap/parent/schools`i', clear //import the corresponding csv dataset for each year
+{txt}  3{com}.   tostring cdscode, replace format("%15.0f")  //convert cdscode to string for consistency between datasets
+{txt}  4{com}.   replace cdscode = "0" + cdscode if inrange(length(cdscode), 13, 13) // add leading zero if cds code is 13 digits. This is because some county codes are missing leading zeros, which results in a 13 digit cdscode
+{txt}  5{com}.   /* drop observations with incomplete cdscode to make sure cdscode is unique identifier */
+.   drop if missing(cdscode) //drop the observation if cdscode is missing
+{txt}  6{com}.   drop if inrange(length(cdscode), 1, 13) //drop observations if cdscode is 1 to 13 characters long, this means at least the county code is missing, and impossible to determine which school it is
+{txt}  7{com}.   save $clndtadir/schooloverlap/parent/`i', replace //save as a dta dataset
+{txt}  8{com}. {c )-}
+{res}{text}(2 vars, 860 obs)
+cdscode already string; no {res}replace
+{txt}(61 real changes made)
+(1 observation deleted)
+(29 observations deleted)
+file /home/research/caschls/dtaclean/schooloverlap/parent/parent1415.dta saved
+{res}{text}(2 vars, 1,042 obs)
+cdscode was {res:double} now {res:str14}
+(131 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file /home/research/caschls/dtaclean/schooloverlap/parent/parent1516.dta saved
+{res}{text}(2 vars, 1,275 obs)
+cdscode was {res:double} now {res:str14}
+(173 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file /home/research/caschls/dtaclean/schooloverlap/parent/parent1617.dta saved
+{res}{text}(2 vars, 1,778 obs)
+cdscode was {res:double} now {res:str14}
+(275 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file /home/research/caschls/dtaclean/schooloverlap/parent/parent1718.dta saved
+{res}{text}(2 vars, 1,677 obs)
+cdscode was {res:double} now {res:str14}
+(229 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file /home/research/caschls/dtaclean/schooloverlap/parent/parent1819.dta saved
+
+{com}. 
+. local seccsvname `" "sec1112" "sec1213" "sec1314" "sec1415" "sec1516" "sec1617" "sec1718" "sec1819" "' //local macro for secondary dataset names
+{txt}
+{com}. foreach i of local seccsvname {c -(}
+{txt}  2{com}.   import delimited $projdir/out/csv/schooloverlap/secondary/schools`i', clear //import the corresponding csv dataset for each year
+{txt}  3{com}.   tostring cdscode, replace format("%15.0f")  //convert cdscode to string for consistency between datasets
+{txt}  4{com}.   replace cdscode = "0" + cdscode if inrange(length(cdscode), 13, 13) // add leading zero if cds code is 13 digits. This is because some county codes are missing leading zeros, which results in a 13 digit cdscode
+{txt}  5{com}.   /* drop observations with incomplete cdscode to make sure cdscode is unique identifier */
+.   drop if missing(cdscode) //drop the observation if cdscode is missing
+{txt}  6{com}.   drop if inrange(length(cdscode), 1, 13) //drop observations if cdscode is 1 to 13 characters long, this means at least the county code is missing, and impossible to determine which school it is
+{txt}  7{com}.   save $clndtadir/schooloverlap/secondary/`i', replace //save as a dta dataset
+{txt}  8{com}. {c )-}
+{res}{text}(2 vars, 1,410 obs)
+cdscode was {res:double} now {res:str14}
+(217 real changes made)
+(0 observations deleted)
+(2 observations deleted)
+file /home/research/caschls/dtaclean/schooloverlap/secondary/sec1112.dta saved
+{res}{text}(2 vars, 1,163 obs)
+cdscode was {res:double} now {res:str14}
+(122 real changes made)
+(0 observations deleted)
+(2 observations deleted)
+file /home/research/caschls/dtaclean/schooloverlap/secondary/sec1213.dta saved
+{res}{text}(2 vars, 1,737 obs)
+cdscode was {res:double} now {res:str14}
+(205 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file /home/research/caschls/dtaclean/schooloverlap/secondary/sec1314.dta saved
+{res}{text}(2 vars, 1,281 obs)
+cdscode was {res:double} now {res:str14}
+(94 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file /home/research/caschls/dtaclean/schooloverlap/secondary/sec1415.dta saved
+{res}{text}(2 vars, 1,955 obs)
+cdscode was {res:double} now {res:str14}
+(224 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file /home/research/caschls/dtaclean/schooloverlap/secondary/sec1516.dta saved
+{res}{text}(2 vars, 1,612 obs)
+cdscode was {res:double} now {res:str14}
+(126 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file /home/research/caschls/dtaclean/schooloverlap/secondary/sec1617.dta saved
+{res}{text}(2 vars, 2,090 obs)
+cdscode was {res:double} now {res:str14}
+(269 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file /home/research/caschls/dtaclean/schooloverlap/secondary/sec1718.dta saved
+{res}{text}(2 vars, 1,711 obs)
+cdscode was {res:double} now {res:str14}
+(125 real changes made)
+(0 observations deleted)
+(0 observations deleted)
+file /home/research/caschls/dtaclean/schooloverlap/secondary/sec1819.dta saved
+
+{com}. 
+. local staffcsvname `" "staff0405" "staff0506" "staff0607" "staff0708" "staff0809" "staff0910" "staff1011" "staff1112" "staff1213" "staff1314" "staff1415" "staff1516" "staff1617" "staff1718" "staff1819" "' //local macro for staff dataset names
+{txt}
+{com}. foreach i of local staffcsvname {c -(}
+{txt}  2{com}.   import delimited $projdir/out/csv/schooloverlap/staff/schools`i', clear //import the corresponding csv dataset for each year
+{txt}  3{com}.   tostring cdscode, replace format("%15.0f")  //convert cdscode to string for consistency between datasets
+{txt}  4{com}.   replace cdscode = "0" + cdscode if inrange(length(cdscode), 13, 13) // add leading zero if cds code is 13 digits. This is because some county codes are missing leading zeros, which results in a 13 digit cdscode
+{txt}  5{com}.   /* drop observations with incomplete cdscode to make sure cdscode is unique identifier */
+.   drop if missing(cdscode) //drop the observation if cdscode is missing
+{txt}  6{com}.   drop if inrange(length(cdscode), 1, 13) //drop observations if cdscode is 1 to 13 characters long, this means at least the county code is missing, and impossible to determine which school it is
+{txt}  7{com}.   save $clndtadir/schooloverlap/staff/`i', replace //save as a dta dataset
+{txt}  8{com}. {c )-}
+{res}{text}(2 vars, 1,011 obs)
+cdscode was {res:double} now {res:str14}
+(148 real changes made)
+(0 observations deleted)
+(10 observations deleted)
+file /home/research/caschls/dtaclean/schooloverlap/staff/staff0405.dta saved
+{res}{text}(2 vars, 2,564 obs)
+cdscode was {res:double} now {res:str14}
+(266 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file /home/research/caschls/dtaclean/schooloverlap/staff/staff0506.dta saved
+{res}{text}(2 vars, 1,157 obs)
+cdscode was {res:double} now {res:str14}
+(121 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file /home/research/caschls/dtaclean/schooloverlap/staff/staff0607.dta saved
+{res}{text}(2 vars, 2,685 obs)
+cdscode was {res:double} now {res:str14}
+(258 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file /home/research/caschls/dtaclean/schooloverlap/staff/staff0708.dta saved
+{res}{text}(2 vars, 1,403 obs)
+cdscode was {res:double} now {res:str14}
+(136 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file /home/research/caschls/dtaclean/schooloverlap/staff/staff0809.dta saved
+{res}{text}(2 vars, 2,909 obs)
+cdscode was {res:double} now {res:str14}
+(287 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file /home/research/caschls/dtaclean/schooloverlap/staff/staff0910.dta saved
+{res}{text}(2 vars, 1,056 obs)
+cdscode was {res:double} now {res:str14}
+(129 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file /home/research/caschls/dtaclean/schooloverlap/staff/staff1011.dta saved
+{res}{text}(2 vars, 1,539 obs)
+cdscode was {res:double} now {res:str14}
+(258 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file /home/research/caschls/dtaclean/schooloverlap/staff/staff1112.dta saved
+{res}{text}(2 vars, 807 obs)
+cdscode was {res:double} now {res:str14}
+(167 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file /home/research/caschls/dtaclean/schooloverlap/staff/staff1213.dta saved
+{res}{text}(2 vars, 1,367 obs)
+cdscode was {res:double} now {res:str14}
+(250 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file /home/research/caschls/dtaclean/schooloverlap/staff/staff1314.dta saved
+{res}{text}(2 vars, 1,447 obs)
+cdscode was {res:double} now {res:str14}
+(99 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file /home/research/caschls/dtaclean/schooloverlap/staff/staff1415.dta saved
+{res}{text}(2 vars, 2,177 obs)
+cdscode was {res:double} now {res:str14}
+(258 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file /home/research/caschls/dtaclean/schooloverlap/staff/staff1516.dta saved
+{res}{text}(2 vars, 1,656 obs)
+cdscode was {res:double} now {res:str14}
+(148 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file /home/research/caschls/dtaclean/schooloverlap/staff/staff1617.dta saved
+{res}{text}(2 vars, 2,391 obs)
+cdscode was {res:double} now {res:str14}
+(335 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file /home/research/caschls/dtaclean/schooloverlap/staff/staff1718.dta saved
+{res}{text}(2 vars, 1,698 obs)
+cdscode was {res:double} now {res:str14}
+(161 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file /home/research/caschls/dtaclean/schooloverlap/staff/staff1819.dta saved
+
+{com}. 
+. 
+. 
+. 
+. 
+. 
+. ********************************************************************************
+. ********** produce elementary dataset for school by year frequencies ***********
+. 
+. /* merge elementary dta files with school frequencies by cdscode */
+. use $clndtadir/schooloverlap/elementary/elem1415, clear
+{txt}
+{com}. 
+. local elemmergename `" "elem1516" "elem1617" "elem1718" "elem1819" "'
+{txt}
+{com}. foreach i of local elemmergename {c -(}
+{txt}  2{com}.   merge 1:1 cdscode using $clndtadir/schooloverlap/elementary/`i' // merge 1 to 1 with each successive dataset
+{txt}  3{com}.   drop _merge // drop the _merge variable to enable merging next dataset
+{txt}  4{com}. {c )-}
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,920
+{txt}{col 9}from master{col 30}{res}             629{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,291{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}             532{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,544
+{txt}{col 9}from master{col 30}{res}           1,198{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             346{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}           1,254{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,640
+{txt}{col 9}from master{col 30}{res}           1,022{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             618{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}           1,776{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,820
+{txt}{col 9}from master{col 30}{res}           1,719{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             101{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}           1,697{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. 
+. label var freq1415 "Number of Observations in 2014-2015"
+{txt}
+{com}. label var freq1516 "Number of Observations in 2015-2016"
+{txt}
+{com}. label var freq1617 "Number of Observations in 2016-2017"
+{txt}
+{com}. label var freq1718 "Number of Observations in 2017-2018"
+{txt}
+{com}. label var freq1819 "Number of Observations in 2018-2019"
+{txt}
+{com}. 
+. local elemyears `" "1415" "1516" "1617" "1718" "1819" "' // a local macro that stores the years for elementary for the following loop
+{txt}
+{com}. foreach i of local elemyears {c -(}
+{txt}  2{com}.   gen has`i' = 1 // generate a variable that indicates whether the school administered each year of elementary survey by looking at whether the observations in each year is a number or missing. Missing = not in that year
+{txt}  3{com}.   replace has`i' = 0 if missing(freq`i')
+{txt}  4{com}.   label var has`i' "Dummy for whether the school administered elementary survey in year `i'"
+{txt}  5{com}. {c )-}
+{txt}(2,356 real changes made)
+(1,694 real changes made)
+(1,917 real changes made)
+(1,123 real changes made)
+(1,719 real changes made)
+
+{com}. 
+. gen hasallyears = has1415 * has1516 * has1617 * has1718 * has1819 // generate a var that is 1 if the school administered elementary survey in all years, 0 otherwise
+{txt}
+{com}. label var hasallyears "Dummy for whether the school administered elementary survey in all 5 years"
+{txt}
+{com}. 
+. gen numyears = has1415 + has1516 + has1617 + has1718 + has1819 //generate a var for the number of years the school administered the elementary survey, this variable makes hasallyears redundant
+{txt}
+{com}. label var numyears "Number of years the school administered the elementary survey (1 to 5)"
+{txt}
+{com}. 
+. /* by the same principle, we can generate variables that check overlap of schools
+> between any two years, for example, any two adjacent years */
+. 
+. gen has14151516 = has1415 * has1516 //generate a var that is a dummy for whether the school administered elementary survey in both 1415 and 1516, 1= yes, 0 = no
+{txt}
+{com}. gen has15161617 = has1516 * has1617 //generate a var that is a dummy for whether the school administered elementary survey in both 1516 and 1617, 1= yes, 0 = no
+{txt}
+{com}. gen has16171718 = has1617 * has1718 //generate a var that is a dummy for whether the school administered elementary survey in both 1617 and 1718, 1= yes, 0 = no
+{txt}
+{com}. gen has17181819 = has1718 * has1819 //generate a var that is a dummy for whether the school administered elementary survey in both 1718 and 1819, 1= yes, 0 = no
+{txt}
+{com}. 
+. label var has14151516 "Whether the school administered elementary survey in both 1415 and 1516"
+{txt}
+{com}. label var has15161617 "Whether the school administered elementary survey in both 1516 and 1617"
+{txt}
+{com}. label var has16171718 "Whether the school administered elementary survey in both 1617 and 1718"
+{txt}
+{com}. label var has17181819 "Whether the school administered elementary survey in both 1718 and 1819"
+{txt}
+{com}. 
+. label data "School frequencies each year in Elementary survey" //label the dataset
+{txt}
+{com}. save $clndtadir/schooloverlap/schlfreqbyyear/elementaryschlfreq, replace //save the merged elementary school frequency by year dataset
+{txt}file /home/research/caschls/dtaclean/schooloverlap/schlfreqbyyear/elementaryschlfreq.dta saved
+
+{com}. 
+. 
+. 
+. 
+. 
+. ********************************************************************************
+. ********** produce parent dataset for school by year frequencies ***************
+. 
+. /* merge parent dta files with school frequencies by cdscode */
+. use $clndtadir/schooloverlap/parent/parent1415, clear //load the dataset to start merging with
+{txt}
+{com}. 
+. local parentmergename `" "parent1516" "parent1617" "parent1718" "parent1819" "' //local macro for parent data names to use for merge
+{txt}
+{com}. foreach i of local parentmergename {c -(}
+{txt}  2{com}.   merge 1:1 cdscode using $clndtadir/schooloverlap/parent/`i' // merge 1 to 1 with each successive dataset
+{txt}  3{com}.   drop _merge // drop the _merge variable to enable merging next dataset
+{txt}  4{com}. {c )-}
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,071
+{txt}{col 9}from master{col 30}{res}             430{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             641{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}             400{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,411
+{txt}{col 9}from master{col 30}{res}             804{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             607{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}             667{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,609
+{txt}{col 9}from master{col 30}{res}             955{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             654{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}           1,123{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,526
+{txt}{col 9}from master{col 30}{res}           1,291{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             235{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}           1,441{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. 
+. label var freq1415 "Number of Observations in 2014-2015"
+{txt}
+{com}. label var freq1516 "Number of Observations in 2015-2016"
+{txt}
+{com}. label var freq1617 "Number of Observations in 2016-2017"
+{txt}
+{com}. label var freq1718 "Number of Observations in 2017-2018"
+{txt}
+{com}. label var freq1819 "Number of Observations in 2018-2019"
+{txt}
+{com}. 
+. local parentyears `" "1415" "1516" "1617" "1718" "1819" "' // a local macro that stores the years for parent for the following loop
+{txt}
+{com}. foreach i of local parentyears {c -(}
+{txt}  2{com}.   gen has`i' = 1 // generate a variable that indicates whether the school administered each year of parent survey by looking at whether the observations in each year is a number or missing. Missing = not in that year
+{txt}  3{com}.   replace has`i' = 0 if missing(freq`i')
+{txt}  4{com}.   label var has`i' "Dummy for whether the school administered parent survey in year `i'"
+{txt}  5{com}. {c )-}
+{txt}(2,137 real changes made)
+(1,926 real changes made)
+(1,693 real changes made)
+(1,190 real changes made)
+(1,291 real changes made)
+
+{com}. 
+. gen hasallyears = has1415 * has1516 * has1617 * has1718 * has1819 // generate a var that is 1 if the school administered parent survey in all years, 0 otherwise
+{txt}
+{com}. label var hasallyears "Dummy for whether the school administered parent survey in all 5 years"
+{txt}
+{com}. 
+. gen numyears = has1415 + has1516 + has1617 + has1718 + has1819 //generate a var for the number of years the school administered the parent survey, this variable makes hasallyears redundant
+{txt}
+{com}. label var numyears "Number of years the school administered the parent survey (1 to 5)"
+{txt}
+{com}. 
+. /* by the same principle, we can generate variables that check overlap of schools
+> between any two years, for example, any two adjacent years */
+. 
+. gen has14151516 = has1415 * has1516 //generate a var that is a dummy for whether the school administered parent survey in both 1415 and 1516, 1= yes, 0 = no
+{txt}
+{com}. gen has15161617 = has1516 * has1617 //generate a var that is a dummy for whether the school administered parent survey in both 1516 and 1617, 1= yes, 0 = no
+{txt}
+{com}. gen has16171718 = has1617 * has1718 //generate a var that is a dummy for whether the school administered parent survey in both 1617 and 1718, 1= yes, 0 = no
+{txt}
+{com}. gen has17181819 = has1718 * has1819 //generate a var that is a dummy for whether the school administered parent survey in both 1718 and 1819, 1= yes, 0 = no
+{txt}
+{com}. 
+. label var has14151516 "Whether the school administered parent survey in both 1415 and 1516"
+{txt}
+{com}. label var has15161617 "Whether the school administered parent survey in both 1516 and 1617"
+{txt}
+{com}. label var has16171718 "Whether the school administered parent survey in both 1617 and 1718"
+{txt}
+{com}. label var has17181819 "Whether the school administered parent survey in both 1718 and 1819"
+{txt}
+{com}. 
+. label data "School frequencies each year in Parent survey" //label the dataset
+{txt}
+{com}. save $clndtadir/schooloverlap/schlfreqbyyear/parentschlfreq, replace //save the merged parent school frequency by year dataset
+{txt}file /home/research/caschls/dtaclean/schooloverlap/schlfreqbyyear/parentschlfreq.dta saved
+
+{com}. 
+. 
+. 
+. 
+. ********************************************************************************
+. ********** produce secondary dataset for school by year frequencies ************
+. 
+. /* merge secondary dta files with school frequencies by cdscode */
+. use $clndtadir/schooloverlap/secondary/sec1112, clear
+{txt}
+{com}. 
+. local secmergename `" "sec1213" "sec1314" "sec1415" "sec1516" "sec1617" "sec1718" "sec1819" "' //local macro for secondary data names to use for merge
+{txt}
+{com}. foreach i of local secmergename {c -(}
+{txt}  2{com}.   merge 1:1 cdscode using $clndtadir/schooloverlap/secondary/`i' // merge 1 to 1 with each successive dataset
+{txt}  3{com}.   drop _merge // drop the _merge variable to enable merging next dataset
+{txt}  4{com}. {c )-}
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           2,077
+{txt}{col 9}from master{col 30}{res}           1,162{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             915{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}             246{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,447
+{txt}{col 9}from master{col 30}{res}           1,017{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             430{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}           1,306{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           2,017
+{txt}{col 9}from master{col 30}{res}           1,745{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             272{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}           1,008{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,511
+{txt}{col 9}from master{col 30}{res}           1,291{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             220{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}           1,734{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           2,052
+{txt}{col 9}from master{col 30}{res}           1,843{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             209{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}           1,402{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,647
+{txt}{col 9}from master{col 30}{res}           1,506{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             141{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}           1,948{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           2,106
+{txt}{col 9}from master{col 30}{res}           1,995{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             111{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}           1,600{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. 
+. label var freq1112 "Number of Observations in 2011-2012"
+{txt}
+{com}. label var freq1213 "Number of Observations in 2012-2013"
+{txt}
+{com}. label var freq1314 "Number of Observations in 2013-2014"
+{txt}
+{com}. label var freq1415 "Number of Observations in 2014-2015"
+{txt}
+{com}. label var freq1516 "Number of Observations in 2015-2016"
+{txt}
+{com}. label var freq1617 "Number of Observations in 2016-2017"
+{txt}
+{com}. label var freq1718 "Number of Observations in 2017-2018"
+{txt}
+{com}. label var freq1819 "Number of Observations in 2018-2019"
+{txt}
+{com}. 
+. local secyears `" "1112" "1213" "1314" "1415" "1516" "1617" "1718" "1819" "' // a local macro that stores the years for secondary for the following loop
+{txt}
+{com}. foreach i of local secyears {c -(}
+{txt}  2{com}.   gen has`i' = 1 // generate a variable that indicates whether the school administered each year of secondary survey by looking at whether the observations in each year is a number or missing. Missing = not in that year
+{txt}  3{com}.   replace has`i' = 0 if missing(freq`i')
+{txt}  4{com}.   label var has`i' "Dummy for whether the school administered secondary survey in year `i'"
+{txt}  5{com}. {c )-}
+{txt}(2,298 real changes made)
+(2,545 real changes made)
+(1,970 real changes made)
+(2,426 real changes made)
+(1,752 real changes made)
+(2,095 real changes made)
+(1,617 real changes made)
+(1,995 real changes made)
+
+{com}. 
+. gen hasallyears = has1112 * has1213 * has1314 * has1415 * has1516 * has1617 * has1718 * has1819 // generate a var that is 1 if the school administered secondary survey in all years, 0 otherwise
+{txt}
+{com}. label var hasallyears "Dummy for whether the school administered secondary survey in all 8 years"
+{txt}
+{com}. 
+. gen numyears = has1112 + has1213 + has1314 + has1415 + has1516 + has1617 + has1718 + has1819 //generate a var for the number of years the school administered the secondary survey, this variable makes hasallyears redundant
+{txt}
+{com}. label var numyears "Number of years the school administered the secondary survey (1 to 8)"
+{txt}
+{com}. 
+. /* by the same principle, we can generate variables that check overlap of schools
+> between any two years, for example, any two adjacent years */
+. 
+. gen has11121213 = has1112 + has1213 //generate a var that is a dummy for whether the school administered secondary survey in both 1112 and 1213, 1= yes, 0 = no
+{txt}
+{com}. gen has12131314 = has1213 + has1314 //generate a var that is a dummy for whether the school administered secondary survey in both 1213 and 1314, 1= yes, 0 = no
+{txt}
+{com}. gen has13141415 = has1314 + has1415 //generate a var that is a dummy for whether the school administered secondary survey in both 1314 and 1415, 1= yes, 0 = no
+{txt}
+{com}. gen has14151516 = has1415 * has1516 //generate a var that is a dummy for whether the school administered secondary survey in both 1415 and 1516, 1= yes, 0 = no
+{txt}
+{com}. gen has15161617 = has1516 * has1617 //generate a var that is a dummy for whether the school administered secondary survey in both 1516 and 1617, 1= yes, 0 = no
+{txt}
+{com}. gen has16171718 = has1617 * has1718 //generate a var that is a dummy for whether the school administered secondary survey in both 1617 and 1718, 1= yes, 0 = no
+{txt}
+{com}. gen has17181819 = has1718 * has1819 //generate a var that is a dummy for whether the school administered secondary survey in both 1718 and 1819, 1= yes, 0 = no
+{txt}
+{com}. 
+. label var has11121213 "Whether the school administered secondary survey in both 1112 and 1213"
+{txt}
+{com}. label var has12131314 "Whether the school administered secondary survey in both 1213 and 1314"
+{txt}
+{com}. label var has13141415 "Whether the school administered secondary survey in both 1314 and 1415"
+{txt}
+{com}. label var has14151516 "Whether the school administered secondary survey in both 1415 and 1516"
+{txt}
+{com}. label var has15161617 "Whether the school administered secondary survey in both 1516 and 1617"
+{txt}
+{com}. label var has16171718 "Whether the school administered secondary survey in both 1617 and 1718"
+{txt}
+{com}. label var has17181819 "Whether the school administered secondary survey in both 1718 and 1819"
+{txt}
+{com}. 
+. label data "School frequencies each year in Secondary survey" //label the dataset
+{txt}
+{com}. save $clndtadir/schooloverlap/schlfreqbyyear/secondaryschlfreq, replace //save the merged secondary school frequency by year dataset
+{txt}file /home/research/caschls/dtaclean/schooloverlap/schlfreqbyyear/secondaryschlfreq.dta saved
+
+{com}. 
+. 
+. 
+. 
+. 
+. 
+. ********************************************************************************
+. ************ produce staff dataset for school by year frequencies **************
+. 
+. /* merge secondary dta files with school frequencies by cdscode */
+. use $clndtadir/schooloverlap/staff/staff0405, clear
+{txt}
+{com}. 
+. local staffmergename `" "staff0506" "staff0607" `'"staff0708" "staff0809" "staff0910" "staff1011" "staff1112" "staff1213" "staff1314" "staff1415" "staff1516" "staff1617" "staff1718" "staff1819" "' //local macro for secondary data names to use for merge
+{txt}
+{com}. foreach i of local staffmergename {c -(}
+{txt}  2{com}.   merge 1:1 cdscode using $clndtadir/schooloverlap/staff/`i' // merge 1 to 1 with each successive dataset
+{txt}  3{com}.   drop _merge // drop the _merge variable to enable merging next dataset
+{txt}  4{com}. {c )-}
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           3,520
+{txt}{col 9}from master{col 30}{res}             979{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           2,541{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}              22{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           3,428
+{txt}{col 9}from master{col 30}{res}           2,907{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             521{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}             635{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           3,255
+{txt}{col 9}from master{col 30}{res}           2,317{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             938{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}           1,746{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           4,411
+{txt}{col 9}from master{col 30}{res}           4,005{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             406{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}             996{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           3,679
+{txt}{col 9}from master{col 30}{res}           3,089{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             590{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}           2,318{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           5,400
+{txt}{col 9}from master{col 30}{res}           5,171{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             229{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}             826{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           5,030
+{txt}{col 9}from master{col 30}{res}           4,859{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             171{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}           1,367{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           5,767
+{txt}{col 9}from master{col 30}{res}           5,679{txt}  (_merge==1)
+{col 9}from using{col 30}{res}              88{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}             718{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           5,377
+{txt}{col 9}from master{col 30}{res}           5,248{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             129{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}           1,237{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           5,690
+{txt}{col 9}from master{col 30}{res}           5,429{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             261{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}           1,185{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           5,395
+{txt}{col 9}from master{col 30}{res}           5,047{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             348{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}           1,828{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           5,790
+{txt}{col 9}from master{col 30}{res}           5,679{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             111{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}           1,544{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           5,264
+{txt}{col 9}from master{col 30}{res}           5,104{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             160{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}           2,230{txt}  (_merge==3)
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           5,937
+{txt}{col 9}from master{col 30}{res}           5,867{txt}  (_merge==1)
+{col 9}from using{col 30}{res}              70{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}           1,627{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. 
+. local staffyears `" "0405" "0506" "0607" "0708" "0809" "0910" "1011" "1112" "1213" "1314" "1415" "1516" "1617" "1718" "1819" "' // // a local macro that stores the years for staff for the following loops
+{txt}
+{com}. 
+. foreach i of local staffyears {c -(}
+{txt}  2{com}.   label var freq`i' "Number of Observations in year `i'"
+{txt}  3{com}. {c )-}
+{txt}
+{com}. 
+. foreach i of local staffyears {c -(}
+{txt}  2{com}.   gen has`i' = 1 // generate a variable that indicates whether the school administered each year of secondary survey by looking at whether the observations in each year is a number or missing. Missing = not in that year
+{txt}  3{com}.   replace has`i' = 0 if missing(freq`i')
+{txt}  4{com}.   label var has`i' "Dummy for whether the school administered staff survey in year `i'"
+{txt}  5{com}. {c )-}
+{txt}(6,563 real changes made)
+(5,001 real changes made)
+(6,408 real changes made)
+(4,880 real changes made)
+(6,162 real changes made)
+(4,656 real changes made)
+(6,509 real changes made)
+(6,026 real changes made)
+(6,758 real changes made)
+(6,198 real changes made)
+(6,118 real changes made)
+(5,388 real changes made)
+(5,909 real changes made)
+(5,174 real changes made)
+(5,867 real changes made)
+
+{com}. 
+. gen hasallyears = has0405 * has0506 * has0607 * has0708 * has0809 * has0910 * has1011 * has1112 * has1213 * has1314 * has1415 * has1516 * has1617 * has1718 * has1819 // generate a var that is 1 if the school administered staff survey in all years, 0 otherwise
+{txt}
+{com}. label var hasallyears "Dummy for whether the school administered staff survey in all 15 years"
+{txt}
+{com}. 
+. gen numyears = has0405 + has0506 + has0607 + has0708 + has0809 + has0910 + has1011 + has1112 + has1213 + has1314 + has1415 + has1516 + has1617 + has1718 + has1819 //generate a var for the number of years the school administered the staff survey, this variable makes hasallyears redundant
+{txt}
+{com}. label var numyears "Number of years the school administered the staff survey (1 to 15)"
+{txt}
+{com}. 
+. 
+. /* by the same principle, we can generate variables that check overlap of schools
+> between any two years, for example, any two adjacent years */
+. 
+. 
+. gen has04050506 = has0405 + has0506 //generate a var that is a dummy for whether the school administered staff survey in both 1112 and 1213, 1= yes, 0 = no
+{txt}
+{com}. gen has05060607 = has0506 + has0607 //generate a var that is a dummy for whether the school administered staff survey in both 1112 and 1213, 1= yes, 0 = no
+{txt}
+{com}. gen has06070708 = has0607 + has0708 //generate a var that is a dummy for whether the school administered staff survey in both 1112 and 1213, 1= yes, 0 = no
+{txt}
+{com}. gen has07080809 = has0708 + has0809 //generate a var that is a dummy for whether the school administered staff survey in both 1112 and 1213, 1= yes, 0 = no
+{txt}
+{com}. gen has08090910 = has0809 + has0910 //generate a var that is a dummy for whether the school administered staff survey in both 1112 and 1213, 1= yes, 0 = no
+{txt}
+{com}. gen has09101011 = has0910 + has1011 //generate a var that is a dummy for whether the school administered staff survey in both 1112 and 1213, 1= yes, 0 = no
+{txt}
+{com}. gen has10111112 = has1011 + has1112 //generate a var that is a dummy for whether the school administered staff survey in both 1112 and 1213, 1= yes, 0 = no
+{txt}
+{com}. gen has11121213 = has1112 + has1213 //generate a var that is a dummy for whether the school administered staff survey in both 1112 and 1213, 1= yes, 0 = no
+{txt}
+{com}. gen has12131314 = has1213 + has1314 //generate a var that is a dummy for whether the school administered staff survey in both 1213 and 1314, 1= yes, 0 = no
+{txt}
+{com}. gen has13141415 = has1314 + has1415 //generate a var that is a dummy for whether the school administered staff survey in both 1314 and 1415, 1= yes, 0 = no
+{txt}
+{com}. gen has14151516 = has1415 * has1516 //generate a var that is a dummy for whether the school administered staff survey in both 1415 and 1516, 1= yes, 0 = no
+{txt}
+{com}. gen has15161617 = has1516 * has1617 //generate a var that is a dummy for whether the school administered staff survey in both 1516 and 1617, 1= yes, 0 = no
+{txt}
+{com}. gen has16171718 = has1617 * has1718 //generate a var that is a dummy for whether the school administered staff survey in both 1617 and 1718, 1= yes, 0 = no
+{txt}
+{com}. gen has17181819 = has1718 * has1819 //generate a var that is a dummy for whether the school administered staff survey in both 1718 and 1819, 1= yes, 0 = no
+{txt}
+{com}. 
+. label var has04050506 "Whether the school administered staff survey in both 0405 and 0506"
+{txt}
+{com}. label var has05060607 "Whether the school administered staff survey in both 0506 and 0607"
+{txt}
+{com}. label var has06070708 "Whether the school administered staff survey in both 0607 and 0708"
+{txt}
+{com}. label var has07080809 "Whether the school administered staff survey in both 0708 and 0809"
+{txt}
+{com}. label var has08090910 "Whether the school administered staff survey in both 0809 and 0910"
+{txt}
+{com}. label var has09101011 "Whether the school administered staff survey in both 0910 and 1011"
+{txt}
+{com}. label var has10111112 "Whether the school administered staff survey in both 1112 and 1213"
+{txt}
+{com}. label var has11121213 "Whether the school administered staff survey in both 1112 and 1213"
+{txt}
+{com}. label var has12131314 "Whether the school administered staff survey in both 1213 and 1314"
+{txt}
+{com}. label var has13141415 "Whether the school administered staff survey in both 1314 and 1415"
+{txt}
+{com}. label var has14151516 "Whether the school administered staff survey in both 1415 and 1516"
+{txt}
+{com}. label var has15161617 "Whether the school administered staff survey in both 1516 and 1617"
+{txt}
+{com}. label var has16171718 "Whether the school administered staff survey in both 1617 and 1718"
+{txt}
+{com}. label var has17181819 "Whether the school administered staff survey in both 1718 and 1819"
+{txt}
+{com}. 
+. label data "School frequencies each year in Staff survey" //label the dataset
+{txt}
+{com}. save $clndtadir/schooloverlap/schlfreqbyyear/staffschlfreq, replace //save the merged staff school frequency by year dataset
+{txt}file /home/research/caschls/dtaclean/schooloverlap/schlfreqbyyear/staffschlfreq.dta saved
+
+{com}. 
+. 
+. 
+. 
+. log close schooloverlap //close this log file
+      {txt}name:  {res}schooloverlap
+       {txt}log:  {res}/home/research/ca_ed_lab/chesun/gsr/caschls/log/schooloverlap.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}16 Sep 2020, 12:42:54
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

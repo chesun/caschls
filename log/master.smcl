@@ -1,0 +1,775 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}master
+       {txt}log:  {res}/home/research/ca_ed_lab/chesun/gsr/caschls/log/master.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 3 Apr 2021, 20:27:06
+{txt}
+{com}. 
+. 
+. ************ install packages needed for do files for this project *************
+. local installssc = 0
+{txt}
+{com}. if `installssc' == 1 {c -(}
+.   ssc install elabel, replace //install the elabel package for easy renaming of labels
+.   ssc install tabout, replace //install the tabout package
+.   ssc install grstyle, replace //install grstyle package for easy graphic settings and palettes & colrspace package for color palette settings
+.   ssc install palettes, replace
+.   ssc install colrspace, replace
+.   ssc install labutil2, replace //package to help with managing value labels because stata sucks in that regard
+.   ssc install labundef, replace //package to list undefined value labels
+.   ssc install rangestat, replace //package to help with generate means with special requirements
+.   ssc install _gwtmean, replace //package to allow use of weights in egen mean
+.   ssc install estout, replace
+.   ssc install outreg2, replace
+.   ssc install regsave, replace
+. {c )-}
+{txt}
+{com}. 
+. 
+. *************** This block are do files that prepare/build data *****************
+. 
+. //running renamedata.do
+. local dorenamedata = 0
+{txt}
+{com}. if `dorenamedata' == 1 {c -(}
+.   do "$projdir/do/build/prepare/renamedata.do"
+. {c )-}
+{txt}
+{com}. 
+. 
+. 
+. //running splitstaff0414.do
+. local dosplitstaff0414 = 0
+{txt}
+{com}. if `dosplitstaff0414' == 1 {c -(}
+.   do $projdir/do/build/prepare/splitstaff0414
+. {c )-}
+{txt}
+{com}. 
+. 
+. ***************** This block are do files that check data **********************
+. 
+. //running sameschools.do
+. local dosameschools = 0
+{txt}
+{com}. if `dosameschools' == 1 {c -(}
+.   do $projdir/do/check/sameschools
+. {c )-}
+{txt}
+{com}. 
+. //running schooloverlap.do
+. local doschooloverlap = 0
+{txt}
+{com}. if `doschooloverlap' == 1 {c -(}
+.   do $projdir/do/check/schooloverlap
+. {c )-}
+{txt}
+{com}. 
+. //running gradetab.do
+. local dogradetab = 0
+{txt}
+{com}. if `dogradetab' == 1 {c -(}
+.   do $projdir/do/check/gradetab
+. {c )-}
+{txt}
+{com}. 
+. 
+. 
+. //running enrollmentclean.do
+. local doenrollmentclean = 0
+{txt}
+{com}. if `doenrollmentclean' == 1 {c -(}
+.   do $projdir/do/build/prepare/enrollmentclean
+. {c )-}
+{txt}
+{com}. 
+. 
+. *********************representativeness diagnostics******************************
+. 
+. //running elemdemographics.do
+. local doelemdemographics = 0
+{txt}
+{com}. if `doelemdemographics' == 1 {c -(}
+.   do $projdir/do/build/sample/elemdemographics
+. {c )-}
+{txt}
+{com}. 
+. 
+. //running elemcoveragedata.do
+. local doelemcoveragedata = 0
+{txt}
+{com}. if `doelemcoveragedata' == 1 {c -(}
+.   do $projdir/do/build/sample/elemcoveragedata
+. {c )-}
+{txt}
+{com}. 
+. //running elemcoverageanalysis.do
+. local elemcoverageanalysis = 0
+{txt}
+{com}. if `elemcoverageanalysis' == 1 {c -(}
+.   do $projdir/do/share/demographics/elemcoverageanalysis
+. {c )-}
+{txt}
+{com}. 
+. //running secdemographics.do
+. local dosecdemographics = 0
+{txt}
+{com}. if `dosecdemographics' == 1 {c -(}
+.   do $projdir/do/build/sample/secdemographics
+. {c )-}
+{txt}
+{com}. 
+. //running seccoveragedata.do
+. local doseccoveragedata = 0
+{txt}
+{com}. if `doseccoveragedata' == 1 {c -(}
+.   do $projdir/do/build/sample/seccoveragedata
+. {c )-}
+{txt}
+{com}. 
+. //running seccoverageanalysis.do
+. local doseccoverageanalysis = 0
+{txt}
+{com}. if `doseccoverageanalysis' == 1 {c -(}
+.   do $projdir/do/share/demographics/seccoverageanalysis
+. {c )-}
+{txt}
+{com}. 
+. //running parentdemographics.do
+. local doparentdemographics = 0
+{txt}
+{com}. if `doparentdemographics' == 1 {c -(}
+.   do $projdir/do/build/sample/parentdemographics
+. {c )-}
+{txt}
+{com}. 
+. //running parentcoveragedata.do
+. local doparentcoveragedata = 0
+{txt}
+{com}. if `doparentcoveragedata' == 1 {c -(}
+.   do $projdir/do/build/sample/parentcoveragedata
+. {c )-}
+{txt}
+{com}. 
+. //running parentcoverageanalysis.do
+. local doparentcoverageanalysis = 0
+{txt}
+{com}. if `doparentcoverageanalysis' == 1 {c -(}
+.   do $projdir/do/share/demographics/parentcoverageanalysis
+. {c )-}
+{txt}
+{com}. 
+. 
+. //running pooledsecdemographics.do
+. local dopooledsecdemographics = 0
+{txt}
+{com}. if `dopooledsecdemographics' == 1 {c -(}
+.   do $projdir/do/build/sample/pooledsecdemographics
+. {c )-}
+{txt}
+{com}. 
+. //running pooledsecdiagnostics.do
+. local dopooledsecdiagnostics = 0
+{txt}
+{com}. if `dopooledsecdiagnostics' == 1 {c -(}
+.   do $projdir/do/build/sample/pooledsecdiagnostics
+. {c )-}
+{txt}
+{com}. 
+. //running pooledsecanalysis.do
+. local dopooledsecanalysis = 0
+{txt}
+{com}. if `dopooledsecanalysis' == 1 {c -(}
+.   do $projdir/do/share/demographics/pooledsecanalysis
+. {c )-}
+{txt}
+{com}. 
+. //running pooledparentdemographics.do
+. local dopooledparentdemographics = 0
+{txt}
+{com}. if `dopooledparentdemographics' == 1 {c -(}
+.   do $projdir/do/build/sample/pooledparentdemographics
+. {c )-}
+{txt}
+{com}. 
+. //running pooledparentdiagnostics.do
+. local dopooledparentdiagnostics = 0
+{txt}
+{com}. if `dopooledparentdiagnostics' == 1 {c -(}
+.   do $projdir/do/build/sample/pooledparentdiagnostics
+. {c )-}
+{txt}
+{com}. 
+. //running pooledparentcheck.do
+. //checking discrepancy between parent survey and enrollment data
+. local dopooledparentcheck = 0
+{txt}
+{com}. if `dopooledparentcheck' == 1 {c -(}
+.   do $projdir/do/check/pooledparentcheck
+. {c )-}
+{txt}
+{com}. 
+. 
+. ******************building final analysis datasets******************************
+. 
+. 
+. ************************* create response rates datasets ***********************
+. ////////////////////////////////////////////////////////////////////////////////
+> //running trimsecdemo.do
+. /* trim demographics data in secondary survey and rename vars to prepare for
+> generating conditional response rate datasets */
+. local dotrimsecdemo = 0
+{txt}
+{com}. if `dotrimsecdemo' == 1 {c -(}
+.   do $projdir/do/build/buildanalysisdata/responserate/trimsecdemo
+. {c )-}
+{txt}
+{com}. 
+. //running secresponserate.do
+. /* merging trimmed secondary demographics to generate conditional response rates */
+. local dosecresponserate = 0
+{txt}
+{com}. if `dosecresponserate' == 1 {c -(}
+.   do $projdir/do/build/buildanalysisdata/responserate/secresponserate
+. {c )-}
+{txt}
+{com}. 
+. //running trimparentdemo.do
+. local runtrimparentdemo = 0
+{txt}
+{com}. if `runtrimparentdemo' == 1 {c -(}
+.   do $projdir/do/build/buildanalysisdata/responserate/trimparentdemo
+. {c )-}
+{txt}
+{com}. 
+. //running parentresponserate.do
+. local doparentresponserate = 0
+{txt}
+{com}. if `doparentresponserate' == 1 {c -(}
+.   do $projdir/do/build/buildanalysisdata/responserate/parentresponserate
+. {c )-}
+{txt}
+{com}. ////////////////////////////////////////////////////////////////////////////////
+> ********************************************************************************
+. 
+. 
+. 
+. 
+. 
+. ********************** clean secondary questions of interest *******************
+. ////////////////////////////////////////////////////////////////////////////////
+> //running secqoiclean1819.do
+. local dosecqoiclean1819 = 0
+{txt}
+{com}. if `dosecqoiclean1819' == 1 {c -(}
+.   do $projdir/do/build/buildanalysisdata/qoiclean/secondary/secqoiclean1819
+. {c )-}
+{txt}
+{com}. 
+. //running secqoiclean1718.do
+. local dosecqoiclean1718 = 0
+{txt}
+{com}. if `dosecqoiclean1718' == 1 {c -(}
+.   do $projdir/do/build/buildanalysisdata/qoiclean/secondary/secqoiclean1718
+. {c )-}
+{txt}
+{com}. 
+. //running secqoiclean1617.do
+. local dosecqoiclean1617 = 0
+{txt}
+{com}. if `dosecqoiclean1617' == 1 {c -(}
+.   do $projdir/do/build/buildanalysisdata/qoiclean/secondary/secqoiclean1617
+. {c )-}
+{txt}
+{com}. 
+. //running secqoiclean1516.do
+. local dosecqoiclean1516 = 0
+{txt}
+{com}. if `dosecqoiclean1516' == 1 {c -(}
+.   do $projdir/do/build/buildanalysisdata/qoiclean/secondary/secqoiclean1516
+. {c )-}
+{txt}
+{com}. 
+. //running secqoiclean1415.do
+. local dosecqoiclean1415 = 0
+{txt}
+{com}. if `dosecqoiclean1415' == 1 {c -(}
+.   do $projdir/do/build/buildanalysisdata/qoiclean/secondary/secqoiclean1415
+. {c )-}
+{txt}
+{com}. 
+. 
+. ////////////////////////////////////////////////////////////////////////////////
+> ********************************************************************************
+. 
+. 
+. ********************** clean parent questions of interest **********************
+. ////////////////////////////////////////////////////////////////////////////////
+> //running parentqoiclean1819
+. local doparentqoiclean1819_1718 = 1
+{txt}
+{com}. if `doparentqoiclean1819_1718' == 1 {c -(}
+.   do $projdir/do/build/buildanalysisdata/qoiclean/parent/parentqoiclean1819_1718
+{txt}
+{com}. ********************************************************************************
+. /* rename and clean parent 1819 and 1718 survey questions of interest. This file
+> supercedes parentqoiclean1718.do*/
+. ********************************************************************************
+. ********************************************************************************
+. *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************
+. ********************************************************************************
+. 
+. clear all
+{res}{txt}
+{com}. set more off
+{txt}
+{com}. 
+. /* the code for cleaning 1819 and 1718 is exactly the same, so use loop */
+. local years `" "1718" "1819" "'
+{txt}
+{com}. 
+. foreach year of local years {c -(}
+{txt}  2{com}. use $clndtadir/parent/parent`year', clear
+{txt}  3{com}. //only keep questions of interest
+. keep cdscode p9 p15 p16 p17 p27 p30 p31 p32 p33 p34 p64
+{txt}  4{com}. //rename questions of interest using question numbers in 1819 as standard
+. foreach i of numlist 9 15/17 27 30/34 64 {c -(}
+{txt}  5{com}.   rename p`i' qoi`i'
+{txt}  6{com}. {c )-}
+{txt}  7{com}. //relabel the value labels to be consistent with var name
+. elabel rename (p*) (qoi*)
+{txt}  8{com}. //delete all value labels not associated with variables
+. labdu , delete
+{txt}  9{com}. 
+. /* count the total number of responses in each school */
+. sort cdscode
+{txt} 10{com}. by cdscode: gen totalresp = _N
+{txt} 11{com}. label var totalresp "total number of responses at each school including missing"
+{txt} 12{com}. 
+. 
+. ********************************************************************************
+. /* qoi 9, 15-17, 27, 30-34 have the same response options, so clean them in the
+> same batch */
+. 
+. /* value labels for qoi 9, 15-17, 27, 30-34:
+> 1 strongly agree
+> 2 agree
+> 3 disagree
+> 4 strongly disagree
+> 5 don't know/NA
+> 
+> Recode:
+> -2 strongly disagree
+> -1 disagree
+> 0 neutral
+> 1 agree
+> 2 strongly agree
+> */
+. 
+. /* recode qoi 9, 15-17, 27, 30-34 */
+. foreach i of numlist 9 15/17 27 30/34 {c -(}
+{txt} 13{com}.   gen qoi`i'temp = .
+{txt} 14{com}.   replace qoi`i'temp = -2 if qoi`i' == 4
+{txt} 15{com}.   replace qoi`i'temp = -1 if qoi`i' == 3
+{txt} 16{com}.   replace qoi`i'temp =  0 if qoi`i' == 5
+{txt} 17{com}.   replace qoi`i'temp =  1 if qoi`i' == 2
+{txt} 18{com}.   replace qoi`i'temp =  2 if qoi`i' == 1
+{txt} 19{com}. 
+.   drop qoi`i'
+{txt} 20{com}.   rename qoi`i'temp qoi`i'
+{txt} 21{com}. {c )-}
+{txt} 22{com}. 
+. /* generate dummies for each response option and missing for qoi 9, 15-17, 27, 30-34 */
+. foreach i of numlist 9 15/17 27 30/34 {c -(}
+{txt} 23{com}.   gen stragree`i' = 0
+{txt} 24{com}.   replace stragree`i' = 1 if qoi`i' == 2
+{txt} 25{com}. 
+.   gen agree`i' = 0
+{txt} 26{com}.   replace agree`i' = 1 if qoi`i' == 1
+{txt} 27{com}. 
+.   gen disagree`i' = 0
+{txt} 28{com}.   replace disagree`i' = 1 if qoi`i' == -1
+{txt} 29{com}. 
+.   gen strdisagree`i' = 0
+{txt} 30{com}.   replace strdisagree`i' = 1 if qoi`i' == -2
+{txt} 31{com}. 
+.   gen dontknow`i' = 0
+{txt} 32{com}.   replace dontknow`i' = 1 if qoi`i' == 0
+{txt} 33{com}. 
+.   gen missing`i' = 0
+{txt} 34{com}.   replace missing`i' = 1 if missing(qoi`i')
+{txt} 35{com}. {c )-}
+{txt} 36{com}. 
+. ********************************************************************************
+. /* clean qoi 64 as it has different resonse options */
+. 
+. /* value labels for qoi64:
+> 1 very well
+> 2 just okay
+> 3 not very well
+> 4 does not do it at all
+> 5 don't know/NA
+> 
+> recode:
+> -2 does not do it at all
+> -1 not very well
+> 0 dont know
+> 1 just okay
+> 2 very well
+>  */
+. 
+. /* recode qoi 64 */
+.  foreach i of numlist 64 {c -(}
+{txt} 37{com}.    gen qoi`i'temp = .
+{txt} 38{com}.    replace qoi`i'temp = -2 if qoi`i' == 4
+{txt} 39{com}.    replace qoi`i'temp = -1 if qoi`i' == 3
+{txt} 40{com}.    replace qoi`i'temp =  0 if qoi`i' == 5
+{txt} 41{com}.    replace qoi`i'temp =  1 if qoi`i' == 2
+{txt} 42{com}.    replace qoi`i'temp =  2 if qoi`i' == 1
+{txt} 43{com}. 
+.    drop qoi`i'
+{txt} 44{com}.    rename qoi`i'temp qoi`i'
+{txt} 45{com}.  {c )-}
+{txt} 46{com}. 
+.  gen verywell64 = 0
+{txt} 47{com}.  replace verywell64 = 1 if qoi64 == 2
+{txt} 48{com}. 
+.  gen justokay64 = 0
+{txt} 49{com}.  replace justokay64 = 1 if qoi64 == 1
+{txt} 50{com}. 
+.  gen notwell64 = 0
+{txt} 51{com}.  replace notwell64 = 1 if qoi64 == -1
+{txt} 52{com}. 
+.  gen doesnotdo64 = 0
+{txt} 53{com}.  replace doesnotdo64 = 1 if qoi64 == -2
+{txt} 54{com}. 
+.  gen dontknow64 = 0
+{txt} 55{com}.  replace dontknow64 = 1 if qoi64 == 0
+{txt} 56{com}. 
+.  gen missing64 = 0
+{txt} 57{com}.  replace missing6 = 1 if missing(qoi64)
+{txt} 58{com}. 
+. 
+. /* generate means for the qoi  */
+. foreach i of numlist 9 15/17 27 30/34 64 {c -(}
+{txt} 59{com}.   egen qoi`i'mean = mean(qoi`i'), by(cdscode)
+{txt} 60{com}. {c )-}
+{txt} 61{com}. 
+. 
+. /* This is old code before the recoding of qoi values
+>  /* generate mean of vars, excluding don't know. */
+>  //generate temp vars for low and high bounds to use with rangestat
+>  gen lowbound = 1
+>  gen highbound = 4
+> foreach i of numlist 9 15/17 27 30/34 64 {c -(}
+>   rangestat (mean) qoi`i', interval(qoi`i' lowbound highbound) by(cdscode)
+>   rename qoi`i'_mean qoi`i'mean //rename the generated mean vars
+> {c )-}
+> /* Note: don't worry about missing values generated because it does not matter
+> after collapsing dataset */
+> drop lowbound highbound //drop the temp vars */
+. 
+. 
+. 
+. /* collapse the dataset, resulting dataset has mean for each qoi, total number
+> of responses, and number of responses for each option in each question */
+. collapse (mean) qoi*mean totalresp (sum) stragree* agree* disagree* strdisagree* dontknow* missing* verywell64 justokay64 notwell64 doesnotdo64, by(cdscode)
+{txt} 62{com}. //some schools have missing means because they have very low number of responses and with either don't know or missing
+. 
+. 
+. **************************** relabel the vars **********************************
+. /* label mean vars */
+. label var qoi9mean "Mean (excluding don't know) of Q: promotes academic success for all students"
+{txt} 63{com}. label var qoi15mean "Mean (excluding don't know) of Q: provides quality counseling or other ways..."
+{txt} 64{com}. label var qoi16mean "Mean (excluding don't know) of Q: is a supportive and inviting place..."
+{txt} 65{com}. label var qoi17mean "Mean (excluding don't know) of Q: allows input and welcomes parents'..."
+{txt} 66{com}. label var qoi27mean "Mean (excluding don't know) of Q: encourages me to be an active partner..."
+{txt} 67{com}. label var qoi30mean "Mean (excluding don't know) of Q: provides high quality instruction..."
+{txt} 68{com}. label var qoi31mean "Mean (excluding don't know) of Q: motivates students to learn"
+{txt} 69{com}. label var qoi32mean "Mean (excluding don't know) of Q: has teachers who go out of their way..."
+{txt} 70{com}. label var qoi33mean "Mean (excluding don't know) of Q: has adults who really care about students"
+{txt} 71{com}. label var qoi34mean "Mean (excluding don't know) of Q: has high expectations for all students"
+{txt} 72{com}. label var qoi64mean "Mean (excluding don't know) of Q: provoding information on how to help..."
+{txt} 73{com}. 
+. label var totalresp "total number of responses in the school including missing"
+{txt} 74{com}. 
+. /* label vars for the number of response for each option */
+. foreach i of numlist 9 15/17 27 30/34 {c -(}
+{txt} 75{com}.   label var stragree`i' "number of people choosing strongly agree for qoi`i'"
+{txt} 76{com}.   label var agree`i' "number of people choosing agree for qoi`i'"
+{txt} 77{com}.   label var disagree`i' "number of people choosing disagree for qoi`i'"
+{txt} 78{com}.   label var strdisagree`i' "number of people choosing strongly disagree for qoi`i'"
+{txt} 79{com}.   label var dontknow`i' "number of people choosing don't know for qoi`i'"
+{txt} 80{com}.   label var missing`i' "number of missing responses for qoi`i'"
+{txt} 81{com}. {c )-}
+{txt} 82{com}. 
+. label var verywell64 "number of people choosing very well for qoi64"
+{txt} 83{com}. label var justokay64 "number of people choosing just okay for qoi64"
+{txt} 84{com}. label var notwell64 "number of people choosing not very well for qoi64"
+{txt} 85{com}. label var doesnotdo64 "number of people choosing does not do it at all for qoi64"
+{txt} 86{com}. label var dontknow64 "number of people choosing don't know for qoi64"
+{txt} 87{com}. label var missing64 "number of missing responses for qoi64"
+{txt} 88{com}. 
+. ********************* generate percentage agree/disagree etc *******************
+. /* first, generate the net total responses for each question excluding missing */
+. foreach i of numlist 9 15/17 27 30/34 64 {c -(}
+{txt} 89{com}.   gen nettotalresp`i' = totalresp - missing`i'
+{txt} 90{com}.   label var nettotalresp`i' "net total responses for qoi`i' excluding missing "
+{txt} 91{com}. {c )-}
+{txt} 92{com}. 
+. /* generate percent disagree/agree for qoi 9 15/17 27 30/34 */
+. foreach i of numlist 9 15/17 27 30/34 {c -(}
+{txt} 93{com}.   gen pctdisagree`i' = (strdisagree`i' + disagree`i')/nettotalresp`i'
+{txt} 94{com}.   label var pctdisagree`i' "percent strongly disagree or disagree in qoi`i'"
+{txt} 95{com}.   gen pctagree`i' = (stragree`i' + agree`i')/nettotalresp`i'
+{txt} 96{com}.   label var pctagree`i' "percent strongly agree or agree in qoi`i'"
+{txt} 97{com}.   gen pctdontknow`i' = dontknow`i'/nettotalresp`i'
+{txt} 98{com}.   label var pctdontknow`i' "percent don't know in qoi`i'"
+{txt} 99{com}. {c )-}
+{txt}100{com}. 
+. /* generate percent well/not well for qoi64 */
+. gen pctwell64 = verywell64/nettotalresp64
+{txt}101{com}. label var pctwell64 "percent very well in qoi64"
+{txt}102{com}. gen pctokay64 = justokay64/nettotalresp64
+{txt}103{com}. label var pctokay64 "percent just okay in qoi64"
+{txt}104{com}. gen pctnotwell64 = (notwell64 + doesnotdo64)/nettotalresp64
+{txt}105{com}. label var pctnotwell64 "percent not well or does not do at all in qoi64"
+{txt}106{com}. gen pctdontknow64 = dontknow64/nettotalresp64
+{txt}107{com}. label var pctdontknow64 "percent don't know in qoi64"
+{txt}108{com}. 
+. /* generate a year var to prepare for constructing a panel */
+. gen year = `year'
+{txt}109{com}. 
+. 
+. label data "cleaned parent `year' survey questions of interest with percent disagree/agree etc."
+{txt}110{com}. compress
+{txt}111{com}. save $projdir/dta/buildanalysisdata/qoiclean/parent/parentqoiclean`year', replace
+{txt}112{com}. {c )-}
+{txt}(2017-18 Parent CSPS Data)
+{res}{txt}(152,241 missing values generated)
+(2,252 real changes made)
+(6,135 real changes made)
+(4,512 real changes made)
+(67,449 real changes made)
+(59,713 real changes made)
+{res}{txt}(152,241 missing values generated)
+(4,892 real changes made)
+(11,157 real changes made)
+(30,380 real changes made)
+(52,433 real changes made)
+(43,695 real changes made)
+{res}{txt}(152,241 missing values generated)
+(2,425 real changes made)
+(6,816 real changes made)
+(3,901 real changes made)
+(68,685 real changes made)
+(58,215 real changes made)
+{res}{txt}(152,241 missing values generated)
+(3,215 real changes made)
+(8,433 real changes made)
+(9,581 real changes made)
+(66,442 real changes made)
+(54,589 real changes made)
+{res}{txt}(152,241 missing values generated)
+(2,832 real changes made)
+(8,649 real changes made)
+(5,898 real changes made)
+(66,380 real changes made)
+(58,718 real changes made)
+{res}{txt}(152,241 missing values generated)
+(2,275 real changes made)
+(8,908 real changes made)
+(4,752 real changes made)
+(70,764 real changes made)
+(51,585 real changes made)
+{res}{txt}(152,241 missing values generated)
+(2,145 real changes made)
+(7,900 real changes made)
+(4,490 real changes made)
+(68,159 real changes made)
+(58,009 real changes made)
+{res}{txt}(152,241 missing values generated)
+(2,526 real changes made)
+(8,051 real changes made)
+(7,722 real changes made)
+(51,858 real changes made)
+(52,130 real changes made)
+{res}{txt}(152,241 missing values generated)
+(2,026 real changes made)
+(6,047 real changes made)
+(8,397 real changes made)
+(65,485 real changes made)
+(58,807 real changes made)
+{res}{txt}(152,241 missing values generated)
+(2,164 real changes made)
+(8,306 real changes made)
+(9,837 real changes made)
+(63,366 real changes made)
+(54,588 real changes made)
+{res}{txt}(59,713 real changes made)
+(67,449 real changes made)
+(6,135 real changes made)
+(2,252 real changes made)
+(4,512 real changes made)
+(12,180 real changes made)
+(43,695 real changes made)
+(52,433 real changes made)
+(11,157 real changes made)
+(4,892 real changes made)
+(30,380 real changes made)
+(9,684 real changes made)
+(58,215 real changes made)
+(68,685 real changes made)
+(6,816 real changes made)
+(2,425 real changes made)
+(3,901 real changes made)
+(12,199 real changes made)
+(54,589 real changes made)
+(66,442 real changes made)
+(8,433 real changes made)
+(3,215 real changes made)
+(9,581 real changes made)
+(9,981 real changes made)
+(58,718 real changes made)
+(66,380 real changes made)
+(8,649 real changes made)
+(2,832 real changes made)
+(5,898 real changes made)
+(9,764 real changes made)
+(51,585 real changes made)
+(70,764 real changes made)
+(8,908 real changes made)
+(2,275 real changes made)
+(4,752 real changes made)
+(13,957 real changes made)
+(58,009 real changes made)
+(68,159 real changes made)
+(7,900 real changes made)
+(2,145 real changes made)
+(4,490 real changes made)
+(11,538 real changes made)
+(52,130 real changes made)
+(51,858 real changes made)
+(8,051 real changes made)
+(2,526 real changes made)
+(7,722 real changes made)
+(29,954 real changes made)
+(58,807 real changes made)
+(65,485 real changes made)
+(6,047 real changes made)
+(2,026 real changes made)
+(8,397 real changes made)
+(11,479 real changes made)
+(54,588 real changes made)
+(63,366 real changes made)
+(8,306 real changes made)
+(2,164 real changes made)
+(9,837 real changes made)
+(13,980 real changes made)
+(152,241 missing values generated)
+(13,866 real changes made)
+(11,960 real changes made)
+(30,565 real changes made)
+(32,077 real changes made)
+(46,164 real changes made)
+{res}{txt}(46,164 real changes made)
+(32,077 real changes made)
+(11,960 real changes made)
+(13,866 real changes made)
+(30,565 real changes made)
+{err}variable {bf}missing6{sf} not found
+{txt}{search r(111), local:r(111);}
+
+end of do-file
+{search r(111), local:r(111);}
+{com}. {c )-}
+{txt}{search r(111), local:r(111);}
+
+end of do-file
+
+{search r(111), local:r(111);}
+
+{com}. do "./do/master.do"
+{txt}
+{com}. ********************************************************************************
+. ******* master do file for caschls survey data project do files ****************
+. ***this master file executes all do files for the project in correct order *****
+. ********************************************************************************
+. ********************************************************************************
+. *************** written by Che Sun. Email: ucsun@ucdavis.edu ********************
+. ********************************************************************************
+. 
+. /* IMPORTAMT: before running this master do file, make sure the directories global macros
+> are set correctly in the settings.do file according to your current file structure */
+. // cd "/home/research/ca_ed_lab/chesun/gsr/caschls"
+. 
+. /* to run this master do file, run the following line of code  */
+. // do "./do/master.do"
+. 
+. /* For convenience of copy pasting:
+> cd "/home/research/ca_ed_lab/chesun/gsr/caschls"
+> do "./do/settings.do"
+> */
+. 
+. clear all
+{res}{txt}
+{com}. set varabbrev off, perm //set variable abbreviation permanently off
+{txt}({cmd:set varabbrev} preference recorded)
+
+{com}. 
+. do "./do/settings.do" //set global project settings
+{txt}
+{com}. ********************************************************************************
+. ******* global settings for calschls sruvey data do files********************
+. ********************************************************************************
+. ********************************************************************************
+. *************** written by Che Sun. Email: ucsun@ucdavis.edu ********************
+. ********************************************************************************
+. 
+. /* IMPORTAMT: before running running the master do file, make sure the directories global macros
+> are set correctly in the settings.do file according to your current file structure */
+. 
+. /* creating global macro for the raw csv file directory */
+. global rawcsvdir "/home/research/ca_ed_lab/data/restricted_access/raw/calschls/csv"
+{txt}
+{com}. 
+. 
+. /* creating global macro for the raw dta file directory */
+. global rawdtadir "/home/research/ca_ed_lab/data/restricted_access/raw/calschls/stata"
+{txt}
+{com}. 
+. 
+. /* creating global macro for the clean dta file directory */
+. global clndtadir "/home/research/ca_ed_lab/data/restricted_access/clean/calschls"
+{txt}
+{com}. 
+. 
+. /* creating global macro for the current project directory. IMPORTANT
+> to set correctly so that the do files will run  */
+. global projdir "/home/research/ca_ed_lab/chesun/gsr/caschls"
+{txt}
+{com}. 
+. 
+. /* create global macro for the value added estimates file directory */
+. global vadtadir "/home/research/ca_ed_lab/common_core_va/data/sbac"
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. log using "$projdir/log/master.smcl", replace name(master) //start log file for the master do file and overwrite existing log file
+{err}log file already open
+{txt}{search r(604), local:r(604);}
+
+end of do-file
+
+{search r(604), local:r(604);}
+
+{com}. log close _all
+      {txt}name:  {res}master
+       {txt}log:  {res}/home/research/ca_ed_lab/chesun/gsr/caschls/log/master.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 3 Apr 2021, 20:30:32
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

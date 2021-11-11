@@ -31,3 +31,7 @@ global vadtadir "/home/research/ca_ed_lab/msnaven/common_core_va/data/sbac"
 
 /* create global macro for CST data directory */
 global cstdtadir "/home/research/ca_ed_lab/data/restricted_access/clean/cst"
+
+
+/* create global macro for NSC data directory */
+global nscdtadir "/home/research/ca_ed_lab/data/restricted_access/clean/nsc"

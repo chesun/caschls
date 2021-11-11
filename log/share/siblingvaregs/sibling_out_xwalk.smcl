@@ -1,0 +1,201 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/chesun/gsr/caschls/log/share/siblingvaregs/sibling_out_xwalk.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}22 Oct 2021, 19:25:43
+{txt}
+{com}. 
+. 
+. //set a timer for this do file to see how long it runs
+. timer on 1
+{txt}
+{com}. 
+. 
+. 
+. ********************************************************************************
+. //create sibling college outcome vars
+. //First load the k12 test score sample matched to postsecondary outcome data
+. 
+. use `k12_postsecondary_out_merge', clear
+{txt}(Full K-12 test scores merged to postsecondary outcomes)
+
+{com}. 
+. //generate an indicator for observations matched to postsecondary outcomes data
+. gen k12_postsec_match = 0
+{txt}
+{com}. replace k12_postsec_match = 1 if k12_nsc_match == 1 | k12_ccc_match == 1 | k12_csu_match == 1
+{txt}(36,360,886 real changes made)
+
+{com}. label var k12_postsec_match "Indicator for k12 observation matched to postsecondary data (NSC, CCC, or CSU)"
+{txt}
+{com}. 
+. //collapse to ssid level
+. collapse (max) enr enr_2year enr_4year k12_postsec_match, by(state_student_id)
+{res}{txt}
+{com}. 
+. //merge on unique family id
+. merge 1:1 state_student_id using `ufamilyxwalk'
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}       8,718,171
+{txt}{col 9}from master{col 30}{res}       8,590,681{txt}  (_merge==1)
+{col 9}from using{col 30}{res}         127,490{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}       3,957,189{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. /*
+> Result                      Number of obs
+>     -----------------------------------------
+>     Not matched                     8,718,171
+>         from master                 8,590,681  (_merge==1)
+>         from using                    127,490  (_merge==2)
+> 
+>     Matched                         3,957,189  (_merge==3)
+>     -----------------------------------------
+> 
+>  */
+. 
+. //keep only the sample of matched siblings
+. drop if missing(ufamilyid)
+{txt}(8,590,681 observations deleted)
+
+{com}. //mark sibling sample who are matched to postsecondary outcomes for merged observations
+. gen sibling_out_sample = 0
+{txt}
+{com}. replace sibling_out_sample = 1 if _merge==3 & k12_postsec_match == 1
+{txt}(2,466,979 real changes made)
+
+{com}. label var sibling_out_sample "Indicator for sibling sample that are matched to postsecondary outcomes"
+{txt}
+{com}. drop _merge
+{txt}
+{com}. 
+. /*
+> 
+> . count if k12_postsec_match == 1
+>   2,466,979
+> 
+> . count if k12_postsec_match == 1 & sibling_out_sample==1
+>   2,466,979
+> 
+> All of the k12_postsec matched observations were matched to the sibling sample
+>  */
+. 
+. //mark students who have older siblings
+. gen has_older_sibling = 0
+{txt}
+{com}. replace has_older_sibling = 1 if numsiblings_older > 0
+{txt}(2,370,123 real changes made)
+
+{com}. label var has_older_sibling "Has at least 1 older sibling"
+{txt}
+{com}. 
+. /* NEED TO CREATE PROPS ENROLLED FOR OLDER SIBLINGS  */
+. //number of siblings total in the family ranges from 1 to 10, so max number of older siblings is 9
+. 
+. /* this rangestat command calculates the sum of the variable for observations in
+> the interval between birth_order - lower_bound and birth_order - 1, which is all the older siblings  */
+. /* NOTE: rangestat treats missing enr vars as 0 */
+. 
+. /*
+> sort ufamilyid birth_order
+> gen lower_bound = -numsiblings_older
+> local outcomes enr enr_2year enr_4year
+> foreach i of local outcomes {c -(}
+>   rangestat (sum) `i', interval(birth_order, lower_bound, -1) by(ufamilyid)
+>   rename `i'_sum numsiblings_older_`i'
+>   label var numsiblings_older_`i' "Number of older siblings with `i'==1"
+>   gen propsiblings_older_`i' = numsiblings_older_`i' / numsiblings_older
+>   label var propsiblings_older_`i' "Proportion of older siblings with `i'==1"
+> {c )-}
+> 
+> drop lower_bound
+> */
+. 
+. /* Create dummies for whether the student has an older sibling who was matched to
+> postsecondary outcomes and who was enrolled in 2 year, and 4 year */
+. sort ufamilyid birth_order
+{txt}
+{com}. gen lower_bound = -numsiblings_older
+{txt}
+{com}. //create a dummy for whether at least one older sibling was matched to postsecondary outcomes
+. rangestat (sum) k12_postsec_match, interval(birth_order, lower_bound, -1) by(ufamilyid)
+{res}{txt}
+{com}. rename k12_postsec_match_sum num_older_sibling_postsec_match
+{res}{txt}
+{com}. label var num_older_sibling_postsec_match "Number of older sibling matched to postsecondary outcomes"
+{txt}
+{com}. 
+. /* SUPER IMPORTANT: STATA TREATS MISSING AS GREATER THAN ANY NONMISSING NUMBER!!!!!! */
+. gen has_older_sibling_postsec_match = 0
+{txt}
+{com}. replace has_older_sibling_postsec_match = 1 if !missing(num_older_sibling_postsec_match) & num_older_sibling_postsec_match > 0
+{txt}(1,720,430 real changes made)
+
+{com}. label var has_older_sibling_postsec_match "Has at least one older sibling matched to postsecondary outcomes"
+{txt}
+{com}. 
+. local outcomes enr enr_2year enr_4year
+{txt}
+{com}. foreach i of local outcomes {c -(}
+{txt}  2{com}.   rangestat (sum) `i' if has_older_sibling_postsec_match == 1, interval(birth_order, lower_bound, -1) by(ufamilyid)
+{txt}  3{com}.   rename `i'_sum numsiblings_older_`i'
+{txt}  4{com}.   label var numsiblings_older_`i' "Number of older siblings that are matched to postsec outcomes with `i'==1"
+{txt}  5{com}.   gen has_older_sibling_`i' = 0
+{txt}  6{com}.   replace has_older_sibling_`i' = 1 if numsiblings_older_`i' > 0 & !missing(numsiblings_older_`i')
+{txt}  7{com}.   label var has_older_sibling_`i' "Has at least 1 older sibling matched to postsec outcome and with `i' = 1"
+{txt}  8{com}. {c )-}
+{res}{txt}(203,574 real changes made)
+{res}{txt}(125,140 real changes made)
+{res}{txt}(88,538 real changes made)
+
+{com}. 
+. drop lower_bound
+{txt}
+{com}. 
+. 
+. 
+. //create sibling outcomes crosswalk
+. compress
+  {txt}variable {bf}{res}k12_postsec_match{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}sibling_out_sample{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}has_older_sibling{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}has_older_sibling_postsec_match{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}has_older_sibling_enr{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}has_older_sibling_enr_2year{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}has_older_sibling_enr_4year{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}num_older_sibling_postsec_match{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}numsiblings_older_enr{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}numsiblings_older_enr_2year{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}numsiblings_older_enr_4year{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+{txt}  (200,149,271 bytes saved)
+
+{com}. label data "Sibling enrollment outcomes crosswalk organized by unique families"
+{txt}
+{com}. save $projdir/dta/siblingxwalk/sibling_out_xwalk, replace
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/chesun/gsr/caschls/dta/siblingxwalk/sibling_out_xwalk.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. 
+. 
+.  timer off 1
+{txt}
+{com}.  timer list
+{res}   1:    141.64 /        1 =     141.6400
+{txt}
+{com}.  log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/chesun/gsr/caschls/log/share/siblingvaregs/sibling_out_xwalk.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}22 Oct 2021, 19:28:04
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

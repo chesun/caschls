@@ -1,0 +1,533 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/chesun/gsr/caschls/log/share/siblingvaregs/va_sibling_sample_sumstats.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 3 Nov 2021, 18:41:32
+{txt}
+{com}. 
+. //include macros
+. include do_files/sbac/macros_va.doh
+{txt}
+{com}. #delimit ;
+{txt}delimiter now ;
+{com}. local test_score_min_year
+>         2015
+>         ;
+{txt}
+{com}. local test_score_max_year
+>         2019
+>         ;
+{txt}
+{com}. local star_min_year
+>         2003
+>         ;
+{txt}
+{com}. local star_max_year
+>         2013
+>         ;
+{txt}
+{com}. local caaspp_min_year
+>         2015
+>         ;
+{txt}
+{com}. local caaspp_max_year
+>         2019
+>         ;
+{txt}
+{com}. local outcome_min_year
+>         2015
+>         ;
+{txt}
+{com}. local outcome_max_year
+>         2018
+>         ;
+{txt}
+{com}. local ela_str
+>         "ELA"
+>         ;
+{txt}
+{com}. local math_str
+>         "Math"
+>         ;
+{txt}
+{com}. local enr_str
+>         "Enrolled On Time"
+>         ;
+{txt}
+{com}. local enr_2year_str
+>         "Enrolled On Time 2-Year"
+>         ;
+{txt}
+{com}. local enr_4year_str
+>         "Enrolled On Time 4-Year"
+>         ;
+{txt}
+{com}. local school_controls
+>         /*cohort_size*/
+>         ;
+{txt}
+{com}. local demographic_controls
+>         age
+>         i.male
+>         i.eth_asian i.eth_hispanic i.eth_black i.eth_other
+>         i.econ_disadvantage
+>         i.limited_eng_prof
+>         i.disabled
+>         ;
+{txt}
+{com}. local peer_demographic_controls
+>         peer_age
+>         peer_male
+>         peer_eth_asian peer_eth_hispanic peer_eth_black peer_eth_other
+>         peer_econ_disadvantage
+>         peer_limited_eng_prof
+>         peer_disabled
+>         ;
+{txt}
+{com}. local ela_score_controls
+>         i.year#(c.prior_ela_z_score##c.prior_ela_z_score##c.prior_ela_z_score)
+>         ;
+{txt}
+{com}. local peer_ela_score_controls
+>         i.year#(c.peer_prior_ela_z_score##c.peer_prior_ela_z_score##c.peer_prior_ela_z_score)
+>         ;
+{txt}
+{com}. local math_score_controls
+>         i.year#(c.prior_math_z_score##c.prior_math_z_score##c.prior_math_z_score)
+>         ;
+{txt}
+{com}. local peer_math_score_controls
+>         i.year#(c.peer_prior_math_z_score##c.peer_prior_math_z_score##c.peer_prior_math_z_score)
+>         ;
+{txt}
+{com}. local va_control_vars "`school_controls' `demographic_controls'" ;
+{txt}
+{com}. local va_control_vars : subinstr local va_control_vars "i." "", all ;
+{txt}
+{com}. local va_control_vars : list uniq va_control_vars ;
+{txt}
+{com}. local census_controls
+>         /*eth_white_pct*/ eth_asian_pct eth_hispanic_pct eth_black_pct /*eth_other_pct*/
+>         educ_hs_dropout_prop /*educ_deg_2year_prop*/ educ_deg_4year_plus_prop
+>         pov_fam_child_lt18_pct
+>         inc_median_hh
+>         ;
+{txt}
+{com}. #delimit cr
+{txt}delimiter now cr
+{com}. {txt}
+{com}. 
+. #delimit ;
+{txt}delimiter now ;
+{com}. #delimit cr
+{txt}delimiter now cr
+{com}. macro list
+{txt}{p 0 16}
+nscdtadir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/clean/nsc
+{p_end}
+{txt}{p 0 16}
+cstdtadir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/clean/cst
+{p_end}
+{txt}{p 0 16}
+vadtadir:{space 7}{res}{res}/home/research/ca_ed_lab/msnaven/common_core_va/data/sbac
+{p_end}
+{txt}{p 0 16}
+projdir:{space 8}{res}{res}/home/research/ca_ed_lab/chesun/gsr/caschls
+{p_end}
+{txt}{p 0 16}
+clndtadir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/clean/calschls
+{p_end}
+{txt}{p 0 16}
+rawdtadir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/raw/calschls/stata
+{p_end}
+{txt}{p 0 16}
+rawcsvdir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/raw/calschls/csv
+{p_end}
+{txt}{p 0 16}
+S_level:{space 8}{res}{res}95
+{p_end}
+{txt}{p 0 16}
+F1:{space 13}{res}{res}help advice;
+{p_end}
+{txt}{p 0 16}
+F2:{space 13}{res}{res}describe;
+{p_end}
+{txt}{p 0 16}
+F7:{space 13}{res}{res}save 
+{p_end}
+{txt}{p 0 16}
+F8:{space 13}{res}{res}use 
+{p_end}
+{txt}{p 0 16}
+S_ADO:{space 10}{res}{res}BASE;SITE;.;PERSONAL;PLUS;OLDPLACE
+{p_end}
+{txt}{p 0 16}
+S_StataMP:{space 6}{res}{res}MP
+{p_end}
+{txt}{p 0 16}
+S_StataSE:{space 6}{res}{res}SE
+{p_end}
+{txt}{p 0 16}
+S_OS:{space 11}{res}{res}Unix
+{p_end}
+{txt}{p 0 16}
+S_MACH:{space 9}{res}{res}PC (64-bit x86-64)
+{p_end}
+{txt}{p 0 16}
+_census_controls:{break}
+{res}eth_asian_pct eth_hispanic_pct eth_black_pct          educ_hs_dropout_prop  educ_deg_4year_plus_prop         pov_fam_child_lt18_pct         inc_median_hh
+{p_end}
+{txt}{p 0 16}
+_va_control_vars:{break}
+{res}age male eth_asian eth_hispanic eth_black eth_other econ_disadvantage limited_eng_prof disabled
+{p_end}
+{txt}{p 0 16}
+_peer_math_score_controls:{break}
+{res}i.year#(c.peer_prior_math_z_score##c.peer_prior_math_z_score##c.peer_prior_math_z_score)
+{p_end}
+{txt}{p 0 16}
+_math_score_controls:{break}
+{res}i.year#(c.prior_math_z_score##c.prior_math_z_score##c.prior_math_z_score)
+{p_end}
+{txt}{p 0 16}
+_peer_ela_score_controls:{break}
+{res}i.year#(c.peer_prior_ela_z_score##c.peer_prior_ela_z_score##c.peer_prior_ela_z_score)
+{p_end}
+{txt}{p 0 16}
+_ela_score_controls:{break}
+{res}i.year#(c.prior_ela_z_score##c.prior_ela_z_score##c.prior_ela_z_score)
+{p_end}
+{txt}{p 0 16}
+_peer_demographic_controls:{break}
+{res}peer_age         peer_male         peer_eth_asian peer_eth_hispanic peer_eth_black peer_eth_other         peer_econ_disadvantage         peer_limited_eng_prof         peer_disabled
+{p_end}
+{txt}{p 0 16}
+_demographic_controls:{break}
+{res}age         i.male         i.eth_asian i.eth_hispanic i.eth_black i.eth_other         i.econ_disadvantage         i.limited_eng_prof         i.disabled
+{p_end}
+{txt}{p 0 16}
+_enr_4year_str:{space 1}{res}{res}Enrolled On Time 4-Year
+{p_end}
+{txt}{p 0 16}
+_enr_2year_str:{space 1}{res}{res}Enrolled On Time 2-Year
+{p_end}
+{txt}{p 0 16}
+_enr_str:{space 7}{res}{res}Enrolled On Time
+{p_end}
+{txt}{p 0 16}
+_math_str:{space 6}{res}{res}Math
+{p_end}
+{txt}{p 0 16}
+_ela_str:{space 7}{res}{res}ELA
+{p_end}
+{txt}{p 0 16}
+_outcome_max_year:{break}
+{res}2018
+{p_end}
+{txt}{p 0 16}
+_outcome_min_year:{break}
+{res}2015
+{p_end}
+{txt}{p 0 16}
+_caaspp_max_year:{break}
+{res}2019
+{p_end}
+{txt}{p 0 16}
+_caaspp_min_year:{break}
+{res}2015
+{p_end}
+{txt}{p 0 16}
+_star_max_year:{space 1}{res}{res}2013
+{p_end}
+{txt}{p 0 16}
+_star_min_year:{space 1}{res}{res}2003
+{p_end}
+{txt}{p 0 16}
+_test_score_max_year:{break}
+{res}2019
+{p_end}
+{txt}{p 0 16}
+_test_score_min_year:{break}
+{res}2015
+{p_end}
+{txt}{p 0 16}
+_sibling_out_xwalk:{break}
+{res}/home/research/ca_ed_lab/chesun/gsr/caschls/dta/siblingxwalk/sibling_out_xwalk
+{p_end}
+{txt}{p 0 16}
+_k12_postsecondary_out_merge:{break}
+{res}/home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/k12_postsecondary_out_merge
+{p_end}
+{txt}{p 0 16}
+_ufamilyxwalk:{space 2}{res}{res}/home/research/ca_ed_lab/chesun/gsr/caschls/dta/siblingxwalk/ufamilyxwalk
+{p_end}
+{txt}{p 0 16}
+_siblingxwalk:{space 2}{res}{res}/home/research/ca_ed_lab/chesun/gsr/caschls/dta/siblingxwalk/siblingpairxwalk
+{p_end}
+{txt}{p 0 16}
+_va_g11_out_dataset:{break}
+{res}/home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/va_g11_out_dataset
+{p_end}
+{txt}{p 0 16}
+_va_g11_dataset:{break}
+{res}/home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/va_g11_dataset
+{p_end}
+{txt}{p 0 16}
+_va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/va_dataset
+{p_end}
+{txt}{p 0 16}
+_k12_test_scores_public:{break}
+{res}/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_test_scores
+{p_end}
+{txt}{p 0 16}
+_k12_public_schools:{break}
+{res}/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_public_schools
+{p_end}
+{txt}{p 0 16}
+_public_access:{space 1}{res}{res}/home/research/ca_ed_lab/data/public_access
+{p_end}
+{txt}{p 0 16}
+_k12_test_scores:{break}
+{res}/home/research/ca_ed_lab/msnaven/data/restricted_access/clean/k12_test_scores
+{p_end}
+{txt}{p 0 16}
+_ca_ed_lab:{space 5}{res}{res}/home/research/ca_ed_lab
+{p_end}
+{txt}{p 0 16}
+_common_core_va:{break}
+{res}/home/research/ca_ed_lab/msnaven/common_core_va
+{p_end}
+{txt}{p 0 16}
+_mattdofiles:{space 3}{res}{res}/home/research/ca_ed_lab/msnaven/common_core_va/do_files/sbac
+{p_end}
+{txt}{p 0 16}
+_matthomedir:{space 3}{res}{res}/home/research/ca_ed_lab/msnaven/common_core_va
+{p_end}
+{txt}
+{com}. 
+. 
+. timer on 1
+{txt}
+{com}. 
+. ********************************************************************************
+. /* Add family fixed effects as an additional demographic control in SBAC
+> VA estimation */
+. 
+. //load the VA grade 11 sample
+. use `va_g11_dataset', clear
+{txt}(CST/SBAC Student Test Score Samples)
+
+{com}. 
+. //merge on to ufamilyxwalk in order to use unique family ID for FE
+. merge m:1 state_student_id using `sibling_out_xwalk'
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}       4,360,629
+{txt}{col 9}from master{col 30}{res}       1,252,476{txt}  (_merge==1)
+{col 9}from using{col 30}{res}       3,108,153{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}       1,169,409{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. drop _merge
+{txt}
+{com}. 
+. 
+. compress
+{txt}  (0 bytes saved)
+
+{com}. tempfile va_g11_sibling_dataset
+{txt}
+{com}. save `va_g11_sibling_dataset'
+{txt}{p 0 4 2}
+file {bf}
+/home/tmp/St130955.000001{rm}
+saved
+as .dta format
+{p_end}
+
+{com}. 
+. 
+. 
+. 
+. //check the average distance between siblings
+. //in the full sibling sample
+. use $projdir/dta/siblingxwalk/uniquesiblingpairxwalk, clear
+{txt}(Unique sibling pairs after dropping duplicate permutations)
+
+{com}. 
+. //collapse to family level to only keep the average birth date distance in family
+. collapse (mean) avg_birth_date_distance_family, by(ufamilyid)
+{res}{txt}
+{com}. 
+. sum avg_birth_date_distance_family
+
+{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+avg_birth_~y {c |}{res}  1,715,347     3.11413    1.738729          0   14.90137
+{txt}
+{com}. 
+. //in the sibling test score VA sample
+. //merge average sibling birth date distance in family to test score VA sibling dataset
+. 
+. merge 1:m ufamilyid using `va_g11_sibling_dataset'
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}       1,253,350
+{txt}{col 9}from master{col 30}{res}             874{txt}  (_merge==1)
+{col 9}from using{col 30}{res}       1,252,476{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}       4,277,562{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. 
+. sum avg_birth_date_distance_family ///
+> if grade == 11 & touse_g11_ela==1 & sibling_full_sample == 1
+
+{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+avg_birth_~y {c |}{res}    749,450    3.308654     1.66202          0   14.50137
+{txt}
+{com}. 
+. sum avg_birth_date_distance_family ///
+> if grade == 11 & touse_g11_math==1 & sibling_full_sample == 1
+
+{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+avg_birth_~y {c |}{res}    746,054    3.308995    1.662302          0   14.50137
+{txt}
+{com}. 
+. 
+. 
+. 
+. use `va_g11_sibling_dataset', clear 
+{txt}(CST/SBAC Student Test Score Samples)
+
+{com}. //check the number of families in this sample
+. di "number of families in the full sibling sample matched to the g11 va sample"
+{res}number of families in the full sibling sample matched to the g11 va sample
+{txt}
+{com}. 
+. di "ELA"
+{res}ELA
+{txt}
+{com}. egen family_temp = group(ufamilyid) ///
+> if grade == 11 & touse_g11_ela==1 & sibling_full_sample == 1
+{res}{txt}(4,780,550 missing values generated)
+
+{com}. sum family_temp
+
+{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 1}family_temp {c |}{res}    749,488    295962.8    166270.5          1     600210
+{txt}
+{com}. drop family_temp
+{txt}
+{com}. 
+. di "Math"
+{res}Math
+{txt}
+{com}. egen family_temp = group(ufamilyid) ///
+> if grade == 11 & touse_g11_math==1 & sibling_full_sample == 1
+{res}{txt}(4,783,946 missing values generated)
+
+{com}. sum family_temp
+
+{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 1}family_temp {c |}{res}    746,092    294906.6    165695.6          1     598032
+{txt}
+{com}. drop family_temp
+{txt}
+{com}. 
+. di "number of families in the sibling outcome sample matched to the g11 va sample"
+{res}number of families in the sibling outcome sample matched to the g11 va sample
+{txt}
+{com}. di "(have at least one older sibling matched to postsecondary outcomes)"
+{res}(have at least one older sibling matched to postsecondary outcomes)
+{txt}
+{com}. 
+. di "ELA"
+{res}ELA
+{txt}
+{com}. egen family_temp = group(ufamilyid) ///
+> if grade == 11 & touse_g11_ela==1 & sibling_out_sample == 1
+{res}{txt}(5,077,074 missing values generated)
+
+{com}. sum family_temp
+
+{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 1}family_temp {c |}{res}    452,964    197581.3    112032.3          1     396400
+{txt}
+{com}. drop family_temp
+{txt}
+{com}. 
+. di "Math"
+{res}Math
+{txt}
+{com}. egen family_temp = group(ufamilyid) ///
+> if grade == 11 & touse_g11_math==1 & sibling_out_sample == 1
+{res}{txt}(5,079,154 missing values generated)
+
+{com}. sum family_temp
+
+{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 1}family_temp {c |}{res}    450,884    196727.3    111552.2          1     394689
+{txt}
+{com}. drop family_temp
+{txt}
+{com}. 
+. 
+. //check the number of obs by year
+. tab year if grade == 11 & touse_g11_ela==1 & sibling_full_sample == 1
+
+    {txt}Year of {c |}
+     Spring {c |}
+   Semester {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+       2015 {c |}{res}    174,345       23.26       23.26
+{txt}       2016 {c |}{res}     84,788       11.31       34.57
+{txt}       2017 {c |}{res}    171,800       22.92       57.50
+{txt}       2018 {c |}{res}    167,455       22.34       79.84
+{txt}       2019 {c |}{res}    151,100       20.16      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}    749,488      100.00
+{txt}
+{com}. 
+. tab year if grade == 11 & touse_g11_math==1 & sibling_full_sample == 1
+
+    {txt}Year of {c |}
+     Spring {c |}
+   Semester {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+       2015 {c |}{res}    173,472       23.25       23.25
+{txt}       2016 {c |}{res}     84,306       11.30       34.55
+{txt}       2017 {c |}{res}    171,001       22.92       57.47
+{txt}       2018 {c |}{res}    166,926       22.37       79.84
+{txt}       2019 {c |}{res}    150,387       20.16      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}    746,092      100.00
+{txt}
+{com}. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. timer off 1
+{txt}
+{com}. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/chesun/gsr/caschls/log/share/siblingvaregs/va_sibling_sample_sumstats.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 3 Nov 2021, 18:42:30
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

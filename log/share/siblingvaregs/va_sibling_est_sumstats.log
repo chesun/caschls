@@ -1,0 +1,680 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /home/research/ca_ed_lab/chesun/gsr/caschls/log/share/siblingvareg
+> s/va_sibling_est_sumstats.smcl
+  log type:  smcl
+ opened on:   3 Nov 2021, 21:06:23
+
+. 
+. //include macros
+. include do_files/sbac/macros_va.doh
+
+. #delimit ;
+delimiter now ;
+. local test_score_min_year
+>         2015
+>         ;
+
+. local test_score_max_year
+>         2019
+>         ;
+
+. local star_min_year
+>         2003
+>         ;
+
+. local star_max_year
+>         2013
+>         ;
+
+. local caaspp_min_year
+>         2015
+>         ;
+
+. local caaspp_max_year
+>         2019
+>         ;
+
+. local outcome_min_year
+>         2015
+>         ;
+
+. local outcome_max_year
+>         2018
+>         ;
+
+. local ela_str
+>         "ELA"
+>         ;
+
+. local math_str
+>         "Math"
+>         ;
+
+. local enr_str
+>         "Enrolled On Time"
+>         ;
+
+. local enr_2year_str
+>         "Enrolled On Time 2-Year"
+>         ;
+
+. local enr_4year_str
+>         "Enrolled On Time 4-Year"
+>         ;
+
+. local school_controls
+>         /*cohort_size*/
+>         ;
+
+. local demographic_controls
+>         age
+>         i.male
+>         i.eth_asian i.eth_hispanic i.eth_black i.eth_other
+>         i.econ_disadvantage
+>         i.limited_eng_prof
+>         i.disabled
+>         ;
+
+. local peer_demographic_controls
+>         peer_age
+>         peer_male
+>         peer_eth_asian peer_eth_hispanic peer_eth_black peer_eth_other
+>         peer_econ_disadvantage
+>         peer_limited_eng_prof
+>         peer_disabled
+>         ;
+
+. local ela_score_controls
+>         i.year#(c.prior_ela_z_score##c.prior_ela_z_score##c.prior_ela_z_score
+> )
+>         ;
+
+. local peer_ela_score_controls
+>         i.year#(c.peer_prior_ela_z_score##c.peer_prior_ela_z_score##c.peer_pr
+> ior_ela_z_score)
+>         ;
+
+. local math_score_controls
+>         i.year#(c.prior_math_z_score##c.prior_math_z_score##c.prior_math_z_sc
+> ore)
+>         ;
+
+. local peer_math_score_controls
+>         i.year#(c.peer_prior_math_z_score##c.peer_prior_math_z_score##c.peer_
+> prior_math_z_score)
+>         ;
+
+. local va_control_vars "`school_controls' `demographic_controls'" ;
+
+. local va_control_vars : subinstr local va_control_vars "i." "", all ;
+
+. local va_control_vars : list uniq va_control_vars ;
+
+. local census_controls
+>         /*eth_white_pct*/ eth_asian_pct eth_hispanic_pct eth_black_pct /*eth_
+> other_pct*/
+>         educ_hs_dropout_prop /*educ_deg_2year_prop*/ educ_deg_4year_plus_prop
+>         pov_fam_child_lt18_pct
+>         inc_median_hh
+>         ;
+
+. #delimit cr
+delimiter now cr
+. 
+. 
+. #delimit ;
+delimiter now ;
+. #delimit cr
+delimiter now cr
+. macro list
+T_gm_fix_span:  0
+S_4:            .0033960539142934
+S_2:            300
+S_3:            .0156449653054182
+S_1:            epanechnikov
+nscdtadir:      /home/research/ca_ed_lab/data/restricted_access/clean/nsc
+cstdtadir:      /home/research/ca_ed_lab/data/restricted_access/clean/cst
+vadtadir:       /home/research/ca_ed_lab/msnaven/common_core_va/data/sbac
+projdir:        /home/research/ca_ed_lab/chesun/gsr/caschls
+clndtadir:      /home/research/ca_ed_lab/data/restricted_access/clean/calschls
+rawdtadir:      /home/research/ca_ed_lab/data/restricted_access/raw/calschls/st
+                > ata
+rawcsvdir:      /home/research/ca_ed_lab/data/restricted_access/raw/calschls/cs
+                > v
+S_level:        95
+F1:             help advice;
+F2:             describe;
+F7:             save
+F8:             use
+S_ADO:          BASE;SITE;.;PERSONAL;PLUS;OLDPLACE
+S_StataMP:      MP
+S_StataSE:      SE
+S_CONSOLE:      console
+S_OS:           Unix
+S_MACH:         PC (64-bit x86-64)
+_census_controls:
+                eth_asian_pct eth_hispanic_pct eth_black_pct
+                educ_hs_dropout_prop educ_deg_4year_plus_prop
+                pov_fam_child_lt18_pct inc_median_hh
+_va_control_vars:
+                age male eth_asian eth_hispanic eth_black eth_other
+                econ_disadvantage limited_eng_prof disabled
+_peer_math_score_controls:
+                i.year#(c.peer_prior_math_z_score##c.peer_prior_math_z_score##c
+                > .peer_prior_math_z_score)
+_math_score_controls:
+                i.year#(c.prior_math_z_score##c.prior_math_z_score##c.prior_mat
+                > h_z_score)
+_peer_ela_score_controls:
+                i.year#(c.peer_prior_ela_z_score##c.peer_prior_ela_z_score##c.p
+                > eer_prior_ela_z_score)
+_ela_score_controls:
+                i.year#(c.prior_ela_z_score##c.prior_ela_z_score##c.prior_ela_z
+                > _score)
+_peer_demographic_controls:
+                peer_age peer_male peer_eth_asian peer_eth_hispanic
+                peer_eth_black peer_eth_other peer_econ_disadvantage
+                peer_limited_eng_prof peer_disabled
+_demographic_controls:
+                age i.male i.eth_asian i.eth_hispanic i.eth_black i.eth_other
+                i.econ_disadvantage i.limited_eng_prof i.disabled
+_enr_4year_str: Enrolled On Time 4-Year
+_enr_2year_str: Enrolled On Time 2-Year
+_enr_str:       Enrolled On Time
+_math_str:      Math
+_ela_str:       ELA
+_outcome_max_year:
+                2018
+_outcome_min_year:
+                2015
+_caaspp_max_year:
+                2019
+_caaspp_min_year:
+                2015
+_star_max_year: 2013
+_star_min_year: 2003
+_test_score_max_year:
+                2019
+_test_score_min_year:
+                2015
+_sibling_out_xwalk:
+                /home/research/ca_ed_lab/chesun/gsr/caschls/dta/siblingxwalk/si
+                > bling_out_xwalk
+_k12_postsecondary_out_merge:
+                /home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/
+                > k12_postsecondary_out_merge
+_ufamilyxwalk:  /home/research/ca_ed_lab/chesun/gsr/caschls/dta/siblingxwalk/uf
+                > amilyxwalk
+_siblingxwalk:  /home/research/ca_ed_lab/chesun/gsr/caschls/dta/siblingxwalk/si
+                > blingpairxwalk
+_va_g11_out_dataset:
+                /home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/
+                > va_g11_out_dataset
+_va_g11_dataset:
+                /home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/
+                > va_g11_dataset
+_va_dataset:    /home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/
+                > va_dataset
+_k12_test_scores_public:
+                /home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_t
+                > est_scores
+_k12_public_schools:
+                /home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_p
+                > ublic_schools
+_public_access: /home/research/ca_ed_lab/data/public_access
+_k12_test_scores:
+                /home/research/ca_ed_lab/msnaven/data/restricted_access/clean/k
+                > 12_test_scores
+_ca_ed_lab:     /home/research/ca_ed_lab
+_common_core_va:
+                /home/research/ca_ed_lab/msnaven/common_core_va
+_mattdofiles:   /home/research/ca_ed_lab/msnaven/common_core_va/do_files/sbac
+_matthomedir:   /home/research/ca_ed_lab/msnaven/common_core_va
+
+. 
+. 
+. timer on 1
+
+. 
+. // 11th Grade (8th Grade ELA Controls, 6th Grade Math Controls)
+. **************** Two Way Kernel Density for ELA and Math
+. foreach subject in ela math {
+  2. 
+.     use $projdir/dta/common_core_va/test_score_va/va_g11_`subject'_sibling.dt
+> a, clear
+  3.     sort school_id year
+  4.         xtset school_id year
+  5. 
+.     * Normalize to have mean zero
+.         foreach v of varlist va_* {
+  6.                 sum `v', meanonly
+  7.                 replace `v' = `v' - r(mean)
+  8.         }
+  9. 
+.     sum va_cfr_g11_`subject'
+ 10.     local mean_`subject' = 0
+ 11.     local sd_`subject' : di %4.3f = r(sd)
+ 12. 
+.     sum va_cfr_g11_`subject'_peer
+ 13.     local mean_`subject'_peer = 0
+ 14.     local sd_`subject'_peer : di %4.3f = r(sd)
+ 15. 
+.     tempfile va_`subject'
+ 16.     save `va_`subject''
+ 17. 
+. }
+(CST/SBAC Student Test Score Samples)
+
+Panel variable: school_id (unbalanced)
+ Time variable: year, 2015 to 2019, but with gaps
+         Delta: 1 year
+(5,902 real changes made)
+(5,902 real changes made)
+(5,902 real changes made)
+(5,902 real changes made)
+(5,902 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_cfr_g11~a |      5,902    8.27e-10    .1253454  -.5622436   .4907941
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_cfr_g11~r |      5,902   -1.11e-09     .109526  -.4662307    .442244
+file /home/tmp/St198982.000001 saved as .dta format
+(CST/SBAC Student Test Score Samples)
+
+Panel variable: school_id (unbalanced)
+ Time variable: year, 2015 to 2019, but with gaps
+         Delta: 1 year
+(5,895 real changes made)
+(5,895 real changes made)
+(5,895 real changes made)
+(5,895 real changes made)
+(5,895 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_cfr_g11~h |      5,895   -4.18e-10    .1273509  -.5449818   .6124499
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_cfr_g11~r |      5,895   -1.68e-11    .1078995  -.4461001   .5691642
+file /home/tmp/St198982.000002 saved as .dta format
+
+. 
+. 
+.   use `va_ela', clear
+(CST/SBAC Student Test Score Samples)
+
+.   merge 1:1 cdscode year using `va_math', nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                            15
+        from master                        12  
+        from using                          3  
+
+    Matched                             5,976  
+    -----------------------------------------
+
+. 
+.   corr va_cfr_g11_ela va_cfr_g11_ela_nosiblingcontrol
+(obs=5,902)
+
+             | va_cfr~a va_cfr..
+-------------+------------------
+va_cfr_g11~a |   1.0000
+va_cfr_g11.. |   1.0000   1.0000
+
+
+.   local corr_coef_ela_sibling : di %5.3f r(rho)
+
+. 
+.   corr va_cfr_g11_math va_cfr_g11_math_nosiblingcontrol
+(obs=5,895)
+
+             | va_cfr~h va_cfr..
+-------------+------------------
+va_cfr_g11~h |   1.0000
+va_cfr_g11.. |   0.9999   1.0000
+
+
+.   local corr_coef_math_sibling : di %5.3f r(rho)
+
+. 
+.   tempfile va_ela_math_sibling
+
+.   save `va_ela_math_sibling'
+file /home/tmp/St198982.000003 saved as .dta format
+
+. 
+. 
+.   *************** two way scatter plot of VA with and without sibling control
+> s
+.   ***ELA
+.   twoway ///
+>   (scatter va_cfr_g11_ela va_cfr_g11_ela_nosiblingcontrol) ///
+>   (lfit va_cfr_g11_ela va_cfr_g11_ela_nosiblingcontrol) ///
+>   (function y = x), ///
+>   ytitle("ELA VA with Sibling Control") ///
+>   xtitle("ELA VA without Sibling Control") ///
+>   title("Scatter Plot of ELA VA with and without Sibling Control") ///
+>   legend(label(1 "ELA VA") label(3 "45 degree line") ) ///
+>   note("Correlation Coefficient = `corr_coef_ela_sibling' ")
+
+. 
+.   graph export $projdir/out/graph/siblingvaregs/test_score_va/scatter_va_cfr_
+> g11_ela_sibling.pdf, replace
+file
+    /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
+    > score_va/scatter_va_cfr_g11_ela_sibling.pdf saved as PDF format
+
+. 
+. 
+.   ***math
+.   twoway ///
+>   (scatter va_cfr_g11_math va_cfr_g11_math_nosiblingcontrol) ///
+>   (lfit va_cfr_g11_math va_cfr_g11_math_nosiblingcontrol) ///
+>   (function y = x), ///
+>   ytitle("Math VA with Sibling Control") ///
+>   xtitle("Math VA without Sibling Control") ///
+>   title("Scatter Plot of Math VA with and without Sibling Control") ///
+>   legend(label(1 "Math VA") label(3 "45 degree line") ) ///
+>   note("Correlation Coefficient = `corr_coef_math_sibling' ")
+
+. 
+.   graph export $projdir/out/graph/siblingvaregs/test_score_va/scatter_va_cfr_
+> g11_math_sibling.pdf, replace
+file
+    /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
+    > score_va/scatter_va_cfr_g11_math_sibling.pdf saved as PDF format
+
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+.   **** No Peer Controls
+.   twoway ///
+>         (kdensity va_cfr_g11_ela) ///
+>         (kdensity va_cfr_g11_math) ///
+>     , ytitle("Density") xtitle("Value Added") ///
+>     title("11th Grade Test Score VA") ///
+>         legend(label(1 "ELA") label(2 "Math")) ///
+>     note("Mean (Standard Deviation) = `mean_ela' (`sd_ela')" ///
+>         "Mean (Standard Deviation) = `mean_math' (`sd_math')")
+
+.     graph export $projdir/out/graph/siblingvaregs/test_score_va/kdensity_va_c
+> fr_g11_sibling.pdf, replace
+file
+    /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
+    > score_va/kdensity_va_cfr_g11_sibling.pdf saved as PDF format
+
+. 
+. 
+.   ****  Peer Controls
+.   twoway ///
+>         (kdensity va_cfr_g11_ela_peer) ///
+>         (kdensity va_cfr_g11_math_peer) ///
+>     , ytitle("Density") xtitle("Value Added") ///
+>     title("11th Grade Test Score VA") ///
+>         legend(label(1 "ELA") label(2 "Math")) ///
+>     note("Mean (Standard Deviation) = `mean_ela_peer' (`sd_ela_peer')" ///
+>         "Mean (Standard Deviation) = `mean_math_peer' (`sd_math_peer')")
+
+.     graph export $projdir/out/graph/siblingvaregs/test_score_va/kdensity_va_c
+> fr_g11_peer_sibling.pdf, replace
+file
+    /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
+    > score_va/kdensity_va_cfr_g11_peer_sibling.pdf saved as PDF format
+
+. 
+. 
+. 
+. 
+. *************** correlation with original VA estimates
+. //load orignal VA dataset and merge ELA with math
+. foreach subject in ela math {
+  2.         use data/sbac/va_g11_`subject'.dta, clear
+  3.   sort school_id year
+  4. 
+.         tempfile va_`subject'_original
+  5.         save `va_`subject'_original'
+  6. }
+(CST/SBAC Student Test Score Samples)
+file /home/tmp/St198982.000004 saved as .dta format
+(CST/SBAC Student Test Score Samples)
+file /home/tmp/St198982.000005 saved as .dta format
+
+. 
+. use `va_ela_original'
+(CST/SBAC Student Test Score Samples)
+
+. merge 1:1 cdscode year using `va_math_original', nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                            12
+        from master                         9  
+        from using                          3  
+
+    Matched                             6,163  
+    -----------------------------------------
+
+. 
+. keep cdscode year va_cfr_g11_*
+
+. rename va* va*_original
+
+. 
+. merge 1:1 cdscode year using `va_ela_math_sibling', nogen
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                           184
+        from master                       184  
+        from using                          0  
+
+    Matched                             5,991  
+    -----------------------------------------
+
+. 
+. corr va_cfr_g11_ela va_cfr_g11_ela_original
+(obs=5,902)
+
+             | va_cfr~a va_cfr..
+-------------+------------------
+va_cfr_g11~a |   1.0000
+v~a_original |   0.9274   1.0000
+
+
+. local corr_coef_ela_original : di %5.3f r(rho)
+
+. 
+. corr va_cfr_g11_math va_cfr_g11_math_original
+(obs=5,895)
+
+             | va_cfr~h va_cfr..
+-------------+------------------
+va_cfr_g11~h |   1.0000
+v~h_original |   0.9214   1.0000
+
+
+. local corr_coef_math_original : di %5.3f r(rho)
+
+. 
+. 
+. *************** two way scatter plot of VA with sibling control and original 
+> VA
+. ***ELA
+. twoway ///
+> (scatter va_cfr_g11_ela va_cfr_g11_ela_original) ///
+> (lfit va_cfr_g11_ela va_cfr_g11_ela_original) ///
+> (function y = x), ///
+> ytitle("ELA VA with Sibling Control") ///
+> xtitle("Original ELA VA") ///
+> title("Scatter Plot of ELA VA with Sibling Control and Original") ///
+> legend(label(1 "ELA VA") label(3 "45 degree line") ) ///
+> note("Correlation Coefficient = `corr_coef_ela_original' ")
+
+. 
+. graph export $projdir/out/graph/siblingvaregs/test_score_va/scatter_va_cfr_g1
+> 1_ela_original.pdf, replace
+file
+    /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
+    > score_va/scatter_va_cfr_g11_ela_original.pdf saved as PDF format
+
+. 
+. 
+. ***math
+. twoway ///
+> (scatter va_cfr_g11_math va_cfr_g11_math_original) ///
+> (lfit va_cfr_g11_math va_cfr_g11_math_original) ///
+> (function y = x), ///
+> ytitle("Math VA with Sibling Control") ///
+> xtitle("Original Math VA") ///
+>   title("Scatter Plot of Math VA with Sibling Control and Original") ///
+> legend(label(1 "Math VA") label(3 "45 degree line") ) ///
+> note("Correlation Coefficient = `corr_coef_math_original' ")
+
+. 
+. graph export $projdir/out/graph/siblingvaregs/test_score_va/scatter_va_cfr_g1
+> 1_math_original.pdf, replace
+file
+    /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
+    > score_va/scatter_va_cfr_g11_math_original.pdf saved as PDF format
+
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. **************************************************
+. //specification tests
+. *****No peer controls
+. foreach subject in ela math {
+  2. 
+.     estimates use $projdir/est/siblingvaregs/test_score_va/spec_test_va_cfr_g
+> 11_`subject'_sibling.ster,
+  3. 
+.     test _b[va_cfr_g11_`subject'] = 1
+  4.     matrix test_p = r(p)
+  5.         matrix rownames test_p = pvalue
+  6.         matrix colnames test_p = va_cfr_g11_`subject'
+  7.         estadd matrix test_p = test_p
+  8. 
+.     local slope : di %5.3f _b[va_cfr_g11_`subject']
+  9.         local std_err : di %4.3f _se[va_cfr_g11_`subject']
+ 10.         binscatter sbac_g11_`subject'_r va_cfr_g11_`subject' ///
+>                 [aw = n_g11_`subject'] ///
+>                 , ytitle("11th Grade Score") xtitle("Value Added") ///
+>       title("11th Grade ``subject'_str' Specification Test") ///
+>                 yline(0) xline(0) ///
+>                 yscale(range(-.3 .3)) xscale(range(-.3 .3)) ylabel(-.3 (0.1) 
+> .3) xlabel(-.3 (0.1) .3) ///
+>                 note("Slope (Standard Error) = `slope' (`std_err')")
+ 11.         graph export $projdir/out/graph/siblingvaregs/test_score_va/spec_t
+> est_va_cfr_g11_`subject'_sibling.pdf, replace
+ 12. 
+. 
+. ******* with peer controls
+.     estimates use $projdir/est/siblingvaregs/test_score_va/spec_test_va_cfr_g
+> 11_`subject'_peer_sibling.ster,
+ 13. 
+.     test _b[va_cfr_g11_`subject'_peer] = 1
+ 14.     matrix test_p = r(p)
+ 15.         matrix rownames test_p = pvalue
+ 16.         matrix colnames test_p = va_cfr_g11_`subject'_peer
+ 17.         estadd matrix test_p = test_p
+ 18. 
+.         local slope : di %5.3f _b[va_cfr_g11_`subject'_peer]
+ 19.         local std_err : di %4.3f _se[va_cfr_g11_`subject'_peer]
+ 20.         binscatter sbac_g11_`subject'_r_peer va_cfr_g11_`subject'_peer ///
+>                 [aw = n_g11_`subject'] ///
+>                 , ytitle("11th Grade Score") xtitle("Value Added") ///
+>       title("11th Grade ``subject'_str' Specification Test") ///
+>                 yline(0) xline(0) ///
+>                 yscale(range(-.3 .3)) xscale(range(-.3 .3)) ylabel(-.3 (0.1) 
+> .3) xlabel(-.3 (0.1) .3) ///
+>                 note("Slope (Standard Error) = `slope' (`std_err')")
+ 21.     graph export $projdir/out/graph/siblingvaregs/test_score_va/spec_test_
+> va_cfr_g11_`subject'_peer_sibling.pdf, replace
+ 22. 
+. 
+. }
+
+ ( 1)  va_cfr_g11_ela = 1
+
+       F(  1,  1288) =    0.76
+            Prob > F =    0.3835
+
+added matrix:
+             e(test_p) :  1 x 1
+file
+    /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
+    > score_va/spec_test_va_cfr_g11_ela_sibling.pdf saved as PDF format
+
+ ( 1)  va_cfr_g11_ela_peer = 1
+
+       F(  1,  1288) =    0.45
+            Prob > F =    0.5030
+
+added matrix:
+             e(test_p) :  1 x 1
+file
+    /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
+    > score_va/spec_test_va_cfr_g11_ela_peer_sibling.pdf saved as PDF format
+
+ ( 1)  va_cfr_g11_math = 1
+
+       F(  1,  1287) =    0.14
+            Prob > F =    0.7113
+
+added matrix:
+             e(test_p) :  1 x 1
+file
+    /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
+    > score_va/spec_test_va_cfr_g11_math_sibling.pdf saved as PDF format
+
+ ( 1)  va_cfr_g11_math_peer = 1
+
+       F(  1,  1287) =    1.66
+            Prob > F =    0.1983
+
+added matrix:
+             e(test_p) :  1 x 1
+file
+    /home/research/ca_ed_lab/chesun/gsr/caschls/out/graph/siblingvaregs/test_
+    > score_va/spec_test_va_cfr_g11_math_peer_sibling.pdf saved as PDF format
+
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. timer off 1
+
+. log close
+      name:  <unnamed>
+       log:  /home/research/ca_ed_lab/chesun/gsr/caschls/log/share/siblingvareg
+> s/va_sibling_est_sumstats.smcl
+  log type:  smcl
+ closed on:   3 Nov 2021, 21:06:27
+-------------------------------------------------------------------------------

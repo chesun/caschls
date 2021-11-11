@@ -1,0 +1,577 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}gradetab
+       {txt}log:  {res}/home/research/ca_ed_lab/chesun/gsr/caschls/log/gradetab.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}16 Sep 2020, 21:48:38
+{txt}
+{com}. 
+. ******************** Tabulate elementary datasets *******************************
+. 
+. local elemdtaname `" "elem1415" "elem1516" "elem1617" "elem1718" "elem1819" "' //local macro for elementary dataset names
+{txt}
+{com}. 
+. foreach i of local elemdtaname {c -(}
+{txt}  2{com}.   use $clndtadir/elementary/`i', clear
+{txt}  3{com}.   estpost tab grade
+{txt}  4{com}.   esttab using "$projdir/out/csv/gradetab/elementary/`i'.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') nonumber noobs nomtitle replace
+{txt}  5{com}. {c )-}
+
+{txt}{space 0}{space 0}{ralign 12:grade}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:3rd}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      378}}}{space 1}{space 1}{ralign 9:{res:{sf: .5361474}}}{space 1}{space 1}{ralign 9:{res:{sf: .5361474}}}{space 1}
+{space 0}{space 0}{ralign 12:4th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     2505}}}{space 1}{space 1}{ralign 9:{res:{sf:  3.55304}}}{space 1}{space 1}{ralign 9:{res:{sf: 4.089188}}}{space 1}
+{space 0}{space 0}{ralign 12:5th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    65660}}}{space 1}{space 1}{ralign 9:{res:{sf: 93.13079}}}{space 1}{space 1}{ralign 9:{res:{sf: 97.21998}}}{space 1}
+{space 0}{space 0}{ralign 12:6th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     1960}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.780024}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    70503}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/elementary/elem1415.csv"'})
+
+{space 0}{space 0}{ralign 12:grade}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:3rd}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      339}}}{space 1}{space 1}{ralign 9:{res:{sf: .3143371}}}{space 1}{space 1}{ralign 9:{res:{sf: .3143371}}}{space 1}
+{space 0}{space 0}{ralign 12:4th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     2615}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.424754}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.739091}}}{space 1}
+{space 0}{space 0}{ralign 12:5th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    99763}}}{space 1}{space 1}{ralign 9:{res:{sf: 92.50505}}}{space 1}{space 1}{ralign 9:{res:{sf: 95.24414}}}{space 1}
+{space 0}{space 0}{ralign 12:6th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     5129}}}{space 1}{space 1}{ralign 9:{res:{sf: 4.755856}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   107846}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/elementary/elem1516.csv"'})
+(2016-17 Elementary CHKS Data)
+
+{space 0}{space 0}{ralign 12:grade}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:3rd}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     1238}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.307935}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.307935}}}{space 1}
+{space 0}{space 0}{ralign 12:4th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     2868}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.030015}}}{space 1}{space 1}{ralign 9:{res:{sf:  4.33795}}}{space 1}
+{space 0}{space 0}{ralign 12:5th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    87088}}}{space 1}{space 1}{ralign 9:{res:{sf: 92.00765}}}{space 1}{space 1}{ralign 9:{res:{sf:  96.3456}}}{space 1}
+{space 0}{space 0}{ralign 12:6th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     3459}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.654401}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    94653}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/elementary/elem1617.csv"'})
+(2017-18 Elementary CHKS Data)
+
+{space 0}{space 0}{ralign 12:grade}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:3rd}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     2342}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.754149}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.754149}}}{space 1}
+{space 0}{space 0}{ralign 12:4th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     4364}}}{space 1}{space 1}{ralign 9:{res:{sf:  3.26862}}}{space 1}{space 1}{ralign 9:{res:{sf: 5.022769}}}{space 1}
+{space 0}{space 0}{ralign 12:5th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   120198}}}{space 1}{space 1}{ralign 9:{res:{sf: 90.02786}}}{space 1}{space 1}{ralign 9:{res:{sf: 95.05063}}}{space 1}
+{space 0}{space 0}{ralign 12:6th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     6608}}}{space 1}{space 1}{ralign 9:{res:{sf: 4.949368}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   133512}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/elementary/elem1718.csv"'})
+(2018-19 Elementary CHKS Data)
+
+{space 0}{space 0}{ralign 12:grade}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:3rd}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     1308}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.288797}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.288797}}}{space 1}
+{space 0}{space 0}{ralign 12:4th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     2803}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.761848}}}{space 1}{space 1}{ralign 9:{res:{sf: 4.050645}}}{space 1}
+{space 0}{space 0}{ralign 12:5th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    93564}}}{space 1}{space 1}{ralign 9:{res:{sf: 92.19036}}}{space 1}{space 1}{ralign 9:{res:{sf: 96.24101}}}{space 1}
+{space 0}{space 0}{ralign 12:6th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     3815}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.758991}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   101490}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/elementary/elem1819.csv"'})
+
+{com}. 
+. 
+. *********************** Tabulate parent datasets *******************************
+. 
+. use $clndtadir/parent/parent1415, clear
+{txt}( )
+
+{com}. estpost tab q6 //q6 is the question that asks about the grade of the child
+
+{txt}{space 0}{space 0}{ralign 12:q6}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:-82}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf: .0026274}}}{space 1}{space 1}{ralign 9:{res:{sf: .0026274}}}{space 1}
+{space 0}{space 0}{ralign 12:-8}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     1327}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.486508}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.489136}}}{space 1}
+{space 0}{space 0}{ralign 12:_kindergar~n}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     3080}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.092273}}}{space 1}{space 1}{ralign 9:{res:{sf: 11.58141}}}{space 1}
+{space 0}{space 0}{ralign 12:_1st_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     3183}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.362891}}}{space 1}{space 1}{ralign 9:{res:{sf:  19.9443}}}{space 1}
+{space 0}{space 0}{ralign 12:_2nd_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     3257}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.557316}}}{space 1}{space 1}{ralign 9:{res:{sf: 28.50162}}}{space 1}
+{space 0}{space 0}{ralign 12:_3rd_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     3346}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.791151}}}{space 1}{space 1}{ralign 9:{res:{sf: 37.29277}}}{space 1}
+{space 0}{space 0}{ralign 12:_4th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     3457}}}{space 1}{space 1}{ralign 9:{res:{sf: 9.082788}}}{space 1}{space 1}{ralign 9:{res:{sf: 46.37556}}}{space 1}
+{space 0}{space 0}{ralign 12:_5th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     6658}}}{space 1}{space 1}{ralign 9:{res:{sf: 17.49297}}}{space 1}{space 1}{ralign 9:{res:{sf: 63.86853}}}{space 1}
+{space 0}{space 0}{ralign 12:_6th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     3022}}}{space 1}{space 1}{ralign 9:{res:{sf: 7.939886}}}{space 1}{space 1}{ralign 9:{res:{sf: 71.80841}}}{space 1}
+{space 0}{space 0}{ralign 12:_8th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     2042}}}{space 1}{space 1}{ralign 9:{res:{sf: 5.365072}}}{space 1}{space 1}{ralign 9:{res:{sf: 77.17348}}}{space 1}
+{space 0}{space 0}{ralign 12:_9th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     2410}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.331941}}}{space 1}{space 1}{ralign 9:{res:{sf: 83.50543}}}{space 1}
+{space 0}{space 0}{ralign 12:_10th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     2273}}}{space 1}{space 1}{ralign 9:{res:{sf: 5.971992}}}{space 1}{space 1}{ralign 9:{res:{sf: 89.47742}}}{space 1}
+{space 0}{space 0}{ralign 12:_11th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     2168}}}{space 1}{space 1}{ralign 9:{res:{sf: 5.696119}}}{space 1}{space 1}{ralign 9:{res:{sf: 95.17354}}}{space 1}
+{space 0}{space 0}{ralign 12:_12th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     1513}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.975198}}}{space 1}{space 1}{ralign 9:{res:{sf: 99.14873}}}{space 1}
+{space 0}{space 0}{ralign 12:_other}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      225}}}{space 1}{space 1}{ralign 9:{res:{sf: .5911563}}}{space 1}{space 1}{ralign 9:{res:{sf: 99.73989}}}{space 1}
+{space 0}{space 0}{ralign 12:_ungraded}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf: .2601088}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    38061}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+
+{com}. esttab using "$projdir/out/csv/gradetab/parent/parent1415.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') nonumber noobs nomtitle replace
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/parent/parent1415.csv"'})
+
+{com}. 
+. use $clndtadir/parent/parent1516, clear
+{txt}(2015-16 Parent CSPS Data)
+
+{com}. estpost tab p7 //p7 is the question that asks about the grade of the child
+
+{txt}{space 0}{space 0}{ralign 12:p7}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Kindergarten}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     4171}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.223144}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.223144}}}{space 1}
+{space 0}{space 0}{ralign 12:1st_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     4571}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.819945}}}{space 1}{space 1}{ralign 9:{res:{sf: 13.04309}}}{space 1}
+{space 0}{space 0}{ralign 12:2nd__grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     4884}}}{space 1}{space 1}{ralign 9:{res:{sf: 7.286942}}}{space 1}{space 1}{ralign 9:{res:{sf: 20.33003}}}{space 1}
+{space 0}{space 0}{ralign 12:3rd_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     5224}}}{space 1}{space 1}{ralign 9:{res:{sf: 7.794223}}}{space 1}{space 1}{ralign 9:{res:{sf: 28.12425}}}{space 1}
+{space 0}{space 0}{ralign 12:4th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     5802}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.656601}}}{space 1}{space 1}{ralign 9:{res:{sf: 36.78085}}}{space 1}
+{space 0}{space 0}{ralign 12:5th__grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8030}}}{space 1}{space 1}{ralign 9:{res:{sf: 11.98078}}}{space 1}{space 1}{ralign 9:{res:{sf: 48.76164}}}{space 1}
+{space 0}{space 0}{ralign 12:6th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     5033}}}{space 1}{space 1}{ralign 9:{res:{sf:  7.50925}}}{space 1}{space 1}{ralign 9:{res:{sf: 56.27089}}}{space 1}
+{space 0}{space 0}{ralign 12:7th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     5798}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.650633}}}{space 1}{space 1}{ralign 9:{res:{sf: 64.92152}}}{space 1}
+{space 0}{space 0}{ralign 12:8th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     4635}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.915433}}}{space 1}{space 1}{ralign 9:{res:{sf: 71.83695}}}{space 1}
+{space 0}{space 0}{ralign 12:9th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     5516}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.229888}}}{space 1}{space 1}{ralign 9:{res:{sf: 80.06684}}}{space 1}
+{space 0}{space 0}{ralign 12:10th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     4465}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.661793}}}{space 1}{space 1}{ralign 9:{res:{sf: 86.72863}}}{space 1}
+{space 0}{space 0}{ralign 12:11th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     4946}}}{space 1}{space 1}{ralign 9:{res:{sf: 7.379446}}}{space 1}{space 1}{ralign 9:{res:{sf: 94.10808}}}{space 1}
+{space 0}{space 0}{ralign 12:12th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     3461}}}{space 1}{space 1}{ralign 9:{res:{sf: 5.163822}}}{space 1}{space 1}{ralign 9:{res:{sf:  99.2719}}}{space 1}
+{space 0}{space 0}{ralign 12:Other}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      380}}}{space 1}{space 1}{ralign 9:{res:{sf: .5669611}}}{space 1}{space 1}{ralign 9:{res:{sf: 99.83886}}}{space 1}
+{space 0}{space 0}{ralign 12:Ungraded}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      108}}}{space 1}{space 1}{ralign 9:{res:{sf: .1611363}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    67024}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+
+{com}. esttab using "$projdir/out/csv/gradetab/parent/parent1516.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') nonumber noobs nomtitle replace
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/parent/parent1516.csv"'})
+
+{com}. 
+. use $clndtadir/parent/parent1617, clear
+{txt}(2016-17 Parent CSPS Data)
+
+{com}. estpost tab p7 //p7 is the question that asks about the grade of the child
+
+{txt}{space 0}{space 0}{ralign 12:p7}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Kindergarten}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    11911}}}{space 1}{space 1}{ralign 9:{res:{sf: 10.49011}}}{space 1}{space 1}{ralign 9:{res:{sf: 10.49011}}}{space 1}
+{space 0}{space 0}{ralign 12:1st_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    10017}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.822053}}}{space 1}{space 1}{ralign 9:{res:{sf: 19.31217}}}{space 1}
+{space 0}{space 0}{ralign 12:2nd__grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     9655}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.503237}}}{space 1}{space 1}{ralign 9:{res:{sf:  27.8154}}}{space 1}
+{space 0}{space 0}{ralign 12:3rd_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    10720}}}{space 1}{space 1}{ralign 9:{res:{sf: 9.441191}}}{space 1}{space 1}{ralign 9:{res:{sf: 37.25659}}}{space 1}
+{space 0}{space 0}{ralign 12:4th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    11571}}}{space 1}{space 1}{ralign 9:{res:{sf: 10.19067}}}{space 1}{space 1}{ralign 9:{res:{sf: 47.44727}}}{space 1}
+{space 0}{space 0}{ralign 12:5th__grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     9602}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.456559}}}{space 1}{space 1}{ralign 9:{res:{sf: 55.90383}}}{space 1}
+{space 0}{space 0}{ralign 12:6th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     7498}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.603549}}}{space 1}{space 1}{ralign 9:{res:{sf: 62.50738}}}{space 1}
+{space 0}{space 0}{ralign 12:7th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     7780}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.851909}}}{space 1}{space 1}{ralign 9:{res:{sf: 69.35928}}}{space 1}
+{space 0}{space 0}{ralign 12:8th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     6660}}}{space 1}{space 1}{ralign 9:{res:{sf: 5.865516}}}{space 1}{space 1}{ralign 9:{res:{sf:  75.2248}}}{space 1}
+{space 0}{space 0}{ralign 12:9th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     7261}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.394821}}}{space 1}{space 1}{ralign 9:{res:{sf: 81.61962}}}{space 1}
+{space 0}{space 0}{ralign 12:10th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     6556}}}{space 1}{space 1}{ralign 9:{res:{sf: 5.773922}}}{space 1}{space 1}{ralign 9:{res:{sf: 87.39354}}}{space 1}
+{space 0}{space 0}{ralign 12:11th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     7455}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.565679}}}{space 1}{space 1}{ralign 9:{res:{sf: 93.95922}}}{space 1}
+{space 0}{space 0}{ralign 12:12th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     5628}}}{space 1}{space 1}{ralign 9:{res:{sf: 4.956625}}}{space 1}{space 1}{ralign 9:{res:{sf: 98.91585}}}{space 1}
+{space 0}{space 0}{ralign 12:Other}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      969}}}{space 1}{space 1}{ralign 9:{res:{sf: .8534061}}}{space 1}{space 1}{ralign 9:{res:{sf: 99.76925}}}{space 1}
+{space 0}{space 0}{ralign 12:Ungraded}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      262}}}{space 1}{space 1}{ralign 9:{res:{sf: .2307455}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   113545}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+
+{com}. esttab using "$projdir/out/csv/gradetab/parent/parent1617.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') nonumber noobs nomtitle replace
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/parent/parent1617.csv"'})
+
+{com}. 
+. use $clndtadir/parent/parent1718, clear
+{txt}(2017-18 Parent CSPS Data)
+
+{com}. estpost tab p7 //p7 is the question that asks about the grade of the child
+
+{txt}{space 0}{space 0}{ralign 12:p7}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Kindergarten}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    11404}}}{space 1}{space 1}{ralign 9:{res:{sf: 7.958019}}}{space 1}{space 1}{ralign 9:{res:{sf: 7.958019}}}{space 1}
+{space 0}{space 0}{ralign 12:1st_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    11590}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.087815}}}{space 1}{space 1}{ralign 9:{res:{sf: 16.04583}}}{space 1}
+{space 0}{space 0}{ralign 12:2nd__grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    11475}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.007564}}}{space 1}{space 1}{ralign 9:{res:{sf:  24.0534}}}{space 1}
+{space 0}{space 0}{ralign 12:3rd_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    12120}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.457663}}}{space 1}{space 1}{ralign 9:{res:{sf: 32.51106}}}{space 1}
+{space 0}{space 0}{ralign 12:4th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    12928}}}{space 1}{space 1}{ralign 9:{res:{sf: 9.021507}}}{space 1}{space 1}{ralign 9:{res:{sf: 41.53257}}}{space 1}
+{space 0}{space 0}{ralign 12:5th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    13989}}}{space 1}{space 1}{ralign 9:{res:{sf: 9.761901}}}{space 1}{space 1}{ralign 9:{res:{sf: 51.29447}}}{space 1}
+{space 0}{space 0}{ralign 12:6th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    10404}}}{space 1}{space 1}{ralign 9:{res:{sf: 7.260192}}}{space 1}{space 1}{ralign 9:{res:{sf: 58.55466}}}{space 1}
+{space 0}{space 0}{ralign 12:7th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    10916}}}{space 1}{space 1}{ralign 9:{res:{sf: 7.617479}}}{space 1}{space 1}{ralign 9:{res:{sf: 66.17214}}}{space 1}
+{space 0}{space 0}{ralign 12:8th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     9300}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.489791}}}{space 1}{space 1}{ralign 9:{res:{sf: 72.66193}}}{space 1}
+{space 0}{space 0}{ralign 12:9th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    10302}}}{space 1}{space 1}{ralign 9:{res:{sf: 7.189013}}}{space 1}{space 1}{ralign 9:{res:{sf: 79.85094}}}{space 1}
+{space 0}{space 0}{ralign 12:10th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     9154}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.387908}}}{space 1}{space 1}{ralign 9:{res:{sf: 86.23885}}}{space 1}
+{space 0}{space 0}{ralign 12:11th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     9928}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.928026}}}{space 1}{space 1}{ralign 9:{res:{sf: 93.16688}}}{space 1}
+{space 0}{space 0}{ralign 12:12th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8096}}}{space 1}{space 1}{ralign 9:{res:{sf: 5.649607}}}{space 1}{space 1}{ralign 9:{res:{sf: 98.81649}}}{space 1}
+{space 0}{space 0}{ralign 12:Other}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     1346}}}{space 1}{space 1}{ralign 9:{res:{sf: .9392751}}}{space 1}{space 1}{ralign 9:{res:{sf: 99.75576}}}{space 1}
+{space 0}{space 0}{ralign 12:Ungraded}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      350}}}{space 1}{space 1}{ralign 9:{res:{sf: .2442394}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   143302}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+
+{com}. esttab using "$projdir/out/csv/gradetab/parent/parent1718.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') nonumber noobs nomtitle replace
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/parent/parent1718.csv"'})
+
+{com}. 
+. use $clndtadir/parent/parent1819, clear
+{txt}(2018-19 Parent CSPS Data)
+
+{com}. estpost tab p7 //p7 is the question that asks about the grade of the child
+
+{txt}{space 0}{space 0}{ralign 12:p7}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Kindergarten}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    12442}}}{space 1}{space 1}{ralign 9:{res:{sf: 7.977073}}}{space 1}{space 1}{ralign 9:{res:{sf: 7.977073}}}{space 1}
+{space 0}{space 0}{ralign 12:1st_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    12056}}}{space 1}{space 1}{ralign 9:{res:{sf: 7.729592}}}{space 1}{space 1}{ralign 9:{res:{sf: 15.70667}}}{space 1}
+{space 0}{space 0}{ralign 12:2nd_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    12512}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.021953}}}{space 1}{space 1}{ralign 9:{res:{sf: 23.72862}}}{space 1}
+{space 0}{space 0}{ralign 12:3rd_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    13536}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.678481}}}{space 1}{space 1}{ralign 9:{res:{sf:  32.4071}}}{space 1}
+{space 0}{space 0}{ralign 12:4th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    13554}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.690021}}}{space 1}{space 1}{ralign 9:{res:{sf: 41.09712}}}{space 1}
+{space 0}{space 0}{ralign 12:5th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    16602}}}{space 1}{space 1}{ralign 9:{res:{sf: 10.64422}}}{space 1}{space 1}{ralign 9:{res:{sf: 51.74134}}}{space 1}
+{space 0}{space 0}{ralign 12:6th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    11770}}}{space 1}{space 1}{ralign 9:{res:{sf: 7.546226}}}{space 1}{space 1}{ralign 9:{res:{sf: 59.28756}}}{space 1}
+{space 0}{space 0}{ralign 12:7th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    12568}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.057857}}}{space 1}{space 1}{ralign 9:{res:{sf: 67.34542}}}{space 1}
+{space 0}{space 0}{ralign 12:8th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     9940}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.372939}}}{space 1}{space 1}{ralign 9:{res:{sf: 73.71836}}}{space 1}
+{space 0}{space 0}{ralign 12:9th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    10899}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.987793}}}{space 1}{space 1}{ralign 9:{res:{sf: 80.70615}}}{space 1}
+{space 0}{space 0}{ralign 12:10th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     9417}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.037622}}}{space 1}{space 1}{ralign 9:{res:{sf: 86.74377}}}{space 1}
+{space 0}{space 0}{ralign 12:11th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    10262}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.579386}}}{space 1}{space 1}{ralign 9:{res:{sf: 93.32316}}}{space 1}
+{space 0}{space 0}{ralign 12:12th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8332}}}{space 1}{space 1}{ralign 9:{res:{sf: 5.341984}}}{space 1}{space 1}{ralign 9:{res:{sf: 98.66515}}}{space 1}
+{space 0}{space 0}{ralign 12:Other}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     1740}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.115585}}}{space 1}{space 1}{ralign 9:{res:{sf: 99.78073}}}{space 1}
+{space 0}{space 0}{ralign 12:Ungraded}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      342}}}{space 1}{space 1}{ralign 9:{res:{sf: .2192701}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   155972}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+
+{com}. esttab using "$projdir/out/csv/gradetab/parent/parent1819.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') nonumber noobs nomtitle replace
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/parent/parent1819.csv"'})
+
+{com}. 
+. 
+. 
+. *********************** Tabulate secondary datasets ****************************
+. 
+. /* only tabulating the most recent 5 years  */
+. 
+. local secdtaname `" "sec1415" "sec1516" "sec1617" "sec1718" "sec1819" "' //local macro for secondary dataset names, only the most recent 5 years
+{txt}
+{com}. 
+. foreach i of local secdtaname {c -(}
+{txt}  2{com}.   use $clndtadir/secondary/`i', clear
+{txt}  3{com}.   estpost tab grade
+{txt}  4{com}.   esttab using "$projdir/out/csv/gradetab/secondary/`i'.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') nonumber noobs nomtitle replace
+{txt}  5{com}. {c )-}
+
+{txt}{space 0}{space 0}{ralign 12:grade}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:6th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     3732}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.074832}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.074832}}}{space 1}
+{space 0}{space 0}{ralign 12:7th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   115167}}}{space 1}{space 1}{ralign 9:{res:{sf: 33.16859}}}{space 1}{space 1}{ralign 9:{res:{sf: 34.24343}}}{space 1}
+{space 0}{space 0}{ralign 12:8th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     7398}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.130656}}}{space 1}{space 1}{ralign 9:{res:{sf: 36.37408}}}{space 1}
+{space 0}{space 0}{ralign 12:9th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   103731}}}{space 1}{space 1}{ralign 9:{res:{sf: 29.87498}}}{space 1}{space 1}{ralign 9:{res:{sf: 66.24906}}}{space 1}
+{space 0}{space 0}{ralign 12:10th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    13869}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.994332}}}{space 1}{space 1}{ralign 9:{res:{sf: 70.24339}}}{space 1}
+{space 0}{space 0}{ralign 12:11th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    84351}}}{space 1}{space 1}{ralign 9:{res:{sf: 24.29345}}}{space 1}{space 1}{ralign 9:{res:{sf: 94.53685}}}{space 1}
+{space 0}{space 0}{ralign 12:12th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     9829}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.830795}}}{space 1}{space 1}{ralign 9:{res:{sf: 97.36764}}}{space 1}
+{space 0}{space 0}{ralign 12:Non-tradit~l}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     9140}}}{space 1}{space 1}{ralign 9:{res:{sf:  2.63236}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   347217}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/secondary/sec1415.csv"'})
+(2015-16 secondary CHKS data)
+
+{space 0}{space 0}{ralign 12:grade}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:6th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     5074}}}{space 1}{space 1}{ralign 9:{res:{sf: .9094787}}}{space 1}{space 1}{ralign 9:{res:{sf: .9094787}}}{space 1}
+{space 0}{space 0}{ralign 12:7th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   175756}}}{space 1}{space 1}{ralign 9:{res:{sf: 31.50302}}}{space 1}{space 1}{ralign 9:{res:{sf:  32.4125}}}{space 1}
+{space 0}{space 0}{ralign 12:8th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    13888}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.489326}}}{space 1}{space 1}{ralign 9:{res:{sf: 34.90183}}}{space 1}
+{space 0}{space 0}{ralign 12:9th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   167629}}}{space 1}{space 1}{ralign 9:{res:{sf: 30.04632}}}{space 1}{space 1}{ralign 9:{res:{sf: 64.94815}}}{space 1}
+{space 0}{space 0}{ralign 12:10th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    20250}}}{space 1}{space 1}{ralign 9:{res:{sf:  3.62967}}}{space 1}{space 1}{ralign 9:{res:{sf: 68.57781}}}{space 1}
+{space 0}{space 0}{ralign 12:11th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   141346}}}{space 1}{space 1}{ralign 9:{res:{sf: 25.33527}}}{space 1}{space 1}{ralign 9:{res:{sf: 93.91309}}}{space 1}
+{space 0}{space 0}{ralign 12:12th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    15970}}}{space 1}{space 1}{ralign 9:{res:{sf:  2.86251}}}{space 1}{space 1}{ralign 9:{res:{sf:  96.7756}}}{space 1}
+{space 0}{space 0}{ralign 12:Non-tradit~l}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    17989}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.224401}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   557902}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/secondary/sec1516.csv"'})
+(2016-17 Secondary CHKS Data)
+
+{space 0}{space 0}{ralign 12:grade}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:6th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     4688}}}{space 1}{space 1}{ralign 9:{res:{sf: .9907225}}}{space 1}{space 1}{ralign 9:{res:{sf: .9907225}}}{space 1}
+{space 0}{space 0}{ralign 12:7th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   145275}}}{space 1}{space 1}{ralign 9:{res:{sf:  30.7012}}}{space 1}{space 1}{ralign 9:{res:{sf: 31.69192}}}{space 1}
+{space 0}{space 0}{ralign 12:8th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    14672}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.100657}}}{space 1}{space 1}{ralign 9:{res:{sf: 34.79258}}}{space 1}
+{space 0}{space 0}{ralign 12:9th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   141666}}}{space 1}{space 1}{ralign 9:{res:{sf:  29.9385}}}{space 1}{space 1}{ralign 9:{res:{sf: 64.73108}}}{space 1}
+{space 0}{space 0}{ralign 12:10th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    18215}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.849405}}}{space 1}{space 1}{ralign 9:{res:{sf: 68.58049}}}{space 1}
+{space 0}{space 0}{ralign 12:11th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   121194}}}{space 1}{space 1}{ralign 9:{res:{sf: 25.61212}}}{space 1}{space 1}{ralign 9:{res:{sf: 94.19261}}}{space 1}
+{space 0}{space 0}{ralign 12:12th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    14314}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.025001}}}{space 1}{space 1}{ralign 9:{res:{sf: 97.21761}}}{space 1}
+{space 0}{space 0}{ralign 12:Non-tradit~l}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    13166}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.782392}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   473190}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/secondary/sec1617.csv"'})
+(2017-18 Secondary CHKS Data)
+
+{space 0}{space 0}{ralign 12:grade}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:6th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     5315}}}{space 1}{space 1}{ralign 9:{res:{sf: .8205681}}}{space 1}{space 1}{ralign 9:{res:{sf: .8205681}}}{space 1}
+{space 0}{space 0}{ralign 12:7th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   205794}}}{space 1}{space 1}{ralign 9:{res:{sf: 31.77196}}}{space 1}{space 1}{ralign 9:{res:{sf: 32.59253}}}{space 1}
+{space 0}{space 0}{ralign 12:8th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    15419}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.380497}}}{space 1}{space 1}{ralign 9:{res:{sf: 34.97303}}}{space 1}
+{space 0}{space 0}{ralign 12:9th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   193787}}}{space 1}{space 1}{ralign 9:{res:{sf: 29.91824}}}{space 1}{space 1}{ralign 9:{res:{sf: 64.89127}}}{space 1}
+{space 0}{space 0}{ralign 12:10th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    26057}}}{space 1}{space 1}{ralign 9:{res:{sf: 4.022868}}}{space 1}{space 1}{ralign 9:{res:{sf: 68.91413}}}{space 1}
+{space 0}{space 0}{ralign 12:11th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   162863}}}{space 1}{space 1}{ralign 9:{res:{sf: 25.14397}}}{space 1}{space 1}{ralign 9:{res:{sf:  94.0581}}}{space 1}
+{space 0}{space 0}{ralign 12:12th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    20123}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.106734}}}{space 1}{space 1}{ralign 9:{res:{sf: 97.16483}}}{space 1}
+{space 0}{space 0}{ralign 12:Non-tradit~l}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    18364}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.835167}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   647722}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/secondary/sec1718.csv"'})
+(2018-19 Secondary CHKS Data)
+
+{space 0}{space 0}{ralign 12:grade}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:6th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     5434}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.067273}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.067273}}}{space 1}
+{space 0}{space 0}{ralign 12:7th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   165956}}}{space 1}{space 1}{ralign 9:{res:{sf: 32.59484}}}{space 1}{space 1}{ralign 9:{res:{sf: 33.66212}}}{space 1}
+{space 0}{space 0}{ralign 12:8th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    14639}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.875195}}}{space 1}{space 1}{ralign 9:{res:{sf: 36.53731}}}{space 1}
+{space 0}{space 0}{ralign 12:9th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   148280}}}{space 1}{space 1}{ralign 9:{res:{sf: 29.12316}}}{space 1}{space 1}{ralign 9:{res:{sf: 65.66048}}}{space 1}
+{space 0}{space 0}{ralign 12:10th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    21796}}}{space 1}{space 1}{ralign 9:{res:{sf: 4.280877}}}{space 1}{space 1}{ralign 9:{res:{sf: 69.94135}}}{space 1}
+{space 0}{space 0}{ralign 12:11th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   121986}}}{space 1}{space 1}{ralign 9:{res:{sf: 23.95885}}}{space 1}{space 1}{ralign 9:{res:{sf:  93.9002}}}{space 1}
+{space 0}{space 0}{ralign 12:12th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    18215}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.577545}}}{space 1}{space 1}{ralign 9:{res:{sf: 97.47775}}}{space 1}
+{space 0}{space 0}{ralign 12:Non-tradit~l}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    12842}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.522253}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   509148}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/secondary/sec1819.csv"'})
+
+{com}. 
+. 
+. 
+. 
+. ************************* Tabulate staff datasets ******************************
+. 
+. /* only tabulating the most recent 5 years  */
+. 
+. /* q1 teacher classifications vars
+> Question 1: What is your role(s) at this school? (Mark All That Apply.)
+> 
+> q1a: teacher in grade 5 or above
+> q1b: teacher in grade 4 or below
+> q1c: special education teacher
+> q1d: administrator
+> q1e: prevention staff nurse, or health aide
+> q1f: counselor, psychologist
+> q1g: police, resource officer, or safety personnel
+> q1h: Paraprofessional, teacher assistant, or instructional aide
+> q1i: Other certificated staff (e.g. librarian)
+> q1j: Other classified staff (e.g. janitor, secretarial or clerical, food service)
+> q1k: Other service provider (e.g. speech, occupational, physical therapist)
+> 
+> */
+. 
+. 
+. 
+. 
+. local staffdtaname `" "staff1415" "staff1516" "staff1617" "staff1718" "staff1819" "' //local macro for staff dataset names, only the most recent 5 years
+{txt}
+{com}. 
+. foreach i of local staffdtaname {c -(}
+{txt}  2{com}. 
+.   use $clndtadir/staff/`i', clear
+{txt}  3{com}. 
+.   gen below4above5 = . //generate a var that indicates whether the teacher teaches both above grade 5 and below grade 4
+{txt}  4{com}.   replace below4above5 = 0 if q1a == 0 | q1b ==0
+{txt}  5{com}.   replace below4above5 = 1 if q1a == 1 & q1b == 1
+{txt}  6{com}. 
+.   estpost tab q1a
+{txt}  7{com}.   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("teacher in grade 4 or below") nonumber noobs nomtitle replace
+{txt}  8{com}.   estpost tab q1b
+{txt}  9{com}.   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("teacher in grade 5 or above") nonumber noobs nomtitle append
+{txt} 10{com}.   estpost tab below4above5
+{txt} 11{com}.   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("teacher in both above grade 5 and below grade 4") nonumber noobs nomtitle append
+{txt} 12{com}.   estpost tab q1c
+{txt} 13{com}.   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("special education teacher") nonumber noobs nomtitle append
+{txt} 14{com}.   /* estpost tab q1d
+>   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("administrator") nonumber noobs nomtitle append
+>   estpost tab q1e
+>   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("prevention staff nurse, or health aide") nonumber noobs nomtitle append
+>   estpost tab q1f
+>   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("counselor, psychologist") nonumber noobs nomtitle append
+>   estpost tab q1g
+>   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("police, resource officer, or safety personnel") nonumber noobs nomtitle append
+>   estpost tab q1h
+>   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("paraprofessional, teacher assistant, or instructional aide") nonumber noobs nomtitle append
+>   estpost tab q1i
+>   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("other certificated staff (e.g. librarian)") nonumber noobs nomtitle append
+>   estpost tab q1j
+>   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("other classified staff (e.g. janitor, secretarial or clerical, food service)") nonumber noobs nomtitle append
+>   estpost tab q1k
+>   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("other service provider (e.g. speech, occupational, physical therapist)") nonumber noobs nomtitle append */
+. 
+.   save, replace
+{txt} 15{com}. {c )-}
+{txt}(2014-15 Staff CSSS Data)
+(33,088 missing values generated)
+(32,692 real changes made)
+(396 real changes made)
+
+{space 0}{space 0}{ralign 12:q1a}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Not_marked}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    17938}}}{space 1}{space 1}{ralign 9:{res:{sf: 54.21301}}}{space 1}{space 1}{ralign 9:{res:{sf: 54.21301}}}{space 1}
+{space 0}{space 0}{ralign 12:Marked}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    15150}}}{space 1}{space 1}{ralign 9:{res:{sf: 45.78699}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    33088}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/staff/staff1415.csv"'})
+
+{space 0}{space 0}{ralign 12:q1b}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Not_marked}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    25788}}}{space 1}{space 1}{ralign 9:{res:{sf: 77.93762}}}{space 1}{space 1}{ralign 9:{res:{sf: 77.93762}}}{space 1}
+{space 0}{space 0}{ralign 12:Marked}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     7300}}}{space 1}{space 1}{ralign 9:{res:{sf: 22.06238}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    33088}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/staff/staff1415.csv"'})
+
+{space 0}{space 0}{ralign 12:below4above5}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:0}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    32692}}}{space 1}{space 1}{ralign 9:{res:{sf: 98.80319}}}{space 1}{space 1}{ralign 9:{res:{sf: 98.80319}}}{space 1}
+{space 0}{space 0}{ralign 12:1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      396}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.196809}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    33088}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/staff/staff1415.csv"'})
+
+{space 0}{space 0}{ralign 12:q1c}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Not_marked}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    30327}}}{space 1}{space 1}{ralign 9:{res:{sf: 91.65559}}}{space 1}{space 1}{ralign 9:{res:{sf: 91.65559}}}{space 1}
+{space 0}{space 0}{ralign 12:Marked}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     2761}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.344415}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    33088}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/staff/staff1415.csv"'})
+file /home/research/caschls/dtaclean/staff/staff1415.dta saved
+(2015-16 Staff CSSS Data)
+(54,112 missing values generated)
+(53,464 real changes made)
+(648 real changes made)
+
+{space 0}{space 0}{ralign 12:q1a}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Not_marked}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    29044}}}{space 1}{space 1}{ralign 9:{res:{sf: 53.67386}}}{space 1}{space 1}{ralign 9:{res:{sf: 53.67386}}}{space 1}
+{space 0}{space 0}{ralign 12:Marked}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    25068}}}{space 1}{space 1}{ralign 9:{res:{sf: 46.32614}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    54112}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/staff/staff1516.csv"'})
+
+{space 0}{space 0}{ralign 12:q1b}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Not_marked}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    43304}}}{space 1}{space 1}{ralign 9:{res:{sf: 80.02661}}}{space 1}{space 1}{ralign 9:{res:{sf: 80.02661}}}{space 1}
+{space 0}{space 0}{ralign 12:Marked}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    10808}}}{space 1}{space 1}{ralign 9:{res:{sf: 19.97339}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    54112}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/staff/staff1516.csv"'})
+
+{space 0}{space 0}{ralign 12:below4above5}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:0}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    53464}}}{space 1}{space 1}{ralign 9:{res:{sf: 98.80248}}}{space 1}{space 1}{ralign 9:{res:{sf: 98.80248}}}{space 1}
+{space 0}{space 0}{ralign 12:1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      648}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.197516}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    54112}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/staff/staff1516.csv"'})
+
+{space 0}{space 0}{ralign 12:q1c}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Not_marked}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    49836}}}{space 1}{space 1}{ralign 9:{res:{sf: 92.09787}}}{space 1}{space 1}{ralign 9:{res:{sf: 92.09787}}}{space 1}
+{space 0}{space 0}{ralign 12:Marked}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     4276}}}{space 1}{space 1}{ralign 9:{res:{sf: 7.902129}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    54112}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/staff/staff1516.csv"'})
+file /home/research/caschls/dtaclean/staff/staff1516.dta saved
+(2016-17 Staff CSSS Data)
+(45,642 missing values generated)
+(45,132 real changes made)
+(510 real changes made)
+
+{space 0}{space 0}{ralign 12:q1a}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Not_marked}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    26662}}}{space 1}{space 1}{ralign 9:{res:{sf: 58.41549}}}{space 1}{space 1}{ralign 9:{res:{sf: 58.41549}}}{space 1}
+{space 0}{space 0}{ralign 12:Marked}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    18980}}}{space 1}{space 1}{ralign 9:{res:{sf: 41.58451}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    45642}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/staff/staff1617.csv"'})
+
+{space 0}{space 0}{ralign 12:q1b}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Not_marked}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    35589}}}{space 1}{space 1}{ralign 9:{res:{sf: 77.97423}}}{space 1}{space 1}{ralign 9:{res:{sf: 77.97423}}}{space 1}
+{space 0}{space 0}{ralign 12:Marked}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    10053}}}{space 1}{space 1}{ralign 9:{res:{sf: 22.02577}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    45642}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/staff/staff1617.csv"'})
+
+{space 0}{space 0}{ralign 12:below4above5}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:0}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    45132}}}{space 1}{space 1}{ralign 9:{res:{sf: 98.88261}}}{space 1}{space 1}{ralign 9:{res:{sf: 98.88261}}}{space 1}
+{space 0}{space 0}{ralign 12:1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      510}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.117392}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    45642}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/staff/staff1617.csv"'})
+
+{space 0}{space 0}{ralign 12:q1c}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Not_marked}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    41993}}}{space 1}{space 1}{ralign 9:{res:{sf: 92.00517}}}{space 1}{space 1}{ralign 9:{res:{sf: 92.00517}}}{space 1}
+{space 0}{space 0}{ralign 12:Marked}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     3649}}}{space 1}{space 1}{ralign 9:{res:{sf: 7.994829}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    45642}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/staff/staff1617.csv"'})
+file /home/research/caschls/dtaclean/staff/staff1617.dta saved
+(2017-18 Staff CSSS Data)
+(67,961 missing values generated)
+(67,168 real changes made)
+(793 real changes made)
+
+{space 0}{space 0}{ralign 12:q1a}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Not_marked}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    53951}}}{space 1}{space 1}{ralign 9:{res:{sf: 79.38524}}}{space 1}{space 1}{ralign 9:{res:{sf: 79.38524}}}{space 1}
+{space 0}{space 0}{ralign 12:Marked}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    14010}}}{space 1}{space 1}{ralign 9:{res:{sf: 20.61476}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    67961}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/staff/staff1718.csv"'})
+
+{space 0}{space 0}{ralign 12:q1b}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Not_marked}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    39891}}}{space 1}{space 1}{ralign 9:{res:{sf:  58.6969}}}{space 1}{space 1}{ralign 9:{res:{sf:  58.6969}}}{space 1}
+{space 0}{space 0}{ralign 12:Marked}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    28070}}}{space 1}{space 1}{ralign 9:{res:{sf:  41.3031}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    67961}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/staff/staff1718.csv"'})
+
+{space 0}{space 0}{ralign 12:below4above5}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:0}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    67168}}}{space 1}{space 1}{ralign 9:{res:{sf: 98.83315}}}{space 1}{space 1}{ralign 9:{res:{sf: 98.83315}}}{space 1}
+{space 0}{space 0}{ralign 12:1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      793}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.166846}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    67961}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/staff/staff1718.csv"'})
+
+{space 0}{space 0}{ralign 12:q1c}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Not_marked}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    62401}}}{space 1}{space 1}{ralign 9:{res:{sf: 91.81884}}}{space 1}{space 1}{ralign 9:{res:{sf: 91.81884}}}{space 1}
+{space 0}{space 0}{ralign 12:Marked}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     5560}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.181163}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    67961}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/staff/staff1718.csv"'})
+file /home/research/caschls/dtaclean/staff/staff1718.dta saved
+(2018-19 Staff CSSS Data)
+(54,142 missing values generated)
+(53,440 real changes made)
+(702 real changes made)
+
+{space 0}{space 0}{ralign 12:q1a}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Not_marked}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    41686}}}{space 1}{space 1}{ralign 9:{res:{sf: 76.99383}}}{space 1}{space 1}{ralign 9:{res:{sf: 76.99383}}}{space 1}
+{space 0}{space 0}{ralign 12:Marked}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    12456}}}{space 1}{space 1}{ralign 9:{res:{sf: 23.00617}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    54142}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/staff/staff1819.csv"'})
+
+{space 0}{space 0}{ralign 12:q1b}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Not_marked}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    33574}}}{space 1}{space 1}{ralign 9:{res:{sf: 62.01101}}}{space 1}{space 1}{ralign 9:{res:{sf: 62.01101}}}{space 1}
+{space 0}{space 0}{ralign 12:Marked}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    20568}}}{space 1}{space 1}{ralign 9:{res:{sf: 37.98899}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    54142}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/staff/staff1819.csv"'})
+
+{space 0}{space 0}{ralign 12:below4above5}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:0}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    53440}}}{space 1}{space 1}{ralign 9:{res:{sf: 98.70341}}}{space 1}{space 1}{ralign 9:{res:{sf: 98.70341}}}{space 1}
+{space 0}{space 0}{ralign 12:1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      702}}}{space 1}{space 1}{ralign 9:{res:{sf:  1.29659}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    54142}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/staff/staff1819.csv"'})
+
+{space 0}{space 0}{ralign 12:q1c}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Not_marked}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    49685}}}{space 1}{space 1}{ralign 9:{res:{sf: 91.76794}}}{space 1}{space 1}{ralign 9:{res:{sf: 91.76794}}}{space 1}
+{space 0}{space 0}{ralign 12:Marked}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     4457}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.232056}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    54142}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/gradetab/staff/staff1819.csv"'})
+file /home/research/caschls/dtaclean/staff/staff1819.dta saved
+
+{com}. 
+. 
+. 
+. 
+. 
+. 
+. log close gradetab //close this log file
+      {txt}name:  {res}gradetab
+       {txt}log:  {res}/home/research/ca_ed_lab/chesun/gsr/caschls/log/gradetab.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}16 Sep 2020, 21:48:43
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}
