@@ -1,9 +1,6 @@
 ********************************************************************************
 /* do file to create a regression output table for spec test for test score VA
-with original sample, sibling sample without control, sibling sample with control
-
-
- */
+with original sample, sibling sample without control, sibling sample with control */
 ********************************************************************************
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************

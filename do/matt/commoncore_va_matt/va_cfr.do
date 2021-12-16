@@ -40,7 +40,7 @@ set seed 1984
 * Description *
 ***************
 /*
-This file calculates value added estimates for the SBAC using the CFR
+This file calculates value added estimates for the SBAC using the CFR 
 methodology.
 */
 
@@ -103,8 +103,8 @@ include do_files/sbac/create_va_g11_sample.doh
 
 foreach subject in ela math {
 	use `va_g11_dataset' if touse_g11_`subject'==1, clear
-
-
+	
+	
 	**************** Value Added
 	**** No Peer Controls
 	** No TFX

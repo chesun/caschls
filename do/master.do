@@ -14,7 +14,7 @@ are set correctly in the settings.do file according to your current file structu
 // do "./do/master.do"
 
 /* For convenience of copy pasting:
-cd "/home/research/ca_ed_lab/chesun/gsr/caschls"
+cd "/home/research/ca_ed_lab/users/chesun/gsr/caschls"
 do "./do/settings.do"
 */
 
@@ -531,5 +531,102 @@ if `dooutcomesumstats' == 1 {
   do $projdir/do/share/outcomesumstats/k12_nsc_match_sumstats.do
 }
 
+
+
+/* va regressions with sibling controls */
+////////////////////////////////////////////////////////////////////////////////
+local dosiblingvaregs = 0
+if `dosiblingvaregs' == 1 {
+
+  /* create the VA sample dataset to save processing time. Using doh helpher files
+  each time to recreate the data takes too much time    */
+  do $projdir/do/share/siblingvaregs/createvasample.do
+
+
+  /* create a sibling enrollment outcomes crosswalk dataset by merging k-12 test scores
+  to the postsecondary outcomes and then merge to ufamilyxwalk.dta and calculuate
+  number of older siblings enrolled and proportion of older siblings enrolled   */
+   do $projdir/do/share/siblingvaregs/siblingoutxwalk.do
+
+
+   /* create the VA samples markers with sibling outcomes merged on to make it easier
+   to create sample sum stats.
+   Using doh helpher files each time to recreate the data takes too much time    */
+   do $projdir/do/share/siblingvaregs/siblingvasamples.do
+
+
+   /* do file to run test score VA regressions with sibling effects.
+   Include as controls the dummies for
+   1) has an older sibling enrolled in 2 year
+   2) has an older sibling enrolled in 4 year
+
+   Comment on family fixed effects: Too many fixed effects, not enough observations.
+   Stata returns an error "attempted to fit a model with too many variables"
+   Only 749488 obs but 600210 families, too many variables from family fixed effects    */
+
+    /* To run this do file:
+    for origianl drift limit
+    do $projdir/do/share/siblingvaregs/va_sibling 0
+
+    otherwise set a number   */
+    do $projdir/do/share/siblingvaregs/va_sibling 0
+
+    /* do file to create sum stats for the test score VA sibling samples */
+    do $projdir/do/share/siblingvaregs/va_sibling_sample_sumstats
+
+
+    /* sum stats for the test score VA estimates with additional demographic control
+    for has at least one older sibling who enrolled in college (2 year, 4 year) */
+    do $projdir/do/share/siblingvaregs/va_sibling_est_sumstats
+
+
+    /* do file to create a regression output table for spec test for test score VA
+    with original sample, sibling sample without control, sibling sample with control */
+    do $projdir/do/share/siblingvaregs/va_sibling_spec_test_tab.do
+
+
+    /* do file to run enrollment outcome VA regressions with sibling effects.
+    Include as controls the dummies for
+    1) has an older sibling enrolled in 2 year
+    2) has an older sibling enrolled in 4 year
+
+    Comment on family fixed effects: Too many fixed effects, not enough observations. */
+
+    /* To run this do file:
+    for origianl drift limit
+    do $projdir/do/share/siblingvaregs/va_sibling_out 0
+
+    otherwise set a number if encounting an error
+
+    do $projdir/do/share/siblingvaregs/va_sibling_out 2
+     */
+     do $projdir/do/share/siblingvaregs/va_sibling_out 0
+
+
+     /* sum stats for the enrollment VA estimates with additional demographic control
+     for has at least one older sibling who enrolled in college (2 year, 4 year) */
+     do $projdir/do/share/siblingvaregs/va_sibling_out_est_sumstats
+
+
+     /* do file to create a regression output table for spec test for college outcome
+     VA with original sample, sibling sample without control, sibling sample with control */
+     do $projdir/do/share/siblingvaregs/va_sibling_out_spec_test_tab.do
+
+
+     /* do file to run forecast bias tests and spec tests for test score VA
+     regressions with sibling effects. Two versions of VA: one with leave out
+     7th grade score, one with leave out census tract
+     Include as controls the dummies for
+     1) has an older sibling enrolled in 2 year
+     2) has an older sibling enrolled in 4 year
+
+     Comment on family fixed effects: Too many fixed effects, not enough observations.
+     Stata returns an error "attempted to fit a model with too many variables"
+     Only 749488 obs but 600210 families, too many variables from family fixed effects */
+     do $projdir/do/share/siblingvaregs/va_sibling_forecast_bias.do
+
+
+
+}
 
 /* log close master // close the master log file */

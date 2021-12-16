@@ -1,7 +1,5 @@
 ********************************************************************************
-/* do file to create sum stats for the test score VA sibling samples
-
- */
+/* do file to create sum stats for the test score VA sibling samples */
 ********************************************************************************
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************
@@ -93,7 +91,7 @@ if grade == 11 & touse_g11_math==1 & sibling_full_sample == 1
 
 
 
-use `va_g11_sibling_dataset', clear 
+use `va_g11_sibling_dataset', clear
 //check the number of families in this sample
 di "number of families in the full sibling sample matched to the g11 va sample"
 

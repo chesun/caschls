@@ -1,9 +1,6 @@
 ********************************************************************************
 /* do file to create a regression output table for spec test for college outcome
-VA with original sample, sibling sample without control, sibling sample with control
-
-
- */
+VA with original sample, sibling sample without control, sibling sample with control */
 ********************************************************************************
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************
@@ -74,13 +71,14 @@ do $projdir/do/share/siblingvaregs/va_sibling_out_spec_test_tab.do
 
 
 foreach outcome in enr enr_2year enr_4year {
-  estimates use $projdir/est/siblingvaregs/outcome_va/spec_test_va_cfr_g11_`outcome'_sibling.ster
+
+  estimates use estimates/sbac/spec_test_va_cfr_g11_`outcome'.ster
   eststo
 
   estimates use $projdir/est/siblingvaregs/outcome_va/spec_test_va_cfr_g11_`outcome'_sibling_nocontrol.ster
   eststo
 
-  estimates use estimates/sbac/spec_test_va_cfr_g11_`outcome'.ster
+  estimates use $projdir/est/siblingvaregs/outcome_va/spec_test_va_cfr_g11_`outcome'_sibling.ster
   eststo
 
 

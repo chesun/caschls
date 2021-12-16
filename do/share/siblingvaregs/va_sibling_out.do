@@ -4,9 +4,7 @@ Include as controls the dummies for
 1) has an older sibling enrolled in 2 year
 2) has an older sibling enrolled in 4 year
 
-Comment on family fixed effects: Too many fixed effects, not enough observations.
-
- */
+Comment on family fixed effects: Too many fixed effects, not enough observations. */
 ********************************************************************************
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************

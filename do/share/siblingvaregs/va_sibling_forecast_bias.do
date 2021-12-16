@@ -8,9 +8,7 @@ Include as controls the dummies for
 
 Comment on family fixed effects: Too many fixed effects, not enough observations.
 Stata returns an error "attempted to fit a model with too many variables"
-Only 749488 obs but 600210 families, too many variables from family fixed effects
-
- */
+Only 749488 obs but 600210 families, too many variables from family fixed effects */
 ********************************************************************************
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************

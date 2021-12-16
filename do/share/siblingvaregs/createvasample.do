@@ -9,28 +9,23 @@ each time to recreate the data takes too much time
 
 /* to run this do file:
 do $projdir/do/share/siblingvaregs/createvasample.do
-and add necessary argument
  */
 
 
-clear all
-set more off
-set varabbrev off
+ clear all
+ set more off
+ set varabbrev off
+ set scheme s1color
+ //capture log close: Stata should not complain if there is no log open to close
+ cap log close _all
 
-//input argument to determine which sample to generate
-args sample
+/* file path macros  */
+include $projdir/do/share/siblingvaregs/vafilemacros.doh
 
-local matthomedir "/home/research/ca_ed_lab/msnaven/common_core_va"
-local mattdofiles "/home/research/ca_ed_lab/msnaven/common_core_va/do_files/sbac"
-//set the macros for directories in the same way as Matt do files
-local ca_ed_lab "/home/research/ca_ed_lab"
-local k12_test_scores "/home/research/ca_ed_lab/msnaven/data/restricted_access/clean/k12_test_scores"
-local public_access "/home/research/ca_ed_lab/data/public_access"
-local k12_public_schools "/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_public_schools"
-local k12_test_scores_public "/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_test_scores"
 
-//change directory to matt directory to reconcile the use of directories in his doh and do file
-cd `matthomedir'
+
+//change directory to common_core_va project directory
+cd $vaprojdir
 //starting log file
 log using $projdir/log/share/siblingvaregs/createvasample.smcl, replace
 
@@ -46,7 +41,7 @@ timer on 1
 
 
 
- if "`sample'" == "full_va" {
+
     ** this creates the full VA sample
    //run the do helper file to create the VA sample
    include `mattdofiles'/create_va_sample.doh
@@ -57,19 +52,10 @@ timer on 1
    save `va_dataset'
 
    save $projdir/dta/common_core_va/va_dataset, replace
- }
 
- if "`sample'" == "va_g11" {
-   ** this creates the full VA sample
-  //run the do helper file to create the VA sample
-  include `mattdofiles'/create_va_sample.doh
 
-  //Save it as a temporary dataset
-  compress
-  tempfile va_dataset
-  save `va_dataset'
 
-  save $projdir/dta/common_core_va/va_dataset, replace
+
 
   ********************************************************************************
   **create the VA dataset for the VA CFR regressions (score VA)
@@ -82,17 +68,18 @@ timer on 1
 
   //erase the tempfile to avoid name conflict
   erase `va_dataset'
- }
 
 
-if "`sample'" == "k12_out" {
+
+  ********************************************************************************
   *** This merges the entire k12 test score sample onto postsecondary outcomes
+  //the output dataset is used in siblingoutxwalk.do
   use merge_id_k12_test_scores all_students_sample first_scores_sample ///
   	dataset test cdscode school_id state_student_id year grade ///
   	cohort_size ///
   	using `k12_test_scores'/k12_test_scores_clean.dta, clear
   // merge on postsecondary Outcomes
-  do $projdir/do/matt/data_dofiles/merge_k12_postsecondary.doh enr_only
+  do `mattdofiles'/merge_k12_postsecondary.doh enr_only
   drop enr enr_2year enr_4year
   rename enr_ontime enr
   rename enr_ontime_2year enr_2year
@@ -103,16 +90,16 @@ if "`sample'" == "k12_out" {
   compress
   label data "Full K-12 test scores merged to postsecondary outcomes"
   save $projdir/dta/common_core_va/k12_postsecondary_out_merge, replace
-}
 
 
 
-if "`sample'" == "va_g11_out" {
+
+
   ********************************************************************************
   ** create the VA dataset for the long term outcome VA regressions
   use $projdir/dta/common_core_va/va_dataset, clear
   // merge on postsecondary Outcomes
-  do `ca_ed_lab'/msnaven/data/do_files/merge_k12_postsecondary.doh enr_only
+  do `mattdofiles'/merge_k12_postsecondary.doh enr_only
   drop enr enr_2year enr_4year
   rename enr_ontime enr
   rename enr_ontime_2year enr_2year
@@ -136,7 +123,7 @@ if "`sample'" == "va_g11_out" {
   compress
   save $projdir/dta/common_core_va/va_g11_out_dataset, replace
 
-}
+
 
 
 
@@ -153,7 +140,7 @@ timer list
 log close
 
 //change directory back
-cd "/home/research/ca_ed_lab/chesun/gsr/caschls"
+cd $projdir 
 
 //translate the log file to a text log file
 translate $projdir/log/share/siblingvaregs/createvasample.smcl $projdir/log/share/siblingvaregs/createvasample.log, replace

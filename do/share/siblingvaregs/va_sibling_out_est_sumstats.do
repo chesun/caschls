@@ -1,7 +1,6 @@
 ********************************************************************************
 /* sum stats for the enrollment VA estimates with additional demographic control
-for has at least one older sibling who enrolled in college (2 year, 4 year)
- */
+for has at least one older sibling who enrolled in college (2 year, 4 year) */
 ********************************************************************************
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************

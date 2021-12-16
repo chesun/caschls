@@ -7,12 +7,12 @@ cap log close _all
 
 if inlist(c(hostname), "sapper", "scribe") {
 	global S_ADO BASE;.;PERSONAL;PLUS;SITE;OLDPLACE
-	local home "/home/research/ca_ed_lab/msnaven/common_core_va"
+	local home "/home/research/ca_ed_lab/users/msnaven/common_core_va"
 	local ca_ed_lab "/home/research/ca_ed_lab"
-	local k12_test_scores "/home/research/ca_ed_lab/msnaven/data/restricted_access/clean/k12_test_scores"
-	local public_access "/home/research/ca_ed_lab/msnaven/data/public_access"
-	local k12_public_schools "/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_public_schools"
-	local k12_test_scores_public "/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_test_scores"
+	local k12_test_scores "/home/research/ca_ed_lab/users/msnaven/data/restricted_access/clean/k12_test_scores"
+	local public_access "/home/research/ca_ed_lab/users/msnaven/data/public_access"
+	local k12_public_schools "/home/research/ca_ed_lab/users/msnaven/data/public_access/clean/k12_public_schools"
+	local k12_test_scores_public "/home/research/ca_ed_lab/users/msnaven/data/public_access/clean/k12_test_scores"
 }
 else if c(machine_type)=="Macintosh (Intel 64-bit)" & c(username)=="naven" {
 	local home "/Users/naven/Documents/research/ca_ed_lab/common_core_va"
@@ -119,6 +119,8 @@ merge m:1 cdscode using `k12_public_schools'/k12_public_schools_clean.dta ///
 /*keep if conventional_school==1*/
 
 count
+tab year
+tab grade year if dataset=="CAASPP"
 sum
 
 * Exclude schools where more than 25 percent of students are receiving special education services
@@ -132,17 +134,21 @@ sum
 
 
 ******** Postsecondary Outcomes
-do `ca_ed_lab'/msnaven/data/do_files/merge_k12_postsecondary.doh enr_only
+do `ca_ed_lab'/users/msnaven/data/do_files/merge_k12_postsecondary.doh enr_only
 
 
 
 
 count
+tab year
+tab grade year if dataset=="CAASPP"
 sum
 
 
 * Save temporary dataset
 count
+tab year
+tab grade year if dataset=="CAASPP"
 sum
 compress
 tempfile va_dataset
@@ -187,6 +193,8 @@ replace diff_school_prop = gr11_L4_diff_school_prop if year==2017
 /*keep if diff_school_prop>=0.95*/
 
 count
+tab year
+tab grade year
 sum
 
 **************** Prior Scores
@@ -238,6 +246,11 @@ estpost tabstat ///
 	, stat(n) columns(statistics)
 estimates save estimates/sbac/counts_k12_all_g11_ela.ster, replace
 
+tab year ///
+	if grade==11 ///
+	& all_students_sample==1
+
+
 estpost tabstat ///
 	count_var ///
 	if grade==11 ///
@@ -245,6 +258,12 @@ estpost tabstat ///
 	& all_students_sample==1 ///
 	, stat(n) columns(statistics)
 estimates save estimates/sbac/counts_k12_if_school_level_g11_ela.ster, replace
+
+tab year ///
+	if grade==11 ///
+	& (diff_school_prop>=0.95 & !mi(diff_school_prop)) ///
+	& all_students_sample==1
+
 
 estpost tabstat ///
 	count_var ///
@@ -254,6 +273,12 @@ estpost tabstat ///
 	, stat(n) columns(statistics)
 estimates save estimates/sbac/counts_k12_all_scores_g11_ela.ster, replace
 
+tab year ///
+	if grade==11 ///
+	& (diff_school_prop>=0.95 & !mi(diff_school_prop)) ///
+	& all_scores_sample==1
+
+
 estpost tabstat ///
 	count_var ///
 	if grade==11 ///
@@ -261,6 +286,12 @@ estpost tabstat ///
 	& first_scores_sample==1 ///
 	, stat(n) columns(statistics)
 estimates save estimates/sbac/counts_k12_first_scores_g11_ela.ster, replace
+
+tab year ///
+	if grade==11 ///
+	& (diff_school_prop>=0.95 & !mi(diff_school_prop)) ///
+	& first_scores_sample==1
+
 
 estpost tabstat ///
 	count_var ///
@@ -270,6 +301,13 @@ estpost tabstat ///
 	& mi_ssid_grade_year_school==0 ///
 	, stat(n) columns(statistics)
 estimates save estimates/sbac/counts_k12_ssid_grade_year_school_g11_ela.ster, replace
+
+tab year ///
+	if grade==11 ///
+	& (diff_school_prop>=0.95 & !mi(diff_school_prop)) ///
+	& first_scores_sample==1 ///
+	& mi_ssid_grade_year_school==0
+
 
 estpost tabstat ///
 	count_var ///
@@ -281,6 +319,14 @@ estpost tabstat ///
 	, stat(n) columns(statistics)
 estimates save estimates/sbac/counts_k12_conventional_school_g11_ela.ster, replace
 
+tab year ///
+	if grade==11 ///
+	& (diff_school_prop>=0.95 & !mi(diff_school_prop)) ///
+	& first_scores_sample==1 ///
+	& mi_ssid_grade_year_school==0 ///
+	& conventional_school==1
+
+
 estpost tabstat ///
 	count_var ///
 	if grade==11 ///
@@ -291,6 +337,15 @@ estpost tabstat ///
 	& (cohort_size>10 & !mi(cohort_size)) ///
 	, stat(n) columns(statistics)
 estimates save estimates/sbac/counts_k12_cohort_size_g11_ela.ster, replace
+
+tab year ///
+	if grade==11 ///
+	& (diff_school_prop>=0.95 & !mi(diff_school_prop)) ///
+	& first_scores_sample==1 ///
+	& mi_ssid_grade_year_school==0 ///
+	& conventional_school==1 ///
+	& (cohort_size>10 & !mi(cohort_size))
+
 
 estpost tabstat ///
 	count_var ///
@@ -304,6 +359,16 @@ estpost tabstat ///
 	, stat(n) columns(statistics)
 estimates save estimates/sbac/counts_k12_cst_z_score_g11_ela.ster, replace
 
+tab year ///
+	if grade==11 ///
+	& (diff_school_prop>=0.95 & !mi(diff_school_prop)) ///
+	& first_scores_sample==1 ///
+	& mi_ssid_grade_year_school==0 ///
+	& conventional_school==1 ///
+	& (cohort_size>10 & !mi(cohort_size)) ///
+	& mi_sbac_ela_z_score==0
+
+
 estpost tabstat ///
 	count_var ///
 	if grade==11 ///
@@ -316,6 +381,17 @@ estpost tabstat ///
 	& mi_demographic_controls==0 ///
 	, stat(n) columns(statistics)
 estimates save estimates/sbac/counts_k12_demographic_controls_g11_ela.ster, replace
+
+tab year ///
+	if grade==11 ///
+	& (diff_school_prop>=0.95 & !mi(diff_school_prop)) ///
+	& first_scores_sample==1 ///
+	& mi_ssid_grade_year_school==0 ///
+	& conventional_school==1 ///
+	& (cohort_size>10 & !mi(cohort_size)) ///
+	& mi_sbac_ela_z_score==0 ///
+	& mi_demographic_controls==0
+
 
 estpost tabstat ///
 	count_var ///
@@ -331,6 +407,19 @@ estpost tabstat ///
 	& mi_prior_math_z_score==0 ///
 	, stat(n) columns(statistics)
 estimates save estimates/sbac/counts_k12_prior_cst_z_score_g11_ela.ster, replace
+
+tab year ///
+	if grade==11 ///
+	& (diff_school_prop>=0.95 & !mi(diff_school_prop)) ///
+	& first_scores_sample==1 ///
+	& mi_ssid_grade_year_school==0 ///
+	& conventional_school==1 ///
+	& (cohort_size>10 & !mi(cohort_size)) ///
+	& mi_sbac_ela_z_score==0 ///
+	& mi_demographic_controls==0 ///
+	& mi_prior_ela_z_score==0 ///
+	& mi_prior_math_z_score==0
+
 
 estpost tabstat ///
 	count_var ///
@@ -348,6 +437,20 @@ estpost tabstat ///
 	, stat(n) columns(statistics)
 estimates save estimates/sbac/counts_k12_peer_g11_ela.ster, replace
 
+tab year ///
+	if grade==11 ///
+	& (diff_school_prop>=0.95 & !mi(diff_school_prop)) ///
+	& first_scores_sample==1 ///
+	& mi_ssid_grade_year_school==0 ///
+	& conventional_school==1 ///
+	& (cohort_size>10 & !mi(cohort_size)) ///
+	& mi_sbac_ela_z_score==0 ///
+	& mi_demographic_controls==0 ///
+	& mi_prior_ela_z_score==0 ///
+	& mi_prior_math_z_score==0 ///
+	& mi_peer_demographic_controls==0 & mi_peer_prior_ela_z_score==0 & mi_peer_prior_math_z_score==0
+
+
 estpost tabstat ///
 	count_var ///
 	if grade==11 ///
@@ -364,6 +467,20 @@ estpost tabstat ///
 	& (n_g11_ela>=7 & !mi(n_g11_ela)) ///
 	, stat(n) columns(statistics)
 estimates save estimates/sbac/counts_k12_valid_cohort_size_g11_ela.ster, replace
+
+tab year ///
+	if grade==11 ///
+	& (diff_school_prop>=0.95 & !mi(diff_school_prop)) ///
+	& first_scores_sample==1 ///
+	& mi_ssid_grade_year_school==0 ///
+	& conventional_school==1 ///
+	& (cohort_size>10 & !mi(cohort_size)) ///
+	& mi_sbac_ela_z_score==0 ///
+	& mi_demographic_controls==0 ///
+	& mi_prior_ela_z_score==0 ///
+	& mi_prior_math_z_score==0 ///
+	& mi_peer_demographic_controls==0 & mi_peer_prior_ela_z_score==0 & mi_peer_prior_math_z_score==0 ///
+	& (n_g11_ela>=7 & !mi(n_g11_ela))
 
 
 **** Z-Scores
@@ -511,6 +628,11 @@ estpost tabstat ///
 	, stat(n) columns(statistics)
 estimates save estimates/sbac/counts_k12_all_g11_math.ster, replace
 
+tab year ///
+	if grade==11 ///
+	& all_students_sample==1
+
+
 estpost tabstat ///
 	count_var ///
 	if grade==11 ///
@@ -518,6 +640,12 @@ estpost tabstat ///
 	& all_students_sample==1 ///
 	, stat(n) columns(statistics)
 estimates save estimates/sbac/counts_k12_if_school_level_g11_math.ster, replace
+
+tab year ///
+	if grade==11 ///
+	& (diff_school_prop>=0.95 & !mi(diff_school_prop)) ///
+	& all_students_sample==1
+
 
 estpost tabstat ///
 	count_var ///
@@ -527,6 +655,12 @@ estpost tabstat ///
 	, stat(n) columns(statistics)
 estimates save estimates/sbac/counts_k12_all_scores_g11_math.ster, replace
 
+tab year ///
+	if grade==11 ///
+	& (diff_school_prop>=0.95 & !mi(diff_school_prop)) ///
+	& all_scores_sample==1
+
+
 estpost tabstat ///
 	count_var ///
 	if grade==11 ///
@@ -534,6 +668,12 @@ estpost tabstat ///
 	& first_scores_sample==1 ///
 	, stat(n) columns(statistics)
 estimates save estimates/sbac/counts_k12_first_scores_g11_math.ster, replace
+
+tab year ///
+	if grade==11 ///
+	& (diff_school_prop>=0.95 & !mi(diff_school_prop)) ///
+	& first_scores_sample==1
+
 
 estpost tabstat ///
 	count_var ///
@@ -543,6 +683,13 @@ estpost tabstat ///
 	& mi_ssid_grade_year_school==0 ///
 	, stat(n) columns(statistics)
 estimates save estimates/sbac/counts_k12_ssid_grade_year_school_g11_math.ster, replace
+
+tab year ///
+	if grade==11 ///
+	& (diff_school_prop>=0.95 & !mi(diff_school_prop)) ///
+	& first_scores_sample==1 ///
+	& mi_ssid_grade_year_school==0
+
 
 estpost tabstat ///
 	count_var ///
@@ -554,6 +701,14 @@ estpost tabstat ///
 	, stat(n) columns(statistics)
 estimates save estimates/sbac/counts_k12_conventional_school_g11_math.ster, replace
 
+tab year ///
+	if grade==11 ///
+	& (diff_school_prop>=0.95 & !mi(diff_school_prop)) ///
+	& first_scores_sample==1 ///
+	& mi_ssid_grade_year_school==0 ///
+	& conventional_school==1
+
+
 estpost tabstat ///
 	count_var ///
 	if grade==11 ///
@@ -564,6 +719,15 @@ estpost tabstat ///
 	& (cohort_size>10 & !mi(cohort_size)) ///
 	, stat(n) columns(statistics)
 estimates save estimates/sbac/counts_k12_cohort_size_g11_math.ster, replace
+
+tab year ///
+	if grade==11 ///
+	& (diff_school_prop>=0.95 & !mi(diff_school_prop)) ///
+	& first_scores_sample==1 ///
+	& mi_ssid_grade_year_school==0 ///
+	& conventional_school==1 ///
+	& (cohort_size>10 & !mi(cohort_size))
+
 
 estpost tabstat ///
 	count_var ///
@@ -577,6 +741,16 @@ estpost tabstat ///
 	, stat(n) columns(statistics)
 estimates save estimates/sbac/counts_k12_cst_z_score_g11_math.ster, replace
 
+tab year ///
+	if grade==11 ///
+	& (diff_school_prop>=0.95 & !mi(diff_school_prop)) ///
+	& first_scores_sample==1 ///
+	& mi_ssid_grade_year_school==0 ///
+	& conventional_school==1 ///
+	& (cohort_size>10 & !mi(cohort_size)) ///
+	& mi_sbac_math_z_score==0
+
+
 estpost tabstat ///
 	count_var ///
 	if grade==11 ///
@@ -589,6 +763,17 @@ estpost tabstat ///
 	& mi_demographic_controls==0 ///
 	, stat(n) columns(statistics)
 estimates save estimates/sbac/counts_k12_demographic_controls_g11_math.ster, replace
+
+tab year ///
+	if grade==11 ///
+	& (diff_school_prop>=0.95 & !mi(diff_school_prop)) ///
+	& first_scores_sample==1 ///
+	& mi_ssid_grade_year_school==0 ///
+	& conventional_school==1 ///
+	& (cohort_size>10 & !mi(cohort_size)) ///
+	& mi_sbac_math_z_score==0 ///
+	& mi_demographic_controls==0
+
 
 estpost tabstat ///
 	count_var ///
@@ -604,6 +789,19 @@ estpost tabstat ///
 	& mi_prior_math_z_score==0 ///
 	, stat(n) columns(statistics)
 estimates save estimates/sbac/counts_k12_prior_cst_z_score_g11_math.ster, replace
+
+tab year ///
+	if grade==11 ///
+	& (diff_school_prop>=0.95 & !mi(diff_school_prop)) ///
+	& first_scores_sample==1 ///
+	& mi_ssid_grade_year_school==0 ///
+	& conventional_school==1 ///
+	& (cohort_size>10 & !mi(cohort_size)) ///
+	& mi_sbac_math_z_score==0 ///
+	& mi_demographic_controls==0 ///
+	& mi_prior_ela_z_score==0 ///
+	& mi_prior_math_z_score==0
+
 
 estpost tabstat ///
 	count_var ///
@@ -621,6 +819,20 @@ estpost tabstat ///
 	, stat(n) columns(statistics)
 estimates save estimates/sbac/counts_k12_peer_g11_math.ster, replace
 
+tab year ///
+	if grade==11 ///
+	& (diff_school_prop>=0.95 & !mi(diff_school_prop)) ///
+	& first_scores_sample==1 ///
+	& mi_ssid_grade_year_school==0 ///
+	& conventional_school==1 ///
+	& (cohort_size>10 & !mi(cohort_size)) ///
+	& mi_sbac_math_z_score==0 ///
+	& mi_demographic_controls==0 ///
+	& mi_prior_ela_z_score==0 ///
+	& mi_prior_math_z_score==0 ///
+	& mi_peer_demographic_controls==0 & mi_peer_prior_ela_z_score==0 & mi_peer_prior_math_z_score==0
+
+
 estpost tabstat ///
 	count_var ///
 	if grade==11 ///
@@ -637,6 +849,20 @@ estpost tabstat ///
 	& (n_g11_math>=7 & !mi(n_g11_math)) ///
 	, stat(n) columns(statistics)
 estimates save estimates/sbac/counts_k12_valid_cohort_size_g11_math.ster, replace
+
+tab year ///
+	if grade==11 ///
+	& (diff_school_prop>=0.95 & !mi(diff_school_prop)) ///
+	& first_scores_sample==1 ///
+	& mi_ssid_grade_year_school==0 ///
+	& conventional_school==1 ///
+	& (cohort_size>10 & !mi(cohort_size)) ///
+	& mi_sbac_math_z_score==0 ///
+	& mi_demographic_controls==0 ///
+	& mi_prior_ela_z_score==0 ///
+	& mi_prior_math_z_score==0 ///
+	& mi_peer_demographic_controls==0 & mi_peer_prior_ela_z_score==0 & mi_peer_prior_math_z_score==0 ///
+	& (n_g11_math>=7 & !mi(n_g11_math))
 
 
 **** Z-Scores
@@ -788,6 +1014,9 @@ estpost sum ///
 	if touse_g11_ela==1
 estimates save estimates/sbac/sum_stats_g11_ela.ster, replace
 
+tab year ///
+	if touse_g11_ela==1
+
 **** Dropped from VA Sample
 estpost sum ///
 	cohort_size ///
@@ -798,6 +1027,9 @@ estpost sum ///
 	peer_prior_ela_z_score peer_prior_math_z_score ///
 	if touse_g11_ela==0 & grade==11
 estimates save estimates/sbac/sum_stats_g11_ela_dropped.ster, replace
+
+tab year ///
+	if touse_g11_ela==0 & grade==11
 
 ******** Math
 **** VA Sample
@@ -811,6 +1043,9 @@ estpost sum ///
 	if touse_g11_math==1
 estimates save estimates/sbac/sum_stats_g11_math.ster, replace
 
+tab year ///
+	if touse_g11_math==1
+
 **** Dropped from VA Sample
 estpost sum ///
 	cohort_size ///
@@ -821,6 +1056,9 @@ estpost sum ///
 	peer_prior_ela_z_score peer_prior_math_z_score ///
 	if touse_g11_math==0 & grade==11
 estimates save estimates/sbac/sum_stats_g11_math_dropped.ster, replace
+
+tab year ///
+	if touse_g11_math==0 & grade==11
 
 
 

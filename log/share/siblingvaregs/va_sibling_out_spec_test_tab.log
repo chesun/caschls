@@ -1,0 +1,318 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /home/research/ca_ed_lab/chesun/gsr/caschls/log/share/siblingvareg
+> s/va_sibling_out_spec_test_tab.smcl
+  log type:  smcl
+ opened on:  10 Nov 2021, 16:03:37
+
+. 
+.  //include macros
+.  include do_files/sbac/macros_va.doh
+
+. #delimit ;
+delimiter now ;
+. local test_score_min_year
+>         2015
+>         ;
+
+. local test_score_max_year
+>         2019
+>         ;
+
+. local star_min_year
+>         2003
+>         ;
+
+. local star_max_year
+>         2013
+>         ;
+
+. local caaspp_min_year
+>         2015
+>         ;
+
+. local caaspp_max_year
+>         2019
+>         ;
+
+. local outcome_min_year
+>         2015
+>         ;
+
+. local outcome_max_year
+>         2018
+>         ;
+
+. local ela_str
+>         "ELA"
+>         ;
+
+. local math_str
+>         "Math"
+>         ;
+
+. local enr_str
+>         "Enrolled On Time"
+>         ;
+
+. local enr_2year_str
+>         "Enrolled On Time 2-Year"
+>         ;
+
+. local enr_4year_str
+>         "Enrolled On Time 4-Year"
+>         ;
+
+. local school_controls
+>         /*cohort_size*/
+>         ;
+
+. local demographic_controls
+>         age
+>         i.male
+>         i.eth_asian i.eth_hispanic i.eth_black i.eth_other
+>         i.econ_disadvantage
+>         i.limited_eng_prof
+>         i.disabled
+>         ;
+
+. local peer_demographic_controls
+>         peer_age
+>         peer_male
+>         peer_eth_asian peer_eth_hispanic peer_eth_black peer_eth_other
+>         peer_econ_disadvantage
+>         peer_limited_eng_prof
+>         peer_disabled
+>         ;
+
+. local ela_score_controls
+>         i.year#(c.prior_ela_z_score##c.prior_ela_z_score##c.prior_ela_z_score
+> )
+>         ;
+
+. local peer_ela_score_controls
+>         i.year#(c.peer_prior_ela_z_score##c.peer_prior_ela_z_score##c.peer_pr
+> ior_ela_z_score)
+>         ;
+
+. local math_score_controls
+>         i.year#(c.prior_math_z_score##c.prior_math_z_score##c.prior_math_z_sc
+> ore)
+>         ;
+
+. local peer_math_score_controls
+>         i.year#(c.peer_prior_math_z_score##c.peer_prior_math_z_score##c.peer_
+> prior_math_z_score)
+>         ;
+
+. local va_control_vars "`school_controls' `demographic_controls'" ;
+
+. local va_control_vars : subinstr local va_control_vars "i." "", all ;
+
+. local va_control_vars : list uniq va_control_vars ;
+
+. local census_controls
+>         /*eth_white_pct*/ eth_asian_pct eth_hispanic_pct eth_black_pct /*eth_
+> other_pct*/
+>         educ_hs_dropout_prop /*educ_deg_2year_prop*/ educ_deg_4year_plus_prop
+>         pov_fam_child_lt18_pct
+>         inc_median_hh
+>         ;
+
+. #delimit cr
+delimiter now cr
+. 
+. 
+.  #delimit ;
+delimiter now ;
+.  #delimit cr
+delimiter now cr
+.  macro list
+nscdtadir:      /home/research/ca_ed_lab/data/restricted_access/clean/nsc
+cstdtadir:      /home/research/ca_ed_lab/data/restricted_access/clean/cst
+vadtadir:       /home/research/ca_ed_lab/msnaven/common_core_va/data/sbac
+projdir:        /home/research/ca_ed_lab/chesun/gsr/caschls
+clndtadir:      /home/research/ca_ed_lab/data/restricted_access/clean/calschls
+rawdtadir:      /home/research/ca_ed_lab/data/restricted_access/raw/calschls/st
+                > ata
+rawcsvdir:      /home/research/ca_ed_lab/data/restricted_access/raw/calschls/cs
+                > v
+S_level:        95
+F1:             help advice;
+F2:             describe;
+F7:             save
+F8:             use
+S_ADO:          BASE;SITE;.;PERSONAL;PLUS;OLDPLACE
+S_StataMP:      MP
+S_StataSE:      SE
+S_CONSOLE:      console
+S_OS:           Unix
+S_MACH:         PC (64-bit x86-64)
+_census_controls:
+                eth_asian_pct eth_hispanic_pct eth_black_pct
+                educ_hs_dropout_prop educ_deg_4year_plus_prop
+                pov_fam_child_lt18_pct inc_median_hh
+_va_control_vars:
+                age male eth_asian eth_hispanic eth_black eth_other
+                econ_disadvantage limited_eng_prof disabled
+_peer_math_score_controls:
+                i.year#(c.peer_prior_math_z_score##c.peer_prior_math_z_score##c
+                > .peer_prior_math_z_score)
+_math_score_controls:
+                i.year#(c.prior_math_z_score##c.prior_math_z_score##c.prior_mat
+                > h_z_score)
+_peer_ela_score_controls:
+                i.year#(c.peer_prior_ela_z_score##c.peer_prior_ela_z_score##c.p
+                > eer_prior_ela_z_score)
+_ela_score_controls:
+                i.year#(c.prior_ela_z_score##c.prior_ela_z_score##c.prior_ela_z
+                > _score)
+_peer_demographic_controls:
+                peer_age peer_male peer_eth_asian peer_eth_hispanic
+                peer_eth_black peer_eth_other peer_econ_disadvantage
+                peer_limited_eng_prof peer_disabled
+_demographic_controls:
+                age i.male i.eth_asian i.eth_hispanic i.eth_black i.eth_other
+                i.econ_disadvantage i.limited_eng_prof i.disabled
+_enr_4year_str: Enrolled On Time 4-Year
+_enr_2year_str: Enrolled On Time 2-Year
+_enr_str:       Enrolled On Time
+_math_str:      Math
+_ela_str:       ELA
+_outcome_max_year:
+                2018
+_outcome_min_year:
+                2015
+_caaspp_max_year:
+                2019
+_caaspp_min_year:
+                2015
+_star_max_year: 2013
+_star_min_year: 2003
+_test_score_max_year:
+                2019
+_test_score_min_year:
+                2015
+_sibling_out_xwalk:
+                /home/research/ca_ed_lab/chesun/gsr/caschls/dta/siblingxwalk/si
+                > bling_out_xwalk
+_k12_postsecondary_out_merge:
+                /home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/
+                > k12_postsecondary_out_merge
+_ufamilyxwalk:  /home/research/ca_ed_lab/chesun/gsr/caschls/dta/siblingxwalk/uf
+                > amilyxwalk
+_siblingxwalk:  /home/research/ca_ed_lab/chesun/gsr/caschls/dta/siblingxwalk/si
+                > blingpairxwalk
+_va_g11_out_dataset:
+                /home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/
+                > va_g11_out_dataset
+_va_g11_dataset:
+                /home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/
+                > va_g11_dataset
+_va_dataset:    /home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/
+                > va_dataset
+_k12_test_scores_public:
+                /home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_t
+                > est_scores
+_k12_public_schools:
+                /home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_p
+                > ublic_schools
+_public_access: /home/research/ca_ed_lab/data/public_access
+_k12_test_scores:
+                /home/research/ca_ed_lab/msnaven/data/restricted_access/clean/k
+                > 12_test_scores
+_ca_ed_lab:     /home/research/ca_ed_lab
+_common_core_va:
+                /home/research/ca_ed_lab/msnaven/common_core_va
+_mattdofiles:   /home/research/ca_ed_lab/msnaven/common_core_va/do_files/sbac
+_matthomedir:   /home/research/ca_ed_lab/msnaven/common_core_va
+
+. 
+. 
+.  timer on 1
+
+. 
+. 
+. 
+. *****************************************************************************
+> ***
+. ********* Spec test table without peer controls
+. 
+. 
+. 
+. foreach outcome in enr enr_2year enr_4year {
+  2.   estimates use $projdir/est/siblingvaregs/outcome_va/spec_test_va_cfr_g11
+> _`outcome'_sibling.ster
+  3.   eststo
+  4. 
+.   estimates use $projdir/est/siblingvaregs/outcome_va/spec_test_va_cfr_g11_`o
+> utcome'_sibling_nocontrol.ster
+  5.   eststo
+  6. 
+.   estimates use estimates/sbac/spec_test_va_cfr_g11_`outcome'.ster
+  7.   eststo
+  8. 
+. 
+.   esttab using $projdir/out/csv/siblingvaregs/spec_test/spec_test_`outcome'.c
+> sv ///
+>   , replace nonumbers  ///
+>   mtitles("Original" "Sibling Sample" "Sibling Controls") ///
+>   title("Spec Tests for ``outcome'_str' VA")
+  9. 
+.   eststo clear
+ 10. 
+. }
+(est1 stored)
+(est2 stored)
+(est3 stored)
+(file
+    /home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/siblingvaregs/spec_te
+    > st/spec_test_enr.csv not found)
+(output written to /home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/siblingv
+> aregs/spec_test/spec_test_enr.csv)
+(est1 stored)
+(est2 stored)
+(est3 stored)
+(file
+    /home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/siblingvaregs/spec_te
+    > st/spec_test_enr_2year.csv not found)
+(output written to /home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/siblingv
+> aregs/spec_test/spec_test_enr_2year.csv)
+(est1 stored)
+(est2 stored)
+(est3 stored)
+(file
+    /home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/siblingvaregs/spec_te
+    > st/spec_test_enr_4year.csv not found)
+(output written to /home/research/ca_ed_lab/chesun/gsr/caschls/out/csv/siblingv
+> aregs/spec_test/spec_test_enr_4year.csv)
+
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+.  timer off 1
+
+.  log close
+      name:  <unnamed>
+       log:  /home/research/ca_ed_lab/chesun/gsr/caschls/log/share/siblingvareg
+> s/va_sibling_out_spec_test_tab.smcl
+  log type:  smcl
+ closed on:  10 Nov 2021, 16:03:37
+-------------------------------------------------------------------------------
