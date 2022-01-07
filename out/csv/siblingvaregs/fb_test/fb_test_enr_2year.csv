@@ -1,0 +1,17 @@
+="Spec Tests for Enrolled On Time 2-Year VA"
+
+="",="L4 Score Sample",="Census Sample",="Sibling Sample"
+
+="va_cfr_g11_enr_2year",="-0.000746*",="0.144***",=""
+="",="(-2.20)",="(11.45)",=""
+
+="va_cfr_g11_enr_2year_nosibctrl",="",="",="0.0148***"
+="",="",="",="(14.72)"
+
+="_cons",="-0.000000488",="0.000235",="0.0000125"
+="",="(-0.02)",="(0.29)",="(0.18)"
+
+="N",="469541",="293519",="275290"
+
+="t statistics in parentheses"
+="* p<0.05, ** p<0.01, *** p<0.001"

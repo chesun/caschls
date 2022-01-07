@@ -34,32 +34,17 @@ cap log close _all
 
 args setlimit
 
-*** macros for Matt's data directories
-local matthomedir "/home/research/ca_ed_lab/msnaven/common_core_va"
-local mattdofiles "/home/research/ca_ed_lab/msnaven/common_core_va/do_files/sbac"
-local common_core_va "/home/research/ca_ed_lab/msnaven/common_core_va"
-local ca_ed_lab "/home/research/ca_ed_lab"
-local k12_test_scores "/home/research/ca_ed_lab/msnaven/data/restricted_access/clean/k12_test_scores"
-local public_access "/home/research/ca_ed_lab/data/public_access"
-local k12_public_schools "/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_public_schools"
-local k12_test_scores_public "/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_test_scores"
+/* file path macros  */
+include $projdir/do/share/siblingvaregs/vafilemacros.doh
 
-*** macros for my own datasets
-local va_dataset "$projdir/dta/common_core_va/va_dataset"
-local va_g11_dataset "$projdir/dta/common_core_va/va_g11_dataset"
-local va_g11_out_dataset "$projdir/dta/common_core_va/va_g11_out_dataset"
-local siblingxwalk "$projdir/dta/siblingxwalk/siblingpairxwalk"
-local ufamilyxwalk "$projdir/dta/siblingxwalk/ufamilyxwalk"
-local k12_postsecondary_out_merge "$projdir/dta/common_core_va/k12_postsecondary_out_merge"
-local sibling_out_xwalk "$projdir/dta/siblingxwalk/sibling_out_xwalk"
+//change directory to common_core_va project directory
+cd $vaprojdir
 
-//change directory to matt directory to reconcile the use of directories in his doh and do file
-cd `matthomedir'
 //starting log file
 log using $projdir/log/share/siblingvaregs/va_sibling.smcl, replace
 
-//include macros
-include do_files/sbac/macros_va.doh
+//run the do helper file to set the local macros
+include `mattdofiles'/macros_va.doh
 
 #delimit ;
 #delimit cr
@@ -75,19 +60,10 @@ timer on 1
 use `va_g11_dataset', clear
 
 //merge on to sibling outcomes crosswalk to get sibling enrollment controls
-merge m:1 state_student_id using `sibling_out_xwalk'
-drop _merge
-/*
-Result                      Number of obs
-    -----------------------------------------
-    Not matched                     4,360,629
-        from master                 1,252,476  (_merge==1)
-        from using                  3,108,153  (_merge==2)
+merge m:1 state_student_id using `sibling_out_xwalk', nogen keep(1 3)
 
-    Matched                         1,169,409  (_merge==3)
-    -----------------------------------------
-
- */
+drop if mi(has_older_sibling_enr_2year)
+drop if mi(has_older_sibling_enr_4year)
 
 compress
 tempfile va_g11_sibling_dataset
@@ -118,7 +94,24 @@ foreach subject in ela math {
 
     ******************************************************************************
     ************ Value added estimation with no peer controls ********************
-    ****** No TFX (teacher fixed effects)
+    ****** No TFX, without sibling college going controls
+    vam sbac_`subject'_z_score ///
+      , teacher(school_id) year(year) class(school_id) ///
+      controls( ///
+        i.year ///
+        `school_controls' ///
+        `demographic_controls' ///
+        `ela_score_controls' ///
+        `math_score_controls' ///
+      ) ///
+      data(merge tv score_r) ///
+      driftlimit(`drift_limit')
+    rename tv va_cfr_g11_`subject'_nosibctrl
+    rename score_r sbac_g11_`subject'_r_nosibctrl
+    label var va_cfr_g11_`subject'_nosibctrl "`subject' VA with family FE without TFX without sibling control"
+    label var sbac_g11_`subject'_r_nosibctrl "`subject' score residual with family FE without TFX without sibling control"
+
+    ****** No TFX (teacher fixed effects), include sibling controls
     vam sbac_`subject'_z_score ///
   		, teacher(school_id) year(year) class(school_id) ///
   		controls( ///
@@ -158,22 +151,7 @@ foreach subject in ela math {
     label var va_tfx_g11_`subject' "`subject' VA with family FE with TFX"
 
 
-    ****** No TFX, without sibling college going controls
-    vam sbac_`subject'_z_score ///
-      , teacher(school_id) year(year) class(school_id) ///
-      controls( ///
-        i.year ///
-        `school_controls' ///
-        `demographic_controls' ///
-        `ela_score_controls' ///
-        `math_score_controls' ///
-      ) ///
-      data(merge tv score_r) ///
-      driftlimit(`drift_limit')
-    rename tv va_cfr_g11_`subject'_nosiblingcontrol
-    rename score_r sbac_g11_`subject'_r_nosiblingcontrol
-    label var va_cfr_g11_`subject'_nosiblingcontrol "`subject' VA with family FE without TFX without sibling control"
-    label var sbac_g11_`subject'_r_nosiblingcontrol "`subject' score residual with family FE without TFX without sibling control"
+
 
 
 
@@ -241,8 +219,22 @@ foreach subject in ela math {
 
 
     ******** sibling sample without sibling controls
-    reg sbac_g11_`subject'_r_nosiblingcontrol va_cfr_g11_`subject'_nosiblingcontrol, cluster(school_id)
+    reg sbac_g11_`subject'_r_nosibctrl va_cfr_g11_`subject'_nosibctrl, cluster(school_id)
     estimates save $projdir/est/siblingvaregs/test_score_va/spec_test_va_cfr_g11_`subject'_sibling_nocontrol.ster, replace
+
+
+
+
+    ******************************************************************************
+    /* CFR Forecast Bias Test */
+    ***** leave out variable is sibling controls
+
+
+    **no peer controls
+    gen sbac_g11_`subject'_r_d = sbac_g11_`subject'_r_nosibctrl - sbac_g11_`subject'_r
+    reg sbac_g11_`subject'_r_d va_cfr_g11_`subject'_nosibctrl,	cluster(school_id)
+    estimates save $projdir/est/siblingvaregs/test_score_va/fb_test_va_cfr_g11_`subject'_sibling.ster, replace 
+
 
 
 
@@ -269,7 +261,7 @@ timer list
 log close
 
 //change directory back
-cd "/home/research/ca_ed_lab/chesun/gsr/caschls"
+cd $projdir
 
 //translate the log file to a text log file
 translate $projdir/log/share/siblingvaregs/va_sibling.smcl ///

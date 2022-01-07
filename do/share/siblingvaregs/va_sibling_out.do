@@ -21,6 +21,13 @@ do $projdir/do/share/siblingvaregs/va_sibling_out 2
  */
 
 
+
+/* Change log:
+1.6.2022: updated do file to reconcile server file path changes, re-ran
+with drift limit = 2. Still produces an error if drift limit = 3 */
+
+
+
 //install VAM package to estimate value added models a la Chetty, Freidman, and Rockoff
 /* ssc install vam, replace  */
 clear all
@@ -32,32 +39,17 @@ cap log close _all
 
 args setlimit
 
-*** macros for Matt's data directories
-local matthomedir "/home/research/ca_ed_lab/msnaven/common_core_va"
-local mattdofiles "/home/research/ca_ed_lab/msnaven/common_core_va/do_files/sbac"
-local common_core_va "/home/research/ca_ed_lab/msnaven/common_core_va"
-local ca_ed_lab "/home/research/ca_ed_lab"
-local k12_test_scores "/home/research/ca_ed_lab/msnaven/data/restricted_access/clean/k12_test_scores"
-local public_access "/home/research/ca_ed_lab/data/public_access"
-local k12_public_schools "/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_public_schools"
-local k12_test_scores_public "/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_test_scores"
+/* file path macros  */
+include $projdir/do/share/siblingvaregs/vafilemacros.doh
 
-*** macros for my own datasets
-local va_dataset "$projdir/dta/common_core_va/va_dataset"
-local va_g11_dataset "$projdir/dta/common_core_va/va_g11_dataset"
-local va_g11_out_dataset "$projdir/dta/common_core_va/va_g11_out_dataset"
-local siblingxwalk "$projdir/dta/siblingxwalk/siblingpairxwalk"
-local ufamilyxwalk "$projdir/dta/siblingxwalk/ufamilyxwalk"
-local k12_postsecondary_out_merge "$projdir/dta/common_core_va/k12_postsecondary_out_merge"
-local sibling_out_xwalk "$projdir/dta/siblingxwalk/sibling_out_xwalk"
+//change directory to common_core_va project directory
+cd $vaprojdir
 
-//change directory to matt directory to reconcile the use of directories in his doh and do file
-cd `matthomedir'
 //starting log file
 log using $projdir/log/share/siblingvaregs/va_sibling_out.smcl, replace
 
-//include macros
-include do_files/sbac/macros_va.doh
+//run the do helper file to set the local macros
+include `mattdofiles'/macros_va.doh
 
 #delimit ;
 #delimit cr
@@ -71,12 +63,16 @@ timer on 1
 use `va_g11_out_dataset', clear
 
 //merge on to sibling outcomes crosswalk to get sibling enrollment controls
-merge m:1 state_student_id using `sibling_out_xwalk'
-drop _merge
+merge m:1 state_student_id using `sibling_out_xwalk', nogen keep(1 3)
+
+drop if mi(has_older_sibling_enr_2year)
+drop if mi(has_older_sibling_enr_4year)
 
 compress
 tempfile va_g11_out_sibling_dataset
 save `va_g11_out_sibling_dataset'
+
+
 
 
 ********************************************************************************
@@ -95,21 +91,43 @@ foreach outcome in enr enr_2year enr_4year {
   ***********************Overall value added
   **** No Peer Controls
   ** No TFX
-  vam `outcome' ///
-    , teacher(school_id) year(year) class(school_id) ///
-    controls( ///
-      i.year ///
-      i.has_older_sibling_enr_2year ///
-      i.has_older_sibling_enr_4year ///
-      `school_controls' ///
-      `demographic_controls' ///
-      `ela_score_controls' ///
-      `math_score_controls' ///
-    ) ///
-    data(merge tv score_r) ///
-    driftlimit(`drift_limit')
-  rename tv va_cfr_g11_`outcome'
-  rename score_r g11_`outcome'_r
+    ***without sibling college going controls
+    vam `outcome' ///
+      , teacher(school_id) year(year) class(school_id) ///
+      controls( ///
+        i.year ///
+        `school_controls' ///
+        `demographic_controls' ///
+        `ela_score_controls' ///
+        `math_score_controls' ///
+      ) ///
+      data(merge tv score_r) ///
+      driftlimit(`drift_limit')
+    rename tv va_cfr_g11_`outcome'_nosibctrl
+    rename score_r g11_`outcome'_r_nosibctrl
+
+
+    *** with sibling controls
+    vam `outcome' ///
+      , teacher(school_id) year(year) class(school_id) ///
+      controls( ///
+        i.year ///
+        i.has_older_sibling_enr_2year ///
+        i.has_older_sibling_enr_4year ///
+        `school_controls' ///
+        `demographic_controls' ///
+        `ela_score_controls' ///
+        `math_score_controls' ///
+      ) ///
+      data(merge tv score_r) ///
+      driftlimit(`drift_limit')
+    rename tv va_cfr_g11_`outcome'
+    rename score_r g11_`outcome'_r
+
+
+
+
+
 
 
   ** TFX
@@ -133,20 +151,7 @@ foreach outcome in enr enr_2year enr_4year {
   corr va_cfr_g11_`outcome' va_tfx_g11_`outcome'
 
 
-  *** No TFX, without sibling college going controls
-  vam `outcome' ///
-    , teacher(school_id) year(year) class(school_id) ///
-    controls( ///
-      i.year ///
-      `school_controls' ///
-      `demographic_controls' ///
-      `ela_score_controls' ///
-      `math_score_controls' ///
-    ) ///
-    data(merge tv score_r) ///
-    driftlimit(`drift_limit')
-  rename tv va_cfr_g11_`outcome'_nosibctrl
-  rename score_r g11_`outcome'_r_nosibctrl
+
 
 
 
@@ -164,24 +169,44 @@ foreach outcome in enr enr_2year enr_4year {
 
   **** Peer Controls
 	** No TFX
-	vam `outcome' ///
-		, teacher(school_id) year(year) class(school_id) ///
-		controls( ///
-			i.year ///
-      i.has_older_sibling_enr_2year ///
-      i.has_older_sibling_enr_4year ///
-			`school_controls' ///
-			`demographic_controls' ///
-			`ela_score_controls' ///
-			`math_score_controls' ///
-			`peer_demographic_controls' ///
-			`peer_ela_score_controls' ///
-			`peer_math_score_controls' ///
-		) ///
-		data(merge tv score_r) ///
-		driftlimit(`drift_limit')
-	rename tv va_cfr_g11_`outcome'_peer
-	rename score_r g11_`outcome'_r_peer
+/*
+    ***without sibling college going controls
+    vam `outcome' ///
+      , teacher(school_id) year(year) class(school_id) ///
+      controls( ///
+        i.year ///
+        `school_controls' ///
+        `demographic_controls' ///
+        `ela_score_controls' ///
+        `math_score_controls' ///
+        `peer_demographic_controls' ///
+        `peer_ela_score_controls' ///
+        `peer_math_score_controls' ///
+      ) ///
+      data(merge tv score_r) ///
+      driftlimit(`drift_limit')
+    rename tv
+    rename score_r  */
+
+    //with sibling controls
+  	vam `outcome' ///
+  		, teacher(school_id) year(year) class(school_id) ///
+  		controls( ///
+  			i.year ///
+        i.has_older_sibling_enr_2year ///
+        i.has_older_sibling_enr_4year ///
+  			`school_controls' ///
+  			`demographic_controls' ///
+  			`ela_score_controls' ///
+  			`math_score_controls' ///
+  			`peer_demographic_controls' ///
+  			`peer_ela_score_controls' ///
+  			`peer_math_score_controls' ///
+  		) ///
+  		data(merge tv score_r) ///
+  		driftlimit(`drift_limit')
+  	rename tv va_cfr_g11_`outcome'_peer
+  	rename score_r g11_`outcome'_r_peer
 
 	** TFX
 	vam `outcome' ///
@@ -209,7 +234,7 @@ foreach outcome in enr enr_2year enr_4year {
 
 
 
-
+********************************************************************************
   **************** Specification Test
   **** No Peer Controls
   reg g11_`outcome'_r va_cfr_g11_`outcome', cluster(school_id)
@@ -222,18 +247,34 @@ foreach outcome in enr enr_2year enr_4year {
 
 
   ****** sibling sample without sibling controls
+  *** no peer controls
   reg g11_`outcome'_r_nosibctrl va_cfr_g11_`outcome'_nosibctrl, cluster(school_id)
   estimates save $projdir/est/siblingvaregs/outcome_va/spec_test_va_cfr_g11_`outcome'_sibling_nocontrol.ster, replace
 
-
-
+  /* *** with peer controls
+  reg g11_`outcome'_r_nosibctrl_peer va_cfr_g11_`outcome'_nosibctrl_peer, cluster(school_id)
+  estimates save $projdir/est/siblingvaregs/outcome_va/spec_test_va_cfr_g11_`outcome'_peer_sibling_nocontrol.ster, replace */
 
   **************Do we need deep knowledge VA with sibling controls??
 
 
 
 
+  ******************************************************************************
+  /* CFR Forecast Bias Test */
+  ***** leave out variable is sibling controls
 
+
+  **no peer controls
+  gen g11_`outcome'_r_d = g11_`outcome'_r_nosibctrl - g11_`outcome'_r
+  reg g11_`outcome'_r_d va_cfr_g11_`outcome'_nosibctrl, cluster(school_id)
+  estimates save $projdir/est/siblingvaregs/outcome_va/fb_test_va_cfr_g11_`outcome'_sibling.ster, replace
+
+  /* ** with peer controls
+  gen g11_`outcome'_r_d_peer = g11_`outcome'_r_nosibctrl_peer - g11_`outcome'_r_peer
+  reg g11_`outcome'_r_d_peer va_cfr_g11_`outcome'_nosibctrl_peer, cluster(school_id)
+  estimates save $projdir/est/siblingvaregs/outcome_va/fb_test_va_cfr_g11_`outcome'_sibling_peer.ster, replace
+ */
 
 
 
@@ -261,7 +302,7 @@ timer list
 log close
 
 //change directory back
-cd "/home/research/ca_ed_lab/chesun/gsr/caschls"
+cd $projdir
 
 //translate the log file to a text log file
 translate $projdir/log/share/siblingvaregs/va_sibling_out.smcl ///
