@@ -1,9 +1,9 @@
 -------------------------------------------------------------------------------
       name:  <unnamed>
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
-> gvaregs/va_sibling_spec_test_tab.smcl
+> gvaregs/va_sibling_fb_test_tab.smcl
   log type:  smcl
- opened on:   6 Jan 2022, 18:46:35
+ opened on:   6 Jan 2022, 18:48:10
 
 . 
 .  //run the do helper file to set the local macros
@@ -128,6 +128,8 @@ delimiter now ;
 .  #delimit cr
 delimiter now cr
 .  macro list
+eststo_counter: 2
+eststo:         est1 est2
 vaprojdir:      /home/research/ca_ed_lab/projects/common_core_va
 nscdtadir:      /home/research/ca_ed_lab/data/restricted_access/clean/nsc
 cstdtadir:      /home/research/ca_ed_lab/data/restricted_access/clean/cst
@@ -194,6 +196,9 @@ _test_score_max_year:
                 2019
 _test_score_min_year:
                 2015
+_enr_4year_fb_va_sibling:
+                /home/research/ca_ed_lab/users/chesun/gsr/caschls/est/siblingva
+                > regs/outcome_va/fb_test_va_cfr_g11_enr_4year_sibling.ster
 _enr_4year_spec_va_sibling_peer:
                 /home/research/ca_ed_lab/users/chesun/gsr/caschls/est/siblingva
                 > regs/outcome_va/spec_test_va_cfr_g11_enr_4year_peer_sibling.s
@@ -242,6 +247,9 @@ _enr_4year_spec_va:
 _enr_4year_va_dta:
                 /home/research/ca_ed_lab/projects/common_core_va/data/sbac/va_g
                 > 11_enr_4year.dta, replace
+_enr_2year_fb_va_sibling:
+                /home/research/ca_ed_lab/users/chesun/gsr/caschls/est/siblingva
+                > regs/outcome_va/fb_test_va_cfr_g11_enr_2year_sibling.ster
 _enr_2year_spec_va_sibling_peer:
                 /home/research/ca_ed_lab/users/chesun/gsr/caschls/est/siblingva
                 > regs/outcome_va/spec_test_va_cfr_g11_enr_2year_peer_sibling.s
@@ -290,6 +298,9 @@ _enr_2year_spec_va:
 _enr_2year_va_dta:
                 /home/research/ca_ed_lab/projects/common_core_va/data/sbac/va_g
                 > 11_enr_2year.dta, replace
+_enr_fb_va_sibling:
+                /home/research/ca_ed_lab/users/chesun/gsr/caschls/est/siblingva
+                > regs/outcome_va/fb_test_va_cfr_g11_enr_sibling.ster
 _enr_spec_va_sibling_peer:
                 /home/research/ca_ed_lab/users/chesun/gsr/caschls/est/siblingva
                 > regs/outcome_va/spec_test_va_cfr_g11_enr_peer_sibling.ster
@@ -462,124 +473,95 @@ _mattdofiles:   /home/research/ca_ed_lab/users/chesun/gsr/caschls/do/matt/adapt
 
 . 
 . 
+.  ****************************************************************************
+> ****
+.  ********* test score VA forecast bias test table without peer controls
 . 
-. *****************************************************************************
-> ***
-. ********* test score VA Spec test table without peer controls
-. 
-. 
-. 
-. foreach subject in ela math {
-  2.   //original VA, original sample
-.   estimates use ``subject'_spec_va'
-  3.   eststo
+.  foreach subject in ela math {
+  2.    //original VA, L4 test score leave out var sample
+.    estimates use ``subject'_fb_va_l4'
+  3.    eststo
   4. 
-.   //original VA, leave out var L4 test score sample
-.   estimates use ``subject'_spec_va_l4'
-  5.   eststo
+.    //original VA, census tract leave out var sample
+.    estimates use ``subject'_fb_va_census'
+  5.    eststo
   6. 
-.   //original VA, leave out census tract sample
-.   estimates use ``subject'_spec_va_census'
-  7.   eststo
+.    //original VA, sibling sample
+.    estimates use ``subject'_fb_va_sibling '
+  7.    eststo
   8. 
-.   //original VA, sibling sample
-.   estimates use ``subject'_spec_va_sibling_og'
-  9.   eststo
+.    esttab using $projdir/out/csv/siblingvaregs/fb_test/fb_test_`subject'.csv 
+> ///
+>    , replace nonumbers  ///
+>    mtitles("L4 Score Sample" "Census Sample" "Sibling Sample") ///
+>    title("Spec Tests for ``subject'_str' VA")
+  9. 
+.    eststo clear
  10. 
-.   //sibling VA, sibling sample
-.   estimates use ``subject'_spec_va_sibling'
- 11.   eststo
- 12. 
-. 
-.   esttab using $projdir/out/csv/siblingvaregs/spec_test/spec_test_`subject'.c
-> sv ///
->   , replace nonumbers  ///
->   mtitles("Original" "L4 Score Sample" "Census Sample" "Sibling Sample" "Sibl
-> ing Controls") ///
->   title("Spec Tests for ``subject'_str' VA")
- 13. 
-.   eststo clear
- 14. 
-. }
+.  }
 (est1 stored)
 (est2 stored)
 (est3 stored)
-(est4 stored)
-(est5 stored)
 (output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/si
-> blingvaregs/spec_test/spec_test_ela.csv)
+> blingvaregs/fb_test/fb_test_ela.csv)
 (est1 stored)
 (est2 stored)
 (est3 stored)
-(est4 stored)
-(est5 stored)
 (output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/si
-> blingvaregs/spec_test/spec_test_math.csv)
+> blingvaregs/fb_test/fb_test_math.csv)
 
 . 
 . 
+.  ****************************************************************************
+> ****
+.  ********* enrollment VA forecast bias test table without peer controls
 . 
-. 
-. 
-. *****************************************************************************
-> ***
-. ********* enrollment VA Spec test table without peer controls
-. foreach outcome in enr enr_2year enr_4year  {
-  2.   //original VA, original sample
-.   estimates use ``outcome'_spec_va'
-  3.   eststo
+.  foreach outcome in enr enr_2year enr_4year {
+  2.    //original VA, L4 test score leave out var sample
+.    estimates use ``outcome'_fb_va_l4'
+  3.    eststo
   4. 
-.   //original VA, leave out var L4 test score sample
-.   estimates use ``outcome'_spec_va_l4'
-  5.   eststo
+.    //original VA, census tract leave out var sample
+.    estimates use ``outcome'_fb_va_census'
+  5.    eststo
   6. 
-.   //original VA, leave out census tract sample
-.   estimates use ``outcome'_spec_va_census'
-  7.   eststo
+.    //original VA, sibling sample
+.    estimates use ``outcome'_fb_va_sibling '
+  7.    eststo
   8. 
-.   //original VA, sibling sample
-.   estimates use ``outcome'_spec_va_sibling_og'
-  9.   eststo
- 10. 
-.   //sibling VA, sibling sample
-.   estimates use ``outcome'_spec_va_sibling'
- 11.   eststo
- 12. 
-. 
-.   esttab using $projdir/out/csv/siblingvaregs/spec_test/spec_test_`outcome'.c
-> sv ///
->   , replace nonumbers  ///
->   mtitles("Original" "L4 Score Sample" "Census Sample" "Sibling Sample" "Sibl
-> ing Controls") ///
->   title("Spec Tests for ``outcome'_str' VA")
- 13. 
-.   eststo clear
- 14. 
-. }
+.    esttab using $projdir/out/csv/siblingvaregs/fb_test/fb_test_`outcome'.csv 
+> ///
+>    , replace nonumbers  ///
+>    mtitles("L4 Score Sample" "Census Sample" "Sibling Sample") ///
+>    title("Spec Tests for ``outcome'_str' VA")
+  9. 
+.    eststo clear
+ 10.  }
 (est1 stored)
 (est2 stored)
 (est3 stored)
-(est4 stored)
-(est5 stored)
+(file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/f
+    > b_test/fb_test_enr.csv not found)
 (output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/si
-> blingvaregs/spec_test/spec_test_enr.csv)
+> blingvaregs/fb_test/fb_test_enr.csv)
 (est1 stored)
 (est2 stored)
 (est3 stored)
-(est4 stored)
-(est5 stored)
+(file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/f
+    > b_test/fb_test_enr_2year.csv not found)
 (output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/si
-> blingvaregs/spec_test/spec_test_enr_2year.csv)
+> blingvaregs/fb_test/fb_test_enr_2year.csv)
 (est1 stored)
 (est2 stored)
 (est3 stored)
-(est4 stored)
-(est5 stored)
+(file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/f
+    > b_test/fb_test_enr_4year.csv not found)
 (output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/si
-> blingvaregs/spec_test/spec_test_enr_4year.csv)
+> blingvaregs/fb_test/fb_test_enr_4year.csv)
 
-. 
-. 
 . 
 . 
 .  timer off 1
@@ -587,7 +569,7 @@ _mattdofiles:   /home/research/ca_ed_lab/users/chesun/gsr/caschls/do/matt/adapt
 .  log close
       name:  <unnamed>
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
-> gvaregs/va_sibling_spec_test_tab.smcl
+> gvaregs/va_sibling_fb_test_tab.smcl
   log type:  smcl
- closed on:   6 Jan 2022, 18:46:35
+ closed on:   6 Jan 2022, 18:48:10
 -------------------------------------------------------------------------------

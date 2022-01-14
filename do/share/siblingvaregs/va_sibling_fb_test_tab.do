@@ -65,9 +65,9 @@ do $projdir/do/share/siblingvaregs/va_sibling_fb_test_tab.do
    eststo
 
    esttab using $projdir/out/csv/siblingvaregs/fb_test/fb_test_`subject'.csv ///
-   , replace nonumbers  ///
+   , replace nonumbers se(%4.3f) b(%5.3f) ///
    mtitles("L4 Score Sample" "Census Sample" "Sibling Sample") ///
-   title("Spec Tests for ``subject'_str' VA")
+   title("Forecast Bias Tests for ``subject'_str' VA")
 
    eststo clear
 
@@ -91,9 +91,9 @@ do $projdir/do/share/siblingvaregs/va_sibling_fb_test_tab.do
    eststo
 
    esttab using $projdir/out/csv/siblingvaregs/fb_test/fb_test_`outcome'.csv ///
-   , replace nonumbers  ///
+   , replace nonumbers se(%4.3f) b(%5.3f) ///
    mtitles("L4 Score Sample" "Census Sample" "Sibling Sample") ///
-   title("Spec Tests for ``outcome'_str' VA")
+   title("Forecast Bias Tests for ``outcome'_str' VA")
 
    eststo clear
  }

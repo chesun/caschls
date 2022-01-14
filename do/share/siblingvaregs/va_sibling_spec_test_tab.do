@@ -60,26 +60,56 @@ foreach subject in ela math {
   //original VA, original sample
   estimates use ``subject'_spec_va'
   eststo
+  test _b[va_cfr_g11_`subject'] = 1
+  matrix test_p = r(p)
+  matrix rownames test_p = pvalue
+  matrix colnames test_p = va_cfr_g11_`subject'
+  estadd matrix test_p = test_p
+
 
   //original VA, leave out var L4 test score sample
   estimates use ``subject'_spec_va_l4'
   eststo
+  test _b[va_cfr_g11_`subject'] = 1
+  matrix test_p = r(p)
+  matrix rownames test_p = pvalue
+  matrix colnames test_p = va_cfr_g11_`subject'
+  estadd matrix test_p = test_p
+
 
   //original VA, leave out census tract sample
   estimates use ``subject'_spec_va_census'
   eststo
+  test _b[va_cfr_g11_`subject'] = 1
+  matrix test_p = r(p)
+  matrix rownames test_p = pvalue
+  matrix colnames test_p = va_cfr_g11_`subject'
+  estadd matrix test_p = test_p
+
 
   //original VA, sibling sample
   estimates use ``subject'_spec_va_sibling_og'
   eststo
+  test _b[va_cfr_g11_`subject'_nosibctrl] = 1
+  matrix test_p = r(p)
+  matrix rownames test_p = pvalue
+  matrix colnames test_p = va_cfr_g11_`subject'_nosibctrl
+  estadd matrix test_p = test_p
+
 
   //sibling VA, sibling sample
   estimates use ``subject'_spec_va_sibling'
   eststo
+  test _b[va_cfr_g11_`subject'] = 1
+  matrix test_p = r(p)
+  matrix rownames test_p = pvalue
+  matrix colnames test_p = va_cfr_g11_`subject'
+  estadd matrix test_p = test_p
 
 
   esttab using $projdir/out/csv/siblingvaregs/spec_test/spec_test_`subject'.csv ///
   , replace nonumbers  ///
+  cells(b(fmt(%5.3f) pvalue(test_p) star) se(fmt(%4.3f) par)) ///
   mtitles("Original" "L4 Score Sample" "Census Sample" "Sibling Sample" "Sibling Controls") ///
   title("Spec Tests for ``subject'_str' VA")
 
@@ -97,26 +127,52 @@ foreach outcome in enr enr_2year enr_4year  {
   //original VA, original sample
   estimates use ``outcome'_spec_va'
   eststo
+  test _b[va_cfr_g11_`outcome'] = 1
+  matrix test_p = r(p)
+  matrix rownames test_p = pvalue
+  matrix colnames test_p = va_cfr_g11_`outcome'
+  estadd matrix test_p = test_p
 
   //original VA, leave out var L4 test score sample
   estimates use ``outcome'_spec_va_l4'
   eststo
+  test _b[va_cfr_g11_`outcome'] = 1
+  matrix test_p = r(p)
+  matrix rownames test_p = pvalue
+  matrix colnames test_p = va_cfr_g11_`outcome'
+  estadd matrix test_p = test_p
 
   //original VA, leave out census tract sample
   estimates use ``outcome'_spec_va_census'
   eststo
+  test _b[va_cfr_g11_`outcome'] = 1
+  matrix test_p = r(p)
+  matrix rownames test_p = pvalue
+  matrix colnames test_p = va_cfr_g11_`outcome'
+  estadd matrix test_p = test_p
 
   //original VA, sibling sample
   estimates use ``outcome'_spec_va_sibling_og'
   eststo
+  test _b[va_cfr_g11_`outcome'_nosibctrl] = 1
+  matrix test_p = r(p)
+  matrix rownames test_p = pvalue
+  matrix colnames test_p = va_cfr_g11_`outcome'_nosibctrl
+  estadd matrix test_p = test_p
 
   //sibling VA, sibling sample
   estimates use ``outcome'_spec_va_sibling'
   eststo
+  test _b[va_cfr_g11_`outcome'] = 1
+  matrix test_p = r(p)
+  matrix rownames test_p = pvalue
+  matrix colnames test_p = va_cfr_g11_`outcome'
+  estadd matrix test_p = test_p
 
 
   esttab using $projdir/out/csv/siblingvaregs/spec_test/spec_test_`outcome'.csv ///
   , replace nonumbers  ///
+  cells(b(fmt(%5.3f) pvalue(test_p) star) se(fmt(%4.3f) par)) ///
   mtitles("Original" "L4 Score Sample" "Census Sample" "Sibling Sample" "Sibling Controls") ///
   title("Spec Tests for ``outcome'_str' VA")
 

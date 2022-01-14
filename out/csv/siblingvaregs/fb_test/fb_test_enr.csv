@@ -1,17 +1,17 @@
-="Spec Tests for Enrolled On Time VA"
+="Forecast Bias Tests for Enrolled On Time VA"
 
 ="",="L4 Score Sample",="Census Sample",="Sibling Sample"
 
-="va_cfr_g11_enr",="0.00416**",="0.0789***",=""
-="",="(3.16)",="(4.47)",=""
+="va_cfr_g11_enr",="0.004**",="0.079***",=""
+="",="(0.001)",="(0.018)",=""
 
-="va_cfr_g11_enr_nosibctrl",="",="",="0.00350***"
-="",="",="",="(3.34)"
+="va_cfr_g11_enr_nosibctrl",="",="",="0.003***"
+="",="",="",="(0.001)"
 
-="_cons",="0.0000363",="0.000728",="0.0000354"
-="",="(0.52)",="(0.82)",="(0.63)"
+="_cons",="0.000",="0.001",="0.000"
+="",="(0.000)",="(0.001)",="(0.000)"
 
 ="N",="469541",="293519",="275290"
 
-="t statistics in parentheses"
+="Standard errors in parentheses"
 ="* p<0.05, ** p<0.01, *** p<0.001"
