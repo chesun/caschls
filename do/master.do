@@ -626,6 +626,11 @@ if `dosiblingvaregs' == 1 {
      do $projdir/do/share/siblingvaregs/va_sibling_forecast_bias.do
 
 
+     /* do file to create a regression output table for forecast bias tests for test score VA
+     and enrollment VA on different samples */
+     do $projdir/do/share/siblingvaregs/va_sibling_fb_test_tab.do
+
+
 
 }
 

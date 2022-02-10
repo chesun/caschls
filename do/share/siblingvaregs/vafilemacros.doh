@@ -3,14 +3,17 @@
 to use Matt's doh files  */
 ********************************************************************************
 ********************************************************************************
-/* First written by Che Sun, 12/13/2021  */
+/* First written by Che Sun, 12/13/2021
+1/27/2022: changed mattdofiles path to the do files folder in project folder
+after Matt updated the do files to reconcile file paths. Now direct run these
+do files from the $vaprojdir/do_files_sbac folder*/
 
 /* to include this in do files:
 include $projdir/do/share/siblingvaregs/vafilemacros.doh
  */
 
 //adapted matt do files
-local mattdofiles "$projdir/do/matt/adapted_commoncore_va_matt"
+local mattdofiles "$vaprojdir/do_files/sbac"
 
 local ca_ed_lab "/home/research/ca_ed_lab"
 local k12_test_scores "$vaprojdir/data/restricted_access/clean/k12_test_scores"

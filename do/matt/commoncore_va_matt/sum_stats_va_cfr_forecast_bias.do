@@ -7,13 +7,13 @@ cap log close _all
 
 if inlist(c(hostname), "sapper", "scribe") {
 	global S_ADO BASE;.;PERSONAL;PLUS;SITE;OLDPLACE
-	local home "/home/research/ca_ed_lab/msnaven/common_core_va"
+	local home "/home/research/ca_ed_lab/projects/common_core_va"
 	local ca_ed_lab "/home/research/ca_ed_lab"
-	local k12_test_scores "/home/research/ca_ed_lab/msnaven/data/restricted_access/clean/k12_test_scores"
-	local public_access "/home/research/ca_ed_lab/data/public_access"
-	local k12_public_schools "/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_public_schools"
-	local k12_test_scores_public "/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_test_scores"
-	local acs "/home/research/ca_ed_lab/msnaven/data/public_access/clean/acs"
+	local k12_test_scores "`home'/data/restricted_access/clean/k12_test_scores"
+	local public_access "`home'/data/public_access"
+	local k12_public_schools "`public_access'/clean/k12_public_schools"
+	local k12_test_scores_public "`public_access'/clean/k12_test_scores"
+	local acs "`public_access'/clean/acs"
 }
 else if c(machine_type)=="Macintosh (Intel 64-bit)" & c(username)=="naven" {
 	local home "/Users/naven/Documents/research/ca_ed_lab/common_core_va"
@@ -150,7 +150,7 @@ timer on 1
 ******************************** 11th Grade (8th Grade ELA Controls, 6th Grade Math Controls)
 **************** Four Grade Prior Test Score Forecast Bias Test
 foreach subject in ela math {
-	use data/sbac/bias_va_g11_`subject'_L4_cst_ela_z_score.dta, clear
+	use data/sbac/bias_va_g11_`subject'_L4ela.dta, clear
 
 	* Normalize to have mean zero
 	foreach v of varlist va_* {
@@ -160,7 +160,7 @@ foreach subject in ela math {
 
 	**************** Binscatter
 	******** No Peer Controls
-	estimates use estimates/sbac/bias_test_va_cfr_g11_`subject'_L4_cst_ela_z_score.ster
+	estimates use estimates/sbac/bias_test_va_cfr_g11_`subject'_L4ela.ster
 	eststo bias_g11_`subject'
 	test _b[va_cfr_g11_`subject'] = 0
 	matrix test_p = r(p)
@@ -176,11 +176,11 @@ foreach subject in ela math {
 		yline(0) xline(0) ///
 		yscale(range(-.3 .3)) xscale(range(-.3 .3)) ylabel(-.3 (0.1) .3) xlabel(-.3 (0.1) .3) ///
 		note("Slope (Standard Error) = `slope' (`std_err')")
-	graph export figures/sbac/bias_test_va_cfr_g11_`subject'_L4_cst_ela_z_score.pdf, replace
+	graph export figures/sbac/bias_test_va_cfr_g11_`subject'_L4ela.pdf, replace
 
 
 	******** Peer Controls
-	estimates use estimates/sbac/bias_test_va_cfr_g11_`subject'_L4_cst_ela_z_score_peer.ster
+	estimates use estimates/sbac/bias_test_va_cfr_g11_`subject'_L4ela_peer.ster
 	eststo bias_g11_`subject'_peer
 	test _b[va_cfr_g11_`subject'_peer] = 0
 	matrix test_p = r(p)
@@ -196,7 +196,7 @@ foreach subject in ela math {
 		yline(0) xline(0) ///
 		yscale(range(-.3 .3)) xscale(range(-.3 .3)) ylabel(-.3 (0.1) .3) xlabel(-.3 (0.1) .3) ///
 		note("Slope (Standard Error) = `slope' (`std_err')")
-	graph export figures/sbac/bias_test_va_cfr_g11_`subject'_L4_cst_ela_z_score_peer.pdf, replace
+	graph export figures/sbac/bias_test_va_cfr_g11_`subject'_L4ela_peer.pdf, replace
 }
 
 

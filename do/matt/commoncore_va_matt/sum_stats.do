@@ -7,12 +7,12 @@ cap log close _all
 
 if inlist(c(hostname), "sapper", "scribe") {
 	global S_ADO BASE;.;PERSONAL;PLUS;SITE;OLDPLACE
-	local home "/home/research/ca_ed_lab/users/msnaven/common_core_va"
+	local home "/home/research/ca_ed_lab/projects/common_core_va"
 	local ca_ed_lab "/home/research/ca_ed_lab"
-	local k12_test_scores "/home/research/ca_ed_lab/users/msnaven/data/restricted_access/clean/k12_test_scores"
-	local public_access "/home/research/ca_ed_lab/users/msnaven/data/public_access"
-	local k12_public_schools "/home/research/ca_ed_lab/users/msnaven/data/public_access/clean/k12_public_schools"
-	local k12_test_scores_public "/home/research/ca_ed_lab/users/msnaven/data/public_access/clean/k12_test_scores"
+	local k12_test_scores "`home'/data/restricted_access/clean/k12_test_scores"
+	local public_access "`home'/data/public_access"
+	local k12_public_schools "`public_access'/clean/k12_public_schools"
+	local k12_test_scores_public "`public_access'/clean/k12_test_scores"
 }
 else if c(machine_type)=="Macintosh (Intel 64-bit)" & c(username)=="naven" {
 	local home "/Users/naven/Documents/research/ca_ed_lab/common_core_va"
@@ -134,7 +134,7 @@ sum
 
 
 ******** Postsecondary Outcomes
-do `ca_ed_lab'/users/msnaven/data/do_files/merge_k12_postsecondary.doh enr_only
+do do_files/merge_k12_postsecondary.doh enr_only
 
 
 
@@ -188,8 +188,7 @@ save `va_dataset'
 ******************************** 11th Grade (8th Grade ELA Controls, 6th Grade Math Controls)
 use if grade==11 & dataset=="CAASPP" & inrange(year, `test_score_min_year', `test_score_max_year') using `va_dataset', clear
 
-gen diff_school_prop = gr11_L3_diff_school_prop if year!=2017
-replace diff_school_prop = gr11_L4_diff_school_prop if year==2017
+include do_files/sbac/create_diff_school_prop.doh
 /*keep if diff_school_prop>=0.95*/
 
 count
@@ -197,24 +196,7 @@ tab year
 tab grade year
 sum
 
-**************** Prior Scores
-******** ELA
-gen prior_ela_z_score = L3_cst_ela_z_score if inrange(year, `star_min_year' + 3, `star_max_year' + 3) & year!=2017
-replace prior_ela_z_score = L3_sbac_ela_z_score if inrange(year, `caaspp_min_year' + 3, `caaspp_max_year' + 3) & year!=2017
-replace prior_ela_z_score = L4_cst_ela_z_score if year==2017
-label var prior_ela_z_score "Prior ELA Z-Score"
-gen peer_prior_ela_z_score = peer_L3_cst_ela_z_score if inrange(year, `star_min_year' + 3, `star_max_year' + 3) & year!=2017
-replace peer_prior_ela_z_score = peer_L3_sbac_ela_z_score if inrange(year, `caaspp_min_year' + 3, `caaspp_max_year' + 3) & year!=2017
-replace peer_prior_ela_z_score = peer_L4_cst_ela_z_score if year==2017
-label var peer_prior_ela_z_score "Peer Avg. Prior ELA Z-Score"
-
-******** Math
-gen prior_math_z_score = L5_cst_math_z_score if inrange(year, `star_min_year' + 5, `star_max_year' + 5) & !inrange(year, `caaspp_min_year' + 3, `caaspp_max_year' + 3)
-replace prior_math_z_score = L3_sbac_math_z_score if inrange(year, `caaspp_min_year' + 3, `caaspp_max_year' + 3)
-label var prior_math_z_score "Prior Math Z-Score"
-gen peer_prior_math_z_score = peer_L5_cst_math_z_score if inrange(year, `star_min_year' + 5, `star_max_year' + 5) & !inrange(year, `caaspp_min_year' + 3, `caaspp_max_year' + 3)
-replace peer_prior_math_z_score = peer_L3_sbac_math_z_score if inrange(year, `caaspp_min_year' + 3, `caaspp_max_year' + 3)
-label var peer_prior_math_z_score "Peer Avg. Prior Math Z-Score"
+include do_files/sbac/create_prior_scores.doh
 
 **************** Sample
 gen byte count_var = 1

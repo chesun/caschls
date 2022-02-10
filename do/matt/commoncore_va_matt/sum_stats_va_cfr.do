@@ -7,12 +7,12 @@ cap log close _all
 
 if inlist(c(hostname), "sapper", "scribe") {
 	global S_ADO BASE;.;PERSONAL;PLUS;SITE;OLDPLACE
-	local home "/home/research/ca_ed_lab/msnaven/common_core_va"
+	local home "/home/research/ca_ed_lab/projects/common_core_va"
 	local ca_ed_lab "/home/research/ca_ed_lab"
-	local k12_test_scores "/home/research/ca_ed_lab/msnaven/data/restricted_access/clean/k12_test_scores"
-	local public_access "/home/research/ca_ed_lab/data/public_access"
-	local k12_public_schools "/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_public_schools"
-	local k12_test_scores_public "/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_test_scores"
+	local k12_test_scores "`home'/data/restricted_access/clean/k12_test_scores"
+	local public_access "`home'/data/public_access"
+	local k12_public_schools "`public_access'/clean/k12_public_schools"
+	local k12_test_scores_public "`public_access'/clean/k12_test_scores"
 }
 else if c(machine_type)=="Macintosh (Intel 64-bit)" & c(username)=="naven" {
 	local home "/Users/naven/Documents/research/ca_ed_lab/common_core_va"

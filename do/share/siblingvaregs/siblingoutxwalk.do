@@ -21,23 +21,15 @@ do $projdir/do/share/siblingvaregs/siblingoutxwalk.do
 clear all
 set more off
 set varabbrev off
+set scheme s1color
 
-*** macros for Matt's data directories
-local common_core_va "/home/research/ca_ed_lab/msnaven/common_core_va"
-local ca_ed_lab "/home/research/ca_ed_lab"
-local k12_test_scores "/home/research/ca_ed_lab/msnaven/data/restricted_access/clean/k12_test_scores"
-local public_access "/home/research/ca_ed_lab/data/public_access"
-local k12_public_schools "/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_public_schools"
-local k12_test_scores_public "/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_test_scores"
+cap log close _all
 
-*** macros for my own datasets
-local va_dataset "$projdir/dta/common_core_va/va_dataset"
-local va_g11_dataset "$projdir/dta/common_core_va/va_g11_dataset"
-local va_g11_out_dataset "$projdir/dta/common_core_va/va_g11_out_dataset"
-local siblingxwalk "$projdir/dta/siblingxwalk/siblingpairxwalk"
-local ufamilyxwalk "$projdir/dta/siblingxwalk/ufamilyxwalk"
-local k12_postsecondary_out_merge "$projdir/dta/common_core_va/k12_postsecondary_out_merge"
+/* file path macros  */
+include $projdir/do/share/siblingvaregs/vafilemacros.doh
 
+//change directory to common_core_va project directory
+cd $vaprojdir
 
 //starting log file
 log using $projdir/log/share/siblingvaregs/sibling_out_xwalk.smcl, replace

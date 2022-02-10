@@ -7,13 +7,13 @@ cap log close _all
 
 if inlist(c(hostname), "sapper", "scribe") {
 	global S_ADO BASE;.;PERSONAL;PLUS;SITE;OLDPLACE
-	local home "/home/research/ca_ed_lab/msnaven/common_core_va"
+	local home "/home/research/ca_ed_lab/projects/common_core_va"
 	local ca_ed_lab "/home/research/ca_ed_lab"
-	local k12_test_scores "/home/research/ca_ed_lab/msnaven/data/restricted_access/clean/k12_test_scores"
-	local public_access "/home/research/ca_ed_lab/data/public_access"
-	local k12_public_schools "/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_public_schools"
-	local k12_test_scores_public "/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_test_scores"
-	local acs "/home/research/ca_ed_lab/msnaven/data/public_access/clean/acs"
+	local k12_test_scores "`home'/data/restricted_access/clean/k12_test_scores"
+	local public_access "`home'/data/public_access"
+	local k12_public_schools "`public_access'/clean/k12_public_schools"
+	local k12_test_scores_public "`public_access'/clean/k12_test_scores"
+	local acs "`public_access'/clean/acs"
 }
 else if c(machine_type)=="Macintosh (Intel 64-bit)" & c(username)=="naven" {
 	local home "/Users/naven/Documents/research/ca_ed_lab/common_core_va"
@@ -193,11 +193,11 @@ foreach subject in ela math {
 	**************** Specification Test
 	**** No Peer Controls
 	reg sbac_g11_`subject'_r va_cfr_g11_`subject', cluster(school_id)
-	estimates save estimates/sbac/bias_spec_test_va_cfr_g11_`subject'_L4_cst_ela_z_score.ster, replace
+	estimates save estimates/sbac/bias_spec_test_va_cfr_g11_`subject'_L4ela.ster, replace
 
 	**** Peer Controls
 	reg sbac_g11_`subject'_r_peer va_cfr_g11_`subject'_peer, cluster(school_id)
-	estimates save estimates/sbac/bias_spec_test_va_cfr_g11_`subject'_L4_cst_ela_z_score_peer.ster, replace
+	estimates save estimates/sbac/bias_spec_test_va_cfr_g11_`subject'_L4ela_peer.ster, replace
 
 
 	**************** Chetty, Friedman, Rockoff Forecast Bias Test
@@ -244,12 +244,12 @@ foreach subject in ela math {
 	**** No Peer Controls
 	gen sbac_g11_`subject'_r_d = sbac_g11_`subject'_r - sbac_g11_`subject'_r_p
 	/*a*/reg sbac_g11_`subject'_r_d va_cfr_g11_`subject', /*absorb(school_id)*/	cluster(school_id)
-	estimates save estimates/sbac/bias_test_va_cfr_g11_`subject'_L4_cst_ela_z_score.ster, replace
+	estimates save estimates/sbac/bias_test_va_cfr_g11_`subject'_L4ela.ster, replace
 
 	**** Peer Controls
 	gen sbac_g11_`subject'_r_d_peer = sbac_g11_`subject'_r_peer - sbac_g11_`subject'_r_p_peer
 	/*a*/reg sbac_g11_`subject'_r_d_peer va_cfr_g11_`subject'_peer, /*absorb(school_id)*/	cluster(school_id)
-	estimates save estimates/sbac/bias_test_va_cfr_g11_`subject'_L4_cst_ela_z_score_peer.ster, replace
+	estimates save estimates/sbac/bias_test_va_cfr_g11_`subject'_L4ela_peer.ster, replace
 
 
 	**************** Save Value Added Estimates
@@ -257,7 +257,7 @@ foreach subject in ela math {
 		(mean) sbac_*_r* ///
 		(sum) n_g11_`subject' = touse_g11_`subject' ///
 		, by(school_id cdscode grade year)
-	save data/sbac/bias_va_g11_`subject'_L4_cst_ela_z_score.dta, replace
+	save data/sbac/bias_va_g11_`subject'_L4ela.dta, replace
 
 
 
@@ -291,9 +291,9 @@ foreach subject in ela math {
 
 
 	**************** Census Tract Forecast Bias Test
-	import delimited data/sbac/address_list_census_geocoded2.csv ///
+	import delimited data/restricted_access/clean/crosswalks/address_list_census_batch_geocoded.csv ///
 		, delimiter(tab) varnames(1) case(lower) stringcols(_all) clear
-	gen census_sct = census_state + census_county + census_tract
+	gen census_sct = statefp + countyfp + tract
 	keep address_id census_sct
 	compress
 	tempfile census_geocode
@@ -302,7 +302,7 @@ foreach subject in ela math {
 	use merge_id_k12_test_scores state_student_id student_id cdscode year grade ///
 		street_address_line_one street_address_line_two city state zip_code ///
 		using `k12_test_scores'/k12_test_scores_clean.dta, clear
-	keep if grade==6 & inrange(year, `test_score_min_year'-(11-6), `test_score_max_year'-(11-6))
+	keep if grade==`census_grade' & inrange(year, `test_score_min_year'-(11-`census_grade'), `test_score_max_year'-(11-`census_grade'))
 	drop if mi(state_student_id)
 	duplicates tag state_student_id, gen(dup_ssid)
 	egen year_min = min(year) if dup_ssid!=0, by(state_student_id)
@@ -310,10 +310,10 @@ foreach subject in ela math {
 	duplicates drop state_student_id, force
 	keep state_student_id student_id street_address_line_one street_address_line_two city state zip_code
 	compress
-	tempfile address_g6
-	save `address_g6'
+	tempfile lagged_address
+	save `lagged_address'
 	
-	use data/sbac/address_list.dta, clear
+	use data/restricted_access/clean/crosswalks/address_list.dta, clear
 	keep address_id street_address_line_one city state zip_code
 	duplicates drop
 	compress
@@ -321,8 +321,8 @@ foreach subject in ela math {
 	save `address_id'
 	
 	use `va_g11_dataset' if touse_g11_`subject'==1, clear
-	merge m:1 state_student_id using `address_g6' ///
-		, keep(3) keepusing(street_address_line_one city state zip_code) gen(merge_address_g6)
+	merge m:1 state_student_id using `lagged_address' ///
+		, keep(3) keepusing(street_address_line_one city state zip_code) gen(merge_lagged_address)
 	merge m:1 street_address_line_one city state zip_code using `address_id' ///
 		, keep(3) gen(merge_address_id)
 	merge m:1 address_id using `census_geocode' ///
@@ -627,9 +627,9 @@ foreach subject in ela math {
 
 
 	**************** Four Grade Prior Test Score + Six Grade Prior Test Score + Census Tract Forecast Bias Test
-	import delimited data/sbac/address_list_census_geocoded2.csv ///
+	import delimited data/restricted_access/clean/crosswalks/address_list_census_batch_geocoded.csv ///
 		, delimiter(tab) varnames(1) case(lower) stringcols(_all) clear
-	gen census_sct = census_state + census_county + census_tract
+	gen census_sct = statefp + countyfp + tract
 	keep address_id census_sct
 	compress
 	tempfile census_geocode
@@ -638,7 +638,7 @@ foreach subject in ela math {
 	use merge_id_k12_test_scores state_student_id student_id cdscode year grade ///
 		street_address_line_one street_address_line_two city state zip_code ///
 		using `k12_test_scores'/k12_test_scores_clean.dta, clear
-	keep if grade==6 & inrange(year, `test_score_min_year'-(11-6), `test_score_max_year'-(11-6))
+	keep if grade==`census_grade' & inrange(year, `test_score_min_year'-(11-`census_grade'), `test_score_max_year'-(11-`census_grade'))
 	drop if mi(state_student_id)
 	duplicates tag state_student_id, gen(dup_ssid)
 	egen year_min = min(year) if dup_ssid!=0, by(state_student_id)
@@ -646,10 +646,10 @@ foreach subject in ela math {
 	duplicates drop state_student_id, force
 	keep state_student_id student_id street_address_line_one street_address_line_two city state zip_code
 	compress
-	tempfile address_g6
-	save `address_g6'
+	tempfile lagged_address
+	save `lagged_address'
 	
-	use data/sbac/address_list.dta, clear
+	use data/restricted_access/clean/crosswalks/address_list.dta, clear
 	keep address_id street_address_line_one city state zip_code
 	duplicates drop
 	compress
@@ -665,8 +665,8 @@ foreach subject in ela math {
 		) ///
 		update
 	drop if mi(L4_cst_ela_z_score, L6_cst_ela_z_score, L6_cst_math_z_score)
-	merge m:1 state_student_id using `address_g6' ///
-		, keep(3) keepusing(street_address_line_one city state zip_code) gen(merge_address_g6)
+	merge m:1 state_student_id using `lagged_address' ///
+		, keep(3) keepusing(street_address_line_one city state zip_code) gen(merge_lagged_address)
 	merge m:1 street_address_line_one city state zip_code using `address_id' ///
 		, keep(3) gen(merge_address_id)
 	merge m:1 address_id using `census_geocode' ///

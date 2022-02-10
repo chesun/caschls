@@ -7,12 +7,12 @@ cap log close _all
 
 if inlist(c(hostname), "sapper", "scribe") {
 	global S_ADO BASE;.;PERSONAL;PLUS;SITE;OLDPLACE
-	local home "/home/research/ca_ed_lab/msnaven/common_core_va"
+	local home "/home/research/ca_ed_lab/projects/common_core_va"
 	local ca_ed_lab "/home/research/ca_ed_lab"
-	local k12_test_scores "/home/research/ca_ed_lab/msnaven/data/restricted_access/clean/k12_test_scores"
-	local public_access "/home/research/ca_ed_lab/msnaven/data/public_access"
-	local k12_public_schools "/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_public_schools"
-	local k12_test_scores_public "/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_test_scores"
+	local k12_test_scores "`home'/data/restricted_access/clean/k12_test_scores"
+	local public_access "`home'/data/public_access"
+	local k12_public_schools "`public_access'/clean/k12_public_schools"
+	local k12_test_scores_public "`public_access'/clean/k12_test_scores"
 }
 else if c(machine_type)=="Macintosh (Intel 64-bit)" & c(username)=="naven" {
 	local home "/Users/naven/Documents/research/ca_ed_lab/common_core_va"
@@ -103,7 +103,7 @@ timer on 1
 include do_files/sbac/create_va_sample.doh
 
 ******** Postsecondary Outcomes
-do `ca_ed_lab'/msnaven/data/do_files/merge_k12_postsecondary.doh enr_only
+do do_files/merge_k12_postsecondary.doh enr_only
 drop enr enr_2year enr_4year
 rename enr_ontime enr
 rename enr_ontime_2year enr_2year
@@ -194,11 +194,11 @@ foreach outcome in enr enr_2year enr_4year {
 	**************** Specification Test
 	**** No Peer Controls
 	reg g11_`outcome'_r va_cfr_g11_`outcome', cluster(school_id)
-	estimates save estimates/sbac/bias_spec_test_va_cfr_g11_`outcome'_L4_cst_ela_z_score.ster, replace
+	estimates save estimates/sbac/bias_spec_test_va_cfr_g11_`outcome'_L4ela.ster, replace
 
 	**** Peer Controls
 	reg g11_`outcome'_r_peer va_cfr_g11_`outcome'_peer, cluster(school_id)
-	estimates save estimates/sbac/bias_spec_test_va_cfr_g11_`outcome'_L4_cst_ela_z_score_peer.ster, replace
+	estimates save estimates/sbac/bias_spec_test_va_cfr_g11_`outcome'_L4ela_peer.ster, replace
 
 
 	**************** Chetty, Friedman, Rockoff Forecast Bias Test
@@ -245,12 +245,12 @@ foreach outcome in enr enr_2year enr_4year {
 	**** No Peer Controls
 	gen g11_`outcome'_r_d = g11_`outcome'_r - g11_`outcome'_r_p
 	/*a*/reg g11_`outcome'_r_d va_cfr_g11_`outcome', /*absorb(school_id)*/ cluster(school_id)
-	estimates save estimates/sbac/bias_test_va_cfr_g11_`outcome'_L4_cst_ela_z_score.ster, replace	
+	estimates save estimates/sbac/bias_test_va_cfr_g11_`outcome'_L4ela.ster, replace	
 
 	**** Peer Controls
 	gen g11_`outcome'_r_d_peer = g11_`outcome'_r_peer - g11_`outcome'_r_p_peer
 	/*a*/reg g11_`outcome'_r_d_peer va_cfr_g11_`outcome'_peer, /*absorb(school_id)*/ cluster(school_id)
-	estimates save estimates/sbac/bias_test_va_cfr_g11_`outcome'_L4_cst_ela_z_score_peer.ster, replace
+	estimates save estimates/sbac/bias_test_va_cfr_g11_`outcome'_L4ela_peer.ster, replace
 
 
 
@@ -333,11 +333,11 @@ foreach outcome in enr enr_2year enr_4year {
 		**************** Specification Test
 		**** No Peer Controls
 		reg g11_`outcome'_`subject'_r va_cfr_g11_`outcome'_`subject', cluster(school_id)
-		estimates save estimates/sbac/bias_spec_test_va_cfr_g11_`outcome'_`subject'_L4_cst_ela_z_score.ster, replace
+		estimates save estimates/sbac/bias_spec_test_va_cfr_g11_`outcome'_`subject'_L4ela.ster, replace
 
 		**** Peer Controls
 		reg g11_`outcome'_`subject'_r_peer va_cfr_g11_`outcome'_`subject'_peer, cluster(school_id)
-		estimates save estimates/sbac/bias_spec_test_va_cfr_g11_`outcome'_`subject'_L4_cst_ela_z_score_peer.ster, replace
+		estimates save estimates/sbac/bias_spec_test_va_cfr_g11_`outcome'_`subject'_L4ela_peer.ster, replace
 
 
 		**************** Chetty, Friedman, Rockoff Forecast Bias Test
@@ -386,12 +386,12 @@ foreach outcome in enr enr_2year enr_4year {
 		**** No Peer Controls
 		gen g11_`outcome'_`subject'_r_d = g11_`outcome'_`subject'_r - g11_`outcome'_`subject'_r_p
 		/*a*/reg g11_`outcome'_`subject'_r_d va_cfr_g11_`outcome'_`subject', /*absorb(school_id)*/ cluster(school_id)
-		estimates save estimates/sbac/bias_test_va_cfr_g11_`outcome'_`subject'_L4_cst_ela_z_score.ster, replace	
+		estimates save estimates/sbac/bias_test_va_cfr_g11_`outcome'_`subject'_L4ela.ster, replace	
 
 		**** Peer Controls
 		gen g11_`outcome'_`subject'_r_d_peer = g11_`outcome'_`subject'_r_peer - g11_`outcome'_`subject'_r_p_peer
 		/*a*/reg g11_`outcome'_`subject'_r_d_peer va_cfr_g11_`outcome'_`subject'_peer, /*absorb(school_id)*/ cluster(school_id)
-		estimates save estimates/sbac/bias_test_va_cfr_g11_`outcome'_`subject'_L4_cst_ela_z_score_peer.ster, replace
+		estimates save estimates/sbac/bias_test_va_cfr_g11_`outcome'_`subject'_L4ela_peer.ster, replace
 	}
 
 
@@ -442,11 +442,11 @@ foreach outcome in enr enr_2year enr_4year {
 	**************** Specification Test
 	**** No Peer Controls
 	reg g11_`outcome'_dk_r va_cfr_g11_`outcome'_dk, cluster(school_id)
-	estimates save estimates/sbac/bias_spec_test_va_cfr_g11_`outcome'_dk_L4_cst_ela_z_score.ster, replace
+	estimates save estimates/sbac/bias_spec_test_va_cfr_g11_`outcome'_dk_L4ela.ster, replace
 
 	**** Peer Controls
 	reg g11_`outcome'_dk_r_peer va_cfr_g11_`outcome'_dk_peer, cluster(school_id)
-	estimates save estimates/sbac/bias_spec_test_va_cfr_g11_`outcome'_dk_L4_cst_ela_z_score_peer.ster, replace
+	estimates save estimates/sbac/bias_spec_test_va_cfr_g11_`outcome'_dk_L4ela_peer.ster, replace
 
 
 	**************** Chetty, Friedman, Rockoff Forecast Bias Test
@@ -499,12 +499,12 @@ foreach outcome in enr enr_2year enr_4year {
 	**** No Peer Controls
 	gen g11_`outcome'_dk_r_d = g11_`outcome'_dk_r - g11_`outcome'_dk_r_p
 	/*a*/reg g11_`outcome'_dk_r_d va_cfr_g11_`outcome'_dk, /*absorb(school_id)*/ cluster(school_id)
-	estimates save estimates/sbac/bias_test_va_cfr_g11_`outcome'_dk_L4_cst_ela_z_score.ster, replace	
+	estimates save estimates/sbac/bias_test_va_cfr_g11_`outcome'_dk_L4ela.ster, replace	
 
 	**** Peer Controls
 	gen g11_`outcome'_dk_r_d_peer = g11_`outcome'_dk_r_peer - g11_`outcome'_dk_r_p_peer
 	/*a*/reg g11_`outcome'_dk_r_d_peer va_cfr_g11_`outcome'_dk_peer, /*absorb(school_id)*/ cluster(school_id)
-	estimates save estimates/sbac/bias_test_va_cfr_g11_`outcome'_dk_L4_cst_ela_z_score_peer.ster, replace
+	estimates save estimates/sbac/bias_test_va_cfr_g11_`outcome'_dk_L4ela_peer.ster, replace
 
 
 	**************** Save Value Added Estimates
@@ -515,7 +515,7 @@ foreach outcome in enr enr_2year enr_4year {
 		n_g11_`outcome'_math = touse_g11_`outcome'_math ///
 		n_g11_`outcome'_dk = touse_g11_`outcome'_dk ///
 		, by(school_id cdscode grade year)
-	save data/sbac/bias_va_g11_`outcome'_L4_cst_ela_z_score.dta, replace
+	save data/sbac/bias_va_g11_`outcome'_L4ela.dta, replace
 
 
 
@@ -549,9 +549,9 @@ foreach outcome in enr enr_2year enr_4year {
 
 
 	**************** Census Tract Forecast Bias Test
-	import delimited data/sbac/address_list_census_geocoded2.csv ///
+	import delimited data/restricted_access/clean/crosswalks/address_list_census_batch_geocoded.csv ///
 		, delimiter(tab) varnames(1) case(lower) stringcols(_all) clear
-	gen census_sct = census_state + census_county + census_tract
+	gen census_sct = statefp + countyfp + tract
 	keep address_id census_sct
 	compress
 	tempfile census_geocode
@@ -560,7 +560,7 @@ foreach outcome in enr enr_2year enr_4year {
 	use merge_id_k12_test_scores state_student_id student_id cdscode year grade ///
 		street_address_line_one street_address_line_two city state zip_code ///
 		using `k12_test_scores'/k12_test_scores_clean.dta, clear
-	keep if grade==6 & inrange(year, `outcome_min_year'-(11-6), `outcome_max_year'-(11-6))
+	keep if grade==`census_grade' & inrange(year, `outcome_min_year'-(11-`census_grade'), `outcome_max_year'-(11-`census_grade'))
 	drop if mi(state_student_id)
 	duplicates tag state_student_id, gen(dup_ssid)
 	egen year_min = min(year) if dup_ssid!=0, by(state_student_id)
@@ -568,10 +568,10 @@ foreach outcome in enr enr_2year enr_4year {
 	duplicates drop state_student_id, force
 	keep state_student_id student_id street_address_line_one street_address_line_two city state zip_code
 	compress
-	tempfile address_g6
-	save `address_g6'
+	tempfile lagged_address
+	save `lagged_address'
 	
-	use data/sbac/address_list.dta, clear
+	use data/restricted_access/clean/crosswalks/address_list.dta, clear
 	keep address_id street_address_line_one city state zip_code
 	duplicates drop
 	compress
@@ -579,8 +579,8 @@ foreach outcome in enr enr_2year enr_4year {
 	save `address_id'
 	
 	use `va_g11_dataset', clear
-	merge m:1 state_student_id using `address_g6' ///
-		, keep(3) keepusing(street_address_line_one city state zip_code) gen(merge_address_g6)
+	merge m:1 state_student_id using `lagged_address' ///
+		, keep(3) keepusing(street_address_line_one city state zip_code) gen(merge_lagged_address)
 	merge m:1 street_address_line_one city state zip_code using `address_id' ///
 		, keep(3) gen(merge_address_id)
 	merge m:1 address_id using `census_geocode' ///
