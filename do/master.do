@@ -1,5 +1,5 @@
 ********************************************************************************
-******* master do file for caschls survey data project do files ****************
+******* master do file for common core va project do files ****************
 ***this master file executes all do files for the project in correct order *****
 ********************************************************************************
 ********************************************************************************
@@ -44,6 +44,7 @@ if `installssc' == 1 {
   ssc install group_twoway, replace
   ssc install vam, replace
   ssc install binscatter, replace
+  ssc install descsave, replace
 }
 
 

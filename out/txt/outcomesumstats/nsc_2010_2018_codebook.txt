@@ -1,0 +1,483 @@
+.     noisily codebook
+
+------------------------------------------------------------------------------------------
+firstname                            Student’s first name as provided in your request file
+------------------------------------------------------------------------------------------
+
+                  Type: String (str20)
+
+         Unique values: 101,421                   Missing "": 0/4,278,807
+
+              Examples: "CHANCE"
+                        "HAZEL"
+                        "KIANA"
+                        "PETER"
+
+               Warning: Variable has leading and embedded blanks.
+
+------------------------------------------------------------------------------------------
+middleinitial                    Student’s middle initial as provided in your request file
+------------------------------------------------------------------------------------------
+
+                  Type: String (str1)
+
+         Unique values: 35                        Missing "": 1,870,174/4,278,807
+
+              Examples: ""
+                        ""
+                        "E"
+                        "M"
+
+------------------------------------------------------------------------------------------
+lastname                              Student’s last name as provided in your request file
+------------------------------------------------------------------------------------------
+
+                  Type: String (str20)
+
+         Unique values: 203,636                   Missing "": 50/4,278,807
+
+              Examples: "CRENSHAW"
+                        "HIGGS"
+                        "MIYASATO"
+                        "SALAZAR"
+
+               Warning: Variable has embedded blanks.
+
+------------------------------------------------------------------------------------------
+namesuffix                Name suffix as provided in your request file (e.g., III, Jr, Sr)
+------------------------------------------------------------------------------------------
+
+                  Type: String (str3)
+
+         Unique values: 41                        Missing "": 4,270,329/4,278,807
+
+              Examples: ""
+                        ""
+                        ""
+                        ""
+
+------------------------------------------------------------------------------------------
+recordfoundyn                              Detail report contains student’s college record
+------------------------------------------------------------------------------------------
+
+                  Type: String (str1)
+
+         Unique values: 2                         Missing "": 1,396,501/4,278,807
+
+            Tabulation: Freq.  Value
+                    1,396,501  ""
+                      582,013  "N"
+                    2,300,293  "Y"
+
+------------------------------------------------------------------------------------------
+collegecodebranch                   OPE/FICE code of the college that the student attended
+------------------------------------------------------------------------------------------
+
+                  Type: String (str9)
+
+         Unique values: 2,541                     Missing "": 1,978,514/4,278,807
+
+              Examples: ""
+                        ""
+                        "001191-00"
+                        "001314-00"
+
+------------------------------------------------------------------------------------------
+collegename                                  Name of the college that the student attended
+------------------------------------------------------------------------------------------
+
+                  Type: String (str50)
+
+         Unique values: 2,563                     Missing "": 1,978,514/4,278,807
+
+              Examples: ""
+                        ""
+                        "COLLEGE OF THE CANYONS"
+                        "RIVERSIDE CITY COLLEGE"
+
+               Warning: Variable has embedded blanks.
+
+------------------------------------------------------------------------------------------
+collegestate               State in which the college that the student attended is located
+------------------------------------------------------------------------------------------
+
+                  Type: String (str2)
+
+         Unique values: 55                        Missing "": 1,978,514/4,278,807
+
+              Examples: ""
+                        ""
+                        "CA"
+                        "CA"
+
+------------------------------------------------------------------------------------------
+enrollmentmajor1                       If available, the major associated with the
+                                       student’s enrollment record as provi
+------------------------------------------------------------------------------------------
+
+                  Type: String (str80)
+
+         Unique values: 16,901                    Missing "": 2,856,380/4,278,807
+
+              Examples: ""
+                        ""
+                        ""
+                        "DUAL ENROLLMENT STUDENT"
+
+               Warning: Variable has embedded blanks.
+
+------------------------------------------------------------------------------------------
+enrollmentcip1                         If available, appropriate NCES CIP code for major 1
+------------------------------------------------------------------------------------------
+
+                  Type: String (str6)
+
+         Unique values: 1,026                     Missing "": 2,864,336/4,278,807
+
+              Examples: ""
+                        ""
+                        ""
+                        "260101"
+
+------------------------------------------------------------------------------------------
+enrollmentmajor2                       If available, the major associated with the
+                                       student’s enrollment record as provi
+------------------------------------------------------------------------------------------
+
+                  Type: String (str64)
+
+         Unique values: 3,377                     Missing "": 4,154,051/4,278,807
+
+              Examples: ""
+                        ""
+                        ""
+                        ""
+
+               Warning: Variable has embedded blanks.
+
+------------------------------------------------------------------------------------------
+enrollmentcip2                         If available, appropriate NCES CIP code for major 2
+------------------------------------------------------------------------------------------
+
+                  Type: String (str6)
+
+         Unique values: 675                       Missing "": 4,169,010/4,278,807
+
+              Examples: ""
+                        ""
+                        ""
+                        ""
+
+------------------------------------------------------------------------------------------
+degreetitle                            If available, the title of the degree the student
+                                       received as provided by the re
+------------------------------------------------------------------------------------------
+
+                  Type: String (str80)
+
+         Unique values: 443                       Missing "": 4,269,991/4,278,807
+
+              Examples: ""
+                        ""
+                        ""
+                        ""
+
+               Warning: Variable has embedded blanks.
+
+------------------------------------------------------------------------------------------
+degreemajor1                           If available, the major associated with the
+                                       student’s degree as provided by the
+------------------------------------------------------------------------------------------
+
+                  Type: String (str80)
+
+         Unique values: 1,596                     Missing "": 4,269,991/4,278,807
+
+              Examples: ""
+                        ""
+                        ""
+                        ""
+
+               Warning: Variable has embedded blanks.
+
+------------------------------------------------------------------------------------------
+degreecip1                             If available, appropriate NCES CIP code for major 1
+------------------------------------------------------------------------------------------
+
+                  Type: String (str6)
+
+         Unique values: 338                       Missing "": 4,270,471/4,278,807
+
+              Examples: ""
+                        ""
+                        ""
+                        ""
+
+------------------------------------------------------------------------------------------
+degreemajor2                           If available, the major associated with the
+                                       student’s degree as provided by the
+------------------------------------------------------------------------------------------
+
+                  Type: String (str32)
+
+         Unique values: 40                        Missing "": 4,278,682/4,278,807
+
+              Examples: ""
+                        ""
+                        ""
+                        ""
+
+               Warning: Variable has embedded blanks.
+
+------------------------------------------------------------------------------------------
+degreecip2                             If available, appropriate NCES CIP code for major 2
+------------------------------------------------------------------------------------------
+
+                  Type: String (str6)
+
+         Unique values: 32                        Missing "": 4,278,744/4,278,807
+
+              Examples: ""
+                        ""
+                        ""
+                        ""
+
+------------------------------------------------------------------------------------------
+degreemajor3                           If available, the major associated with the
+                                       student’s degree as provided by the
+------------------------------------------------------------------------------------------
+
+                  Type: String (str30)
+
+         Unique values: 6                         Missing "": 4,278,737/4,278,807
+
+            Tabulation: Freq.  Value
+                    4,278,737  ""
+                            1  "COMPUTER & INFORMATION SCIENCE"
+                            1  "COMPUTER SCIENCE & INFORMATION"
+                           64  "NOT APPLICABLE"
+                            1  "PHYSICS"
+                            1  "PSYCHOLOGY"
+                            2  "SOCIOLOGY"
+
+               Warning: Variable has embedded blanks.
+
+------------------------------------------------------------------------------------------
+degreecip3                             If available, appropriate NCES CIP code for major 3
+------------------------------------------------------------------------------------------
+
+                  Type: String (str6)
+
+         Unique values: 5                         Missing "": 4,278,799/4,278,807
+
+            Tabulation: Freq.  Value
+                    4,278,799  ""
+                            2  "119999"
+                            1  "400801"
+                            1  "420101"
+                            2  "451101"
+                            2  "480508"
+
+------------------------------------------------------------------------------------------
+degreemajor4                           If available, the major associated with the
+                                       student’s degree as provided by the
+------------------------------------------------------------------------------------------
+
+                  Type: String (str15)
+
+         Unique values: 3                         Missing "": 4,278,740/4,278,807
+
+            Tabulation: Freq.  Value
+                    4,278,740  ""
+                            1  "AUTO TECHNOLOGY"
+                           64  "NOT APPLICABLE"
+                            2  "PSYCHOLOGY"
+
+               Warning: Variable has embedded blanks.
+
+------------------------------------------------------------------------------------------
+degreecip4                             If available, appropriate NCES CIP code for major 4
+------------------------------------------------------------------------------------------
+
+                  Type: String (str6)
+
+         Unique values: 2                         Missing "": 4,278,804/4,278,807
+
+            Tabulation: Freq.  Value
+                    4,278,804  ""
+                            2  "420101"
+                            1  "470604"
+
+------------------------------------------------------------------------------------------
+collegesequence              The sequential order of each school that the student attended
+------------------------------------------------------------------------------------------
+
+                  Type: Numeric (byte)
+
+                 Range: [0,9]                         Units: 1
+         Unique values: 10                        Missing .: 1,396,501/4,278,807
+
+                  Mean: .337471
+             Std. dev.: .591147
+
+           Percentiles:     10%       25%       50%       75%       90%
+                              0         0         0         1         1
+
+------------------------------------------------------------------------------------------
+state_student_id                                                          state_student_id
+------------------------------------------------------------------------------------------
+
+                  Type: String (str10)
+
+         Unique values: 1,189,369                 Missing "": 1,396,622/4,278,807
+
+              Examples: ""
+                        "2065344985"
+                        "4192004035"
+                        "7116615876"
+
+------------------------------------------------------------------------------------------
+search_date                             Search date that you provided in your request file
+------------------------------------------------------------------------------------------
+
+                  Type: Numeric daily date (int)
+
+                 Range: [-21914,21319]                Units: 1
+       Or equivalently: [01jan1900,15may2018]         Units: days
+         Unique values: 99                        Missing .: 1,396,501/4,278,807
+
+                  Mean: 20975.6 = 05jun2017(+ 16 hours)
+             Std. dev.: 402.649
+           Percentiles:       10%        25%        50%        75%        90%
+                            20589      20954      20954      21319      21319
+                        15may2016  15may2017  15may2017  15may2018  15may2018
+
+------------------------------------------------------------------------------------------
+college_type                                     Type of college that the student attended
+------------------------------------------------------------------------------------------
+
+                  Type: Numeric (byte)
+
+                 Range: [0,4]                         Units: 1
+         Unique values: 4                         Missing .: 1,396,501/4,278,807
+
+            Tabulation: Freq.  Value
+                      582,013  0
+                        6,344  1
+                    1,322,375  2
+                      971,574  4
+                    1,396,501  .
+
+------------------------------------------------------------------------------------------
+public                                                       Public or private institution
+------------------------------------------------------------------------------------------
+
+                  Type: Numeric (byte)
+
+                 Range: [0,1]                         Units: 1
+         Unique values: 2                         Missing .: 1,396,501/4,278,807
+
+            Tabulation: Freq.  Value
+                      792,746  0
+                    2,089,560  1
+                    1,396,501  .
+
+------------------------------------------------------------------------------------------
+enrollment_begin                         Begin date for the student’s period of attendance
+------------------------------------------------------------------------------------------
+
+                  Type: Numeric daily date (int)
+
+                 Range: [-21914,21741]                Units: 1
+       Or equivalently: [01jan1900,11jul2019]         Units: days
+         Unique values: 1,126                     Missing .: 1,396,501/4,278,807
+
+                  Mean: 12405.5 = 18dec1993(+ 11 hours)
+             Std. dev.: 17496.8
+           Percentiles:       10%        25%        50%        75%        90%
+                           -21914      20863      21276      21451      21571
+                        01jan1900  13feb2017  02apr2018  24sep2018  22jan2019
+
+------------------------------------------------------------------------------------------
+enrollment_end                             End date for the student’s period of attendance
+------------------------------------------------------------------------------------------
+
+                  Type: Numeric daily date (int)
+
+                 Range: [-21914,22066]                Units: 1
+       Or equivalently: [01jan1900,31may2020]         Units: days
+         Unique values: 1,774                     Missing .: 1,396,501/4,278,807
+
+                  Mean: 12486.2 = 09mar1994(+ 6 hours)
+             Std. dev.:   17538
+           Percentiles:       10%        25%        50%        75%        90%
+                           -21914      20979      21350      21539      21692
+                        01jan1900  09jun2017  15jun2018  21dec2018  23may2019
+
+------------------------------------------------------------------------------------------
+enrollment_status                      The last enrollment status reported for the student
+------------------------------------------------------------------------------------------
+
+                  Type: Numeric (byte)
+
+                 Range: [-3,99]                       Units: 1
+         Unique values: 8                         Missing .: 1,934,784/4,278,807
+
+            Tabulation: Freq.  Value
+                           30  -3
+                       61,399  -2
+                        1,156  -1
+                      172,181  1
+                      168,102  2
+                      134,641  3
+                    1,047,370  4
+                      759,144  99
+                    1,934,784  .
+
+------------------------------------------------------------------------------------------
+class_level                            If available, the Class level associated with the
+                                       student as provided by the rep
+------------------------------------------------------------------------------------------
+
+                  Type: Numeric (byte)
+
+                 Range: [-2,99]                       Units: 1
+         Unique values: 14                        Missing .: 1,788,899/4,278,807
+
+                  Mean: 26.8174
+             Std. dev.: 41.9903
+
+           Percentiles:     10%       25%       50%       75%       90%
+                              1         1         2        99        99
+
+------------------------------------------------------------------------------------------
+degree                  Graduation status information available from the reporting college
+------------------------------------------------------------------------------------------
+
+                  Type: Numeric (byte)
+
+                 Range: [0,1]                         Units: 1
+         Unique values: 2                         Missing .: 1,396,501/4,278,807
+
+            Tabulation: Freq.  Value
+                    2,869,784  0
+                       12,522  1
+                    1,396,501  .
+
+------------------------------------------------------------------------------------------
+graduation_date                        Date of student’s graduation or degree achievement
+                                       as provided by reporting coll
+------------------------------------------------------------------------------------------
+
+                  Type: Numeric daily date (int)
+
+                 Range: [-21914,21706]                Units: 1
+       Or equivalently: [01jan1900,06jun2019]         Units: days
+         Unique values: 741                       Missing .: 1,396,501/4,278,807
+
+                  Mean: -21726.2 = 07jul1900(+ -5 hours)
+             Std. dev.:  2842.76
+           Percentiles:       10%        25%        50%        75%        90%
+                           -21914     -21914     -21914     -21914     -21914
+                        01jan1900  01jan1900  01jan1900  01jan1900  01jan1900
+.     log close
