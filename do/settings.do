@@ -24,6 +24,8 @@ global clndtadir "/home/research/ca_ed_lab/data/restricted_access/clean/calschls
 to set correctly so that the do files will run  */
 global projdir "/home/research/ca_ed_lab/users/chesun/gsr/caschls"
 
+/* global macro for the common core VA project folder directory */
+global vaprojdir "/home/research/ca_ed_lab/projects/common_core_va"
 
 /* create global macro for the value added estimates file directory */
 global vadtadir "/home/research/ca_ed_lab/projects/common_core_va/data/sbac"
@@ -34,8 +36,15 @@ global cstdtadir "/home/research/ca_ed_lab/data/restricted_access/clean/cst"
 
 
 /* create global macro for NSC data directory */
-global nscdtadir "/home/research/ca_ed_lab/data/restricted_access/clean/nsc"
+global nscdtadir "/home/research/ca_ed_lab/data/restricted_access/clean/cde_nsc"
+
+/* create global macro for NSC old format data directory */
+global nscdtadir_oldformat "/home/research/ca_ed_lab/data/restricted_access/clean/cde_nsc/oldformat"
 
 
-/* global macro for the common core VA project folder directory */
-global vaprojdir "/home/research/ca_ed_lab/projects/common_core_va"
+/* global macro for Matt's crosswalks folder */
+global mattxwalks "/home/research/ca_ed_lab/users/msnaven/data/restricted_access/clean/crosswalks"
+
+
+/* global macro for common core VA project crosswalks folder  */
+global vaprojxwalks "/home/research/ca_ed_lab/projects/common_core_va/data/restricted_access/clean/crosswalks"
