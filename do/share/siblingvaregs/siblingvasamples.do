@@ -39,7 +39,7 @@ timer on 1
 * Macros *
 **********
 //run the do helper file to set the local macros
-include `mattdofiles'/macros_va.doh
+include `vaprojdofiles'/sbac/macros_va.doh
 
 #delimit ;
 
@@ -207,7 +207,7 @@ keep state_student_id merge_id_k12_test_scores touse* sibling_out_sample sibling
 compress
 save $projdir/dta/common_core_va/va_sibling_samples, replace
 
-cd $projdir 
+cd $projdir
 
 timer off 1
 timer list

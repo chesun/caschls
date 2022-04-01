@@ -22,6 +22,19 @@ otherwise set a number
 
  */
 
+ /* Change log:
+ March 31, 2022:
+ - Added code for the vam command to save the point estimates from
+ the vam regressions. .ster files are saved to VA project folder.
+ - Also commented out the TFX regs and the peer effects regs since they are not
+ used for siblings.
+ - Moved spec tests to right after the vam commands so that the indep var names
+ are all the same for ease of making coefficient tables
+ - Added var renaming gymnastics for fb test so that the indep var names
+ are all the same for ease of making coefficient tables
+
+ */
+
 
 //install VAM package to estimate value added models a la Chetty, Freidman, and Rockoff
 /* ssc install vam, replace  */
@@ -44,7 +57,7 @@ cd $vaprojdir
 log using $projdir/log/share/siblingvaregs/va_sibling.smcl, replace
 
 //run the do helper file to set the local macros
-include `mattdofiles'/macros_va.doh
+include `vaprojdofiles'/sbac/macros_va.doh
 
 #delimit ;
 #delimit cr
@@ -105,9 +118,26 @@ foreach subject in ela math {
         `math_score_controls' ///
       ) ///
       data(merge tv score_r) ///
-      driftlimit(`drift_limit')
-    rename tv va_cfr_g11_`subject'_nosibctrl
-    rename score_r sbac_g11_`subject'_r_nosibctrl
+      driftlimit(`drift_limit') ///
+      estimates($vaprojdir/estimates/sibling_va/test_score_va/vam_cfr_g11_`subject'_nosibctrl.ster, replace)
+
+    //rename the first time to make sure indep var names for spec test are all the same
+    rename tv va_cfr_g11_`subject'
+  	rename score_r sbac_g11_`subject'_r
+
+
+    ************ specification test: regressing score residuals on VA estimates
+    ******* No peer controls
+    ******** sibling sample without sibling controls
+    reg sbac_g11_`subject'_r va_cfr_g11_`subject', cluster(school_id)
+    //save to my personal folder
+    estimates save $projdir/est/siblingvaregs/test_score_va/spec_test_va_cfr_g11_`subject'_sibling_nocontrol.ster, replace
+    //save to VA project folder
+    estimates save $vaprojdir/estimates/sibling_va/test_score_va/spec_test_va_cfr_g11_`subject'_sibling_nocontrol.ster, replace
+
+    //rename again to distinguish between nocontrol and with control va estimates
+    rename va_cfr_g11_`subject' va_cfr_g11_`subject'_nosibctrl
+    rename sbac_g11_`subject'_r sbac_g11_`subject'_r_nosibctrl
     label var va_cfr_g11_`subject'_nosibctrl "`subject' VA with family FE without TFX without sibling control"
     label var sbac_g11_`subject'_r_nosibctrl "`subject' score residual with family FE without TFX without sibling control"
 
@@ -124,13 +154,28 @@ foreach subject in ela math {
   			`math_score_controls' ///
   		) ///
   		data(merge tv score_r) ///
-  		driftlimit(`drift_limit')
-  	rename tv va_cfr_g11_`subject'
+  		driftlimit(`drift_limit') ///
+      estimates($vaprojdir/estimates/sibling_va/test_score_va/vam_cfr_g11_`subject'.ster, replace)
+
+
+    rename tv va_cfr_g11_`subject'
   	rename score_r sbac_g11_`subject'_r
+
+    ************ specification test: regressing score residuals on VA estimates
+    ******* No peer controls
+    ******** sibling sample with sibling controls
+    reg sbac_g11_`subject'_r va_cfr_g11_`subject', cluster(school_id)
+    //save to my personal folder
+    estimates save $projdir/est/siblingvaregs/test_score_va/spec_test_va_cfr_g11_`subject'_sibling.ster, replace
+    //save to VA project folder
+    estimates save $vaprojdir/estimates/sibling_va/test_score_va/spec_test_va_cfr_g11_`subject'_sibling.ster, replace
+
+
+
     label var va_cfr_g11_`subject' "`subject' VA with family FE without TFX"
     label var sbac_g11_`subject'_r "`subject' score residual with family FE without TFX"
 
-
+/*
     ****** With TFX, and TFX is added back in the the VA estimates
     vam sbac_`subject'_z_score ///
       , teacher(school_id) year(year) class(school_id) ///
@@ -151,7 +196,7 @@ foreach subject in ela math {
     label var va_tfx_g11_`subject' "`subject' VA with family FE with TFX"
 
 
-
+ */
 
 
 
@@ -162,7 +207,7 @@ foreach subject in ela math {
     ******************************************************************************
     ************ Value added estimation with peer controls ********************
     ****** No TFX (teacher fixed effects)
-    vam sbac_`subject'_z_score ///
+    /* vam sbac_`subject'_z_score ///
       , teacher(school_id) year(year) class(school_id) ///
       controls( ///
         i.year ///
@@ -203,24 +248,15 @@ foreach subject in ela math {
       data(merge tv score_r) ///
       driftlimit(`drift_limit')
     rename tv va_tfx_g11_`subject'_peer
-    drop score_r
+    drop score_r */
 
 
     ******************************************************************************
     ************ specification test: regressing score residuals on VA estimates
-    ******* No peer controls
-    reg sbac_g11_`subject'_r va_cfr_g11_`subject', cluster(school_id)
-    estimates save $projdir/est/siblingvaregs/test_score_va/spec_test_va_cfr_g11_`subject'_sibling.ster, replace
 
-
-    ******* With peer controls
+    /* ******* With peer controls
     reg sbac_g11_`subject'_r_peer va_cfr_g11_`subject'_peer, cluster(school_id)
-    estimates save $projdir/est/siblingvaregs/test_score_va/spec_test_va_cfr_g11_`subject'_peer_sibling.ster, replace
-
-
-    ******** sibling sample without sibling controls
-    reg sbac_g11_`subject'_r_nosibctrl va_cfr_g11_`subject'_nosibctrl, cluster(school_id)
-    estimates save $projdir/est/siblingvaregs/test_score_va/spec_test_va_cfr_g11_`subject'_sibling_nocontrol.ster, replace
+    estimates save $projdir/est/siblingvaregs/test_score_va/spec_test_va_cfr_g11_`subject'_peer_sibling.ster, replace */
 
 
 
@@ -228,14 +264,21 @@ foreach subject in ela math {
     ******************************************************************************
     /* CFR Forecast Bias Test */
     ***** leave out variable is sibling controls
-
-
     **no peer controls
     gen sbac_g11_`subject'_r_d = sbac_g11_`subject'_r_nosibctrl - sbac_g11_`subject'_r
+    //var rename gymnastics to make sure the indep var names are all the same when making tables later
+    rename va_cfr_g11_`subject' va_cfr_g11_`subject'_temp
+    rename va_cfr_g11_`subject'_nosibctrl va_cfr_g11_`subject'
+
     reg sbac_g11_`subject'_r_d va_cfr_g11_`subject'_nosibctrl,	cluster(school_id)
-    estimates save $projdir/est/siblingvaregs/test_score_va/fb_test_va_cfr_g11_`subject'_sibling.ster, replace 
+    //save to my personal folder
+    estimates save $projdir/est/siblingvaregs/test_score_va/fb_test_va_cfr_g11_`subject'_sibling.ster, replace
+    //save to VA project folder
+    estimates save $vaprojdir/estimates/sibling_va/test_score_va/fb_test_va_cfr_g11_`subject'_sibling.ster, replace
 
-
+    //roll back the rename gymnastics to restore original var names
+    rename va_cfr_g11_`subject' va_cfr_g11_`subject'_nosibctrl
+    rename va_cfr_g11_`subject'_temp va_cfr_g11_`subject'
 
 
     **************** Save Value Added Estimates
@@ -244,7 +287,10 @@ foreach subject in ela math {
   		(sum) n_g11_`subject' = touse_g11_`subject' ///
       if sibling_full_sample == 1 & sibling_out_sample == 1 ///
   		, by(school_id cdscode grade year)
+    //save to my personal folder
   	save $projdir/dta/common_core_va/test_score_va/va_g11_`subject'_sibling.dta, replace
+    //save to VA project folder
+    save $vaprojdir/data/sibling_va/test_score_va/va_g11_`subject'_sibling.dta, replace
 
 
 }

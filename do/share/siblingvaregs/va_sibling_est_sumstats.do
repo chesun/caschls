@@ -31,7 +31,7 @@ cd $vaprojdir
 log using $projdir/log/share/siblingvaregs/va_sibling_est_sumstats.smcl, replace
 
 //run the do helper file to set the local macros
-include `mattdofiles'/macros_va.doh
+include `vaprojdofiles'/sbac/macros_va.doh
 
 #delimit ;
 #delimit cr

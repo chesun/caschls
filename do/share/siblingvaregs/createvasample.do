@@ -31,7 +31,7 @@ log using $projdir/log/share/siblingvaregs/createvasample.smcl, replace
 
 
 //run the do helper file to set the local macros
-include `mattdofiles'/macros_va.doh
+include `vaprojdofiles'/sbac/macros_va.doh
 
 //set a timer for this do file to see how long it runs
 timer on 1
@@ -44,7 +44,7 @@ timer on 1
 
     ** this creates the full VA sample
    //run the do helper file to create the VA sample
-   include `mattdofiles'/create_va_sample.doh
+   include `vaprojdofiles'/sbac/create_va_sample.doh
 
    //Save it as a temporary dataset
    compress
@@ -60,7 +60,7 @@ timer on 1
   ********************************************************************************
   **create the VA dataset for the VA CFR regressions (score VA)
   ** use onoy 11th Grade (8th Grade ELA Controls, 6th Grade Math Controls)
-  include `mattdofiles'/create_va_g11_sample.doh
+  include `vaprojdofiles'/sbac/create_va_g11_sample.doh
 
   **the above steps create the VA dataset for the VA CFR regressions (score VA)
   compress
@@ -79,7 +79,7 @@ timer on 1
   	cohort_size ///
   	using `k12_test_scores'/k12_test_scores_clean.dta, clear
   // merge on postsecondary Outcomes
-  do `mattdofiles'/merge_k12_postsecondary.doh enr_only
+  do `vaprojdofiles'/merge_k12_postsecondary.doh enr_only
   drop enr enr_2year enr_4year
   rename enr_ontime enr
   rename enr_ontime_2year enr_2year
@@ -99,7 +99,7 @@ timer on 1
   ** create the VA dataset for the long term outcome VA regressions
   use $projdir/dta/common_core_va/va_dataset, clear
   // merge on postsecondary Outcomes
-  do `mattdofiles'/merge_k12_postsecondary.doh enr_only
+  do `vaprojdofiles'/merge_k12_postsecondary.doh enr_only
   drop enr enr_2year enr_4year
   rename enr_ontime enr
   rename enr_ontime_2year enr_2year
@@ -117,7 +117,7 @@ timer on 1
   ** need to create grade 11 sample for long term outcome VA, use create_va_g11_sample.doh
 
   // use only 11th Grade (8th Grade ELA Controls, 6th Grade Math Controls)
-  include `mattdofiles'/create_va_g11_out_sample.doh
+  include `vaprojdofiles'/sbac/create_va_g11_out_sample.doh
 
   ** this creates the VA dataset for the long term outcome VA regressions
   compress
@@ -140,7 +140,7 @@ timer list
 log close
 
 //change directory back
-cd $projdir 
+cd $projdir
 
 //translate the log file to a text log file
 translate $projdir/log/share/siblingvaregs/createvasample.smcl $projdir/log/share/siblingvaregs/createvasample.log, replace

@@ -27,7 +27,7 @@ do $projdir/do/share/siblingvaregs/va_sibling_fb_test_tab.do
  /* file path macros  */
  include $projdir/do/share/siblingvaregs/vafilemacros.doh
  /* estimates macros  */
- include $projdir/do/share/siblingvaregs/estmacros.doh
+ include $projdir/do/share/siblingvaregs/vaestmacros.doh
 
 
  //change directory to common_core_va project directory
@@ -38,7 +38,7 @@ do $projdir/do/share/siblingvaregs/va_sibling_fb_test_tab.do
  log using $projdir/log/share/siblingvaregs/va_sibling_fb_test_tab.smcl, replace
 
  //run the do helper file to set the local macros
- include `mattdofiles'/macros_va.doh
+ include `vaprojdofiles'/sbac/macros_va.doh
 
  #delimit ;
  #delimit cr

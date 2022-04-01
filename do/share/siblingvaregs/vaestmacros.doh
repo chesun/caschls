@@ -5,7 +5,7 @@
 /* First written by Che Sun, 1/6/2022  */
 
 /* to include this in do files:
-include $projdir/do/share/siblingvaregs/estmacros.doh
+include $projdir/do/share/siblingvaregs/vaestmacros.doh
  */
 
 ********************************************************************************

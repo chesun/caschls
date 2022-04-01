@@ -13,7 +13,7 @@ include $projdir/do/share/siblingvaregs/vafilemacros.doh
  */
 
 //adapted matt do files
-local mattdofiles "$vaprojdir/do_files/sbac"
+local vaprojdofiles "$vaprojdir/do_files"
 
 local ca_ed_lab "/home/research/ca_ed_lab"
 local k12_test_scores "$vaprojdir/data/restricted_access/clean/k12_test_scores"

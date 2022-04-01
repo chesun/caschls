@@ -24,7 +24,18 @@ do $projdir/do/share/siblingvaregs/va_sibling_out 2
 
 /* Change log:
 1.6.2022: updated do file to reconcile server file path changes, re-ran
-with drift limit = 2. Still produces an error if drift limit = 3 */
+with drift limit = 2. Still produces an error if drift limit = 3
+
+March 31, 2022:
+- Added code for the vam command to save the point estimates from
+the vam regressions. .ster files are saved to VA project folder.
+- Also commented out the TFX regs and the peer effects regs since they are not
+used for siblings.
+- Moved spec tests to right after the vam commands so that the indep var names
+are all the same for ease of making coefficient tables
+- Added var renaming gymnastics for fb test so that the indep var names
+are all the same for ease of making coefficient tables
+*/
 
 
 
@@ -49,7 +60,7 @@ cd $vaprojdir
 log using $projdir/log/share/siblingvaregs/va_sibling_out.smcl, replace
 
 //run the do helper file to set the local macros
-include `mattdofiles'/macros_va.doh
+include `vaprojdofiles'/sbac/macros_va.doh
 
 #delimit ;
 #delimit cr
@@ -102,9 +113,25 @@ foreach outcome in enr enr_2year enr_4year {
         `math_score_controls' ///
       ) ///
       data(merge tv score_r) ///
-      driftlimit(`drift_limit')
-    rename tv va_cfr_g11_`outcome'_nosibctrl
-    rename score_r g11_`outcome'_r_nosibctrl
+      driftlimit(`drift_limit') ///
+      estimates($vaprojdir/estimates/sibling_va/outcome_va/vam_cfr_g11_`outcome'_nosibctrl.ster, replace)
+
+    //rename the first time to make sure indep var names for spec test are all the same
+    rename tv va_cfr_g11_`outcome'
+    rename score_r g11_`outcome'_r
+
+    **************** Specification Test
+    *************** No Peer Controls
+    ****** sibling sample without sibling controls
+    reg g11_`outcome'_r va_cfr_g11_`outcome', cluster(school_id)
+    //save to my personal folder
+    estimates save $projdir/est/siblingvaregs/outcome_va/spec_test_va_cfr_g11_`outcome'_sibling_nocontrol.ster, replace
+    //save to va project folder
+    estimates save $vaprojdir/estimates/sibling_va/outcome_va/spec_test_va_cfr_g11_`outcome'_sibling_nocontrol.ster, replace
+
+    //rename again to distinguish between nocontrol and with control va estimates
+    rename va_cfr_g11_`outcome' va_cfr_g11_`outcome'_nosibctrl
+    rename g11_`outcome'_r g11_`outcome'_r_nosibctrl
 
 
     *** with sibling controls
@@ -120,15 +147,26 @@ foreach outcome in enr enr_2year enr_4year {
         `math_score_controls' ///
       ) ///
       data(merge tv score_r) ///
-      driftlimit(`drift_limit')
+      driftlimit(`drift_limit') ///
+      estimates($vaprojdir/estimates/sibling_va/outcome_va/vam_cfr_g11_`outcome'.ster, replace)
     rename tv va_cfr_g11_`outcome'
     rename score_r g11_`outcome'_r
 
+    **************** Specification Test
+    *************** No Peer Controls
+    ****** sibling sample with sibling controls
+    reg g11_`outcome'_r va_cfr_g11_`outcome', cluster(school_id)
+    //save to my personal folder
+    estimates save $projdir/est/siblingvaregs/outcome_va/spec_test_va_cfr_g11_`outcome'_sibling.ster, replace
+    //save to va project folder
+    estimates save $vaprojdir/estimates/sibling_va/outcome_va/spec_test_va_cfr_g11_`outcome'_sibling.ster, replace
 
 
 
 
 
+
+/*
 
   ** TFX
 	vam `outcome' ///
@@ -150,7 +188,7 @@ foreach outcome in enr enr_2year enr_4year {
 
   corr va_cfr_g11_`outcome' va_tfx_g11_`outcome'
 
-
+ */
 
 
 
@@ -169,8 +207,8 @@ foreach outcome in enr enr_2year enr_4year {
 
   **** Peer Controls
 	** No TFX
-/*
-    ***without sibling college going controls
+
+    /* ***without sibling college going controls
     vam `outcome' ///
       , teacher(school_id) year(year) class(school_id) ///
       controls( ///
@@ -186,7 +224,7 @@ foreach outcome in enr enr_2year enr_4year {
       data(merge tv score_r) ///
       driftlimit(`drift_limit')
     rename tv
-    rename score_r  */
+    rename score_r
 
     //with sibling controls
   	vam `outcome' ///
@@ -230,32 +268,27 @@ foreach outcome in enr enr_2year enr_4year {
 	drop score_r
 
 	corr va_cfr_g11_`outcome'_peer va_tfx_g11_`outcome'_peer
-
+ */
 
 
 
 ********************************************************************************
   **************** Specification Test
-  **** No Peer Controls
-  reg g11_`outcome'_r va_cfr_g11_`outcome', cluster(school_id)
-  estimates save $projdir/est/siblingvaregs/outcome_va/spec_test_va_cfr_g11_`outcome'_sibling.ster, replace
 
-  **** Peer Controls
+  /* **** Peer Controls
   reg g11_`outcome'_r_peer va_cfr_g11_`outcome'_peer, cluster(school_id)
   estimates save $projdir/est/siblingvaregs/outcome_va/spec_test_va_cfr_g11_`outcome'_peer_sibling.ster, replace
 
+ */
 
 
-  ****** sibling sample without sibling controls
   *** no peer controls
-  reg g11_`outcome'_r_nosibctrl va_cfr_g11_`outcome'_nosibctrl, cluster(school_id)
-  estimates save $projdir/est/siblingvaregs/outcome_va/spec_test_va_cfr_g11_`outcome'_sibling_nocontrol.ster, replace
 
   /* *** with peer controls
   reg g11_`outcome'_r_nosibctrl_peer va_cfr_g11_`outcome'_nosibctrl_peer, cluster(school_id)
   estimates save $projdir/est/siblingvaregs/outcome_va/spec_test_va_cfr_g11_`outcome'_peer_sibling_nocontrol.ster, replace */
 
-  **************Do we need deep knowledge VA with sibling controls??
+  **************Do we need deep knowledge VA with sibling controls?? No.
 
 
 
@@ -267,8 +300,21 @@ foreach outcome in enr enr_2year enr_4year {
 
   **no peer controls
   gen g11_`outcome'_r_d = g11_`outcome'_r_nosibctrl - g11_`outcome'_r
-  reg g11_`outcome'_r_d va_cfr_g11_`outcome'_nosibctrl, cluster(school_id)
+
+  //var rename gymnastics to make sure the indep var names are all the same when making tables later
+  rename va_cfr_g11_`outcome' va_cfr_g11_`outcome'_temp
+  rename va_cfr_g11_`outcome'_nosibctrl va_cfr_g11_`outcome'
+
+  reg g11_`outcome'_r_d va_cfr_g11_`outcome', cluster(school_id)
+  //save to my personal folder
   estimates save $projdir/est/siblingvaregs/outcome_va/fb_test_va_cfr_g11_`outcome'_sibling.ster, replace
+  //save to va project folder
+  estimates save $vaprojdir/estimates/sibling_va/outcome_va/fb_test_va_cfr_g11_`outcome'_sibling.ster, replace
+
+  //roll back the rename gymnastics to restore original var names
+  rename va_cfr_g11_`outcome' va_cfr_g11_`outcome'_nosibctrl
+  rename va_cfr_g11_`outcome'_temp va_cfr_g11_`outcome'
+
 
   /* ** with peer controls
   gen g11_`outcome'_r_d_peer = g11_`outcome'_r_nosibctrl_peer - g11_`outcome'_r_peer
@@ -283,8 +329,10 @@ foreach outcome in enr enr_2year enr_4year {
     (mean) g11_`outcome'* ///
     (sum) n_g11_`outcome' = touse_g11_`outcome' ///
     , by(school_id cdscode grade year)
-
+  //save to my personal folder
   save $projdir/dta/common_core_va/outcome_va/va_g11_`outcome'_sibling.dta, replace
+  //save to VA project folder
+  save $vaprojdir/data/sibling_va/outcome_va/va_g11_`outcome'_sibling.dta, replace
 
 
 }
