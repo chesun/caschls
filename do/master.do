@@ -7,23 +7,38 @@
 ********************************************************************************
 
 /* IMPORTAMT: before running this master do file, make sure the directories global macros
-are set correctly in the settings.do file according to your current file structure */
-// cd "/home/research/ca_ed_lab/chesun/gsr/caschls"
+are set correctly in the settings.do file according to your current file structure
+cd "/home/research/ca_ed_lab/chesun/gsr/caschls"
+ */
 
-/* to run this master do file, run the following line of code  */
-// do "./do/master.do"
+
+/* to run this master do file, run the following line of code
+do "./do/master.do"
+ */
+
 
 /* For convenience of copy pasting:
 cd "/home/research/ca_ed_lab/users/chesun/gsr/caschls"
 do "./do/settings.do"
 */
 
+cap log close _all
 clear all
 set varabbrev off, perm //set variable abbreviation permanently off
+graph drop _all
+set more off
+
+/* If pause is on, the pause [message] command displays message and temporarily suspends execution
+of the program, returning control to the keyboard. Execution of keyboard commands continues until
+you type end or q, at which time execution of the program resumes. Typing BREAK in pause mode
+(as opposed to pressing the Break key) also resumes program execution, but the break signal is sent
+to the calling program. */
+pause off
 
 do "./do/settings.do" //set global project settings
-/* log using "$projdir/log/master.smcl", replace name(master) //start log file for the master do file and overwrite existing log file */
+log using "$projdir/log/master.smcl", replace name(master) //start log file for the master do file and overwrite existing log file
 
+timer on 1
 
 ************ install packages needed for do files for this project *************
 local installssc = 0
@@ -45,149 +60,95 @@ if `installssc' == 1 {
   ssc install vam, replace
   ssc install binscatter, replace
   ssc install descsave, replace
+  ssc install parmest, replace
 }
 
 
 *************** This block are do files that prepare/build data *****************
+//Note: do not need to run this. no longer have access to raw data. Use clean data
+local do_build_data = 0
+if `do_build_data'==1 {
+  //running renamedata.do
+  do $projdir/do/build/prepare/renamedata
+  pause finished running $projdir/do/build/prepare/renamedata
 
-//running renamedata.do
-local dorenamedata = 0
-if `dorenamedata' == 1 {
-  do "$projdir/do/build/prepare/renamedata.do"
-}
-
-
-
-//running splitstaff0414.do
-local dosplitstaff0414 = 0
-if `dosplitstaff0414' == 1 {
+  //running splitstaff0414.do
   do $projdir/do/build/prepare/splitstaff0414
+  pause finished running $projdir/do/build/prepare/splitstaff0414
 }
 
 
 ***************** This block are do files that check data **********************
-
-//running sameschools.do
-local dosameschools = 0
-if `dosameschools' == 1 {
+local do_check_data = 1
+if `do_check_data' == 1 {
   do $projdir/do/check/sameschools
-}
+  pause finished running $projdir/do/check/sameschools
 
-//running schooloverlap.do
-local doschooloverlap = 0
-if `doschooloverlap' == 1 {
   do $projdir/do/check/schooloverlap
-}
+  pause finished running $projdir/do/check/schooloverlap
 
-//running gradetab.do
-local dogradetab = 0
-if `dogradetab' == 1 {
   do $projdir/do/check/gradetab
-}
+  pause finished running $projdir/do/check/gradetab
 
-
-
-//running enrollmentclean.do
-local doenrollmentclean = 0
-if `doenrollmentclean' == 1 {
   do $projdir/do/build/prepare/enrollmentclean
+  pause finished running $projdir/do/build/prepare/enrollmentclean
+
 }
+
+
+
 
 
 *********************representativeness diagnostics******************************
+local do_diagnostics = 1
+if `do_diagnostics' == 1 {
 
-//running elemdemographics.do
-local doelemdemographics = 0
-if `doelemdemographics' == 1 {
   do $projdir/do/build/sample/elemdemographics
-}
+  pause finished running do $projdir/do/build/sample/elemdemographics
 
-
-//running elemcoveragedata.do
-local doelemcoveragedata = 0
-if `doelemcoveragedata' == 1 {
   do $projdir/do/build/sample/elemcoveragedata
-}
+  pause finished running $projdir/do/build/sample/elemcoveragedata
 
-//running elemcoverageanalysis.do
-local elemcoverageanalysis = 0
-if `elemcoverageanalysis' == 1 {
   do $projdir/do/share/demographics/elemcoverageanalysis
-}
+  pause finished running $projdir/do/share/demographics/elemcoverageanalysis
 
-//running secdemographics.do
-local dosecdemographics = 0
-if `dosecdemographics' == 1 {
   do $projdir/do/build/sample/secdemographics
-}
+  pause finished running $projdir/do/build/sample/secdemographics
 
-//running seccoveragedata.do
-local doseccoveragedata = 0
-if `doseccoveragedata' == 1 {
   do $projdir/do/build/sample/seccoveragedata
-}
+  pause finished running $projdir/do/build/sample/seccoveragedata
 
-//running seccoverageanalysis.do
-local doseccoverageanalysis = 0
-if `doseccoverageanalysis' == 1 {
   do $projdir/do/share/demographics/seccoverageanalysis
-}
+  pause finished running $projdir/do/share/demographics/seccoverageanalysis
 
-//running parentdemographics.do
-local doparentdemographics = 0
-if `doparentdemographics' == 1 {
   do $projdir/do/build/sample/parentdemographics
-}
+  pause finished running $projdir/do/build/sample/parentdemographics
 
-//running parentcoveragedata.do
-local doparentcoveragedata = 0
-if `doparentcoveragedata' == 1 {
   do $projdir/do/build/sample/parentcoveragedata
-}
+  pause finished running $projdir/do/build/sample/parentcoveragedata
 
-//running parentcoverageanalysis.do
-local doparentcoverageanalysis = 0
-if `doparentcoverageanalysis' == 1 {
   do $projdir/do/share/demographics/parentcoverageanalysis
-}
+  pause finished running $projdir/do/share/demographics/parentcoverageanalysis
 
-
-//running pooledsecdemographics.do
-local dopooledsecdemographics = 0
-if `dopooledsecdemographics' == 1 {
   do $projdir/do/build/sample/pooledsecdemographics
-}
+  pause finished running $projdir/do/build/sample/pooledsecdemographics
 
-//running pooledsecdiagnostics.do
-local dopooledsecdiagnostics = 0
-if `dopooledsecdiagnostics' == 1 {
   do $projdir/do/build/sample/pooledsecdiagnostics
-}
+  pause finished running $projdir/do/build/sample/pooledsecdiagnostics
 
-//running pooledsecanalysis.do
-local dopooledsecanalysis = 0
-if `dopooledsecanalysis' == 1 {
   do $projdir/do/share/demographics/pooledsecanalysis
-}
+  pause finished running $projdir/do/share/demographics/pooledsecanalysis
 
-//running pooledparentdemographics.do
-local dopooledparentdemographics = 0
-if `dopooledparentdemographics' == 1 {
   do $projdir/do/build/sample/pooledparentdemographics
-}
+  pause finished running $projdir/do/build/sample/pooledparentdemographics
 
-//running pooledparentdiagnostics.do
-local dopooledparentdiagnostics = 0
-if `dopooledparentdiagnostics' == 1 {
   do $projdir/do/build/sample/pooledparentdiagnostics
+  pause finished running $projdir/do/build/sample/pooledparentdiagnostics
+
+  do $projdir/do/check/pooledparentcheck
+  pause finished running $projdir/do/check/pooledparentcheck
 }
 
-//running pooledparentcheck.do
-//checking discrepancy between parent survey and enrollment data
-local dopooledparentcheck = 0
-if `dopooledparentcheck' == 1 {
-  do $projdir/do/check/pooledparentcheck
-}
 
 
 ******************building final analysis datasets******************************
@@ -195,140 +156,104 @@ if `dopooledparentcheck' == 1 {
 
 ************************* create response rates datasets ***********************
 ////////////////////////////////////////////////////////////////////////////////
-//running trimsecdemo.do
-/* trim demographics data in secondary survey and rename vars to prepare for
-generating conditional response rate datasets */
-local dotrimsecdemo = 0
-if `dotrimsecdemo' == 1 {
+local do_response_rate = 1
+if `do_response_rate' == 1 {
+
+  /* trim demographics data in secondary survey and rename vars to prepare for
+  generating conditional response rate datasets */
   do $projdir/do/build/buildanalysisdata/responserate/trimsecdemo
-}
+  pause finished running $projdir/do/build/buildanalysisdata/responserate/trimsecdemo
 
-//running secresponserate.do
-/* merging trimmed secondary demographics to generate conditional response rates */
-local dosecresponserate = 0
-if `dosecresponserate' == 1 {
   do $projdir/do/build/buildanalysisdata/responserate/secresponserate
-}
+  pause finished running $projdir/do/build/buildanalysisdata/responserate/secresponserate
 
-//running trimparentdemo.do
-local runtrimparentdemo = 0
-if `runtrimparentdemo' == 1 {
   do $projdir/do/build/buildanalysisdata/responserate/trimparentdemo
-}
+  pause finished running $projdir/do/build/buildanalysisdata/responserate/trimparentdemo
 
-//running parentresponserate.do
-local doparentresponserate = 0
-if `doparentresponserate' == 1 {
   do $projdir/do/build/buildanalysisdata/responserate/parentresponserate
-}
-////////////////////////////////////////////////////////////////////////////////
-********************************************************************************
+  pause finished running $projdir/do/build/buildanalysisdata/responserate/parentresponserate
 
+}
 
 
 
 
 ********************** clean secondary questions of interest *******************
 ////////////////////////////////////////////////////////////////////////////////
-//running secqoiclean1819_1718_1516.do
-local dosecqoiclean1819_1718_1516 = 0
-if `dosecqoiclean1819_1718_1516' == 1 {
+local do_clean_sec_qoi = 1
+if `do_clean_sec_qoi' == 1 {
+
   do $projdir/do/build/buildanalysisdata/qoiclean/secondary/secqoiclean1819_1718_1516
-}
+  pause finished running $projdir/do/build/buildanalysisdata/qoiclean/secondary/secqoiclean1819_1718_1516
 
-
-//running secqoiclean1617.do
-local dosecqoiclean1617 = 0
-if `dosecqoiclean1617' == 1 {
   do $projdir/do/build/buildanalysisdata/qoiclean/secondary/secqoiclean1617
-}
+  pause finished running $projdir/do/build/buildanalysisdata/qoiclean/secondary/secqoiclean1617
 
-
-//running secqoiclean1415.do
-local dosecqoiclean1415 = 0
-if `dosecqoiclean1415' == 1 {
   do $projdir/do/build/buildanalysisdata/qoiclean/secondary/secqoiclean1415
+  pause finished running $projdir/do/build/buildanalysisdata/qoiclean/secondary/secqoiclean1415
 }
 
 
-////////////////////////////////////////////////////////////////////////////////
-********************************************************************************
 
 
 ********************** clean parent questions of interest **********************
 ////////////////////////////////////////////////////////////////////////////////
-//running parentqoiclean1819
-local doparentqoiclean1819_1718 = 0
-if `doparentqoiclean1819_1718' == 1 {
+local do_clean_parent_qoi = 1
+if `do_clean_parent_qoi' == 1 {
+
   do $projdir/do/build/buildanalysisdata/qoiclean/parent/parentqoiclean1819_1718
-}
+  pause finished running $projdir/do/build/buildanalysisdata/qoiclean/parent/parentqoiclean1819_1718
 
-//running parentqoiclean1617
-local doparentqoiclean1617 = 0
-if `doparentqoiclean1617' == 1 {
   do $projdir/do/build/buildanalysisdata/qoiclean/parent/parentqoiclean1617
-}
+  pause finished running $projdir/do/build/buildanalysisdata/qoiclean/parent/parentqoiclean1617
 
-//running parentqoiclean1516
-local doparentqoiclean1516 = 0
-if `doparentqoiclean1516' == 1 {
   do $projdir/do/build/buildanalysisdata/qoiclean/parent/parentqoiclean1516
-}
+  pause finished running $projdir/do/build/buildanalysisdata/qoiclean/parent/parentqoiclean1516
 
-//running parentqoiclean1415
-local doparentqoiclean1415 = 0
-if `doparentqoiclean1415' == 1 {
   do $projdir/do/build/buildanalysisdata/qoiclean/parent/parentqoiclean1415
+  pause finished running $projdir/do/build/buildanalysisdata/qoiclean/parent/parentqoiclean1415
+
 }
 
-
-////////////////////////////////////////////////////////////////////////////////
-********************************************************************************
 
 
 
 ********************** clean staff questions of interest **********************
 ////////////////////////////////////////////////////////////////////////////////
 //clean staff qoi 1718 and 1819
-local dostaffqoiclean1819_1718 = 0
-if `dostaffqoiclean1819_1718' == 1 {
+local do_clean_staff_qoi = 1
+if `do_clean_staff_qoi' == 1 {
+
   do $projdir/do/build/buildanalysisdata/qoiclean/staff/staffqoiclean1819_1718
-}
+  pause finished running $projdir/do/build/buildanalysisdata/qoiclean/staff/staffqoiclean1819_1718
 
-//clean staff qoi 1617 and 1516
-local dostaffqoiclean1617_1516 = 0
-if `dostaffqoiclean1617_1516' == 1 {
   do $projdir/do/build/buildanalysisdata/qoiclean/staff/staffqoiclean1617_1516
+  pause finished running $projdir/do/build/buildanalysisdata/qoiclean/staff/staffqoiclean1617_1516
+
+  do $projdir/do/build/buildanalysisdata/qoiclean/staff/staffqoiclean1415
+  pause finished running $projdir/do/build/buildanalysisdata/qoiclean/staff/staffqoiclean1415
+
 }
 
-//clean staff qoi 1415
-local dostaffqoiclean1415 = 0
-if `dostaffqoiclean1415' == 1 {
-  do $projdir/do/build/buildanalysisdata/qoiclean/staff/staffqoiclean1415
-}
 
 
 
 ***************** pool qoi datasets and merge with response rate****************
 ////////////////////////////////////////////////////////////////////////////////
+local do_pool_qoi_merge = 1
+local `do_pool_qoi_merge' == 1 {
 
-//running secpooling.do
-local dosecpooling = 1
-if `dosecpooling' == 1 {
   do $projdir/do/build/buildanalysisdata/poolingdata/secpooling
-}
+  pause finished running $projdir/do/build/buildanalysisdata/poolingdata/secpooling
 
-//running parentpooling.do
-local doparentpooling = 1
-if `doparentpooling' == 1 {
   do $projdir/do/build/buildanalysisdata/poolingdata/parentpooling
+  pause finished running $projdir/do/build/buildanalysisdata/poolingdata/parentpooling
+
+  do $projdir/do/build/buildanalysisdata/poolingdata/staffpooling
+  pause finished running $projdir/do/build/buildanalysisdata/poolingdata/staffpooling
+
 }
 
-//pooling staff data
-local dostaffpooling = 1
-if `dostaffpooling' == 1 {
-  do $projdir/do/build/buildanalysisdata/poolingdata/staffpooling
-}
 
 
 
@@ -336,225 +261,185 @@ if `dostaffpooling' == 1 {
 ////////////////////////////////////////////////////////////////////////////////
 
 //created pooled average grade 11 enrollment over years to merge with analysis data as weights
-local dopoolgr11enr = 0
-if `dopoolgr11enr' == 1 {
+local do_pool_gr11_enr = 1
+if `do_pool_gr11_enr' == 1 {
+
   do $projdir/do/build/prepare/poolgr11enr
+  pause finished running $projdir/do/build/prepare/poolgr11enr
+
+  //merge gr11 enrollment to parent and secondary analysis datasets
+  do $projdir/do/build/buildanalysisdata/poolingdata/mergegr11enr
+  pause finished running $projdir/do/build/buildanalysisdata/poolingdata/mergegr11enr
+
 }
 
-//merge gr11 enrollment to parent and secondary analysis datasets
-local domergegr11enr = 1
-if `domergegr11enr' == 1 {
-  do $projdir/do/build/buildanalysisdata/poolingdata/mergegr11enr
-}
+
 
 
 
 ***************** clean the VA datasets and merge with analysis data ****************
 ////////////////////////////////////////////////////////////////////////////////
-
-//create pooled average value added estimates over years
-local dopoolva = 0
-if `dopoolva' == 1 {
+local do_pool_merge_va = 1
+if `do_pool_merge_va' == 1 {
+  //create pooled average value added estimates over years
   do $projdir/do/build/buildanalysisdata/poolingva/poolva
-}
+  pause finished running $projdir/do/build/buildanalysisdata/poolingva/poolva
 
-//combine all VA datasets into one dataset
-local docombineva = 0
-if `docombineva' == 1 {
+  //combine all VA datasets into one dataset
   do $projdir/do/build/buildanalysisdata/poolingva/combineva
-}
+  pause finished running $projdir/do/build/buildanalysisdata/poolingva/combineva
 
-//merge with analysis datasets
-local domergeva = 0
-if `domergeva' == 1 {
+  //merge with analysis datasets
   do $projdir/do/build/buildanalysisdata/poolingdata/mergeva
+  pause finished running $projdir/do/build/buildanalysisdata/poolingdata/mergeva
+
 }
 
 
 
 ***************** run VA regressions for analysis datasets  ****************
 ////////////////////////////////////////////////////////////////////////////////
-
-/* //run VA regressions for secondary analysis dataset
-local dosecvareg = 0
-if `dosecvareg' == 1 {
-  do $projdir/do/share/varegs/secvareg
-}
-
-//run VA regressions for parent analysis dataset
-local dosecvareg = 0
-if `dosecvareg' == 1 {
-  do $projdir/do/share/varegs/parentvareg
-}
-
-//run VA regressions for staff analysis dataset
-local dosecvareg = 0
-if `dosecvareg' == 1 {
-  do $projdir/do/share/varegs/staffvareg
-} */
-
-//run VA regressions for all analysis datasets
-local doallvaregs = 0
-if `doallvaregs' == 1 {
+local do_va_regs = 1
+if `do_va_regs' == 1 {
+  //run VA regressions for all analysis datasets
   do $projdir/do/share/varegs/allvaregs
+  pause finished running $projdir/do/share/varegs/allvaregs
+
 }
+
 
 ***************** factor analysis for qoi pooled means  ****************
 ////////////////////////////////////////////////////////////////////////////////
-
-//running factor analysis and export factor laoding tables and screeplots for all analysis datasets
-local dofactor = 0
+local dofactor = 1
 if `dofactor' == 1 {
-  do $projdir/do/share/factoranalysis/factor.do
-}
+  //running factor analysis and export factor laoding tables and screeplots for all analysis datasets
+  do $projdir/do/share/factoranalysis/factor
+  pause finished running $projdir/do/share/factoranalysis/factor
 
-
-//merging all survey qoimean vars for factor analysis
-local doallsvymerge = 0
-if `doallsvymerge' == 1 {
+  //merging all survey qoimean vars for factor analysis
   do $projdir/do/share/factoranalysis/allsvymerge
-}
+  pause finished running $projdir/do/share/factoranalysis/allsvymerge
 
-
-//running factor analysis and export results for the allsvyqoimeans dataset
-local doallsvyfactor = 0
-if `doallsvyfactor' == 1 {
+  //running factor analysis and export results for the allsvyqoimeans dataset
   do $projdir/do/share/factoranalysis/allsvyfactor
-}
+  pause finished running $projdir/do/share/factoranalysis/allsvyfactor
 
-
-
-//check the distrubution of missing for merged allsvyqoimeans.dta
-local doallsvymissing = 0
-if `doallsvymissing' == 1 {
+  //check the distrubution of missing for merged allsvyqoimeans.dta
   do $projdir/do/check/allsvymissing
+  pause finished running $projdir/do/check/allsvymissing
+
 }
+
+
+
 
 ***************** imputation and cateogry index for qoi pooled means  ****************
 ////////////////////////////////////////////////////////////////////////////////
+local do_index = 1
+if `do_index' == 1 {
 
-// imputations for missing values in allsvyqoimeans.dta
-local doimputation = 0
-if `doimputation' == 1 {
+  // imputations for missing values in allsvyqoimeans.dta
   do $projdir/do/share/factoranalysis/imputation
-}
+  pause finished running $projdir/do/share/factoranalysis/imputation
 
-
-/* creates a linear index for each question cateogry using imputed data: school climate, teacher staff quality,
-student support, student motivation  */
-local doimputedcategoryindex = 0
-if `doimputedcategoryindex' == 1 {
+  /* creates a linear index for each question cateogry using imputed data: school climate, teacher staff quality,
+  student support, student motivation  */
   do $projdir/do/share/factoranalysis/imputedcategoryindex
-}
+  pause finished running $projdir/do/share/factoranalysis/imputedcategoryindex
 
-
-/* creates a linear index for each question cateogry use complete case only: school climate, teacher staff quality,
-student support, student motivation  */
-local docompcasecategoryindex = 0
-if `docompcasecategoryindex' == 1 {
+  /* creates a linear index for each question cateogry use complete case only: school climate, teacher staff quality,
+  student support, student motivation  */
   do $projdir/do/share/factoranalysis/compcasecategoryindex
-}
+  pause finished running $projdir/do/share/factoranalysis/compcasecategoryindex
 
-
-/* lienar regressions of VA vars on all 4 index vars in a "horse race" type regression
-for both complete case and imputed data  */
-local doindexhorserace = 0
-if `doindexhorserace' == 1 {
+  /* lienar regressions of VA vars on all 4 index vars in a "horse race" type regression
+  for both complete case and imputed data  */
   do $projdir/do/share/factoranalysis/indexhorserace
+  pause finished running $projdir/do/share/factoranalysis/indexhorserace
+
 }
+
 
 
 /* VA regs with index vars and school characteristics controls */
 ////////////////////////////////////////////////////////////////////////////////
+local do_index_va_reg = 1
+if `do_index_va_reg' == 1 {
 
-/* making pooled school demographics dataset */
-//pool cleaned CDE enrollment datasets over 5 years: 1415 - 1819
-/*
-Note: deprecated. Updated index regs use school characteristics from Matt Naven's data
-local dopoolenrollment = 0
-if `dopoolenrollment' == 1 {
-  do $projdir/do/build/prepare/poolenrollment
-}  */
-
-
-/* clean and pull school characteristics from the dataset created by Matt Naven, for use in
-VA regressions with index + school characteristics  */
-local domattschlchar = 0
-if `domattschlchar' == 1 {
+  /* clean and pull school characteristics from the dataset created by Matt Naven, for use in
+  VA regressions with index + school characteristics  */
   do $projdir/do/share/factoranalysis/mattschlchar
-}
+  pause finished running $projdir/do/share/factoranalysis/mattschlchar
 
-/* pull SBAC test score data from Matt dataset to create controls for index regressions using 6th and 8th grade test scores  */
-
-local dotestscore = 0
-if `dotestscore' == 1 {
+  /* pull SBAC test score data from Matt dataset to create controls for index regressions using 6th and 8th grade test scores  */
   do $projdir/do/share/factoranalysis/testscore
-}
+  pause finished running $projdir/do/share/factoranalysis/testscore
 
-
-/* Bivariate VA regressions on each category index with school demographics as controls  */
-local doindexregwithdemo = 0
-if `doindexregwithdemo' == 1 {
+  /* Bivariate VA regressions on each category index with school demographics as controls  */
   do $projdir/do/share/factoranalysis/indexregwithdemo
+  pause finished running $projdir/do/share/factoranalysis/indexregwithdemo
+
 }
+
+
 
 
 /* matching siblings using CST data */
 ////////////////////////////////////////////////////////////////////////////////
+local do_match_siblings = 1
+if `do_match_siblings' == 1 {
 
-/* Use CST data to match students with their siblings. Code taken mostly from
-do file by Matt Naven  */
-local dosiblingmatch = 0
-if `dosiblingmatch' == 1 {
+  /* Use CST data to match students with their siblings. Code taken mostly from
+  do file by Matt Naven  */
   do $projdir/do/share/siblingxwalk/siblingmatch
-}
+  pause finished running $projdir/do/share/siblingxwalk/siblingmatch
 
-/* use the sibling crosswalk dataset conditional on same year and create unique family ID
-to link siblings from the same family across years and delete duplicates  */
-local douniquefamily = 0
-if `douniquefamily' == 1 {
+  /* use the sibling crosswalk dataset conditional on same year and create unique family ID
+  to link siblings from the same family across years and delete duplicates  */
   do $projdir/do/share/siblingxwalk/uniquefamily
+  pause finished running $projdir/do/share/siblingxwalk/uniquefamily
+
+  /* create a dataset with all pairwise combinations of siblings and their state student IDs.
+  Same combination with different orders are different observations. */
+  do $projdir/do/share/siblingxwalk/siblingpairxwalk
+  pause finished running $projdir/do/share/siblingxwalk/siblingpairxwalk
+
 }
 
-/* create a dataset with all pairwise combinations of siblings and their state student IDs.
-Same combination with different orders are different observations. */
-local dosiblingpairxwalk = 0
-if `dosiblingpairxwalk' == 1 {
-  do $projdir/do/share/siblingxwalk/siblingpairxwalk
-}
 
 
 
 /* Create summary stats for NSC outcomes merged to K-12 test score data, both for 2010-2017
 and 2010-2018 */
-local dooutcomesumstats = 0
+local dooutcomesumstats = 1
 if `dooutcomesumstats' == 1 {
   do $projdir/do/share/outcomesumstats/k12_nsc_match_sumstats.do
+  pause finished running $projdir/do/share/outcomesumstats/k12_nsc_match_sumstats.do
 }
 
 
 
 /* va regressions with sibling controls */
 ////////////////////////////////////////////////////////////////////////////////
-local dosiblingvaregs = 0
-if `dosiblingvaregs' == 1 {
+local do_sibling_va_regs = 1
+if `do_sibling_va_regs' == 1 {
 
   /* create the VA sample dataset to save processing time. Using doh helpher files
   each time to recreate the data takes too much time    */
   do $projdir/do/share/siblingvaregs/createvasample.do
-
+  pause finished running $projdir/do/share/siblingvaregs/createvasample.do
 
   /* create a sibling enrollment outcomes crosswalk dataset by merging k-12 test scores
   to the postsecondary outcomes and then merge to ufamilyxwalk.dta and calculuate
   number of older siblings enrolled and proportion of older siblings enrolled   */
    do $projdir/do/share/siblingvaregs/siblingoutxwalk.do
-
+   pause finished running $projdir/do/share/siblingvaregs/siblingoutxwalk.do
 
    /* create the VA samples markers with sibling outcomes merged on to make it easier
    to create sample sum stats.
    Using doh helpher files each time to recreate the data takes too much time    */
    do $projdir/do/share/siblingvaregs/siblingvasamples.do
-
+   pause finished running $projdir/do/share/siblingvaregs/siblingvasamples.do
 
    /* do file to run test score VA regressions with sibling effects.
    Include as controls the dummies for
@@ -571,20 +456,21 @@ if `dosiblingvaregs' == 1 {
 
     otherwise set a number   */
     do $projdir/do/share/siblingvaregs/va_sibling 0
+    pause finished running $projdir/do/share/siblingvaregs/va_sibling
 
     /* do file to create sum stats for the test score VA sibling samples */
     do $projdir/do/share/siblingvaregs/va_sibling_sample_sumstats
-
+    pause finished running $projdir/do/share/siblingvaregs/va_sibling_sample_sumstats
 
     /* sum stats for the test score VA estimates with additional demographic control
     for has at least one older sibling who enrolled in college (2 year, 4 year) */
     do $projdir/do/share/siblingvaregs/va_sibling_est_sumstats
-
+    pause finished running $projdir/do/share/siblingvaregs/va_sibling_est_sumstats
 
     /* do file to create a regression output table for spec test for test score VA
     with original sample, sibling sample without control, sibling sample with control */
-    do $projdir/do/share/siblingvaregs/va_sibling_spec_test_tab.do
-
+    do $projdir/do/share/siblingvaregs/va_sibling_spec_test_tab
+    pause finished running $projdir/do/share/siblingvaregs/va_sibling_spec_test_tab
 
     /* do file to run enrollment outcome VA regressions with sibling effects.
     Include as controls the dummies for
@@ -602,17 +488,17 @@ if `dosiblingvaregs' == 1 {
     do $projdir/do/share/siblingvaregs/va_sibling_out 2
      */
      do $projdir/do/share/siblingvaregs/va_sibling_out 0
-
+     pause finished running $projdir/do/share/siblingvaregs/va_sibling_out
 
      /* sum stats for the enrollment VA estimates with additional demographic control
      for has at least one older sibling who enrolled in college (2 year, 4 year) */
      do $projdir/do/share/siblingvaregs/va_sibling_out_est_sumstats
-
+     pause finished running $projdir/do/share/siblingvaregs/va_sibling_out_est_sumstats
 
      /* do file to create a regression output table for spec test for college outcome
      VA with original sample, sibling sample without control, sibling sample with control */
-     do $projdir/do/share/siblingvaregs/va_sibling_out_spec_test_tab.do
-
+     do $projdir/do/share/siblingvaregs/va_sibling_out_spec_test_tab
+     pause finished running $projdir/do/share/siblingvaregs/va_sibling_out_spec_test_tab
 
      /* do file to run forecast bias tests and spec tests for test score VA
      regressions with sibling effects. Two versions of VA: one with leave out
@@ -624,15 +510,20 @@ if `dosiblingvaregs' == 1 {
      Comment on family fixed effects: Too many fixed effects, not enough observations.
      Stata returns an error "attempted to fit a model with too many variables"
      Only 749488 obs but 600210 families, too many variables from family fixed effects */
-     do $projdir/do/share/siblingvaregs/va_sibling_forecast_bias.do
-
+     do $projdir/do/share/siblingvaregs/va_sibling_forecast_bias
+     pause finished running $projdir/do/share/siblingvaregs/va_sibling_forecast_bias
 
      /* do file to create a regression output table for forecast bias tests for test score VA
      and enrollment VA on different samples */
-     do $projdir/do/share/siblingvaregs/va_sibling_fb_test_tab.do
-
-
+     do $projdir/do/share/siblingvaregs/va_sibling_fb_test_tab
+     pause finished running $projdir/do/share/siblingvaregs/va_sibling_fb_test_tab
 
 }
 
-/* log close master // close the master log file */
+timer off 1
+timer list
+
+pause off
+
+log close master // close the master log file
+translate $projdir/log/master.smcl $projdir/log/master.log
