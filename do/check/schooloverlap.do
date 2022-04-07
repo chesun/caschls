@@ -4,11 +4,11 @@
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu ********************
 ********************************************************************************
-
+cap log close _all
 clear
 set more off
 
-log using $projdir/log/schooloverlap, replace name(schooloverlap) // start log file for this do file
+log using $projdir/log//check/schooloverlap, replace name(schooloverlap) // start log file for this do file
 
 
 **********First, convert csv files with cdscode and frequencies into dta ********
@@ -298,3 +298,4 @@ save $projdir/dta/schooloverlap/schlfreqbyyear/staffschlfreq, replace //save the
 
 
 log close schooloverlap //close this log file
+translate $projdir/log//check/schooloverlap.smcl $projdir/log//check/schooloverlap.log, replace 

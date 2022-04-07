@@ -4,9 +4,11 @@
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu ********************
 ********************************************************************************
-
+cap log close _all
 clear
 set more off
+
+log using $projdir/log/build/sample/pooledsecdiagnostics.smcl, replace
 
 use $projdir/dta/demographics/pooled/paneldata/secdemopanel, replace
 
@@ -90,3 +92,7 @@ label var pooledwhiterr "overall white response rate pooling across grades and y
 compress
 label data "Secondary demographics diagnostics pooled across grade 9 and 11 across all 5 years"
 save $projdir/dta/demographics/pooled/pooledsecdiagnostics, replace
+
+
+log close
+translate $projdir/log/build/sample/pooledsecdiagnostics.smcl $projdir/log/build/sample/pooledsecdiagnostics.log, replace 

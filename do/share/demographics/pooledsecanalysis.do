@@ -4,9 +4,11 @@
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu ********************
 ********************************************************************************
-
+cap log close _all
 clear
 set more off
+
+log using $projdir/log/share/demographics/pooledsecanalysis.smcl, replace
 
 use $projdir/dta/demographics/pooled/pooledsecdiagnostics, replace
 
@@ -56,3 +58,7 @@ graph export $projdir/out/graph/pooleddiagnostics/secondary/pooledwhiterr.png, r
 
 
 grstyle clear // sets off grstyle
+
+
+log close
+translate $projdir/log/share/demographics/pooledsecanalysis.smcl $projdir/log/share/demographics/pooledsecanalysis.log, replace 

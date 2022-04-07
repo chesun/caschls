@@ -36,7 +36,6 @@ to the calling program. */
 pause off
 
 do "./do/settings.do" //set global project settings
-log using "$projdir/log/master.smcl", replace name(master) //start log file for the master do file and overwrite existing log file
 
 timer on 1
 
@@ -379,6 +378,17 @@ if `do_index_va_reg' == 1 {
   do $projdir/do/share/factoranalysis/indexregwithdemo
   pause finished running $projdir/do/share/factoranalysis/indexregwithdemo
 
+  /* Cronbach's alpha test for survey qois */
+  do $projdir/do/share/factoranalysis/alpha
+  pause finished running $projdir/do/share/factoranalysis/alpha
+
+  /* Cronbach's alpha for the 4 index categories */
+  do $projdir/do/share/factoranalysis/indexalpha
+  pause finished running $projdir/do/share/factoranalysis/indexalpha
+
+  /* creates principal component scores from pca for all 3 surveys */
+  do $projdir/do/share/factoranalysis/pcascore
+  pause finished running $projdir/do/share/factoranalysis/pcascore
 }
 
 
@@ -413,8 +423,10 @@ if `do_match_siblings' == 1 {
 and 2010-2018 */
 local dooutcomesumstats = 1
 if `dooutcomesumstats' == 1 {
-  do $projdir/do/share/outcomesumstats/k12_nsc_match_sumstats.do
-  pause finished running $projdir/do/share/outcomesumstats/k12_nsc_match_sumstats.do
+  /* create a txt file codebook for NSC clean datasets, both for 2010-2017
+  and 2010-2018 */
+  do $projdir/do/share/outcomesumstats/nsc_codebook.do
+  pause finished running $projdir/do/share/outcomesumstats/nsc_codebook.do
 }
 
 
@@ -524,6 +536,3 @@ timer off 1
 timer list
 
 pause off
-
-log close master // close the master log file
-translate $projdir/log/master.smcl $projdir/log/master.log

@@ -7,9 +7,11 @@
 
 /* THis do file uses secondary  demographics datasets (merged with enrollment data) to
 investigate survey coverage and representativeness*/
-
+cap log close _all
 clear
 set more off
+
+log using $projdir/log/build/sample/seccoveragedata.smcl, replace name(seccoveragedata)
 
 local years `" "1415" "1516" "1617" "1718" "1819" "' //local macro for dataset years
 
@@ -207,3 +209,6 @@ foreach year of local years {
   save $projdir/dta/demographics/analysis/secondary/secdemo`year'analysis, replace
 
 }
+
+log close seccoveragedata
+translate $projdir/log/build/sample/seccoveragedata.smcl $projdir/log/build/sample/seccoveragedata.log, replace 

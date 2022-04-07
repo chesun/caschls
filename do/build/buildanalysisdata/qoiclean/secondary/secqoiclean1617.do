@@ -4,10 +4,11 @@
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu ********************
 ********************************************************************************
-
+cap log close _all
 clear all
 set more off
 
+log using $projdir/log/build/buildanalysisdata/qoiclean/secondary/secqoiclean1617.smcl, replace
 
 use $clndtadir/secondary/sec1617, clear
 keep cdscode a21 a22 a23 a24 a25 a26 a27 a28 a29 a30 a31 a32 a33 a34 a35 a36 a37 a38 a39 //only keep questions of interest
@@ -185,3 +186,7 @@ gen year = 1617
  label data "cleaned secondary 1617 survey questions of interest with percent disagree/agree etc."
  compress
  save $projdir/dta/buildanalysisdata/qoiclean/secondary/secqoiclean1617, replace
+
+
+log close
+translate $projdir/log/build/buildanalysisdata/qoiclean/secondary/secqoiclean1617.smcl $projdir/log/build/buildanalysisdata/qoiclean/secondary/secqoiclean1617.log, replace 

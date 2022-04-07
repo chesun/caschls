@@ -7,9 +7,11 @@
 
 /* this do file combines the parent survey datasets across years and pool each
 school across years for 9th and 11th grade */
-
+cap log close _all
 clear
 set more off
+
+log using $projdir/log/build/sample/pooledparentdemographics.smcl, replace
 
 local years 1415 1516 1617 1718 1819 //local macro for dataset years
 
@@ -37,3 +39,5 @@ append using $projdir/dta/demographics/pooled/forpooling/parent/parentdemoforpoo
 
 compress
 save $projdir/dta/demographics/pooled/paneldata/parentdemopanel, replace
+
+translate $projdir/log/build/sample/pooledparentdemographics.smcl $projdir/log/build/sample/pooledparentdemographics.log, replace 

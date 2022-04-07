@@ -5,8 +5,11 @@ for both complete case and imputed data  */
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************
 ********************************************************************************
+cap log close _all
 clear all
 set more off
+
+log using $projdir/log/share/factoranalysis/indexhorserace.smcl, replace
 
 ////////////////////////////////////////////////////////////////////////////////
 /* complete case analysis  */
@@ -59,3 +62,7 @@ foreach i of local vasdvars {
 esttab using $projdir/out/csv/factoranalysis/indexhorserace/imputedhorserace.csv, replace
 
 eststo clear
+
+
+log close
+translate $projdir/log/share/factoranalysis/indexhorserace.smcl $projdir/log/share/factoranalysis/indexhorserace.log, replace 

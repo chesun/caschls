@@ -5,11 +5,12 @@ such as pct disagree/agree etc. */
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu ********************
 ********************************************************************************
-
+cap log close _all
 clear all
 set more off
 set varabbrev off, perm //set variable abbreviation permanently off
 
+log using $projdir/log/build/buildanalysisdata/qoiclean/staff/staffqoiclean1617_1516.smcl, replace
 
 /* the code for cleaning 1516 and 1617 is exactly the same, so use the same code to clean them */
 local years `" "1516" "1617" "'
@@ -396,3 +397,7 @@ foreach year of local years {
   save $projdir/dta/buildanalysisdata/qoiclean/staff/staffqoiclean`year', replace
 
 }
+
+
+log close
+translate $projdir/log/build/buildanalysisdata/qoiclean/staff/staffqoiclean1617_1516.smcl $projdir/log/build/buildanalysisdata/qoiclean/staff/staffqoiclean1617_1516.log, replace 

@@ -4,9 +4,11 @@
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************
 ********************************************************************************
-
+cap log close _all
 clear all
 set more off
+
+log using $projdir/log/build/buildanalysisdata/poolingdata/parentpooling.smcl, replace
 
 /* first append all years to make a pnael dataset to calculate pooled stats */
 use $projdir/dta/buildanalysisdata/qoiclean/parent/parentqoiclean1819, clear
@@ -90,3 +92,7 @@ drop if missing(cdscode)
 label data "parent pooled (over years) dataset ready for analysis with stats and response rates"
 compress
 save $projdir/dta/buildanalysisdata/analysisready/parentanalysisready, replace
+
+
+log close
+translate $projdir/log/build/buildanalysisdata/poolingdata/parentpooling.smcl $projdir/log/build/buildanalysisdata/poolingdata/parentpooling.log, replace 

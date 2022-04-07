@@ -4,8 +4,11 @@
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************
 ********************************************************************************
+cap log close _all
 clear all
 set more off
+
+log using $projdir/log/share/factoranalysis/indexregwithdemo.smcl, replace
 
 ////////////////////////////////////////////////////////////////////////////////
 /* both complete case analysis and imputed data  */
@@ -86,3 +89,7 @@ foreach type of local datatype {
     export excel using $projdir/out/xls/factor/indexregwcontrols/`type'/vaindexwcontrols_`type'regs_`i', replace
   }
 }
+
+
+log close
+translate $projdir/log/share/factoranalysis/indexregwithdemo.smcl $projdir/log/share/factoranalysis/indexregwithdemo.log, replace 

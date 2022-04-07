@@ -264,6 +264,7 @@ foreach subject in ela math {
 
 
 timer off 1
+timer list 
 log close
 
 cd $projdir

@@ -184,6 +184,7 @@ foreach outcome in enr enr_2year enr_4year  {
 
 
  timer off 1
+ timer list 
  log close
 
  cd $projdir

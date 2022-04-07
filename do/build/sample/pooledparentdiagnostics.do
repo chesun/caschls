@@ -4,8 +4,11 @@
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu ********************
 ********************************************************************************
+cap log close _all
 clear
 set more off
+
+log using $projdir/log/build/sample/pooledparentdiagnostics.smcl, replace
 
 use $projdir/dta/demographics/pooled/paneldata/parentdemopanel, replace
 
@@ -47,3 +50,6 @@ label var pooledgr11rr "pooled response rate for grade 11 across years"
 compress
 label data "Parent demographics diagnostics pooled across grade 9 and 11 across all 5 years"
 save $projdir/dta/demographics/pooled/pooledparentdiagnostics, replace
+
+log close
+translate $projdir/log/build/sample/pooledparentdiagnostics.smcl $projdir/log/build/sample/pooledparentdiagnostics.log, replace 

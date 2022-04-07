@@ -9,9 +9,11 @@ to link siblings from the same family across years and delete duplicates  */
 /* to run this do file:
 do $projdir/do/share/siblingxwalk/uniquefamily.do
  */
-
+cap log close _all
 clear all
 set more off
+
+log using $projdir/log/share/siblingxwalk/uniquefamily.smcl, replace
 
 use $projdir/dta/siblingxwalk/k12_xwalk_name_address_year, clear
 
@@ -70,3 +72,7 @@ label var sibling_full_sample "Indicator for the entire matched siblings sample"
 compress
 label data "dataset with unique family ID for each SSID, family size capped at 10 children"
 save $projdir/dta/siblingxwalk/ufamilyxwalk, replace
+
+
+log close
+translate $projdir/log/share/siblingxwalk/uniquefamily.smcl $projdir/log/share/siblingxwalk/uniquefamily.log, replace 

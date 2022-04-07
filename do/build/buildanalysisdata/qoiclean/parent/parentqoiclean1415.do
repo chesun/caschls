@@ -4,9 +4,11 @@
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************
 ********************************************************************************
-
+cap log close _all
 clear all
 set more off
+
+log using $projdir/log/build/buildanalysisdata/qoiclean/parent/parentqoiclean1415.smcl, replace
 
 use $clndtadir/parent/parent1415, clear
 
@@ -144,3 +146,7 @@ gen year = 1415
 label data "cleaned parent 1415 survey questions of interest with percent disagree/agree etc."
 compress
 save $projdir/dta/buildanalysisdata/qoiclean/parent/parentqoiclean1415, replace
+
+
+log close
+translate $projdir/log/build/buildanalysisdata/qoiclean/parent/parentqoiclean1415.smcl $projdir/log/build/buildanalysisdata/qoiclean/parent/parentqoiclean1415.log, replace 

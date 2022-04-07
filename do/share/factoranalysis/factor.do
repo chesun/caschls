@@ -4,9 +4,11 @@
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************
 ********************************************************************************
-
+cap log close _all
 clear all
 set more off
+
+log using $projdir/do/share/factoranalysis/factor.smcl, replace
 
 /* use principal factoring method because data is not multinormal */
 // estout with factor: http://repec.org/bocode/e/estout/advanced.html#advanced404
@@ -71,3 +73,7 @@ esttab using $projdir/out/csv/factoranalysis/stafffactoreigen1.csv, cells("L[1](
 
 /* note: standardizing into z score is unnecessary. Doesn't change factor analysis results,
 since factors are explaining the variance */
+
+
+log close
+translate $projdir/do/share/factoranalysis/factor.smcl $projdir/do/share/factoranalysis/factor.log, replace 

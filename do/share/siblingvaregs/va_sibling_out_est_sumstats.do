@@ -253,6 +253,7 @@ cd $projdir
 
 
 timer off 1
+timer list 
 log close
 
 translate $projdir/log/share/siblingvaregs/va_sibling_out_est_sumstats.smcl ///

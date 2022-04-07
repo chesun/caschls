@@ -121,6 +121,7 @@ tab year if grade == 11 & touse_g11_math==1 & sibling_full_sample == 1
 
 
 timer off 1
+timer list 
 log close
 translate $projdir/log/share/siblingvaregs/va_sibling_sample_sumstats.smcl ///
 $projdir/log/share/siblingvaregs/va_sibling_sample_sumstats.log, replace

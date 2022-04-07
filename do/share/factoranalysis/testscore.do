@@ -4,14 +4,20 @@
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************
 ********************************************************************************
+cap log close _all
 clear all
 set more off
 
+log using $projdir/log/share/factoranalysis/testscore.smcl, replace
+
+
 // load up the subsample of students Matt is using. This includes grade 11 students in year 2015-2017 (year of the spring semester)
-use merge_id_k12_test_scores state_student_id dataset cdscode grade year all_scores_sample if grade==11 & dataset=="SBAC" & inrange(year, 2015, 2017) & all_scores_sample==1 using /home/research/ca_ed_lab/msnaven/data/restricted_access/clean/k12_test_scores/k12_test_scores_clean.dta
+use merge_id_k12_test_scores state_student_id dataset cdscode grade year all_scores_sample ///
+if grade==11 & dataset=="SBAC" & inrange(year, 2015, 2017) & all_scores_sample==1 ///
+using $vaprojdir/data/restricted_access/clean/k12_test_scores/k12_test_scores_clean.dta
 
 // merge with the lagged test score data
-merge 1:1 merge_id_k12_test_scores using /home/research/ca_ed_lab/msnaven/data/restricted_access/clean/k12_test_scores/k12_lag_test_scores_clean.dta
+merge 1:1 merge_id_k12_test_scores using $vaprojdir/data/restricted_access/clean/k12_test_scores/k12_lag_test_scores_clean.dta
 //only keep merged observations
 keep if _merge == 3
 drop _merge
@@ -37,3 +43,7 @@ drop if missing(cdscode)
 label data "SBAC 6th grade math and 8th grade ELA test score for 11 graders in 1415-1617"
 
 save $projdir/dta/schoolchar/testscorecontrols, replace
+
+
+log close
+translate $projdir/log/share/factoranalysis/testscore.smcl $projdir/log/share/factoranalysis/testscore.log, replace

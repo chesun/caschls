@@ -6,9 +6,11 @@ analysis vars such as pct disagree/agree etc. */
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu ********************
 ********************************************************************************
-
+cap log close _all
 clear all
 set more off
+
+log using $projdir/log/build/buildanalysisdata/qoiclean/secondary/secqoiclean1819_1718_1516.smcl, replace
 
 /* ssc install elabel, replace //install the elabel package for easy renaming of labels
 ssc install labutil2, replace //package to help with managing value labels because stata sucks in that regard
@@ -226,3 +228,6 @@ compress
 save $projdir/dta/buildanalysisdata/qoiclean/secondary/secqoiclean`year', replace
 
 }
+
+log close
+translate $projdir/log/build/buildanalysisdata/qoiclean/secondary/secqoiclean1819_1718_1516.smcl $projdir/log/build/buildanalysisdata/qoiclean/secondary/secqoiclean1819_1718_1516.log, replace

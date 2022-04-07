@@ -7,9 +7,11 @@
 
 /* this do file creates graphs by comparing survey sample against enrollment data
 for secondary demographics datasets to investigate the survey sample representativrness  */
-
+cap log close _all
 clear
 set more off
+
+log using $projdir/log/share/demographics/seccoverageanalysis.smcl, replace
 
 local years `" "1415" "1516" "1617" "1718" "1819" "' //local macro for elementary dataset years
 
@@ -53,3 +55,6 @@ foreach year of local years {
 }
 
 grstyle clear // sets off grstyle
+
+log close
+translate $projdir/log/share/demographics/seccoverageanalysis.smcl $projdir/log/share/demographics/seccoverageanalysis.log, replace 

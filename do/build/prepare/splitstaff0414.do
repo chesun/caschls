@@ -4,11 +4,11 @@
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu ********************
 ********************************************************************************
-
+cap log close _all
 clear
 set more off
 
-log using "$projdir/log/splitstaff0414.smcl", replace name(splitstaff0414) //start log file for the master do file and overwrite existing log file
+log using "$projdir/log/build/prepare/splitstaff0414.smcl", replace name(splitstaff0414) //start log file for the master do file and overwrite existing log file
 
 use $clndtadir/staff/staff0414, clear
 
@@ -37,3 +37,4 @@ foreach i of local years {
 restore
 
 log close splitstaff0414 //close the current log file for this do file
+translate $projdir/log/build/prepare/splitstaff0414.smcl $projdir/log/build/prepare/splitstaff0414.log, replace 

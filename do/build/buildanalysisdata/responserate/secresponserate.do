@@ -4,8 +4,11 @@
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu ********************
 ********************************************************************************
+cap log close _all
 clear all
 set more off
+
+log using $projdir/log/build/buildanalysisdata/responserate/secresponserate.smcl, replace
 
 use $projdir/dta/buildanalysisdata/demotrim/secondary/trimsecdemo1415, replace
 merge 1:1 cdscode using $projdir/dta/buildanalysisdata/demotrim/secondary/trimsecdemo1516
@@ -86,3 +89,7 @@ drop denomtemp numertemp
 label data "secondary survey response numbers by grade year with pooled response rates"
 compress
 save $projdir/dta/buildanalysisdata/responserate/secresponserate, replace
+
+
+log close
+translate $projdir/log/build/buildanalysisdata/responserate/secresponserate.smcl $projdir/log/build/buildanalysisdata/responserate/secresponserate.log, replace 

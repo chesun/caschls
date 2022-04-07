@@ -1,6 +1,8 @@
 ********************************************************************************
 /* check the discrepancy in matched 2016 11th grader students between the 2010-2017 NSC data and
 the 2010-2018 NSC data, and produce their outcome summary stats
+
+Comment 04/06/2022: Deprecated. Project now uses udpated NSC data by cohort
  */
 ********************************************************************************
 ********************************************************************************

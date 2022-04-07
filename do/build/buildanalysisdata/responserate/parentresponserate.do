@@ -4,9 +4,11 @@
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu ********************
 ********************************************************************************
-
+cap log close _all
 clear all
 set more off
+
+log using $projdir/log/build/buildanalysisdata/responserate/parentresponserate.smcl, replace
 
 use $projdir/dta/buildanalysisdata/demotrim/parent/trimparentdemo1415, replace
 merge 1:1 cdscode using $projdir/dta/buildanalysisdata/demotrim/parent/trimparentdemo1516
@@ -87,3 +89,6 @@ drop denomtemp numertemp
 label data "parent survey response numbers by grade year with pooled response rates"
 compress
 save $projdir/dta/buildanalysisdata/responserate/parentresponserate, replace
+
+log close
+translate $projdir/log/build/buildanalysisdata/responserate/parentresponserate.smcl $projdir/log/build/buildanalysisdata/responserate/parentresponserate.log, replace

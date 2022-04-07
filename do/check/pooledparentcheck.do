@@ -4,9 +4,11 @@
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu ********************
 ********************************************************************************
-
+cap log close _all
 clear
 set more off
+
+log using $projdir/log/check/pooledparentcheck.smcl, replace
 
 use $projdir/dta/demographics/pooled/pooledparentdiagnostics, replace
 
@@ -42,3 +44,7 @@ graph export $projdir/out/graph/pooleddiagnostics/parenttroubleshooting/gr11disc
 
 
 grstyle clear // sets off grstyle
+
+
+log close
+translate $projdir/log/check/pooledparentcheck.smcl $projdir/log/check/pooledparentcheck.log, replace 

@@ -5,9 +5,11 @@ only the qoimean variables */
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************
 ********************************************************************************
-
+cap log close _all
 clear all
 set more off
+
+log using $projdir/log/share/factoranalysis/allsvymerge.smcl, replace
 
 /* rename vars and prep parentanalysisready.dta for merging */
 use $projdir/dta/buildanalysisdata/analysisready/parentanalysisready, clear
@@ -63,3 +65,7 @@ drop _merge
 missings dropobs *mean_pooled, force //drop all observations with all qoimean vars missing
 
 save $projdir/dta/allsvyfactor/allsvyqoimeans, replace
+
+
+log close
+translate $projdir/log/share/factoranalysis/allsvymerge.smcl $projdir/log/share/factoranalysis/allsvymerge.log, replace 

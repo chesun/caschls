@@ -5,8 +5,11 @@ VA regressions with index + school characteristics  */
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************
 ********************************************************************************
+cap log close _all
 clear all
 set more off
+
+log using $projdir/log/share/factoranalysis/mattschlchar.smcl, replace
 
 // a macro toggle for cleaning the raw data from Matt's folder
 local clean = 0
@@ -92,3 +95,7 @@ drop _merge
 label data "Pooled average over 14-15 to 16-17 school characteristics data"
 compress
 save $projdir/dta/schoolchar/schlcharpooledmeans, replace
+
+
+log close
+translate $projdir/log/share/factoranalysis/mattschlchar.smcl $projdir/log/share/factoranalysis/mattschlchar.log, replace 

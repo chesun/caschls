@@ -4,9 +4,11 @@
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************
 ********************************************************************************
-
+cap log close _all
 clear all
 set more off
+
+log using $projdir/log/build/buildanalysisdata/poolingva/poolva.smcl, replace
 
 /* created pooled average for ELA test score VA */
 use $vadtadir/va_g11_ela, clear
@@ -69,3 +71,7 @@ label var va_4yrela "VA on 4 year college enrollment controlling for ELA VA"
 label var va_4yrmath "VA on 4 year college enrollment controlling for math VA"
 label var va_4yrdk "deep knowledge VA on 4 year college enrollment controlling for ELA and math VA"
 save $projdir/dta/buildanalysisdata/va/4yr, replace
+
+
+log close
+translate $projdir/log/build/buildanalysisdata/poolingva/poolva.smcl $projdir/log/build/buildanalysisdata/poolingva/poolva.log, replace 

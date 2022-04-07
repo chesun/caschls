@@ -7,10 +7,11 @@
 
 /* this do file combines the secondary survey datasets across years and pool each
 school across years for 9th and 11th grade */
-
+cap log close _all
 clear
 set more off
 
+log using $projdir/log/build/sample/pooledsecdemographics.smcl, replace
 
 local years 1415 1516 1617 1718 1819 //local macro for dataset years
 
@@ -45,3 +46,7 @@ append using $projdir/dta/demographics/pooled/forpooling/secondary/secdemoforpoo
 
 compress
 save $projdir/dta/demographics/pooled/paneldata/secdemopanel, replace
+
+
+log close
+translate $projdir/log/build/sample/pooledsecdemographics.smcl $projdir/log/build/sample/pooledsecdemographics.log, replace 

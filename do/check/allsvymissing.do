@@ -4,10 +4,12 @@
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************
 ********************************************************************************
+cap log close _all
 clear all
 set more off
 
-log using "$projdir/log/allsvymissing.log", replace name(allsvymissing) //log file to make mvpatterns results easier to copy
+
+log using "$projdir/log/check/allsvymissing.smcl", replace name(allsvymissing) //log file to make mvpatterns results easier to copy
 
 use $projdir/dta/allsvyfactor/allsvyqoimeans, clear
 
@@ -44,3 +46,4 @@ mvpatterns `motivationvars'
 
 
 log close allsvymissing
+translate $projdir/log/check/allsvymissing.smcl $projdir/log/check/allsvymissing.log, replace 

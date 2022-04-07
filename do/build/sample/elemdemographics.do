@@ -8,10 +8,11 @@
 /* This do file creates elementary survey demographics datasets by merging survey demographics
 with enrollment data to check the coverage and representativeness of elementary surveys */
 
-
+cap log close _all
 clear
 set more off
 
+log using $projdir/log/build/sample/elemdemographics.smcl, replace name(elemdemographics)
 
 /* The following block of code rename sex and self reported grade variables to be consistent across datasets. THis creates temp datasets to build
 demographics datasets from in the following block of code */
@@ -150,3 +151,6 @@ local years `" "1415" "1516" "1617" "1718" "1819" "' //local macro for dataset y
    save $projdir/dta/demographics/elementary/elemdemo`i', replace
 
  }
+
+ log close elemdemographics
+ translate $projdir/log/build/sample/elemdemographics.smcl $projdir/log/build/sample/elemdemographics.log, replace 

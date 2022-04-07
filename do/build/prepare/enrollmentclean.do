@@ -4,8 +4,11 @@
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu ********************
 ********************************************************************************
+cap log close _all
 clear
 set more off
+
+log using $projdir/log/build/prepare/enrollmentclean.smcl, replace name(enrollmentclean)
 
 local enrdtaname `" "enr1415" "enr1516" "enr1617" "enr1718" "enr1819" "'  //create a local macro for raw enrollment dataset names
 
@@ -204,3 +207,6 @@ save $projdir/dta/enrollment/schoollevel/`enrdata', replace
 /* set trace off //turn off trace to end debugging */
 
 /* if enrollment for ethnicity and sex combination is desired: new var gradexasianfemale = gradex if female and asian */
+
+log close enrollmentclean
+translate $projdir/log/build/prepare/enrollmentclean.smcl $projdir/log/build/prepare/enrollmentclean.log, replace 

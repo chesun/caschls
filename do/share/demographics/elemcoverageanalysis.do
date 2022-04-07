@@ -14,9 +14,11 @@ for elementary demographics datasets to investigate the survey sample representa
 //ssc install colrspace
 
 //grstyle documentation: http://repec.sowi.unibe.ch/stata/grstyle/help-grstyle-set.html
-
+cap log close _all
 clear
 set more off
+
+log using $projdir/log/share/demographics/elemcoverageanalysis.smcl, replace name(elemcoverageanalysis)
 
 local years `" "1415" "1516" "1617" "1718" "1819" "' //local macro for elementary dataset years
 
@@ -46,3 +48,7 @@ foreach i of local years {
 }
 
 grstyle clear // sets off grstyle
+
+
+log close elemcoverageanalysis
+translate $projdir/log/share/demographics/elemcoverageanalysis.smcl $projdir/log/share/demographics/elemcoverageanalysis.log, replace 

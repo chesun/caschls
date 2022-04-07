@@ -7,9 +7,11 @@
 
 /* THis do file uses elementary demographics datasets (merged with enrollment data) to
 investigate survey coverage and representativeness*/
-
+cap log close _all
 clear
 set more off
+
+log using $projdir/log/build/sample/elemcoveragedata.smcl, replace name(elemcoveragedata)
 
 local years `" "1415" "1516" "1617" "1718" "1819" "' //local macro for elementary dataset years
 
@@ -127,3 +129,7 @@ local years `" "1415" "1516" "1617" "1718" "1819" "' //local macro for elementar
    save $projdir/dta/demographics/analysis/elementary/elemdemo`i'analysis, replace
 
  }
+
+
+ log close elemcoveragedata
+ translate $projdir/log/build/sample/elemcoveragedatas.smcl $projdir/log/build/sample/elemcoveragedata.log, replace

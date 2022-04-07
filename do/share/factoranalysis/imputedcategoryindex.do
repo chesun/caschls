@@ -5,8 +5,11 @@ student support, student motivation. Then run bivariate VA regressions on each i
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************
 ********************************************************************************
+cap log close _all
 clear all
 set more off
+
+log using $projdir/log/share/factoranalysis/imputedcategoryindex.smcl, replace
 
 use $projdir/dta/allsvyfactor/imputedallsvyqoimeans, clear
 
@@ -82,3 +85,8 @@ foreach i of local vaminusfirst {
 save $projdir/out/dta/factor/imputed/vaindex_imputedregs_all, replace
 
 export excel using $projdir/out/xls/factor/imputed/vaindex_imputedregs_all, replace
+
+
+
+log close
+translate $projdir/log/share/factoranalysis/imputedcategoryindex.smcl $projdir/log/share/factoranalysis/imputedcategoryindex.log, replace 

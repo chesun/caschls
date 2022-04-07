@@ -4,9 +4,11 @@
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************
 ********************************************************************************
-
+cap log close _all
 clear all
 set more off
+
+log using $projdir/log/build/buildanalysisdata/poolingdata/secpooling.smcl, replace
 
 /* ssc install _gwtmean, replace //package to allow use of weights in egen mean  */
 
@@ -98,3 +100,7 @@ drop if missing(cdscode) //there is one observation with missing cdscode
 label data "secondary pooled dataset ready for analysis with stats and response rate"
 compress
 save $projdir/dta/buildanalysisdata/analysisready/secanalysisready, replace
+
+
+log close
+translate $projdir/log/build/buildanalysisdata/poolingdata/secpooling.smcl $projdir/log/build/buildanalysisdata/poolingdata/secpooling.log, replace 

@@ -5,9 +5,11 @@
 *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************
 ********************************************************************************
 
-
+cap log close _all
 clear all
 set more off
+
+log using $projdir/log/share/factoranalysis/imputation.smcl, replace
 
 use $projdir/dta/allsvyfactor/allsvyqoimeans, clear
 
@@ -124,3 +126,6 @@ foreach i of local motivationvars {
 
 
 save $projdir/dta/allsvyfactor/imputedallsvyqoimeans, replace
+
+iog close
+translate $projdir/log/share/factoranalysis/imputation.smcl $projdir/log/share/factoranalysis/imputation.log, replace 

@@ -5,9 +5,11 @@ generating conditional response rate datasets */
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu ********************
 ********************************************************************************
-
+cap log close _all
 clear
 set more off
+
+log using $projdir/log/build/buildanalysisdata/responserate/trimsecdemo.smcl, replace
 
 ********************************************************************************
 /* rename variables in the secondary demographics datasets to indicate year, keep only vars needed to calculate response rates */
@@ -78,3 +80,8 @@ label data "trimmed secondary demographics 1819 including only survey response a
 compress
 save $projdir/dta/buildanalysisdata/demotrim/secondary/trimsecdemo1819, replace
 ********************************************************************************
+
+
+
+log close
+translate $projdir/log/build/buildanalysisdata/responserate/trimsecdemo.smcl $projdir/log/build/buildanalysisdata/responserate/trimsecdemo.log, replace 

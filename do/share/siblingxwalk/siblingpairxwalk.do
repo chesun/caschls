@@ -7,9 +7,11 @@ Same combination with different orders are different observations. */
 ********************************************************************************
 
 ***this resulting dataset can be used to merge siblings into a dataset with sibling pairs
-
+cap log close _all
 clear all
 set more off
+
+log using $projdir/log/share/siblingxwalk/siblingpairxwalk.smcl, replace
 
 use $projdir/dta/siblingxwalk/uniquelinkedfamilyclean, clear
 
@@ -73,3 +75,7 @@ label var avg_birth_date_distance_family "Average distance of birth dates in fam
 label data "Unique sibling pairs after dropping duplicate permutations"
 
 save $projdir/dta/siblingxwalk/uniquesiblingpairxwalk, replace
+
+
+log close
+translate $projdir/log/share/siblingxwalk/siblingpairxwalk.smcl $projdir/log/share/siblingxwalk/siblingpairxwalk.log, replace

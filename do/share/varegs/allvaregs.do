@@ -5,9 +5,11 @@
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************
 ********************************************************************************
-
+cap log close _all
 clear all
 set more off
+
+log using $projdir/log/share/varegs/allvaregs.smcl, replace
 
 
 /* create a local macro for secondary qoi numbers  */
@@ -171,3 +173,7 @@ foreach svyname of local surveynames {
     eststo clear
   }
 } */
+
+
+log close
+translate $projdir/log/share/varegs/allvaregs.smcl $projdir/log/share/varegs/allvaregs.log, replace 

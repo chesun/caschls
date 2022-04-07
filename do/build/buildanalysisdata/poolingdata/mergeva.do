@@ -4,9 +4,11 @@
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************
 ********************************************************************************
-
+cap log close _all
 clear all
 set more off
+
+log using $projdir/log/build/buildanalysisdata/poolingdata/mergeva.smcl, replace
 
 local dtaname `" "sec" "parent" "staff" "' //local macro for looping over different survey analysis datasets
 
@@ -25,3 +27,7 @@ foreach name of local dtaname {
 427 matched for parent, 3502 not matched. 2569 from master, 933 from using
 591 matched for staff, 4390 not matched, 3621 from master, 769 from using
 */
+
+
+log close
+translate $projdir/log/build/buildanalysisdata/poolingdata/mergeva.smcl $projdir/log/build/buildanalysisdata/poolingdata/mergeva.log, replace 

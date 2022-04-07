@@ -4,9 +4,11 @@
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************
 ********************************************************************************
-
+cap log close _all
 clear all
 set more off
+
+log using $projdir/log/build/buildanalysisdata/poolingdata/staffpooling.smcl, replace
 
 /* first append all years to make a pnael dataset to calculate pooled stats */
 use $projdir/dta/buildanalysisdata/qoiclean/staff/staffqoiclean1819, clear
@@ -80,3 +82,7 @@ foreach i of numlist 103/105 109 111 112 {
 label data "weighted average staff qoi statistics pooled over years"
 compress
 save $projdir/dta/buildanalysisdata/poolingdata/staffpooledstats, replace
+
+
+log close
+translate $projdir/log/build/buildanalysisdata/poolingdata/staffpooling.smcl $projdir/log/build/buildanalysisdata/poolingdata/staffpooling.log, replace 

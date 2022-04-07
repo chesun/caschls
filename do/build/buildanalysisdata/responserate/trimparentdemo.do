@@ -5,8 +5,11 @@ generating conditional response rate datasets */
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu ********************
 ********************************************************************************
+cap log close _all
 clear all
 set more off
+
+log using $projdir/log/build/buildanalysisdata/responserate/trimparentdemo.smcl, replace
 
 /* rename variables in the secondary demographics datasets to indicate year, keep only vars needed to calculate response rates */
 local grades `" "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" "' //local macro for grades
@@ -80,3 +83,6 @@ foreach i of local grades {
 label data "trimmed parent demographics 1819 including only survey responses and enrollment for grades 1-12"
 compress
 save $projdir/dta/buildanalysisdata/demotrim/parent/trimparentdemo1819, replace
+
+log close
+translate $projdir/log/build/buildanalysisdata/responserate/trimparentdemo.smcl $projdir/log/build/buildanalysisdata/responserate/trimparentdemo.log, replace 

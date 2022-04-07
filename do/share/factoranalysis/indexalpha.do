@@ -4,8 +4,11 @@
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************
 ********************************************************************************
+cap log close _all
 clear all
 set more off
+
+log using $projdir/log/share/factoranalysis/indexalpha.smcl, replace
 
 use $projdir/dta/allsvyfactor/categoryindex/compcasecategoryindex, clear
 
@@ -21,3 +24,7 @@ alpha `qualityvars', std item
 
 /* Cronbach's alpha for counseling support index */
 alpha `supportvars', std item
+
+
+log close
+translate $projdir/log/share/factoranalysis/indexalpha.smcl $projdir/log/share/factoranalysis/indexalpha.log, replace 

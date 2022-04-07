@@ -5,8 +5,11 @@ student support, student motivation. Then run bivariate VA regressions on each i
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************
 ********************************************************************************
+cap log close _all
 clear all
 set more off
+
+log using $projdir/log/share/factoranalysis/compcasecategoryindex.smcl, replace
 
 use $projdir/dta/allsvyfactor/allsvyqoimeans, clear
 
@@ -52,7 +55,7 @@ foreach i of local indexvars {
   gen z_`i' = (`i' - r(mean))/r(sd)
 }
 
-// regress va vars on index vars, have one file for each index to save N in the dataset 
+// regress va vars on index vars, have one file for each index to save N in the dataset
 foreach i of local indexvars {
 
 
@@ -81,3 +84,6 @@ foreach i of local indexvars {
   save $projdir/out/dta/factor/compcase/`i'_va_compregs, replace
   export excel using $projdir/out/xls/factor/compcase/`i'_va_compregs, replace
 }
+
+log close
+translate $projdir/log/share/factoranalysis/compcasecategoryindex.smcl $projdir/log/share/factoranalysis/compcasecategoryindex.log, replace 

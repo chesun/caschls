@@ -7,9 +7,11 @@
 
 /* THis do file uses parent  demographics datasets (merged with enrollment data) to
 investigate survey coverage and representativeness*/
-
+cap log close _all
 clear
 set more off
+
+log using $projdir/log/build/sample/parentcoveragedata.smcl, replace
 
 local years `" "1415" "1516" "1617" "1718" "1819" "' //local macro for elementary dataset years
 
@@ -35,3 +37,6 @@ foreach year of local years {
   label data "Parent `year' demographics data with survey coverage analysis variables"
   save $projdir/dta/demographics/analysis/parent/parentdemo`year'analysis, replace
 }
+
+log close
+translate $projdir/log/build/sample/parentcoveragedata.smcl $projdir/log/build/sample/parentcoveragedata.log, replace 

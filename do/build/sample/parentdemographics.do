@@ -11,9 +11,11 @@ diagnostic in parent demographics is the grade of the child. The goal is to calc
 in each grade. Here each household enters one observation (source: Ben from WestEd) */
 
 /* NOTE: parent1415 data do not have grade 7 observations. grade = -8 has 1327 observations which might be 7th grade, but cannot be sure */
-
+cap log close _all
 clear all
 set more off
+
+log using $projdir/log/build/sample/parentdemographics.smcl, replace
 
 /* The following block of code rename child's grade to be consistent across datasets. THis creates temp datasets to build
 demographics datasets from in the following block of code */
@@ -115,3 +117,6 @@ local years `" "1415" "1516" "1617" "1718" "1819" "' //local macro for dataset y
    save $projdir/dta/demographics/parent/parentdemo`year', replace
 
    }
+
+   log close
+   translate $projdir/log/build/sample/parentdemographics.smcl $projdir/log/build/sample/parentdemographics.log, replace 

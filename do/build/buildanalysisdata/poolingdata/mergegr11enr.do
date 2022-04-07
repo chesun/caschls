@@ -4,9 +4,11 @@
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************
 ********************************************************************************
-
+cap log close _all
 clear all
 set more off
+
+log using $projdir/log/build/buildanalysisdata/poolingdata/mergegr11enr.smcl, replace
 
 /* merge gr11 enrollment with parent pooled dataset */
 use $projdir/dta/buildanalysisdata/analysisready/parentanalysisready, clear
@@ -35,3 +37,7 @@ drop if _merge == 2 //drop unmatched observations from the enrollment dataset
 drop _merge
 
 save $projdir/dta/buildanalysisdata/analysisready/staffanalysisready, replace
+
+
+log close
+translate $projdir/log/build/buildanalysisdata/poolingdata/mergegr11enr.smcl $projdir/log/build/buildanalysisdata/poolingdata/mergegr11enr.log, replace 

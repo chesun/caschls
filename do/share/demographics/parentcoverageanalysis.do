@@ -7,9 +7,11 @@
 
 /* this do file creates graphs by comparing survey sample against enrollment data
 for parent demographics datasets to investigate the survey sample representativrness  */
-
+cap log close _all
 clear
 set more off
+
+log using $projdir/log/share/demographics/parentcoverageanalysis/smcl, replace
 
 grstyle init  //initializes the grstyle package
 grstyle set plain   //set graph background to plain
@@ -30,3 +32,6 @@ foreach year of local years {
 }
 
 grstyle clear // sets off grstyle
+
+log close
+translate $projdir/log/share/demographics/parentcoverageanalysis/smcl  $projdir/log/share/demographics/parentcoverageanalysis/log, replace 

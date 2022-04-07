@@ -100,6 +100,7 @@ do $projdir/do/share/siblingvaregs/va_sibling_fb_test_tab.do
 
 
  timer off 1
+ timer list 
  log close
 
  cd $projdir

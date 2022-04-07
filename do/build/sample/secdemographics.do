@@ -8,9 +8,11 @@
 /* This do file creates secondary survey demographics datasets by merging survey demographics
 with enrollment data to check the coverage and representativeness of secondary surveys */
 
-
+cap log close _all
 clear
 set more off
+
+log using $projdir/log/build/sample/secdemographics.smcl, replace name(secdemographics)
 
 ********************************************************************************
 /* the following block renames variables in the secondary datasets. THis creates temp datasets to build
@@ -264,3 +266,7 @@ foreach year of local years {
   save $clndtadir/demographics/secondary/secdemo`year', replace
 
 }
+
+
+log close secdemographics
+translate $projdir/log/build/sample/secdemographics.smcl $projdir/log/build/sample/secdemographics.log, replace 

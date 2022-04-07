@@ -5,9 +5,11 @@ such as pct disagree/agree etc. */
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu ********************
 ********************************************************************************
-
+cap log close _all
 clear all
 set more off
+
+log using $projdir/log/build/buildanalysisdata/qoiclean/staff/staffqoiclean1819_1718.smcl, replace
 
 /* the code for cleaning 1819 and 1718 is exactly the same, so use loop */
 local years `" "1718" "1819" "'
@@ -215,3 +217,6 @@ foreach year of local years {
   compress
   save $projdir/dta/buildanalysisdata/qoiclean/staff/staffqoiclean`year', replace
 }
+
+log close
+translate $projdir/log/build/buildanalysisdata/qoiclean/staff/staffqoiclean1819_1718.smcl $projdir/log/build/buildanalysisdata/qoiclean/staff/staffqoiclean1819_1718.log, replace 

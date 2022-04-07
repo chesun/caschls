@@ -1,6 +1,8 @@
 ********************************************************************************
 /* Create summary stats for NSC outcomes merged to K-12 test score data, both for 2010-2017
-and 2010-2018 */
+and 2010-2018
+
+Comment 04/06/2022: Deprecated. Project now uses udpated NSC data by cohort */
 ********************************************************************************
 /*  to run this do file, type:
   do $projdir/do/share/outcomesumstats/k12_nsc_match_sumstats.do 0

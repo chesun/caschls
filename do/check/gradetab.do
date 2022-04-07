@@ -4,11 +4,11 @@
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu ********************
 ********************************************************************************
-
+cap log close _all
 clear
 set more off
 
-log using $projdir/log/gradetab, replace name(gradetab) // start log file for this do file
+log using $projdir/log/check/gradetab, replace name(gradetab) // start log file for this do file
 
 ******************** Tabulate elementary datasets *******************************
 
@@ -119,7 +119,8 @@ foreach i of local staffdtaname {
   estpost tab q1k
   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("other service provider (e.g. speech, occupational, physical therapist)") nonumber noobs nomtitle append */
 
-  save, replace
+  drop below4above5
+
 }
 
 
@@ -128,3 +129,4 @@ foreach i of local staffdtaname {
 
 
 log close gradetab //close this log file
+translate $projdir/log/check/gradetab.smcl $projdir/log/check/gradetab.log, replace

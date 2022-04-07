@@ -10,10 +10,10 @@ ssc install tabout */
 
 /* this do file exports the list of school cdscodes in each dataset to excel, then
 using excel we can see what schools are the same/different across years */
-
+cap log close _all
 clear
 set more off
-log using "$projdir/log/sameschools.smcl", replace name(sameschools) // start log file for this do file
+log using "$projdir/log/check/sameschools.smcl", replace name(sameschools) // start log file for this do file
 
 local elemdtaname `" "elem1415" "elem1516" "elem1617" "elem1718" "elem1819" "' //local macro for elementary dataset names
 foreach i of local elemdtaname {
@@ -41,3 +41,4 @@ foreach i of local staffdtaname {
 
 
 log close sameschools //close the log file for this do file
+translate $projdir/log/check/sameschools.smcl $projdir/log/check/sameschools.log, replace 

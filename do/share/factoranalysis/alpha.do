@@ -4,7 +4,12 @@
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************
 ********************************************************************************
+cap log close _all
+clear all
+set more off
+graph drop _all
 
+log using $projdir/log/share/factoranalysis/alpha.smcl, replace
 
 /* secondary */
 use $projdir/dta/buildanalysisdata/analysisready/secanalysisready, clear
@@ -30,7 +35,7 @@ alpha *mean_pooled, std item
 
 
 /* Alpha for question classifications  */
-use $projdir/dta/allsvyfactor/allsvyqoimeans, clear 
+use $projdir/dta/allsvyfactor/allsvyqoimeans, clear
 //School Climate
 alpha parentqoi9mean_pooled parentqoi16mean_pooled parentqoi17mean_pooled parentqoi27mean_pooled secqoi22mean_pooled secqoi23mean_pooled secqoi24mean_pooled secqoi25mean_pooled secqoi26mean_pooled secqoi27mean_pooled secqoi28mean_pooled secqoi29mean_pooled secqoi30mean_pooled staffqoi20mean_pooled staffqoi24mean_pooled staffqoi41mean_pooled staffqoi44mean_pooled staffqoi64mean_pooled staffqoi87mean_pooled staffqoi98mean_pooled, std item
 
@@ -43,3 +48,7 @@ alpha parentqoi15mean_pooled parentqoi64mean_pooled staffqoi10mean_pooled staffq
 
 //Student Motivation
 alpha secqoi31mean_pooled secqoi32mean_pooled secqoi33mean_pooled secqoi34mean_pooled, std item
+
+
+log close
+translate $projdir/log/share/factoranalysis/alpha.smcl $projdir/log/share/factoranalysis/alpha.log, replace 

@@ -4,10 +4,11 @@
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu ********************
 ********************************************************************************
+cap log close _all
 clear
 set more off
 
-log using "$projdir/log/renamedata.smcl", replace name(renamedata) //start log file and overwrite existing log file for this do file
+log using "$projdir/log/build/prepare/renamedata.smcl", replace name(renamedata) //start log file and overwrite existing log file for this do file
 
 ************************** elementary CHKS surveys *****************************
 
@@ -225,3 +226,4 @@ save "$clndtadir/staff/staff1819", replace
 
 
 log close renamedata //close log file
+translate $projdir/log/build/prepare/renamedata.smcl $projdir/log/build/prepare/renamedata.log, replace 
