@@ -13,8 +13,8 @@ log using $projdir/log/share/factoranalysis/testscore.smcl, replace
 
 // load up the subsample of students Matt is using. This includes grade 11 students in year 2015-2017 (year of the spring semester)
 use merge_id_k12_test_scores state_student_id dataset cdscode grade year all_scores_sample ///
-if grade==11 & dataset=="SBAC" & inrange(year, 2015, 2017) & all_scores_sample==1 ///
-using $vaprojdir/data/restricted_access/clean/k12_test_scores/k12_test_scores_clean.dta
+if grade==11 & dataset=="CAASPP" & inrange(year, 2015, 2017) & all_scores_sample==1 ///
+using $vaprojdir/data/restricted_access/clean/k12_test_scores/k12_test_scores_clean.dta, clear
 
 // merge with the lagged test score data
 merge 1:1 merge_id_k12_test_scores using $vaprojdir/data/restricted_access/clean/k12_test_scores/k12_lag_test_scores_clean.dta

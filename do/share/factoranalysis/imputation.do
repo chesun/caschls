@@ -127,5 +127,5 @@ foreach i of local motivationvars {
 
 save $projdir/dta/allsvyfactor/imputedallsvyqoimeans, replace
 
-iog close
-translate $projdir/log/share/factoranalysis/imputation.smcl $projdir/log/share/factoranalysis/imputation.log, replace 
+log close
+translate $projdir/log/share/factoranalysis/imputation.smcl $projdir/log/share/factoranalysis/imputation.log, replace

@@ -66,7 +66,9 @@ if `clean' == 1 {
 }
 
 //create elprop by collapsing student test score data to avoid missing data problem in the CDE school level dataset
-use cdscode year limited_eng_prof all_students_sample if all_students_sample==1 & inrange(year, 2015, 2017) using /home/research/ca_ed_lab/msnaven/data/restricted_access/clean/k12_test_scores/k12_test_scores_clean.dta, clear
+use cdscode year limited_eng_prof all_students_sample ///
+if all_students_sample==1 & inrange(year, 2015, 2017) ///
+using $vaprojdir/data/restricted_access/clean/k12_test_scores/k12_test_scores_clean.dta, clear
 collapse elprop = limited_eng_prof, by(cdscode year)
 collapse elprop, by(cdscode)
 drop if missing(cdscode)
@@ -98,4 +100,4 @@ save $projdir/dta/schoolchar/schlcharpooledmeans, replace
 
 
 log close
-translate $projdir/log/share/factoranalysis/mattschlchar.smcl $projdir/log/share/factoranalysis/mattschlchar.log, replace 
+translate $projdir/log/share/factoranalysis/mattschlchar.smcl $projdir/log/share/factoranalysis/mattschlchar.log, replace

@@ -1,0 +1,1233 @@
+-------------------------------------------------------------------------------
+      name:  schooloverlap
+       log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log//check/schoo
+> loverlap.smcl
+  log type:  smcl
+ opened on:   6 Apr 2022, 18:35:42
+
+. 
+. 
+. **********First, convert csv files with cdscode and frequencies into dta ****
+> ****
+. 
+. //remember to make csv files first. Note: in excel files, convert cdscode to 
+> number format, otherwise data is lost when converting to csv
+. 
+. local elemcsvname `" "elem1415" "elem1516" "elem1617" "elem1718" "elem1819" "
+> ' //local macro for elementary dataset names
+
+. foreach i of local elemcsvname {
+  2.   import delimited $projdir/out/csv/schooloverlap/elementary/schools`i', c
+> lear //import the corresponding csv dataset for each year
+  3.   tostring cdscode, replace format("%15.0f") //apply a number format to en
+> able string conversion
+  4.   replace cdscode = "0" + cdscode if inrange(length(cdscode), 13, 13) // a
+> dd leading zero if cds code is 13 digits. This is because some county codes a
+> re missing leading zeros, which results in a 13 digit cdscode
+  5.   /* drop observations with incomplete cdscode to make sure cdscode is uni
+> que identifier */
+.   drop if missing(cdscode) //drop the observation if cdscode is missing
+  6.   drop if inrange(length(cdscode), 1, 13) //drop observations if cdscode i
+> s 1 to 13 characters long, this means at least the county code is missing, an
+> d impossible to determine which school it is
+  7.   save $projdir/dta/schooloverlap/elementary/`i', replace //save as a dta 
+> dataset
+  8. }
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 1,162 obs)
+cdscode was double now str14
+(128 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/eleme
+    > ntary/elem1415.dta saved
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 1,824 obs)
+cdscode was double now str14
+(215 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/eleme
+    > ntary/elem1516.dta saved
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 1,601 obs)
+cdscode was double now str14
+(154 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/eleme
+    > ntary/elem1617.dta saved
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 2,395 obs)
+cdscode was double now str14
+(292 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/eleme
+    > ntary/elem1718.dta saved
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 1,799 obs)
+cdscode was double now str14
+(155 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/eleme
+    > ntary/elem1819.dta saved
+
+. 
+. local parentcsvname `" "parent1415" "parent1516" "parent1617" "parent1718" "p
+> arent1819" "' //local macro for parent dataset names
+
+. foreach i of local parentcsvname {
+  2.   import delimited $projdir/out/csv/schooloverlap/parent/schools`i', clear
+>  //import the corresponding csv dataset for each year
+  3.   tostring cdscode, replace format("%15.0f")  //convert cdscode to string 
+> for consistency between datasets
+  4.   replace cdscode = "0" + cdscode if inrange(length(cdscode), 13, 13) // a
+> dd leading zero if cds code is 13 digits. This is because some county codes a
+> re missing leading zeros, which results in a 13 digit cdscode
+  5.   /* drop observations with incomplete cdscode to make sure cdscode is uni
+> que identifier */
+.   drop if missing(cdscode) //drop the observation if cdscode is missing
+  6.   drop if inrange(length(cdscode), 1, 13) //drop observations if cdscode i
+> s 1 to 13 characters long, this means at least the county code is missing, an
+> d impossible to determine which school it is
+  7.   save $projdir/dta/schooloverlap/parent/`i', replace //save as a dta data
+> set
+  8. }
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 860 obs)
+cdscode already string; no replace
+(61 real changes made)
+(1 observation deleted)
+(29 observations deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/paren
+    > t/parent1415.dta saved
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 1,042 obs)
+cdscode was double now str14
+(131 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/paren
+    > t/parent1516.dta saved
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 1,275 obs)
+cdscode was double now str14
+(173 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/paren
+    > t/parent1617.dta saved
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 1,778 obs)
+cdscode was double now str14
+(275 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/paren
+    > t/parent1718.dta saved
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 1,677 obs)
+cdscode was double now str14
+(229 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/paren
+    > t/parent1819.dta saved
+
+. 
+. local seccsvname `" "sec1112" "sec1213" "sec1314" "sec1415" "sec1516" "sec161
+> 7" "sec1718" "sec1819" "' //local macro for secondary dataset names
+
+. foreach i of local seccsvname {
+  2.   import delimited $projdir/out/csv/schooloverlap/secondary/schools`i', cl
+> ear //import the corresponding csv dataset for each year
+  3.   tostring cdscode, replace format("%15.0f")  //convert cdscode to string 
+> for consistency between datasets
+  4.   replace cdscode = "0" + cdscode if inrange(length(cdscode), 13, 13) // a
+> dd leading zero if cds code is 13 digits. This is because some county codes a
+> re missing leading zeros, which results in a 13 digit cdscode
+  5.   /* drop observations with incomplete cdscode to make sure cdscode is uni
+> que identifier */
+.   drop if missing(cdscode) //drop the observation if cdscode is missing
+  6.   drop if inrange(length(cdscode), 1, 13) //drop observations if cdscode i
+> s 1 to 13 characters long, this means at least the county code is missing, an
+> d impossible to determine which school it is
+  7.   save $projdir/dta/schooloverlap/secondary/`i', replace //save as a dta d
+> ataset
+  8. }
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 1,410 obs)
+cdscode was double now str14
+(217 real changes made)
+(0 observations deleted)
+(2 observations deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/secon
+    > dary/sec1112.dta saved
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 1,163 obs)
+cdscode was double now str14
+(122 real changes made)
+(0 observations deleted)
+(2 observations deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/secon
+    > dary/sec1213.dta saved
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 1,737 obs)
+cdscode was double now str14
+(205 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/secon
+    > dary/sec1314.dta saved
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 1,281 obs)
+cdscode was double now str14
+(94 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/secon
+    > dary/sec1415.dta saved
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 1,955 obs)
+cdscode was double now str14
+(224 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/secon
+    > dary/sec1516.dta saved
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 1,612 obs)
+cdscode was double now str14
+(126 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/secon
+    > dary/sec1617.dta saved
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 2,090 obs)
+cdscode was double now str14
+(269 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/secon
+    > dary/sec1718.dta saved
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 1,711 obs)
+cdscode was double now str14
+(125 real changes made)
+(0 observations deleted)
+(0 observations deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/secon
+    > dary/sec1819.dta saved
+
+. 
+. local staffcsvname `" "staff0405" "staff0506" "staff0607" "staff0708" "staff0
+> 809" "staff0910" "staff1011" "staff1112" "staff1213" "staff1314" "staff1415" 
+> "staff1516" "staff1617" "staff1718" "staff1819" "' //local macro for staff da
+> taset names
+
+. foreach i of local staffcsvname {
+  2.   import delimited $projdir/out/csv/schooloverlap/staff/schools`i', clear 
+> //import the corresponding csv dataset for each year
+  3.   tostring cdscode, replace format("%15.0f")  //convert cdscode to string 
+> for consistency between datasets
+  4.   replace cdscode = "0" + cdscode if inrange(length(cdscode), 13, 13) // a
+> dd leading zero if cds code is 13 digits. This is because some county codes a
+> re missing leading zeros, which results in a 13 digit cdscode
+  5.   /* drop observations with incomplete cdscode to make sure cdscode is uni
+> que identifier */
+.   drop if missing(cdscode) //drop the observation if cdscode is missing
+  6.   drop if inrange(length(cdscode), 1, 13) //drop observations if cdscode i
+> s 1 to 13 characters long, this means at least the county code is missing, an
+> d impossible to determine which school it is
+  7.   save $projdir/dta/schooloverlap/staff/`i', replace //save as a dta datas
+> et
+  8. }
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 1,011 obs)
+cdscode was double now str14
+(148 real changes made)
+(0 observations deleted)
+(10 observations deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/staff
+    > /staff0405.dta saved
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 2,564 obs)
+cdscode was double now str14
+(266 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/staff
+    > /staff0506.dta saved
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 1,157 obs)
+cdscode was double now str14
+(121 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/staff
+    > /staff0607.dta saved
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 2,685 obs)
+cdscode was double now str14
+(258 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/staff
+    > /staff0708.dta saved
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 1,403 obs)
+cdscode was double now str14
+(136 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/staff
+    > /staff0809.dta saved
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 2,909 obs)
+cdscode was double now str14
+(287 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/staff
+    > /staff0910.dta saved
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 1,056 obs)
+cdscode was double now str14
+(129 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/staff
+    > /staff1011.dta saved
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 1,539 obs)
+cdscode was double now str14
+(258 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/staff
+    > /staff1112.dta saved
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 807 obs)
+cdscode was double now str14
+(167 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/staff
+    > /staff1213.dta saved
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 1,367 obs)
+cdscode was double now str14
+(250 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/staff
+    > /staff1314.dta saved
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 1,447 obs)
+cdscode was double now str14
+(99 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/staff
+    > /staff1415.dta saved
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 2,177 obs)
+cdscode was double now str14
+(258 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/staff
+    > /staff1516.dta saved
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 1,656 obs)
+cdscode was double now str14
+(148 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/staff
+    > /staff1617.dta saved
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 2,391 obs)
+cdscode was double now str14
+(335 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/staff
+    > /staff1718.dta saved
+(encoding automatically selected: ISO-8859-9)
+(2 vars, 1,698 obs)
+cdscode was double now str14
+(161 real changes made)
+(0 observations deleted)
+(1 observation deleted)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/staff
+    > /staff1819.dta saved
+
+. 
+. 
+. 
+. 
+. 
+. 
+. *****************************************************************************
+> ***
+. ********** produce elementary dataset for school by year frequencies ********
+> ***
+. 
+. /* merge elementary dta files with school frequencies by cdscode */
+. use $projdir/dta/schooloverlap/elementary/elem1415, clear
+
+. 
+. local elemmergename `" "elem1516" "elem1617" "elem1718" "elem1819" "'
+
+. foreach i of local elemmergename {
+  2.   merge 1:1 cdscode using $projdir/dta/schooloverlap/elementary/`i' // mer
+> ge 1 to 1 with each successive dataset
+  3.   drop _merge // drop the _merge variable to enable merging next dataset
+  4. }
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         1,920
+        from master                       629  (_merge==1)
+        from using                      1,291  (_merge==2)
+
+    Matched                               532  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         1,544
+        from master                     1,198  (_merge==1)
+        from using                        346  (_merge==2)
+
+    Matched                             1,254  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         1,640
+        from master                     1,022  (_merge==1)
+        from using                        618  (_merge==2)
+
+    Matched                             1,776  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         1,820
+        from master                     1,719  (_merge==1)
+        from using                        101  (_merge==2)
+
+    Matched                             1,697  (_merge==3)
+    -----------------------------------------
+
+. 
+. label var freq1415 "Number of Observations in 2014-2015"
+
+. label var freq1516 "Number of Observations in 2015-2016"
+
+. label var freq1617 "Number of Observations in 2016-2017"
+
+. label var freq1718 "Number of Observations in 2017-2018"
+
+. label var freq1819 "Number of Observations in 2018-2019"
+
+. 
+. local elemyears `" "1415" "1516" "1617" "1718" "1819" "' // a local macro tha
+> t stores the years for elementary for the following loop
+
+. foreach i of local elemyears {
+  2.   gen has`i' = 1 // generate a variable that indicates whether the school 
+> administered each year of elementary survey by looking at whether the observa
+> tions in each year is a number or missing. Missing = not in that year
+  3.   replace has`i' = 0 if missing(freq`i')
+  4.   label var has`i' "Dummy for whether the school administered elementary s
+> urvey in year `i'"
+  5. }
+(2,356 real changes made)
+(1,694 real changes made)
+(1,917 real changes made)
+(1,123 real changes made)
+(1,719 real changes made)
+
+. 
+. gen hasallyears = has1415 * has1516 * has1617 * has1718 * has1819 // generate
+>  a var that is 1 if the school administered elementary survey in all years, 0
+>  otherwise
+
+. label var hasallyears "Dummy for whether the school administered elementary s
+> urvey in all 5 years"
+
+. 
+. gen numyears = has1415 + has1516 + has1617 + has1718 + has1819 //generate a v
+> ar for the number of years the school administered the elementary survey, thi
+> s variable makes hasallyears redundant
+
+. label var numyears "Number of years the school administered the elementary su
+> rvey (1 to 5)"
+
+. 
+. /* by the same principle, we can generate variables that check overlap of sch
+> ools
+> between any two years, for example, any two adjacent years */
+. 
+. gen has14151516 = has1415 * has1516 //generate a var that is a dummy for whet
+> her the school administered elementary survey in both 1415 and 1516, 1= yes, 
+> 0 = no
+
+. gen has15161617 = has1516 * has1617 //generate a var that is a dummy for whet
+> her the school administered elementary survey in both 1516 and 1617, 1= yes, 
+> 0 = no
+
+. gen has16171718 = has1617 * has1718 //generate a var that is a dummy for whet
+> her the school administered elementary survey in both 1617 and 1718, 1= yes, 
+> 0 = no
+
+. gen has17181819 = has1718 * has1819 //generate a var that is a dummy for whet
+> her the school administered elementary survey in both 1718 and 1819, 1= yes, 
+> 0 = no
+
+. 
+. label var has14151516 "Whether the school administered elementary survey in b
+> oth 1415 and 1516"
+
+. label var has15161617 "Whether the school administered elementary survey in b
+> oth 1516 and 1617"
+
+. label var has16171718 "Whether the school administered elementary survey in b
+> oth 1617 and 1718"
+
+. label var has17181819 "Whether the school administered elementary survey in b
+> oth 1718 and 1819"
+
+. 
+. label data "School frequencies each year in Elementary survey" //label the da
+> taset
+
+. save $projdir/dta/schooloverlap/schlfreqbyyear/elementaryschlfreq, replace //
+> save the merged elementary school frequency by year dataset
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/schlf
+    > reqbyyear/elementaryschlfreq.dta saved
+
+. 
+. 
+. 
+. 
+. 
+. *****************************************************************************
+> ***
+. ********** produce parent dataset for school by year frequencies ************
+> ***
+. 
+. /* merge parent dta files with school frequencies by cdscode */
+. use $projdir/dta/schooloverlap/parent/parent1415, clear //load the dataset to
+>  start merging with
+
+. 
+. local parentmergename `" "parent1516" "parent1617" "parent1718" "parent1819" 
+> "' //local macro for parent data names to use for merge
+
+. foreach i of local parentmergename {
+  2.   merge 1:1 cdscode using $projdir/dta/schooloverlap/parent/`i' // merge 1
+>  to 1 with each successive dataset
+  3.   drop _merge // drop the _merge variable to enable merging next dataset
+  4. }
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         1,071
+        from master                       430  (_merge==1)
+        from using                        641  (_merge==2)
+
+    Matched                               400  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         1,411
+        from master                       804  (_merge==1)
+        from using                        607  (_merge==2)
+
+    Matched                               667  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         1,609
+        from master                       955  (_merge==1)
+        from using                        654  (_merge==2)
+
+    Matched                             1,123  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         1,526
+        from master                     1,291  (_merge==1)
+        from using                        235  (_merge==2)
+
+    Matched                             1,441  (_merge==3)
+    -----------------------------------------
+
+. 
+. label var freq1415 "Number of Observations in 2014-2015"
+
+. label var freq1516 "Number of Observations in 2015-2016"
+
+. label var freq1617 "Number of Observations in 2016-2017"
+
+. label var freq1718 "Number of Observations in 2017-2018"
+
+. label var freq1819 "Number of Observations in 2018-2019"
+
+. 
+. local parentyears `" "1415" "1516" "1617" "1718" "1819" "' // a local macro t
+> hat stores the years for parent for the following loop
+
+. foreach i of local parentyears {
+  2.   gen has`i' = 1 // generate a variable that indicates whether the school 
+> administered each year of parent survey by looking at whether the observation
+> s in each year is a number or missing. Missing = not in that year
+  3.   replace has`i' = 0 if missing(freq`i')
+  4.   label var has`i' "Dummy for whether the school administered parent surve
+> y in year `i'"
+  5. }
+(2,137 real changes made)
+(1,926 real changes made)
+(1,693 real changes made)
+(1,190 real changes made)
+(1,291 real changes made)
+
+. 
+. gen hasallyears = has1415 * has1516 * has1617 * has1718 * has1819 // generate
+>  a var that is 1 if the school administered parent survey in all years, 0 oth
+> erwise
+
+. label var hasallyears "Dummy for whether the school administered parent surve
+> y in all 5 years"
+
+. 
+. gen numyears = has1415 + has1516 + has1617 + has1718 + has1819 //generate a v
+> ar for the number of years the school administered the parent survey, this va
+> riable makes hasallyears redundant
+
+. label var numyears "Number of years the school administered the parent survey
+>  (1 to 5)"
+
+. 
+. /* by the same principle, we can generate variables that check overlap of sch
+> ools
+> between any two years, for example, any two adjacent years */
+. 
+. gen has14151516 = has1415 * has1516 //generate a var that is a dummy for whet
+> her the school administered parent survey in both 1415 and 1516, 1= yes, 0 = 
+> no
+
+. gen has15161617 = has1516 * has1617 //generate a var that is a dummy for whet
+> her the school administered parent survey in both 1516 and 1617, 1= yes, 0 = 
+> no
+
+. gen has16171718 = has1617 * has1718 //generate a var that is a dummy for whet
+> her the school administered parent survey in both 1617 and 1718, 1= yes, 0 = 
+> no
+
+. gen has17181819 = has1718 * has1819 //generate a var that is a dummy for whet
+> her the school administered parent survey in both 1718 and 1819, 1= yes, 0 = 
+> no
+
+. 
+. label var has14151516 "Whether the school administered parent survey in both 
+> 1415 and 1516"
+
+. label var has15161617 "Whether the school administered parent survey in both 
+> 1516 and 1617"
+
+. label var has16171718 "Whether the school administered parent survey in both 
+> 1617 and 1718"
+
+. label var has17181819 "Whether the school administered parent survey in both 
+> 1718 and 1819"
+
+. 
+. label data "School frequencies each year in Parent survey" //label the datase
+> t
+
+. save $projdir/dta/schooloverlap/schlfreqbyyear/parentschlfreq, replace //save
+>  the merged parent school frequency by year dataset
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/schlf
+    > reqbyyear/parentschlfreq.dta saved
+
+. 
+. 
+. 
+. 
+. *****************************************************************************
+> ***
+. ********** produce secondary dataset for school by year frequencies *********
+> ***
+. 
+. /* merge secondary dta files with school frequencies by cdscode */
+. use $projdir/dta/schooloverlap/secondary/sec1112, clear
+
+. 
+. local secmergename `" "sec1213" "sec1314" "sec1415" "sec1516" "sec1617" "sec1
+> 718" "sec1819" "' //local macro for secondary data names to use for merge
+
+. foreach i of local secmergename {
+  2.   merge 1:1 cdscode using $projdir/dta/schooloverlap/secondary/`i' // merg
+> e 1 to 1 with each successive dataset
+  3.   drop _merge // drop the _merge variable to enable merging next dataset
+  4. }
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         2,077
+        from master                     1,162  (_merge==1)
+        from using                        915  (_merge==2)
+
+    Matched                               246  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         1,447
+        from master                     1,017  (_merge==1)
+        from using                        430  (_merge==2)
+
+    Matched                             1,306  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         2,017
+        from master                     1,745  (_merge==1)
+        from using                        272  (_merge==2)
+
+    Matched                             1,008  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         1,511
+        from master                     1,291  (_merge==1)
+        from using                        220  (_merge==2)
+
+    Matched                             1,734  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         2,052
+        from master                     1,843  (_merge==1)
+        from using                        209  (_merge==2)
+
+    Matched                             1,402  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         1,647
+        from master                     1,506  (_merge==1)
+        from using                        141  (_merge==2)
+
+    Matched                             1,948  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         2,106
+        from master                     1,995  (_merge==1)
+        from using                        111  (_merge==2)
+
+    Matched                             1,600  (_merge==3)
+    -----------------------------------------
+
+. 
+. label var freq1112 "Number of Observations in 2011-2012"
+
+. label var freq1213 "Number of Observations in 2012-2013"
+
+. label var freq1314 "Number of Observations in 2013-2014"
+
+. label var freq1415 "Number of Observations in 2014-2015"
+
+. label var freq1516 "Number of Observations in 2015-2016"
+
+. label var freq1617 "Number of Observations in 2016-2017"
+
+. label var freq1718 "Number of Observations in 2017-2018"
+
+. label var freq1819 "Number of Observations in 2018-2019"
+
+. 
+. local secyears `" "1112" "1213" "1314" "1415" "1516" "1617" "1718" "1819" "' 
+> // a local macro that stores the years for secondary for the following loop
+
+. foreach i of local secyears {
+  2.   gen has`i' = 1 // generate a variable that indicates whether the school 
+> administered each year of secondary survey by looking at whether the observat
+> ions in each year is a number or missing. Missing = not in that year
+  3.   replace has`i' = 0 if missing(freq`i')
+  4.   label var has`i' "Dummy for whether the school administered secondary su
+> rvey in year `i'"
+  5. }
+(2,298 real changes made)
+(2,545 real changes made)
+(1,970 real changes made)
+(2,426 real changes made)
+(1,752 real changes made)
+(2,095 real changes made)
+(1,617 real changes made)
+(1,995 real changes made)
+
+. 
+. gen hasallyears = has1112 * has1213 * has1314 * has1415 * has1516 * has1617 *
+>  has1718 * has1819 // generate a var that is 1 if the school administered sec
+> ondary survey in all years, 0 otherwise
+
+. label var hasallyears "Dummy for whether the school administered secondary su
+> rvey in all 8 years"
+
+. 
+. gen numyears = has1112 + has1213 + has1314 + has1415 + has1516 + has1617 + ha
+> s1718 + has1819 //generate a var for the number of years the school administe
+> red the secondary survey, this variable makes hasallyears redundant
+
+. label var numyears "Number of years the school administered the secondary sur
+> vey (1 to 8)"
+
+. 
+. /* by the same principle, we can generate variables that check overlap of sch
+> ools
+> between any two years, for example, any two adjacent years */
+. 
+. gen has11121213 = has1112 + has1213 //generate a var that is a dummy for whet
+> her the school administered secondary survey in both 1112 and 1213, 1= yes, 0
+>  = no
+
+. gen has12131314 = has1213 + has1314 //generate a var that is a dummy for whet
+> her the school administered secondary survey in both 1213 and 1314, 1= yes, 0
+>  = no
+
+. gen has13141415 = has1314 + has1415 //generate a var that is a dummy for whet
+> her the school administered secondary survey in both 1314 and 1415, 1= yes, 0
+>  = no
+
+. gen has14151516 = has1415 * has1516 //generate a var that is a dummy for whet
+> her the school administered secondary survey in both 1415 and 1516, 1= yes, 0
+>  = no
+
+. gen has15161617 = has1516 * has1617 //generate a var that is a dummy for whet
+> her the school administered secondary survey in both 1516 and 1617, 1= yes, 0
+>  = no
+
+. gen has16171718 = has1617 * has1718 //generate a var that is a dummy for whet
+> her the school administered secondary survey in both 1617 and 1718, 1= yes, 0
+>  = no
+
+. gen has17181819 = has1718 * has1819 //generate a var that is a dummy for whet
+> her the school administered secondary survey in both 1718 and 1819, 1= yes, 0
+>  = no
+
+. 
+. label var has11121213 "Whether the school administered secondary survey in bo
+> th 1112 and 1213"
+
+. label var has12131314 "Whether the school administered secondary survey in bo
+> th 1213 and 1314"
+
+. label var has13141415 "Whether the school administered secondary survey in bo
+> th 1314 and 1415"
+
+. label var has14151516 "Whether the school administered secondary survey in bo
+> th 1415 and 1516"
+
+. label var has15161617 "Whether the school administered secondary survey in bo
+> th 1516 and 1617"
+
+. label var has16171718 "Whether the school administered secondary survey in bo
+> th 1617 and 1718"
+
+. label var has17181819 "Whether the school administered secondary survey in bo
+> th 1718 and 1819"
+
+. 
+. label data "School frequencies each year in Secondary survey" //label the dat
+> aset
+
+. save $projdir/dta/schooloverlap/schlfreqbyyear/secondaryschlfreq, replace //s
+> ave the merged secondary school frequency by year dataset
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/schlf
+    > reqbyyear/secondaryschlfreq.dta saved
+
+. 
+. 
+. 
+. 
+. 
+. 
+. *****************************************************************************
+> ***
+. ************ produce staff dataset for school by year frequencies ***********
+> ***
+. 
+. /* merge secondary dta files with school frequencies by cdscode */
+. use $projdir/dta/schooloverlap/staff/staff0405, clear
+
+. 
+. local staffmergename `" "staff0506" "staff0607" `'"staff0708" "staff0809" "st
+> aff0910" "staff1011" "staff1112" "staff1213" "staff1314" "staff1415" "staff15
+> 16" "staff1617" "staff1718" "staff1819" "' //local macro for secondary data n
+> ames to use for merge
+
+. foreach i of local staffmergename {
+  2.   merge 1:1 cdscode using $projdir/dta/schooloverlap/staff/`i' // merge 1 
+> to 1 with each successive dataset
+  3.   drop _merge // drop the _merge variable to enable merging next dataset
+  4. }
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         3,520
+        from master                       979  (_merge==1)
+        from using                      2,541  (_merge==2)
+
+    Matched                                22  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         3,428
+        from master                     2,907  (_merge==1)
+        from using                        521  (_merge==2)
+
+    Matched                               635  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         3,255
+        from master                     2,317  (_merge==1)
+        from using                        938  (_merge==2)
+
+    Matched                             1,746  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         4,411
+        from master                     4,005  (_merge==1)
+        from using                        406  (_merge==2)
+
+    Matched                               996  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         3,679
+        from master                     3,089  (_merge==1)
+        from using                        590  (_merge==2)
+
+    Matched                             2,318  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         5,400
+        from master                     5,171  (_merge==1)
+        from using                        229  (_merge==2)
+
+    Matched                               826  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         5,030
+        from master                     4,859  (_merge==1)
+        from using                        171  (_merge==2)
+
+    Matched                             1,367  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         5,767
+        from master                     5,679  (_merge==1)
+        from using                         88  (_merge==2)
+
+    Matched                               718  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         5,377
+        from master                     5,248  (_merge==1)
+        from using                        129  (_merge==2)
+
+    Matched                             1,237  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         5,690
+        from master                     5,429  (_merge==1)
+        from using                        261  (_merge==2)
+
+    Matched                             1,185  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         5,395
+        from master                     5,047  (_merge==1)
+        from using                        348  (_merge==2)
+
+    Matched                             1,828  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         5,790
+        from master                     5,679  (_merge==1)
+        from using                        111  (_merge==2)
+
+    Matched                             1,544  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         5,264
+        from master                     5,104  (_merge==1)
+        from using                        160  (_merge==2)
+
+    Matched                             2,230  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         5,937
+        from master                     5,867  (_merge==1)
+        from using                         70  (_merge==2)
+
+    Matched                             1,627  (_merge==3)
+    -----------------------------------------
+
+. 
+. local staffyears `" "0405" "0506" "0607" "0708" "0809" "0910" "1011" "1112" "
+> 1213" "1314" "1415" "1516" "1617" "1718" "1819" "' // // a local macro that s
+> tores the years for staff for the following loops
+
+. 
+. foreach i of local staffyears {
+  2.   label var freq`i' "Number of Observations in year `i'"
+  3. }
+
+. 
+. foreach i of local staffyears {
+  2.   gen has`i' = 1 // generate a variable that indicates whether the school 
+> administered each year of secondary survey by looking at whether the observat
+> ions in each year is a number or missing. Missing = not in that year
+  3.   replace has`i' = 0 if missing(freq`i')
+  4.   label var has`i' "Dummy for whether the school administered staff survey
+>  in year `i'"
+  5. }
+(6,563 real changes made)
+(5,001 real changes made)
+(6,408 real changes made)
+(4,880 real changes made)
+(6,162 real changes made)
+(4,656 real changes made)
+(6,509 real changes made)
+(6,026 real changes made)
+(6,758 real changes made)
+(6,198 real changes made)
+(6,118 real changes made)
+(5,388 real changes made)
+(5,909 real changes made)
+(5,174 real changes made)
+(5,867 real changes made)
+
+. 
+. gen hasallyears = has0405 * has0506 * has0607 * has0708 * has0809 * has0910 *
+>  has1011 * has1112 * has1213 * has1314 * has1415 * has1516 * has1617 * has171
+> 8 * has1819 // generate a var that is 1 if the school administered staff surv
+> ey in all years, 0 otherwise
+
+. label var hasallyears "Dummy for whether the school administered staff survey
+>  in all 15 years"
+
+. 
+. gen numyears = has0405 + has0506 + has0607 + has0708 + has0809 + has0910 + ha
+> s1011 + has1112 + has1213 + has1314 + has1415 + has1516 + has1617 + has1718 +
+>  has1819 //generate a var for the number of years the school administered the
+>  staff survey, this variable makes hasallyears redundant
+
+. label var numyears "Number of years the school administered the staff survey 
+> (1 to 15)"
+
+. 
+. 
+. /* by the same principle, we can generate variables that check overlap of sch
+> ools
+> between any two years, for example, any two adjacent years */
+. 
+. 
+. gen has04050506 = has0405 + has0506 //generate a var that is a dummy for whet
+> her the school administered staff survey in both 1112 and 1213, 1= yes, 0 = n
+> o
+
+. gen has05060607 = has0506 + has0607 //generate a var that is a dummy for whet
+> her the school administered staff survey in both 1112 and 1213, 1= yes, 0 = n
+> o
+
+. gen has06070708 = has0607 + has0708 //generate a var that is a dummy for whet
+> her the school administered staff survey in both 1112 and 1213, 1= yes, 0 = n
+> o
+
+. gen has07080809 = has0708 + has0809 //generate a var that is a dummy for whet
+> her the school administered staff survey in both 1112 and 1213, 1= yes, 0 = n
+> o
+
+. gen has08090910 = has0809 + has0910 //generate a var that is a dummy for whet
+> her the school administered staff survey in both 1112 and 1213, 1= yes, 0 = n
+> o
+
+. gen has09101011 = has0910 + has1011 //generate a var that is a dummy for whet
+> her the school administered staff survey in both 1112 and 1213, 1= yes, 0 = n
+> o
+
+. gen has10111112 = has1011 + has1112 //generate a var that is a dummy for whet
+> her the school administered staff survey in both 1112 and 1213, 1= yes, 0 = n
+> o
+
+. gen has11121213 = has1112 + has1213 //generate a var that is a dummy for whet
+> her the school administered staff survey in both 1112 and 1213, 1= yes, 0 = n
+> o
+
+. gen has12131314 = has1213 + has1314 //generate a var that is a dummy for whet
+> her the school administered staff survey in both 1213 and 1314, 1= yes, 0 = n
+> o
+
+. gen has13141415 = has1314 + has1415 //generate a var that is a dummy for whet
+> her the school administered staff survey in both 1314 and 1415, 1= yes, 0 = n
+> o
+
+. gen has14151516 = has1415 * has1516 //generate a var that is a dummy for whet
+> her the school administered staff survey in both 1415 and 1516, 1= yes, 0 = n
+> o
+
+. gen has15161617 = has1516 * has1617 //generate a var that is a dummy for whet
+> her the school administered staff survey in both 1516 and 1617, 1= yes, 0 = n
+> o
+
+. gen has16171718 = has1617 * has1718 //generate a var that is a dummy for whet
+> her the school administered staff survey in both 1617 and 1718, 1= yes, 0 = n
+> o
+
+. gen has17181819 = has1718 * has1819 //generate a var that is a dummy for whet
+> her the school administered staff survey in both 1718 and 1819, 1= yes, 0 = n
+> o
+
+. 
+. label var has04050506 "Whether the school administered staff survey in both 0
+> 405 and 0506"
+
+. label var has05060607 "Whether the school administered staff survey in both 0
+> 506 and 0607"
+
+. label var has06070708 "Whether the school administered staff survey in both 0
+> 607 and 0708"
+
+. label var has07080809 "Whether the school administered staff survey in both 0
+> 708 and 0809"
+
+. label var has08090910 "Whether the school administered staff survey in both 0
+> 809 and 0910"
+
+. label var has09101011 "Whether the school administered staff survey in both 0
+> 910 and 1011"
+
+. label var has10111112 "Whether the school administered staff survey in both 1
+> 112 and 1213"
+
+. label var has11121213 "Whether the school administered staff survey in both 1
+> 112 and 1213"
+
+. label var has12131314 "Whether the school administered staff survey in both 1
+> 213 and 1314"
+
+. label var has13141415 "Whether the school administered staff survey in both 1
+> 314 and 1415"
+
+. label var has14151516 "Whether the school administered staff survey in both 1
+> 415 and 1516"
+
+. label var has15161617 "Whether the school administered staff survey in both 1
+> 516 and 1617"
+
+. label var has16171718 "Whether the school administered staff survey in both 1
+> 617 and 1718"
+
+. label var has17181819 "Whether the school administered staff survey in both 1
+> 718 and 1819"
+
+. 
+. label data "School frequencies each year in Staff survey" //label the dataset
+
+. save $projdir/dta/schooloverlap/schlfreqbyyear/staffschlfreq, replace //save 
+> the merged staff school frequency by year dataset
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/schlf
+    > reqbyyear/staffschlfreq.dta saved
+
+. 
+. 
+. 
+. 
+. log close schooloverlap //close this log file
+      name:  schooloverlap
+       log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log//check/schoo
+> loverlap.smcl
+  log type:  smcl
+ closed on:   6 Apr 2022, 18:35:43
+-------------------------------------------------------------------------------

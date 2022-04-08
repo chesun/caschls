@@ -1,97 +1,24 @@
-{smcl}
-{com}{sf}{ul off}{txt}{.-}
-      name:  {res}master
-       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/master.smcl
-  {txt}log type:  {res}smcl
- {txt}opened on:  {res} 4 Apr 2022, 22:16:18
-{txt}
-{com}. 
-. timer on 1
-{txt}
-{com}. 
-. ************ install packages needed for do files for this project *************
-. local installssc = 0
-{txt}
-{com}. if `installssc' == 1 {c -(}
-.   ssc install elabel, replace //install the elabel package for easy renaming of labels
-.   ssc install tabout, replace //install the tabout package
-.   ssc install grstyle, replace //install grstyle package for easy graphic settings and palettes & colrspace package for color palette settings
-.   ssc install palettes, replace
-.   ssc install colrspace, replace
-.   ssc install labutil2, replace //package to help with managing value labels because stata sucks in that regard
-.   ssc install labundef, replace //package to list undefined value labels
-.   ssc install rangestat, replace //package to help with generate means with special requirements
-.   ssc install _gwtmean, replace //package to allow use of weights in egen mean
-.   ssc install estout, replace
-.   ssc install outreg2, replace
-.   ssc install regsave, replace
-.   /* install ssc package that group observations by the connected components of two variables  */
-.   ssc install group_twoway, replace
-.   ssc install vam, replace
-.   ssc install binscatter, replace
-.   ssc install descsave, replace
-.   ssc install parmest, replace
-. {c )-}
-{txt}
-{com}. 
-. 
-. *************** This block are do files that prepare/build data *****************
-. //Note: do not need to run this. no longer have access to raw data. Use clean data
-. local do_build_data = 0
-{txt}
-{com}. if `do_build_data'==1 {c -(}
-.   //running renamedata.do
-.   do $projdir/do/build/prepare/renamedata
-.   pause finished running $projdir/do/build/prepare/renamedata
-. 
-.   //running splitstaff0414.do
-.   do $projdir/do/build/prepare/splitstaff0414
-.   pause finished running $projdir/do/build/prepare/splitstaff0414
-. {c )-}
-{txt}
-{com}. 
-. 
-. ***************** This block are do files that check data **********************
-. local do_check_data = 1
-{txt}
-{com}. if `do_check_data' == 1 {c -(}
-.   do $projdir/do/check/sameschools
-{txt}
-{com}. ********************************************************************************
-. ******* checking what schools are in each dataset in each year ********************
-. ********************************************************************************
-. ********************************************************************************
-. *************** written by Che Sun. Email: ucsun@ucdavis.edu ********************
-. ********************************************************************************
-. 
-. /* Note: install package tabout before running this do file:
-> ssc install tabout */
-. 
-. /* this do file exports the list of school cdscodes in each dataset to excel, then
-> using excel we can see what schools are the same/different across years */
-. 
-. clear
-{txt}
-{com}. set more off
-{txt}
-{com}. log using "$projdir/log/sameschools.smcl", replace name(sameschools) // start log file for this do file
-{txt}{.-}
-      name:  {res}sameschools
-       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/sameschools.smcl
-  {txt}log type:  {res}smcl
- {txt}opened on:  {res} 4 Apr 2022, 22:16:18
-{txt}
-{com}. 
-. local elemdtaname `" "elem1415" "elem1516" "elem1617" "elem1718" "elem1819" "' //local macro for elementary dataset names
-{txt}
-{com}. foreach i of local elemdtaname {c -(}
-{txt}  2{com}.   use $clndtadir/elementary/`i', clear
-{txt}  3{com}.   tabout cdscode using "$projdir/out/xls/check/elementary/schools`i'.xls", replace //export the list of schools in the dataset to excel
-{txt}  4{com}. {c )-}
-{res}
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/elementary/schoolselem1415.xls
+-------------------------------------------------------------------------------
+      name:  sameschools
+       log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/check/samesc
+> hools.smcl
+  log type:  smcl
+ opened on:   6 Apr 2022, 18:34:54
 
-{res}CDS code        No.
+. 
+. local elemdtaname `" "elem1415" "elem1516" "elem1617" "elem1718" "elem1819" "
+> ' //local macro for elementary dataset names
+
+. foreach i of local elemdtaname {
+  2.   use $clndtadir/elementary/`i', clear
+  3.   tabout cdscode using "$projdir/out/xls/check/elementary/schools`i'.xls",
+>  replace //export the list of schools in the dataset to excel
+  4. }
+
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/elementary/schoolselem1415.xls
+
+CDS code        No.
 01611766000541  10.0
 01611766000558  50.0
 01611766000566  28.0
@@ -1255,9 +1182,10 @@
 57727106116677  28.0
 Total   71,176.0
 
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/elementary/schoolselem1516.xls
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/elementary/schoolselem1516.xls
 
-{res}CDS code        No.
+CDS code        No.
 01611276090146  72.0
 01611276095376  68.0
 01611276116222  78.0
@@ -3082,11 +3010,12 @@ Total   71,176.0
 57726866056311  56.0
 57727026056410  90.0
 Total   108,555.0
-{txt}(2016-17 Elementary CHKS Data)
-{res}
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/elementary/schoolselem1617.xls
+(2016-17 Elementary CHKS Data)
 
-{res}CDS code        No.
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/elementary/schoolselem1617.xls
+
+CDS code        No.
 01611190111765  24.0
 01611190126656  29.0
 01611196090005  44.0
@@ -4688,11 +4617,12 @@ Total   108,555.0
 57727106107163  65.0
 57727106116677  60.0
 Total   95,165.0
-{txt}(2017-18 Elementary CHKS Data)
-{res}
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/elementary/schoolselem1718.xls
+(2017-18 Elementary CHKS Data)
 
-{res}CDS code        No.
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/elementary/schoolselem1718.xls
+
+CDS code        No.
 01611190111765  41.0
 01611190126656  27.0
 01611196090005  26.0
@@ -7088,11 +7018,12 @@ Total   95,165.0
 57727106107163  31.0
 57727106116677  65.0
 Total   134,567.0
-{txt}(2018-19 Elementary CHKS Data)
-{res}
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/elementary/schoolselem1819.xls
+(2018-19 Elementary CHKS Data)
 
-{res}CDS code        No.
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/elementary/schoolselem1819.xls
+
+CDS code        No.
 01611190111765  26.0
 01611190126656  44.0
 01611196090005  11.0
@@ -8892,19 +8823,22 @@ Total   134,567.0
 57727106107163  58.0
 57727106116677  71.0
 Total   101,510.0
-{txt}
-{com}. 
-. local parentdtaname `" "parent1415" "parent1516" "parent1617" "parent1718" "parent1819" "' //local macro for parent dataset names
-{txt}
-{com}. foreach i of local parentdtaname {c -(}
-{txt}  2{com}.   use $clndtadir/parent/`i', clear
-{txt}  3{com}.   tabout cdscode using "$projdir/out/xls/check/parent/schools`i'.xls", replace //export the list of schools in the dataset to excel
-{txt}  4{com}. {c )-}
-{txt}( )
-{res}
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/parent/schoolsparent1415.xls
 
-{res}cdscode No.
+. 
+. local parentdtaname `" "parent1415" "parent1516" "parent1617" "parent1718" "p
+> arent1819" "' //local macro for parent dataset names
+
+. foreach i of local parentdtaname {
+  2.   use $clndtadir/parent/`i', clear
+  3.   tabout cdscode using "$projdir/out/xls/check/parent/schools`i'.xls", rep
+> lace //export the list of schools in the dataset to excel
+  4. }
+( )
+
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/parent/schoolsparent1415.xls
+
+cdscode No.
 ..6119598       114.0
 .670330100982   24.0
 .670330110106   17.0
@@ -9765,11 +9699,12 @@ Total   101,510.0
 57726786060396  37.0
 57726786066245  25.0
 Total   43,106.0
-{txt}(2015-16 Parent CSPS Data)
-{res}
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/parent/schoolsparent1516.xls
+(2015-16 Parent CSPS Data)
 
-{res}CDS code        No.
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/parent/schoolsparent1516.xls
+
+CDS code        No.
 01611270130450  105.0
 01611276090146  82.0
 01611276090161  163.0
@@ -10812,11 +10747,12 @@ Total   43,106.0
 57727026056410  77.0
 57727026095368  11.0
 Total   70,944.0
-{txt}(2016-17 Parent CSPS Data)
-{res}
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/parent/schoolsparent1617.xls
+(2016-17 Parent CSPS Data)
 
-{res}CDS code        No.
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/parent/schoolsparent1617.xls
+
+CDS code        No.
 01611190106401  29.0
 01611190111765  31.0
 01611190126656  96.0
@@ -12092,11 +12028,12 @@ Total   70,944.0
 57727106096671  43.0
 57727106116677  8.0
 Total   119,459.0
-{txt}(2017-18 Parent CSPS Data)
-{res}
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/parent/schoolsparent1718.xls
+(2017-18 Parent CSPS Data)
 
-{res}CDS code        No.
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/parent/schoolsparent1718.xls
+
+CDS code        No.
 01611190106401  36.0
 01611190111765  94.0
 01611190126656  120.0
@@ -13875,11 +13812,12 @@ Total   119,459.0
 57727106066252  4.0
 57727106066260  12.0
 Total   152,239.0
-{txt}(2018-19 Parent CSPS Data)
-{res}
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/parent/schoolsparent1819.xls
+(2018-19 Parent CSPS Data)
 
-{res}CDS code        No.
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/parent/schoolsparent1819.xls
+
+CDS code        No.
 01611190106401  113.0
 01611190111765  115.0
 01611190126656  242.0
@@ -15557,18 +15495,21 @@ Total   152,239.0
 58727366056691  1.0
 58727366056790  4.0
 Total   165,609.0
-{txt}
-{com}. 
-. local secdtaname `" "sec1112" "sec1213" "sec1314" "sec1415" "sec1516" "sec1617" "sec1718" "sec1819" "' //local macro for secondary dataset names
-{txt}
-{com}. foreach i of local secdtaname {c -(}
-{txt}  2{com}.   use $clndtadir/secondary/`i', clear
-{txt}  3{com}.   tabout cdscode using "$projdir/out/xls/check/secondary/schools`i'.xls", replace //export the list of schools in the dataset to excel
-{txt}  4{com}. {c )-}
-{res}
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/secondary/schoolssec1112.xls
 
-{res}cdscode No.
+. 
+. local secdtaname `" "sec1112" "sec1213" "sec1314" "sec1415" "sec1516" "sec161
+> 7" "sec1718" "sec1819" "' //local macro for secondary dataset names
+
+. foreach i of local secdtaname {
+  2.   use $clndtadir/secondary/`i', clear
+  3.   tabout cdscode using "$projdir/out/xls/check/secondary/schools`i'.xls", 
+> replace //export the list of schools in the dataset to excel
+  4. }
+
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/secondary/schoolssec1112.xls
+
+cdscode No.
 .       126.0
 10101080119628  84.0
 10101081030899  48.0
@@ -16980,9 +16921,10 @@ Total   165,609.0
 9737836005623   171.0
 Total   447,874.0
 
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/secondary/schoolssec1213.xls
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/secondary/schoolssec1213.xls
 
-{res}cdscode No.
+cdscode No.
 .       244.0
 10620426005797  10.0
 10621251031376  332.0
@@ -18147,9 +18089,10 @@ Total   447,874.0
 9737830930073   501.0
 Total   353,236.0
 
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/secondary/schoolssec1314.xls
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/secondary/schoolssec1314.xls
 
-{res}CDS code        No.
+CDS code        No.
 01611270130294  9.0
 01611270130450  1,027.0
 01611276090161  1,059.0
@@ -19888,9 +19831,10 @@ Total   353,236.0
 57726940115329  74.0
 Total   552,064.0
 
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/secondary/schoolssec1415.xls
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/secondary/schoolssec1415.xls
 
-{res}CDS code        No.
+CDS code        No.
 01611190106401  26.0
 01611190130229  681.0
 01611190134304  70.0
@@ -21172,11 +21116,12 @@ Total   552,064.0
 58727516056816  118.0
 58727695838305  307.0
 Total   352,731.0
-{txt}(2015-16 secondary CHKS data)
-{res}
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/secondary/schoolssec1516.xls
+(2015-16 secondary CHKS data)
 
-{res}CDS code        No.
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/secondary/schoolssec1516.xls
+
+CDS code        No.
 01611270130294  17.0
 01611270130450  997.0
 01611276090161  836.0
@@ -23132,11 +23077,12 @@ Total   352,731.0
 57727025738505  180.0
 57727026095368  103.0
 Total   564,463.0
-{txt}(2016-17 Secondary CHKS Data)
-{res}
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/secondary/schoolssec1617.xls
+(2016-17 Secondary CHKS Data)
 
-{res}CDS code        No.
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/secondary/schoolssec1617.xls
+
+CDS code        No.
 01611190106401  132.0
 01611190130229  632.0
 01611190132142  534.0
@@ -24749,11 +24695,12 @@ Total   564,463.0
 58727516056816  105.0
 58727695838305  292.0
 Total   478,404.0
-{txt}(2017-18 Secondary CHKS Data)
-{res}
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/secondary/schoolssec1718.xls
+(2017-18 Secondary CHKS Data)
 
-{res}CDS code        No.
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/secondary/schoolssec1718.xls
+
+CDS code        No.
 01611190106401  74.0
 01611190130229  734.0
 01611190132142  511.0
@@ -26844,11 +26791,12 @@ Total   478,404.0
 57727106056519  281.0
 57727106071278  362.0
 Total   650,529.0
-{txt}(2018-19 Secondary CHKS Data)
-{res}
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/secondary/schoolssec1819.xls
+(2018-19 Secondary CHKS Data)
 
-{res}CDS code        No.
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/secondary/schoolssec1819.xls
+
+CDS code        No.
 01611190106401  90.0
 01611190130229  789.0
 01611190132142  340.0
@@ -28561,19 +28509,24 @@ Total   650,529.0
 58727516056816  126.0
 58727695838305  340.0
 Total   511,430.0
-{txt}
-{com}. 
-. local staffdtaname `" "staff0405" "staff0506" "staff0607" "staff0708" "staff0809" "staff0910" "staff1011" "staff1112" "staff1213" "staff1314" "staff1415" "staff1516" "staff1617" "staff1718" "staff1819" "' //local macro for staff dataset names
-{txt}
-{com}. foreach i of local staffdtaname {c -(}
-{txt}  2{com}.   use $clndtadir/staff/`i', clear
-{txt}  3{com}.   tabout cdscode using "$projdir/out/xls/check/staff/schools`i'.xls", replace //export the list of shcools in the dtataset to excel
-{txt}  4{com}. {c )-}
-{txt}(2004-2014 CSSS Staff Data)
-{res}
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/staff/schoolsstaff0405.xls
 
-{res}CDS code        No.
+. 
+. local staffdtaname `" "staff0405" "staff0506" "staff0607" "staff0708" "staff0
+> 809" "staff0910" "staff1011" "staff1112" "staff1213" "staff1314" "staff1415" 
+> "staff1516" "staff1617" "staff1718" "staff1819" "' //local macro for staff da
+> taset names
+
+. foreach i of local staffdtaname {
+  2.   use $clndtadir/staff/`i', clear
+  3.   tabout cdscode using "$projdir/out/xls/check/staff/schools`i'.xls", repl
+> ace //export the list of shcools in the dtataset to excel
+  4. }
+(2004-2014 CSSS Staff Data)
+
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/staff/schoolsstaff0405.xls
+
+CDS code        No.
 00993730101956  11.0
 00993730130666  17.0
 00993734130118  13.0
@@ -29585,11 +29538,12 @@ Total   511,430.0
 60444736044473  9.0
 99995080000003  12.0
 Total   19,312.0
-{txt}(2004-2014 CSSS Staff Data)
-{res}
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/staff/schoolsstaff0506.xls
+(2004-2014 CSSS Staff Data)
 
-{res}CDS code        No.
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/staff/schoolsstaff0506.xls
+
+CDS code        No.
 01019230101923  7.0
 01611270130450  23.0
 01611276090161  35.0
@@ -32154,11 +32108,12 @@ Total   19,312.0
 99420137518000  39.0
 99684780101352  13.0
 Total   57,037.0
-{txt}(2004-2014 CSSS Staff Data)
-{res}
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/staff/schoolsstaff0607.xls
+(2004-2014 CSSS Staff Data)
 
-{res}CDS code        No.
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/staff/schoolsstaff0607.xls
+
+CDS code        No.
 01100170130401  13.0
 01100170130419  5.0
 01100170130427  6.0
@@ -33316,11 +33271,12 @@ Total   57,037.0
 60444736044473  5.0
 98700199870019  13.0
 Total   26,400.0
-{txt}(2004-2014 CSSS Staff Data)
-{res}
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/staff/schoolsstaff0708.xls
+(2004-2014 CSSS Staff Data)
 
-{res}CDS code        No.
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/staff/schoolsstaff0708.xls
+
+CDS code        No.
 01611270130450  38.0
 01611276090146  10.0
 01611276090161  46.0
@@ -36006,11 +35962,12 @@ Total   26,400.0
 56739406115430  49.0
 99684780101352  7.0
 Total   60,720.0
-{txt}(2004-2014 CSSS Staff Data)
-{res}
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/staff/schoolsstaff0809.xls
+(2004-2014 CSSS Staff Data)
 
-{res}CDS code        No.
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/staff/schoolsstaff0809.xls
+
+CDS code        No.
 01100170130401  22.0
 01100170130419  16.0
 01100170130427  7.0
@@ -37414,11 +37371,12 @@ Total   60,720.0
 58727516056840  19.0
 60017886001788  13.0
 Total   33,363.0
-{txt}(2004-2014 CSSS Staff Data)
-{res}
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/staff/schoolsstaff0910.xls
+(2004-2014 CSSS Staff Data)
 
-{res}CDS code        No.
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/staff/schoolsstaff0910.xls
+
+CDS code        No.
 01611270130294  6.0
 01611270130450  27.0
 01611276090146  33.0
@@ -40328,11 +40286,12 @@ Total   33,363.0
 57727106116677  32.0
 99876191936277  19.0
 Total   65,656.0
-{txt}(2004-2014 CSSS Staff Data)
-{res}
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/staff/schoolsstaff1011.xls
+(2004-2014 CSSS Staff Data)
 
-{res}CDS code        No.
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/staff/schoolsstaff1011.xls
+
+CDS code        No.
 01611190106401  7.0
 01611190111765  16.0
 01611190130229  85.0
@@ -41389,11 +41348,12 @@ Total   65,656.0
 57726786060396  20.0
 57726786110894  8.0
 Total   29,608.0
-{txt}(2004-2014 CSSS Staff Data)
-{res}
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/staff/schoolsstaff1112.xls
+(2004-2014 CSSS Staff Data)
 
-{res}CDS code        No.
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/staff/schoolsstaff1112.xls
+
+CDS code        No.
 01611506090351  17.0
 01611506090385  35.0
 01611506090393  10.0
@@ -42933,11 +42893,12 @@ Total   29,608.0
 57727106066252  8.0
 57727106071278  16.0
 Total   39,153.0
-{txt}(2004-2014 CSSS Staff Data)
-{res}
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/staff/schoolsstaff1213.xls
+(2004-2014 CSSS Staff Data)
 
-{res}CDS code        No.
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/staff/schoolsstaff1213.xls
+
+CDS code        No.
 01611680132746  22.0
 01611686090492  32.0
 01612590100701  12.0
@@ -43745,11 +43706,12 @@ Total   39,153.0
 58727516056816  38.0
 58727695838305  30.0
 Total   23,179.0
-{txt}(2004-2014 CSSS Staff Data)
-{res}
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/staff/schoolsstaff1314.xls
+(2004-2014 CSSS Staff Data)
 
-{res}CDS code        No.
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/staff/schoolsstaff1314.xls
+
+CDS code        No.
 01611270126631  7.0
 01611270130294  8.0
 01611270130450  76.0
@@ -45117,11 +45079,12 @@ Total   23,179.0
 56768286055602  5.0
 57726940115329  6.0
 Total   38,430.0
-{txt}(2014-15 Staff CSSS Data)
-{res}
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/staff/schoolsstaff1415.xls
+(2014-15 Staff CSSS Data)
 
-{res}CDS code        No.
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/staff/schoolsstaff1415.xls
+
+CDS code        No.
 01611920111815  10.0
 01611920135319  1.0
 01611920138339  20.0
@@ -46569,11 +46532,12 @@ Total   38,430.0
 58727516056816  15.0
 58727695838305  33.0
 Total   32,525.0
-{txt}(2015-16 Staff CSSS Data)
-{res}
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/staff/schoolsstaff1516.xls
+(2015-16 Staff CSSS Data)
 
-{res}CDS code        No.
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/staff/schoolsstaff1516.xls
+
+CDS code        No.
 01611270130294  6.0
 01611270130450  67.0
 01611276090146  20.0
@@ -48751,11 +48715,12 @@ Total   32,525.0
 56768286055610  12.0
 57727026095368  4.0
 Total   54,028.0
-{txt}(2016-17 Staff CSSS Data)
-{res}
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/staff/schoolsstaff1617.xls
+(2016-17 Staff CSSS Data)
 
-{res}CDS code        No.
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/staff/schoolsstaff1617.xls
+
+CDS code        No.
 01611920111815  10.0
 01611920133009  9.0
 01611920133629  11.0
@@ -50412,11 +50377,12 @@ Total   54,028.0
 58727516056816  56.0
 58727695838305  26.0
 Total   45,637.0
-{txt}(2017-18 Staff CSSS Data)
-{res}
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/staff/schoolsstaff1718.xls
+(2017-18 Staff CSSS Data)
 
-{res}CDS code        No.
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/staff/schoolsstaff1718.xls
+
+CDS code        No.
 01611276090161  34.0
 01611276095376  7.0
 01611500132225  79.0
@@ -52808,11 +52774,12 @@ Total   45,637.0
 57727106071278  19.0
 57727106096671  5.0
 Total   67,958.0
-{txt}(2018-19 Staff CSSS Data)
-{res}
-{txt}Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/check/staff/schoolsstaff1819.xls
+(2018-19 Staff CSSS Data)
 
-{res}CDS code        No.
+Table output written to: /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/
+> xls/check/staff/schoolsstaff1819.xls
+
+CDS code        No.
 01611680132746  11.0
 01611686090492  37.0
 01611920111815  24.0
@@ -54511,1565 +54478,13 @@ Total   67,958.0
 58727516056816  27.0
 58727695838305  32.0
 Total   54,142.0
-{txt}
-{com}. 
+
+. 
 . 
 . log close sameschools //close the log file for this do file
-      {txt}name:  {res}sameschools
-       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/sameschools.smcl
-  {txt}log type:  {res}smcl
- {txt}closed on:  {res} 4 Apr 2022, 22:17:00
-{txt}{.-}
-
-{com}. 
-{txt}end of do-file
-{com}.   pause finished running $projdir/do/check/sameschools
-. 
-.   do $projdir/do/check/schooloverlap
-{txt}
-{com}. ********************************************************************************
-. **************** checking overlap of schools across years **********************
-. ********************************************************************************
-. ********************************************************************************
-. *************** written by Che Sun. Email: ucsun@ucdavis.edu ********************
-. ********************************************************************************
-. 
-. clear
-{txt}
-{com}. set more off
-{txt}
-{com}. 
-. log using $projdir/log/schooloverlap, replace name(schooloverlap) // start log file for this do file
-{txt}{.-}
-      name:  {res}schooloverlap
-       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/schooloverlap.smcl
-  {txt}log type:  {res}smcl
- {txt}opened on:  {res} 4 Apr 2022, 22:17:00
-{txt}
-{com}. 
-. 
-. **********First, convert csv files with cdscode and frequencies into dta ********
-. 
-. //remember to make csv files first. Note: in excel files, convert cdscode to number format, otherwise data is lost when converting to csv
-. 
-. local elemcsvname `" "elem1415" "elem1516" "elem1617" "elem1718" "elem1819" "' //local macro for elementary dataset names
-{txt}
-{com}. foreach i of local elemcsvname {c -(}
-{txt}  2{com}.   import delimited $projdir/out/csv/schooloverlap/elementary/schools`i', clear //import the corresponding csv dataset for each year
-{txt}  3{com}.   tostring cdscode, replace format("%15.0f") //apply a number format to enable string conversion
-{txt}  4{com}.   replace cdscode = "0" + cdscode if inrange(length(cdscode), 13, 13) // add leading zero if cds code is 13 digits. This is because some county codes are missing leading zeros, which results in a 13 digit cdscode
-{txt}  5{com}.   /* drop observations with incomplete cdscode to make sure cdscode is unique identifier */
-.   drop if missing(cdscode) //drop the observation if cdscode is missing
-{txt}  6{com}.   drop if inrange(length(cdscode), 1, 13) //drop observations if cdscode is 1 to 13 characters long, this means at least the county code is missing, and impossible to determine which school it is
-{txt}  7{com}.   save $projdir/dta/schooloverlap/elementary/`i', replace //save as a dta dataset
-{txt}  8{com}. {c )-}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 1,162 obs)
-cdscode was {res:double} now {res:str14}
-(128 real changes made)
-(0 observations deleted)
-(1 observation deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/elementary/elem1415.dta{rm}
-saved
-{p_end}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 1,824 obs)
-cdscode was {res:double} now {res:str14}
-(215 real changes made)
-(0 observations deleted)
-(1 observation deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/elementary/elem1516.dta{rm}
-saved
-{p_end}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 1,601 obs)
-cdscode was {res:double} now {res:str14}
-(154 real changes made)
-(0 observations deleted)
-(1 observation deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/elementary/elem1617.dta{rm}
-saved
-{p_end}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 2,395 obs)
-cdscode was {res:double} now {res:str14}
-(292 real changes made)
-(0 observations deleted)
-(1 observation deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/elementary/elem1718.dta{rm}
-saved
-{p_end}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 1,799 obs)
-cdscode was {res:double} now {res:str14}
-(155 real changes made)
-(0 observations deleted)
-(1 observation deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/elementary/elem1819.dta{rm}
-saved
-{p_end}
-
-{com}. 
-. local parentcsvname `" "parent1415" "parent1516" "parent1617" "parent1718" "parent1819" "' //local macro for parent dataset names
-{txt}
-{com}. foreach i of local parentcsvname {c -(}
-{txt}  2{com}.   import delimited $projdir/out/csv/schooloverlap/parent/schools`i', clear //import the corresponding csv dataset for each year
-{txt}  3{com}.   tostring cdscode, replace format("%15.0f")  //convert cdscode to string for consistency between datasets
-{txt}  4{com}.   replace cdscode = "0" + cdscode if inrange(length(cdscode), 13, 13) // add leading zero if cds code is 13 digits. This is because some county codes are missing leading zeros, which results in a 13 digit cdscode
-{txt}  5{com}.   /* drop observations with incomplete cdscode to make sure cdscode is unique identifier */
-.   drop if missing(cdscode) //drop the observation if cdscode is missing
-{txt}  6{com}.   drop if inrange(length(cdscode), 1, 13) //drop observations if cdscode is 1 to 13 characters long, this means at least the county code is missing, and impossible to determine which school it is
-{txt}  7{com}.   save $projdir/dta/schooloverlap/parent/`i', replace //save as a dta dataset
-{txt}  8{com}. {c )-}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 860 obs)
-cdscode already string; no {res}replace
-{txt}(61 real changes made)
-(1 observation deleted)
-(29 observations deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/parent/parent1415.dta{rm}
-saved
-{p_end}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 1,042 obs)
-cdscode was {res:double} now {res:str14}
-(131 real changes made)
-(0 observations deleted)
-(1 observation deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/parent/parent1516.dta{rm}
-saved
-{p_end}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 1,275 obs)
-cdscode was {res:double} now {res:str14}
-(173 real changes made)
-(0 observations deleted)
-(1 observation deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/parent/parent1617.dta{rm}
-saved
-{p_end}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 1,778 obs)
-cdscode was {res:double} now {res:str14}
-(275 real changes made)
-(0 observations deleted)
-(1 observation deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/parent/parent1718.dta{rm}
-saved
-{p_end}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 1,677 obs)
-cdscode was {res:double} now {res:str14}
-(229 real changes made)
-(0 observations deleted)
-(1 observation deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/parent/parent1819.dta{rm}
-saved
-{p_end}
-
-{com}. 
-. local seccsvname `" "sec1112" "sec1213" "sec1314" "sec1415" "sec1516" "sec1617" "sec1718" "sec1819" "' //local macro for secondary dataset names
-{txt}
-{com}. foreach i of local seccsvname {c -(}
-{txt}  2{com}.   import delimited $projdir/out/csv/schooloverlap/secondary/schools`i', clear //import the corresponding csv dataset for each year
-{txt}  3{com}.   tostring cdscode, replace format("%15.0f")  //convert cdscode to string for consistency between datasets
-{txt}  4{com}.   replace cdscode = "0" + cdscode if inrange(length(cdscode), 13, 13) // add leading zero if cds code is 13 digits. This is because some county codes are missing leading zeros, which results in a 13 digit cdscode
-{txt}  5{com}.   /* drop observations with incomplete cdscode to make sure cdscode is unique identifier */
-.   drop if missing(cdscode) //drop the observation if cdscode is missing
-{txt}  6{com}.   drop if inrange(length(cdscode), 1, 13) //drop observations if cdscode is 1 to 13 characters long, this means at least the county code is missing, and impossible to determine which school it is
-{txt}  7{com}.   save $projdir/dta/schooloverlap/secondary/`i', replace //save as a dta dataset
-{txt}  8{com}. {c )-}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 1,410 obs)
-cdscode was {res:double} now {res:str14}
-(217 real changes made)
-(0 observations deleted)
-(2 observations deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/secondary/sec1112.dta{rm}
-saved
-{p_end}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 1,163 obs)
-cdscode was {res:double} now {res:str14}
-(122 real changes made)
-(0 observations deleted)
-(2 observations deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/secondary/sec1213.dta{rm}
-saved
-{p_end}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 1,737 obs)
-cdscode was {res:double} now {res:str14}
-(205 real changes made)
-(0 observations deleted)
-(1 observation deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/secondary/sec1314.dta{rm}
-saved
-{p_end}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 1,281 obs)
-cdscode was {res:double} now {res:str14}
-(94 real changes made)
-(0 observations deleted)
-(1 observation deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/secondary/sec1415.dta{rm}
-saved
-{p_end}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 1,955 obs)
-cdscode was {res:double} now {res:str14}
-(224 real changes made)
-(0 observations deleted)
-(1 observation deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/secondary/sec1516.dta{rm}
-saved
-{p_end}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 1,612 obs)
-cdscode was {res:double} now {res:str14}
-(126 real changes made)
-(0 observations deleted)
-(1 observation deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/secondary/sec1617.dta{rm}
-saved
-{p_end}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 2,090 obs)
-cdscode was {res:double} now {res:str14}
-(269 real changes made)
-(0 observations deleted)
-(1 observation deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/secondary/sec1718.dta{rm}
-saved
-{p_end}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 1,711 obs)
-cdscode was {res:double} now {res:str14}
-(125 real changes made)
-(0 observations deleted)
-(0 observations deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/secondary/sec1819.dta{rm}
-saved
-{p_end}
-
-{com}. 
-. local staffcsvname `" "staff0405" "staff0506" "staff0607" "staff0708" "staff0809" "staff0910" "staff1011" "staff1112" "staff1213" "staff1314" "staff1415" "staff1516" "staff1617" "staff1718" "staff1819" "' //local macro for staff dataset names
-{txt}
-{com}. foreach i of local staffcsvname {c -(}
-{txt}  2{com}.   import delimited $projdir/out/csv/schooloverlap/staff/schools`i', clear //import the corresponding csv dataset for each year
-{txt}  3{com}.   tostring cdscode, replace format("%15.0f")  //convert cdscode to string for consistency between datasets
-{txt}  4{com}.   replace cdscode = "0" + cdscode if inrange(length(cdscode), 13, 13) // add leading zero if cds code is 13 digits. This is because some county codes are missing leading zeros, which results in a 13 digit cdscode
-{txt}  5{com}.   /* drop observations with incomplete cdscode to make sure cdscode is unique identifier */
-.   drop if missing(cdscode) //drop the observation if cdscode is missing
-{txt}  6{com}.   drop if inrange(length(cdscode), 1, 13) //drop observations if cdscode is 1 to 13 characters long, this means at least the county code is missing, and impossible to determine which school it is
-{txt}  7{com}.   save $projdir/dta/schooloverlap/staff/`i', replace //save as a dta dataset
-{txt}  8{com}. {c )-}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 1,011 obs)
-cdscode was {res:double} now {res:str14}
-(148 real changes made)
-(0 observations deleted)
-(10 observations deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/staff/staff0405.dta{rm}
-saved
-{p_end}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 2,564 obs)
-cdscode was {res:double} now {res:str14}
-(266 real changes made)
-(0 observations deleted)
-(1 observation deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/staff/staff0506.dta{rm}
-saved
-{p_end}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 1,157 obs)
-cdscode was {res:double} now {res:str14}
-(121 real changes made)
-(0 observations deleted)
-(1 observation deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/staff/staff0607.dta{rm}
-saved
-{p_end}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 2,685 obs)
-cdscode was {res:double} now {res:str14}
-(258 real changes made)
-(0 observations deleted)
-(1 observation deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/staff/staff0708.dta{rm}
-saved
-{p_end}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 1,403 obs)
-cdscode was {res:double} now {res:str14}
-(136 real changes made)
-(0 observations deleted)
-(1 observation deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/staff/staff0809.dta{rm}
-saved
-{p_end}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 2,909 obs)
-cdscode was {res:double} now {res:str14}
-(287 real changes made)
-(0 observations deleted)
-(1 observation deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/staff/staff0910.dta{rm}
-saved
-{p_end}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 1,056 obs)
-cdscode was {res:double} now {res:str14}
-(129 real changes made)
-(0 observations deleted)
-(1 observation deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/staff/staff1011.dta{rm}
-saved
-{p_end}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 1,539 obs)
-cdscode was {res:double} now {res:str14}
-(258 real changes made)
-(0 observations deleted)
-(1 observation deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/staff/staff1112.dta{rm}
-saved
-{p_end}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 807 obs)
-cdscode was {res:double} now {res:str14}
-(167 real changes made)
-(0 observations deleted)
-(1 observation deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/staff/staff1213.dta{rm}
-saved
-{p_end}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 1,367 obs)
-cdscode was {res:double} now {res:str14}
-(250 real changes made)
-(0 observations deleted)
-(1 observation deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/staff/staff1314.dta{rm}
-saved
-{p_end}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 1,447 obs)
-cdscode was {res:double} now {res:str14}
-(99 real changes made)
-(0 observations deleted)
-(1 observation deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/staff/staff1415.dta{rm}
-saved
-{p_end}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 2,177 obs)
-cdscode was {res:double} now {res:str14}
-(258 real changes made)
-(0 observations deleted)
-(1 observation deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/staff/staff1516.dta{rm}
-saved
-{p_end}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 1,656 obs)
-cdscode was {res:double} now {res:str14}
-(148 real changes made)
-(0 observations deleted)
-(1 observation deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/staff/staff1617.dta{rm}
-saved
-{p_end}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 2,391 obs)
-cdscode was {res:double} now {res:str14}
-(335 real changes made)
-(0 observations deleted)
-(1 observation deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/staff/staff1718.dta{rm}
-saved
-{p_end}
-{res}{txt}(encoding automatically selected: ISO-8859-9)
-{res}{text}(2 vars, 1,698 obs)
-cdscode was {res:double} now {res:str14}
-(161 real changes made)
-(0 observations deleted)
-(1 observation deleted)
-{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/staff/staff1819.dta{rm}
-saved
-{p_end}
-
-{com}. 
-. 
-. 
-. 
-. 
-. 
-. ********************************************************************************
-. ********** produce elementary dataset for school by year frequencies ***********
-. 
-. /* merge elementary dta files with school frequencies by cdscode */
-. use $projdir/dta/schooloverlap/elementary/elem1415, clear
-{txt}
-{com}. 
-. local elemmergename `" "elem1516" "elem1617" "elem1718" "elem1819" "'
-{txt}
-{com}. foreach i of local elemmergename {c -(}
-{txt}  2{com}.   merge 1:1 cdscode using $projdir/dta/schooloverlap/elementary/`i' // merge 1 to 1 with each successive dataset
-{txt}  3{com}.   drop _merge // drop the _merge variable to enable merging next dataset
-{txt}  4{com}. {c )-}
-{res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           1,920
-{txt}{col 9}from master{col 30}{res}             629{txt}  (_merge==1)
-{col 9}from using{col 30}{res}           1,291{txt}  (_merge==2)
-
-{col 5}Matched{col 30}{res}             532{txt}  (_merge==3)
-{col 5}{hline 41}
-{res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           1,544
-{txt}{col 9}from master{col 30}{res}           1,198{txt}  (_merge==1)
-{col 9}from using{col 30}{res}             346{txt}  (_merge==2)
-
-{col 5}Matched{col 30}{res}           1,254{txt}  (_merge==3)
-{col 5}{hline 41}
-{res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           1,640
-{txt}{col 9}from master{col 30}{res}           1,022{txt}  (_merge==1)
-{col 9}from using{col 30}{res}             618{txt}  (_merge==2)
-
-{col 5}Matched{col 30}{res}           1,776{txt}  (_merge==3)
-{col 5}{hline 41}
-{res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           1,820
-{txt}{col 9}from master{col 30}{res}           1,719{txt}  (_merge==1)
-{col 9}from using{col 30}{res}             101{txt}  (_merge==2)
-
-{col 5}Matched{col 30}{res}           1,697{txt}  (_merge==3)
-{col 5}{hline 41}
-
-{com}. 
-. label var freq1415 "Number of Observations in 2014-2015"
-{txt}
-{com}. label var freq1516 "Number of Observations in 2015-2016"
-{txt}
-{com}. label var freq1617 "Number of Observations in 2016-2017"
-{txt}
-{com}. label var freq1718 "Number of Observations in 2017-2018"
-{txt}
-{com}. label var freq1819 "Number of Observations in 2018-2019"
-{txt}
-{com}. 
-. local elemyears `" "1415" "1516" "1617" "1718" "1819" "' // a local macro that stores the years for elementary for the following loop
-{txt}
-{com}. foreach i of local elemyears {c -(}
-{txt}  2{com}.   gen has`i' = 1 // generate a variable that indicates whether the school administered each year of elementary survey by looking at whether the observations in each year is a number or missing. Missing = not in that year
-{txt}  3{com}.   replace has`i' = 0 if missing(freq`i')
-{txt}  4{com}.   label var has`i' "Dummy for whether the school administered elementary survey in year `i'"
-{txt}  5{com}. {c )-}
-{txt}(2,356 real changes made)
-(1,694 real changes made)
-(1,917 real changes made)
-(1,123 real changes made)
-(1,719 real changes made)
-
-{com}. 
-. gen hasallyears = has1415 * has1516 * has1617 * has1718 * has1819 // generate a var that is 1 if the school administered elementary survey in all years, 0 otherwise
-{txt}
-{com}. label var hasallyears "Dummy for whether the school administered elementary survey in all 5 years"
-{txt}
-{com}. 
-. gen numyears = has1415 + has1516 + has1617 + has1718 + has1819 //generate a var for the number of years the school administered the elementary survey, this variable makes hasallyears redundant
-{txt}
-{com}. label var numyears "Number of years the school administered the elementary survey (1 to 5)"
-{txt}
-{com}. 
-. /* by the same principle, we can generate variables that check overlap of schools
-> between any two years, for example, any two adjacent years */
-. 
-. gen has14151516 = has1415 * has1516 //generate a var that is a dummy for whether the school administered elementary survey in both 1415 and 1516, 1= yes, 0 = no
-{txt}
-{com}. gen has15161617 = has1516 * has1617 //generate a var that is a dummy for whether the school administered elementary survey in both 1516 and 1617, 1= yes, 0 = no
-{txt}
-{com}. gen has16171718 = has1617 * has1718 //generate a var that is a dummy for whether the school administered elementary survey in both 1617 and 1718, 1= yes, 0 = no
-{txt}
-{com}. gen has17181819 = has1718 * has1819 //generate a var that is a dummy for whether the school administered elementary survey in both 1718 and 1819, 1= yes, 0 = no
-{txt}
-{com}. 
-. label var has14151516 "Whether the school administered elementary survey in both 1415 and 1516"
-{txt}
-{com}. label var has15161617 "Whether the school administered elementary survey in both 1516 and 1617"
-{txt}
-{com}. label var has16171718 "Whether the school administered elementary survey in both 1617 and 1718"
-{txt}
-{com}. label var has17181819 "Whether the school administered elementary survey in both 1718 and 1819"
-{txt}
-{com}. 
-. label data "School frequencies each year in Elementary survey" //label the dataset
-{txt}
-{com}. save $projdir/dta/schooloverlap/schlfreqbyyear/elementaryschlfreq, replace //save the merged elementary school frequency by year dataset
-{txt}{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/schlfreqbyyear/elementaryschlfreq.dta{rm}
-saved
-{p_end}
-
-{com}. 
-. 
-. 
-. 
-. 
-. ********************************************************************************
-. ********** produce parent dataset for school by year frequencies ***************
-. 
-. /* merge parent dta files with school frequencies by cdscode */
-. use $projdir/dta/schooloverlap/parent/parent1415, clear //load the dataset to start merging with
-{txt}
-{com}. 
-. local parentmergename `" "parent1516" "parent1617" "parent1718" "parent1819" "' //local macro for parent data names to use for merge
-{txt}
-{com}. foreach i of local parentmergename {c -(}
-{txt}  2{com}.   merge 1:1 cdscode using $projdir/dta/schooloverlap/parent/`i' // merge 1 to 1 with each successive dataset
-{txt}  3{com}.   drop _merge // drop the _merge variable to enable merging next dataset
-{txt}  4{com}. {c )-}
-{res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           1,071
-{txt}{col 9}from master{col 30}{res}             430{txt}  (_merge==1)
-{col 9}from using{col 30}{res}             641{txt}  (_merge==2)
-
-{col 5}Matched{col 30}{res}             400{txt}  (_merge==3)
-{col 5}{hline 41}
-{res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           1,411
-{txt}{col 9}from master{col 30}{res}             804{txt}  (_merge==1)
-{col 9}from using{col 30}{res}             607{txt}  (_merge==2)
-
-{col 5}Matched{col 30}{res}             667{txt}  (_merge==3)
-{col 5}{hline 41}
-{res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           1,609
-{txt}{col 9}from master{col 30}{res}             955{txt}  (_merge==1)
-{col 9}from using{col 30}{res}             654{txt}  (_merge==2)
-
-{col 5}Matched{col 30}{res}           1,123{txt}  (_merge==3)
-{col 5}{hline 41}
-{res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           1,526
-{txt}{col 9}from master{col 30}{res}           1,291{txt}  (_merge==1)
-{col 9}from using{col 30}{res}             235{txt}  (_merge==2)
-
-{col 5}Matched{col 30}{res}           1,441{txt}  (_merge==3)
-{col 5}{hline 41}
-
-{com}. 
-. label var freq1415 "Number of Observations in 2014-2015"
-{txt}
-{com}. label var freq1516 "Number of Observations in 2015-2016"
-{txt}
-{com}. label var freq1617 "Number of Observations in 2016-2017"
-{txt}
-{com}. label var freq1718 "Number of Observations in 2017-2018"
-{txt}
-{com}. label var freq1819 "Number of Observations in 2018-2019"
-{txt}
-{com}. 
-. local parentyears `" "1415" "1516" "1617" "1718" "1819" "' // a local macro that stores the years for parent for the following loop
-{txt}
-{com}. foreach i of local parentyears {c -(}
-{txt}  2{com}.   gen has`i' = 1 // generate a variable that indicates whether the school administered each year of parent survey by looking at whether the observations in each year is a number or missing. Missing = not in that year
-{txt}  3{com}.   replace has`i' = 0 if missing(freq`i')
-{txt}  4{com}.   label var has`i' "Dummy for whether the school administered parent survey in year `i'"
-{txt}  5{com}. {c )-}
-{txt}(2,137 real changes made)
-(1,926 real changes made)
-(1,693 real changes made)
-(1,190 real changes made)
-(1,291 real changes made)
-
-{com}. 
-. gen hasallyears = has1415 * has1516 * has1617 * has1718 * has1819 // generate a var that is 1 if the school administered parent survey in all years, 0 otherwise
-{txt}
-{com}. label var hasallyears "Dummy for whether the school administered parent survey in all 5 years"
-{txt}
-{com}. 
-. gen numyears = has1415 + has1516 + has1617 + has1718 + has1819 //generate a var for the number of years the school administered the parent survey, this variable makes hasallyears redundant
-{txt}
-{com}. label var numyears "Number of years the school administered the parent survey (1 to 5)"
-{txt}
-{com}. 
-. /* by the same principle, we can generate variables that check overlap of schools
-> between any two years, for example, any two adjacent years */
-. 
-. gen has14151516 = has1415 * has1516 //generate a var that is a dummy for whether the school administered parent survey in both 1415 and 1516, 1= yes, 0 = no
-{txt}
-{com}. gen has15161617 = has1516 * has1617 //generate a var that is a dummy for whether the school administered parent survey in both 1516 and 1617, 1= yes, 0 = no
-{txt}
-{com}. gen has16171718 = has1617 * has1718 //generate a var that is a dummy for whether the school administered parent survey in both 1617 and 1718, 1= yes, 0 = no
-{txt}
-{com}. gen has17181819 = has1718 * has1819 //generate a var that is a dummy for whether the school administered parent survey in both 1718 and 1819, 1= yes, 0 = no
-{txt}
-{com}. 
-. label var has14151516 "Whether the school administered parent survey in both 1415 and 1516"
-{txt}
-{com}. label var has15161617 "Whether the school administered parent survey in both 1516 and 1617"
-{txt}
-{com}. label var has16171718 "Whether the school administered parent survey in both 1617 and 1718"
-{txt}
-{com}. label var has17181819 "Whether the school administered parent survey in both 1718 and 1819"
-{txt}
-{com}. 
-. label data "School frequencies each year in Parent survey" //label the dataset
-{txt}
-{com}. save $projdir/dta/schooloverlap/schlfreqbyyear/parentschlfreq, replace //save the merged parent school frequency by year dataset
-{txt}{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/schlfreqbyyear/parentschlfreq.dta{rm}
-saved
-{p_end}
-
-{com}. 
-. 
-. 
-. 
-. ********************************************************************************
-. ********** produce secondary dataset for school by year frequencies ************
-. 
-. /* merge secondary dta files with school frequencies by cdscode */
-. use $projdir/dta/schooloverlap/secondary/sec1112, clear
-{txt}
-{com}. 
-. local secmergename `" "sec1213" "sec1314" "sec1415" "sec1516" "sec1617" "sec1718" "sec1819" "' //local macro for secondary data names to use for merge
-{txt}
-{com}. foreach i of local secmergename {c -(}
-{txt}  2{com}.   merge 1:1 cdscode using $projdir/dta/schooloverlap/secondary/`i' // merge 1 to 1 with each successive dataset
-{txt}  3{com}.   drop _merge // drop the _merge variable to enable merging next dataset
-{txt}  4{com}. {c )-}
-{res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           2,077
-{txt}{col 9}from master{col 30}{res}           1,162{txt}  (_merge==1)
-{col 9}from using{col 30}{res}             915{txt}  (_merge==2)
-
-{col 5}Matched{col 30}{res}             246{txt}  (_merge==3)
-{col 5}{hline 41}
-{res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           1,447
-{txt}{col 9}from master{col 30}{res}           1,017{txt}  (_merge==1)
-{col 9}from using{col 30}{res}             430{txt}  (_merge==2)
-
-{col 5}Matched{col 30}{res}           1,306{txt}  (_merge==3)
-{col 5}{hline 41}
-{res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           2,017
-{txt}{col 9}from master{col 30}{res}           1,745{txt}  (_merge==1)
-{col 9}from using{col 30}{res}             272{txt}  (_merge==2)
-
-{col 5}Matched{col 30}{res}           1,008{txt}  (_merge==3)
-{col 5}{hline 41}
-{res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           1,511
-{txt}{col 9}from master{col 30}{res}           1,291{txt}  (_merge==1)
-{col 9}from using{col 30}{res}             220{txt}  (_merge==2)
-
-{col 5}Matched{col 30}{res}           1,734{txt}  (_merge==3)
-{col 5}{hline 41}
-{res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           2,052
-{txt}{col 9}from master{col 30}{res}           1,843{txt}  (_merge==1)
-{col 9}from using{col 30}{res}             209{txt}  (_merge==2)
-
-{col 5}Matched{col 30}{res}           1,402{txt}  (_merge==3)
-{col 5}{hline 41}
-{res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           1,647
-{txt}{col 9}from master{col 30}{res}           1,506{txt}  (_merge==1)
-{col 9}from using{col 30}{res}             141{txt}  (_merge==2)
-
-{col 5}Matched{col 30}{res}           1,948{txt}  (_merge==3)
-{col 5}{hline 41}
-{res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           2,106
-{txt}{col 9}from master{col 30}{res}           1,995{txt}  (_merge==1)
-{col 9}from using{col 30}{res}             111{txt}  (_merge==2)
-
-{col 5}Matched{col 30}{res}           1,600{txt}  (_merge==3)
-{col 5}{hline 41}
-
-{com}. 
-. label var freq1112 "Number of Observations in 2011-2012"
-{txt}
-{com}. label var freq1213 "Number of Observations in 2012-2013"
-{txt}
-{com}. label var freq1314 "Number of Observations in 2013-2014"
-{txt}
-{com}. label var freq1415 "Number of Observations in 2014-2015"
-{txt}
-{com}. label var freq1516 "Number of Observations in 2015-2016"
-{txt}
-{com}. label var freq1617 "Number of Observations in 2016-2017"
-{txt}
-{com}. label var freq1718 "Number of Observations in 2017-2018"
-{txt}
-{com}. label var freq1819 "Number of Observations in 2018-2019"
-{txt}
-{com}. 
-. local secyears `" "1112" "1213" "1314" "1415" "1516" "1617" "1718" "1819" "' // a local macro that stores the years for secondary for the following loop
-{txt}
-{com}. foreach i of local secyears {c -(}
-{txt}  2{com}.   gen has`i' = 1 // generate a variable that indicates whether the school administered each year of secondary survey by looking at whether the observations in each year is a number or missing. Missing = not in that year
-{txt}  3{com}.   replace has`i' = 0 if missing(freq`i')
-{txt}  4{com}.   label var has`i' "Dummy for whether the school administered secondary survey in year `i'"
-{txt}  5{com}. {c )-}
-{txt}(2,298 real changes made)
-(2,545 real changes made)
-(1,970 real changes made)
-(2,426 real changes made)
-(1,752 real changes made)
-(2,095 real changes made)
-(1,617 real changes made)
-(1,995 real changes made)
-
-{com}. 
-. gen hasallyears = has1112 * has1213 * has1314 * has1415 * has1516 * has1617 * has1718 * has1819 // generate a var that is 1 if the school administered secondary survey in all years, 0 otherwise
-{txt}
-{com}. label var hasallyears "Dummy for whether the school administered secondary survey in all 8 years"
-{txt}
-{com}. 
-. gen numyears = has1112 + has1213 + has1314 + has1415 + has1516 + has1617 + has1718 + has1819 //generate a var for the number of years the school administered the secondary survey, this variable makes hasallyears redundant
-{txt}
-{com}. label var numyears "Number of years the school administered the secondary survey (1 to 8)"
-{txt}
-{com}. 
-. /* by the same principle, we can generate variables that check overlap of schools
-> between any two years, for example, any two adjacent years */
-. 
-. gen has11121213 = has1112 + has1213 //generate a var that is a dummy for whether the school administered secondary survey in both 1112 and 1213, 1= yes, 0 = no
-{txt}
-{com}. gen has12131314 = has1213 + has1314 //generate a var that is a dummy for whether the school administered secondary survey in both 1213 and 1314, 1= yes, 0 = no
-{txt}
-{com}. gen has13141415 = has1314 + has1415 //generate a var that is a dummy for whether the school administered secondary survey in both 1314 and 1415, 1= yes, 0 = no
-{txt}
-{com}. gen has14151516 = has1415 * has1516 //generate a var that is a dummy for whether the school administered secondary survey in both 1415 and 1516, 1= yes, 0 = no
-{txt}
-{com}. gen has15161617 = has1516 * has1617 //generate a var that is a dummy for whether the school administered secondary survey in both 1516 and 1617, 1= yes, 0 = no
-{txt}
-{com}. gen has16171718 = has1617 * has1718 //generate a var that is a dummy for whether the school administered secondary survey in both 1617 and 1718, 1= yes, 0 = no
-{txt}
-{com}. gen has17181819 = has1718 * has1819 //generate a var that is a dummy for whether the school administered secondary survey in both 1718 and 1819, 1= yes, 0 = no
-{txt}
-{com}. 
-. label var has11121213 "Whether the school administered secondary survey in both 1112 and 1213"
-{txt}
-{com}. label var has12131314 "Whether the school administered secondary survey in both 1213 and 1314"
-{txt}
-{com}. label var has13141415 "Whether the school administered secondary survey in both 1314 and 1415"
-{txt}
-{com}. label var has14151516 "Whether the school administered secondary survey in both 1415 and 1516"
-{txt}
-{com}. label var has15161617 "Whether the school administered secondary survey in both 1516 and 1617"
-{txt}
-{com}. label var has16171718 "Whether the school administered secondary survey in both 1617 and 1718"
-{txt}
-{com}. label var has17181819 "Whether the school administered secondary survey in both 1718 and 1819"
-{txt}
-{com}. 
-. label data "School frequencies each year in Secondary survey" //label the dataset
-{txt}
-{com}. save $projdir/dta/schooloverlap/schlfreqbyyear/secondaryschlfreq, replace //save the merged secondary school frequency by year dataset
-{txt}{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/schlfreqbyyear/secondaryschlfreq.dta{rm}
-saved
-{p_end}
-
-{com}. 
-. 
-. 
-. 
-. 
-. 
-. ********************************************************************************
-. ************ produce staff dataset for school by year frequencies **************
-. 
-. /* merge secondary dta files with school frequencies by cdscode */
-. use $projdir/dta/schooloverlap/staff/staff0405, clear
-{txt}
-{com}. 
-. local staffmergename `" "staff0506" "staff0607" `'"staff0708" "staff0809" "staff0910" "staff1011" "staff1112" "staff1213" "staff1314" "staff1415" "staff1516" "staff1617" "staff1718" "staff1819" "' //local macro for secondary data names to use for merge
-{txt}
-{com}. foreach i of local staffmergename {c -(}
-{txt}  2{com}.   merge 1:1 cdscode using $projdir/dta/schooloverlap/staff/`i' // merge 1 to 1 with each successive dataset
-{txt}  3{com}.   drop _merge // drop the _merge variable to enable merging next dataset
-{txt}  4{com}. {c )-}
-{res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           3,520
-{txt}{col 9}from master{col 30}{res}             979{txt}  (_merge==1)
-{col 9}from using{col 30}{res}           2,541{txt}  (_merge==2)
-
-{col 5}Matched{col 30}{res}              22{txt}  (_merge==3)
-{col 5}{hline 41}
-{res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           3,428
-{txt}{col 9}from master{col 30}{res}           2,907{txt}  (_merge==1)
-{col 9}from using{col 30}{res}             521{txt}  (_merge==2)
-
-{col 5}Matched{col 30}{res}             635{txt}  (_merge==3)
-{col 5}{hline 41}
-{res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           3,255
-{txt}{col 9}from master{col 30}{res}           2,317{txt}  (_merge==1)
-{col 9}from using{col 30}{res}             938{txt}  (_merge==2)
-
-{col 5}Matched{col 30}{res}           1,746{txt}  (_merge==3)
-{col 5}{hline 41}
-{res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           4,411
-{txt}{col 9}from master{col 30}{res}           4,005{txt}  (_merge==1)
-{col 9}from using{col 30}{res}             406{txt}  (_merge==2)
-
-{col 5}Matched{col 30}{res}             996{txt}  (_merge==3)
-{col 5}{hline 41}
-{res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           3,679
-{txt}{col 9}from master{col 30}{res}           3,089{txt}  (_merge==1)
-{col 9}from using{col 30}{res}             590{txt}  (_merge==2)
-
-{col 5}Matched{col 30}{res}           2,318{txt}  (_merge==3)
-{col 5}{hline 41}
-{res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           5,400
-{txt}{col 9}from master{col 30}{res}           5,171{txt}  (_merge==1)
-{col 9}from using{col 30}{res}             229{txt}  (_merge==2)
-
-{col 5}Matched{col 30}{res}             826{txt}  (_merge==3)
-{col 5}{hline 41}
-{res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           5,030
-{txt}{col 9}from master{col 30}{res}           4,859{txt}  (_merge==1)
-{col 9}from using{col 30}{res}             171{txt}  (_merge==2)
-
-{col 5}Matched{col 30}{res}           1,367{txt}  (_merge==3)
-{col 5}{hline 41}
-{res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           5,767
-{txt}{col 9}from master{col 30}{res}           5,679{txt}  (_merge==1)
-{col 9}from using{col 30}{res}              88{txt}  (_merge==2)
-
-{col 5}Matched{col 30}{res}             718{txt}  (_merge==3)
-{col 5}{hline 41}
-{res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           5,377
-{txt}{col 9}from master{col 30}{res}           5,248{txt}  (_merge==1)
-{col 9}from using{col 30}{res}             129{txt}  (_merge==2)
-
-{col 5}Matched{col 30}{res}           1,237{txt}  (_merge==3)
-{col 5}{hline 41}
-{res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           5,690
-{txt}{col 9}from master{col 30}{res}           5,429{txt}  (_merge==1)
-{col 9}from using{col 30}{res}             261{txt}  (_merge==2)
-
-{col 5}Matched{col 30}{res}           1,185{txt}  (_merge==3)
-{col 5}{hline 41}
-{res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           5,395
-{txt}{col 9}from master{col 30}{res}           5,047{txt}  (_merge==1)
-{col 9}from using{col 30}{res}             348{txt}  (_merge==2)
-
-{col 5}Matched{col 30}{res}           1,828{txt}  (_merge==3)
-{col 5}{hline 41}
-{res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           5,790
-{txt}{col 9}from master{col 30}{res}           5,679{txt}  (_merge==1)
-{col 9}from using{col 30}{res}             111{txt}  (_merge==2)
-
-{col 5}Matched{col 30}{res}           1,544{txt}  (_merge==3)
-{col 5}{hline 41}
-{res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           5,264
-{txt}{col 9}from master{col 30}{res}           5,104{txt}  (_merge==1)
-{col 9}from using{col 30}{res}             160{txt}  (_merge==2)
-
-{col 5}Matched{col 30}{res}           2,230{txt}  (_merge==3)
-{col 5}{hline 41}
-{res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           5,937
-{txt}{col 9}from master{col 30}{res}           5,867{txt}  (_merge==1)
-{col 9}from using{col 30}{res}              70{txt}  (_merge==2)
-
-{col 5}Matched{col 30}{res}           1,627{txt}  (_merge==3)
-{col 5}{hline 41}
-
-{com}. 
-. local staffyears `" "0405" "0506" "0607" "0708" "0809" "0910" "1011" "1112" "1213" "1314" "1415" "1516" "1617" "1718" "1819" "' // // a local macro that stores the years for staff for the following loops
-{txt}
-{com}. 
-. foreach i of local staffyears {c -(}
-{txt}  2{com}.   label var freq`i' "Number of Observations in year `i'"
-{txt}  3{com}. {c )-}
-{txt}
-{com}. 
-. foreach i of local staffyears {c -(}
-{txt}  2{com}.   gen has`i' = 1 // generate a variable that indicates whether the school administered each year of secondary survey by looking at whether the observations in each year is a number or missing. Missing = not in that year
-{txt}  3{com}.   replace has`i' = 0 if missing(freq`i')
-{txt}  4{com}.   label var has`i' "Dummy for whether the school administered staff survey in year `i'"
-{txt}  5{com}. {c )-}
-{txt}(6,563 real changes made)
-(5,001 real changes made)
-(6,408 real changes made)
-(4,880 real changes made)
-(6,162 real changes made)
-(4,656 real changes made)
-(6,509 real changes made)
-(6,026 real changes made)
-(6,758 real changes made)
-(6,198 real changes made)
-(6,118 real changes made)
-(5,388 real changes made)
-(5,909 real changes made)
-(5,174 real changes made)
-(5,867 real changes made)
-
-{com}. 
-. gen hasallyears = has0405 * has0506 * has0607 * has0708 * has0809 * has0910 * has1011 * has1112 * has1213 * has1314 * has1415 * has1516 * has1617 * has1718 * has1819 // generate a var that is 1 if the school administered staff survey in all years, 0 otherwise
-{txt}
-{com}. label var hasallyears "Dummy for whether the school administered staff survey in all 15 years"
-{txt}
-{com}. 
-. gen numyears = has0405 + has0506 + has0607 + has0708 + has0809 + has0910 + has1011 + has1112 + has1213 + has1314 + has1415 + has1516 + has1617 + has1718 + has1819 //generate a var for the number of years the school administered the staff survey, this variable makes hasallyears redundant
-{txt}
-{com}. label var numyears "Number of years the school administered the staff survey (1 to 15)"
-{txt}
-{com}. 
-. 
-. /* by the same principle, we can generate variables that check overlap of schools
-> between any two years, for example, any two adjacent years */
-. 
-. 
-. gen has04050506 = has0405 + has0506 //generate a var that is a dummy for whether the school administered staff survey in both 1112 and 1213, 1= yes, 0 = no
-{txt}
-{com}. gen has05060607 = has0506 + has0607 //generate a var that is a dummy for whether the school administered staff survey in both 1112 and 1213, 1= yes, 0 = no
-{txt}
-{com}. gen has06070708 = has0607 + has0708 //generate a var that is a dummy for whether the school administered staff survey in both 1112 and 1213, 1= yes, 0 = no
-{txt}
-{com}. gen has07080809 = has0708 + has0809 //generate a var that is a dummy for whether the school administered staff survey in both 1112 and 1213, 1= yes, 0 = no
-{txt}
-{com}. gen has08090910 = has0809 + has0910 //generate a var that is a dummy for whether the school administered staff survey in both 1112 and 1213, 1= yes, 0 = no
-{txt}
-{com}. gen has09101011 = has0910 + has1011 //generate a var that is a dummy for whether the school administered staff survey in both 1112 and 1213, 1= yes, 0 = no
-{txt}
-{com}. gen has10111112 = has1011 + has1112 //generate a var that is a dummy for whether the school administered staff survey in both 1112 and 1213, 1= yes, 0 = no
-{txt}
-{com}. gen has11121213 = has1112 + has1213 //generate a var that is a dummy for whether the school administered staff survey in both 1112 and 1213, 1= yes, 0 = no
-{txt}
-{com}. gen has12131314 = has1213 + has1314 //generate a var that is a dummy for whether the school administered staff survey in both 1213 and 1314, 1= yes, 0 = no
-{txt}
-{com}. gen has13141415 = has1314 + has1415 //generate a var that is a dummy for whether the school administered staff survey in both 1314 and 1415, 1= yes, 0 = no
-{txt}
-{com}. gen has14151516 = has1415 * has1516 //generate a var that is a dummy for whether the school administered staff survey in both 1415 and 1516, 1= yes, 0 = no
-{txt}
-{com}. gen has15161617 = has1516 * has1617 //generate a var that is a dummy for whether the school administered staff survey in both 1516 and 1617, 1= yes, 0 = no
-{txt}
-{com}. gen has16171718 = has1617 * has1718 //generate a var that is a dummy for whether the school administered staff survey in both 1617 and 1718, 1= yes, 0 = no
-{txt}
-{com}. gen has17181819 = has1718 * has1819 //generate a var that is a dummy for whether the school administered staff survey in both 1718 and 1819, 1= yes, 0 = no
-{txt}
-{com}. 
-. label var has04050506 "Whether the school administered staff survey in both 0405 and 0506"
-{txt}
-{com}. label var has05060607 "Whether the school administered staff survey in both 0506 and 0607"
-{txt}
-{com}. label var has06070708 "Whether the school administered staff survey in both 0607 and 0708"
-{txt}
-{com}. label var has07080809 "Whether the school administered staff survey in both 0708 and 0809"
-{txt}
-{com}. label var has08090910 "Whether the school administered staff survey in both 0809 and 0910"
-{txt}
-{com}. label var has09101011 "Whether the school administered staff survey in both 0910 and 1011"
-{txt}
-{com}. label var has10111112 "Whether the school administered staff survey in both 1112 and 1213"
-{txt}
-{com}. label var has11121213 "Whether the school administered staff survey in both 1112 and 1213"
-{txt}
-{com}. label var has12131314 "Whether the school administered staff survey in both 1213 and 1314"
-{txt}
-{com}. label var has13141415 "Whether the school administered staff survey in both 1314 and 1415"
-{txt}
-{com}. label var has14151516 "Whether the school administered staff survey in both 1415 and 1516"
-{txt}
-{com}. label var has15161617 "Whether the school administered staff survey in both 1516 and 1617"
-{txt}
-{com}. label var has16171718 "Whether the school administered staff survey in both 1617 and 1718"
-{txt}
-{com}. label var has17181819 "Whether the school administered staff survey in both 1718 and 1819"
-{txt}
-{com}. 
-. label data "School frequencies each year in Staff survey" //label the dataset
-{txt}
-{com}. save $projdir/dta/schooloverlap/schlfreqbyyear/staffschlfreq, replace //save the merged staff school frequency by year dataset
-{txt}{p 0 4 2}
-file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schooloverlap/schlfreqbyyear/staffschlfreq.dta{rm}
-saved
-{p_end}
-
-{com}. 
-. 
-. 
-. 
-. log close schooloverlap //close this log file
-      {txt}name:  {res}schooloverlap
-       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/schooloverlap.smcl
-  {txt}log type:  {res}smcl
- {txt}closed on:  {res} 4 Apr 2022, 22:17:00
-{txt}{.-}
-
-{com}. 
-{txt}end of do-file
-{com}.   pause finished running $projdir/do/check/schooloverlap
-. 
-.   do $projdir/do/check/gradetab
-{txt}
-{com}. ********************************************************************************
-. ******************** tabulation of grades in datasets  *************************
-. ********************************************************************************
-. ********************************************************************************
-. *************** written by Che Sun. Email: ucsun@ucdavis.edu ********************
-. ********************************************************************************
-. 
-. clear
-{txt}
-{com}. set more off
-{txt}
-{com}. 
-. log using $projdir/log/gradetab, replace name(gradetab) // start log file for this do file
-{txt}{.-}
-      name:  {res}gradetab
-       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/gradetab.smcl
-  {txt}log type:  {res}smcl
- {txt}opened on:  {res} 4 Apr 2022, 22:17:00
-{txt}
-{com}. 
-. ******************** Tabulate elementary datasets *******************************
-. 
-. local elemdtaname `" "elem1415" "elem1516" "elem1617" "elem1718" "elem1819" "' //local macro for elementary dataset names
-{txt}
-{com}. 
-. foreach i of local elemdtaname {c -(}
-{txt}  2{com}.   use $clndtadir/elementary/`i', clear
-{txt}  3{com}.   estpost tab grade
-{txt}  4{com}.   esttab using "$projdir/out/csv/gradetab/elementary/`i'.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') nonumber noobs nomtitle replace
-{txt}  5{com}. {c )-}
-
-{txt}{space 0}{space 0}{ralign 12:grade}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
-{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
-{space 0}{space 0}{ralign 12:3rd}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      378}}}{space 1}{space 1}{ralign 9:{res:{sf: .5361474}}}{space 1}{space 1}{ralign 9:{res:{sf: .5361474}}}{space 1}
-{space 0}{space 0}{ralign 12:4th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     2505}}}{space 1}{space 1}{ralign 9:{res:{sf:  3.55304}}}{space 1}{space 1}{ralign 9:{res:{sf: 4.089188}}}{space 1}
-{space 0}{space 0}{ralign 12:5th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    65660}}}{space 1}{space 1}{ralign 9:{res:{sf: 93.13079}}}{space 1}{space 1}{ralign 9:{res:{sf: 97.21998}}}{space 1}
-{space 0}{space 0}{ralign 12:6th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     1960}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.780024}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
-{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
-{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    70503}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
-{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gradetab/elementary/elem1415.csv"'})
-
-{space 0}{space 0}{ralign 12:grade}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
-{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
-{space 0}{space 0}{ralign 12:3rd}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      339}}}{space 1}{space 1}{ralign 9:{res:{sf: .3143371}}}{space 1}{space 1}{ralign 9:{res:{sf: .3143371}}}{space 1}
-{space 0}{space 0}{ralign 12:4th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     2615}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.424754}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.739091}}}{space 1}
-{space 0}{space 0}{ralign 12:5th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    99763}}}{space 1}{space 1}{ralign 9:{res:{sf: 92.50505}}}{space 1}{space 1}{ralign 9:{res:{sf: 95.24414}}}{space 1}
-{space 0}{space 0}{ralign 12:6th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     5129}}}{space 1}{space 1}{ralign 9:{res:{sf: 4.755856}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
-{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
-{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   107846}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
-{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gradetab/elementary/elem1516.csv"'})
-(2016-17 Elementary CHKS Data)
-
-{space 0}{space 0}{ralign 12:grade}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
-{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
-{space 0}{space 0}{ralign 12:3rd}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     1238}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.307935}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.307935}}}{space 1}
-{space 0}{space 0}{ralign 12:4th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     2868}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.030015}}}{space 1}{space 1}{ralign 9:{res:{sf:  4.33795}}}{space 1}
-{space 0}{space 0}{ralign 12:5th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    87088}}}{space 1}{space 1}{ralign 9:{res:{sf: 92.00765}}}{space 1}{space 1}{ralign 9:{res:{sf:  96.3456}}}{space 1}
-{space 0}{space 0}{ralign 12:6th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     3459}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.654401}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
-{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
-{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    94653}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
-{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gradetab/elementary/elem1617.csv"'})
-(2017-18 Elementary CHKS Data)
-
-{space 0}{space 0}{ralign 12:grade}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
-{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
-{space 0}{space 0}{ralign 12:3rd}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     2342}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.754149}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.754149}}}{space 1}
-{space 0}{space 0}{ralign 12:4th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     4364}}}{space 1}{space 1}{ralign 9:{res:{sf:  3.26862}}}{space 1}{space 1}{ralign 9:{res:{sf: 5.022769}}}{space 1}
-{space 0}{space 0}{ralign 12:5th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   120198}}}{space 1}{space 1}{ralign 9:{res:{sf: 90.02786}}}{space 1}{space 1}{ralign 9:{res:{sf: 95.05063}}}{space 1}
-{space 0}{space 0}{ralign 12:6th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     6608}}}{space 1}{space 1}{ralign 9:{res:{sf: 4.949368}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
-{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
-{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   133512}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
-{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gradetab/elementary/elem1718.csv"'})
-(2018-19 Elementary CHKS Data)
-
-{space 0}{space 0}{ralign 12:grade}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
-{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
-{space 0}{space 0}{ralign 12:3rd}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     1308}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.288797}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.288797}}}{space 1}
-{space 0}{space 0}{ralign 12:4th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     2803}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.761848}}}{space 1}{space 1}{ralign 9:{res:{sf: 4.050645}}}{space 1}
-{space 0}{space 0}{ralign 12:5th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    93564}}}{space 1}{space 1}{ralign 9:{res:{sf: 92.19036}}}{space 1}{space 1}{ralign 9:{res:{sf: 96.24101}}}{space 1}
-{space 0}{space 0}{ralign 12:6th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     3815}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.758991}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
-{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
-{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   101490}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
-{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gradetab/elementary/elem1819.csv"'})
-
-{com}. 
-. 
-. *********************** Tabulate parent datasets *******************************
-. 
-. use $clndtadir/parent/parent1415, clear
-{txt}( )
-
-{com}. estpost tab q6 //q6 is the question that asks about the grade of the child
-
-{txt}{space 0}{space 0}{ralign 12:q6}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
-{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
-{space 0}{space 0}{ralign 12:-82}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf: .0026274}}}{space 1}{space 1}{ralign 9:{res:{sf: .0026274}}}{space 1}
-{space 0}{space 0}{ralign 12:-8}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     1327}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.486508}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.489136}}}{space 1}
-{space 0}{space 0}{ralign 12:_kindergar~n}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     3080}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.092273}}}{space 1}{space 1}{ralign 9:{res:{sf: 11.58141}}}{space 1}
-{space 0}{space 0}{ralign 12:_1st_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     3183}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.362891}}}{space 1}{space 1}{ralign 9:{res:{sf:  19.9443}}}{space 1}
-{space 0}{space 0}{ralign 12:_2nd_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     3257}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.557316}}}{space 1}{space 1}{ralign 9:{res:{sf: 28.50162}}}{space 1}
-{space 0}{space 0}{ralign 12:_3rd_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     3346}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.791151}}}{space 1}{space 1}{ralign 9:{res:{sf: 37.29277}}}{space 1}
-{space 0}{space 0}{ralign 12:_4th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     3457}}}{space 1}{space 1}{ralign 9:{res:{sf: 9.082788}}}{space 1}{space 1}{ralign 9:{res:{sf: 46.37556}}}{space 1}
-{space 0}{space 0}{ralign 12:_5th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     6658}}}{space 1}{space 1}{ralign 9:{res:{sf: 17.49297}}}{space 1}{space 1}{ralign 9:{res:{sf: 63.86853}}}{space 1}
-{space 0}{space 0}{ralign 12:_6th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     3022}}}{space 1}{space 1}{ralign 9:{res:{sf: 7.939886}}}{space 1}{space 1}{ralign 9:{res:{sf: 71.80841}}}{space 1}
-{space 0}{space 0}{ralign 12:_8th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     2042}}}{space 1}{space 1}{ralign 9:{res:{sf: 5.365072}}}{space 1}{space 1}{ralign 9:{res:{sf: 77.17348}}}{space 1}
-{space 0}{space 0}{ralign 12:_9th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     2410}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.331941}}}{space 1}{space 1}{ralign 9:{res:{sf: 83.50543}}}{space 1}
-{space 0}{space 0}{ralign 12:_10th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     2273}}}{space 1}{space 1}{ralign 9:{res:{sf: 5.971992}}}{space 1}{space 1}{ralign 9:{res:{sf: 89.47742}}}{space 1}
-{space 0}{space 0}{ralign 12:_11th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     2168}}}{space 1}{space 1}{ralign 9:{res:{sf: 5.696119}}}{space 1}{space 1}{ralign 9:{res:{sf: 95.17354}}}{space 1}
-{space 0}{space 0}{ralign 12:_12th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     1513}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.975198}}}{space 1}{space 1}{ralign 9:{res:{sf: 99.14873}}}{space 1}
-{space 0}{space 0}{ralign 12:_other}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      225}}}{space 1}{space 1}{ralign 9:{res:{sf: .5911563}}}{space 1}{space 1}{ralign 9:{res:{sf: 99.73989}}}{space 1}
-{space 0}{space 0}{ralign 12:_ungraded}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       99}}}{space 1}{space 1}{ralign 9:{res:{sf: .2601088}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
-{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
-{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    38061}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
-
-{com}. esttab using "$projdir/out/csv/gradetab/parent/parent1415.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') nonumber noobs nomtitle replace
-{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gradetab/parent/parent1415.csv"'})
-
-{com}. 
-. use $clndtadir/parent/parent1516, clear
-{txt}(2015-16 Parent CSPS Data)
-
-{com}. estpost tab p7 //p7 is the question that asks about the grade of the child
-
-{txt}{space 0}{space 0}{ralign 12:p7}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
-{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
-{space 0}{space 0}{ralign 12:Kindergarten}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     4171}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.223144}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.223144}}}{space 1}
-{space 0}{space 0}{ralign 12:1st_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     4571}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.819945}}}{space 1}{space 1}{ralign 9:{res:{sf: 13.04309}}}{space 1}
-{space 0}{space 0}{ralign 12:2nd__grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     4884}}}{space 1}{space 1}{ralign 9:{res:{sf: 7.286942}}}{space 1}{space 1}{ralign 9:{res:{sf: 20.33003}}}{space 1}
-{space 0}{space 0}{ralign 12:3rd_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     5224}}}{space 1}{space 1}{ralign 9:{res:{sf: 7.794223}}}{space 1}{space 1}{ralign 9:{res:{sf: 28.12425}}}{space 1}
-{space 0}{space 0}{ralign 12:4th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     5802}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.656601}}}{space 1}{space 1}{ralign 9:{res:{sf: 36.78085}}}{space 1}
-{space 0}{space 0}{ralign 12:5th__grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8030}}}{space 1}{space 1}{ralign 9:{res:{sf: 11.98078}}}{space 1}{space 1}{ralign 9:{res:{sf: 48.76164}}}{space 1}
-{space 0}{space 0}{ralign 12:6th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     5033}}}{space 1}{space 1}{ralign 9:{res:{sf:  7.50925}}}{space 1}{space 1}{ralign 9:{res:{sf: 56.27089}}}{space 1}
-{space 0}{space 0}{ralign 12:7th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     5798}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.650633}}}{space 1}{space 1}{ralign 9:{res:{sf: 64.92152}}}{space 1}
-{space 0}{space 0}{ralign 12:8th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     4635}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.915433}}}{space 1}{space 1}{ralign 9:{res:{sf: 71.83695}}}{space 1}
-{space 0}{space 0}{ralign 12:9th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     5516}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.229888}}}{space 1}{space 1}{ralign 9:{res:{sf: 80.06684}}}{space 1}
-{space 0}{space 0}{ralign 12:10th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     4465}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.661793}}}{space 1}{space 1}{ralign 9:{res:{sf: 86.72863}}}{space 1}
-{space 0}{space 0}{ralign 12:11th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     4946}}}{space 1}{space 1}{ralign 9:{res:{sf: 7.379446}}}{space 1}{space 1}{ralign 9:{res:{sf: 94.10808}}}{space 1}
-{space 0}{space 0}{ralign 12:12th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     3461}}}{space 1}{space 1}{ralign 9:{res:{sf: 5.163822}}}{space 1}{space 1}{ralign 9:{res:{sf:  99.2719}}}{space 1}
-{space 0}{space 0}{ralign 12:Other}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      380}}}{space 1}{space 1}{ralign 9:{res:{sf: .5669611}}}{space 1}{space 1}{ralign 9:{res:{sf: 99.83886}}}{space 1}
-{space 0}{space 0}{ralign 12:Ungraded}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      108}}}{space 1}{space 1}{ralign 9:{res:{sf: .1611363}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
-{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
-{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    67024}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
-
-{com}. esttab using "$projdir/out/csv/gradetab/parent/parent1516.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') nonumber noobs nomtitle replace
-{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gradetab/parent/parent1516.csv"'})
-
-{com}. 
-. use $clndtadir/parent/parent1617, clear
-{txt}(2016-17 Parent CSPS Data)
-
-{com}. estpost tab p7 //p7 is the question that asks about the grade of the child
-
-{txt}{space 0}{space 0}{ralign 12:p7}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
-{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
-{space 0}{space 0}{ralign 12:Kindergarten}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    11911}}}{space 1}{space 1}{ralign 9:{res:{sf: 10.49011}}}{space 1}{space 1}{ralign 9:{res:{sf: 10.49011}}}{space 1}
-{space 0}{space 0}{ralign 12:1st_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    10017}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.822053}}}{space 1}{space 1}{ralign 9:{res:{sf: 19.31217}}}{space 1}
-{space 0}{space 0}{ralign 12:2nd__grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     9655}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.503237}}}{space 1}{space 1}{ralign 9:{res:{sf:  27.8154}}}{space 1}
-{space 0}{space 0}{ralign 12:3rd_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    10720}}}{space 1}{space 1}{ralign 9:{res:{sf: 9.441191}}}{space 1}{space 1}{ralign 9:{res:{sf: 37.25659}}}{space 1}
-{space 0}{space 0}{ralign 12:4th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    11571}}}{space 1}{space 1}{ralign 9:{res:{sf: 10.19067}}}{space 1}{space 1}{ralign 9:{res:{sf: 47.44727}}}{space 1}
-{space 0}{space 0}{ralign 12:5th__grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     9602}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.456559}}}{space 1}{space 1}{ralign 9:{res:{sf: 55.90383}}}{space 1}
-{space 0}{space 0}{ralign 12:6th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     7498}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.603549}}}{space 1}{space 1}{ralign 9:{res:{sf: 62.50738}}}{space 1}
-{space 0}{space 0}{ralign 12:7th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     7780}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.851909}}}{space 1}{space 1}{ralign 9:{res:{sf: 69.35928}}}{space 1}
-{space 0}{space 0}{ralign 12:8th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     6660}}}{space 1}{space 1}{ralign 9:{res:{sf: 5.865516}}}{space 1}{space 1}{ralign 9:{res:{sf:  75.2248}}}{space 1}
-{space 0}{space 0}{ralign 12:9th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     7261}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.394821}}}{space 1}{space 1}{ralign 9:{res:{sf: 81.61962}}}{space 1}
-{space 0}{space 0}{ralign 12:10th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     6556}}}{space 1}{space 1}{ralign 9:{res:{sf: 5.773922}}}{space 1}{space 1}{ralign 9:{res:{sf: 87.39354}}}{space 1}
-{space 0}{space 0}{ralign 12:11th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     7455}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.565679}}}{space 1}{space 1}{ralign 9:{res:{sf: 93.95922}}}{space 1}
-{space 0}{space 0}{ralign 12:12th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     5628}}}{space 1}{space 1}{ralign 9:{res:{sf: 4.956625}}}{space 1}{space 1}{ralign 9:{res:{sf: 98.91585}}}{space 1}
-{space 0}{space 0}{ralign 12:Other}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      969}}}{space 1}{space 1}{ralign 9:{res:{sf: .8534061}}}{space 1}{space 1}{ralign 9:{res:{sf: 99.76925}}}{space 1}
-{space 0}{space 0}{ralign 12:Ungraded}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      262}}}{space 1}{space 1}{ralign 9:{res:{sf: .2307455}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
-{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
-{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   113545}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
-
-{com}. esttab using "$projdir/out/csv/gradetab/parent/parent1617.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') nonumber noobs nomtitle replace
-{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gradetab/parent/parent1617.csv"'})
-
-{com}. 
-. use $clndtadir/parent/parent1718, clear
-{txt}(2017-18 Parent CSPS Data)
-
-{com}. estpost tab p7 //p7 is the question that asks about the grade of the child
-
-{txt}{space 0}{space 0}{ralign 12:p7}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
-{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
-{space 0}{space 0}{ralign 12:Kindergarten}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    11404}}}{space 1}{space 1}{ralign 9:{res:{sf: 7.958019}}}{space 1}{space 1}{ralign 9:{res:{sf: 7.958019}}}{space 1}
-{space 0}{space 0}{ralign 12:1st_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    11590}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.087815}}}{space 1}{space 1}{ralign 9:{res:{sf: 16.04583}}}{space 1}
-{space 0}{space 0}{ralign 12:2nd__grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    11475}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.007564}}}{space 1}{space 1}{ralign 9:{res:{sf:  24.0534}}}{space 1}
-{space 0}{space 0}{ralign 12:3rd_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    12120}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.457663}}}{space 1}{space 1}{ralign 9:{res:{sf: 32.51106}}}{space 1}
-{space 0}{space 0}{ralign 12:4th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    12928}}}{space 1}{space 1}{ralign 9:{res:{sf: 9.021507}}}{space 1}{space 1}{ralign 9:{res:{sf: 41.53257}}}{space 1}
-{space 0}{space 0}{ralign 12:5th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    13989}}}{space 1}{space 1}{ralign 9:{res:{sf: 9.761901}}}{space 1}{space 1}{ralign 9:{res:{sf: 51.29447}}}{space 1}
-{space 0}{space 0}{ralign 12:6th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    10404}}}{space 1}{space 1}{ralign 9:{res:{sf: 7.260192}}}{space 1}{space 1}{ralign 9:{res:{sf: 58.55466}}}{space 1}
-{space 0}{space 0}{ralign 12:7th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    10916}}}{space 1}{space 1}{ralign 9:{res:{sf: 7.617479}}}{space 1}{space 1}{ralign 9:{res:{sf: 66.17214}}}{space 1}
-{space 0}{space 0}{ralign 12:8th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     9300}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.489791}}}{space 1}{space 1}{ralign 9:{res:{sf: 72.66193}}}{space 1}
-{space 0}{space 0}{ralign 12:9th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    10302}}}{space 1}{space 1}{ralign 9:{res:{sf: 7.189013}}}{space 1}{space 1}{ralign 9:{res:{sf: 79.85094}}}{space 1}
-{space 0}{space 0}{ralign 12:10th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     9154}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.387908}}}{space 1}{space 1}{ralign 9:{res:{sf: 86.23885}}}{space 1}
-{space 0}{space 0}{ralign 12:11th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     9928}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.928026}}}{space 1}{space 1}{ralign 9:{res:{sf: 93.16688}}}{space 1}
-{space 0}{space 0}{ralign 12:12th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8096}}}{space 1}{space 1}{ralign 9:{res:{sf: 5.649607}}}{space 1}{space 1}{ralign 9:{res:{sf: 98.81649}}}{space 1}
-{space 0}{space 0}{ralign 12:Other}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     1346}}}{space 1}{space 1}{ralign 9:{res:{sf: .9392751}}}{space 1}{space 1}{ralign 9:{res:{sf: 99.75576}}}{space 1}
-{space 0}{space 0}{ralign 12:Ungraded}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      350}}}{space 1}{space 1}{ralign 9:{res:{sf: .2442394}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
-{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
-{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   143302}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
-
-{com}. esttab using "$projdir/out/csv/gradetab/parent/parent1718.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') nonumber noobs nomtitle replace
-{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gradetab/parent/parent1718.csv"'})
-
-{com}. 
-. use $clndtadir/parent/parent1819, clear
-{txt}(2018-19 Parent CSPS Data)
-
-{com}. estpost tab p7 //p7 is the question that asks about the grade of the child
-
-{txt}{space 0}{space 0}{ralign 12:p7}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
-{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
-{space 0}{space 0}{ralign 12:Kindergarten}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    12442}}}{space 1}{space 1}{ralign 9:{res:{sf: 7.977073}}}{space 1}{space 1}{ralign 9:{res:{sf: 7.977073}}}{space 1}
-{space 0}{space 0}{ralign 12:1st_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    12056}}}{space 1}{space 1}{ralign 9:{res:{sf: 7.729592}}}{space 1}{space 1}{ralign 9:{res:{sf: 15.70667}}}{space 1}
-{space 0}{space 0}{ralign 12:2nd_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    12512}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.021953}}}{space 1}{space 1}{ralign 9:{res:{sf: 23.72862}}}{space 1}
-{space 0}{space 0}{ralign 12:3rd_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    13536}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.678481}}}{space 1}{space 1}{ralign 9:{res:{sf:  32.4071}}}{space 1}
-{space 0}{space 0}{ralign 12:4th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    13554}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.690021}}}{space 1}{space 1}{ralign 9:{res:{sf: 41.09712}}}{space 1}
-{space 0}{space 0}{ralign 12:5th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    16602}}}{space 1}{space 1}{ralign 9:{res:{sf: 10.64422}}}{space 1}{space 1}{ralign 9:{res:{sf: 51.74134}}}{space 1}
-{space 0}{space 0}{ralign 12:6th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    11770}}}{space 1}{space 1}{ralign 9:{res:{sf: 7.546226}}}{space 1}{space 1}{ralign 9:{res:{sf: 59.28756}}}{space 1}
-{space 0}{space 0}{ralign 12:7th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    12568}}}{space 1}{space 1}{ralign 9:{res:{sf: 8.057857}}}{space 1}{space 1}{ralign 9:{res:{sf: 67.34542}}}{space 1}
-{space 0}{space 0}{ralign 12:8th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     9940}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.372939}}}{space 1}{space 1}{ralign 9:{res:{sf: 73.71836}}}{space 1}
-{space 0}{space 0}{ralign 12:9th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    10899}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.987793}}}{space 1}{space 1}{ralign 9:{res:{sf: 80.70615}}}{space 1}
-{space 0}{space 0}{ralign 12:10th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     9417}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.037622}}}{space 1}{space 1}{ralign 9:{res:{sf: 86.74377}}}{space 1}
-{space 0}{space 0}{ralign 12:11th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    10262}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.579386}}}{space 1}{space 1}{ralign 9:{res:{sf: 93.32316}}}{space 1}
-{space 0}{space 0}{ralign 12:12th_grade}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8332}}}{space 1}{space 1}{ralign 9:{res:{sf: 5.341984}}}{space 1}{space 1}{ralign 9:{res:{sf: 98.66515}}}{space 1}
-{space 0}{space 0}{ralign 12:Other}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     1740}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.115585}}}{space 1}{space 1}{ralign 9:{res:{sf: 99.78073}}}{space 1}
-{space 0}{space 0}{ralign 12:Ungraded}{space 1}{c |}{space 1}{ralign 9:{res:{sf:      342}}}{space 1}{space 1}{ralign 9:{res:{sf: .2192701}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
-{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
-{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   155972}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
-
-{com}. esttab using "$projdir/out/csv/gradetab/parent/parent1819.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') nonumber noobs nomtitle replace
-{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gradetab/parent/parent1819.csv"'})
-
-{com}. 
-. 
-. 
-. *********************** Tabulate secondary datasets ****************************
-. 
-. /* only tabulating the most recent 5 years  */
-. 
-. local secdtaname `" "sec1415" "sec1516" "sec1617" "sec1718" "sec1819" "' //local macro for secondary dataset names, only the most recent 5 years
-{txt}
-{com}. 
-. foreach i of local secdtaname {c -(}
-{txt}  2{com}.   use $clndtadir/secondary/`i', clear
-{txt}  3{com}.   estpost tab grade
-{txt}  4{com}.   esttab using "$projdir/out/csv/gradetab/secondary/`i'.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') nonumber noobs nomtitle replace
-{txt}  5{com}. {c )-}
-
-{txt}{space 0}{space 0}{ralign 12:grade}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
-{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
-{space 0}{space 0}{ralign 12:6th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     3732}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.074832}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.074832}}}{space 1}
-{space 0}{space 0}{ralign 12:7th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   115167}}}{space 1}{space 1}{ralign 9:{res:{sf: 33.16859}}}{space 1}{space 1}{ralign 9:{res:{sf: 34.24343}}}{space 1}
-{space 0}{space 0}{ralign 12:8th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     7398}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.130656}}}{space 1}{space 1}{ralign 9:{res:{sf: 36.37408}}}{space 1}
-{space 0}{space 0}{ralign 12:9th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   103731}}}{space 1}{space 1}{ralign 9:{res:{sf: 29.87498}}}{space 1}{space 1}{ralign 9:{res:{sf: 66.24906}}}{space 1}
-{space 0}{space 0}{ralign 12:10th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    13869}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.994332}}}{space 1}{space 1}{ralign 9:{res:{sf: 70.24339}}}{space 1}
-{space 0}{space 0}{ralign 12:11th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    84351}}}{space 1}{space 1}{ralign 9:{res:{sf: 24.29345}}}{space 1}{space 1}{ralign 9:{res:{sf: 94.53685}}}{space 1}
-{space 0}{space 0}{ralign 12:12th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     9829}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.830795}}}{space 1}{space 1}{ralign 9:{res:{sf: 97.36764}}}{space 1}
-{space 0}{space 0}{ralign 12:Non-tradit~l}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     9140}}}{space 1}{space 1}{ralign 9:{res:{sf:  2.63236}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
-{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
-{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   347217}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
-{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gradetab/secondary/sec1415.csv"'})
-(2015-16 secondary CHKS data)
-
-{space 0}{space 0}{ralign 12:grade}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
-{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
-{space 0}{space 0}{ralign 12:6th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     5074}}}{space 1}{space 1}{ralign 9:{res:{sf: .9094787}}}{space 1}{space 1}{ralign 9:{res:{sf: .9094787}}}{space 1}
-{space 0}{space 0}{ralign 12:7th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   175756}}}{space 1}{space 1}{ralign 9:{res:{sf: 31.50302}}}{space 1}{space 1}{ralign 9:{res:{sf:  32.4125}}}{space 1}
-{space 0}{space 0}{ralign 12:8th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    13888}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.489326}}}{space 1}{space 1}{ralign 9:{res:{sf: 34.90183}}}{space 1}
-{space 0}{space 0}{ralign 12:9th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   167629}}}{space 1}{space 1}{ralign 9:{res:{sf: 30.04632}}}{space 1}{space 1}{ralign 9:{res:{sf: 64.94815}}}{space 1}
-{space 0}{space 0}{ralign 12:10th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    20250}}}{space 1}{space 1}{ralign 9:{res:{sf:  3.62967}}}{space 1}{space 1}{ralign 9:{res:{sf: 68.57781}}}{space 1}
-{space 0}{space 0}{ralign 12:11th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   141346}}}{space 1}{space 1}{ralign 9:{res:{sf: 25.33527}}}{space 1}{space 1}{ralign 9:{res:{sf: 93.91309}}}{space 1}
-{space 0}{space 0}{ralign 12:12th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    15970}}}{space 1}{space 1}{ralign 9:{res:{sf:  2.86251}}}{space 1}{space 1}{ralign 9:{res:{sf:  96.7756}}}{space 1}
-{space 0}{space 0}{ralign 12:Non-tradit~l}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    17989}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.224401}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
-{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
-{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   557902}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
-{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gradetab/secondary/sec1516.csv"'})
-(2016-17 Secondary CHKS Data)
-
-{space 0}{space 0}{ralign 12:grade}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
-{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
-{space 0}{space 0}{ralign 12:6th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     4688}}}{space 1}{space 1}{ralign 9:{res:{sf: .9907225}}}{space 1}{space 1}{ralign 9:{res:{sf: .9907225}}}{space 1}
-{space 0}{space 0}{ralign 12:7th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   145275}}}{space 1}{space 1}{ralign 9:{res:{sf:  30.7012}}}{space 1}{space 1}{ralign 9:{res:{sf: 31.69192}}}{space 1}
-{space 0}{space 0}{ralign 12:8th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    14672}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.100657}}}{space 1}{space 1}{ralign 9:{res:{sf: 34.79258}}}{space 1}
-{space 0}{space 0}{ralign 12:9th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   141666}}}{space 1}{space 1}{ralign 9:{res:{sf:  29.9385}}}{space 1}{space 1}{ralign 9:{res:{sf: 64.73108}}}{space 1}
-{space 0}{space 0}{ralign 12:10th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    18215}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.849405}}}{space 1}{space 1}{ralign 9:{res:{sf: 68.58049}}}{space 1}
-{space 0}{space 0}{ralign 12:11th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   121194}}}{space 1}{space 1}{ralign 9:{res:{sf: 25.61212}}}{space 1}{space 1}{ralign 9:{res:{sf: 94.19261}}}{space 1}
-{space 0}{space 0}{ralign 12:12th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    14314}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.025001}}}{space 1}{space 1}{ralign 9:{res:{sf: 97.21761}}}{space 1}
-{space 0}{space 0}{ralign 12:Non-tradit~l}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    13166}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.782392}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
-{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
-{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   473190}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
-{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gradetab/secondary/sec1617.csv"'})
-(2017-18 Secondary CHKS Data)
-
-{space 0}{space 0}{ralign 12:grade}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
-{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
-{space 0}{space 0}{ralign 12:6th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     5315}}}{space 1}{space 1}{ralign 9:{res:{sf: .8205681}}}{space 1}{space 1}{ralign 9:{res:{sf: .8205681}}}{space 1}
-{space 0}{space 0}{ralign 12:7th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   205794}}}{space 1}{space 1}{ralign 9:{res:{sf: 31.77196}}}{space 1}{space 1}{ralign 9:{res:{sf: 32.59253}}}{space 1}
-{space 0}{space 0}{ralign 12:8th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    15419}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.380497}}}{space 1}{space 1}{ralign 9:{res:{sf: 34.97303}}}{space 1}
-{space 0}{space 0}{ralign 12:9th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   193787}}}{space 1}{space 1}{ralign 9:{res:{sf: 29.91824}}}{space 1}{space 1}{ralign 9:{res:{sf: 64.89127}}}{space 1}
-{space 0}{space 0}{ralign 12:10th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    26057}}}{space 1}{space 1}{ralign 9:{res:{sf: 4.022868}}}{space 1}{space 1}{ralign 9:{res:{sf: 68.91413}}}{space 1}
-{space 0}{space 0}{ralign 12:11th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   162863}}}{space 1}{space 1}{ralign 9:{res:{sf: 25.14397}}}{space 1}{space 1}{ralign 9:{res:{sf:  94.0581}}}{space 1}
-{space 0}{space 0}{ralign 12:12th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    20123}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.106734}}}{space 1}{space 1}{ralign 9:{res:{sf: 97.16483}}}{space 1}
-{space 0}{space 0}{ralign 12:Non-tradit~l}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    18364}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.835167}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
-{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
-{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   647722}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
-{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gradetab/secondary/sec1718.csv"'})
-(2018-19 Secondary CHKS Data)
-
-{space 0}{space 0}{ralign 12:grade}{space 1}{c |}{space 1}{ralign 9:e(b)}{space 1}{space 1}{ralign 9:e(pct)}{space 1}{space 1}{ralign 9:e(cumpct)}{space 1}
-{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
-{space 0}{space 0}{ralign 12:6th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     5434}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.067273}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.067273}}}{space 1}
-{space 0}{space 0}{ralign 12:7th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   165956}}}{space 1}{space 1}{ralign 9:{res:{sf: 32.59484}}}{space 1}{space 1}{ralign 9:{res:{sf: 33.66212}}}{space 1}
-{space 0}{space 0}{ralign 12:8th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    14639}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.875195}}}{space 1}{space 1}{ralign 9:{res:{sf: 36.53731}}}{space 1}
-{space 0}{space 0}{ralign 12:9th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   148280}}}{space 1}{space 1}{ralign 9:{res:{sf: 29.12316}}}{space 1}{space 1}{ralign 9:{res:{sf: 65.66048}}}{space 1}
-{space 0}{space 0}{ralign 12:10th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    21796}}}{space 1}{space 1}{ralign 9:{res:{sf: 4.280877}}}{space 1}{space 1}{ralign 9:{res:{sf: 69.94135}}}{space 1}
-{space 0}{space 0}{ralign 12:11th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   121986}}}{space 1}{space 1}{ralign 9:{res:{sf: 23.95885}}}{space 1}{space 1}{ralign 9:{res:{sf:  93.9002}}}{space 1}
-{space 0}{space 0}{ralign 12:12th}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    18215}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.577545}}}{space 1}{space 1}{ralign 9:{res:{sf: 97.47775}}}{space 1}
-{space 0}{space 0}{ralign 12:Non-tradit~l}{space 1}{c |}{space 1}{ralign 9:{res:{sf:    12842}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.522253}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
-{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
-{space 0}{space 0}{ralign 12:Total}{space 1}{c |}{space 1}{ralign 9:{res:{sf:   509148}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:{space 9}}}}{space 1}
-{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gradetab/secondary/sec1819.csv"'})
-
-{com}. 
-. 
-. 
-. 
-. ************************* Tabulate staff datasets ******************************
-. 
-. /* only tabulating the most recent 5 years  */
-. 
-. /* q1 teacher classifications vars
-> Question 1: What is your role(s) at this school? (Mark All That Apply.)
-> 
-> q1a: teacher in grade 5 or above
-> q1b: teacher in grade 4 or below
-> q1c: special education teacher
-> q1d: administrator
-> q1e: prevention staff nurse, or health aide
-> q1f: counselor, psychologist
-> q1g: police, resource officer, or safety personnel
-> q1h: Paraprofessional, teacher assistant, or instructional aide
-> q1i: Other certificated staff (e.g. librarian)
-> q1j: Other classified staff (e.g. janitor, secretarial or clerical, food service)
-> q1k: Other service provider (e.g. speech, occupational, physical therapist)
-> 
-> */
-. 
-. 
-. 
-. 
-. local staffdtaname `" "staff1415" "staff1516" "staff1617" "staff1718" "staff1819" "' //local macro for staff dataset names, only the most recent 5 years
-{txt}
-{com}. 
-. foreach i of local staffdtaname {c -(}
-{txt}  2{com}. 
-.   use $clndtadir/staff/`i', clear
-{txt}  3{com}. 
-.   gen below4above5 = . //generate a var that indicates whether the teacher teaches both above grade 5 and below grade 4
-{txt}  4{com}.   replace below4above5 = 0 if q1a == 0 | q1b ==0
-{txt}  5{com}.   replace below4above5 = 1 if q1a == 1 & q1b == 1
-{txt}  6{com}. 
-.   estpost tab q1a
-{txt}  7{com}.   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("teacher in grade 4 or below") nonumber noobs nomtitle replace
-{txt}  8{com}.   estpost tab q1b
-{txt}  9{com}.   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("teacher in grade 5 or above") nonumber noobs nomtitle append
-{txt} 10{com}.   estpost tab below4above5
-{txt} 11{com}.   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("teacher in both above grade 5 and below grade 4") nonumber noobs nomtitle append
-{txt} 12{com}.   estpost tab q1c
-{txt} 13{com}.   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("special education teacher") nonumber noobs nomtitle append
-{txt} 14{com}.   /* estpost tab q1d
->   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("administrator") nonumber noobs nomtitle append
->   estpost tab q1e
->   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("prevention staff nurse, or health aide") nonumber noobs nomtitle append
->   estpost tab q1f
->   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("counselor, psychologist") nonumber noobs nomtitle append
->   estpost tab q1g
->   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("police, resource officer, or safety personnel") nonumber noobs nomtitle append
->   estpost tab q1h
->   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("paraprofessional, teacher assistant, or instructional aide") nonumber noobs nomtitle append
->   estpost tab q1i
->   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("other certificated staff (e.g. librarian)") nonumber noobs nomtitle append
->   estpost tab q1j
->   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("other classified staff (e.g. janitor, secretarial or clerical, food service)") nonumber noobs nomtitle append
->   estpost tab q1k
->   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("other service provider (e.g. speech, occupational, physical therapist)") nonumber noobs nomtitle append */
-. 
-.   save, replace
-{txt} 15{com}. {c )-}
-{txt}(2014-15 Staff CSSS Data)
-{err}variable {bf}below4above5{sf} already defined
-{txt}{search r(110), local:r(110);}
-
-end of do-file
-{search r(110), local:r(110);}
-{com}.   pause finished running $projdir/do/check/gradetab
-. 
-.   do $projdir/do/build/prepare/enrollmentclean
-.   pause finished running $projdir/do/build/prepare/enrollmentclean
-. 
-. {c )-}
-{txt}{search r(110), local:r(110);}
-
-end of do-file
-
-{search r(110), local:r(110);}
-
-{com}. log close _all
-      {txt}name:  {res}gradetab
-       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/gradetab.smcl
-  {txt}log type:  {res}smcl
- {txt}closed on:  {res} 6 Apr 2022, 10:55:21
-{txt}{.-}
-      name:  {res}master
-       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/master.smcl
-  {txt}log type:  {res}smcl
- {txt}closed on:  {res} 6 Apr 2022, 10:55:21
-{txt}{.-}
-{smcl}
-{txt}{sf}{ul off}
+      name:  sameschools
+       log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/check/samesc
+> hools.smcl
+  log type:  smcl
+ closed on:   6 Apr 2022, 18:35:42
+-------------------------------------------------------------------------------

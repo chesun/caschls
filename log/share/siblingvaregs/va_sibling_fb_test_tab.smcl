@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sibling_fb_test_tab.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 6 Jan 2022, 18:48:10
+ {txt}opened on:  {res}13 Jan 2022, 17:46:01
 {txt}
 {com}. 
 .  //run the do helper file to set the local macros
@@ -124,10 +124,10 @@
 {txt}delimiter now cr
 {com}.  macro list
 {txt}{p 0 16}
-eststo_counter:{space 1}{res}{res}2
+eststo_counter:{space 1}{res}{res}3
 {p_end}
 {txt}{p 0 16}
-eststo:{space 9}{res}{res}est1 est2
+eststo:{space 9}{res}{res}est1 est2 est3
 {p_end}
 {txt}{p 0 16}
 vaprojdir:{space 6}{res}{res}/home/research/ca_ed_lab/projects/common_core_va
@@ -642,9 +642,9 @@ _mattdofiles:{space 3}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschl
 {txt}  7{com}.    eststo
 {txt}  8{com}. 
 .    esttab using $projdir/out/csv/siblingvaregs/fb_test/fb_test_`subject'.csv ///
->    , replace nonumbers  ///
+>    , replace nonumbers se(%4.3f) b(%5.3f) ///
 >    mtitles("L4 Score Sample" "Census Sample" "Sibling Sample") ///
->    title("Spec Tests for ``subject'_str' VA")
+>    title("Forecast Bias Tests for ``subject'_str' VA")
 {txt}  9{com}. 
 .    eststo clear
 {txt} 10{com}. 
@@ -677,39 +677,24 @@ _mattdofiles:{space 3}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschl
 {txt}  7{com}.    eststo
 {txt}  8{com}. 
 .    esttab using $projdir/out/csv/siblingvaregs/fb_test/fb_test_`outcome'.csv ///
->    , replace nonumbers  ///
+>    , replace nonumbers se(%4.3f) b(%5.3f) ///
 >    mtitles("L4 Score Sample" "Census Sample" "Sibling Sample") ///
->    title("Spec Tests for ``outcome'_str' VA")
+>    title("Forecast Bias Tests for ``outcome'_str' VA")
 {txt}  9{com}. 
 .    eststo clear
 {txt} 10{com}.  {c )-}
 {res}{txt}({res}est1{txt} stored)
 {res}{txt}({res}est2{txt} stored)
 {res}{txt}({res}est3{txt} stored)
-{res}{txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/fb_test/fb_test_enr.csv{rm}
-not found)
-{p_end}
-(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/fb_test/fb_test_enr.csv"'})
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/fb_test/fb_test_enr.csv"'})
 {res}{txt}({res}est1{txt} stored)
 {res}{txt}({res}est2{txt} stored)
 {res}{txt}({res}est3{txt} stored)
-{res}{txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/fb_test/fb_test_enr_2year.csv{rm}
-not found)
-{p_end}
-(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/fb_test/fb_test_enr_2year.csv"'})
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/fb_test/fb_test_enr_2year.csv"'})
 {res}{txt}({res}est1{txt} stored)
 {res}{txt}({res}est2{txt} stored)
 {res}{txt}({res}est3{txt} stored)
-{res}{txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/fb_test/fb_test_enr_4year.csv{rm}
-not found)
-{p_end}
-(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/fb_test/fb_test_enr_4year.csv"'})
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/fb_test/fb_test_enr_4year.csv"'})
 
 {com}. 
 . 
@@ -719,7 +704,7 @@ not found)
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sibling_fb_test_tab.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 6 Jan 2022, 18:48:10
+ {txt}closed on:  {res}13 Jan 2022, 17:46:01
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

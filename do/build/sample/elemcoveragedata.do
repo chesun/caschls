@@ -132,4 +132,4 @@ local years `" "1415" "1516" "1617" "1718" "1819" "' //local macro for elementar
 
 
  log close elemcoveragedata
- translate $projdir/log/build/sample/elemcoveragedatas.smcl $projdir/log/build/sample/elemcoveragedata.log, replace
+ translate $projdir/log/build/sample/elemcoveragedata.smcl $projdir/log/build/sample/elemcoveragedata.log, replace

@@ -95,7 +95,7 @@ if `runsecblock' == 1 {
 local years `" "1415" "1516" "1617" "1718" "1819" "' //local macro for dataset years, only care about last 5 years right now
 
 foreach year of local years {
-  use $clndtadir/demographics/temp/secondary/sec`year'temp, clear
+  use $projdir/dta/demographics/temp/secondary/sec`year'temp, clear
 
   /* gaenerate variables indicating the sex of each student */
 
@@ -258,15 +258,15 @@ foreach year of local years {
 
   drop if missing(cdscode) //drop observations with missing cdscode
 
-  merge 1:1 cdscode using $clndtadir/enrollment/schoollevel/enr`year' //merge with frequency dataset (number of surveys for each school)
+  merge 1:1 cdscode using $projdir/dta/enrollment/schoollevel/enr`year' //merge with frequency dataset (number of surveys for each school)
   drop if _merge != 3 //drop all observations that are not matched
   drop _merge
 
   compress //compress dataset to save memory
-  save $clndtadir/demographics/secondary/secdemo`year', replace
+  save $projdir/dta/demographics/secondary/secdemo`year', replace
 
 }
 
 
 log close secdemographics
-translate $projdir/log/build/sample/secdemographics.smcl $projdir/log/build/sample/secdemographics.log, replace 
+translate $projdir/log/build/sample/secdemographics.smcl $projdir/log/build/sample/secdemographics.log, replace

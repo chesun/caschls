@@ -1,0 +1,519 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}secdemographics
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/sample/secdemographics.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 7 Apr 2022, 11:20:00
+{txt}
+{com}. 
+. ********************************************************************************
+. /* the following block renames variables in the secondary datasets. THis creates temp datasets to build
+> demographics datasets from in the following block of code */
+. 
+. local runsecblock = 0
+{txt}
+{com}. if `runsecblock' == 1 {c -(}
+.   use $clndtadir/secondary/sec1415, clear
+.   rename a4 sex
+.   label var sex "sex of student"
+.   rename a5 selfreportgrade
+.   label var selfreportgrade "self-reported grade"
+.   rename a6 hispanic
+.   label var hispanic "the student is hispanic or latino"
+.   rename a7 race
+.   label var race "race of student"
+.   save $projdir/dta/demographics/temp/secondary/sec1415temp, replace
+. 
+. 
+.   use $clndtadir/secondary/sec1516, clear
+.   rename a4 sex
+.   label var sex "sex of student"
+.   rename a5 selfreportgrade
+.   label var selfreportgrade "self-reported grade"
+.   rename a6 hispanic
+.   label var hispanic "the student is hispanic or latino"
+.   rename a7 race
+.   label var race "race of student"
+.   save $projdir/dta/demographics/temp/secondary/sec1516temp, replace
+. 
+. 
+.   use $clndtadir/secondary/sec1617, clear
+.   rename a3 sex
+.   label var sex "sex of student"
+.   rename a4 selfreportgrade
+.   label var selfreportgrade "self-reported grade"
+.   rename a5 hispanic
+.   label var hispanic "the student is hispanic or latino"
+.   rename a6 race
+.   label var race "race of student"
+.   save $projdir/dta/demographics/temp/secondary/sec1617temp, replace
+. 
+. 
+.   /* note: sec1718 and 1819 also  has a self reported gender variable, includes trans,nb, or questioning as an option */
+. 
+.   use $clndtadir/secondary/sec1718, clear
+.   rename a3 sex
+.   label var sex "sex of student"
+.   rename a4 selfreportgrade
+.   label var selfreportgrade "self-reported grade"
+.   rename a5 hispanic
+.   label var hispanic "the student is hispanic or latino"
+.   rename a6 race
+.   label var race "race of student"
+.   save $projdir/dta/demographics/temp/secondary/sec1718temp, replace
+. 
+. 
+.   use $clndtadir/secondary/sec1819, clear
+.   rename a3 sex
+.   label var sex "sex of student"
+.   rename a4 selfreportgrade
+.   label var selfreportgrade "self-reported grade"
+.   rename a5 hispanic
+.   label var hispanic "the student is hispanic or latino"
+.   rename a6 race
+.   label var race "race of student"
+.   save $projdir/dta/demographics/temp/secondary/sec1819temp, replace
+. 
+. {c )-}
+{txt}
+{com}. 
+. 
+. 
+. 
+. 
+. 
+. 
+. ********************************************************************************
+. /* The following block of code builds secondary survey demographics dataset and merges with enrollment dataset */
+. 
+. local years `" "1415" "1516" "1617" "1718" "1819" "' //local macro for dataset years, only care about last 5 years right now
+{txt}
+{com}. 
+. foreach year of local years {c -(}
+{txt}  2{com}.   use $projdir/dta/demographics/temp/secondary/sec`year'temp, clear
+{txt}  3{com}. 
+.   /* gaenerate variables indicating the sex of each student */
+. 
+.   // NOte: in secondary datasets the var sex equals 1 if male and 2 if female
+.   gen byte female = 0
+{txt}  4{com}.   replace female = 1 if sex == 2
+{txt}  5{com}. 
+.   gen byte male = 0
+{txt}  6{com}.   replace male = 1 if sex == 1
+{txt}  7{com}. 
+.   /* generate variables indicating each grade */
+.   /* value label of grade var:
+>   6: 6th grade
+>   7: 7th grade
+>   8: 8th grade
+>   9: 9th grade
+>   10: 10th grade
+>   11: 11th grade
+>   12: 12th grade
+>   13: non traditional  */
+. 
+.   gen byte gr6 = 0
+{txt}  8{com}.   gen byte gr7 = 0
+{txt}  9{com}.   gen byte gr8 = 0
+{txt} 10{com}.   gen byte gr9 = 0
+{txt} 11{com}.   gen byte gr10 = 0
+{txt} 12{com}.   gen byte gr11 = 0
+{txt} 13{com}.   gen byte gr12 = 0
+{txt} 14{com}.   gen byte grnt = 0
+{txt} 15{com}. 
+.   replace gr6 = 1 if grade == 6 //note: the grade variable here is adjusted by CBEDS enrollment
+{txt} 16{com}.   replace gr7 = 1 if grade == 7
+{txt} 17{com}.   replace gr8 = 1 if grade == 8
+{txt} 18{com}.   replace gr9 = 1 if grade == 9
+{txt} 19{com}.   replace gr10 = 1 if grade == 10
+{txt} 20{com}.   replace gr11 = 1 if grade == 11
+{txt} 21{com}.   replace gr12 = 1 if grade == 12
+{txt} 22{com}.   replace grnt = 1 if grade == 13 //grnt is a dummy var for non traditioanl student
+{txt} 23{com}. 
+.   /* generate vars for number of female and male students in each grade */
+.   gen byte femalegr6 = 0
+{txt} 24{com}.   replace femalegr6 = 1 if female == 1 & gr6 == 1
+{txt} 25{com}.   gen byte femalegr7 = 0
+{txt} 26{com}.   replace femalegr7 = 1 if female == 1 & gr7 == 1
+{txt} 27{com}.   gen byte femalegr8 = 0
+{txt} 28{com}.   replace femalegr8 = 1 if female == 1 & gr8 == 1
+{txt} 29{com}.   gen byte femalegr9 = 0
+{txt} 30{com}.   replace femalegr9 = 1 if female == 1 & gr9 == 1
+{txt} 31{com}.   gen byte femalegr10 = 0
+{txt} 32{com}.   replace femalegr10 = 1 if female == 1 & gr10 == 1
+{txt} 33{com}.   gen byte femalegr11 = 0
+{txt} 34{com}.   replace femalegr11 = 1 if female == 1 & gr11 == 1
+{txt} 35{com}.   gen byte femalegr12 = 0
+{txt} 36{com}.   replace femalegr12 = 1 if female == 1 & gr12 == 1
+{txt} 37{com}.   gen byte femalegrnt = 0
+{txt} 38{com}.   replace femalegrnt = 1 if female == 1 & grnt == 1
+{txt} 39{com}. 
+.   gen byte malegr6 = 0
+{txt} 40{com}.   replace malegr6 = 1 if male == 1 & gr6 == 1
+{txt} 41{com}.   gen byte malegr7 = 0
+{txt} 42{com}.   replace malegr7 = 1 if male == 1 & gr7 == 1
+{txt} 43{com}.   gen byte malegr8 = 0
+{txt} 44{com}.   replace malegr8 = 1 if male == 1 & gr8 == 1
+{txt} 45{com}.   gen byte malegr9 = 0
+{txt} 46{com}.   replace malegr9 = 1 if male == 1 & gr9 == 1
+{txt} 47{com}.   gen byte malegr10 = 0
+{txt} 48{com}.   replace malegr10 = 1 if male == 1 & gr10 == 1
+{txt} 49{com}.   gen byte malegr11 = 0
+{txt} 50{com}.   replace malegr11 = 1 if male == 1 & gr11 == 1
+{txt} 51{com}.   gen byte malegr12 = 0
+{txt} 52{com}.   replace malegr12 = 1 if male == 1 & gr12 == 1
+{txt} 53{com}.   gen byte malegrnt = 0
+{txt} 54{com}.   replace malegrnt = 1 if male == 1 & grnt == 1
+{txt} 55{com}. 
+.   /* generate vars for number of students by race in each grade */
+. 
+.   /* value label for hispanic:
+>   1: No
+>   2: Yes
+>   value label for race:
+>   1: American Indian or Alaska Native
+>   2: Asian
+>   3: Black or African American
+>   4: Native Hawaiian or Pacific Islander
+>   5: White
+>   6: Mixed (two or more) races */
+. 
+.   local grades `" "6" "7" "8" "9" "10" "11" "12" "nt" "' //generate a local macro for grades in the dataset
+{txt} 56{com}.   foreach i of local grades {c -(}
+{txt} 57{com}.     gen byte hispanicgr`i' = 0 // a dummy var for hispanic students in grade i
+{txt} 58{com}.     replace hispanicgr`i' = 1 if hispanic == 2 & gr`i' == 1
+{txt} 59{com}.     gen byte nativegr`i' = 0 //a dummy var for american indian or alaskan native students in grade i
+{txt} 60{com}.     replace nativegr`i' = 1 if race == 1 & gr`i' == 1
+{txt} 61{com}.     gen byte asiangr`i' = 0 //dummy var for asian students in grade i
+{txt} 62{com}.     replace asiangr`i' = 1 if race == 2 & gr`i' == 1
+{txt} 63{com}.     gen byte blackgr`i' = 0 //dummy var for black or african american students in grade i
+{txt} 64{com}.     replace blackgr`i' = 1 if race == 3 & gr`i' == 1
+{txt} 65{com}.     gen byte pacificgr`i' = 0 //dummy var for native hawaiian or pacific islander students in grade i
+{txt} 66{com}.     replace pacificgr`i' = 1 if race == 4 & gr`i' == 1
+{txt} 67{com}.     gen byte whitegr`i' = 0 //a dummuy var for white students in grade i
+{txt} 68{com}.     replace whitegr`i' = 1 if race == 5 & gr`i' == 1
+{txt} 69{com}.     gen byte mixedgr`i' = 0 //dummy var for mixed (two or more) races students in grade i
+{txt} 70{com}.     replace mixedgr`i' = 1 if race == 6 & gr`i' == 1
+{txt} 71{com}.   {c )-}
+{txt} 72{com}. 
+.   //collapse by sum of these dummy vars to get the number of each category of students for each school
+.   collapse (sum) female male gr6 gr7 gr8 gr9 gr10 gr11 gr12 grnt ///
+>   femalegr6 femalegr7 femalegr8 femalegr9 femalegr10 femalegr11 femalegr12 femalegrnt ///
+>   malegr6 malegr7 malegr8 malegr9 malegr10 malegr11 malegr12 malegrnt ///
+>   hispanicgr6 hispanicgr7 hispanicgr8 hispanicgr9 hispanicgr10 hispanicgr11 hispanicgr12 hispanicgrnt ///
+>   nativegr6 nativegr7 nativegr8 nativegr9 nativegr10 nativegr11 nativegr12 nativegrnt ///
+>   asiangr6 asiangr7 asiangr8 asiangr9 asiangr10 asiangr11 asiangr12 asiangrnt ///
+>   blackgr6 blackgr7 blackgr8 blackgr9 blackgr10 blackgr11 blackgr12 blackgrnt ///
+>   pacificgr6 pacificgr7 pacificgr8 pacificgr9 pacificgr10 pacificgr11 pacificgr12 pacificgrnt ///
+>   whitegr6 whitegr7 whitegr8 whitegr9 whitegr10 whitegr11 whitegr12 whitegrnt ///
+>   mixedgr6 mixedgr7 mixedgr8 mixedgr9 mixedgr10 mixedgr11 mixedgr12 mixedgrnt, by(cdscode)
+{txt} 73{com}. 
+.   rename female svyfemale
+{txt} 74{com}.   rename male svymale
+{txt} 75{com}.   label var svyfemale "number of female students in the survey"
+{txt} 76{com}.   label var svymale "number of male students in the survey"
+{txt} 77{com}. 
+.   foreach i of local grades {c -(}
+{txt} 78{com}.     rename gr`i' svygr`i'
+{txt} 79{com}.     label var svygr`i' "number of students in grade `i' in survey"
+{txt} 80{com}.     rename femalegr`i' svyfemalegr`i'
+{txt} 81{com}.     label var svyfemalegr`i' "number of female students in grade `i' in survey"
+{txt} 82{com}.     rename malegr`i' svymalegr`i'
+{txt} 83{com}.     label var svymalegr`i' "number of male students in grade `i' in survey"
+{txt} 84{com}. 
+.     rename hispanicgr`i' svyhispanicgr`i'
+{txt} 85{com}.     label var svyhispanicgr`i' "number of Hispanic students in grade `i' in the survey"
+{txt} 86{com}.     rename nativegr`i' svynativegr`i'
+{txt} 87{com}.     label var svynativegr`i' "number of Native American students in grade `i' in the survey"
+{txt} 88{com}.     rename asiangr`i' svyasiangr`i'
+{txt} 89{com}.     label var svyasiangr`i' "number of Asian students in grade `i' in the survey"
+{txt} 90{com}.     rename blackgr`i' svyblackgr`i'
+{txt} 91{com}.     label var svyblackgr`i' "number of black students in grade `i' in the survey"
+{txt} 92{com}.     rename pacificgr`i' svypacificgr`i'
+{txt} 93{com}.     label var svypacificgr`i' "number of Pacific Islander students in grade `i' in the survey"
+{txt} 94{com}.     rename whitegr`i' svywhitegr`i'
+{txt} 95{com}.     label var svywhitegr`i' "number of white students in grade `i' in the survey"
+{txt} 96{com}.     rename mixedgr`i' svymixedgr`i'
+{txt} 97{com}.     label var svymixedgr`i' "number of mixed race students in grade `i' in the survey"
+{txt} 98{com}.   {c )-}
+{txt} 99{com}. 
+. 
+.   //rename the non traditional student vars
+.   label var svygrnt "number of non-traditional students in survey"
+{txt}100{com}.   label var svyfemalegrnt "number of non-traditional female students in survey"
+{txt}101{com}.   label var svymalegrnt "number of non-traditioanl male students in survey"
+{txt}102{com}. 
+.   label var svyhispanicgrnt "number of Hispanic non-traditional students in survey"
+{txt}103{com}.   label var svynativegrnt "number of Native American non-traditional students in survey"
+{txt}104{com}.   label var svyasiangrnt "number of Asian non-traditional students in survey"
+{txt}105{com}.   label var svyblackgrnt "number of black non-traditional students in survey"
+{txt}106{com}.   label var svypacificgrnt "number of Pacific Islander non-traditional students in survey"
+{txt}107{com}.   label var svywhitegrnt "number of white non-traditional students in survey"
+{txt}108{com}.   label var svymixedgrnt "number of mixed-race non-traditional students in survey"
+{txt}109{com}. 
+.   drop if missing(cdscode) //drop observations with missing cdscode
+{txt}110{com}. 
+.   merge 1:1 cdscode using $projdir/dta/enrollment/schoollevel/enr`year' //merge with frequency dataset (number of surveys for each school)
+{txt}111{com}.   drop if _merge != 3 //drop all observations that are not matched
+{txt}112{com}.   drop _merge
+{txt}113{com}. 
+.   compress //compress dataset to save memory
+{txt}114{com}.   save $$projdir/dta/demographics/secondary/secdemo`year', replace
+{txt}115{com}. 
+. {c )-}
+{txt}(169,291 real changes made)
+(168,770 real changes made)
+(3,732 real changes made)
+(115,167 real changes made)
+(7,398 real changes made)
+(103,731 real changes made)
+(13,869 real changes made)
+(84,351 real changes made)
+(9,829 real changes made)
+(9,140 real changes made)
+(1,400 real changes made)
+(56,124 real changes made)
+(3,225 real changes made)
+(50,028 real changes made)
+(6,752 real changes made)
+(41,319 real changes made)
+(4,920 real changes made)
+(3,422 real changes made)
+(1,381 real changes made)
+(54,756 real changes made)
+(3,129 real changes made)
+(49,924 real changes made)
+(6,911 real changes made)
+(40,306 real changes made)
+(4,808 real changes made)
+(5,395 real changes made)
+(2,049 real changes made)
+(266 real changes made)
+(204 real changes made)
+(196 real changes made)
+(54 real changes made)
+(923 real changes made)
+(1,733 real changes made)
+(61,442 real changes made)
+(4,305 real changes made)
+(11,078 real changes made)
+(4,826 real changes made)
+(1,706 real changes made)
+(29,377 real changes made)
+(49,736 real changes made)
+(4,262 real changes made)
+(442 real changes made)
+(393 real changes made)
+(376 real changes made)
+(102 real changes made)
+(1,716 real changes made)
+(3,232 real changes made)
+(55,380 real changes made)
+(3,711 real changes made)
+(11,363 real changes made)
+(4,727 real changes made)
+(2,140 real changes made)
+(27,169 real changes made)
+(39,741 real changes made)
+(7,434 real changes made)
+(542 real changes made)
+(1,197 real changes made)
+(780 real changes made)
+(274 real changes made)
+(3,959 real changes made)
+(4,571 real changes made)
+(45,544 real changes made)
+(2,754 real changes made)
+(8,712 real changes made)
+(3,903 real changes made)
+(1,988 real changes made)
+(24,890 real changes made)
+(28,174 real changes made)
+(5,116 real changes made)
+(302 real changes made)
+(1,004 real changes made)
+(652 real changes made)
+(196 real changes made)
+(3,213 real changes made)
+(2,574 real changes made)
+(6,134 real changes made)
+(565 real changes made)
+(213 real changes made)
+(684 real changes made)
+(173 real changes made)
+(1,964 real changes made)
+(3,721 real changes made)
+{res}{txt}(1 observation deleted)
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}           9,331
+{txt}{col 9}from master{col 30}{res}              96{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           9,235{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}           1,184{txt}  (_merge==3)
+{col 5}{hline 41}
+(9,331 observations deleted)
+  variable {bf}{res}gr1femaleenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr1maleenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr2maleenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr3femaleenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr4femaleenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr4maleenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr5femaleenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr5maleenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr1noethnicenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr1asianenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr1blackenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr1whiteenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr2noethnicenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr2asianenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr2blackenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr2whiteenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr3noethnicenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr3asianenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr4noethnicenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr4asianenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr5noethnicenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr5asianenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr6filipinoenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr9noethnicenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr12noethnicenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}svyfemale{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svymale{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr6{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr7{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr8{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr9{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr10{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr11{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr12{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygrnt{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svyfemalegr6{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svyfemalegr7{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svyfemalegr8{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svyfemalegr9{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svyfemalegr10{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svyfemalegr11{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svyfemalegr12{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svyfemalegrnt{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svymalegr6{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svymalegr7{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svymalegr8{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svymalegr9{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svymalegr10{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svymalegr11{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svymalegr12{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svymalegrnt{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svyhispanicgr6{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svyhispanicgr7{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svyhispanicgr8{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svyhispanicgr9{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svyhispanicgr10{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svyhispanicgr11{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svyhispanicgr12{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svyhispanicgrnt{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svynativegr6{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}svynativegr7{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svynativegr8{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svynativegr9{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svynativegr10{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}svynativegr11{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svynativegr12{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}svynativegrnt{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}svyasiangr6{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}svyasiangr7{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svyasiangr8{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}svyasiangr9{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svyasiangr10{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svyasiangr11{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svyasiangr12{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svyasiangrnt{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}svyblackgr6{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}svyblackgr7{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}svyblackgr8{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}svyblackgr9{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svyblackgr10{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}svyblackgr11{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}svyblackgr12{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}svyblackgrnt{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}svypacificgr6{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}svypacificgr7{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}svypacificgr8{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}svypacificgr9{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}svypacificgr10{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}svypacificgr11{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}svypacificgr12{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}svypacificgrnt{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}svywhitegr6{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}svywhitegr7{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svywhitegr8{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svywhitegr9{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svywhitegr10{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svywhitegr11{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svywhitegr12{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svywhitegrnt{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svymixedgr6{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svymixedgr7{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svymixedgr8{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svymixedgr9{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svymixedgr10{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svymixedgr11{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svymixedgr12{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svymixedgrnt{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+{txt}  (639,360 bytes saved)
+{p 0 4 2}
+(file {bf}
+$/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/secondary/secdemo1415.dta{rm}
+not found)
+{p_end}
+{err}{p 0 4 2}
+file {bf:{err}$/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/secondary/secdemo1415.dta}
+could not be opened
+{p_end}
+{txt}{search r(603), local:r(603);}
+
+end of do-file
+{search r(603), local:r(603);}
+{com}.   pause
+. 
+.   do $projdir/do/build/sample/seccoveragedata
+.   pause
+. 
+.   do $projdir/do/share/demographics/seccoverageanalysis
+.   pause
+. 
+.   do $projdir/do/build/sample/parentdemographics
+.   pause
+. 
+.   do $projdir/do/build/sample/parentcoveragedata
+.   pause
+. 
+.   do $projdir/do/share/demographics/parentcoverageanalysis
+.   pause
+. 
+.   do $projdir/do/build/sample/pooledsecdemographics
+.   pause
+. 
+.   do $projdir/do/build/sample/pooledsecdiagnostics
+.   pause
+. 
+.   do $projdir/do/share/demographics/pooledsecanalysis
+.   pause
+. 
+.   do $projdir/do/build/sample/pooledparentdemographics
+.   pause
+. 
+.   do $projdir/do/build/sample/pooledparentdiagnostics
+.   pause
+. 
+.   do $projdir/do/check/pooledparentcheck
+.   pause
+. {c )-}
+{txt}{search r(603), local:r(603);}
+
+end of do-file
+
+{search r(603), local:r(603);}
+
+{com}. 

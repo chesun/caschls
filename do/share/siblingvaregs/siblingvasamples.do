@@ -109,7 +109,7 @@ replace touse = 0 if cohort_size<=10
 
 
 ******** Postsecondary Outcomes
-do $vaprojdir/merge_k12_postsecondary.doh enr_only
+do $vaprojdir/do_files/merge_k12_postsecondary.doh enr_only
 drop enr enr_2year enr_4year
 rename enr_ontime enr
 rename enr_ontime_2year enr_2year

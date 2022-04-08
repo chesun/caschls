@@ -1,0 +1,656 @@
+-------------------------------------------------------------------------------
+      name:  gradetab
+       log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/check/gradet
+> ab.smcl
+  log type:  smcl
+ opened on:   6 Apr 2022, 18:35:43
+
+. 
+. ******************** Tabulate elementary datasets ***************************
+> ****
+. 
+. local elemdtaname `" "elem1415" "elem1516" "elem1617" "elem1718" "elem1819" "
+> ' //local macro for elementary dataset names
+
+. 
+. foreach i of local elemdtaname {
+  2.   use $clndtadir/elementary/`i', clear
+  3.   estpost tab grade
+  4.   esttab using "$projdir/out/csv/gradetab/elementary/`i'.csv", cells("b(la
+> bel(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') nonumber noobs
+>  nomtitle replace
+  5. }
+
+       grade |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+         3rd |       378   .5361474   .5361474 
+         4th |      2505    3.55304   4.089188 
+         5th |     65660   93.13079   97.21998 
+         6th |      1960   2.780024        100 
+-------------+---------------------------------
+       Total |     70503        100            
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/elementary/elem1415.csv)
+
+       grade |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+         3rd |       339   .3143371   .3143371 
+         4th |      2615   2.424754   2.739091 
+         5th |     99763   92.50505   95.24414 
+         6th |      5129   4.755856        100 
+-------------+---------------------------------
+       Total |    107846        100            
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/elementary/elem1516.csv)
+(2016-17 Elementary CHKS Data)
+
+       grade |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+         3rd |      1238   1.307935   1.307935 
+         4th |      2868   3.030015    4.33795 
+         5th |     87088   92.00765    96.3456 
+         6th |      3459   3.654401        100 
+-------------+---------------------------------
+       Total |     94653        100            
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/elementary/elem1617.csv)
+(2017-18 Elementary CHKS Data)
+
+       grade |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+         3rd |      2342   1.754149   1.754149 
+         4th |      4364    3.26862   5.022769 
+         5th |    120198   90.02786   95.05063 
+         6th |      6608   4.949368        100 
+-------------+---------------------------------
+       Total |    133512        100            
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/elementary/elem1718.csv)
+(2018-19 Elementary CHKS Data)
+
+       grade |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+         3rd |      1308   1.288797   1.288797 
+         4th |      2803   2.761848   4.050645 
+         5th |     93564   92.19036   96.24101 
+         6th |      3815   3.758991        100 
+-------------+---------------------------------
+       Total |    101490        100            
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/elementary/elem1819.csv)
+
+. 
+. 
+. *********************** Tabulate parent datasets ****************************
+> ***
+. 
+. use $clndtadir/parent/parent1415, clear
+( )
+
+. estpost tab q6 //q6 is the question that asks about the grade of the child
+
+          q6 |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+         -82 |         1   .0026274   .0026274 
+          -8 |      1327   3.486508   3.489136 
+_kindergar~n |      3080   8.092273   11.58141 
+  _1st_grade |      3183   8.362891    19.9443 
+  _2nd_grade |      3257   8.557316   28.50162 
+  _3rd_grade |      3346   8.791151   37.29277 
+  _4th_grade |      3457   9.082788   46.37556 
+  _5th_grade |      6658   17.49297   63.86853 
+  _6th_grade |      3022   7.939886   71.80841 
+  _8th_grade |      2042   5.365072   77.17348 
+  _9th_grade |      2410   6.331941   83.50543 
+ _10th_grade |      2273   5.971992   89.47742 
+ _11th_grade |      2168   5.696119   95.17354 
+ _12th_grade |      1513   3.975198   99.14873 
+      _other |       225   .5911563   99.73989 
+   _ungraded |        99   .2601088        100 
+-------------+---------------------------------
+       Total |     38061        100            
+
+. esttab using "$projdir/out/csv/gradetab/parent/parent1415.csv", cells("b(labe
+> l(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') nonumber noobs n
+> omtitle replace
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/parent/parent1415.csv)
+
+. 
+. use $clndtadir/parent/parent1516, clear
+(2015-16 Parent CSPS Data)
+
+. estpost tab p7 //p7 is the question that asks about the grade of the child
+
+          p7 |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+Kindergarten |      4171   6.223144   6.223144 
+   1st_grade |      4571   6.819945   13.04309 
+  2nd__grade |      4884   7.286942   20.33003 
+   3rd_grade |      5224   7.794223   28.12425 
+   4th_grade |      5802   8.656601   36.78085 
+  5th__grade |      8030   11.98078   48.76164 
+   6th_grade |      5033    7.50925   56.27089 
+   7th_grade |      5798   8.650633   64.92152 
+   8th_grade |      4635   6.915433   71.83695 
+   9th_grade |      5516   8.229888   80.06684 
+  10th_grade |      4465   6.661793   86.72863 
+  11th_grade |      4946   7.379446   94.10808 
+  12th_grade |      3461   5.163822    99.2719 
+       Other |       380   .5669611   99.83886 
+    Ungraded |       108   .1611363        100 
+-------------+---------------------------------
+       Total |     67024        100            
+
+. esttab using "$projdir/out/csv/gradetab/parent/parent1516.csv", cells("b(labe
+> l(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') nonumber noobs n
+> omtitle replace
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/parent/parent1516.csv)
+
+. 
+. use $clndtadir/parent/parent1617, clear
+(2016-17 Parent CSPS Data)
+
+. estpost tab p7 //p7 is the question that asks about the grade of the child
+
+          p7 |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+Kindergarten |     11911   10.49011   10.49011 
+   1st_grade |     10017   8.822053   19.31217 
+  2nd__grade |      9655   8.503237    27.8154 
+   3rd_grade |     10720   9.441191   37.25659 
+   4th_grade |     11571   10.19067   47.44727 
+  5th__grade |      9602   8.456559   55.90383 
+   6th_grade |      7498   6.603549   62.50738 
+   7th_grade |      7780   6.851909   69.35928 
+   8th_grade |      6660   5.865516    75.2248 
+   9th_grade |      7261   6.394821   81.61962 
+  10th_grade |      6556   5.773922   87.39354 
+  11th_grade |      7455   6.565679   93.95922 
+  12th_grade |      5628   4.956625   98.91585 
+       Other |       969   .8534061   99.76925 
+    Ungraded |       262   .2307455        100 
+-------------+---------------------------------
+       Total |    113545        100            
+
+. esttab using "$projdir/out/csv/gradetab/parent/parent1617.csv", cells("b(labe
+> l(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') nonumber noobs n
+> omtitle replace
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/parent/parent1617.csv)
+
+. 
+. use $clndtadir/parent/parent1718, clear
+(2017-18 Parent CSPS Data)
+
+. estpost tab p7 //p7 is the question that asks about the grade of the child
+
+          p7 |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+Kindergarten |     11404   7.958019   7.958019 
+   1st_grade |     11590   8.087815   16.04583 
+  2nd__grade |     11475   8.007564    24.0534 
+   3rd_grade |     12120   8.457663   32.51106 
+   4th_grade |     12928   9.021507   41.53257 
+   5th_grade |     13989   9.761901   51.29447 
+   6th_grade |     10404   7.260192   58.55466 
+   7th_grade |     10916   7.617479   66.17214 
+   8th_grade |      9300   6.489791   72.66193 
+   9th_grade |     10302   7.189013   79.85094 
+  10th_grade |      9154   6.387908   86.23885 
+  11th_grade |      9928   6.928026   93.16688 
+  12th_grade |      8096   5.649607   98.81649 
+       Other |      1346   .9392751   99.75576 
+    Ungraded |       350   .2442394        100 
+-------------+---------------------------------
+       Total |    143302        100            
+
+. esttab using "$projdir/out/csv/gradetab/parent/parent1718.csv", cells("b(labe
+> l(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') nonumber noobs n
+> omtitle replace
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/parent/parent1718.csv)
+
+. 
+. use $clndtadir/parent/parent1819, clear
+(2018-19 Parent CSPS Data)
+
+. estpost tab p7 //p7 is the question that asks about the grade of the child
+
+          p7 |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+Kindergarten |     12442   7.977073   7.977073 
+   1st_grade |     12056   7.729592   15.70667 
+   2nd_grade |     12512   8.021953   23.72862 
+   3rd_grade |     13536   8.678481    32.4071 
+   4th_grade |     13554   8.690021   41.09712 
+   5th_grade |     16602   10.64422   51.74134 
+   6th_grade |     11770   7.546226   59.28756 
+   7th_grade |     12568   8.057857   67.34542 
+   8th_grade |      9940   6.372939   73.71836 
+   9th_grade |     10899   6.987793   80.70615 
+  10th_grade |      9417   6.037622   86.74377 
+  11th_grade |     10262   6.579386   93.32316 
+  12th_grade |      8332   5.341984   98.66515 
+       Other |      1740   1.115585   99.78073 
+    Ungraded |       342   .2192701        100 
+-------------+---------------------------------
+       Total |    155972        100            
+
+. esttab using "$projdir/out/csv/gradetab/parent/parent1819.csv", cells("b(labe
+> l(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') nonumber noobs n
+> omtitle replace
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/parent/parent1819.csv)
+
+. 
+. 
+. 
+. *********************** Tabulate secondary datasets *************************
+> ***
+. 
+. /* only tabulating the most recent 5 years  */
+. 
+. local secdtaname `" "sec1415" "sec1516" "sec1617" "sec1718" "sec1819" "' //lo
+> cal macro for secondary dataset names, only the most recent 5 years
+
+. 
+. foreach i of local secdtaname {
+  2.   use $clndtadir/secondary/`i', clear
+  3.   estpost tab grade
+  4.   esttab using "$projdir/out/csv/gradetab/secondary/`i'.csv", cells("b(lab
+> el(freq)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') nonumber noobs 
+> nomtitle replace
+  5. }
+
+       grade |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+         6th |      3732   1.074832   1.074832 
+         7th |    115167   33.16859   34.24343 
+         8th |      7398   2.130656   36.37408 
+         9th |    103731   29.87498   66.24906 
+        10th |     13869   3.994332   70.24339 
+        11th |     84351   24.29345   94.53685 
+        12th |      9829   2.830795   97.36764 
+Non-tradit~l |      9140    2.63236        100 
+-------------+---------------------------------
+       Total |    347217        100            
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/secondary/sec1415.csv)
+(2015-16 secondary CHKS data)
+
+       grade |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+         6th |      5074   .9094787   .9094787 
+         7th |    175756   31.50302    32.4125 
+         8th |     13888   2.489326   34.90183 
+         9th |    167629   30.04632   64.94815 
+        10th |     20250    3.62967   68.57781 
+        11th |    141346   25.33527   93.91309 
+        12th |     15970    2.86251    96.7756 
+Non-tradit~l |     17989   3.224401        100 
+-------------+---------------------------------
+       Total |    557902        100            
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/secondary/sec1516.csv)
+(2016-17 Secondary CHKS Data)
+
+       grade |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+         6th |      4688   .9907225   .9907225 
+         7th |    145275    30.7012   31.69192 
+         8th |     14672   3.100657   34.79258 
+         9th |    141666    29.9385   64.73108 
+        10th |     18215   3.849405   68.58049 
+        11th |    121194   25.61212   94.19261 
+        12th |     14314   3.025001   97.21761 
+Non-tradit~l |     13166   2.782392        100 
+-------------+---------------------------------
+       Total |    473190        100            
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/secondary/sec1617.csv)
+(2017-18 Secondary CHKS Data)
+
+       grade |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+         6th |      5315   .8205681   .8205681 
+         7th |    205794   31.77196   32.59253 
+         8th |     15419   2.380497   34.97303 
+         9th |    193787   29.91824   64.89127 
+        10th |     26057   4.022868   68.91413 
+        11th |    162863   25.14397    94.0581 
+        12th |     20123   3.106734   97.16483 
+Non-tradit~l |     18364   2.835167        100 
+-------------+---------------------------------
+       Total |    647722        100            
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/secondary/sec1718.csv)
+(2018-19 Secondary CHKS Data)
+
+       grade |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+         6th |      5434   1.067273   1.067273 
+         7th |    165956   32.59484   33.66212 
+         8th |     14639   2.875195   36.53731 
+         9th |    148280   29.12316   65.66048 
+        10th |     21796   4.280877   69.94135 
+        11th |    121986   23.95885    93.9002 
+        12th |     18215   3.577545   97.47775 
+Non-tradit~l |     12842   2.522253        100 
+-------------+---------------------------------
+       Total |    509148        100            
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/secondary/sec1819.csv)
+
+. 
+. 
+. 
+. 
+. ************************* Tabulate staff datasets ***************************
+> ***
+. 
+. /* only tabulating the most recent 5 years  */
+. 
+. /* q1 teacher classifications vars
+> Question 1: What is your role(s) at this school? (Mark All That Apply.)
+> 
+> q1a: teacher in grade 5 or above
+> q1b: teacher in grade 4 or below
+> q1c: special education teacher
+> q1d: administrator
+> q1e: prevention staff nurse, or health aide
+> q1f: counselor, psychologist
+> q1g: police, resource officer, or safety personnel
+> q1h: Paraprofessional, teacher assistant, or instructional aide
+> q1i: Other certificated staff (e.g. librarian)
+> q1j: Other classified staff (e.g. janitor, secretarial or clerical, food serv
+> ice)
+> q1k: Other service provider (e.g. speech, occupational, physical therapist)
+> 
+> */
+. 
+. 
+. 
+. 
+. local staffdtaname `" "staff1415" "staff1516" "staff1617" "staff1718" "staff1
+> 819" "' //local macro for staff dataset names, only the most recent 5 years
+
+. 
+. foreach i of local staffdtaname {
+  2. 
+.   use $clndtadir/staff/`i', clear
+  3. 
+.   gen below4above5 = . //generate a var that indicates whether the teacher te
+> aches both above grade 5 and below grade 4
+  4.   replace below4above5 = 0 if q1a == 0 | q1b ==0
+  5.   replace below4above5 = 1 if q1a == 1 & q1b == 1
+  6. 
+.   estpost tab q1a
+  7.   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(f
+> req)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("teacher in g
+> rade 4 or below") nonumber noobs nomtitle replace
+  8.   estpost tab q1b
+  9.   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(f
+> req)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("teacher in g
+> rade 5 or above") nonumber noobs nomtitle append
+ 10.   estpost tab below4above5
+ 11.   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(f
+> req)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("teacher in b
+> oth above grade 5 and below grade 4") nonumber noobs nomtitle append
+ 12.   estpost tab q1c
+ 13.   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(f
+> req)) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("special educ
+> ation teacher") nonumber noobs nomtitle append
+ 14.   /* estpost tab q1d
+>   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq
+> )) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("administrator")
+>  nonumber noobs nomtitle append
+>   estpost tab q1e
+>   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq
+> )) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("prevention staf
+> f nurse, or health aide") nonumber noobs nomtitle append
+>   estpost tab q1f
+>   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq
+> )) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("counselor, psyc
+> hologist") nonumber noobs nomtitle append
+>   estpost tab q1g
+>   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq
+> )) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("police, resourc
+> e officer, or safety personnel") nonumber noobs nomtitle append
+>   estpost tab q1h
+>   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq
+> )) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("paraprofessiona
+> l, teacher assistant, or instructional aide") nonumber noobs nomtitle append
+>   estpost tab q1i
+>   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq
+> )) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("other certifica
+> ted staff (e.g. librarian)") nonumber noobs nomtitle append
+>   estpost tab q1j
+>   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq
+> )) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("other classifie
+> d staff (e.g. janitor, secretarial or clerical, food service)") nonumber noob
+> s nomtitle append
+>   estpost tab q1k
+>   esttab using "$projdir/out/csv/gradetab/staff/`i'.csv", cells("b(label(freq
+> )) pct(fmt(2)) cumpct(fmt(2))") varlabels(`e(labels)') title("other service p
+> rovider (e.g. speech, occupational, physical therapist)") nonumber noobs nomt
+> itle append */
+. 
+.   drop below4above5
+ 15. 
+. }
+(2014-15 Staff CSSS Data)
+(33,088 missing values generated)
+(32,692 real changes made)
+(396 real changes made)
+
+         q1a |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+  Not_marked |     17938   54.21301   54.21301 
+      Marked |     15150   45.78699        100 
+-------------+---------------------------------
+       Total |     33088        100            
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/staff/staff1415.csv)
+
+         q1b |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+  Not_marked |     25788   77.93762   77.93762 
+      Marked |      7300   22.06238        100 
+-------------+---------------------------------
+       Total |     33088        100            
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/staff/staff1415.csv)
+
+below4above5 |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+           0 |     32692   98.80319   98.80319 
+           1 |       396   1.196809        100 
+-------------+---------------------------------
+       Total |     33088        100            
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/staff/staff1415.csv)
+
+         q1c |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+  Not_marked |     30327   91.65559   91.65559 
+      Marked |      2761   8.344415        100 
+-------------+---------------------------------
+       Total |     33088        100            
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/staff/staff1415.csv)
+(2015-16 Staff CSSS Data)
+(54,112 missing values generated)
+(53,464 real changes made)
+(648 real changes made)
+
+         q1a |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+  Not_marked |     29044   53.67386   53.67386 
+      Marked |     25068   46.32614        100 
+-------------+---------------------------------
+       Total |     54112        100            
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/staff/staff1516.csv)
+
+         q1b |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+  Not_marked |     43304   80.02661   80.02661 
+      Marked |     10808   19.97339        100 
+-------------+---------------------------------
+       Total |     54112        100            
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/staff/staff1516.csv)
+
+below4above5 |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+           0 |     53464   98.80248   98.80248 
+           1 |       648   1.197516        100 
+-------------+---------------------------------
+       Total |     54112        100            
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/staff/staff1516.csv)
+
+         q1c |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+  Not_marked |     49836   92.09787   92.09787 
+      Marked |      4276   7.902129        100 
+-------------+---------------------------------
+       Total |     54112        100            
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/staff/staff1516.csv)
+(2016-17 Staff CSSS Data)
+(45,642 missing values generated)
+(45,132 real changes made)
+(510 real changes made)
+
+         q1a |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+  Not_marked |     26662   58.41549   58.41549 
+      Marked |     18980   41.58451        100 
+-------------+---------------------------------
+       Total |     45642        100            
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/staff/staff1617.csv)
+
+         q1b |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+  Not_marked |     35589   77.97423   77.97423 
+      Marked |     10053   22.02577        100 
+-------------+---------------------------------
+       Total |     45642        100            
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/staff/staff1617.csv)
+
+below4above5 |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+           0 |     45132   98.88261   98.88261 
+           1 |       510   1.117392        100 
+-------------+---------------------------------
+       Total |     45642        100            
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/staff/staff1617.csv)
+
+         q1c |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+  Not_marked |     41993   92.00517   92.00517 
+      Marked |      3649   7.994829        100 
+-------------+---------------------------------
+       Total |     45642        100            
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/staff/staff1617.csv)
+(2017-18 Staff CSSS Data)
+(67,961 missing values generated)
+(67,168 real changes made)
+(793 real changes made)
+
+         q1a |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+  Not_marked |     53951   79.38524   79.38524 
+      Marked |     14010   20.61476        100 
+-------------+---------------------------------
+       Total |     67961        100            
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/staff/staff1718.csv)
+
+         q1b |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+  Not_marked |     39891    58.6969    58.6969 
+      Marked |     28070    41.3031        100 
+-------------+---------------------------------
+       Total |     67961        100            
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/staff/staff1718.csv)
+
+below4above5 |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+           0 |     67168   98.83315   98.83315 
+           1 |       793   1.166846        100 
+-------------+---------------------------------
+       Total |     67961        100            
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/staff/staff1718.csv)
+
+         q1c |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+  Not_marked |     62401   91.81884   91.81884 
+      Marked |      5560   8.181163        100 
+-------------+---------------------------------
+       Total |     67961        100            
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/staff/staff1718.csv)
+(2018-19 Staff CSSS Data)
+(54,142 missing values generated)
+(53,440 real changes made)
+(702 real changes made)
+
+         q1a |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+  Not_marked |     41686   76.99383   76.99383 
+      Marked |     12456   23.00617        100 
+-------------+---------------------------------
+       Total |     54142        100            
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/staff/staff1819.csv)
+
+         q1b |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+  Not_marked |     33574   62.01101   62.01101 
+      Marked |     20568   37.98899        100 
+-------------+---------------------------------
+       Total |     54142        100            
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/staff/staff1819.csv)
+
+below4above5 |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+           0 |     53440   98.70341   98.70341 
+           1 |       702    1.29659        100 
+-------------+---------------------------------
+       Total |     54142        100            
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/staff/staff1819.csv)
+
+         q1c |      e(b)     e(pct)  e(cumpct) 
+-------------+---------------------------------
+  Not_marked |     49685   91.76794   91.76794 
+      Marked |      4457   8.232056        100 
+-------------+---------------------------------
+       Total |     54142        100            
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/gr
+> adetab/staff/staff1819.csv)
+
+. 
+. 
+. 
+. 
+. 
+. 
+. log close gradetab //close this log file
+      name:  gradetab
+       log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/check/gradet
+> ab.smcl
+  log type:  smcl
+ closed on:   6 Apr 2022, 18:35:46
+-------------------------------------------------------------------------------

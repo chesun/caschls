@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/va_sibling_spec_test_tab.smcl
   log type:  smcl
- opened on:   6 Jan 2022, 18:46:35
+ opened on:  13 Jan 2022, 19:07:22
 
 . 
 .  //run the do helper file to set the local macros
@@ -128,6 +128,8 @@ delimiter now ;
 .  #delimit cr
 delimiter now cr
 .  macro list
+eststo_counter: 4
+eststo:         est1 est2 est3 est4
 vaprojdir:      /home/research/ca_ed_lab/projects/common_core_va
 nscdtadir:      /home/research/ca_ed_lab/data/restricted_access/clean/nsc
 cstdtadir:      /home/research/ca_ed_lab/data/restricted_access/clean/cst
@@ -194,6 +196,9 @@ _test_score_max_year:
                 2019
 _test_score_min_year:
                 2015
+_enr_4year_fb_va_sibling:
+                /home/research/ca_ed_lab/users/chesun/gsr/caschls/est/siblingva
+                > regs/outcome_va/fb_test_va_cfr_g11_enr_4year_sibling.ster
 _enr_4year_spec_va_sibling_peer:
                 /home/research/ca_ed_lab/users/chesun/gsr/caschls/est/siblingva
                 > regs/outcome_va/spec_test_va_cfr_g11_enr_4year_peer_sibling.s
@@ -242,6 +247,9 @@ _enr_4year_spec_va:
 _enr_4year_va_dta:
                 /home/research/ca_ed_lab/projects/common_core_va/data/sbac/va_g
                 > 11_enr_4year.dta, replace
+_enr_2year_fb_va_sibling:
+                /home/research/ca_ed_lab/users/chesun/gsr/caschls/est/siblingva
+                > regs/outcome_va/fb_test_va_cfr_g11_enr_2year_sibling.ster
 _enr_2year_spec_va_sibling_peer:
                 /home/research/ca_ed_lab/users/chesun/gsr/caschls/est/siblingva
                 > regs/outcome_va/spec_test_va_cfr_g11_enr_2year_peer_sibling.s
@@ -290,6 +298,9 @@ _enr_2year_spec_va:
 _enr_2year_va_dta:
                 /home/research/ca_ed_lab/projects/common_core_va/data/sbac/va_g
                 > 11_enr_2year.dta, replace
+_enr_fb_va_sibling:
+                /home/research/ca_ed_lab/users/chesun/gsr/caschls/est/siblingva
+                > regs/outcome_va/fb_test_va_cfr_g11_enr_sibling.ster
 _enr_spec_va_sibling_peer:
                 /home/research/ca_ed_lab/users/chesun/gsr/caschls/est/siblingva
                 > regs/outcome_va/spec_test_va_cfr_g11_enr_peer_sibling.ster
@@ -473,46 +484,156 @@ _mattdofiles:   /home/research/ca_ed_lab/users/chesun/gsr/caschls/do/matt/adapt
   2.   //original VA, original sample
 .   estimates use ``subject'_spec_va'
   3.   eststo
-  4. 
+  4.   test _b[va_cfr_g11_`subject'] = 1
+  5.   matrix test_p = r(p)
+  6.   matrix rownames test_p = pvalue
+  7.   matrix colnames test_p = va_cfr_g11_`subject'
+  8.   estadd matrix test_p = test_p
+  9. 
+. 
 .   //original VA, leave out var L4 test score sample
 .   estimates use ``subject'_spec_va_l4'
-  5.   eststo
-  6. 
+ 10.   eststo
+ 11.   test _b[va_cfr_g11_`subject'] = 1
+ 12.   matrix test_p = r(p)
+ 13.   matrix rownames test_p = pvalue
+ 14.   matrix colnames test_p = va_cfr_g11_`subject'
+ 15.   estadd matrix test_p = test_p
+ 16. 
+. 
 .   //original VA, leave out census tract sample
 .   estimates use ``subject'_spec_va_census'
-  7.   eststo
-  8. 
+ 17.   eststo
+ 18.   test _b[va_cfr_g11_`subject'] = 1
+ 19.   matrix test_p = r(p)
+ 20.   matrix rownames test_p = pvalue
+ 21.   matrix colnames test_p = va_cfr_g11_`subject'
+ 22.   estadd matrix test_p = test_p
+ 23. 
+. 
 .   //original VA, sibling sample
 .   estimates use ``subject'_spec_va_sibling_og'
-  9.   eststo
- 10. 
+ 24.   eststo
+ 25.   test _b[va_cfr_g11_`subject'_nosibctrl] = 1
+ 26.   matrix test_p = r(p)
+ 27.   matrix rownames test_p = pvalue
+ 28.   matrix colnames test_p = va_cfr_g11_`subject'_nosibctrl
+ 29.   estadd matrix test_p = test_p
+ 30. 
+. 
 .   //sibling VA, sibling sample
 .   estimates use ``subject'_spec_va_sibling'
- 11.   eststo
- 12. 
+ 31.   eststo
+ 32.   test _b[va_cfr_g11_`subject'] = 1
+ 33.   matrix test_p = r(p)
+ 34.   matrix rownames test_p = pvalue
+ 35.   matrix colnames test_p = va_cfr_g11_`subject'
+ 36.   estadd matrix test_p = test_p
+ 37. 
 . 
 .   esttab using $projdir/out/csv/siblingvaregs/spec_test/spec_test_`subject'.c
 > sv ///
 >   , replace nonumbers  ///
+>   cells(b(fmt(%5.3f) pvalue(test_p) star) se(fmt(%4.3f) par)) ///
 >   mtitles("Original" "L4 Score Sample" "Census Sample" "Sibling Sample" "Sibl
 > ing Controls") ///
 >   title("Spec Tests for ``subject'_str' VA")
- 13. 
+ 38. 
 .   eststo clear
- 14. 
+ 39. 
 . }
 (est1 stored)
+
+ ( 1)  va_cfr_g11_ela = 1
+
+       F(  1,  1312) =    4.18
+            Prob > F =    0.0411
+
+added matrix:
+             e(test_p) :  1 x 1
 (est2 stored)
+
+ ( 1)  va_cfr_g11_ela = 1
+
+       F(  1,  1236) =    7.43
+            Prob > F =    0.0065
+
+added matrix:
+             e(test_p) :  1 x 1
 (est3 stored)
+
+ ( 1)  va_cfr_g11_ela = 1
+
+       F(  1,  1253) =    2.67
+            Prob > F =    0.1025
+
+added matrix:
+             e(test_p) :  1 x 1
 (est4 stored)
+
+ ( 1)  va_cfr_g11_ela_nosibctrl = 1
+
+       F(  1,  1288) =    0.77
+            Prob > F =    0.3802
+
+added matrix:
+             e(test_p) :  1 x 1
 (est5 stored)
+
+ ( 1)  va_cfr_g11_ela = 1
+
+       F(  1,  1288) =    0.76
+            Prob > F =    0.3835
+
+added matrix:
+             e(test_p) :  1 x 1
 (output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/si
 > blingvaregs/spec_test/spec_test_ela.csv)
 (est1 stored)
+
+ ( 1)  va_cfr_g11_math = 1
+
+       F(  1,  1311) =    0.12
+            Prob > F =    0.7330
+
+added matrix:
+             e(test_p) :  1 x 1
 (est2 stored)
+
+ ( 1)  va_cfr_g11_math = 1
+
+       F(  1,  1235) =   12.67
+            Prob > F =    0.0004
+
+added matrix:
+             e(test_p) :  1 x 1
 (est3 stored)
+
+ ( 1)  va_cfr_g11_math = 1
+
+       F(  1,  1252) =   16.67
+            Prob > F =    0.0000
+
+added matrix:
+             e(test_p) :  1 x 1
 (est4 stored)
+
+ ( 1)  va_cfr_g11_math_nosibctrl = 1
+
+       F(  1,  1287) =    0.13
+            Prob > F =    0.7202
+
+added matrix:
+             e(test_p) :  1 x 1
 (est5 stored)
+
+ ( 1)  va_cfr_g11_math = 1
+
+       F(  1,  1287) =    0.14
+            Prob > F =    0.7113
+
+added matrix:
+             e(test_p) :  1 x 1
 (output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/si
 > blingvaregs/spec_test/spec_test_math.csv)
 
@@ -528,53 +649,199 @@ _mattdofiles:   /home/research/ca_ed_lab/users/chesun/gsr/caschls/do/matt/adapt
   2.   //original VA, original sample
 .   estimates use ``outcome'_spec_va'
   3.   eststo
-  4. 
+  4.   test _b[va_cfr_g11_`outcome'] = 1
+  5.   matrix test_p = r(p)
+  6.   matrix rownames test_p = pvalue
+  7.   matrix colnames test_p = va_cfr_g11_`outcome'
+  8.   estadd matrix test_p = test_p
+  9. 
 .   //original VA, leave out var L4 test score sample
 .   estimates use ``outcome'_spec_va_l4'
-  5.   eststo
-  6. 
+ 10.   eststo
+ 11.   test _b[va_cfr_g11_`outcome'] = 1
+ 12.   matrix test_p = r(p)
+ 13.   matrix rownames test_p = pvalue
+ 14.   matrix colnames test_p = va_cfr_g11_`outcome'
+ 15.   estadd matrix test_p = test_p
+ 16. 
 .   //original VA, leave out census tract sample
 .   estimates use ``outcome'_spec_va_census'
-  7.   eststo
-  8. 
+ 17.   eststo
+ 18.   test _b[va_cfr_g11_`outcome'] = 1
+ 19.   matrix test_p = r(p)
+ 20.   matrix rownames test_p = pvalue
+ 21.   matrix colnames test_p = va_cfr_g11_`outcome'
+ 22.   estadd matrix test_p = test_p
+ 23. 
 .   //original VA, sibling sample
 .   estimates use ``outcome'_spec_va_sibling_og'
-  9.   eststo
- 10. 
+ 24.   eststo
+ 25.   test _b[va_cfr_g11_`outcome'_nosibctrl] = 1
+ 26.   matrix test_p = r(p)
+ 27.   matrix rownames test_p = pvalue
+ 28.   matrix colnames test_p = va_cfr_g11_`outcome'_nosibctrl
+ 29.   estadd matrix test_p = test_p
+ 30. 
 .   //sibling VA, sibling sample
 .   estimates use ``outcome'_spec_va_sibling'
- 11.   eststo
- 12. 
+ 31.   eststo
+ 32.   test _b[va_cfr_g11_`outcome'] = 1
+ 33.   matrix test_p = r(p)
+ 34.   matrix rownames test_p = pvalue
+ 35.   matrix colnames test_p = va_cfr_g11_`outcome'
+ 36.   estadd matrix test_p = test_p
+ 37. 
 . 
 .   esttab using $projdir/out/csv/siblingvaregs/spec_test/spec_test_`outcome'.c
 > sv ///
 >   , replace nonumbers  ///
+>   cells(b(fmt(%5.3f) pvalue(test_p) star) se(fmt(%4.3f) par)) ///
 >   mtitles("Original" "L4 Score Sample" "Census Sample" "Sibling Sample" "Sibl
 > ing Controls") ///
 >   title("Spec Tests for ``outcome'_str' VA")
- 13. 
+ 38. 
 .   eststo clear
- 14. 
+ 39. 
 . }
 (est1 stored)
+
+ ( 1)  va_cfr_g11_enr = 1
+
+       F(  1,  1194) =    0.29
+            Prob > F =    0.5872
+
+added matrix:
+             e(test_p) :  1 x 1
 (est2 stored)
+
+ ( 1)  va_cfr_g11_enr = 1
+
+       F(  1,  1224) =    0.00
+            Prob > F =    0.9567
+
+added matrix:
+             e(test_p) :  1 x 1
 (est3 stored)
+
+ ( 1)  va_cfr_g11_enr = 1
+
+       F(  1,  1171) =    1.66
+            Prob > F =    0.1984
+
+added matrix:
+             e(test_p) :  1 x 1
 (est4 stored)
+
+ ( 1)  va_cfr_g11_enr_nosibctrl = 1
+
+       F(  1,  1183) =    0.67
+            Prob > F =    0.4131
+
+added matrix:
+             e(test_p) :  1 x 1
 (est5 stored)
+
+ ( 1)  va_cfr_g11_enr = 1
+
+       F(  1,  1183) =    0.65
+            Prob > F =    0.4190
+
+added matrix:
+             e(test_p) :  1 x 1
 (output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/si
 > blingvaregs/spec_test/spec_test_enr.csv)
 (est1 stored)
+
+ ( 1)  va_cfr_g11_enr_2year = 1
+
+       F(  1,  1194) =    2.45
+            Prob > F =    0.1175
+
+added matrix:
+             e(test_p) :  1 x 1
 (est2 stored)
+
+ ( 1)  va_cfr_g11_enr_2year = 1
+
+       F(  1,  1224) =   16.28
+            Prob > F =    0.0001
+
+added matrix:
+             e(test_p) :  1 x 1
 (est3 stored)
+
+ ( 1)  va_cfr_g11_enr_2year = 1
+
+       F(  1,  1171) =    7.13
+            Prob > F =    0.0077
+
+added matrix:
+             e(test_p) :  1 x 1
 (est4 stored)
+
+ ( 1)  va_cfr_g11_enr_2year_nosibctrl = 1
+
+       F(  1,  1183) =    1.19
+            Prob > F =    0.2750
+
+added matrix:
+             e(test_p) :  1 x 1
 (est5 stored)
+
+ ( 1)  va_cfr_g11_enr_2year = 1
+
+       F(  1,  1183) =    1.08
+            Prob > F =    0.2997
+
+added matrix:
+             e(test_p) :  1 x 1
 (output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/si
 > blingvaregs/spec_test/spec_test_enr_2year.csv)
 (est1 stored)
+
+ ( 1)  va_cfr_g11_enr_4year = 1
+
+       F(  1,  1194) =    0.75
+            Prob > F =    0.3861
+
+added matrix:
+             e(test_p) :  1 x 1
 (est2 stored)
+
+ ( 1)  va_cfr_g11_enr_4year = 1
+
+       F(  1,  1224) =    3.73
+            Prob > F =    0.0537
+
+added matrix:
+             e(test_p) :  1 x 1
 (est3 stored)
+
+ ( 1)  va_cfr_g11_enr_4year = 1
+
+       F(  1,  1171) =    0.35
+            Prob > F =    0.5536
+
+added matrix:
+             e(test_p) :  1 x 1
 (est4 stored)
+
+ ( 1)  va_cfr_g11_enr_4year_nosibctrl = 1
+
+       F(  1,  1183) =    0.01
+            Prob > F =    0.9426
+
+added matrix:
+             e(test_p) :  1 x 1
 (est5 stored)
+
+ ( 1)  va_cfr_g11_enr_4year = 1
+
+       F(  1,  1183) =    0.01
+            Prob > F =    0.9337
+
+added matrix:
+             e(test_p) :  1 x 1
 (output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/si
 > blingvaregs/spec_test/spec_test_enr_4year.csv)
 
@@ -589,5 +856,5 @@ _mattdofiles:   /home/research/ca_ed_lab/users/chesun/gsr/caschls/do/matt/adapt
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/va_sibling_spec_test_tab.smcl
   log type:  smcl
- closed on:   6 Jan 2022, 18:46:35
+ closed on:  13 Jan 2022, 19:07:23
 -------------------------------------------------------------------------------
