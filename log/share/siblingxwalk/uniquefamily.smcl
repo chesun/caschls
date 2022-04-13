@@ -1,0 +1,239 @@
+{smcl}
+{txt}{sf}{ul off}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingxwalk/uniquefamily.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 7 Apr 2022, 16:14:32
+{txt}
+{com}. 
+. use $projdir/dta/siblingxwalk/k12_xwalk_name_address_year, clear
+{txt}(CST data siblings crosswalk matching on same year, last name, and address)
+
+{com}. 
+. /* install ssc package that group observations by the connected components of two variables  */
+. /* ssc install group_twoway, replace */
+. 
+. /* convert to string to match variable format of state student ID in order to run group_twoway */
+. tostring siblings_name_address_year, replace format("%17.0f")
+{txt}siblings_name_address_year was {res:long} now {res:str8}
+
+{com}. /* make family ID and state student ID disjoint to avoid error with command
+> https://haghish.com/statistics/stata-blog/stata-programming/download/group_twoway.html  */
+. replace siblings_name_address_year = "family"+siblings_name_address_year
+{txt}variable {bf}{res}siblings_name_address_year{sf}{txt} was {bf}{res}str8{sf}{txt} now {bf}{res}str14{sf}
+{txt}(12,220,119 real changes made)
+
+{com}. 
+. /* this creates a group for all students that are linked to each other through the same family across years.
+> This command links observations that are connected through famnily ID and student ID. So if two siblings are observed in the same year
+> but one of them is observed in another year with another sibling, they will be linked together. This also links siblings even if they move*/
+. group_twoway siblings_name_address_year state_student_id, generate(ufamilyid)
+
+{p 0 4}{txt}Duplicates in terms of {txt} all variables{p_end}
+
+(0 observations are duplicates)
+(12,220,119 observations created)
+(12,220,119 missing values generated)
+(12,220,119 real changes made)
+(24,440,238 real changes made)
+(14,776,071 real changes made)
+(10,319,276 real changes made)
+0
+(9,153,383 real changes made)
+(1,793,933 real changes made)
+1
+(690,571 real changes made)
+(385,035 real changes made)
+2
+(117,178 real changes made)
+(103,704 real changes made)
+3
+(34,369 real changes made)
+(33,757 real changes made)
+4
+(11,159 real changes made)
+(11,120 real changes made)
+5
+(4,327 real changes made)
+(4,327 real changes made)
+6
+(1,906 real changes made)
+(1,906 real changes made)
+7
+(913 real changes made)
+(913 real changes made)
+8
+(584 real changes made)
+(584 real changes made)
+9
+(448 real changes made)
+(448 real changes made)
+10
+(329 real changes made)
+(329 real changes made)
+11
+(207 real changes made)
+(207 real changes made)
+12
+(95 real changes made)
+(95 real changes made)
+13
+(50 real changes made)
+(50 real changes made)
+14
+(29 real changes made)
+(29 real changes made)
+15
+(8 real changes made)
+(8 real changes made)
+16
+(0 real changes made)
+(0 real changes made)
+17
+
+{p 0 4}{txt}Duplicates in terms of {res} __000002{p_end}
+
+{txt}(14,776,071 observations deleted)
+{res}{txt}{p 0 4 2}
+file {bf}
+/home/tmp/St192370.000001{rm}
+saved
+as .dta format
+{p_end}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}      12,220,119{txt}  
+{col 5}{hline 41}
+
+{com}. 
+. bysort ufamilyid: replace numsiblings = _N-1
+{txt}(11,281,372 real changes made)
+
+{com}. save $projdir/dta/siblingxwalk/uniquelinkedfamilyraw, replace
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/siblingxwalk/uniquelinkedfamilyraw.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. /* keep one copy per student */
+. duplicates report state_student_id
+
+{p 0 4}{txt}Duplicates in terms of {res} state_student_id{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   Copies {c |} Observations       Surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}      {res}1185502             0
+        {txt}2 {c |}      {res}1731564        865782
+        {txt}3 {c |}      {res}1983930       1322620
+        {txt}4 {c |}      {res}2013820       1510365
+        {txt}5 {c |}      {res}1838690       1470952
+        {txt}6 {c |}      {res}1498428       1248690
+        {txt}7 {c |}      {res}1088927        933366
+        {txt}8 {c |}       {res}635824        556346
+        {txt}9 {c |}       {res}210825        187400
+       {txt}10 {c |}        {res}32160         28944
+       {txt}11 {c |}          {res}308           280
+       {txt}12 {c |}           {res}72            66
+       {txt}13 {c |}           {res}39            36
+       {txt}14 {c |}           {res}14            13
+       {txt}16 {c |}           {res}16            15
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. duplicates drop state_student_id, force
+
+{p 0 4}{txt}Duplicates in terms of {res} state_student_id{p_end}
+
+{txt}(8,124,875 observations deleted)
+
+{com}. 
+. bysort ufamilyid: replace numsiblings = _N-1
+{txt}(3,156,497 real changes made)
+
+{com}. label var ufamilyid "unique family ID after linking all siblings in same family"
+{txt}
+{com}. 
+. /* Note: for large number of siblings the reason could be cousins/other relatives with the same
+> last name lived in the same address at a certain point so that links all of the cousins etc */
+. drop siblings_name_address_year
+{txt}
+{com}. order ufamilyid year numsiblings state_student_id first_name  last_name birth_date street_address_line_one street_address_line_two city state zip_code
+{txt}
+{com}. hist numsiblings
+{txt}(bin={res}66{txt}, start={res}1{txt}, width={res}1.0454545{txt})
+{res}{txt}
+{com}. graph export $projdir/out/graph/siblingxwalk/numsiblingdist.png, replace
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/siblingxwalk/numsiblingdist.png} written in PNG format
+
+{com}. save $projdir/dta/siblingxwalk/uniquelinkedfamilyclean, replace
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/siblingxwalk/uniquelinkedfamilyclean.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. //artificial cutoff of max 10 children per family, anything above that likely to be matching error
+. drop if numsiblings >= 9
+{txt}(10,565 observations deleted)
+
+{com}. keep ufamilyid numsiblings state_student_id first_name last_name birth_date
+{txt}
+{com}. 
+. rename numsiblings numsiblings_exclude_sef
+{res}{txt}
+{com}. gen numsiblings_total = numsiblings_exclude_sef + 1
+{txt}
+{com}. label var numsiblings_total "Total number of siblings in the family"
+{txt}
+{com}. 
+. //order the siblings within a family by birth order, oldest sibling is first born so has birth order 1, etc.
+. sort ufamilyid birth_date
+{txt}
+{com}. by ufamilyid: gen birth_order = _n
+{txt}
+{com}. label var birth_order "Order of birth in the family"
+{txt}
+{com}. 
+. //number of older siblings
+. gen numsiblings_older = birth_order - 1
+{txt}
+{com}. label var numsiblings_older "Number of older siblings"
+{txt}
+{com}. 
+. gen sibling_full_sample = 1
+{txt}
+{com}. label var sibling_full_sample "Indicator for the entire matched siblings sample"
+{txt}
+{com}. 
+. compress
+  {txt}variable {bf}{res}numsiblings_exclude_sef{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}numsiblings_total{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}birth_order{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}numsiblings_older{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}sibling_full_sample{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
+{txt}  (53,100,827 bytes saved)
+
+{com}. label data "dataset with unique family ID for each SSID, family size capped at 10 children"
+{txt}
+{com}. save $projdir/dta/siblingxwalk/ufamilyxwalk, replace
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/siblingxwalk/ufamilyxwalk.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingxwalk/uniquefamily.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 7 Apr 2022, 16:33:21
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

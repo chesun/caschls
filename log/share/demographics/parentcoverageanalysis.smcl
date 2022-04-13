@@ -1,0 +1,168 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/demographics/parentcoverageanalysis.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 7 Apr 2022, 14:55:59
+{txt}
+{com}. 
+. grstyle init  //initializes the grstyle package
+{res}{txt}
+{com}. grstyle set plain   //set graph background to plain
+{txt}
+{com}. grstyle set color Set1, opacity(50): histogram //use Set1 color palette (red and blue) for histogram bars fill color and set opacity to 50%
+{res}{txt}
+{com}. grstyle set color white, opacity(25): histogram_line //set color white and opacity 25% for histogram bar outline color
+{res}{txt}
+{com}. 
+. local years `" "1415" "1516" "1617" "1718" "1819" "' //local macro for elementary dataset years
+{txt}
+{com}. 
+. foreach year of local years {c -(}
+{txt}  2{com}.   use $projdir/dta/demographics/analysis/parent/parentdemo`year'analysis, clear
+{txt}  3{com}. 
+.   local grades `" "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" "' //local macro for kids' grades in parent survey, kindergarten enrollment not included so omit
+{txt}  4{com}.   foreach i of local grades {c -(}
+{txt}  5{com}.     /* create and export frequency histograms for distribution of response rate in grade i */
+.     histogram svygr`i'resprate, freq
+{txt}  6{com}.     graph export $projdir/out/graph/svycoverage/parentcoverage/parent`year'/gr`i'resprate.png, replace
+{txt}  7{com}.   {c )-}
+{txt}  8{com}. {c )-}
+{txt}(Parent 1415 demographics data with survey coverage analysis variables)
+(bin={res}21{txt}, start={res}0{txt}, width={res}.02875112{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1415/gr1resprate.png} written in PNG format
+(bin={res}21{txt}, start={res}0{txt}, width={res}.03377237{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1415/gr2resprate.png} written in PNG format
+(bin={res}21{txt}, start={res}0{txt}, width={res}.03361345{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1415/gr3resprate.png} written in PNG format
+(bin={res}21{txt}, start={res}0{txt}, width={res}.03549784{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1415/gr4resprate.png} written in PNG format
+(bin={res}22{txt}, start={res}0{txt}, width={res}.04101995{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1415/gr5resprate.png} written in PNG format
+(bin={res}20{txt}, start={res}0{txt}, width={res}.05{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1415/gr6resprate.png} written in PNG format
+(bin={res}1{txt}, start={res}0{txt}, width={res}1{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1415/gr7resprate.png} written in PNG format
+(bin={res}15{txt}, start={res}0{txt}, width={res}.06666667{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1415/gr8resprate.png} written in PNG format
+(bin={res}11{txt}, start={res}0{txt}, width={res}.13636364{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1415/gr9resprate.png} written in PNG format
+(bin={res}12{txt}, start={res}0{txt}, width={res}.08333333{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1415/gr10resprate.png} written in PNG format
+(bin={res}12{txt}, start={res}0{txt}, width={res}.05952381{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1415/gr11resprate.png} written in PNG format
+(bin={res}12{txt}, start={res}0{txt}, width={res}.08333333{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1415/gr12resprate.png} written in PNG format
+(Parent 1516 demographics data with survey coverage analysis variables)
+(bin={res}23{txt}, start={res}0{txt}, width={res}.03588682{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1516/gr1resprate.png} written in PNG format
+(bin={res}23{txt}, start={res}0{txt}, width={res}.04578392{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1516/gr2resprate.png} written in PNG format
+(bin={res}23{txt}, start={res}0{txt}, width={res}.06702898{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1516/gr3resprate.png} written in PNG format
+(bin={res}23{txt}, start={res}0{txt}, width={res}.07591442{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1516/gr4resprate.png} written in PNG format
+(bin={res}23{txt}, start={res}0{txt}, width={res}.07608696{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1516/gr5resprate.png} written in PNG format
+(bin={res}20{txt}, start={res}0{txt}, width={res}.04285714{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1516/gr6resprate.png} written in PNG format
+(bin={res}16{txt}, start={res}0{txt}, width={res}.29166666{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1516/gr7resprate.png} written in PNG format
+(bin={res}16{txt}, start={res}0{txt}, width={res}.09375{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1516/gr8resprate.png} written in PNG format
+(bin={res}13{txt}, start={res}0{txt}, width={res}.10256411{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1516/gr9resprate.png} written in PNG format
+(bin={res}14{txt}, start={res}0{txt}, width={res}.07142857{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1516/gr10resprate.png} written in PNG format
+(bin={res}14{txt}, start={res}0{txt}, width={res}.07142857{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1516/gr11resprate.png} written in PNG format
+(bin={res}14{txt}, start={res}0{txt}, width={res}.04945055{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1516/gr12resprate.png} written in PNG format
+(Parent 1617 demographics data with survey coverage analysis variables)
+(bin={res}26{txt}, start={res}0{txt}, width={res}.04655871{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1617/gr1resprate.png} written in PNG format
+(bin={res}26{txt}, start={res}0{txt}, width={res}.03846154{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1617/gr2resprate.png} written in PNG format
+(bin={res}26{txt}, start={res}0{txt}, width={res}.05599547{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1617/gr3resprate.png} written in PNG format
+(bin={res}26{txt}, start={res}0{txt}, width={res}.06129808{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1617/gr4resprate.png} written in PNG format
+(bin={res}26{txt}, start={res}0{txt}, width={res}.07625995{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1617/gr5resprate.png} written in PNG format
+(bin={res}21{txt}, start={res}0{txt}, width={res}.04761905{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1617/gr6resprate.png} written in PNG format
+(bin={res}17{txt}, start={res}0{txt}, width={res}.05882353{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1617/gr7resprate.png} written in PNG format
+(bin={res}17{txt}, start={res}0{txt}, width={res}.06617647{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1617/gr8resprate.png} written in PNG format
+(bin={res}15{txt}, start={res}0{txt}, width={res}.4{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1617/gr9resprate.png} written in PNG format
+(bin={res}16{txt}, start={res}0{txt}, width={res}.375{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1617/gr10resprate.png} written in PNG format
+(bin={res}16{txt}, start={res}0{txt}, width={res}.08266129{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1617/gr11resprate.png} written in PNG format
+(bin={res}16{txt}, start={res}0{txt}, width={res}.0546875{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1617/gr12resprate.png} written in PNG format
+(Parent 1718 demographics data with survey coverage analysis variables)
+(bin={res}29{txt}, start={res}0{txt}, width={res}.06896552{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1718/gr1resprate.png} written in PNG format
+(bin={res}29{txt}, start={res}0{txt}, width={res}.03733472{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1718/gr2resprate.png} written in PNG format
+(bin={res}29{txt}, start={res}0{txt}, width={res}.04934602{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1718/gr3resprate.png} written in PNG format
+(bin={res}29{txt}, start={res}0{txt}, width={res}.04094828{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1718/gr4resprate.png} written in PNG format
+(bin={res}29{txt}, start={res}0{txt}, width={res}.06896552{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1718/gr5resprate.png} written in PNG format
+(bin={res}25{txt}, start={res}0{txt}, width={res}.04275862{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1718/gr6resprate.png} written in PNG format
+(bin={res}20{txt}, start={res}0{txt}, width={res}.05{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1718/gr7resprate.png} written in PNG format
+(bin={res}20{txt}, start={res}0{txt}, width={res}.05{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1718/gr8resprate.png} written in PNG format
+(bin={res}17{txt}, start={res}0{txt}, width={res}.11764706{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1718/gr9resprate.png} written in PNG format
+(bin={res}18{txt}, start={res}0{txt}, width={res}.38888889{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1718/gr10resprate.png} written in PNG format
+(bin={res}18{txt}, start={res}0{txt}, width={res}.05555556{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1718/gr11resprate.png} written in PNG format
+(bin={res}18{txt}, start={res}0{txt}, width={res}.03571429{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1718/gr12resprate.png} written in PNG format
+(Parent 1819 demographics data with survey coverage analysis variables)
+(bin={res}29{txt}, start={res}0{txt}, width={res}.04586857{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1819/gr1resprate.png} written in PNG format
+(bin={res}29{txt}, start={res}0{txt}, width={res}.03997559{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1819/gr2resprate.png} written in PNG format
+(bin={res}29{txt}, start={res}0{txt}, width={res}.05642633{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1819/gr3resprate.png} written in PNG format
+(bin={res}29{txt}, start={res}0{txt}, width={res}.06161673{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1819/gr4resprate.png} written in PNG format
+(bin={res}29{txt}, start={res}0{txt}, width={res}.06195207{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1819/gr5resprate.png} written in PNG format
+(bin={res}24{txt}, start={res}0{txt}, width={res}.125{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1819/gr6resprate.png} written in PNG format
+(bin={res}20{txt}, start={res}0{txt}, width={res}.05833333{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1819/gr7resprate.png} written in PNG format
+(bin={res}20{txt}, start={res}0{txt}, width={res}.05714286{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1819/gr8resprate.png} written in PNG format
+(bin={res}16{txt}, start={res}0{txt}, width={res}.0625{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1819/gr9resprate.png} written in PNG format
+(bin={res}17{txt}, start={res}0{txt}, width={res}.11764706{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1819/gr10resprate.png} written in PNG format
+(bin={res}17{txt}, start={res}0{txt}, width={res}.11764706{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1819/gr11resprate.png} written in PNG format
+(bin={res}17{txt}, start={res}0{txt}, width={res}.08823529{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/parentcoverage/parent1819/gr12resprate.png} written in PNG format
+
+{com}. 
+. grstyle clear // sets off grstyle
+{txt}
+{com}. 
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/demographics/parentcoverageanalysis.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 7 Apr 2022, 14:56:12
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

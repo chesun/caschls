@@ -481,11 +481,6 @@ if `do_sibling_va_regs' == 1 {
     do $projdir/do/share/siblingvaregs/va_sibling_est_sumstats
     pause
 
-    /* do file to create a regression output table for spec test for test score VA
-    with original sample, sibling sample without control, sibling sample with control */
-    do $projdir/do/share/siblingvaregs/va_sibling_spec_test_tab
-    pause
-
     /* do file to run enrollment outcome VA regressions with sibling effects.
     Include as controls the dummies for
     1) has an older sibling enrolled in 2 year
@@ -509,22 +504,9 @@ if `do_sibling_va_regs' == 1 {
      do $projdir/do/share/siblingvaregs/va_sibling_out_est_sumstats
      pause
 
-     /* do file to create a regression output table for spec test for college outcome
-     VA with original sample, sibling sample without control, sibling sample with control */
-     do $projdir/do/share/siblingvaregs/va_sibling_out_spec_test_tab
-     pause
-
-     /* do file to run forecast bias tests and spec tests for test score VA
-     regressions with sibling effects. Two versions of VA: one with leave out
-     7th grade score, one with leave out census tract
-     Include as controls the dummies for
-     1) has an older sibling enrolled in 2 year
-     2) has an older sibling enrolled in 4 year
-
-     Comment on family fixed effects: Too many fixed effects, not enough observations.
-     Stata returns an error "attempted to fit a model with too many variables"
-     Only 749488 obs but 600210 families, too many variables from family fixed effects */
-     do $projdir/do/share/siblingvaregs/va_sibling_forecast_bias
+     /* do file to create a regression output table for spec test for test score VA
+     with original sample, sibling sample without control, sibling sample with control */
+     do $projdir/do/share/siblingvaregs/va_sibling_spec_test_tab
      pause
 
      /* do file to create a regression output table for forecast bias tests for test score VA

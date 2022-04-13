@@ -1,0 +1,17 @@
+="Forecast Bias Tests for Enrolled On Time 2-Year VA"
+
+="",="L4 Score Sample",="Census Sample",="Sibling Sample"
+
+="va_cfr_g11_enr_2year",="-0.001*",="0.144***",=""
+="",="(0.000)",="(0.013)",=""
+
+="va_cfr_g11_enr_2year_nosibctrl",="",="",="0.015***"
+="",="",="",="(0.001)"
+
+="_cons",="-0.000",="0.000",="0.000"
+="",="(0.000)",="(0.001)",="(0.000)"
+
+="N",="469541",="293519",="275290"
+
+="Standard errors in parentheses"
+="* p<0.05, ** p<0.01, *** p<0.001"

@@ -45,6 +45,9 @@ set scheme s1color
 //capture log close: Stata should not complain if there is no log open to close
 cap log close _all
 
+set trace on
+set tracedepth 1
+
 args setlimit
 
 /* file path macros  */
@@ -270,7 +273,7 @@ foreach subject in ela math {
     rename va_cfr_g11_`subject' va_cfr_g11_`subject'_temp
     rename va_cfr_g11_`subject'_nosibctrl va_cfr_g11_`subject'
 
-    reg sbac_g11_`subject'_r_d va_cfr_g11_`subject'_nosibctrl,	cluster(school_id)
+    reg sbac_g11_`subject'_r_d va_cfr_g11_`subject',	cluster(school_id)
     //save to my personal folder
     estimates save $projdir/est/siblingvaregs/test_score_va/fb_test_va_cfr_g11_`subject'_sibling.ster, replace
     //save to VA project folder
@@ -300,7 +303,7 @@ foreach subject in ela math {
 
 
 
-
+set trace off
 
 timer off 1
 timer list

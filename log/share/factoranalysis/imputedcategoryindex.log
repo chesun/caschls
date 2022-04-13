@@ -1,0 +1,507 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factor
+> analysis/imputedcategoryindex.smcl
+  log type:  smcl
+ opened on:   7 Apr 2022, 14:57:51
+
+. 
+. use $projdir/dta/allsvyfactor/imputedallsvyqoimeans, clear
+(parent pooled (over years) dataset ready for analysis with stats and response 
+> ra)
+
+. 
+. local climatevars parentqoi16mean_pooled parentqoi17mean_pooled parentqoi27me
+> an_pooled secqoi22mean_pooled secqoi23mean_pooled secqoi24mean_pooled secqoi2
+> 6mean_pooled secqoi27mean_pooled  secqoi29mean_pooled
+
+. local qualityvars parentqoi30mean_pooled parentqoi31mean_pooled parentqoi32me
+> an_pooled parentqoi33mean_pooled parentqoi34mean_pooled secqoi28mean_pooled s
+> ecqoi35mean_pooled secqoi36mean_pooled secqoi37mean_pooled secqoi38mean_poole
+> d secqoi39mean_pooled secqoi40mean_pooled staffqoi20mean_pooled staffqoi24mea
+> n_pooled staffqoi87mean_pooled
+
+. local supportvars parentqoi15mean_pooled parentqoi64mean_pooled staffqoi10mea
+> n_pooled staffqoi128mean_pooled
+
+. /* local motivationvars secqoi31mean_pooled secqoi32mean_pooled secqoi33mean_
+> pooled secqoi34mean_pooled */
+. 
+. /* generate linear index by summing the variables in each category */
+. gen climateindex = 0
+
+. 
+. foreach climatevar of local climatevars {
+  2.   replace climateindex = climateindex + `climatevar'
+  3. }
+(932 real changes made)
+(934 real changes made)
+(933 real changes made)
+(936 real changes made)
+(936 real changes made)
+(934 real changes made)
+(936 real changes made)
+(933 real changes made)
+(933 real changes made)
+
+. 
+. gen qualityindex = 0
+
+. 
+. foreach qualityvar of local qualityvars {
+  2.   replace qualityindex =  qualityindex + `qualityvar'
+  3. }
+(933 real changes made)
+(935 real changes made)
+(930 real changes made)
+(933 real changes made)
+(932 real changes made)
+(935 real changes made)
+(933 real changes made)
+(936 real changes made)
+(931 real changes made)
+(936 real changes made)
+(936 real changes made)
+(936 real changes made)
+(935 real changes made)
+(936 real changes made)
+(933 real changes made)
+
+. 
+. gen supportindex = 0
+
+. 
+. foreach supportvar of local supportvars {
+  2.   replace supportindex = supportindex + `supportvar'
+  3. }
+(928 real changes made)
+(931 real changes made)
+(933 real changes made)
+(933 real changes made)
+
+. 
+. 
+. 
+. //creating a local macro for va variables
+. local vavars va_ela va_math va_enr va_enrela va_enrmath va_enrdk va_2yr va_2y
+> rela va_2yrmath va_2yrdk va_4yr va_4yrela va_4yrmath va_4yrdk
+
+. 
+. // local macro for index vars
+. local indexvars climateindex qualityindex supportindex
+
+. 
+. //generate standardized z scores for variables
+. foreach i of local vavars {
+  2.   sum `i'
+  3.   gen z_`i' = (`i' - r(mean))/r(sd)
+  4. }
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+      va_ela |        918   -.0044957    .1244807  -.5117936   .4654645
+(18 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+     va_math |        918   -.0092631    .1293891  -.4140317    .533576
+(18 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+      va_enr |        917   -.0065057     .070122  -.3218017   .1879139
+(19 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+   va_enrela |        917   -.0065926    .0667884  -.2764804   .1895136
+(19 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+  va_enrmath |        917     -.00558    .0640854  -.2734655   .1611573
+(19 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    va_enrdk |        917   -.0056182    .0641014  -.2717487   .1612013
+(19 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+      va_2yr |        917     .000243    .0878421  -.2201452   .3168623
+(19 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+   va_2yrela |        917    .0000878    .0879257  -.2211967   .3173668
+(19 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+  va_2yrmath |        917   -.0001205    .0874952  -.2276422   .3271176
+(19 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    va_2yrdk |        917   -.0002113    .0872508  -.2205214   .3273853
+(19 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+      va_4yr |        917   -.0075877    .0823293  -.2059489   .3337834
+(19 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+   va_4yrela |        917   -.0075587    .0794496   -.214651   .2841309
+(19 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+  va_4yrmath |        917   -.0061947    .0739263  -.2563807   .2777519
+(19 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    va_4yrdk |        917   -.0061365    .0738012  -.2564268    .275094
+(19 missing values generated)
+
+. 
+. foreach i of local indexvars {
+  2.   sum `i'
+  3.   gen z_`i' = (`i' - r(mean))/r(sd)
+  4. }
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+climateindex |        936    5.416647    1.629723  -.2750432       12.1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+qualityindex |        936    11.01774    2.384181   .4187376       22.8
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+supportindex |        936    3.405687    .8635866  -1.890909   6.784119
+
+. 
+. // regress va vars on index vars, N is all the same across index because of i
+> mputed data so can append
+. foreach i of local vavars {
+  2.   local append replace
+  3. 
+.   foreach j of local indexvars {
+  4.     qui reg z_`i' z_`j'
+  5.     regsave using $projdir/out/dta/factor/imputed/`i'_index_imputedregs, `
+> append' table(`i', format(%7.2f) parentheses(stderr) asterisk())
+  6. 
+.     local append append
+  7.   }
+  8. }
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_ela_index_imputedregs.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_ela_index_imputedregs.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_ela_index_imputedregs.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_math_index_imputedregs.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_math_index_imputedregs.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_math_index_imputedregs.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_enr_index_imputedregs.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_enr_index_imputedregs.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_enr_index_imputedregs.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_enrela_index_imputedregs.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_enrela_index_imputedregs.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_enrela_index_imputedregs.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_enrmath_index_imputedregs.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_enrmath_index_imputedregs.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_enrmath_index_imputedregs.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_enrdk_index_imputedregs.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_enrdk_index_imputedregs.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_enrdk_index_imputedregs.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_2yr_index_imputedregs.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_2yr_index_imputedregs.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_2yr_index_imputedregs.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_2yrela_index_imputedregs.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_2yrela_index_imputedregs.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_2yrela_index_imputedregs.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_2yrmath_index_imputedregs.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_2yrmath_index_imputedregs.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_2yrmath_index_imputedregs.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_2yrdk_index_imputedregs.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_2yrdk_index_imputedregs.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_2yrdk_index_imputedregs.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_4yr_index_imputedregs.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_4yr_index_imputedregs.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_4yr_index_imputedregs.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_4yrela_index_imputedregs.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_4yrela_index_imputedregs.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_4yrela_index_imputedregs.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_4yrmath_index_imputedregs.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_4yrmath_index_imputedregs.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_4yrmath_index_imputedregs.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_4yrdk_index_imputedregs.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_4yrdk_index_imputedregs.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_4yrdk_index_imputedregs.dta saved
+
+. 
+. 
+. //save dataset
+. save $projdir/dta/allsvyfactor/categoryindex/imputedcategoryindex, replace
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/allsvyfactor/catego
+    > ryindex/imputedcategoryindex.dta saved
+
+. 
+. //merge the va index reg datasets to produce combined table
+. // local macro for all va vars except the first one (va_ela) for merging loop
+. local vaminusfirst va_math va_enr va_enrela va_enrmath va_enrdk va_2yr va_2yr
+> ela va_2yrmath va_2yrdk va_4yr va_4yrela va_4yrmath va_4yrdk
+
+. 
+. use $projdir/out/dta/factor/imputed/va_ela_index_imputedregs, clear
+
+. foreach i of local vaminusfirst {
+  2.   merge 1:1 var using $projdir/out/dta/factor/imputed/`i'_index_imputedreg
+> s
+  3.   drop _merge
+  4. }
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                10  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                10  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                10  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                10  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                10  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                10  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                10  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                10  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                10  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                10  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                10  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                10  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                10  (_merge==3)
+    -----------------------------------------
+
+. 
+. save $projdir/out/dta/factor/imputed/vaindex_imputedregs_all, replace
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > vaindex_imputedregs_all.dta saved
+
+. 
+. export excel using $projdir/out/xls/factor/imputed/vaindex_imputedregs_all, r
+> eplace
+file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/factor/imputed/v
+> aindex_imputedregs_all.xls saved
+
+. 
+. 
+. 
+. log close
+      name:  <unnamed>
+       log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factor
+> analysis/imputedcategoryindex.smcl
+  log type:  smcl
+ closed on:   7 Apr 2022, 14:57:51
+-------------------------------------------------------------------------------

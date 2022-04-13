@@ -1,9 +1,9 @@
 -------------------------------------------------------------------------------
       name:  <unnamed>
-       log:  /home/research/ca_ed_lab/chesun/gsr/caschls/log/share/siblingvareg
-> s/sibling_out_xwalk.smcl
+       log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
+> gvaregs/sibling_out_xwalk.smcl
   log type:  smcl
- opened on:  22 Oct 2021, 19:25:43
+ opened on:   9 Apr 2022, 02:25:34
 
 . 
 . 
@@ -28,7 +28,7 @@
 
 . replace k12_postsec_match = 1 if k12_nsc_match == 1 | k12_ccc_match == 1 | k1
 > 2_csu_match == 1
-(36,360,886 real changes made)
+(44,788,259 real changes made)
 
 . label var k12_postsec_match "Indicator for k12 observation matched to postsec
 > ondary data (NSC, CCC, or CSU)"
@@ -44,11 +44,11 @@
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                     8,718,171
-        from master                 8,590,681  (_merge==1)
-        from using                    127,490  (_merge==2)
+    Not matched                     8,711,591
+        from master                 8,711,591  (_merge==1)
+        from using                          0  (_merge==2)
 
-    Matched                         3,957,189  (_merge==3)
+    Matched                         4,084,679  (_merge==3)
     -----------------------------------------
 
 . /*
@@ -65,14 +65,14 @@
 . 
 . //keep only the sample of matched siblings
 . drop if missing(ufamilyid)
-(8,590,681 observations deleted)
+(8,711,591 observations deleted)
 
 . //mark sibling sample who are matched to postsecondary outcomes for merged ob
 > servations
 . gen sibling_out_sample = 0
 
 . replace sibling_out_sample = 1 if _merge==3 & k12_postsec_match == 1
-(2,466,979 real changes made)
+(2,946,010 real changes made)
 
 . label var sibling_out_sample "Indicator for sibling sample that are matched t
 > o postsecondary outcomes"
@@ -150,7 +150,7 @@
 
 . replace has_older_sibling_postsec_match = 1 if !missing(num_older_sibling_pos
 > tsec_match) & num_older_sibling_postsec_match > 0
-(1,720,430 real changes made)
+(1,902,221 real changes made)
 
 . label var has_older_sibling_postsec_match "Has at least one older sibling mat
 > ched to postsecondary outcomes"
@@ -170,9 +170,9 @@
   7.   label var has_older_sibling_`i' "Has at least 1 older sibling matched to
 >  postsec outcome and with `i' = 1"
   8. }
-(203,574 real changes made)
-(125,140 real changes made)
-(88,538 real changes made)
+(271,304 real changes made)
+(165,151 real changes made)
+(122,290 real changes made)
 
 . 
 . drop lower_bound
@@ -200,8 +200,8 @@
 
 . save $projdir/dta/siblingxwalk/sibling_out_xwalk, replace
 file
-    /home/research/ca_ed_lab/chesun/gsr/caschls/dta/siblingxwalk/sibling_out_
-    > xwalk.dta saved
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/siblingxwalk/siblin
+    > g_out_xwalk.dta saved
 
 . 
 . 
@@ -210,12 +210,12 @@ file
 .  timer off 1
 
 .  timer list
-   1:    141.64 /        1 =     141.6400
+   1:    143.93 /        1 =     143.9270
 
 .  log close
       name:  <unnamed>
-       log:  /home/research/ca_ed_lab/chesun/gsr/caschls/log/share/siblingvareg
-> s/sibling_out_xwalk.smcl
+       log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
+> gvaregs/sibling_out_xwalk.smcl
   log type:  smcl
- closed on:  22 Oct 2021, 19:28:04
+ closed on:   9 Apr 2022, 02:27:58
 -------------------------------------------------------------------------------

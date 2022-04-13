@@ -3,21 +3,34 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/createvasample.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}16 Dec 2021, 10:41:06
+ {txt}opened on:  {res} 9 Apr 2022, 00:45:56
 {txt}
 {com}. 
 . 
 . //run the do helper file to set the local macros
-. include `mattdofiles'/macros_va.doh
+. include `vaprojdofiles'/sbac/macros_va.doh
 {txt}
 {com}. #delimit ;
 {txt}delimiter now ;
-{com}. local test_score_min_year
+{com}. *** file paths
+> local home $vaprojdir ;
+. local ca_ed_lab "/home/research/ca_ed_lab" ;
+{txt}
+{com}. local k12_test_scores "$vaprojdir/data/restricted_access/clean/k12_test_scores" ;
+{txt}
+{com}. local public_access "$vaprojdir/data/public_access" ;
+{txt}
+{com}. local k12_public_schools "$vaprojdir/data/public_access/clean/k12_public_schools" ;
+{txt}
+{com}. local k12_test_scores_public "$vaprojdir/data/public_access/clean/k12_test_scores" ;
+{txt}
+{com}. **** Dates ;
+. local test_score_min_year
 >         2015
 >         ;
 {txt}
 {com}. local test_score_max_year
->         2019
+>         2018
 >         ;
 {txt}
 {com}. local star_min_year
@@ -44,7 +57,8 @@
 >         2018
 >         ;
 {txt}
-{com}. local ela_str
+{com}. **** Outcome Strings ;
+. local ela_str
 >         "ELA"
 >         ;
 {txt}
@@ -64,7 +78,8 @@
 >         "Enrolled On Time 4-Year"
 >         ;
 {txt}
-{com}. local school_controls
+{com}. **** Value Added ;
+. local school_controls
 >         /*cohort_size*/
 >         ;
 {txt}
@@ -108,12 +123,69 @@
 {txt}
 {com}. local va_control_vars : list uniq va_control_vars ;
 {txt}
+{com}. local census_grade
+>         6
+>         ;
+{txt}
 {com}. local census_controls
 >         /*eth_white_pct*/ eth_asian_pct eth_hispanic_pct eth_black_pct /*eth_other_pct*/
 >         educ_hs_dropout_prop /*educ_deg_2year_prop*/ educ_deg_4year_plus_prop
 >         pov_fam_child_lt18_pct
 >         inc_median_hh
 >         ;
+{txt}
+{com}. **** School Characteristics ;
+. local sch_chars
+>         fte_teach_pc fte_pupil_pc /*fte_admin_pc*/
+>         /*eng_learner_staff_pc*/
+>         new_teacher_prop
+>         /*educ_grad_sch_prop educ_associate_prop*/
+>         /*status_tenured_prop*/
+>         credential_full_prop
+>         /*authorization_stem_prop authorization_ela_prop*/
+>         c.male_prop##c.enr_male_prop
+>         c.eth_minority_prop##c.enr_minority_prop
+>         enr_total
+>         ;
+{txt}
+{com}. local sch_char_vars "`sch_chars'" ;
+{txt}
+{com}. local sch_char_vars : subinstr local sch_char_vars "i." "", all ;
+{txt}
+{com}. local sch_char_vars : subinstr local sch_char_vars "c." "", all ;
+{txt}
+{com}. local sch_char_vars : subinstr local sch_char_vars "##" " ", all ;
+{txt}
+{com}. local sch_char_vars : subinstr local sch_char_vars "#" " ", all ;
+{txt}
+{com}. local sch_char_vars : list uniq sch_char_vars ;
+{txt}
+{com}. local dem_chars
+>         enr_male_prop
+>         enr_minority_prop
+>         frpm_prop el_prop
+>         enr_total
+>         ;
+{txt}
+{com}. local dem_char_vars "`dem_chars'" ;
+{txt}
+{com}. local dem_char_vars : list uniq dem_char_vars ;
+{txt}
+{com}. local expenditures
+>         expenditures_instr_pc
+>         expenditures3000_pc
+>         expenditures4000_pc
+>         expenditures_other_pc
+>         expenditures7000_pc
+>         ;
+{txt}
+{com}. local expenditure_vars "`expenditures'" ;
+{txt}
+{com}. local expenditure_vars : list uniq expenditure_vars ;
+{txt}
+{com}. local sch_char_control_vars : list sch_char_vars | dem_char_vars ;
+{txt}
+{com}. local sch_char_control_vars : list sch_char_control_vars | expenditure_vars ;
 {txt}
 {com}. #delimit cr
 {txt}delimiter now cr
@@ -131,7 +203,7 @@
 . 
 .     ** this creates the full VA sample
 .    //run the do helper file to create the VA sample
-.    include `mattdofiles'/create_va_sample.doh
+.    include `vaprojdofiles'/sbac/create_va_sample.doh
 {txt}
 {com}. **************** Create VA Dataset
 . use merge_id_k12_test_scores all_students_sample first_scores_sample ///
@@ -148,11 +220,8 @@
 {res}
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
-{col 5}Not matched{col 30}{res}       2,160,685
-{txt}{col 9}from master{col 30}{res}       2,160,685{txt}  
-{col 9}from using{col 30}{res}               0{txt}  
-
-{col 5}Matched{col 30}{res}      76,461,458{txt}  
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}      78,622,143{txt}  
 {col 5}{hline 41}
 
 {com}. 
@@ -257,7 +326,7 @@
 {com}.    save `va_dataset'
 {txt}{p 0 4 2}
 file {bf}
-/home/tmp/St233715.000001{rm}
+/home/tmp/St192370.000001{rm}
 saved
 as .dta format
 {p_end}
@@ -278,33 +347,36 @@ saved
 .   ********************************************************************************
 .   **create the VA dataset for the VA CFR regressions (score VA)
 .   ** use onoy 11th Grade (8th Grade ELA Controls, 6th Grade Math Controls)
-.   include `mattdofiles'/create_va_g11_sample.doh
+.   include `vaprojdofiles'/sbac/create_va_g11_sample.doh
 {txt}
-{com}. /* this file uses the va_dataset temp file, and produces the va_g11_dataset temp file  */
-. 
-. local drift_limit = max(`test_score_max_year' - `test_score_min_year' - 1, 1)
+{com}. local drift_limit = max(`test_score_max_year' - `test_score_min_year' - 1, 1)
 {txt}
 {com}. use if grade==11 & dataset=="CAASPP" & inrange(year, `test_score_min_year', `test_score_max_year') using `va_dataset', clear
 {txt}(CST/SBAC Student Test Score Samples)
 
 {com}. 
-. gen diff_school_prop = gr11_L3_diff_school_prop if year!=2017
-{txt}(473,149 missing values generated)
+. include do_files/sbac/create_diff_school_prop.doh
+{txt}
+{com}. gen diff_school_prop = gr11_L3_diff_school_prop if year!=2017
+{txt}(473,128 missing values generated)
 
 {com}. replace diff_school_prop = gr11_L4_diff_school_prop if year==2017
 {txt}(472,961 real changes made)
 
+{com}. {txt}
 {com}. keep if diff_school_prop>=0.95
-{txt}(133,638 observations deleted)
+{txt}(97,358 observations deleted)
 
 {com}. 
-. **************** Prior Scores
+. include do_files/sbac/create_prior_scores.doh
+{txt}
+{com}. **************** Prior Scores
 . ******** ELA
 . gen prior_ela_z_score = L3_cst_ela_z_score if inrange(year, `star_min_year' + 3, `star_max_year' + 3) & year!=2017
-{txt}(1,750,042 missing values generated)
+{txt}(1,113,021 missing values generated)
 
 {com}. replace prior_ela_z_score = L3_sbac_ela_z_score if inrange(year, `caaspp_min_year' + 3, `caaspp_max_year' + 3) & year!=2017
-{txt}(689,809 real changes made)
+{txt}(344,053 real changes made)
 
 {com}. replace prior_ela_z_score = L4_cst_ela_z_score if year==2017
 {txt}(333,419 real changes made)
@@ -312,10 +384,10 @@ saved
 {com}. label var prior_ela_z_score "Prior ELA Z-Score"
 {txt}
 {com}. gen peer_prior_ela_z_score = peer_L3_cst_ela_z_score if inrange(year, `star_min_year' + 3, `star_max_year' + 3) & year!=2017
-{txt}(1,613,485 missing values generated)
+{txt}(976,464 missing values generated)
 
 {com}. replace peer_prior_ela_z_score = peer_L3_sbac_ela_z_score if inrange(year, `caaspp_min_year' + 3, `caaspp_max_year' + 3) & year!=2017
-{txt}(1,162,536 real changes made)
+{txt}(525,703 real changes made)
 
 {com}. replace peer_prior_ela_z_score = peer_L4_cst_ela_z_score if year==2017
 {txt}(450,528 real changes made)
@@ -325,21 +397,22 @@ saved
 {com}. 
 . ******** Math
 . gen prior_math_z_score = L5_cst_math_z_score if inrange(year, `star_min_year' + 5, `star_max_year' + 5) & !inrange(year, `caaspp_min_year' + 3, `caaspp_max_year' + 3)
-{txt}(1,435,644 missing values generated)
+{txt}(798,623 missing values generated)
 
 {com}. replace prior_math_z_score = L3_sbac_math_z_score if inrange(year, `caaspp_min_year' + 3, `caaspp_max_year' + 3)
-{txt}(691,571 real changes made)
+{txt}(344,849 real changes made)
 
 {com}. label var prior_math_z_score "Prior Math Z-Score"
 {txt}
 {com}. gen peer_prior_math_z_score = peer_L5_cst_math_z_score if inrange(year, `star_min_year' + 5, `star_max_year' + 5) & !inrange(year, `caaspp_min_year' + 3, `caaspp_max_year' + 3)
-{txt}(1,162,957 missing values generated)
+{txt}(525,936 missing values generated)
 
 {com}. replace peer_prior_math_z_score = peer_L3_sbac_math_z_score if inrange(year, `caaspp_min_year' + 3, `caaspp_max_year' + 3)
-{txt}(1,162,536 real changes made)
+{txt}(525,703 real changes made)
 
 {com}. label var peer_prior_math_z_score "Peer Avg. Prior Math Z-Score"
 {txt}
+{com}. {txt}
 {com}. 
 . 
 . * Save temporary dataset
@@ -351,7 +424,7 @@ saved
 {com}. save `va_g11_dataset'
 {txt}{p 0 4 2}
 file {bf}
-/home/tmp/St233715.000002{rm}
+/home/tmp/St192370.000002{rm}
 saved
 as .dta format
 {p_end}
@@ -386,17 +459,16 @@ saved
 {txt}(CST/SBAC Student Test Score Samples)
 
 {com}.   // merge on postsecondary Outcomes
-.   do `mattdofiles'/merge_k12_postsecondary.doh enr_only
+.   do `vaprojdofiles'/merge_k12_postsecondary.doh enr_only
 {txt}
 {com}. version 16.1
 {txt}
 {com}. 
 . *****************************************************
 . * First created by Matthew Naven on June 11, 2018 *
-. *adapted by Che Sun Dec 13, 2021, changed crosswalks file path
 . *****************************************************
 . 
-. local crosswalks "/home/research/ca_ed_lab/projects/common_core_va/data/restricted_access/clean/crosswalks"
+. local crosswalks "/home/research/ca_ed_lab/projects/common_core_va/data/restricted_access/clean/crosswalks/"
 {txt}
 {com}. 
 . ***************
@@ -490,19 +562,16 @@ saved
 {com}. 
 . 
 . ** NSC
-. /* changed the generated merge id to be consistent with the code  */
-. merge m:1 state_student_id ///
->         using `crosswalks'/nsc_outcomes_crosswalk_ssid.dta ///
->         , gen(merge_k12_nsc_ssid) keep(1 3 4 5) update
+. merge m:1 state_student_id      using `crosswalks'/nsc_outcomes_crosswalk_ssid.dta, gen(merge_k12_nsc_ssid) keep(1 3 4 5) update
 {res}
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
-{col 5}Not matched{col 30}{res}      47,294,051
-{txt}{col 9}from master{col 30}{res}      47,294,051{txt}  (merge_k12_nsc_ssid==1)
+{col 5}Not matched{col 30}{res}      40,618,118
+{txt}{col 9}from master{col 30}{res}      40,618,118{txt}  (merge_k12_nsc_ssid==1)
 {col 9}from using{col 30}{res}               0{txt}  (merge_k12_nsc_ssid==2)
 
-{col 5}Matched{col 30}{res}      31,328,092
-{txt}{col 9}not updated{col 30}{res}      31,328,092{txt}  (merge_k12_nsc_ssid==3)
+{col 5}Matched{col 30}{res}      38,004,025
+{txt}{col 9}not updated{col 30}{res}      38,004,025{txt}  (merge_k12_nsc_ssid==3)
 {col 9}missing updated{col 30}{res}               0{txt}  (merge_k12_nsc_ssid==4)
 {col 9}nonmissing conflict{col 30}{res}               0{txt}  (merge_k12_nsc_ssid==5)
 {col 5}{hline 41}
@@ -591,64 +660,12 @@ saved
      Total {c |}{res} 4,930,431 {txt}{c |}{res}78,175,632 
 {txt}
 {com}. replace k12_nsc_match = 1 if inlist(merge_k12_nsc_ssid, 3, 4, 5)
-{txt}(31,328,092 real changes made)
+{txt}(38,004,025 real changes made)
 
 {com}. drop merge_k12_nsc_ssid
 {txt}
 {com}. 
-. ** NSC 2010-2017
-. /*merge m:1 state_student_id ///
->         using `crosswalks'/nsc_2010_2017_outcomes_crosswalk_ssid.dta ///
->         , gen(merge_k12_nsc_2010_2017_ssid) keep(1 3 4 5) update
-> tab grade year
-> replace k12_nsc_match = 1 if merge_k12_nsc_2010_2017_ssid==3
-> replace k12_nsc_2010_2017_match = 1 if merge_k12_nsc_2010_2017_ssid==3
-> drop merge_k12_nsc_2010_2017_ssid
-> 
-> /*merge m:1 cdscode local_student_id ///
->         using `crosswalks'/nsc_2010_2017_outcomes_crosswalk_lsid.dta ///
->         , gen(merge_k12_nsc_2010_2017_lsid) keep(1 3 4 5) update
-> tab grade year
-> replace k12_nsc_match = 1 if merge_k12_nsc_2010_2017_lsid==3
-> replace k12_nsc_2010_2017_match = 1 if merge_k12_nsc_2010_2017_lsid==3
-> drop merge_k12_nsc_2010_2017_lsid*/
-> 
-> 
-> ** NSC 2018
-> merge m:1 state_student_id ///
->         using `crosswalks'/nsc_2018cde_outcomes_crosswalk_ssid.dta ///
->         , gen(merge_k12_nsc_2018cde_ssid) keep(1 3 4 5) update
-> tab grade year
-> replace k12_nsc_match = 1 if merge_k12_nsc_2018cde_ssid==3
-> replace k12_nsc_2018cde_match = 1 if merge_k12_nsc_2018cde_ssid==3
-> drop merge_k12_nsc_2018cde_ssid
-> 
-> /*merge m:1 cdscode local_student_id ///
->         using `crosswalks'/nsc_2018cde_outcomes_crosswalk_lsid.dta ///
->         , gen(merge_k12_nsc_2018cde_lsid) keep(1 3 4 5) update
-> tab grade year
-> replace k12_nsc_match = 1 if merge_k12_nsc_2018cde_lsid==3
-> replace k12_nsc_2018cde_match = 1 if merge_k12_nsc_2018cde_lsid==3
-> drop merge_k12_nsc_2018cde_lsid*/
-> 
-> 
-> ** NSC 2019
-> merge m:1 state_student_id ///
->         using `crosswalks'/nsc_2019cde_provisional_outcomes_crosswalk_ssid.dta ///
->         , gen(merge_k12_nsc_2019cde_ssid) keep(1 3 4 5) update
-> tab grade year
-> replace k12_nsc_match = 1 if merge_k12_nsc_2019cde_ssid==3
-> replace k12_nsc_2019cde_match = 1 if merge_k12_nsc_2019cde_ssid==3
-> drop merge_k12_nsc_2019cde_ssid
-> 
-> /*merge m:1 cdscode local_student_id ///
->         using `crosswalks'/nsc_2019cde_provisional_outcomes_crosswalk_lsid.dta ///
->         , gen(merge_k12_nsc_2019cde_lsid) keep(1 3 4 5) update
-> tab grade year
-> replace k12_nsc_match = 1 if merge_k12_nsc_2019cde_lsid==3
-> replace k12_nsc_2019cde_match = 1 if merge_k12_nsc_2019cde_lsid==3
-> drop merge_k12_nsc_2019cde_lsid*/
-> */
+. 
 . 
 . ** Edit NSC Variables
 . if "`enr_only'"=="enr_only" {c -(}
@@ -894,10 +911,8 @@ saved
 . gen k12_ccc_match = 0
 {txt}
 {com}. compress
-  {txt}variable {bf}{res}nsc_enr_n_4year{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
-  {txt}variable {bf}{res}nsc_enr_n_2year{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
   {txt}variable {bf}{res}k12_ccc_match{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
-{txt}  (393,110,715 bytes saved)
+{txt}  (235,866,429 bytes saved)
 
 {com}. 
 . merge m:1 state_student_id ///
@@ -2009,153 +2024,153 @@ saved
 . **** All college outcomes
 . * Enrollment
 . gen enr = 1 if nsc_enr==1 /*| ccc_enr==1 | csu_enr==1*/
-{txt}(57,447,437 missing values generated)
+{txt}(52,966,330 missing values generated)
 
 {com}. replace enr = 0 if nsc_enr==0 & ccc_enr!=1 & csu_enr!=1
-{txt}(8,871,245 real changes made)
+{txt}(11,147,887 real changes made)
 
 {com}. label var enr "Enrolled at a Postsecondary Institution"
 {txt}
 {com}. 
 . gen enr_ontime = 1 if nsc_enr_ontime==1 | ccc_enr_ontime==1 | csu_enr_ontime==1
-{txt}(57,842,759 missing values generated)
+{txt}(53,621,620 missing values generated)
 
 {com}. replace enr_ontime = 0 if nsc_enr_ontime==0 & ccc_enr_ontime!=1 & csu_enr_ontime!=1
-{txt}(12,160,510 real changes made)
+{txt}(14,587,596 real changes made)
 
 {com}. label var enr_ontime "Enrolled at a Postsecondary Institution"
 {txt}
 {com}. 
 . gen enr_2year = 1 if nsc_enr_2year==1 | nsc_enr_lt2year==1 | ccc_enr==1
-{txt}(60,305,803 missing values generated)
+{txt}(55,710,846 missing values generated)
 
 {com}. replace enr_2year = 0 if nsc_enr_2year==0 & nsc_enr_lt2year==0 & ccc_enr!=1
-{txt}(15,750,705 real changes made)
+{txt}(17,886,521 real changes made)
 
 {com}. label var enr_2year "Enrolled at a 2-Year College"
 {txt}
 {com}. 
 . gen enr_ontime_2year = 1 if nsc_enr_ontime_2year==1 | nsc_enr_ontime_lt2year==1 | ccc_enr_ontime==1
-{txt}(67,442,780 missing values generated)
+{txt}(63,628,812 missing values generated)
 
 {com}. replace enr_ontime_2year = 0 if nsc_enr_ontime_2year==0 & nsc_enr_ontime_lt2year==0 & ccc_enr_ontime!=1
-{txt}(21,317,664 real changes made)
+{txt}(24,146,974 real changes made)
 
 {com}. label var enr_ontime_2year "Enrolled at a 2-Year College"
 {txt}
 {com}. 
 . gen enr_4year = 1 if nsc_enr_4year==1 | csu_enr==1
-{txt}(68,660,149 missing values generated)
+{txt}(65,379,218 missing values generated)
 
 {com}. replace enr_4year = 0 if nsc_enr_4year==0 & csu_enr!=1
-{txt}(22,309,769 real changes made)
+{txt}(25,711,651 real changes made)
 
 {com}. label var enr_4year "Enrolled at a 4-Year University"
 {txt}
 {com}. 
 . replace enr_2year = 0 if enr_4year==1
-{txt}(5,887,965 real changes made)
+{txt}(6,504,291 real changes made)
 
 {com}. 
 . gen enr_ontime_4year = 1 if nsc_enr_ontime_4year==1 | csu_enr_ontime==1
-{txt}(71,155,210 missing values generated)
+{txt}(67,984,757 missing values generated)
 
 {com}. replace enr_ontime_4year = 0 if nsc_enr_ontime_4year==0 & csu_enr_ontime!=1
-{txt}(24,318,320 real changes made)
+{txt}(27,828,790 real changes made)
 
 {com}. label var enr_ontime_4year "Enrolled at a 4-Year University"
 {txt}
 {com}. 
 . replace enr_ontime_2year = 0 if enr_ontime_4year==1
-{txt}(914,574 real changes made)
+{txt}(1,078,008 real changes made)
 
 {com}. 
 . gen enr_pub = 1 if nsc_enr_pub==1 | ccc_enr==1 | csu_enr==1
-{txt}(54,130,335 missing values generated)
+{txt}(50,040,850 missing values generated)
 
 {com}. replace enr_pub = 0 if nsc_enr_pub==0 & ccc_enr!=1 & csu_enr!=1
-{txt}(10,119,578 real changes made)
+{txt}(12,766,044 real changes made)
 
 {com}. label var enr_pub "Enrolled at a Public Institution"
 {txt}
 {com}. 
 . gen enr_ontime_pub = 1 if nsc_enr_ontime_pub==1 | ccc_enr_ontime==1 | csu_enr_ontime==1
-{txt}(59,494,228 missing values generated)
+{txt}(55,653,540 missing values generated)
 
 {com}. replace enr_ontime_pub = 0 if nsc_enr_ontime_pub==0 & ccc_enr_ontime!=1 & csu_enr_ontime!=1
-{txt}(13,811,979 real changes made)
+{txt}(16,619,516 real changes made)
 
 {com}. label var enr_ontime_pub "Enrolled at a Public Institution"
 {txt}
 {com}. 
 . gen enr_priv = 1 if nsc_enr_priv==1
-{txt}(75,875,406 missing values generated)
+{txt}(75,436,815 missing values generated)
 
 {com}. replace enr_priv = 0 if nsc_enr_priv==0
-{txt}(28,581,355 real changes made)
+{txt}(34,818,697 real changes made)
 
 {com}. label var enr_priv "Enrolled at a Private Institution"
 {txt}
 {com}. 
 . replace enr_pub = 0 if enr_priv==1
-{txt}(1,499,435 real changes made)
+{txt}(1,567,171 real changes made)
 
 {com}. 
 . gen enr_ontime_priv = 1 if nsc_enr_ontime_priv==1
-{txt}(76,836,430 missing values generated)
+{txt}(76,432,094 missing values generated)
 
 {com}. replace enr_ontime_priv = 0 if nsc_enr_ontime_priv==0
-{txt}(29,542,379 real changes made)
+{txt}(35,813,976 real changes made)
 
 {com}. label var enr_ontime_priv "Enrolled at a Private Institution"
 {txt}
 {com}. 
 . replace enr_ontime_pub = 0 if enr_ontime_priv==1
-{txt}(134,244 real changes made)
+{txt}(158,129 real changes made)
 
 {com}. 
 . gen enr_instate = 1 if nsc_enr_instate==1 | ccc_enr==1 | csu_enr==1
-{txt}(54,343,701 missing values generated)
+{txt}(50,301,200 missing values generated)
 
 {com}. replace enr_instate = 0 if nsc_enr_instate==0 & ccc_enr!=1 & csu_enr!=1
-{txt}(10,332,944 real changes made)
+{txt}(13,026,394 real changes made)
 
 {com}. label var enr_instate "Enrolled at a CA Institution"
 {txt}
 {com}. 
 . gen enr_ontime_instate = 1 if nsc_enr_ontime_instate==1 | ccc_enr_ontime==1 | csu_enr_ontime==1
-{txt}(59,612,538 missing values generated)
+{txt}(55,816,352 missing values generated)
 
 {com}. replace enr_ontime_instate = 0 if nsc_enr_ontime_instate==0 & ccc_enr_ontime!=1 & csu_enr_ontime!=1
-{txt}(13,930,289 real changes made)
+{txt}(16,782,328 real changes made)
 
 {com}. label var enr_ontime_instate "Enrolled at a CA Institution"
 {txt}
 {com}. 
 . gen enr_outstate = 1 if nsc_enr_outstate==1
-{txt}(75,768,483 missing values generated)
+{txt}(75,323,148 missing values generated)
 
 {com}. replace enr_outstate = 0 if nsc_enr_outstate==0
-{txt}(28,474,432 real changes made)
+{txt}(34,705,030 real changes made)
 
 {com}. label var enr_outstate "Enrolled at an Out-of-State Institution"
 {txt}
 {com}. 
 . replace enr_instate = 0 if enr_outstate==1
-{txt}(1,392,054 real changes made)
+{txt}(1,420,630 real changes made)
 
 {com}. 
 . gen enr_ontime_outstate = 1 if nsc_enr_ontime_outstate==1
-{txt}(76,722,834 missing values generated)
+{txt}(76,276,937 missing values generated)
 
 {com}. replace enr_ontime_outstate = 0 if nsc_enr_ontime_outstate==0
-{txt}(29,428,783 real changes made)
+{txt}(35,658,819 real changes made)
 
 {com}. label var enr_ontime_outstate "Enrolled at an Out-of-State Institution"
 {txt}
 {com}. 
 . replace enr_ontime_instate = 0 if enr_ontime_outstate==1
-{txt}(129,591 real changes made)
+{txt}(150,584 real changes made)
 
 {com}. 
 . tab grade year
@@ -2454,18 +2469,18 @@ saved
 {txt}  2{com}.         replace `v' = . if /*`v'==0 &*/ k12_nsc_match==0
 {txt}  3{com}. {c )-}
 {txt}(0 real changes made)
-(3,283,294 real changes made, 3,283,294 to missing)
-(943,671 real changes made, 943,671 to missing)
-(3,283,294 real changes made, 3,283,294 to missing)
+(3,343,312 real changes made, 3,343,312 to missing)
+(950,551 real changes made, 950,551 to missing)
+(3,343,312 real changes made, 3,343,312 to missing)
 (0 real changes made)
-(3,283,294 real changes made, 3,283,294 to missing)
+(3,343,312 real changes made, 3,343,312 to missing)
 (0 real changes made)
-(1,611,802 real changes made, 1,611,802 to missing)
-(1,611,802 real changes made, 1,611,802 to missing)
-(457,161 real changes made, 457,161 to missing)
-(1,611,802 real changes made, 1,611,802 to missing)
+(1,584,094 real changes made, 1,584,094 to missing)
+(1,584,094 real changes made, 1,584,094 to missing)
+(462,151 real changes made, 462,151 to missing)
+(1,584,094 real changes made, 1,584,094 to missing)
 (0 real changes made)
-(1,611,802 real changes made, 1,611,802 to missing)
+(1,584,094 real changes made, 1,584,094 to missing)
 (0 real changes made)
 
 {com}. macro drop _varlist
@@ -2808,17 +2823,16 @@ saved
 {txt}(CST/SBAC Student Test Score Samples)
 
 {com}.   // merge on postsecondary Outcomes
-.   do `mattdofiles'/merge_k12_postsecondary.doh enr_only
+.   do `vaprojdofiles'/merge_k12_postsecondary.doh enr_only
 {txt}
 {com}. version 16.1
 {txt}
 {com}. 
 . *****************************************************
 . * First created by Matthew Naven on June 11, 2018 *
-. *adapted by Che Sun Dec 13, 2021, changed crosswalks file path
 . *****************************************************
 . 
-. local crosswalks "/home/research/ca_ed_lab/projects/common_core_va/data/restricted_access/clean/crosswalks"
+. local crosswalks "/home/research/ca_ed_lab/projects/common_core_va/data/restricted_access/clean/crosswalks/"
 {txt}
 {com}. 
 . ***************
@@ -2912,19 +2926,16 @@ saved
 {com}. 
 . 
 . ** NSC
-. /* changed the generated merge id to be consistent with the code  */
-. merge m:1 state_student_id ///
->         using `crosswalks'/nsc_outcomes_crosswalk_ssid.dta ///
->         , gen(merge_k12_nsc_ssid) keep(1 3 4 5) update
+. merge m:1 state_student_id      using `crosswalks'/nsc_outcomes_crosswalk_ssid.dta, gen(merge_k12_nsc_ssid) keep(1 3 4 5) update
 {res}
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
-{col 5}Not matched{col 30}{res}      44,632,739
-{txt}{col 9}from master{col 30}{res}      44,632,739{txt}  (merge_k12_nsc_ssid==1)
+{col 5}Not matched{col 30}{res}      38,120,615
+{txt}{col 9}from master{col 30}{res}      38,120,615{txt}  (merge_k12_nsc_ssid==1)
 {col 9}from using{col 30}{res}               0{txt}  (merge_k12_nsc_ssid==2)
 
-{col 5}Matched{col 30}{res}      29,606,854
-{txt}{col 9}not updated{col 30}{res}      29,606,854{txt}  (merge_k12_nsc_ssid==3)
+{col 5}Matched{col 30}{res}      36,118,978
+{txt}{col 9}not updated{col 30}{res}      36,118,978{txt}  (merge_k12_nsc_ssid==3)
 {col 9}missing updated{col 30}{res}               0{txt}  (merge_k12_nsc_ssid==4)
 {col 9}nonmissing conflict{col 30}{res}               0{txt}  (merge_k12_nsc_ssid==5)
 {col 5}{hline 41}
@@ -3005,64 +3016,12 @@ saved
      Total {c |}{res} 4,720,497 {txt}{c |}{res}74,239,278 
 {txt}
 {com}. replace k12_nsc_match = 1 if inlist(merge_k12_nsc_ssid, 3, 4, 5)
-{txt}(29,606,854 real changes made)
+{txt}(36,118,978 real changes made)
 
 {com}. drop merge_k12_nsc_ssid
 {txt}
 {com}. 
-. ** NSC 2010-2017
-. /*merge m:1 state_student_id ///
->         using `crosswalks'/nsc_2010_2017_outcomes_crosswalk_ssid.dta ///
->         , gen(merge_k12_nsc_2010_2017_ssid) keep(1 3 4 5) update
-> tab grade year
-> replace k12_nsc_match = 1 if merge_k12_nsc_2010_2017_ssid==3
-> replace k12_nsc_2010_2017_match = 1 if merge_k12_nsc_2010_2017_ssid==3
-> drop merge_k12_nsc_2010_2017_ssid
-> 
-> /*merge m:1 cdscode local_student_id ///
->         using `crosswalks'/nsc_2010_2017_outcomes_crosswalk_lsid.dta ///
->         , gen(merge_k12_nsc_2010_2017_lsid) keep(1 3 4 5) update
-> tab grade year
-> replace k12_nsc_match = 1 if merge_k12_nsc_2010_2017_lsid==3
-> replace k12_nsc_2010_2017_match = 1 if merge_k12_nsc_2010_2017_lsid==3
-> drop merge_k12_nsc_2010_2017_lsid*/
-> 
-> 
-> ** NSC 2018
-> merge m:1 state_student_id ///
->         using `crosswalks'/nsc_2018cde_outcomes_crosswalk_ssid.dta ///
->         , gen(merge_k12_nsc_2018cde_ssid) keep(1 3 4 5) update
-> tab grade year
-> replace k12_nsc_match = 1 if merge_k12_nsc_2018cde_ssid==3
-> replace k12_nsc_2018cde_match = 1 if merge_k12_nsc_2018cde_ssid==3
-> drop merge_k12_nsc_2018cde_ssid
-> 
-> /*merge m:1 cdscode local_student_id ///
->         using `crosswalks'/nsc_2018cde_outcomes_crosswalk_lsid.dta ///
->         , gen(merge_k12_nsc_2018cde_lsid) keep(1 3 4 5) update
-> tab grade year
-> replace k12_nsc_match = 1 if merge_k12_nsc_2018cde_lsid==3
-> replace k12_nsc_2018cde_match = 1 if merge_k12_nsc_2018cde_lsid==3
-> drop merge_k12_nsc_2018cde_lsid*/
-> 
-> 
-> ** NSC 2019
-> merge m:1 state_student_id ///
->         using `crosswalks'/nsc_2019cde_provisional_outcomes_crosswalk_ssid.dta ///
->         , gen(merge_k12_nsc_2019cde_ssid) keep(1 3 4 5) update
-> tab grade year
-> replace k12_nsc_match = 1 if merge_k12_nsc_2019cde_ssid==3
-> replace k12_nsc_2019cde_match = 1 if merge_k12_nsc_2019cde_ssid==3
-> drop merge_k12_nsc_2019cde_ssid
-> 
-> /*merge m:1 cdscode local_student_id ///
->         using `crosswalks'/nsc_2019cde_provisional_outcomes_crosswalk_lsid.dta ///
->         , gen(merge_k12_nsc_2019cde_lsid) keep(1 3 4 5) update
-> tab grade year
-> replace k12_nsc_match = 1 if merge_k12_nsc_2019cde_lsid==3
-> replace k12_nsc_2019cde_match = 1 if merge_k12_nsc_2019cde_lsid==3
-> drop merge_k12_nsc_2019cde_lsid*/
-> */
+. 
 . 
 . ** Edit NSC Variables
 . if "`enr_only'"=="enr_only" {c -(}
@@ -3211,76 +3170,78 @@ saved
 {txt}
 {com}. tab grade year
 
-           {txt}{c |}           Year of Spring Semester
-     Grade {c |}      2003       2004       2005       2006 {c |}     Total
-{hline 11}{c +}{hline 44}{c +}{hline 10}
-         2 {c |}{res}   478,811    471,413    462,414    458,891 {txt}{c |}{res} 5,200,710 
-{txt}         3 {c |}{res}   483,906    478,736    469,984    462,182 {txt}{c |}{res} 7,491,816 
-{txt}         4 {c |}{res}   491,017    491,940    489,081    477,065 {txt}{c |}{res} 7,576,356 
-{txt}         5 {c |}{res}   476,564    478,626    479,604    475,784 {txt}{c |}{res} 9,840,908 
-{txt}         6 {c |}{res}   482,380    475,638    477,581    478,350 {txt}{c |}{res} 7,519,383 
-{txt}         7 {c |}{res}   497,365    495,511    489,644    485,881 {txt}{c |}{res} 7,630,297 
-{txt}         8 {c |}{res}   453,618    477,686    478,126    471,695 {txt}{c |}{res} 9,748,443 
-{txt}         9 {c |}{res}   465,180    471,959    494,417    495,642 {txt}{c |}{res} 5,335,329 
-{txt}        10 {c |}{res}   404,320    421,641    431,787    454,633 {txt}{c |}{res} 6,221,855 
-{txt}        11 {c |}{res}   344,921    357,598    374,400    381,867 {txt}{c |}{res} 6,922,503 
-{txt}        12 {c |}{res}         0          0          0          0 {txt}{c |}{res}   751,678 
-{txt}{hline 11}{c +}{hline 44}{c +}{hline 10}
-     Total {c |}{res} 4,578,082  4,620,748  4,647,038  4,641,990 {txt}{c |}{res}74,239,278 
+           {txt}{c |}                Year of Spring Semester
+     Grade {c |}      2003       2004       2005       2006       2007 {c |}     Total
+{hline 11}{c +}{hline 55}{c +}{hline 10}
+         2 {c |}{res}   478,811    471,413    462,414    458,891    472,732 {txt}{c |}{res} 5,200,710 
+{txt}         3 {c |}{res}   483,906    478,736    469,984    462,182    469,706 {txt}{c |}{res} 7,491,816 
+{txt}         4 {c |}{res}   491,017    491,940    489,081    477,065    474,474 {txt}{c |}{res} 7,576,356 
+{txt}         5 {c |}{res}   476,564    478,626    479,604    475,784    465,856 {txt}{c |}{res} 9,840,908 
+{txt}         6 {c |}{res}   482,380    475,638    477,581    478,350    472,029 {txt}{c |}{res} 7,519,383 
+{txt}         7 {c |}{res}   497,365    495,511    489,644    485,881    484,293 {txt}{c |}{res} 7,630,297 
+{txt}         8 {c |}{res}   453,618    477,686    478,126    471,695    470,862 {txt}{c |}{res} 9,748,443 
+{txt}         9 {c |}{res}   465,180    471,959    494,417    495,642    488,685 {txt}{c |}{res} 5,335,329 
+{txt}        10 {c |}{res}   404,320    421,641    431,787    454,633    455,470 {txt}{c |}{res} 6,221,855 
+{txt}        11 {c |}{res}   344,921    357,598    374,400    381,867    407,531 {txt}{c |}{res} 6,922,503 
+{txt}        12 {c |}{res}         0          0          0          0          0 {txt}{c |}{res}   751,678 
+{txt}{hline 11}{c +}{hline 55}{c +}{hline 10}
+     Total {c |}{res} 4,578,082  4,620,748  4,647,038  4,641,990  4,661,638 {txt}{c |}{res}74,239,278 
 
 
-           {txt}{c |}           Year of Spring Semester
-     Grade {c |}      2007       2008       2009       2010 {c |}     Total
-{hline 11}{c +}{hline 44}{c +}{hline 10}
-         2 {c |}{res}   472,732    477,138    471,803    468,225 {txt}{c |}{res} 5,200,710 
-{txt}         3 {c |}{res}   469,706    465,335    470,950    464,136 {txt}{c |}{res} 7,491,816 
-{txt}         4 {c |}{res}   474,474    469,522    468,175    464,429 {txt}{c |}{res} 7,576,356 
-{txt}         5 {c |}{res}   465,856    463,911    461,713    458,422 {txt}{c |}{res} 9,840,908 
-{txt}         6 {c |}{res}   472,029    467,563    461,410    457,935 {txt}{c |}{res} 7,519,383 
-{txt}         7 {c |}{res}   484,293    481,488    476,277    468,446 {txt}{c |}{res} 7,630,297 
-{txt}         8 {c |}{res}   470,862    471,279    470,585    463,630 {txt}{c |}{res} 9,748,443 
-{txt}         9 {c |}{res}   488,685    486,983    493,813    486,854 {txt}{c |}{res} 5,335,329 
-{txt}        10 {c |}{res}   455,470    452,290    456,653    458,680 {txt}{c |}{res} 6,221,855 
-{txt}        11 {c |}{res}   407,531    409,660    413,852    416,821 {txt}{c |}{res} 6,922,503 
-{txt}        12 {c |}{res}         0          0          0          0 {txt}{c |}{res}   751,678 
-{txt}{hline 11}{c +}{hline 44}{c +}{hline 10}
-     Total {c |}{res} 4,661,638  4,645,169  4,645,231  4,607,578 {txt}{c |}{res}74,239,278 
+           {txt}{c |}                Year of Spring Semester
+     Grade {c |}      2008       2009       2010       2011       2012 {c |}     Total
+{hline 11}{c +}{hline 55}{c +}{hline 10}
+         2 {c |}{res}   477,138    471,803    468,225    474,331    477,197 {txt}{c |}{res} 5,200,710 
+{txt}         3 {c |}{res}   465,335    470,950    464,136    462,446    468,679 {txt}{c |}{res} 7,491,816 
+{txt}         4 {c |}{res}   469,522    468,175    464,429    467,777    465,428 {txt}{c |}{res} 7,576,356 
+{txt}         5 {c |}{res}   463,911    461,713    458,422    464,569    459,999 {txt}{c |}{res} 9,840,908 
+{txt}         6 {c |}{res}   467,563    461,410    457,935    456,870    462,429 {txt}{c |}{res} 7,519,383 
+{txt}         7 {c |}{res}   481,488    476,277    468,446    464,799    462,900 {txt}{c |}{res} 7,630,297 
+{txt}         8 {c |}{res}   471,279    470,585    463,630    458,037    456,362 {txt}{c |}{res} 9,748,443 
+{txt}         9 {c |}{res}   486,983    493,813    486,854    481,172    472,798 {txt}{c |}{res} 5,335,329 
+{txt}        10 {c |}{res}   452,290    456,653    458,680    457,268    451,871 {txt}{c |}{res} 6,221,855 
+{txt}        11 {c |}{res}   409,660    413,852    416,821    420,677    419,140 {txt}{c |}{res} 6,922,503 
+{txt}        12 {c |}{res}         0          0          0          0          0 {txt}{c |}{res}   751,678 
+{txt}{hline 11}{c +}{hline 55}{c +}{hline 10}
+     Total {c |}{res} 4,645,169  4,645,231  4,607,578  4,607,946  4,596,803 {txt}{c |}{res}74,239,278 
 
 
-           {txt}{c |}           Year of Spring Semester
-     Grade {c |}      2011       2012       2013       2015 {c |}     Total
-{hline 11}{c +}{hline 44}{c +}{hline 10}
-         2 {c |}{res}   474,331    477,197    481,090      1,799 {txt}{c |}{res} 5,200,710 
-{txt}         3 {c |}{res}   462,446    468,679    472,196    484,890 {txt}{c |}{res} 7,491,816 
-{txt}         4 {c |}{res}   467,777    465,428    471,815    472,830 {txt}{c |}{res} 7,576,356 
-{txt}         5 {c |}{res}   464,569    459,999    458,379    930,800 {txt}{c |}{res} 9,840,908 
-{txt}         6 {c |}{res}   456,870    462,429    457,254    465,708 {txt}{c |}{res} 7,519,383 
-{txt}         7 {c |}{res}   464,799    462,900    468,092    459,829 {txt}{c |}{res} 7,630,297 
-{txt}         8 {c |}{res}   458,037    456,362    454,971    912,429 {txt}{c |}{res} 9,748,443 
-{txt}         9 {c |}{res}   481,172    472,798    470,427        927 {txt}{c |}{res} 5,335,329 
-{txt}        10 {c |}{res}   457,268    451,871    447,194    428,898 {txt}{c |}{res} 6,221,855 
-{txt}        11 {c |}{res}   420,677    419,140    420,513    424,011 {txt}{c |}{res} 6,922,503 
-{txt}        12 {c |}{res}         0          0          0          0 {txt}{c |}{res}   751,678 
-{txt}{hline 11}{c +}{hline 44}{c +}{hline 10}
-     Total {c |}{res} 4,607,946  4,596,803  4,601,931  4,582,121 {txt}{c |}{res}74,239,278 
+           {txt}{c |}                Year of Spring Semester
+     Grade {c |}      2013       2015       2016       2017       2018 {c |}     Total
+{hline 11}{c +}{hline 55}{c +}{hline 10}
+         2 {c |}{res}   481,090      1,799      2,079      1,649      1,138 {txt}{c |}{res} 5,200,710 
+{txt}         3 {c |}{res}   472,196    484,890    473,760    465,059    440,204 {txt}{c |}{res} 7,491,816 
+{txt}         4 {c |}{res}   471,815    472,830    488,694    469,686    464,003 {txt}{c |}{res} 7,576,356 
+{txt}         5 {c |}{res}   458,379    930,800    953,631    963,455    925,930 {txt}{c |}{res} 9,840,908 
+{txt}         6 {c |}{res}   457,254    465,708    472,998    472,987    488,487 {txt}{c |}{res} 7,519,383 
+{txt}         7 {c |}{res}   468,092    459,829    470,667    469,722    472,367 {txt}{c |}{res} 7,630,297 
+{txt}         8 {c |}{res}   454,971    912,429    921,699    927,937    925,351 {txt}{c |}{res} 9,748,443 
+{txt}         9 {c |}{res}   470,427        927      6,027      2,231     12,167 {txt}{c |}{res} 5,335,329 
+{txt}        10 {c |}{res}   447,194    428,898    463,043    389,735     16,548 {txt}{c |}{res} 6,221,855 
+{txt}        11 {c |}{res}   420,513    424,011    428,138    472,994    557,079 {txt}{c |}{res} 6,922,503 
+{txt}        12 {c |}{res}         0          0      1,847     35,091    426,103 {txt}{c |}{res}   751,678 
+{txt}{hline 11}{c +}{hline 55}{c +}{hline 10}
+     Total {c |}{res} 4,601,931  4,582,121  4,682,583  4,670,546  4,729,377 {txt}{c |}{res}74,239,278 
 
 
-           {txt}{c |}           Year of Spring Semester
-     Grade {c |}      2016       2017       2018       2019 {c |}     Total
-{hline 11}{c +}{hline 44}{c +}{hline 10}
-         2 {c |}{res}     2,079      1,649      1,138          0 {txt}{c |}{res} 5,200,710 
-{txt}         3 {c |}{res}   473,760    465,059    440,204    459,647 {txt}{c |}{res} 7,491,816 
-{txt}         4 {c |}{res}   488,694    469,686    464,003    450,420 {txt}{c |}{res} 7,576,356 
-{txt}         5 {c |}{res}   953,631    963,455    925,930    923,665 {txt}{c |}{res} 9,840,908 
-{txt}         6 {c |}{res}   472,998    472,987    488,487    469,764 {txt}{c |}{res} 7,519,383 
-{txt}         7 {c |}{res}   470,667    469,722    472,367    483,016 {txt}{c |}{res} 7,630,297 
-{txt}         8 {c |}{res}   921,699    927,937    925,351    934,176 {txt}{c |}{res} 9,748,443 
-{txt}         9 {c |}{res}     6,027      2,231     12,167      6,047 {txt}{c |}{res} 5,335,329 
-{txt}        10 {c |}{res}   463,043    389,735     16,548     31,824 {txt}{c |}{res} 6,221,855 
-{txt}        11 {c |}{res}   428,138    472,994    557,079    673,301 {txt}{c |}{res} 6,922,503 
-{txt}        12 {c |}{res}     1,847     35,091    426,103    288,637 {txt}{c |}{res}   751,678 
-{txt}{hline 11}{c +}{hline 44}{c +}{hline 10}
-     Total {c |}{res} 4,682,583  4,670,546  4,729,377  4,720,497 {txt}{c |}{res}74,239,278 
+           {txt}{c |}  Year of
+           {c |}   Spring
+           {c |}  Semester
+     Grade {c |}      2019 {c |}     Total
+{hline 11}{c +}{hline 11}{c +}{hline 10}
+         2 {c |}{res}         0 {txt}{c |}{res} 5,200,710 
+{txt}         3 {c |}{res}   459,647 {txt}{c |}{res} 7,491,816 
+{txt}         4 {c |}{res}   450,420 {txt}{c |}{res} 7,576,356 
+{txt}         5 {c |}{res}   923,665 {txt}{c |}{res} 9,840,908 
+{txt}         6 {c |}{res}   469,764 {txt}{c |}{res} 7,519,383 
+{txt}         7 {c |}{res}   483,016 {txt}{c |}{res} 7,630,297 
+{txt}         8 {c |}{res}   934,176 {txt}{c |}{res} 9,748,443 
+{txt}         9 {c |}{res}     6,047 {txt}{c |}{res} 5,335,329 
+{txt}        10 {c |}{res}    31,824 {txt}{c |}{res} 6,221,855 
+{txt}        11 {c |}{res}   673,301 {txt}{c |}{res} 6,922,503 
+{txt}        12 {c |}{res}   288,637 {txt}{c |}{res}   751,678 
+{txt}{hline 11}{c +}{hline 11}{c +}{hline 10}
+     Total {c |}{res} 4,720,497 {txt}{c |}{res}74,239,278 
 {txt}
 {com}. 
 . 
@@ -3290,10 +3251,8 @@ saved
 . gen k12_ccc_match = 0
 {txt}
 {com}. compress
-  {txt}variable {bf}{res}nsc_enr_n_4year{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
-  {txt}variable {bf}{res}nsc_enr_n_2year{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
   {txt}variable {bf}{res}k12_ccc_match{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
-{txt}  (371,197,965 bytes saved)
+{txt}  (222,718,779 bytes saved)
 
 {com}. 
 . merge m:1 state_student_id ///
@@ -4326,153 +4285,153 @@ saved
 . **** All college outcomes
 . * Enrollment
 . gen enr = 1 if nsc_enr==1 /*| ccc_enr==1 | csu_enr==1*/
-{txt}(53,978,195 missing values generated)
+{txt}(49,586,845 missing values generated)
 
 {com}. replace enr = 0 if nsc_enr==0 & ccc_enr!=1 & csu_enr!=1
-{txt}(8,127,379 real changes made)
+{txt}(10,323,530 real changes made)
 
 {com}. label var enr "Enrolled at a Postsecondary Institution"
 {txt}
 {com}. 
 . gen enr_ontime = 1 if nsc_enr_ontime==1 | ccc_enr_ontime==1 | csu_enr_ontime==1
-{txt}(54,360,882 missing values generated)
+{txt}(50,213,163 missing values generated)
 
 {com}. replace enr_ontime = 0 if nsc_enr_ontime==0 & ccc_enr_ontime!=1 & csu_enr_ontime!=1
-{txt}(11,241,447 real changes made)
+{txt}(13,577,960 real changes made)
 
 {com}. label var enr_ontime "Enrolled at a Postsecondary Institution"
 {txt}
 {com}. 
 . gen enr_2year = 1 if nsc_enr_2year==1 | nsc_enr_lt2year==1 | ccc_enr==1
-{txt}(56,941,184 missing values generated)
+{txt}(52,461,856 missing values generated)
 
 {com}. replace enr_2year = 0 if nsc_enr_2year==0 & nsc_enr_lt2year==0 & ccc_enr!=1
-{txt}(14,768,674 real changes made)
+{txt}(16,849,793 real changes made)
 
 {com}. label var enr_2year "Enrolled at a 2-Year College"
 {txt}
 {com}. 
 . gen enr_ontime_2year = 1 if nsc_enr_ontime_2year==1 | nsc_enr_ontime_lt2year==1 | ccc_enr_ontime==1
-{txt}(63,622,171 missing values generated)
+{txt}(59,890,552 missing values generated)
 
 {com}. replace enr_ontime_2year = 0 if nsc_enr_ontime_2year==0 & nsc_enr_ontime_lt2year==0 & ccc_enr_ontime!=1
-{txt}(20,079,116 real changes made)
+{txt}(22,827,114 real changes made)
 
 {com}. label var enr_ontime_2year "Enrolled at a 2-Year College"
 {txt}
 {com}. 
 . gen enr_4year = 1 if nsc_enr_4year==1 | csu_enr==1
-{txt}(64,654,351 missing values generated)
+{txt}(61,425,712 missing values generated)
 
 {com}. replace enr_4year = 0 if nsc_enr_4year==0 & csu_enr!=1
-{txt}(20,918,682 real changes made)
+{txt}(24,208,513 real changes made)
 
 {com}. label var enr_4year "Enrolled at a 4-Year University"
 {txt}
 {com}. 
 . replace enr_2year = 0 if enr_4year==1
-{txt}(5,683,294 real changes made)
+{txt}(6,287,618 real changes made)
 
 {com}. 
 . gen enr_ontime_4year = 1 if nsc_enr_ontime_4year==1 | csu_enr_ontime==1
-{txt}(67,075,285 missing values generated)
+{txt}(63,952,798 missing values generated)
 
 {com}. replace enr_ontime_4year = 0 if nsc_enr_ontime_4year==0 & csu_enr_ontime!=1
-{txt}(22,880,182 real changes made)
+{txt}(26,274,474 real changes made)
 
 {com}. label var enr_ontime_4year "Enrolled at a 4-Year University"
 {txt}
 {com}. 
 . replace enr_ontime_2year = 0 if enr_ontime_4year==1
-{txt}(876,089 real changes made)
+{txt}(1,037,641 real changes made)
 
 {com}. 
 . gen enr_pub = 1 if nsc_enr_pub==1 | ccc_enr==1 | csu_enr==1
-{txt}(50,974,831 missing values generated)
+{txt}(46,968,587 missing values generated)
 
 {com}. replace enr_pub = 0 if nsc_enr_pub==0 & ccc_enr!=1 & csu_enr!=1
-{txt}(9,321,942 real changes made)
+{txt}(11,880,923 real changes made)
 
 {com}. label var enr_pub "Enrolled at a Public Institution"
 {txt}
 {com}. 
 . gen enr_ontime_pub = 1 if nsc_enr_ontime_pub==1 | ccc_enr_ontime==1 | csu_enr_ontime==1
-{txt}(55,945,493 missing values generated)
+{txt}(52,171,772 missing values generated)
 
 {com}. replace enr_ontime_pub = 0 if nsc_enr_ontime_pub==0 & ccc_enr_ontime!=1 & csu_enr_ontime!=1
-{txt}(12,826,058 real changes made)
+{txt}(15,536,569 real changes made)
 
 {com}. label var enr_ontime_pub "Enrolled at a Public Institution"
 {txt}
 {com}. 
 . gen enr_priv = 1 if nsc_enr_priv==1
-{txt}(71,593,082 missing values generated)
+{txt}(71,163,366 missing values generated)
 
 {com}. replace enr_priv = 0 if nsc_enr_priv==0
-{txt}(26,960,343 real changes made)
+{txt}(33,042,751 real changes made)
 
 {com}. label var enr_priv "Enrolled at a Private Institution"
 {txt}
 {com}. 
 . replace enr_pub = 0 if enr_priv==1
-{txt}(1,452,818 real changes made)
+{txt}(1,518,834 real changes made)
 
 {com}. 
 . gen enr_ontime_priv = 1 if nsc_enr_ontime_priv==1
-{txt}(72,526,577 missing values generated)
+{txt}(72,128,792 missing values generated)
 
 {com}. replace enr_ontime_priv = 0 if nsc_enr_ontime_priv==0
-{txt}(27,893,838 real changes made)
+{txt}(34,008,177 real changes made)
 
 {com}. label var enr_ontime_priv "Enrolled at a Private Institution"
 {txt}
 {com}. 
 . replace enr_ontime_pub = 0 if enr_ontime_priv==1
-{txt}(128,405 real changes made)
+{txt}(152,192 real changes made)
 
 {com}. 
 . gen enr_instate = 1 if nsc_enr_instate==1 | ccc_enr==1 | csu_enr==1
-{txt}(51,177,059 missing values generated)
+{txt}(47,217,334 missing values generated)
 
 {com}. replace enr_instate = 0 if nsc_enr_instate==0 & ccc_enr!=1 & csu_enr!=1
-{txt}(9,524,170 real changes made)
+{txt}(12,129,670 real changes made)
 
 {com}. label var enr_instate "Enrolled at a CA Institution"
 {txt}
 {com}. 
 . gen enr_ontime_instate = 1 if nsc_enr_ontime_instate==1 | ccc_enr_ontime==1 | csu_enr_ontime==1
-{txt}(56,054,671 missing values generated)
+{txt}(52,325,033 missing values generated)
 
 {com}. replace enr_ontime_instate = 0 if nsc_enr_ontime_instate==0 & ccc_enr_ontime!=1 & csu_enr_ontime!=1
-{txt}(12,935,236 real changes made)
+{txt}(15,689,830 real changes made)
 
 {com}. label var enr_ontime_instate "Enrolled at a CA Institution"
 {txt}
 {com}. 
 . gen enr_outstate = 1 if nsc_enr_outstate==1
-{txt}(71,499,348 missing values generated)
+{txt}(71,059,100 missing values generated)
 
 {com}. replace enr_outstate = 0 if nsc_enr_outstate==0
-{txt}(26,866,609 real changes made)
+{txt}(32,938,485 real changes made)
 
 {com}. label var enr_outstate "Enrolled at an Out-of-State Institution"
 {txt}
 {com}. 
 . replace enr_instate = 0 if enr_outstate==1
-{txt}(1,343,544 real changes made)
+{txt}(1,374,491 real changes made)
 
 {com}. 
 . gen enr_ontime_outstate = 1 if nsc_enr_ontime_outstate==1
-{txt}(72,421,971 missing values generated)
+{txt}(71,982,845 missing values generated)
 
 {com}. replace enr_ontime_outstate = 0 if nsc_enr_ontime_outstate==0
-{txt}(27,789,232 real changes made)
+{txt}(33,862,230 real changes made)
 
 {com}. label var enr_ontime_outstate "Enrolled at an Out-of-State Institution"
 {txt}
 {com}. 
 . replace enr_ontime_instate = 0 if enr_ontime_outstate==1
-{txt}(123,891 real changes made)
+{txt}(144,984 real changes made)
 
 {com}. 
 . tab grade year
@@ -4747,18 +4706,18 @@ saved
 {txt}  2{com}.         replace `v' = . if /*`v'==0 &*/ k12_nsc_match==0
 {txt}  3{com}. {c )-}
 {txt}(0 real changes made)
-(2,979,850 real changes made, 2,979,850 to missing)
-(897,070 real changes made, 897,070 to missing)
-(2,979,850 real changes made, 2,979,850 to missing)
+(3,032,951 real changes made, 3,032,951 to missing)
+(903,416 real changes made, 903,416 to missing)
+(3,032,951 real changes made, 3,032,951 to missing)
 (0 real changes made)
-(2,979,850 real changes made, 2,979,850 to missing)
+(3,032,951 real changes made, 3,032,951 to missing)
 (0 real changes made)
-(1,513,304 real changes made, 1,513,304 to missing)
-(1,513,304 real changes made, 1,513,304 to missing)
-(437,636 real changes made, 437,636 to missing)
-(1,513,304 real changes made, 1,513,304 to missing)
+(1,485,412 real changes made, 1,485,412 to missing)
+(1,485,412 real changes made, 1,485,412 to missing)
+(442,291 real changes made, 442,291 to missing)
+(1,485,412 real changes made, 1,485,412 to missing)
 (0 real changes made)
-(1,513,304 real changes made, 1,513,304 to missing)
+(1,485,412 real changes made, 1,485,412 to missing)
 (0 real changes made)
 
 {com}. macro drop _varlist
@@ -5061,7 +5020,7 @@ saved
 {com}.   save `va_dataset'
 {txt}{p 0 4 2}
 file {bf}
-/home/tmp/St233715.000003{rm}
+/home/tmp/St192370.000003{rm}
 saved
 as .dta format
 {p_end}
@@ -5072,7 +5031,7 @@ as .dta format
 .   ** need to create grade 11 sample for long term outcome VA, use create_va_g11_sample.doh
 . 
 .   // use only 11th Grade (8th Grade ELA Controls, 6th Grade Math Controls)
-.   include `mattdofiles'/create_va_g11_out_sample.doh
+.   include `vaprojdofiles'/sbac/create_va_g11_out_sample.doh
 {txt}
 {com}. local drift_limit = max(`outcome_max_year' - `outcome_min_year' - 1, 1)
 {txt}
@@ -5080,17 +5039,22 @@ as .dta format
 {txt}(CST/SBAC Student Test Score Samples)
 
 {com}. 
-. gen diff_school_prop = gr11_L3_diff_school_prop if year!=2017
+. include do_files/sbac/create_diff_school_prop.doh
+{txt}
+{com}. gen diff_school_prop = gr11_L3_diff_school_prop if year!=2017
 {txt}(473,128 missing values generated)
 
 {com}. replace diff_school_prop = gr11_L4_diff_school_prop if year==2017
 {txt}(472,961 real changes made)
 
+{com}. {txt}
 {com}. keep if diff_school_prop>=0.95
 {txt}(97,358 observations deleted)
 
 {com}. 
-. **************** Prior Scores
+. include do_files/sbac/create_prior_scores.doh
+{txt}
+{com}. **************** Prior Scores
 . ******** ELA
 . gen prior_ela_z_score = L3_cst_ela_z_score if inrange(year, `star_min_year' + 3, `star_max_year' + 3) & year!=2017
 {txt}(1,113,021 missing values generated)
@@ -5132,6 +5096,7 @@ as .dta format
 
 {com}. label var peer_prior_math_z_score "Peer Avg. Prior Math Z-Score"
 {txt}
+{com}. {txt}
 {com}. 
 . 
 . * Save temporary dataset
@@ -5143,7 +5108,7 @@ as .dta format
 {com}. save `va_g11_dataset'
 {txt}{p 0 4 2}
 file {bf}
-/home/tmp/St233715.000004{rm}
+/home/tmp/St192370.000004{rm}
 saved
 as .dta format
 {p_end}
@@ -5177,13 +5142,13 @@ saved
 . timer off 1
 {txt}
 {com}. timer list
-{res}   1:   6962.29 /        1 =    6962.2910
+{res}   1:   5972.81 /        1 =    5972.8140
 {txt}
 {com}. log close
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/createvasample.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}16 Dec 2021, 12:37:08
+ {txt}closed on:  {res} 9 Apr 2022, 02:25:29
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

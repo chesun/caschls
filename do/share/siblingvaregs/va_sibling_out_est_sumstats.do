@@ -56,11 +56,11 @@ foreach outcome in enr enr_2year enr_4year {
   sum va_cfr_g11_`outcome'
   local mean_`outcome' = 0
   local sd_`outcome' : di %4.3f = r(sd)
-
+/*
   sum va_cfr_g11_`outcome'_peer
   local mean_`outcome'_peer = 0
   local sd_`outcome'_peer : di %4.3f = r(sd)
-
+ */
 
 
   tempfile va_`outcome'
@@ -178,7 +178,7 @@ twoway ///
   graph export $projdir/out/graph/siblingvaregs/outcome_va/kdensity_va_cfr_g11_enrollment_sibling.pdf, replace
 
 
-
+/*
   **** Peer Controls
   twoway ///
   	(kdensity va_cfr_g11_enr_peer) ///
@@ -192,7 +192,7 @@ twoway ///
   	"Enroll 4-Year Mean (Standard Deviation) = `mean_enr_4year_peer' (`sd_enr_4year_peer')")
     graph export $projdir/out/graph/siblingvaregs/outcome_va/kdensity_va_cfr_g11_enrollment_peer_sibling.pdf, replace
 
-
+ */
 
 //note: skipped the kdensity plots for each individual outcome VA
 
@@ -222,7 +222,7 @@ foreach outcome in enr enr_2year enr_4year {
     note("Slope (Standard Error) = `slope' (`std_err')")
   graph export $projdir/out/graph/siblingvaregs/outcome_va/spec_test_va_cfr_g11_`outcome'_sibling.pdf, replace
 
-
+/* 
   **** Peer Controls
   estimates use $projdir/est/siblingvaregs/outcome_va/spec_test_va_cfr_g11_`outcome'_peer_sibling.ster
   eststo spec_g11_`outcome'_peer
@@ -241,7 +241,7 @@ foreach outcome in enr enr_2year enr_4year {
     yscale(range(-.3 .3)) xscale(range(-.3 .3)) ylabel(-.3 (0.1) .3) xlabel(-.3 (0.1) .3) ///
     note("Slope (Standard Error) = `slope' (`std_err')")
   graph export $projdir/out/graph/siblingvaregs/outcome_va/spec_test_va_cfr_g11_`outcome'_peer_sibling.pdf, replace
-
+ */
 
 }
 
@@ -253,7 +253,7 @@ cd $projdir
 
 
 timer off 1
-timer list 
+timer list
 log close
 
 translate $projdir/log/share/siblingvaregs/va_sibling_out_est_sumstats.smcl ///

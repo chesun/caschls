@@ -1,0 +1,84 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/testscore.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 7 Apr 2022, 15:47:37
+{txt}
+{com}. 
+. 
+. // load up the subsample of students Matt is using. This includes grade 11 students in year 2015-2017 (year of the spring semester)
+. use merge_id_k12_test_scores state_student_id dataset cdscode grade year all_scores_sample ///
+> if grade==11 & dataset=="CAASPP" & inrange(year, 2015, 2017) & all_scores_sample==1 ///
+> using $vaprojdir/data/restricted_access/clean/k12_test_scores/k12_test_scores_clean.dta, clear
+{txt}(CST/SBAC Student Test Score Samples)
+
+{com}. 
+. // merge with the lagged test score data
+. merge 1:1 merge_id_k12_test_scores using $vaprojdir/data/restricted_access/clean/k12_test_scores/k12_lag_test_scores_clean.dta
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}      77,190,720
+{txt}{col 9}from master{col 30}{res}               0{txt}  (_merge==1)
+{col 9}from using{col 30}{res}      77,190,720{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}       1,431,423{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. //only keep merged observations
+. keep if _merge == 3
+{txt}(77,190,720 observations deleted)
+
+{com}. drop _merge
+{txt}
+{com}. 
+. /* use grade 7 ELA score for grade 8 in year 2017 due to missing data */
+. gen prior_gr8_zscore = L3_cst_ela_z_score if inrange(year, 2015, 2016)
+{txt}(639,778 missing values generated)
+
+{com}. replace prior_gr8_zscore = L4_cst_ela_z_score if year==2017
+{txt}(386,846 real changes made)
+
+{com}. 
+. //keep only the 6th grade math score (L5) and 8th grade (L3) ELA score
+. keep state_student_id grade year cdscode merge_id_k12_test_scores dataset L5_cst_math_z_score prior_gr8_zscore
+{txt}
+{com}. 
+. //collapse to get average test scores for each school per year
+. collapse L5_cst_math_z_score prior_gr8_zscore, by (cdscode year)
+{res}{txt}
+{com}. 
+. //collapse again to average across years
+. collapse avg_gr6math_zscore=L5_cst_math_z_score avg_gr8ela_zscore=prior_gr8_zscore, by(cdscode)
+{res}{txt}
+{com}. 
+. label var avg_gr6math_zscore "pooled avg 6th grade math z score for 11th graders in 2014-15 to 2016-17 "
+{txt}
+{com}. label var avg_gr8ela_zscore "pooled avg 8th grade ELA z score for 11th graders in 2014-15 to 2016-17"
+{txt}
+{com}. 
+. drop if missing(cdscode)
+{txt}(1 observation deleted)
+
+{com}. 
+. label data "SBAC 6th grade math and 8th grade ELA test score for 11 graders in 1415-1617"
+{txt}
+{com}. 
+. save $projdir/dta/schoolchar/testscorecontrols, replace
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/schoolchar/testscorecontrols.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/testscore.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 7 Apr 2022, 15:49:32
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

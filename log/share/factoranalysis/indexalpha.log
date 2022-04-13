@@ -1,0 +1,106 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factor
+> analysis/indexalpha.smcl
+  log type:  smcl
+ opened on:   7 Apr 2022, 15:49:36
+
+. 
+. use $projdir/dta/allsvyfactor/categoryindex/compcasecategoryindex, clear
+(parent pooled (over years) dataset ready for analysis with stats and response 
+> ra)
+
+. 
+. local climatevars parentqoi16mean_pooled parentqoi17mean_pooled parentqoi27me
+> an_pooled secqoi22mean_pooled secqoi23mean_pooled secqoi24mean_pooled secqoi2
+> 6mean_pooled secqoi27mean_pooled  secqoi29mean_pooled
+
+. local qualityvars parentqoi30mean_pooled parentqoi31mean_pooled parentqoi32me
+> an_pooled parentqoi33mean_pooled parentqoi34mean_pooled secqoi28mean_pooled s
+> ecqoi35mean_pooled secqoi36mean_pooled secqoi37mean_pooled secqoi38mean_poole
+> d secqoi39mean_pooled secqoi40mean_pooled staffqoi20mean_pooled staffqoi24mea
+> n_pooled staffqoi87mean_pooled
+
+. local supportvars parentqoi15mean_pooled parentqoi64mean_pooled staffqoi10mea
+> n_pooled staffqoi128mean_pooled
+
+. /* local motivationvars secqoi31mean_pooled secqoi32mean_pooled secqoi33mean_
+> pooled secqoi34mean_pooled */
+. /* Cronbach's alpha for the school climate index */
+. alpha `climatevars', std item
+
+Test scale = mean(standardized items)
+
+                                                            Average
+                             Item-test     Item-rest       interitem
+Item         |  Obs  Sign   correlation   correlation     correlation     alpha
+-------------+-----------------------------------------------------------------
+p~6mean_po~d |  414    +       0.6868        0.5968          0.5705      0.9140
+parentqoi17~ |  414    +       0.5993        0.4925          0.5834      0.9181
+parentqoi2~d |  414    +       0.6490        0.5517          0.5760      0.9158
+secqoi22me~d |  932    +       0.6601        0.5373          0.6008      0.9233
+secqoi23me~d |  932    +       0.8690        0.8134          0.5251      0.8984
+secqoi24me~d |  932    +       0.9041        0.8662          0.5145      0.8945
+secqoi26me~d |  932    +       0.8761        0.8205          0.5210      0.8969
+secqoi27me~d |  911    +       0.7964        0.7136          0.5452      0.9056
+secqoi29me~d |  911    +       0.8274        0.7516          0.5334      0.9014
+-------------+-----------------------------------------------------------------
+Test scale   |                                               0.5534      0.9177
+-------------------------------------------------------------------------------
+
+. 
+. /* Cronbach's alpha for teacher and staff quality index */
+. alpha `qualityvars', std item
+
+Test scale = mean(standardized items)
+
+                                                            Average
+                             Item-test     Item-rest       interitem
+Item         |  Obs  Sign   correlation   correlation     correlation     alpha
+-------------+-----------------------------------------------------------------
+p~0mean_po~d |  369    +       0.6869        0.6330          0.5386      0.9423
+p~1mean_po~d |  414    +       0.6299        0.5648          0.5443      0.9436
+p~2mean_po~d |  333    +       0.7388        0.6912          0.5340      0.9413
+p~3mean_po~d |  414    +       0.6875        0.6262          0.5388      0.9424
+parentqoi34~ |  369    +       0.7015        0.6479          0.5374      0.9421
+secqoi28me~d |  911    +       0.7029        0.6159          0.5347      0.9415
+secqoi35me~d |  932    +       0.8714        0.8368          0.5115      0.9361
+secqoi36me~d |  932    +       0.8910        0.8612          0.5083      0.9354
+secqoi37me~d |  932    +       0.8326        0.7869          0.5180      0.9377
+secqoi38me~d |  932    +       0.8967        0.8683          0.5076      0.9352
+secqoi39me~d |  932    +       0.8814        0.8476          0.5100      0.9358
+secqoi40me~d |  932    +       0.8716        0.8364          0.5124      0.9364
+staffqoi20~d |  593    +       0.3869        0.2801          0.5798      0.9508
+staffqoi24~d |  438    +       0.5879        0.5069          0.5491      0.9446
+staffqoi87~d |  546    +       0.6233        0.5418          0.5487      0.9445
+-------------+-----------------------------------------------------------------
+Test scale   |                                               0.5320      0.9446
+-------------------------------------------------------------------------------
+
+. 
+. /* Cronbach's alpha for counseling support index */
+. alpha `supportvars', std item
+
+Test scale = mean(standardized items)
+
+                                                            Average
+                             Item-test     Item-rest       interitem
+Item         |  Obs  Sign   correlation   correlation     correlation     alpha
+-------------+-----------------------------------------------------------------
+p~5mean_po~d |  414    +       0.7753        0.5316          0.3678      0.6357
+parentqoi6~d |  411    +       0.7366        0.4709          0.4057      0.6719
+staffqoi10m~ |  593    +       0.8167        0.5028          0.3732      0.6411
+staffqoi12~d |  587    +       0.7867        0.4976          0.3684      0.6364
+-------------+-----------------------------------------------------------------
+Test scale   |                                               0.3793      0.7097
+-------------------------------------------------------------------------------
+
+. 
+. 
+. log close
+      name:  <unnamed>
+       log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factor
+> analysis/indexalpha.smcl
+  log type:  smcl
+ closed on:   7 Apr 2022, 15:49:36
+-------------------------------------------------------------------------------

@@ -1,0 +1,178 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}elemcoverageanalysis
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/demographics/elemcoverageanalysis.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 7 Apr 2022, 14:53:26
+{txt}
+{com}. 
+. local years `" "1415" "1516" "1617" "1718" "1819" "' //local macro for elementary dataset years
+{txt}
+{com}. 
+. grstyle init  //initializes the grstyle package
+{res}{txt}
+{com}. grstyle set plain   //set graph background to plain
+{txt}
+{com}. grstyle set color Set1, opacity(50): histogram //use Set1 color palette (red and blue) for histogram bars fill color and set opacity to 50%
+{res}{txt}
+{com}. grstyle set color white, opacity(25): histogram_line //set color white and opacity 25% for histogram bar outline color
+{res}{txt}
+{com}. 
+. foreach i of local years {c -(}
+{txt}  2{com}.   use $projdir/dta/demographics/analysis/elementary/elemdemo`i'analysis, clear
+{txt}  3{com}. 
+.   local elemgrades 3 4 5 6 //create a local macro for the grades in the elementary survey data
+{txt}  4{com}.   foreach j of local elemgrades {c -(}
+{txt}  5{com}. 
+.     /* create and export frequency histograms for distribution of response rate in grade i */
+.     histogram svygr`j'resprate, freq
+{txt}  6{com}.     graph export $projdir/out/graph/svycoverage/elemcoverage/elem`i'/gr`j'resprate.png, replace
+{txt}  7{com}. 
+.     /* create and export frequency histograms for distribution of male and female percentage difference between survey sample and enrollment data */
+.     histogram femalegr`j'dif, freq
+{txt}  8{com}.     graph export $projdir/out/graph/svycoverage/elemcoverage/elem`i'/gr`j'femaledif.png,replace
+{txt}  9{com}.     histogram malegr`j'dif, freq
+{txt} 10{com}.     graph export $projdir/out/graph/svycoverage/elemcoverage/elem`i'/gr`j'maledif.png, replace
+{txt} 11{com}.   {c )-}
+{txt} 12{com}. 
+. 
+. {c )-}
+{txt}(Elementary 1415 demographics data with survey coverage analysis variables)
+(bin={res}30{txt}, start={res}0{txt}, width={res}.05{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1415/gr3resprate.png} written in PNG format
+(bin={res}10{txt}, start={res}-.67567569{txt}, width={res}.13542472{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1415/gr3femaledif.png} written in PNG format
+(bin={res}10{txt}, start={res}-.73809522{txt}, width={res}.14137709{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1415/gr3maledif.png} written in PNG format
+(bin={res}30{txt}, start={res}0{txt}, width={res}.0375{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1415/gr4resprate.png} written in PNG format
+(bin={res}15{txt}, start={res}-.75{txt}, width={res}.09252874{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1415/gr4femaledif.png} written in PNG format
+(bin={res}15{txt}, start={res}-.66666669{txt}, width={res}.09444445{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1415/gr4maledif.png} written in PNG format
+(bin={res}30{txt}, start={res}0{txt}, width={res}.04120371{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1415/gr5resprate.png} written in PNG format
+(bin={res}30{txt}, start={res}-.6111111{txt}, width={res}.03287037{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1415/gr5femaledif.png} written in PNG format
+(bin={res}30{txt}, start={res}-.61627907{txt}, width={res}.03959025{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1415/gr5maledif.png} written in PNG format
+(bin={res}24{txt}, start={res}0{txt}, width={res}.04323899{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1415/gr6resprate.png} written in PNG format
+(bin={res}12{txt}, start={res}-.64285713{txt}, width={res}.10326562{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1415/gr6femaledif.png} written in PNG format
+(bin={res}12{txt}, start={res}-.59633029{txt}, width={res}.10326562{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1415/gr6maledif.png} written in PNG format
+(Elementary 1516 demographics data with survey coverage analysis variables)
+(bin={res}31{txt}, start={res}0{txt}, width={res}.02952433{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1516/gr3resprate.png} written in PNG format
+(bin={res}11{txt}, start={res}-.60000002{txt}, width={res}.11094276{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1516/gr3femaledif.png} written in PNG format
+(bin={res}11{txt}, start={res}-.66071427{txt}, width={res}.11461039{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1516/gr3maledif.png} written in PNG format
+(bin={res}32{txt}, start={res}0{txt}, width={res}.09375{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1516/gr4resprate.png} written in PNG format
+(bin={res}16{txt}, start={res}-1{txt}, width={res}.10648148{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1516/gr4femaledif.png} written in PNG format
+(bin={res}16{txt}, start={res}-.7037037{txt}, width={res}.08564815{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1516/gr4maledif.png} written in PNG format
+(bin={res}32{txt}, start={res}0{txt}, width={res}.0625{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1516/gr5resprate.png} written in PNG format
+(bin={res}31{txt}, start={res}-.56521738{txt}, width={res}.03582813{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1516/gr5femaledif.png} written in PNG format
+(bin={res}31{txt}, start={res}-.625{txt}, width={res}.03839411{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1516/gr5maledif.png} written in PNG format
+(bin={res}27{txt}, start={res}0{txt}, width={res}.08888889{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1516/gr6resprate.png} written in PNG format
+(bin={res}13{txt}, start={res}-1{txt}, width={res}.1270903{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1516/gr6femaledif.png} written in PNG format
+(bin={res}13{txt}, start={res}-.65217394{txt}, width={res}.10417705{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1516/gr6maledif.png} written in PNG format
+(Elementary 1617 demographics data with survey coverage analysis variables)
+(bin={res}31{txt}, start={res}0{txt}, width={res}.03225806{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1617/gr3resprate.png} written in PNG format
+(bin={res}13{txt}, start={res}-.59090906{txt}, width={res}.12237762{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1617/gr3femaledif.png} written in PNG format
+(bin={res}13{txt}, start={res}-1{txt}, width={res}.12237762{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1617/gr3maledif.png} written in PNG format
+(bin={res}31{txt}, start={res}0{txt}, width={res}.03655914{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1617/gr4resprate.png} written in PNG format
+(bin={res}17{txt}, start={res}-.66666669{txt}, width={res}.07722473{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1617/gr4femaledif.png} written in PNG format
+(bin={res}17{txt}, start={res}-.64615387{txt}, width={res}.07339882{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1617/gr4maledif.png} written in PNG format
+(bin={res}31{txt}, start={res}0{txt}, width={res}.04774194{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1617/gr5resprate.png} written in PNG format
+(bin={res}31{txt}, start={res}-.80000001{txt}, width={res}.04193548{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1617/gr5femaledif.png} written in PNG format
+(bin={res}31{txt}, start={res}-.61904764{txt}, width={res}.04577573{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1617/gr5maledif.png} written in PNG format
+(bin={res}26{txt}, start={res}0{txt}, width={res}.04251012{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1617/gr6resprate.png} written in PNG format
+(bin={res}15{txt}, start={res}-.60000002{txt}, width={res}.08184397{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1617/gr6femaledif.png} written in PNG format
+(bin={res}15{txt}, start={res}-.62765956{txt}, width={res}.08184397{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1617/gr6maledif.png} written in PNG format
+(Elementary 1718 demographics data with survey coverage analysis variables)
+(bin={res}33{txt}, start={res}0{txt}, width={res}.05844156{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1718/gr3resprate.png} written in PNG format
+(bin={res}22{txt}, start={res}-.66666669{txt}, width={res}.06158358{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1718/gr3femaledif.png} written in PNG format
+(bin={res}22{txt}, start={res}-.68817204{txt}, width={res}.06158358{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1718/gr3maledif.png} written in PNG format
+(bin={res}33{txt}, start={res}0{txt}, width={res}.03305785{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1718/gr4resprate.png} written in PNG format
+(bin={res}22{txt}, start={res}-.64473683{txt}, width={res}.05865029{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1718/gr4femaledif.png} written in PNG format
+(bin={res}22{txt}, start={res}-.66265059{txt}, width={res}.0594267{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1718/gr4maledif.png} written in PNG format
+(bin={res}33{txt}, start={res}0{txt}, width={res}.04778555{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1718/gr5resprate.png} written in PNG format
+(bin={res}33{txt}, start={res}-.6574074{txt}, width={res}.04012346{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1718/gr5femaledif.png} written in PNG format
+(bin={res}33{txt}, start={res}-.76923078{txt}, width={res}.03846154{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1718/gr5maledif.png} written in PNG format
+(bin={res}30{txt}, start={res}0{txt}, width={res}.03333333{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1718/gr6resprate.png} written in PNG format
+(bin={res}21{txt}, start={res}-.6875{txt}, width={res}.08035714{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1718/gr6femaledif.png} written in PNG format
+(bin={res}21{txt}, start={res}-1{txt}, width={res}.08035714{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1718/gr6maledif.png} written in PNG format
+(Elementary 1819 demographics data with survey coverage analysis variables)
+(bin={res}32{txt}, start={res}0{txt}, width={res}.034375{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1819/gr3resprate.png} written in PNG format
+(bin={res}5{txt}, start={res}-.10160428{txt}, width={res}.05561497{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1819/gr3femaledif.png} written in PNG format
+(bin={res}5{txt}, start={res}-.20300755{txt}, width={res}.06092237{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1819/gr3maledif.png} written in PNG format
+(bin={res}32{txt}, start={res}0{txt}, width={res}.03125{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1819/gr4resprate.png} written in PNG format
+(bin={res}8{txt}, start={res}-.51898736{txt}, width={res}.09872758{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1819/gr4femaledif.png} written in PNG format
+(bin={res}8{txt}, start={res}-.61818182{txt}, width={res}.09211877{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1819/gr4maledif.png} written in PNG format
+(bin={res}32{txt}, start={res}0{txt}, width={res}.05792683{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1819/gr5resprate.png} written in PNG format
+(bin={res}32{txt}, start={res}-.65306121{txt}, width={res}.03280695{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1819/gr5femaledif.png} written in PNG format
+(bin={res}32{txt}, start={res}-.71153843{txt}, width={res}.02791739{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1819/gr5maledif.png} written in PNG format
+(bin={res}29{txt}, start={res}0{txt}, width={res}.03498251{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1819/gr6resprate.png} written in PNG format
+(bin={res}9{txt}, start={res}-.5{txt}, width={res}.07822001{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1819/gr6femaledif.png} written in PNG format
+(bin={res}9{txt}, start={res}-.5{txt}, width={res}.07486339{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/elemcoverage/elem1819/gr6maledif.png} written in PNG format
+
+{com}. 
+. grstyle clear // sets off grstyle
+{txt}
+{com}. 
+. 
+. log close elemcoverageanalysis
+      {txt}name:  {res}elemcoverageanalysis
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/demographics/elemcoverageanalysis.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 7 Apr 2022, 14:53:39
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

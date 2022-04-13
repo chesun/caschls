@@ -58,9 +58,9 @@ foreach subject in ela math {
     local mean_`subject' = 0
     local sd_`subject' : di %4.3f = r(sd)
 
-    sum va_cfr_g11_`subject'_peer
+    /* sum va_cfr_g11_`subject'_peer
     local mean_`subject'_peer = 0
-    local sd_`subject'_peer : di %4.3f = r(sd)
+    local sd_`subject'_peer : di %4.3f = r(sd) */
 
     tempfile va_`subject'
     save `va_`subject''
@@ -71,10 +71,10 @@ foreach subject in ela math {
   use `va_ela', clear
   merge 1:1 cdscode year using `va_math', nogen
 
-  corr va_cfr_g11_ela va_cfr_g11_ela_nosiblingcontrol
+  corr va_cfr_g11_ela va_cfr_g11_ela_nosibctrl
   local corr_coef_ela_sibling : di %5.3f r(rho)
 
-  corr va_cfr_g11_math va_cfr_g11_math_nosiblingcontrol
+  corr va_cfr_g11_math va_cfr_g11_math_nosibctrl
   local corr_coef_math_sibling : di %5.3f r(rho)
 
   tempfile va_ela_math_sibling
@@ -84,8 +84,8 @@ foreach subject in ela math {
   *************** two way scatter plot of VA with and without sibling controls
   ***ELA
   twoway ///
-  (scatter va_cfr_g11_ela va_cfr_g11_ela_nosiblingcontrol) ///
-  (lfit va_cfr_g11_ela va_cfr_g11_ela_nosiblingcontrol) ///
+  (scatter va_cfr_g11_ela va_cfr_g11_ela_nosibctrl) ///
+  (lfit va_cfr_g11_ela va_cfr_g11_ela_nosibctrl) ///
   (function y = x), ///
   ytitle("ELA VA with Sibling Control") ///
   xtitle("ELA VA without Sibling Control") ///
@@ -98,8 +98,8 @@ foreach subject in ela math {
 
   ***math
   twoway ///
-  (scatter va_cfr_g11_math va_cfr_g11_math_nosiblingcontrol) ///
-  (lfit va_cfr_g11_math va_cfr_g11_math_nosiblingcontrol) ///
+  (scatter va_cfr_g11_math va_cfr_g11_math_nosibctrl) ///
+  (lfit va_cfr_g11_math va_cfr_g11_math_nosibctrl) ///
   (function y = x), ///
   ytitle("Math VA with Sibling Control") ///
   xtitle("Math VA without Sibling Control") ///
@@ -128,7 +128,7 @@ foreach subject in ela math {
   	"Mean (Standard Deviation) = `mean_math' (`sd_math')")
     graph export $projdir/out/graph/siblingvaregs/test_score_va/kdensity_va_cfr_g11_sibling.pdf, replace
 
-
+/*
   ****  Peer Controls
   twoway ///
   	(kdensity va_cfr_g11_ela_peer) ///
@@ -139,7 +139,7 @@ foreach subject in ela math {
     note("Mean (Standard Deviation) = `mean_ela_peer' (`sd_ela_peer')" ///
   	"Mean (Standard Deviation) = `mean_math_peer' (`sd_math_peer')")
     graph export $projdir/out/graph/siblingvaregs/test_score_va/kdensity_va_cfr_g11_peer_sibling.pdf, replace
-
+ */
 
 
 
@@ -231,7 +231,7 @@ foreach subject in ela math {
   		note("Slope (Standard Error) = `slope' (`std_err')")
   	graph export $projdir/out/graph/siblingvaregs/test_score_va/spec_test_va_cfr_g11_`subject'_sibling.pdf, replace
 
-
+/*
 ******* with peer controls
     estimates use $projdir/est/siblingvaregs/test_score_va/spec_test_va_cfr_g11_`subject'_peer_sibling.ster
 
@@ -250,7 +250,7 @@ foreach subject in ela math {
   		yline(0) xline(0) ///
   		yscale(range(-.3 .3)) xscale(range(-.3 .3)) ylabel(-.3 (0.1) .3) xlabel(-.3 (0.1) .3) ///
   		note("Slope (Standard Error) = `slope' (`std_err')")
-    graph export $projdir/out/graph/siblingvaregs/test_score_va/spec_test_va_cfr_g11_`subject'_peer_sibling.pdf, replace
+    graph export $projdir/out/graph/siblingvaregs/test_score_va/spec_test_va_cfr_g11_`subject'_peer_sibling.pdf, replace */
 
 
 }
@@ -264,7 +264,7 @@ foreach subject in ela math {
 
 
 timer off 1
-timer list 
+timer list
 log close
 
 cd $projdir

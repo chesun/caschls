@@ -1,9 +1,9 @@
 {smcl}
 {com}{sf}{ul off}{txt}{.-}
       name:  {res}<unnamed>
-       {txt}log:  {res}/home/research/ca_ed_lab/chesun/gsr/caschls/log/share/siblingvaregs/sibling_out_xwalk.smcl
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/sibling_out_xwalk.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}22 Oct 2021, 19:25:43
+ {txt}opened on:  {res} 9 Apr 2022, 02:25:34
 {txt}
 {com}. 
 . 
@@ -25,7 +25,7 @@
 . gen k12_postsec_match = 0
 {txt}
 {com}. replace k12_postsec_match = 1 if k12_nsc_match == 1 | k12_ccc_match == 1 | k12_csu_match == 1
-{txt}(36,360,886 real changes made)
+{txt}(44,788,259 real changes made)
 
 {com}. label var k12_postsec_match "Indicator for k12 observation matched to postsecondary data (NSC, CCC, or CSU)"
 {txt}
@@ -39,11 +39,11 @@
 {res}
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
-{col 5}Not matched{col 30}{res}       8,718,171
-{txt}{col 9}from master{col 30}{res}       8,590,681{txt}  (_merge==1)
-{col 9}from using{col 30}{res}         127,490{txt}  (_merge==2)
+{col 5}Not matched{col 30}{res}       8,711,591
+{txt}{col 9}from master{col 30}{res}       8,711,591{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
 
-{col 5}Matched{col 30}{res}       3,957,189{txt}  (_merge==3)
+{col 5}Matched{col 30}{res}       4,084,679{txt}  (_merge==3)
 {col 5}{hline 41}
 
 {com}. /*
@@ -60,13 +60,13 @@
 . 
 . //keep only the sample of matched siblings
 . drop if missing(ufamilyid)
-{txt}(8,590,681 observations deleted)
+{txt}(8,711,591 observations deleted)
 
 {com}. //mark sibling sample who are matched to postsecondary outcomes for merged observations
 . gen sibling_out_sample = 0
 {txt}
 {com}. replace sibling_out_sample = 1 if _merge==3 & k12_postsec_match == 1
-{txt}(2,466,979 real changes made)
+{txt}(2,946,010 real changes made)
 
 {com}. label var sibling_out_sample "Indicator for sibling sample that are matched to postsecondary outcomes"
 {txt}
@@ -133,7 +133,7 @@
 . gen has_older_sibling_postsec_match = 0
 {txt}
 {com}. replace has_older_sibling_postsec_match = 1 if !missing(num_older_sibling_postsec_match) & num_older_sibling_postsec_match > 0
-{txt}(1,720,430 real changes made)
+{txt}(1,902,221 real changes made)
 
 {com}. label var has_older_sibling_postsec_match "Has at least one older sibling matched to postsecondary outcomes"
 {txt}
@@ -148,9 +148,9 @@
 {txt}  6{com}.   replace has_older_sibling_`i' = 1 if numsiblings_older_`i' > 0 & !missing(numsiblings_older_`i')
 {txt}  7{com}.   label var has_older_sibling_`i' "Has at least 1 older sibling matched to postsec outcome and with `i' = 1"
 {txt}  8{com}. {c )-}
-{res}{txt}(203,574 real changes made)
-{res}{txt}(125,140 real changes made)
-{res}{txt}(88,538 real changes made)
+{res}{txt}(271,304 real changes made)
+{res}{txt}(165,151 real changes made)
+{res}{txt}(122,290 real changes made)
 
 {com}. 
 . drop lower_bound
@@ -178,7 +178,7 @@
 {com}. save $projdir/dta/siblingxwalk/sibling_out_xwalk, replace
 {txt}{p 0 4 2}
 file {bf}
-/home/research/ca_ed_lab/chesun/gsr/caschls/dta/siblingxwalk/sibling_out_xwalk.dta{rm}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/siblingxwalk/sibling_out_xwalk.dta{rm}
 saved
 {p_end}
 
@@ -189,13 +189,13 @@ saved
 .  timer off 1
 {txt}
 {com}.  timer list
-{res}   1:    141.64 /        1 =     141.6400
+{res}   1:    143.93 /        1 =     143.9270
 {txt}
 {com}.  log close
       {txt}name:  {res}<unnamed>
-       {txt}log:  {res}/home/research/ca_ed_lab/chesun/gsr/caschls/log/share/siblingvaregs/sibling_out_xwalk.smcl
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/sibling_out_xwalk.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}22 Oct 2021, 19:28:04
+ {txt}closed on:  {res} 9 Apr 2022, 02:27:58
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

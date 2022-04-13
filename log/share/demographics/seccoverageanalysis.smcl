@@ -1,0 +1,771 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/demographics/seccoverageanalysis.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 7 Apr 2022, 14:54:49
+{txt}
+{com}. 
+. local years `" "1415" "1516" "1617" "1718" "1819" "' //local macro for elementary dataset years
+{txt}
+{com}. 
+. grstyle init  //initializes the grstyle package
+{res}{txt}
+{com}. grstyle set plain   //set graph background to plain
+{txt}
+{com}. grstyle set color Set1, opacity(50): histogram //use Set1 color palette (red and blue) for histogram bars fill color and set opacity to 50%
+{res}{txt}
+{com}. grstyle set color white, opacity(25): histogram_line //set color white and opacity 25% for histogram bar outline color
+{res}{txt}
+{com}. 
+. foreach year of local years {c -(}
+{txt}  2{com}.   use $projdir/dta/demographics/analysis/secondary/secdemo`year'analysis, clear
+{txt}  3{com}. 
+.   local secgrades `" "6" "7" "8" "9" "10" "11" "12" "' //generate a local macro for grades in the secondary datasets, excluding non traditional students for simplicity
+{txt}  4{com}.   foreach i of local secgrades {c -(}
+{txt}  5{com}.     /* create and export frequency histograms for distribution of response rate in grade i */
+.     histogram svygr`i'resprate, freq
+{txt}  6{com}.     graph export $projdir/out/graph/svycoverage/seccoverage/sec`year'/gr`i'/gr`i'resprate.png, replace
+{txt}  7{com}. 
+.     /* create and export frequency histograms for distribution of male and female percentage difference between survey sample and enrollment data */
+.     histogram femalegr`i'dif, freq
+{txt}  8{com}.     graph export $projdir/out/graph/svycoverage/seccoverage/sec`year'/gr`i'/femalegr`i'dif.png, replace
+{txt}  9{com}.     histogram malegr`i'dif, freq
+{txt} 10{com}.     graph export $projdir/out/graph/svycoverage/seccoverage/sec`year'/gr`i'/malegr`i'dif.png, replace
+{txt} 11{com}. 
+.     /* create and export frequency histograms for distributions of percentage differences for each ethnicity between survey sample and enrollment data */
+.     histogram hispanicgr`i'dif, freq
+{txt} 12{com}.     graph export $projdir/out/graph/svycoverage/seccoverage/sec`year'/gr`i'/hispanicgr`i'dif.png, replace
+{txt} 13{com}.     histogram nativegr`i'dif, freq
+{txt} 14{com}.     graph export $projdir/out/graph/svycoverage/seccoverage/sec`year'/gr`i'/nativegr`i'dif.png, replace
+{txt} 15{com}.     histogram asiangr`i'dif, freq
+{txt} 16{com}.     graph export $projdir/out/graph/svycoverage/seccoverage/sec`year'/gr`i'/asiangr`i'dif.png, replace
+{txt} 17{com}.     histogram blackgr`i'dif, freq
+{txt} 18{com}.     graph export $projdir/out/graph/svycoverage/seccoverage/sec`year'/gr`i'/blackgr`i'dif.png, replace
+{txt} 19{com}.     histogram pacificgr`i'dif, freq
+{txt} 20{com}.     graph export $projdir/out/graph/svycoverage/seccoverage/sec`year'/gr`i'/pacificgr`i'dif.png, replace
+{txt} 21{com}.     histogram whitegr`i'dif, freq
+{txt} 22{com}.     graph export $projdir/out/graph/svycoverage/seccoverage/sec`year'/gr`i'/whitegr`i'dif.png, replace
+{txt} 23{com}.     histogram mixedgr`i'dif, freq
+{txt} 24{com}.     graph export $projdir/out/graph/svycoverage/seccoverage/sec`year'/gr`i'/mixedgr`i'dif.png, replace
+{txt} 25{com}.   {c )-}
+{txt} 26{com}. 
+. {c )-}
+{txt}(Secondary 1415 demographics data with survey coverage analysis variables)
+(bin={res}23{txt}, start={res}0{txt}, width={res}.07073665{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr6/gr6resprate.png} written in PNG format
+(bin={res}13{txt}, start={res}-.60309279{txt}, width={res}.12331483{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr6/femalegr6dif.png} written in PNG format
+(bin={res}13{txt}, start={res}-1{txt}, width={res}.12259615{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr6/malegr6dif.png} written in PNG format
+(bin={res}13{txt}, start={res}-1{txt}, width={res}.14807692{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr6/hispanicgr6dif.png} written in PNG format
+(bin={res}13{txt}, start={res}-.25185186{txt}, width={res}.0962963{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr6/nativegr6dif.png} written in PNG format
+(bin={res}13{txt}, start={res}-.40579709{txt}, width={res}.10813824{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr6/asiangr6dif.png} written in PNG format
+(bin={res}13{txt}, start={res}-.58095241{txt}, width={res}.12161172{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr6/blackgr6dif.png} written in PNG format
+(bin={res}13{txt}, start={res}-.03809524{txt}, width={res}.07985348{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr6/pacificgr6dif.png} written in PNG format
+(bin={res}13{txt}, start={res}-.875{txt}, width={res}.14423077{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr6/whitegr6dif.png} written in PNG format
+(bin={res}13{txt}, start={res}0{txt}, width={res}.07692308{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr6/mixedgr6dif.png} written in PNG format
+(bin={res}26{txt}, start={res}0{txt}, width={res}.13076923{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr7/gr7resprate.png} written in PNG format
+(bin={res}26{txt}, start={res}-.58823532{txt}, width={res}.03993213{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr7/femalegr7dif.png} written in PNG format
+(bin={res}26{txt}, start={res}-.66666663{txt}, width={res}.04826546{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr7/malegr7dif.png} written in PNG format
+(bin={res}26{txt}, start={res}-.87905604{txt}, width={res}.05304062{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr7/hispanicgr7dif.png} written in PNG format
+(bin={res}26{txt}, start={res}-.40151513{txt}, width={res}.0356352{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr7/nativegr7dif.png} written in PNG format
+(bin={res}26{txt}, start={res}-1{txt}, width={res}.05746199{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr7/asiangr7dif.png} written in PNG format
+(bin={res}26{txt}, start={res}-.47109634{txt}, width={res}.0258114{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr7/blackgr7dif.png} written in PNG format
+(bin={res}26{txt}, start={res}-.1{txt}, width={res}.01199869{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr7/pacificgr7dif.png} written in PNG format
+(bin={res}26{txt}, start={res}-.83333331{txt}, width={res}.07051282{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr7/whitegr7dif.png} written in PNG format
+(bin={res}26{txt}, start={res}0{txt}, width={res}.03846154{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr7/mixedgr7dif.png} written in PNG format
+(bin={res}26{txt}, start={res}0{txt}, width={res}.0678603{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr8/gr8resprate.png} written in PNG format
+(bin={res}16{txt}, start={res}-1{txt}, width={res}.10661764{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr8/femalegr8dif.png} written in PNG format
+(bin={res}16{txt}, start={res}-.70588237{txt}, width={res}.10661765{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr8/malegr8dif.png} written in PNG format
+(bin={res}16{txt}, start={res}-.9967742{txt}, width={res}.12479839{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr8/hispanicgr8dif.png} written in PNG format
+(bin={res}16{txt}, start={res}-.26363635{txt}, width={res}.07897727{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr8/nativegr8dif.png} written in PNG format
+(bin={res}16{txt}, start={res}-.59400547{txt}, width={res}.09962534{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr8/asiangr8dif.png} written in PNG format
+(bin={res}16{txt}, start={res}-.45762712{txt}, width={res}.09110169{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr8/blackgr8dif.png} written in PNG format
+(bin={res}16{txt}, start={res}-.05652174{txt}, width={res}.06603261{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr8/pacificgr8dif.png} written in PNG format
+(bin={res}16{txt}, start={res}-1{txt}, width={res}.125{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr8/whitegr8dif.png} written in PNG format
+(bin={res}16{txt}, start={res}0{txt}, width={res}.0625{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr8/mixedgr8dif.png} written in PNG format
+(bin={res}21{txt}, start={res}0{txt}, width={res}.14285714{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr9/gr9resprate.png} written in PNG format
+(bin={res}19{txt}, start={res}-1{txt}, width={res}.0877193{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr9/femalegr9dif.png} written in PNG format
+(bin={res}19{txt}, start={res}-.66666669{txt}, width={res}.0877193{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr9/malegr9dif.png} written in PNG format
+(bin={res}19{txt}, start={res}-1{txt}, width={res}.0877193{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr9/hispanicgr9dif.png} written in PNG format
+(bin={res}19{txt}, start={res}-.23453963{txt}, width={res}.06497577{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr9/nativegr9dif.png} written in PNG format
+(bin={res}19{txt}, start={res}-.14285715{txt}, width={res}.04260652{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr9/asiangr9dif.png} written in PNG format
+(bin={res}19{txt}, start={res}-.34881359{txt}, width={res}.07099019{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr9/blackgr9dif.png} written in PNG format
+(bin={res}19{txt}, start={res}-.02222222{txt}, width={res}.00868839{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr9/pacificgr9dif.png} written in PNG format
+(bin={res}19{txt}, start={res}-.64999998{txt}, width={res}.06929824{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr9/whitegr9dif.png} written in PNG format
+(bin={res}19{txt}, start={res}0{txt}, width={res}.05263158{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr9/mixedgr9dif.png} written in PNG format
+(bin={res}22{txt}, start={res}0{txt}, width={res}.09090909{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr10/gr10resprate.png} written in PNG format
+(bin={res}18{txt}, start={res}-.63636363{txt}, width={res}.0766972{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr10/femalegr10dif.png} written in PNG format
+(bin={res}18{txt}, start={res}-.74418604{txt}, width={res}.0766972{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr10/malegr10dif.png} written in PNG format
+(bin={res}18{txt}, start={res}-.9375{txt}, width={res}.10336538{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr10/hispanicgr10dif.png} written in PNG format
+(bin={res}18{txt}, start={res}-.36170211{txt}, width={res}.07565012{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr10/nativegr10dif.png} written in PNG format
+(bin={res}18{txt}, start={res}-.38297874{txt}, width={res}.07615465{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr10/asiangr10dif.png} written in PNG format
+(bin={res}18{txt}, start={res}-.42531645{txt}, width={res}.07556448{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr10/blackgr10dif.png} written in PNG format
+(bin={res}18{txt}, start={res}-.08333334{txt}, width={res}.06018519{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr10/pacificgr10dif.png} written in PNG format
+(bin={res}18{txt}, start={res}-.77777779{txt}, width={res}.09862479{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr10/whitegr10dif.png} written in PNG format
+(bin={res}18{txt}, start={res}0{txt}, width={res}.05555556{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr10/mixedgr10dif.png} written in PNG format
+(bin={res}22{txt}, start={res}0{txt}, width={res}.05289256{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr11/gr11resprate.png} written in PNG format
+(bin={res}19{txt}, start={res}-.73333335{txt}, width={res}.06675541{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr11/femalegr11dif.png} written in PNG format
+(bin={res}19{txt}, start={res}-.53501946{txt}, width={res}.06675541{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr11/malegr11dif.png} written in PNG format
+(bin={res}19{txt}, start={res}-.37272727{txt}, width={res}.06600264{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr11/hispanicgr11dif.png} written in PNG format
+(bin={res}19{txt}, start={res}-.20888355{txt}, width={res}.02766054{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr11/nativegr11dif.png} written in PNG format
+(bin={res}19{txt}, start={res}-.21379772{txt}, width={res}.0375683{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr11/asiangr11dif.png} written in PNG format
+(bin={res}19{txt}, start={res}-.44836956{txt}, width={res}.02886156{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr11/blackgr11dif.png} written in PNG format
+(bin={res}19{txt}, start={res}-.125{txt}, width={res}.05827068{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr11/pacificgr11dif.png} written in PNG format
+(bin={res}19{txt}, start={res}-.77237356{txt}, width={res}.09328282{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr11/whitegr11dif.png} written in PNG format
+(bin={res}19{txt}, start={res}0{txt}, width={res}.05263158{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr11/mixedgr11dif.png} written in PNG format
+(bin={res}22{txt}, start={res}0{txt}, width={res}.13636364{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr12/gr12resprate.png} written in PNG format
+(bin={res}17{txt}, start={res}-.625{txt}, width={res}.07311632{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr12/femalegr12dif.png} written in PNG format
+(bin={res}17{txt}, start={res}-.6179775{txt}, width={res}.07311632{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr12/malegr12dif.png} written in PNG format
+(bin={res}17{txt}, start={res}-.79365081{txt}, width={res}.10048735{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr12/hispanicgr12dif.png} written in PNG format
+(bin={res}17{txt}, start={res}-.17948718{txt}, width={res}.0693816{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr12/nativegr12dif.png} written in PNG format
+(bin={res}17{txt}, start={res}-.67682928{txt}, width={res}.08674012{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr12/asiangr12dif.png} written in PNG format
+(bin={res}17{txt}, start={res}-.70454544{txt}, width={res}.09403901{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr12/blackgr12dif.png} written in PNG format
+(bin={res}17{txt}, start={res}-.05533597{txt}, width={res}.03252676{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr12/pacificgr12dif.png} written in PNG format
+(bin={res}17{txt}, start={res}-1{txt}, width={res}.11731612{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr12/whitegr12dif.png} written in PNG format
+(bin={res}17{txt}, start={res}0{txt}, width={res}.05882353{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1415/gr12/mixedgr12dif.png} written in PNG format
+(Secondary 1516 demographics data with survey coverage analysis variables)
+(bin={res}28{txt}, start={res}0{txt}, width={res}.21428571{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr6/gr6resprate.png} written in PNG format
+(bin={res}15{txt}, start={res}-1{txt}, width={res}.10852713{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr6/femalegr6dif.png} written in PNG format
+(bin={res}15{txt}, start={res}-.73333335{txt}, width={res}.11555556{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr6/malegr6dif.png} written in PNG format
+(bin={res}15{txt}, start={res}-.98452014{txt}, width={res}.13230134{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr6/hispanicgr6dif.png} written in PNG format
+(bin={res}15{txt}, start={res}-1{txt}, width={res}.13333333{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr6/nativegr6dif.png} written in PNG format
+(bin={res}15{txt}, start={res}-.87878788{txt}, width={res}.12525253{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr6/asiangr6dif.png} written in PNG format
+(bin={res}15{txt}, start={res}-.39712918{txt}, width={res}.09254134{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr6/blackgr6dif.png} written in PNG format
+(bin={res}15{txt}, start={res}-.07228915{txt}, width={res}.07148594{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr6/pacificgr6dif.png} written in PNG format
+(bin={res}15{txt}, start={res}-.78017241{txt}, width={res}.11867816{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr6/whitegr6dif.png} written in PNG format
+(bin={res}15{txt}, start={res}0{txt}, width={res}.06666667{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr6/mixedgr6dif.png} written in PNG format
+(bin={res}29{txt}, start={res}0{txt}, width={res}.10991379{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr7/gr7resprate.png} written in PNG format
+(bin={res}29{txt}, start={res}-1{txt}, width={res}.05747127{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr7/femalegr7dif.png} written in PNG format
+(bin={res}29{txt}, start={res}-.66666663{txt}, width={res}.04233249{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr7/malegr7dif.png} written in PNG format
+(bin={res}29{txt}, start={res}-1{txt}, width={res}.06130268{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr7/hispanicgr7dif.png} written in PNG format
+(bin={res}29{txt}, start={res}-.2{txt}, width={res}.04137931{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr7/nativegr7dif.png} written in PNG format
+(bin={res}29{txt}, start={res}-.13749409{txt}, width={res}.03922393{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr7/asiangr7dif.png} written in PNG format
+(bin={res}29{txt}, start={res}-.27272728{txt}, width={res}.01767119{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr7/blackgr7dif.png} written in PNG format
+(bin={res}29{txt}, start={res}-.2{txt}, width={res}.04110564{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr7/pacificgr7dif.png} written in PNG format
+(bin={res}29{txt}, start={res}-1{txt}, width={res}.06367472{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr7/whitegr7dif.png} written in PNG format
+(bin={res}29{txt}, start={res}0{txt}, width={res}.03448276{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr7/mixedgr7dif.png} written in PNG format
+(bin={res}30{txt}, start={res}0{txt}, width={res}.06666667{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr8/gr8resprate.png} written in PNG format
+(bin={res}20{txt}, start={res}-.67500001{txt}, width={res}.065{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr8/femalegr8dif.png} written in PNG format
+(bin={res}20{txt}, start={res}-.625{txt}, width={res}.065{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr8/malegr8dif.png} written in PNG format
+(bin={res}20{txt}, start={res}-.9779951{txt}, width={res}.09461799{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr8/hispanicgr8dif.png} written in PNG format
+(bin={res}20{txt}, start={res}-.60000002{txt}, width={res}.08{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr8/nativegr8dif.png} written in PNG format
+(bin={res}20{txt}, start={res}-.77955914{txt}, width={res}.08897796{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr8/asiangr8dif.png} written in PNG format
+(bin={res}20{txt}, start={res}-.38{txt}, width={res}.069{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr8/blackgr8dif.png} written in PNG format
+(bin={res}20{txt}, start={res}-.11282051{txt}, width={res}.05564103{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr8/pacificgr8dif.png} written in PNG format
+(bin={res}20{txt}, start={res}-1{txt}, width={res}.09981818{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr8/whitegr8dif.png} written in PNG format
+(bin={res}20{txt}, start={res}0{txt}, width={res}.05{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr8/mixedgr8dif.png} written in PNG format
+(bin={res}26{txt}, start={res}0{txt}, width={res}.15384615{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr9/gr9resprate.png} written in PNG format
+(bin={res}23{txt}, start={res}-.8888889{txt}, width={res}.0821256{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr9/femalegr9dif.png} written in PNG format
+(bin={res}23{txt}, start={res}-1{txt}, width={res}.0821256{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr9/malegr9dif.png} written in PNG format
+(bin={res}23{txt}, start={res}-.8270548{txt}, width={res}.07822099{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr9/hispanicgr9dif.png} written in PNG format
+(bin={res}23{txt}, start={res}-.32371792{txt}, width={res}.03581382{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr9/nativegr9dif.png} written in PNG format
+(bin={res}23{txt}, start={res}-.2{txt}, width={res}.0231579{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr9/asiangr9dif.png} written in PNG format
+(bin={res}23{txt}, start={res}-.18076921{txt}, width={res}.02090301{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr9/blackgr9dif.png} written in PNG format
+(bin={res}23{txt}, start={res}-.02053915{txt}, width={res}.04414792{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr9/pacificgr9dif.png} written in PNG format
+(bin={res}23{txt}, start={res}-.82352942{txt}, width={res}.06290194{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr9/whitegr9dif.png} written in PNG format
+(bin={res}23{txt}, start={res}0{txt}, width={res}.04347826{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr9/mixedgr9dif.png} written in PNG format
+(bin={res}27{txt}, start={res}0{txt}, width={res}.05555556{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr10/gr10resprate.png} written in PNG format
+(bin={res}21{txt}, start={res}-.7758621{txt}, width={res}.06789819{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr10/femalegr10dif.png} written in PNG format
+(bin={res}21{txt}, start={res}-.64999998{txt}, width={res}.06789819{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr10/malegr10dif.png} written in PNG format
+(bin={res}21{txt}, start={res}-.93356645{txt}, width={res}.08468398{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr10/hispanicgr10dif.png} written in PNG format
+(bin={res}21{txt}, start={res}-.24999997{txt}, width={res}.05941728{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr10/nativegr10dif.png} written in PNG format
+(bin={res}21{txt}, start={res}-.65730339{txt}, width={res}.07891921{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr10/asiangr10dif.png} written in PNG format
+(bin={res}21{txt}, start={res}-.27951807{txt}, width={res}.0604174{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr10/blackgr10dif.png} written in PNG format
+(bin={res}21{txt}, start={res}-.16666667{txt}, width={res}.05528803{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr10/pacificgr10dif.png} written in PNG format
+(bin={res}21{txt}, start={res}-.80496454{txt}, width={res}.08562675{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr10/whitegr10dif.png} written in PNG format
+(bin={res}21{txt}, start={res}0{txt}, width={res}.04761905{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr10/mixedgr10dif.png} written in PNG format
+(bin={res}28{txt}, start={res}0{txt}, width={res}.04795918{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr11/gr11resprate.png} written in PNG format
+(bin={res}23{txt}, start={res}-.75{txt}, width={res}.05711462{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr11/femalegr11dif.png} written in PNG format
+(bin={res}23{txt}, start={res}-.56363636{txt}, width={res}.05711462{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr11/malegr11dif.png} written in PNG format
+(bin={res}23{txt}, start={res}-.83625734{txt}, width={res}.07227584{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr11/hispanicgr11dif.png} written in PNG format
+(bin={res}23{txt}, start={res}-.27350429{txt}, width={res}.02783352{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr11/nativegr11dif.png} written in PNG format
+(bin={res}23{txt}, start={res}-.23529412{txt}, width={res}.05243715{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr11/asiangr11dif.png} written in PNG format
+(bin={res}23{txt}, start={res}-.19642857{txt}, width={res}.01578675{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr11/blackgr11dif.png} written in PNG format
+(bin={res}23{txt}, start={res}-.03614458{txt}, width={res}.00778268{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr11/pacificgr11dif.png} written in PNG format
+(bin={res}23{txt}, start={res}-.56521738{txt}, width={res}.05356017{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr11/whitegr11dif.png} written in PNG format
+(bin={res}23{txt}, start={res}0{txt}, width={res}.04347826{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr11/mixedgr11dif.png} written in PNG format
+(bin={res}28{txt}, start={res}0{txt}, width={res}.07142857{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr12/gr12resprate.png} written in PNG format
+(bin={res}21{txt}, start={res}-.73809522{txt}, width={res}.0701614{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr12/femalegr12dif.png} written in PNG format
+(bin={res}21{txt}, start={res}-.7352941{txt}, width={res}.06464363{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr12/malegr12dif.png} written in PNG format
+(bin={res}21{txt}, start={res}-.86666667{txt}, width={res}.08888889{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr12/hispanicgr12dif.png} written in PNG format
+(bin={res}21{txt}, start={res}-.42857146{txt}, width={res}.06776981{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr12/nativegr12dif.png} written in PNG format
+(bin={res}21{txt}, start={res}-.66071427{txt}, width={res}.07765484{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr12/asiangr12dif.png} written in PNG format
+(bin={res}21{txt}, start={res}-.28346458{txt}, width={res}.06111736{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr12/blackgr12dif.png} written in PNG format
+(bin={res}21{txt}, start={res}-.06666667{txt}, width={res}.05079365{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr12/pacificgr12dif.png} written in PNG format
+(bin={res}21{txt}, start={res}-.90909094{txt}, width={res}.09090909{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr12/whitegr12dif.png} written in PNG format
+(bin={res}21{txt}, start={res}0{txt}, width={res}.04761905{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1516/gr12/mixedgr12dif.png} written in PNG format
+(Secondary 1617 demographics data with survey coverage analysis variables)
+(bin={res}26{txt}, start={res}0{txt}, width={res}.07692308{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr6/gr6resprate.png} written in PNG format
+(bin={res}16{txt}, start={res}-1{txt}, width={res}.10416666{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr6/femalegr6dif.png} written in PNG format
+(bin={res}16{txt}, start={res}-.66666669{txt}, width={res}.10416667{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr6/malegr6dif.png} written in PNG format
+(bin={res}16{txt}, start={res}-1{txt}, width={res}.11858974{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr6/hispanicgr6dif.png} written in PNG format
+(bin={res}16{txt}, start={res}-.39999998{txt}, width={res}.0875{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr6/nativegr6dif.png} written in PNG format
+(bin={res}16{txt}, start={res}-.35064936{txt}, width={res}.08441558{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr6/asiangr6dif.png} written in PNG format
+(bin={res}16{txt}, start={res}-.5{txt}, width={res}.09351852{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr6/blackgr6dif.png} written in PNG format
+(bin={res}16{txt}, start={res}-.25{txt}, width={res}.078125{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr6/pacificgr6dif.png} written in PNG format
+(bin={res}16{txt}, start={res}-.7368421{txt}, width={res}.10855263{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr6/whitegr6dif.png} written in PNG format
+(bin={res}16{txt}, start={res}0{txt}, width={res}.0625{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr6/mixedgr6dif.png} written in PNG format
+(bin={res}29{txt}, start={res}0{txt}, width={res}.12068966{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr7/gr7resprate.png} written in PNG format
+(bin={res}29{txt}, start={res}-.75{txt}, width={res}.04655172{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr7/femalegr7dif.png} written in PNG format
+(bin={res}29{txt}, start={res}-.60000002{txt}, width={res}.03793104{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr7/malegr7dif.png} written in PNG format
+(bin={res}29{txt}, start={res}-.57692307{txt}, width={res}.04807692{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr7/hispanicgr7dif.png} written in PNG format
+(bin={res}29{txt}, start={res}-.49999997{txt}, width={res}.04482759{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr7/nativegr7dif.png} written in PNG format
+(bin={res}29{txt}, start={res}-.19047619{txt}, width={res}.02681992{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr7/asiangr7dif.png} written in PNG format
+(bin={res}29{txt}, start={res}-.77884614{txt}, width={res}.04984527{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr7/blackgr7dif.png} written in PNG format
+(bin={res}29{txt}, start={res}-.16666667{txt}, width={res}.01264368{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr7/pacificgr7dif.png} written in PNG format
+(bin={res}29{txt}, start={res}-1{txt}, width={res}.06153328{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr7/whitegr7dif.png} written in PNG format
+(bin={res}29{txt}, start={res}0{txt}, width={res}.03448276{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr7/mixedgr7dif.png} written in PNG format
+(bin={res}29{txt}, start={res}0{txt}, width={res}.06896552{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr8/gr8resprate.png} written in PNG format
+(bin={res}21{txt}, start={res}-.66666669{txt}, width={res}.06008231{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr8/femalegr8dif.png} written in PNG format
+(bin={res}21{txt}, start={res}-.59506172{txt}, width={res}.0600823{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr8/malegr8dif.png} written in PNG format
+(bin={res}21{txt}, start={res}-.99421966{txt}, width={res}.09496284{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr8/hispanicgr8dif.png} written in PNG format
+(bin={res}21{txt}, start={res}-.4210526{txt}, width={res}.06766917{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr8/nativegr8dif.png} written in PNG format
+(bin={res}21{txt}, start={res}-.78823531{txt}, width={res}.08500241{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr8/asiangr8dif.png} written in PNG format
+(bin={res}21{txt}, start={res}-.44329897{txt}, width={res}.06872852{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr8/blackgr8dif.png} written in PNG format
+(bin={res}21{txt}, start={res}-.03723404{txt}, width={res}.04926019{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr8/pacificgr8dif.png} written in PNG format
+(bin={res}21{txt}, start={res}-1{txt}, width={res}.09433962{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr8/whitegr8dif.png} written in PNG format
+(bin={res}21{txt}, start={res}0{txt}, width={res}.04761905{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr8/mixedgr8dif.png} written in PNG format
+(bin={res}24{txt}, start={res}0{txt}, width={res}.1875{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr9/gr9resprate.png} written in PNG format
+(bin={res}22{txt}, start={res}-.89999998{txt}, width={res}.0620797{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr9/femalegr9dif.png} written in PNG format
+(bin={res}22{txt}, start={res}-.53626943{txt}, width={res}.06528497{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr9/malegr9dif.png} written in PNG format
+(bin={res}22{txt}, start={res}-.72727275{txt}, width={res}.05578512{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr9/hispanicgr9dif.png} written in PNG format
+(bin={res}22{txt}, start={res}-.25{txt}, width={res}.03245641{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr9/nativegr9dif.png} written in PNG format
+(bin={res}22{txt}, start={res}-.25{txt}, width={res}.02651515{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr9/asiangr9dif.png} written in PNG format
+(bin={res}22{txt}, start={res}-.40000001{txt}, width={res}.02727273{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr9/blackgr9dif.png} written in PNG format
+(bin={res}22{txt}, start={res}-.09090909{txt}, width={res}.01071118{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr9/pacificgr9dif.png} written in PNG format
+(bin={res}22{txt}, start={res}-.66666669{txt}, width={res}.06297349{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr9/whitegr9dif.png} written in PNG format
+(bin={res}22{txt}, start={res}0{txt}, width={res}.04545455{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr9/mixedgr9dif.png} written in PNG format
+(bin={res}25{txt}, start={res}0{txt}, width={res}.06470588{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr10/gr10resprate.png} written in PNG format
+(bin={res}20{txt}, start={res}-.73770493{txt}, width={res}.07033352{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr10/femalegr10dif.png} written in PNG format
+(bin={res}20{txt}, start={res}-.66896552{txt}, width={res}.07033352{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr10/malegr10dif.png} written in PNG format
+(bin={res}20{txt}, start={res}-.89763778{txt}, width={res}.09245589{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr10/hispanicgr10dif.png} written in PNG format
+(bin={res}20{txt}, start={res}-.15454546{txt}, width={res}.05772727{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr10/nativegr10dif.png} written in PNG format
+(bin={res}20{txt}, start={res}-.26222223{txt}, width={res}.06270461{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr10/asiangr10dif.png} written in PNG format
+(bin={res}20{txt}, start={res}-.26050422{txt}, width={res}.06302521{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr10/blackgr10dif.png} written in PNG format
+(bin={res}20{txt}, start={res}-.04029304{txt}, width={res}.04965245{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr10/pacificgr10dif.png} written in PNG format
+(bin={res}20{txt}, start={res}-.83070868{txt}, width={res}.09153543{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr10/whitegr10dif.png} written in PNG format
+(bin={res}20{txt}, start={res}0{txt}, width={res}.05{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr10/mixedgr10dif.png} written in PNG format
+(bin={res}26{txt}, start={res}0{txt}, width={res}.10256411{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr11/gr11resprate.png} written in PNG format
+(bin={res}22{txt}, start={res}-.60000002{txt}, width={res}.06136364{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr11/femalegr11dif.png} written in PNG format
+(bin={res}22{txt}, start={res}-.75{txt}, width={res}.05325312{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr11/malegr11dif.png} written in PNG format
+(bin={res}22{txt}, start={res}-.56{txt}, width={res}.05594406{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr11/hispanicgr11dif.png} written in PNG format
+(bin={res}22{txt}, start={res}-.0979021{txt}, width={res}.02717737{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr11/nativegr11dif.png} written in PNG format
+(bin={res}22{txt}, start={res}-.132263{txt}, width={res}.02698761{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr11/asiangr11dif.png} written in PNG format
+(bin={res}22{txt}, start={res}-.17777778{txt}, width={res}.01457432{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr11/blackgr11dif.png} written in PNG format
+(bin={res}22{txt}, start={res}-.03448276{txt}, width={res}.00724922{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr11/pacificgr11dif.png} written in PNG format
+(bin={res}22{txt}, start={res}-.63384616{txt}, width={res}.07231768{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr11/whitegr11dif.png} written in PNG format
+(bin={res}22{txt}, start={res}0{txt}, width={res}.04545455{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr11/mixedgr11dif.png} written in PNG format
+(bin={res}26{txt}, start={res}0{txt}, width={res}.1{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr12/gr12resprate.png} written in PNG format
+(bin={res}20{txt}, start={res}-.69863015{txt}, width={res}.08493151{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr12/femalegr12dif.png} written in PNG format
+(bin={res}20{txt}, start={res}-1{txt}, width={res}.0849315{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr12/malegr12dif.png} written in PNG format
+(bin={res}20{txt}, start={res}-.97333336{txt}, width={res}.09470983{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr12/hispanicgr12dif.png} written in PNG format
+(bin={res}20{txt}, start={res}-.14285715{txt}, width={res}.05714286{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr12/nativegr12dif.png} written in PNG format
+(bin={res}20{txt}, start={res}-.32150775{txt}, width={res}.06577051{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr12/asiangr12dif.png} written in PNG format
+(bin={res}20{txt}, start={res}-.22222222{txt}, width={res}.06111111{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr12/blackgr12dif.png} written in PNG format
+(bin={res}20{txt}, start={res}-.09302326{txt}, width={res}.05465116{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr12/pacificgr12dif.png} written in PNG format
+(bin={res}20{txt}, start={res}-.8417266{txt}, width={res}.09208633{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr12/whitegr12dif.png} written in PNG format
+(bin={res}20{txt}, start={res}0{txt}, width={res}.05{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1617/gr12/mixedgr12dif.png} written in PNG format
+(Secondary 1718 demographics data with survey coverage analysis variables)
+(bin={res}29{txt}, start={res}0{txt}, width={res}.0862069{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr6/gr6resprate.png} written in PNG format
+(bin={res}8{txt}, start={res}-.4765625{txt}, width={res}.0886616{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr6/femalegr6dif.png} written in PNG format
+(bin={res}8{txt}, start={res}-.69172931{txt}, width={res}.11690202{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr6/malegr6dif.png} written in PNG format
+(bin={res}8{txt}, start={res}-.39999998{txt}, width={res}.07556818{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr6/hispanicgr6dif.png} written in PNG format
+(bin={res}8{txt}, start={res}-.25{txt}, width={res}.06524448{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr6/nativegr6dif.png} written in PNG format
+(bin={res}8{txt}, start={res}-.08333334{txt}, width={res}.04095768{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr6/asiangr6dif.png} written in PNG format
+(bin={res}8{txt}, start={res}-.32585472{txt}, width={res}.06573184{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr6/blackgr6dif.png} written in PNG format
+(bin={res}8{txt}, start={res}-.04242425{txt}, width={res}.01972611{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr6/pacificgr6dif.png} written in PNG format
+(bin={res}8{txt}, start={res}-.3888889{txt}, width={res}.09854984{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr6/whitegr6dif.png} written in PNG format
+(bin={res}8{txt}, start={res}.04{txt}, width={res}.11431818{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr6/mixedgr6dif.png} written in PNG format
+(bin={res}30{txt}, start={res}0{txt}, width={res}.34444443{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr7/gr7resprate.png} written in PNG format
+(bin={res}30{txt}, start={res}-.75{txt}, width={res}.03496503{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr7/femalegr7dif.png} written in PNG format
+(bin={res}30{txt}, start={res}-.61538464{txt}, width={res}.02861396{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr7/malegr7dif.png} written in PNG format
+(bin={res}30{txt}, start={res}-.34999999{txt}, width={res}.01960317{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr7/hispanicgr7dif.png} written in PNG format
+(bin={res}30{txt}, start={res}-.41714287{txt}, width={res}.03697232{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr7/nativegr7dif.png} written in PNG format
+(bin={res}30{txt}, start={res}-.17748919{txt}, width={res}.02634641{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr7/asiangr7dif.png} written in PNG format
+(bin={res}30{txt}, start={res}-.27864826{txt}, width={res}.01336991{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr7/blackgr7dif.png} written in PNG format
+(bin={res}30{txt}, start={res}-.07407407{txt}, width={res}.00589771{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr7/pacificgr7dif.png} written in PNG format
+(bin={res}30{txt}, start={res}-.60215056{txt}, width={res}.04191308{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr7/whitegr7dif.png} written in PNG format
+(bin={res}30{txt}, start={res}.07142857{txt}, width={res}.02792208{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr7/mixedgr7dif.png} written in PNG format
+(bin={res}30{txt}, start={res}0{txt}, width={res}.0952381{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr8/gr8resprate.png} written in PNG format
+(bin={res}12{txt}, start={res}-.34021914{txt}, width={res}.04328681{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr8/femalegr8dif.png} written in PNG format
+(bin={res}12{txt}, start={res}-.21464646{txt}, width={res}.0462388{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr8/malegr8dif.png} written in PNG format
+(bin={res}12{txt}, start={res}-.33419961{txt}, width={res}.05880235{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr8/hispanicgr8dif.png} written in PNG format
+(bin={res}12{txt}, start={res}-.28713971{txt}, width={res}.04797643{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr8/nativegr8dif.png} written in PNG format
+(bin={res}12{txt}, start={res}-.1943242{txt}, width={res}.03624945{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr8/asiangr8dif.png} written in PNG format
+(bin={res}12{txt}, start={res}-.2857143{txt}, width={res}.03663004{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr8/blackgr8dif.png} written in PNG format
+(bin={res}12{txt}, start={res}-.03476635{txt}, width={res}.0102525{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr8/pacificgr8dif.png} written in PNG format
+(bin={res}12{txt}, start={res}-.37980768{txt}, width={res}.09617322{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr8/whitegr8dif.png} written in PNG format
+(bin={res}12{txt}, start={res}0{txt}, width={res}.07905983{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr8/mixedgr8dif.png} written in PNG format
+(bin={res}27{txt}, start={res}0{txt}, width={res}.09259259{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr9/gr9resprate.png} written in PNG format
+(bin={res}23{txt}, start={res}-.70098037{txt}, width={res}.04118228{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr9/femalegr9dif.png} written in PNG format
+(bin={res}23{txt}, start={res}-.81999999{txt}, width={res}.04434783{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr9/malegr9dif.png} written in PNG format
+(bin={res}23{txt}, start={res}-.19230768{txt}, width={res}.03822204{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr9/hispanicgr9dif.png} written in PNG format
+(bin={res}23{txt}, start={res}-.47474748{txt}, width={res}.0413692{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr9/nativegr9dif.png} written in PNG format
+(bin={res}23{txt}, start={res}-.1{txt}, width={res}.01843174{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr9/asiangr9dif.png} written in PNG format
+(bin={res}23{txt}, start={res}-.25442833{txt}, width={res}.01589302{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr9/blackgr9dif.png} written in PNG format
+(bin={res}23{txt}, start={res}-.0224647{txt}, width={res}.00643116{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr9/pacificgr9dif.png} written in PNG format
+(bin={res}23{txt}, start={res}-.3272059{txt}, width={res}.0346867{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr9/whitegr9dif.png} written in PNG format
+(bin={res}23{txt}, start={res}.04545455{txt}, width={res}.03280632{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr9/mixedgr9dif.png} written in PNG format
+(bin={res}28{txt}, start={res}0{txt}, width={res}.04761905{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr10/gr10resprate.png} written in PNG format
+(bin={res}14{txt}, start={res}-.53448278{txt}, width={res}.05942199{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr10/femalegr10dif.png} written in PNG format
+(bin={res}14{txt}, start={res}-.54670328{txt}, width={res}.07722757{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr10/malegr10dif.png} written in PNG format
+(bin={res}14{txt}, start={res}-.80278951{txt}, width={res}.09825778{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr10/hispanicgr10dif.png} written in PNG format
+(bin={res}14{txt}, start={res}-.125{txt}, width={res}.0334707{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr10/nativegr10dif.png} written in PNG format
+(bin={res}14{txt}, start={res}-.434618{txt}, width={res}.06862023{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr10/asiangr10dif.png} written in PNG format
+(bin={res}14{txt}, start={res}-.14728682{txt}, width={res}.03391429{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr10/blackgr10dif.png} written in PNG format
+(bin={res}14{txt}, start={res}-.0625{txt}, width={res}.02190615{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr10/pacificgr10dif.png} written in PNG format
+(bin={res}14{txt}, start={res}-.43396226{txt}, width={res}.07921159{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr10/whitegr10dif.png} written in PNG format
+(bin={res}14{txt}, start={res}0{txt}, width={res}.05803571{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr10/mixedgr10dif.png} written in PNG format
+(bin={res}29{txt}, start={res}0{txt}, width={res}1.2758621{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr11/gr11resprate.png} written in PNG format
+(bin={res}24{txt}, start={res}-.83333331{txt}, width={res}.05161411{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr11/femalegr11dif.png} written in PNG format
+(bin={res}24{txt}, start={res}-.73239434{txt}, width={res}.05042384{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr11/malegr11dif.png} written in PNG format
+(bin={res}24{txt}, start={res}-.24107143{txt}, width={res}.03594554{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr11/hispanicgr11dif.png} written in PNG format
+(bin={res}24{txt}, start={res}-.14502165{txt}, width={res}.02317652{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr11/nativegr11dif.png} written in PNG format
+(bin={res}24{txt}, start={res}-.15151516{txt}, width={res}.0211731{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr11/asiangr11dif.png} written in PNG format
+(bin={res}24{txt}, start={res}-.18928571{txt}, width={res}.01483135{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr11/blackgr11dif.png} written in PNG format
+(bin={res}24{txt}, start={res}-.03222453{txt}, width={res}.00724547{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr11/pacificgr11dif.png} written in PNG format
+(bin={res}24{txt}, start={res}-.44999999{txt}, width={res}.04587453{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr11/whitegr11dif.png} written in PNG format
+(bin={res}24{txt}, start={res}0{txt}, width={res}.03125{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr11/mixedgr11dif.png} written in PNG format
+(bin={res}28{txt}, start={res}0{txt}, width={res}.75{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr12/gr12resprate.png} written in PNG format
+(bin={res}15{txt}, start={res}-.53676468{txt}, width={res}.05800653{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr12/femalegr12dif.png} written in PNG format
+(bin={res}15{txt}, start={res}-.53072625{txt}, width={res}.06245955{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr12/malegr12dif.png} written in PNG format
+(bin={res}15{txt}, start={res}-.30000001{txt}, width={res}.06920635{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr12/hispanicgr12dif.png} written in PNG format
+(bin={res}15{txt}, start={res}-.19047619{txt}, width={res}.03738345{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr12/nativegr12dif.png} written in PNG format
+(bin={res}15{txt}, start={res}-.29491526{txt}, width={res}.04512999{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr12/asiangr12dif.png} written in PNG format
+(bin={res}15{txt}, start={res}-.21169531{txt}, width={res}.02680635{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr12/blackgr12dif.png} written in PNG format
+(bin={res}15{txt}, start={res}-.03508772{txt}, width={res}.0166249{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr12/pacificgr12dif.png} written in PNG format
+(bin={res}15{txt}, start={res}-.36718529{txt}, width={res}.06473876{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr12/whitegr12dif.png} written in PNG format
+(bin={res}15{txt}, start={res}0{txt}, width={res}.04736842{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1718/gr12/mixedgr12dif.png} written in PNG format
+(Secondary 1819 demographics data with survey coverage analysis variables)
+(bin={res}27{txt}, start={res}0{txt}, width={res}.04392765{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr6/gr6resprate.png} written in PNG format
+(bin={res}7{txt}, start={res}-.40000001{txt}, width={res}.1125342{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr6/femalegr6dif.png} written in PNG format
+(bin={res}7{txt}, start={res}-.42222223{txt}, width={res}.09603175{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr6/malegr6dif.png} written in PNG format
+(bin={res}7{txt}, start={res}-.43333334{txt}, width={res}.08320802{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr6/hispanicgr6dif.png} written in PNG format
+(bin={res}7{txt}, start={res}-.04166667{txt}, width={res}.0279304{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr6/nativegr6dif.png} written in PNG format
+(bin={res}7{txt}, start={res}-.05797102{txt}, width={res}.02426056{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr6/asiangr6dif.png} written in PNG format
+(bin={res}7{txt}, start={res}-.15325671{txt}, width={res}.05621664{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr6/blackgr6dif.png} written in PNG format
+(bin={res}7{txt}, start={res}-.04504504{txt}, width={res}.02004045{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr6/pacificgr6dif.png} written in PNG format
+(bin={res}7{txt}, start={res}-.24812028{txt}, width={res}.14384175{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr6/whitegr6dif.png} written in PNG format
+(bin={res}7{txt}, start={res}.04761905{txt}, width={res}.11951307{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr6/mixedgr6dif.png} written in PNG format
+(bin={res}29{txt}, start={res}0{txt}, width={res}.16091953{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr7/gr7resprate.png} written in PNG format
+(bin={res}29{txt}, start={res}-.64888889{txt}, width={res}.03756431{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr7/femalegr7dif.png} written in PNG format
+(bin={res}29{txt}, start={res}-.66666669{txt}, width={res}.02868566{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr7/malegr7dif.png} written in PNG format
+(bin={res}29{txt}, start={res}-.48251748{txt}, width={res}.02467997{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr7/hispanicgr7dif.png} written in PNG format
+(bin={res}29{txt}, start={res}-.29166666{txt}, width={res}.03452911{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr7/nativegr7dif.png} written in PNG format
+(bin={res}29{txt}, start={res}-.08695652{txt}, width={res}.01949832{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr7/asiangr7dif.png} written in PNG format
+(bin={res}29{txt}, start={res}-.29056045{txt}, width={res}.01494543{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr7/blackgr7dif.png} written in PNG format
+(bin={res}29{txt}, start={res}-.04367201{txt}, width={res}.00721645{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr7/pacificgr7dif.png} written in PNG format
+(bin={res}29{txt}, start={res}-.5{txt}, width={res}.0462069{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr7/whitegr7dif.png} written in PNG format
+(bin={res}29{txt}, start={res}.05263158{txt}, width={res}.03059891{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr7/mixedgr7dif.png} written in PNG format
+(bin={res}29{txt}, start={res}0{txt}, width={res}.0530504{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr8/gr8resprate.png} written in PNG format
+(bin={res}11{txt}, start={res}-.53750002{txt}, width={res}.0703008{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr8/femalegr8dif.png} written in PNG format
+(bin={res}11{txt}, start={res}-.54577464{txt}, width={res}.06807762{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr8/malegr8dif.png} written in PNG format
+(bin={res}11{txt}, start={res}-.19753933{txt}, width={res}.06717273{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr8/hispanicgr8dif.png} written in PNG format
+(bin={res}11{txt}, start={res}-.23999999{txt}, width={res}.06727273{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr8/nativegr8dif.png} written in PNG format
+(bin={res}11{txt}, start={res}-.07613668{txt}, width={res}.02640204{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr8/asiangr8dif.png} written in PNG format
+(bin={res}11{txt}, start={res}-.18181819{txt}, width={res}.03225976{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr8/blackgr8dif.png} written in PNG format
+(bin={res}11{txt}, start={res}-.01886792{txt}, width={res}.01500198{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr8/pacificgr8dif.png} written in PNG format
+(bin={res}11{txt}, start={res}-.40364572{txt}, width={res}.08554955{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr8/whitegr8dif.png} written in PNG format
+(bin={res}11{txt}, start={res}.10526316{txt}, width={res}.08133971{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr8/mixedgr8dif.png} written in PNG format
+(bin={res}25{txt}, start={res}0{txt}, width={res}.13{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr9/gr9resprate.png} written in PNG format
+(bin={res}22{txt}, start={res}-.7096774{txt}, width={res}.04273476{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr9/femalegr9dif.png} written in PNG format
+(bin={res}22{txt}, start={res}-.73417723{txt}, width={res}.0385665{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr9/malegr9dif.png} written in PNG format
+(bin={res}22{txt}, start={res}-.17142859{txt}, width={res}.02141578{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr9/hispanicgr9dif.png} written in PNG format
+(bin={res}22{txt}, start={res}-.22279549{txt}, width={res}.03350071{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr9/nativegr9dif.png} written in PNG format
+(bin={res}22{txt}, start={res}-.0857143{txt}, width={res}.02539488{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr9/asiangr9dif.png} written in PNG format
+(bin={res}22{txt}, start={res}-.20780399{txt}, width={res}.01378396{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr9/blackgr9dif.png} written in PNG format
+(bin={res}22{txt}, start={res}-.05882353{txt}, width={res}.00790742{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr9/pacificgr9dif.png} written in PNG format
+(bin={res}22{txt}, start={res}-.36904761{txt}, width={res}.04759153{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr9/whitegr9dif.png} written in PNG format
+(bin={res}22{txt}, start={res}.10096154{txt}, width={res}.03413138{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr9/mixedgr9dif.png} written in PNG format
+(bin={res}26{txt}, start={res}0{txt}, width={res}.075{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr10/gr10resprate.png} written in PNG format
+(bin={res}13{txt}, start={res}-.61290324{txt}, width={res}.07897778{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr10/femalegr10dif.png} written in PNG format
+(bin={res}13{txt}, start={res}-.55530971{txt}, width={res}.07733152{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr10/malegr10dif.png} written in PNG format
+(bin={res}13{txt}, start={res}-.26388773{txt}, width={res}.05809377{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr10/hispanicgr10dif.png} written in PNG format
+(bin={res}13{txt}, start={res}-.28888887{txt}, width={res}.05127764{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr10/nativegr10dif.png} written in PNG format
+(bin={res}13{txt}, start={res}-.29254657{txt}, width={res}.04121985{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr10/asiangr10dif.png} written in PNG format
+(bin={res}13{txt}, start={res}-.23039214{txt}, width={res}.04024071{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr10/blackgr10dif.png} written in PNG format
+(bin={res}13{txt}, start={res}-.01851852{txt}, width={res}.01517285{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr10/pacificgr10dif.png} written in PNG format
+(bin={res}13{txt}, start={res}-.37894738{txt}, width={res}.06667325{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr10/whitegr10dif.png} written in PNG format
+(bin={res}13{txt}, start={res}0{txt}, width={res}.06993007{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr10/mixedgr10dif.png} written in PNG format
+(bin={res}27{txt}, start={res}0{txt}, width={res}.05761317{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr11/gr11resprate.png} written in PNG format
+(bin={res}23{txt}, start={res}-.77777779{txt}, width={res}.04549114{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr11/femalegr11dif.png} written in PNG format
+(bin={res}23{txt}, start={res}-.66279072{txt}, width={res}.04545938{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr11/malegr11dif.png} written in PNG format
+(bin={res}23{txt}, start={res}-.23878604{txt}, width={res}.03480931{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr11/hispanicgr11dif.png} written in PNG format
+(bin={res}23{txt}, start={res}-.12889984{txt}, width={res}.02852068{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr11/nativegr11dif.png} written in PNG format
+(bin={res}23{txt}, start={res}-.12063275{txt}, width={res}.02028761{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr11/asiangr11dif.png} written in PNG format
+(bin={res}23{txt}, start={res}-.640553{txt}, width={res}.0367992{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr11/blackgr11dif.png} written in PNG format
+(bin={res}23{txt}, start={res}-.03030303{txt}, width={res}.00628192{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr11/pacificgr11dif.png} written in PNG format
+(bin={res}23{txt}, start={res}-.38095239{txt}, width={res}.04534875{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr11/whitegr11dif.png} written in PNG format
+(bin={res}23{txt}, start={res}.07142857{txt}, width={res}.0327346{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr11/mixedgr11dif.png} written in PNG format
+(bin={res}27{txt}, start={res}0{txt}, width={res}.04542278{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr12/gr12resprate.png} written in PNG format
+(bin={res}13{txt}, start={res}-.52950561{txt}, width={res}.06091556{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr12/femalegr12dif.png} written in PNG format
+(bin={res}13{txt}, start={res}-.54587156{txt}, width={res}.06686431{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr12/malegr12dif.png} written in PNG format
+(bin={res}13{txt}, start={res}-.27172858{txt}, width={res}.04555092{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr12/hispanicgr12dif.png} written in PNG format
+(bin={res}13{txt}, start={res}-.2037037{txt}, width={res}.04207203{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr12/nativegr12dif.png} written in PNG format
+(bin={res}13{txt}, start={res}-.16600791{txt}, width={res}.03959037{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr12/asiangr12dif.png} written in PNG format
+(bin={res}13{txt}, start={res}-.16482125{txt}, width={res}.03098297{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr12/blackgr12dif.png} written in PNG format
+(bin={res}13{txt}, start={res}-.01896552{txt}, width={res}.01324576{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr12/pacificgr12dif.png} written in PNG format
+(bin={res}13{txt}, start={res}-.26106083{txt}, width={res}.06321467{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr12/whitegr12dif.png} written in PNG format
+(bin={res}13{txt}, start={res}0{txt}, width={res}.05039788{txt})
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/seccoverage/sec1819/gr12/mixedgr12dif.png} written in PNG format
+
+{com}. 
+. grstyle clear // sets off grstyle
+{txt}
+{com}. 
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/demographics/seccoverageanalysis.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 7 Apr 2022, 14:55:58
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

@@ -1,0 +1,98 @@
+{smcl}
+{txt}{sf}{ul off}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/indexalpha.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 7 Apr 2022, 15:49:36
+{txt}
+{com}. 
+. use $projdir/dta/allsvyfactor/categoryindex/compcasecategoryindex, clear
+{txt}(parent pooled (over years) dataset ready for analysis with stats and response ra)
+
+{com}. 
+. local climatevars parentqoi16mean_pooled parentqoi17mean_pooled parentqoi27mean_pooled secqoi22mean_pooled secqoi23mean_pooled secqoi24mean_pooled secqoi26mean_pooled secqoi27mean_pooled  secqoi29mean_pooled
+{txt}
+{com}. local qualityvars parentqoi30mean_pooled parentqoi31mean_pooled parentqoi32mean_pooled parentqoi33mean_pooled parentqoi34mean_pooled secqoi28mean_pooled secqoi35mean_pooled secqoi36mean_pooled secqoi37mean_pooled secqoi38mean_pooled secqoi39mean_pooled secqoi40mean_pooled staffqoi20mean_pooled staffqoi24mean_pooled staffqoi87mean_pooled
+{txt}
+{com}. local supportvars parentqoi15mean_pooled parentqoi64mean_pooled staffqoi10mean_pooled staffqoi128mean_pooled
+{txt}
+{com}. /* local motivationvars secqoi31mean_pooled secqoi32mean_pooled secqoi33mean_pooled secqoi34mean_pooled */
+. /* Cronbach's alpha for the school climate index */
+. alpha `climatevars', std item
+
+{txt}Test scale = mean(standardized items)
+
+                                                            Average
+                             Item-test     Item-rest       interitem
+Item         {c |}  Obs  Sign   correlation   correlation     correlation     alpha
+{hline 13}{c +}{hline 65}
+p~6mean_po~d{col 14}{c |}{res}{col 16} 414{col 24}+{col 31} 0.6868{col 45} 0.5968{col 59}   0.5705{col 73} 0.9140
+{txt}parentqoi17~{col 14}{c |}{res}{col 16} 414{col 24}+{col 31} 0.5993{col 45} 0.4925{col 59}   0.5834{col 73} 0.9181
+{txt}parentqoi2~d{col 14}{c |}{res}{col 16} 414{col 24}+{col 31} 0.6490{col 45} 0.5517{col 59}   0.5760{col 73} 0.9158
+{txt}secqoi22me~d{col 14}{c |}{res}{col 16} 932{col 24}+{col 31} 0.6601{col 45} 0.5373{col 59}   0.6008{col 73} 0.9233
+{txt}secqoi23me~d{col 14}{c |}{res}{col 16} 932{col 24}+{col 31} 0.8690{col 45} 0.8134{col 59}   0.5251{col 73} 0.8984
+{txt}secqoi24me~d{col 14}{c |}{res}{col 16} 932{col 24}+{col 31} 0.9041{col 45} 0.8662{col 59}   0.5145{col 73} 0.8945
+{txt}secqoi26me~d{col 14}{c |}{res}{col 16} 932{col 24}+{col 31} 0.8761{col 45} 0.8205{col 59}   0.5210{col 73} 0.8969
+{txt}secqoi27me~d{col 14}{c |}{res}{col 16} 911{col 24}+{col 31} 0.7964{col 45} 0.7136{col 59}   0.5452{col 73} 0.9056
+{txt}secqoi29me~d{col 14}{c |}{res}{col 16} 911{col 24}+{col 31} 0.8274{col 45} 0.7516{col 59}   0.5334{col 73} 0.9014
+{txt}{hline 13}{c +}{hline 65}
+Test scale{col 14}{c |}{res}{col 59}   0.5534{col 73} 0.9177
+{txt}{hline 13}{c BT}{hline 65}
+
+{com}. 
+. /* Cronbach's alpha for teacher and staff quality index */
+. alpha `qualityvars', std item
+
+{txt}Test scale = mean(standardized items)
+
+                                                            Average
+                             Item-test     Item-rest       interitem
+Item         {c |}  Obs  Sign   correlation   correlation     correlation     alpha
+{hline 13}{c +}{hline 65}
+p~0mean_po~d{col 14}{c |}{res}{col 16} 369{col 24}+{col 31} 0.6869{col 45} 0.6330{col 59}   0.5386{col 73} 0.9423
+{txt}p~1mean_po~d{col 14}{c |}{res}{col 16} 414{col 24}+{col 31} 0.6299{col 45} 0.5648{col 59}   0.5443{col 73} 0.9436
+{txt}p~2mean_po~d{col 14}{c |}{res}{col 16} 333{col 24}+{col 31} 0.7388{col 45} 0.6912{col 59}   0.5340{col 73} 0.9413
+{txt}p~3mean_po~d{col 14}{c |}{res}{col 16} 414{col 24}+{col 31} 0.6875{col 45} 0.6262{col 59}   0.5388{col 73} 0.9424
+{txt}parentqoi34~{col 14}{c |}{res}{col 16} 369{col 24}+{col 31} 0.7015{col 45} 0.6479{col 59}   0.5374{col 73} 0.9421
+{txt}secqoi28me~d{col 14}{c |}{res}{col 16} 911{col 24}+{col 31} 0.7029{col 45} 0.6159{col 59}   0.5347{col 73} 0.9415
+{txt}secqoi35me~d{col 14}{c |}{res}{col 16} 932{col 24}+{col 31} 0.8714{col 45} 0.8368{col 59}   0.5115{col 73} 0.9361
+{txt}secqoi36me~d{col 14}{c |}{res}{col 16} 932{col 24}+{col 31} 0.8910{col 45} 0.8612{col 59}   0.5083{col 73} 0.9354
+{txt}secqoi37me~d{col 14}{c |}{res}{col 16} 932{col 24}+{col 31} 0.8326{col 45} 0.7869{col 59}   0.5180{col 73} 0.9377
+{txt}secqoi38me~d{col 14}{c |}{res}{col 16} 932{col 24}+{col 31} 0.8967{col 45} 0.8683{col 59}   0.5076{col 73} 0.9352
+{txt}secqoi39me~d{col 14}{c |}{res}{col 16} 932{col 24}+{col 31} 0.8814{col 45} 0.8476{col 59}   0.5100{col 73} 0.9358
+{txt}secqoi40me~d{col 14}{c |}{res}{col 16} 932{col 24}+{col 31} 0.8716{col 45} 0.8364{col 59}   0.5124{col 73} 0.9364
+{txt}staffqoi20~d{col 14}{c |}{res}{col 16} 593{col 24}+{col 31} 0.3869{col 45} 0.2801{col 59}   0.5798{col 73} 0.9508
+{txt}staffqoi24~d{col 14}{c |}{res}{col 16} 438{col 24}+{col 31} 0.5879{col 45} 0.5069{col 59}   0.5491{col 73} 0.9446
+{txt}staffqoi87~d{col 14}{c |}{res}{col 16} 546{col 24}+{col 31} 0.6233{col 45} 0.5418{col 59}   0.5487{col 73} 0.9445
+{txt}{hline 13}{c +}{hline 65}
+Test scale{col 14}{c |}{res}{col 59}   0.5320{col 73} 0.9446
+{txt}{hline 13}{c BT}{hline 65}
+
+{com}. 
+. /* Cronbach's alpha for counseling support index */
+. alpha `supportvars', std item
+
+{txt}Test scale = mean(standardized items)
+
+                                                            Average
+                             Item-test     Item-rest       interitem
+Item         {c |}  Obs  Sign   correlation   correlation     correlation     alpha
+{hline 13}{c +}{hline 65}
+p~5mean_po~d{col 14}{c |}{res}{col 16} 414{col 24}+{col 31} 0.7753{col 45} 0.5316{col 59}   0.3678{col 73} 0.6357
+{txt}parentqoi6~d{col 14}{c |}{res}{col 16} 411{col 24}+{col 31} 0.7366{col 45} 0.4709{col 59}   0.4057{col 73} 0.6719
+{txt}staffqoi10m~{col 14}{c |}{res}{col 16} 593{col 24}+{col 31} 0.8167{col 45} 0.5028{col 59}   0.3732{col 73} 0.6411
+{txt}staffqoi12~d{col 14}{c |}{res}{col 16} 587{col 24}+{col 31} 0.7867{col 45} 0.4976{col 59}   0.3684{col 73} 0.6364
+{txt}{hline 13}{c +}{hline 65}
+Test scale{col 14}{c |}{res}{col 59}   0.3793{col 73} 0.7097
+{txt}{hline 13}{c BT}{hline 65}
+
+{com}. 
+. 
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/indexalpha.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 7 Apr 2022, 15:49:36
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

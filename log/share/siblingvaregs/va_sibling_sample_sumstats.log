@@ -1,22 +1,38 @@
 -------------------------------------------------------------------------------
       name:  <unnamed>
-       log:  /home/research/ca_ed_lab/chesun/gsr/caschls/log/share/siblingvareg
-> s/va_sibling_sample_sumstats.smcl
+       log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
+> gvaregs/va_sibling_sample_sumstats.smcl
   log type:  smcl
- opened on:   3 Nov 2021, 18:41:32
+ opened on:   9 Apr 2022, 03:43:25
 
 . 
-. //include macros
-. include do_files/sbac/macros_va.doh
+. //run the do helper file to set the local macros
+. include `vaprojdofiles'/sbac/macros_va.doh
 
 . #delimit ;
 delimiter now ;
+. *** file paths
+> local home $vaprojdir ;
+. local ca_ed_lab "/home/research/ca_ed_lab" ;
+
+. local k12_test_scores "$vaprojdir/data/restricted_access/clean/k12_test_score
+> s" ;
+
+. local public_access "$vaprojdir/data/public_access" ;
+
+. local k12_public_schools "$vaprojdir/data/public_access/clean/k12_public_scho
+> ols" ;
+
+. local k12_test_scores_public "$vaprojdir/data/public_access/clean/k12_test_sc
+> ores" ;
+
+. **** Dates ;
 . local test_score_min_year
 >         2015
 >         ;
 
 . local test_score_max_year
->         2019
+>         2018
 >         ;
 
 . local star_min_year
@@ -43,6 +59,7 @@ delimiter now ;
 >         2018
 >         ;
 
+. **** Outcome Strings ;
 . local ela_str
 >         "ELA"
 >         ;
@@ -63,6 +80,7 @@ delimiter now ;
 >         "Enrolled On Time 4-Year"
 >         ;
 
+. **** Value Added ;
 . local school_controls
 >         /*cohort_size*/
 >         ;
@@ -111,6 +129,10 @@ delimiter now ;
 
 . local va_control_vars : list uniq va_control_vars ;
 
+. local census_grade
+>         6
+>         ;
+
 . local census_controls
 >         /*eth_white_pct*/ eth_asian_pct eth_hispanic_pct eth_black_pct /*eth_
 > other_pct*/
@@ -118,6 +140,59 @@ delimiter now ;
 >         pov_fam_child_lt18_pct
 >         inc_median_hh
 >         ;
+
+. **** School Characteristics ;
+. local sch_chars
+>         fte_teach_pc fte_pupil_pc /*fte_admin_pc*/
+>         /*eng_learner_staff_pc*/
+>         new_teacher_prop
+>         /*educ_grad_sch_prop educ_associate_prop*/
+>         /*status_tenured_prop*/
+>         credential_full_prop
+>         /*authorization_stem_prop authorization_ela_prop*/
+>         c.male_prop##c.enr_male_prop
+>         c.eth_minority_prop##c.enr_minority_prop
+>         enr_total
+>         ;
+
+. local sch_char_vars "`sch_chars'" ;
+
+. local sch_char_vars : subinstr local sch_char_vars "i." "", all ;
+
+. local sch_char_vars : subinstr local sch_char_vars "c." "", all ;
+
+. local sch_char_vars : subinstr local sch_char_vars "##" " ", all ;
+
+. local sch_char_vars : subinstr local sch_char_vars "#" " ", all ;
+
+. local sch_char_vars : list uniq sch_char_vars ;
+
+. local dem_chars
+>         enr_male_prop
+>         enr_minority_prop
+>         frpm_prop el_prop
+>         enr_total
+>         ;
+
+. local dem_char_vars "`dem_chars'" ;
+
+. local dem_char_vars : list uniq dem_char_vars ;
+
+. local expenditures
+>         expenditures_instr_pc
+>         expenditures3000_pc
+>         expenditures4000_pc
+>         expenditures_other_pc
+>         expenditures7000_pc
+>         ;
+
+. local expenditure_vars "`expenditures'" ;
+
+. local expenditure_vars : list uniq expenditure_vars ;
+
+. local sch_char_control_vars : list sch_char_vars | dem_char_vars ;
+
+. local sch_char_control_vars : list sch_char_control_vars | expenditure_vars ;
 
 . #delimit cr
 delimiter now cr
@@ -128,15 +203,37 @@ delimiter now ;
 . #delimit cr
 delimiter now cr
 . macro list
-nscdtadir:      /home/research/ca_ed_lab/data/restricted_access/clean/nsc
-cstdtadir:      /home/research/ca_ed_lab/data/restricted_access/clean/cst
-vadtadir:       /home/research/ca_ed_lab/msnaven/common_core_va/data/sbac
-projdir:        /home/research/ca_ed_lab/chesun/gsr/caschls
+vaprojxwalks:   /home/research/ca_ed_lab/projects/common_core_va/data/restricte
+                > d_access/clean/crosswalks
+mattxwalks:     /home/research/ca_ed_lab/users/msnaven/data/restricted_access/c
+                > lean/crosswalks
+nscdtadir_oldformat:
+                /home/research/ca_ed_lab/data/restricted_access/clean/cde_nsc/o
+                > ldformat
+nscdtadir:      /home/research/ca_ed_lab/data/restricted_access/clean/cde_nsc
+cstdtadir:      /home/research/ca_ed_lab/data/restricted_access/clean//cde/cst
+vadtadir:       /home/research/ca_ed_lab/projects/common_core_va/data/sbac
+vaprojdir:      /home/research/ca_ed_lab/projects/common_core_va
+projdir:        /home/research/ca_ed_lab/users/chesun/gsr/caschls
 clndtadir:      /home/research/ca_ed_lab/data/restricted_access/clean/calschls
 rawdtadir:      /home/research/ca_ed_lab/data/restricted_access/raw/calschls/st
                 > ata
 rawcsvdir:      /home/research/ca_ed_lab/data/restricted_access/raw/calschls/cs
                 > v
+T_gm_fix_span:  0
+S_6:            .7097029923018954
+S_5:            4
+S_4:            .379339567907114
+ReS_jv2:        __000006 __000007 __000008 __000009 __00000A __00000B __00000C
+                __00000D __00000E __00000F __00000G __00000H __00000I __00000J
+                __00000K
+dropv:          _cdscode_x
+n_offset:       0
+sort:           0
+dots:           nois _dots 5 0
+dotss:          nois _dots 0, title(Survey results being calculated)
+S_3:            .0104764158075594
+ReS_Call:       version 16.1:
 S_level:        95
 F1:             help advice;
 F2:             describe;
@@ -145,12 +242,33 @@ F8:             use
 S_ADO:          BASE;SITE;.;PERSONAL;PLUS;OLDPLACE
 S_StataMP:      MP
 S_StataSE:      SE
+S_CONSOLE:      console
 S_OS:           Unix
 S_MACH:         PC (64-bit x86-64)
+_sch_char_control_vars:
+                fte_teach_pc fte_pupil_pc new_teacher_prop credential_full_prop
+                male_prop enr_male_prop eth_minority_prop enr_minority_prop
+                enr_total frpm_prop el_prop expenditures_instr_pc
+                expenditures3000_pc expenditures4000_pc expenditures_other_pc
+                expenditures7000_pc
+_expenditure_vars:
+                expenditures_instr_pc expenditures3000_pc expenditures4000_pc
+                expenditures_other_pc expenditures7000_pc
+_expenditures:  expenditures_instr_pc expenditures3000_pc expenditures4000_pc
+                expenditures_other_pc expenditures7000_pc
+_dem_char_vars: enr_male_prop enr_minority_prop frpm_prop el_prop enr_total
+_dem_chars:     enr_male_prop enr_minority_prop frpm_prop el_prop enr_total
+_sch_char_vars: fte_teach_pc fte_pupil_pc new_teacher_prop credential_full_prop
+                male_prop enr_male_prop eth_minority_prop enr_minority_prop
+                enr_total
+_sch_chars:     fte_teach_pc fte_pupil_pc new_teacher_prop credential_full_prop
+                c.male_prop##c.enr_male_prop
+                c.eth_minority_prop##c.enr_minority_prop enr_total
 _census_controls:
                 eth_asian_pct eth_hispanic_pct eth_black_pct
                 educ_hs_dropout_prop educ_deg_4year_plus_prop
                 pov_fam_child_lt18_pct inc_median_hh
+_census_grade:  6
 _va_control_vars:
                 age male eth_asian eth_hispanic eth_black eth_other
                 econ_disadvantage limited_eng_prof disabled
@@ -189,42 +307,40 @@ _caaspp_min_year:
 _star_max_year: 2013
 _star_min_year: 2003
 _test_score_max_year:
-                2019
+                2018
 _test_score_min_year:
                 2015
-_sibling_out_xwalk:
-                /home/research/ca_ed_lab/chesun/gsr/caschls/dta/siblingxwalk/si
-                > bling_out_xwalk
-_k12_postsecondary_out_merge:
-                /home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/
-                > k12_postsecondary_out_merge
-_ufamilyxwalk:  /home/research/ca_ed_lab/chesun/gsr/caschls/dta/siblingxwalk/uf
-                > amilyxwalk
-_siblingxwalk:  /home/research/ca_ed_lab/chesun/gsr/caschls/dta/siblingxwalk/si
-                > blingpairxwalk
-_va_g11_out_dataset:
-                /home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/
-                > va_g11_out_dataset
-_va_g11_dataset:
-                /home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/
-                > va_g11_dataset
-_va_dataset:    /home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/
-                > va_dataset
 _k12_test_scores_public:
-                /home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_t
-                > est_scores
+                /home/research/ca_ed_lab/projects/common_core_va/data/public_ac
+                > cess/clean/k12_test_scores
 _k12_public_schools:
-                /home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_p
-                > ublic_schools
-_public_access: /home/research/ca_ed_lab/data/public_access
+                /home/research/ca_ed_lab/projects/common_core_va/data/public_ac
+                > cess/clean/k12_public_schools
+_public_access: /home/research/ca_ed_lab/projects/common_core_va/data/public_ac
+                > cess
 _k12_test_scores:
-                /home/research/ca_ed_lab/msnaven/data/restricted_access/clean/k
-                > 12_test_scores
+                /home/research/ca_ed_lab/projects/common_core_va/data/restricte
+                > d_access/clean/k12_test_scores
 _ca_ed_lab:     /home/research/ca_ed_lab
-_common_core_va:
-                /home/research/ca_ed_lab/msnaven/common_core_va
-_mattdofiles:   /home/research/ca_ed_lab/msnaven/common_core_va/do_files/sbac
-_matthomedir:   /home/research/ca_ed_lab/msnaven/common_core_va
+_sibling_out_xwalk:
+                /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/siblingxw
+                > alk/sibling_out_xwalk
+_k12_postsecondary_out_merge:
+                /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_co
+                > re_va/k12_postsecondary_out_merge
+_ufamilyxwalk:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/siblingxw
+                > alk/ufamilyxwalk
+_siblingxwalk:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/siblingxw
+                > alk/siblingpairxwalk
+_va_g11_out_dataset:
+                /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_co
+                > re_va/va_g11_out_dataset
+_va_g11_dataset:
+                /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_co
+                > re_va/va_g11_dataset
+_va_dataset:    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_co
+                > re_va/va_dataset
+_vaprojdofiles: /home/research/ca_ed_lab/projects/common_core_va/do_files
 
 . 
 . 
@@ -246,11 +362,11 @@ _matthomedir:   /home/research/ca_ed_lab/msnaven/common_core_va
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                     4,360,629
-        from master                 1,252,476  (_merge==1)
-        from using                  3,108,153  (_merge==2)
+    Not matched                     4,157,551
+        from master                   884,570  (_merge==1)
+        from using                  3,272,981  (_merge==2)
 
-    Matched                         1,169,409  (_merge==3)
+    Matched                           900,294  (_merge==3)
     -----------------------------------------
 
 . drop _merge
@@ -263,7 +379,7 @@ _matthomedir:   /home/research/ca_ed_lab/msnaven/common_core_va
 . tempfile va_g11_sibling_dataset
 
 . save `va_g11_sibling_dataset'
-file /home/tmp/St130955.000001 saved as .dta format
+file /home/tmp/St192370.000001 saved as .dta format
 
 . 
 . 
@@ -284,7 +400,7 @@ file /home/tmp/St130955.000001 saved as .dta format
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
-avg_birth_~y |  1,715,347     3.11413    1.738729          0   14.90137
+avg_birth_~y |  1,715,345    3.114058    1.738753          0   14.90137
 
 . 
 . //in the sibling test score VA sample
@@ -295,11 +411,11 @@ avg_birth_~y |  1,715,347     3.11413    1.738729          0   14.90137
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                     1,253,350
+    Not matched                       885,444
         from master                       874  (_merge==1)
-        from using                  1,252,476  (_merge==2)
+        from using                    884,570  (_merge==2)
 
-    Matched                         4,277,562  (_merge==3)
+    Matched                         4,173,275  (_merge==3)
     -----------------------------------------
 
 . 
@@ -308,7 +424,7 @@ avg_birth_~y |  1,715,347     3.11413    1.738729          0   14.90137
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
-avg_birth_~y |    749,450    3.308654     1.66202          0   14.50137
+avg_birth_~y |    685,772    3.349951    1.637888          0   14.50137
 
 . 
 . sum avg_birth_date_distance_family ///
@@ -316,13 +432,13 @@ avg_birth_~y |    749,450    3.308654     1.66202          0   14.50137
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
-avg_birth_~y |    746,054    3.308995    1.662302          0   14.50137
+avg_birth_~y |    682,836    3.350443    1.638021          0   14.50137
 
 . 
 . 
 . 
 . 
-. use `va_g11_sibling_dataset', clear 
+. use `va_g11_sibling_dataset', clear
 (CST/SBAC Student Test Score Samples)
 
 . //check the number of families in this sample
@@ -336,13 +452,13 @@ ELA
 
 . egen family_temp = group(ufamilyid) ///
 > if grade == 11 & touse_g11_ela==1 & sibling_full_sample == 1
-(4,780,550 missing values generated)
+(4,372,019 missing values generated)
 
 . sum family_temp
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
- family_temp |    749,488    295962.8    166270.5          1     600210
+ family_temp |    685,826    280120.2    158804.8          1     570129
 
 . drop family_temp
 
@@ -352,13 +468,13 @@ Math
 
 . egen family_temp = group(ufamilyid) ///
 > if grade == 11 & touse_g11_math==1 & sibling_full_sample == 1
-(4,783,946 missing values generated)
+(4,374,954 missing values generated)
 
 . sum family_temp
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
- family_temp |    746,092    294906.6    165695.6          1     598032
+ family_temp |    682,891    279138.3    158262.3          1     568115
 
 . drop family_temp
 
@@ -376,13 +492,13 @@ ELA
 
 . egen family_temp = group(ufamilyid) ///
 > if grade == 11 & touse_g11_ela==1 & sibling_out_sample == 1
-(5,077,074 missing values generated)
+(4,380,591 missing values generated)
 
 . sum family_temp
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
- family_temp |    452,964    197581.3    112032.3          1     396400
+ family_temp |    677,254    277124.7    157088.9          1     563849
 
 . drop family_temp
 
@@ -392,13 +508,13 @@ Math
 
 . egen family_temp = group(ufamilyid) ///
 > if grade == 11 & touse_g11_math==1 & sibling_out_sample == 1
-(5,079,154 missing values generated)
+(4,383,383 missing values generated)
 
 . sum family_temp
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
- family_temp |    450,884    196727.3    111552.2          1     394689
+ family_temp |    674,462    276196.2    156576.4          1     561945
 
 . drop family_temp
 
@@ -411,13 +527,12 @@ Math
      Spring |
    Semester |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-       2015 |    174,345       23.26       23.26
-       2016 |     84,788       11.31       34.57
-       2017 |    171,800       22.92       57.50
-       2018 |    167,455       22.34       79.84
-       2019 |    151,100       20.16      100.00
+       2015 |    174,785       25.49       25.49
+       2016 |    171,579       25.02       50.50
+       2017 |    172,007       25.08       75.58
+       2018 |    167,455       24.42      100.00
 ------------+-----------------------------------
-      Total |    749,488      100.00
+      Total |    685,826      100.00
 
 . 
 . tab year if grade == 11 & touse_g11_math==1 & sibling_full_sample == 1
@@ -426,13 +541,12 @@ Math
      Spring |
    Semester |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-       2015 |    173,472       23.25       23.25
-       2016 |     84,306       11.30       34.55
-       2017 |    171,001       22.92       57.47
-       2018 |    166,926       22.37       79.84
-       2019 |    150,387       20.16      100.00
+       2015 |    173,908       25.47       25.47
+       2016 |    170,850       25.02       50.49
+       2017 |    171,207       25.07       75.56
+       2018 |    166,926       24.44      100.00
 ------------+-----------------------------------
-      Total |    746,092      100.00
+      Total |    682,891      100.00
 
 . 
 . 
@@ -444,10 +558,13 @@ Math
 . 
 . timer off 1
 
+. timer list 
+   1:     71.83 /        1 =      71.8270
+
 . log close
       name:  <unnamed>
-       log:  /home/research/ca_ed_lab/chesun/gsr/caschls/log/share/siblingvareg
-> s/va_sibling_sample_sumstats.smcl
+       log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
+> gvaregs/va_sibling_sample_sumstats.smcl
   log type:  smcl
- closed on:   3 Nov 2021, 18:42:30
+ closed on:   9 Apr 2022, 03:44:37
 -------------------------------------------------------------------------------

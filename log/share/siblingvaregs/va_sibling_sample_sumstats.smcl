@@ -1,22 +1,35 @@
 {smcl}
 {com}{sf}{ul off}{txt}{.-}
       name:  {res}<unnamed>
-       {txt}log:  {res}/home/research/ca_ed_lab/chesun/gsr/caschls/log/share/siblingvaregs/va_sibling_sample_sumstats.smcl
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sibling_sample_sumstats.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 3 Nov 2021, 18:41:32
+ {txt}opened on:  {res} 9 Apr 2022, 03:43:25
 {txt}
 {com}. 
-. //include macros
-. include do_files/sbac/macros_va.doh
+. //run the do helper file to set the local macros
+. include `vaprojdofiles'/sbac/macros_va.doh
 {txt}
 {com}. #delimit ;
 {txt}delimiter now ;
-{com}. local test_score_min_year
+{com}. *** file paths
+> local home $vaprojdir ;
+. local ca_ed_lab "/home/research/ca_ed_lab" ;
+{txt}
+{com}. local k12_test_scores "$vaprojdir/data/restricted_access/clean/k12_test_scores" ;
+{txt}
+{com}. local public_access "$vaprojdir/data/public_access" ;
+{txt}
+{com}. local k12_public_schools "$vaprojdir/data/public_access/clean/k12_public_schools" ;
+{txt}
+{com}. local k12_test_scores_public "$vaprojdir/data/public_access/clean/k12_test_scores" ;
+{txt}
+{com}. **** Dates ;
+. local test_score_min_year
 >         2015
 >         ;
 {txt}
 {com}. local test_score_max_year
->         2019
+>         2018
 >         ;
 {txt}
 {com}. local star_min_year
@@ -43,7 +56,8 @@
 >         2018
 >         ;
 {txt}
-{com}. local ela_str
+{com}. **** Outcome Strings ;
+. local ela_str
 >         "ELA"
 >         ;
 {txt}
@@ -63,7 +77,8 @@
 >         "Enrolled On Time 4-Year"
 >         ;
 {txt}
-{com}. local school_controls
+{com}. **** Value Added ;
+. local school_controls
 >         /*cohort_size*/
 >         ;
 {txt}
@@ -107,12 +122,69 @@
 {txt}
 {com}. local va_control_vars : list uniq va_control_vars ;
 {txt}
+{com}. local census_grade
+>         6
+>         ;
+{txt}
 {com}. local census_controls
 >         /*eth_white_pct*/ eth_asian_pct eth_hispanic_pct eth_black_pct /*eth_other_pct*/
 >         educ_hs_dropout_prop /*educ_deg_2year_prop*/ educ_deg_4year_plus_prop
 >         pov_fam_child_lt18_pct
 >         inc_median_hh
 >         ;
+{txt}
+{com}. **** School Characteristics ;
+. local sch_chars
+>         fte_teach_pc fte_pupil_pc /*fte_admin_pc*/
+>         /*eng_learner_staff_pc*/
+>         new_teacher_prop
+>         /*educ_grad_sch_prop educ_associate_prop*/
+>         /*status_tenured_prop*/
+>         credential_full_prop
+>         /*authorization_stem_prop authorization_ela_prop*/
+>         c.male_prop##c.enr_male_prop
+>         c.eth_minority_prop##c.enr_minority_prop
+>         enr_total
+>         ;
+{txt}
+{com}. local sch_char_vars "`sch_chars'" ;
+{txt}
+{com}. local sch_char_vars : subinstr local sch_char_vars "i." "", all ;
+{txt}
+{com}. local sch_char_vars : subinstr local sch_char_vars "c." "", all ;
+{txt}
+{com}. local sch_char_vars : subinstr local sch_char_vars "##" " ", all ;
+{txt}
+{com}. local sch_char_vars : subinstr local sch_char_vars "#" " ", all ;
+{txt}
+{com}. local sch_char_vars : list uniq sch_char_vars ;
+{txt}
+{com}. local dem_chars
+>         enr_male_prop
+>         enr_minority_prop
+>         frpm_prop el_prop
+>         enr_total
+>         ;
+{txt}
+{com}. local dem_char_vars "`dem_chars'" ;
+{txt}
+{com}. local dem_char_vars : list uniq dem_char_vars ;
+{txt}
+{com}. local expenditures
+>         expenditures_instr_pc
+>         expenditures3000_pc
+>         expenditures4000_pc
+>         expenditures_other_pc
+>         expenditures7000_pc
+>         ;
+{txt}
+{com}. local expenditure_vars "`expenditures'" ;
+{txt}
+{com}. local expenditure_vars : list uniq expenditure_vars ;
+{txt}
+{com}. local sch_char_control_vars : list sch_char_vars | dem_char_vars ;
+{txt}
+{com}. local sch_char_control_vars : list sch_char_control_vars | expenditure_vars ;
 {txt}
 {com}. #delimit cr
 {txt}delimiter now cr
@@ -124,16 +196,29 @@
 {txt}delimiter now cr
 {com}. macro list
 {txt}{p 0 16}
-nscdtadir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/clean/nsc
+vaprojxwalks:{space 3}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/restricted_access/clean/crosswalks
 {p_end}
 {txt}{p 0 16}
-cstdtadir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/clean/cst
+mattxwalks:{space 5}{res}{res}/home/research/ca_ed_lab/users/msnaven/data/restricted_access/clean/crosswalks
 {p_end}
 {txt}{p 0 16}
-vadtadir:{space 7}{res}{res}/home/research/ca_ed_lab/msnaven/common_core_va/data/sbac
+nscdtadir_oldformat:{break}
+{res}/home/research/ca_ed_lab/data/restricted_access/clean/cde_nsc/oldformat
 {p_end}
 {txt}{p 0 16}
-projdir:{space 8}{res}{res}/home/research/ca_ed_lab/chesun/gsr/caschls
+nscdtadir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/clean/cde_nsc
+{p_end}
+{txt}{p 0 16}
+cstdtadir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/clean//cde/cst
+{p_end}
+{txt}{p 0 16}
+vadtadir:{space 7}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac
+{p_end}
+{txt}{p 0 16}
+vaprojdir:{space 6}{res}{res}/home/research/ca_ed_lab/projects/common_core_va
+{p_end}
+{txt}{p 0 16}
+projdir:{space 8}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 {p_end}
 {txt}{p 0 16}
 clndtadir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/clean/calschls
@@ -143,6 +228,42 @@ rawdtadir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/raw
 {p_end}
 {txt}{p 0 16}
 rawcsvdir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/raw/calschls/csv
+{p_end}
+{txt}{p 0 16}
+T_gm_fix_span:{space 2}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+S_6:{space 12}{res}{res}.7097029923018954
+{p_end}
+{txt}{p 0 16}
+S_5:{space 12}{res}{res}4
+{p_end}
+{txt}{p 0 16}
+S_4:{space 12}{res}{res}.379339567907114
+{p_end}
+{txt}{p 0 16}
+ReS_jv2:{space 8}{res}{res}__000006 __000007 __000008 __000009 __00000A __00000B __00000C __00000D __00000E __00000F __00000G __00000H __00000I __00000J __00000K
+{p_end}
+{txt}{p 0 16}
+dropv:{space 10}{res}{res}_cdscode_x
+{p_end}
+{txt}{p 0 16}
+n_offset:{space 7}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+sort:{space 11}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+dots:{space 11}{res}{res}nois _dots 5 0
+{p_end}
+{txt}{p 0 16}
+dotss:{space 10}{res}{res}nois _dots 0, title(Survey results being calculated)
+{p_end}
+{txt}{p 0 16}
+S_3:{space 12}{res}{res}.0104764158075594
+{p_end}
+{txt}{p 0 16}
+ReS_Call:{space 7}{res}{res}version 16.1:
 {p_end}
 {txt}{p 0 16}
 S_level:{space 8}{res}{res}95
@@ -169,14 +290,43 @@ S_StataMP:{space 6}{res}{res}MP
 S_StataSE:{space 6}{res}{res}SE
 {p_end}
 {txt}{p 0 16}
+S_CONSOLE:{space 6}{res}{res}console
+{p_end}
+{txt}{p 0 16}
 S_OS:{space 11}{res}{res}Unix
 {p_end}
 {txt}{p 0 16}
 S_MACH:{space 9}{res}{res}PC (64-bit x86-64)
 {p_end}
 {txt}{p 0 16}
+_sch_char_control_vars:{break}
+{res}fte_teach_pc fte_pupil_pc new_teacher_prop credential_full_prop male_prop enr_male_prop eth_minority_prop enr_minority_prop enr_total frpm_prop el_prop expenditures_instr_pc expenditures3000_pc expenditures4000_pc expenditures_other_pc expenditures7000_pc
+{p_end}
+{txt}{p 0 16}
+_expenditure_vars:{break}
+{res}expenditures_instr_pc expenditures3000_pc expenditures4000_pc expenditures_other_pc expenditures7000_pc
+{p_end}
+{txt}{p 0 16}
+_expenditures:{space 2}{res}{res}expenditures_instr_pc         expenditures3000_pc         expenditures4000_pc         expenditures_other_pc         expenditures7000_pc
+{p_end}
+{txt}{p 0 16}
+_dem_char_vars:{space 1}{res}{res}enr_male_prop enr_minority_prop frpm_prop el_prop enr_total
+{p_end}
+{txt}{p 0 16}
+_dem_chars:{space 5}{res}{res}enr_male_prop         enr_minority_prop         frpm_prop el_prop         enr_total
+{p_end}
+{txt}{p 0 16}
+_sch_char_vars:{space 1}{res}{res}fte_teach_pc fte_pupil_pc new_teacher_prop credential_full_prop male_prop enr_male_prop eth_minority_prop enr_minority_prop enr_total
+{p_end}
+{txt}{p 0 16}
+_sch_chars:{space 5}{res}{res}fte_teach_pc fte_pupil_pc                   new_teacher_prop                           credential_full_prop                  c.male_prop##c.enr_male_prop         c.eth_minority_prop##c.enr_minority_prop         enr_total
+{p_end}
+{txt}{p 0 16}
 _census_controls:{break}
 {res}eth_asian_pct eth_hispanic_pct eth_black_pct          educ_hs_dropout_prop  educ_deg_4year_plus_prop         pov_fam_child_lt18_pct         inc_median_hh
+{p_end}
+{txt}{p 0 16}
+_census_grade:{space 2}{res}{res}6
 {p_end}
 {txt}{p 0 16}
 _va_control_vars:{break}
@@ -245,64 +395,57 @@ _star_min_year:{space 1}{res}{res}2003
 {p_end}
 {txt}{p 0 16}
 _test_score_max_year:{break}
-{res}2019
+{res}2018
 {p_end}
 {txt}{p 0 16}
 _test_score_min_year:{break}
 {res}2015
 {p_end}
 {txt}{p 0 16}
-_sibling_out_xwalk:{break}
-{res}/home/research/ca_ed_lab/chesun/gsr/caschls/dta/siblingxwalk/sibling_out_xwalk
-{p_end}
-{txt}{p 0 16}
-_k12_postsecondary_out_merge:{break}
-{res}/home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/k12_postsecondary_out_merge
-{p_end}
-{txt}{p 0 16}
-_ufamilyxwalk:{space 2}{res}{res}/home/research/ca_ed_lab/chesun/gsr/caschls/dta/siblingxwalk/ufamilyxwalk
-{p_end}
-{txt}{p 0 16}
-_siblingxwalk:{space 2}{res}{res}/home/research/ca_ed_lab/chesun/gsr/caschls/dta/siblingxwalk/siblingpairxwalk
-{p_end}
-{txt}{p 0 16}
-_va_g11_out_dataset:{break}
-{res}/home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/va_g11_out_dataset
-{p_end}
-{txt}{p 0 16}
-_va_g11_dataset:{break}
-{res}/home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/va_g11_dataset
-{p_end}
-{txt}{p 0 16}
-_va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/chesun/gsr/caschls/dta/common_core_va/va_dataset
-{p_end}
-{txt}{p 0 16}
 _k12_test_scores_public:{break}
-{res}/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_test_scores
+{res}/home/research/ca_ed_lab/projects/common_core_va/data/public_access/clean/k12_test_scores
 {p_end}
 {txt}{p 0 16}
 _k12_public_schools:{break}
-{res}/home/research/ca_ed_lab/msnaven/data/public_access/clean/k12_public_schools
+{res}/home/research/ca_ed_lab/projects/common_core_va/data/public_access/clean/k12_public_schools
 {p_end}
 {txt}{p 0 16}
-_public_access:{space 1}{res}{res}/home/research/ca_ed_lab/data/public_access
+_public_access:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/public_access
 {p_end}
 {txt}{p 0 16}
 _k12_test_scores:{break}
-{res}/home/research/ca_ed_lab/msnaven/data/restricted_access/clean/k12_test_scores
+{res}/home/research/ca_ed_lab/projects/common_core_va/data/restricted_access/clean/k12_test_scores
 {p_end}
 {txt}{p 0 16}
 _ca_ed_lab:{space 5}{res}{res}/home/research/ca_ed_lab
 {p_end}
 {txt}{p 0 16}
-_common_core_va:{break}
-{res}/home/research/ca_ed_lab/msnaven/common_core_va
+_sibling_out_xwalk:{break}
+{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/siblingxwalk/sibling_out_xwalk
 {p_end}
 {txt}{p 0 16}
-_mattdofiles:{space 3}{res}{res}/home/research/ca_ed_lab/msnaven/common_core_va/do_files/sbac
+_k12_postsecondary_out_merge:{break}
+{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_core_va/k12_postsecondary_out_merge
 {p_end}
 {txt}{p 0 16}
-_matthomedir:{space 3}{res}{res}/home/research/ca_ed_lab/msnaven/common_core_va
+_ufamilyxwalk:{space 2}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/siblingxwalk/ufamilyxwalk
+{p_end}
+{txt}{p 0 16}
+_siblingxwalk:{space 2}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/siblingxwalk/siblingpairxwalk
+{p_end}
+{txt}{p 0 16}
+_va_g11_out_dataset:{break}
+{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_core_va/va_g11_out_dataset
+{p_end}
+{txt}{p 0 16}
+_va_g11_dataset:{break}
+{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_core_va/va_g11_dataset
+{p_end}
+{txt}{p 0 16}
+_va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_core_va/va_dataset
+{p_end}
+{txt}{p 0 16}
+_vaprojdofiles:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/do_files
 {p_end}
 {txt}
 {com}. 
@@ -324,11 +467,11 @@ _matthomedir:{space 3}{res}{res}/home/research/ca_ed_lab/msnaven/common_core_va
 {res}
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
-{col 5}Not matched{col 30}{res}       4,360,629
-{txt}{col 9}from master{col 30}{res}       1,252,476{txt}  (_merge==1)
-{col 9}from using{col 30}{res}       3,108,153{txt}  (_merge==2)
+{col 5}Not matched{col 30}{res}       4,157,551
+{txt}{col 9}from master{col 30}{res}         884,570{txt}  (_merge==1)
+{col 9}from using{col 30}{res}       3,272,981{txt}  (_merge==2)
 
-{col 5}Matched{col 30}{res}       1,169,409{txt}  (_merge==3)
+{col 5}Matched{col 30}{res}         900,294{txt}  (_merge==3)
 {col 5}{hline 41}
 
 {com}. drop _merge
@@ -343,7 +486,7 @@ _matthomedir:{space 3}{res}{res}/home/research/ca_ed_lab/msnaven/common_core_va
 {com}. save `va_g11_sibling_dataset'
 {txt}{p 0 4 2}
 file {bf}
-/home/tmp/St130955.000001{rm}
+/home/tmp/St192370.000001{rm}
 saved
 as .dta format
 {p_end}
@@ -366,7 +509,7 @@ as .dta format
 
 {txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-avg_birth_~y {c |}{res}  1,715,347     3.11413    1.738729          0   14.90137
+avg_birth_~y {c |}{res}  1,715,345    3.114058    1.738753          0   14.90137
 {txt}
 {com}. 
 . //in the sibling test score VA sample
@@ -376,11 +519,11 @@ avg_birth_~y {c |}{res}  1,715,347     3.11413    1.738729          0   14.90137
 {res}
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
-{col 5}Not matched{col 30}{res}       1,253,350
+{col 5}Not matched{col 30}{res}         885,444
 {txt}{col 9}from master{col 30}{res}             874{txt}  (_merge==1)
-{col 9}from using{col 30}{res}       1,252,476{txt}  (_merge==2)
+{col 9}from using{col 30}{res}         884,570{txt}  (_merge==2)
 
-{col 5}Matched{col 30}{res}       4,277,562{txt}  (_merge==3)
+{col 5}Matched{col 30}{res}       4,173,275{txt}  (_merge==3)
 {col 5}{hline 41}
 
 {com}. 
@@ -389,7 +532,7 @@ avg_birth_~y {c |}{res}  1,715,347     3.11413    1.738729          0   14.90137
 
 {txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-avg_birth_~y {c |}{res}    749,450    3.308654     1.66202          0   14.50137
+avg_birth_~y {c |}{res}    685,772    3.349951    1.637888          0   14.50137
 {txt}
 {com}. 
 . sum avg_birth_date_distance_family ///
@@ -397,13 +540,13 @@ avg_birth_~y {c |}{res}    749,450    3.308654     1.66202          0   14.50137
 
 {txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-avg_birth_~y {c |}{res}    746,054    3.308995    1.662302          0   14.50137
+avg_birth_~y {c |}{res}    682,836    3.350443    1.638021          0   14.50137
 {txt}
 {com}. 
 . 
 . 
 . 
-. use `va_g11_sibling_dataset', clear 
+. use `va_g11_sibling_dataset', clear
 {txt}(CST/SBAC Student Test Score Samples)
 
 {com}. //check the number of families in this sample
@@ -416,13 +559,13 @@ avg_birth_~y {c |}{res}    746,054    3.308995    1.662302          0   14.50137
 {txt}
 {com}. egen family_temp = group(ufamilyid) ///
 > if grade == 11 & touse_g11_ela==1 & sibling_full_sample == 1
-{res}{txt}(4,780,550 missing values generated)
+{res}{txt}(4,372,019 missing values generated)
 
 {com}. sum family_temp
 
 {txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 1}family_temp {c |}{res}    749,488    295962.8    166270.5          1     600210
+{space 1}family_temp {c |}{res}    685,826    280120.2    158804.8          1     570129
 {txt}
 {com}. drop family_temp
 {txt}
@@ -432,13 +575,13 @@ avg_birth_~y {c |}{res}    746,054    3.308995    1.662302          0   14.50137
 {txt}
 {com}. egen family_temp = group(ufamilyid) ///
 > if grade == 11 & touse_g11_math==1 & sibling_full_sample == 1
-{res}{txt}(4,783,946 missing values generated)
+{res}{txt}(4,374,954 missing values generated)
 
 {com}. sum family_temp
 
 {txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 1}family_temp {c |}{res}    746,092    294906.6    165695.6          1     598032
+{space 1}family_temp {c |}{res}    682,891    279138.3    158262.3          1     568115
 {txt}
 {com}. drop family_temp
 {txt}
@@ -455,13 +598,13 @@ avg_birth_~y {c |}{res}    746,054    3.308995    1.662302          0   14.50137
 {txt}
 {com}. egen family_temp = group(ufamilyid) ///
 > if grade == 11 & touse_g11_ela==1 & sibling_out_sample == 1
-{res}{txt}(5,077,074 missing values generated)
+{res}{txt}(4,380,591 missing values generated)
 
 {com}. sum family_temp
 
 {txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 1}family_temp {c |}{res}    452,964    197581.3    112032.3          1     396400
+{space 1}family_temp {c |}{res}    677,254    277124.7    157088.9          1     563849
 {txt}
 {com}. drop family_temp
 {txt}
@@ -471,13 +614,13 @@ avg_birth_~y {c |}{res}    746,054    3.308995    1.662302          0   14.50137
 {txt}
 {com}. egen family_temp = group(ufamilyid) ///
 > if grade == 11 & touse_g11_math==1 & sibling_out_sample == 1
-{res}{txt}(5,079,154 missing values generated)
+{res}{txt}(4,383,383 missing values generated)
 
 {com}. sum family_temp
 
 {txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 1}family_temp {c |}{res}    450,884    196727.3    111552.2          1     394689
+{space 1}family_temp {c |}{res}    674,462    276196.2    156576.4          1     561945
 {txt}
 {com}. drop family_temp
 {txt}
@@ -490,13 +633,12 @@ avg_birth_~y {c |}{res}    746,054    3.308995    1.662302          0   14.50137
      Spring {c |}
    Semester {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-       2015 {c |}{res}    174,345       23.26       23.26
-{txt}       2016 {c |}{res}     84,788       11.31       34.57
-{txt}       2017 {c |}{res}    171,800       22.92       57.50
-{txt}       2018 {c |}{res}    167,455       22.34       79.84
-{txt}       2019 {c |}{res}    151,100       20.16      100.00
+       2015 {c |}{res}    174,785       25.49       25.49
+{txt}       2016 {c |}{res}    171,579       25.02       50.50
+{txt}       2017 {c |}{res}    172,007       25.08       75.58
+{txt}       2018 {c |}{res}    167,455       24.42      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}    749,488      100.00
+      Total {c |}{res}    685,826      100.00
 {txt}
 {com}. 
 . tab year if grade == 11 & touse_g11_math==1 & sibling_full_sample == 1
@@ -505,13 +647,12 @@ avg_birth_~y {c |}{res}    746,054    3.308995    1.662302          0   14.50137
      Spring {c |}
    Semester {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-       2015 {c |}{res}    173,472       23.25       23.25
-{txt}       2016 {c |}{res}     84,306       11.30       34.55
-{txt}       2017 {c |}{res}    171,001       22.92       57.47
-{txt}       2018 {c |}{res}    166,926       22.37       79.84
-{txt}       2019 {c |}{res}    150,387       20.16      100.00
+       2015 {c |}{res}    173,908       25.47       25.47
+{txt}       2016 {c |}{res}    170,850       25.02       50.49
+{txt}       2017 {c |}{res}    171,207       25.07       75.56
+{txt}       2018 {c |}{res}    166,926       24.44      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}    746,092      100.00
+      Total {c |}{res}    682,891      100.00
 {txt}
 {com}. 
 . 
@@ -523,11 +664,14 @@ avg_birth_~y {c |}{res}    746,054    3.308995    1.662302          0   14.50137
 . 
 . timer off 1
 {txt}
+{com}. timer list 
+{res}   1:     71.83 /        1 =      71.8270
+{txt}
 {com}. log close
       {txt}name:  {res}<unnamed>
-       {txt}log:  {res}/home/research/ca_ed_lab/chesun/gsr/caschls/log/share/siblingvaregs/va_sibling_sample_sumstats.smcl
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sibling_sample_sumstats.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 3 Nov 2021, 18:42:30
+ {txt}closed on:  {res} 9 Apr 2022, 03:44:37
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

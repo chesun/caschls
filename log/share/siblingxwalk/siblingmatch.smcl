@@ -1,0 +1,550 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingxwalk/siblingmatch.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 7 Apr 2022, 15:54:07
+{txt}
+{com}. 
+. //append all years of CST datasets, from 2004 to 2013
+. foreach year of numlist 2004 (1) 2013 {c -(}
+{txt}  2{com}.   append using $cstdtadir/cst_`year', keep (state_student_id birth_date year ///
+>   first_name middle_intl last_name ///
+>   street_address_line_one street_address_line_two city state zip_code)
+{txt}  3{com}. {c )-}
+{txt}{p 0 7 2}
+(variable
+{bf:zip_code} was {bf:str1}, now {bf:str9} to accommodate using data's values)
+{p_end}
+(label {bf:{txt}cst_cma_capa_sts_perf_level} already defined)
+(label {bf:{txt}cst_capa_sts_raw_score} already defined)
+(label {bf:{txt}cst_eoc_science_subject} already defined)
+(label {bf:{txt}cst_math_subject} already defined)
+(label {bf:{txt}cbeds_school} already defined)
+(label {bf:{txt}cbeds_district} already defined)
+(label {bf:{txt}parent_education} already defined)
+(label {bf:{txt}white} already defined)
+(label {bf:{txt}other_pacific_islander} already defined)
+(label {bf:{txt}tahitian} already defined)
+(label {bf:{txt}samoan} already defined)
+(label {bf:{txt}guamanian} already defined)
+(label {bf:{txt}native_hawaiian} already defined)
+(label {bf:{txt}hispanic} already defined)
+(label {bf:{txt}filipino} already defined)
+(label {bf:{txt}other_asian} already defined)
+(label {bf:{txt}cambodian} already defined)
+(label {bf:{txt}laotian} already defined)
+(label {bf:{txt}indian} already defined)
+(label {bf:{txt}vietnamese} already defined)
+(label {bf:{txt}korean} already defined)
+(label {bf:{txt}japanese} already defined)
+(label {bf:{txt}chinese} already defined)
+(label {bf:{txt}native_american} already defined)
+(label {bf:{txt}black} already defined)
+(label {bf:{txt}ethnicity} already defined)
+(label {bf:{txt}disability_code} already defined)
+(label {bf:{txt}free_lunch} already defined)
+(label {bf:{txt}asam_enrolled_under_90_days} already defined)
+(label {bf:{txt}el_us_schools_under_12_months} already defined)
+(label {bf:{txt}gifted_talented} already defined)
+(label {bf:{txt}language} already defined)
+(label {bf:{txt}cst_ela_passed_3_years} already defined)
+(label {bf:{txt}english_proficiency} already defined)
+(label {bf:{txt}pre_id_indicator} already defined)
+(label {bf:{txt}male} already defined)
+(label {bf:{txt}record_type} already defined)
+(label {bf:{txt}cst_cma_capa_sts_perf_level} already defined)
+(label {bf:{txt}cst_capa_sts_raw_score} already defined)
+(label {bf:{txt}cst_eoc_science_subject} already defined)
+(label {bf:{txt}cst_math_subject} already defined)
+(label {bf:{txt}cbeds_school} already defined)
+(label {bf:{txt}cbeds_district} already defined)
+(label {bf:{txt}parent_education} already defined)
+(label {bf:{txt}white} already defined)
+(label {bf:{txt}other_pacific_islander} already defined)
+(label {bf:{txt}tahitian} already defined)
+(label {bf:{txt}samoan} already defined)
+(label {bf:{txt}guamanian} already defined)
+(label {bf:{txt}native_hawaiian} already defined)
+(label {bf:{txt}hispanic} already defined)
+(label {bf:{txt}filipino} already defined)
+(label {bf:{txt}other_asian} already defined)
+(label {bf:{txt}cambodian} already defined)
+(label {bf:{txt}laotian} already defined)
+(label {bf:{txt}indian} already defined)
+(label {bf:{txt}vietnamese} already defined)
+(label {bf:{txt}korean} already defined)
+(label {bf:{txt}japanese} already defined)
+(label {bf:{txt}chinese} already defined)
+(label {bf:{txt}native_american} already defined)
+(label {bf:{txt}black} already defined)
+(label {bf:{txt}ethnicity} already defined)
+(label {bf:{txt}disability_code} already defined)
+(label {bf:{txt}free_lunch} already defined)
+(label {bf:{txt}asam_enrolled_under_90_days} already defined)
+(label {bf:{txt}el_us_schools_under_12_months} already defined)
+(label {bf:{txt}gifted_talented} already defined)
+(label {bf:{txt}language} already defined)
+(label {bf:{txt}cst_ela_passed_3_years} already defined)
+(label {bf:{txt}english_proficiency} already defined)
+(label {bf:{txt}not_tested} already defined)
+(label {bf:{txt}male} already defined)
+(label {bf:{txt}record_type} already defined)
+(label {bf:{txt}cst_cma_capa_sts_perf_level} already defined)
+(label {bf:{txt}cst_capa_sts_raw_score} already defined)
+(label {bf:{txt}cst_capa_sts_include} already defined)
+(label {bf:{txt}cst_eoc_science_subject} already defined)
+(label {bf:{txt}cst_math_subject} already defined)
+(label {bf:{txt}cbeds_school} already defined)
+(label {bf:{txt}cbeds_district} already defined)
+(label {bf:{txt}parent_education} already defined)
+(label {bf:{txt}white} already defined)
+(label {bf:{txt}other_pacific_islander} already defined)
+(label {bf:{txt}tahitian} already defined)
+(label {bf:{txt}samoan} already defined)
+(label {bf:{txt}guamanian} already defined)
+(label {bf:{txt}native_hawaiian} already defined)
+(label {bf:{txt}hispanic} already defined)
+(label {bf:{txt}filipino} already defined)
+(label {bf:{txt}other_asian} already defined)
+(label {bf:{txt}cambodian} already defined)
+(label {bf:{txt}laotian} already defined)
+(label {bf:{txt}indian} already defined)
+(label {bf:{txt}vietnamese} already defined)
+(label {bf:{txt}korean} already defined)
+(label {bf:{txt}japanese} already defined)
+(label {bf:{txt}chinese} already defined)
+(label {bf:{txt}native_american} already defined)
+(label {bf:{txt}black} already defined)
+(label {bf:{txt}ethnicity} already defined)
+(label {bf:{txt}iep_nonpublic_nonsectarian} already defined)
+(label {bf:{txt}disability_code} already defined)
+(label {bf:{txt}free_lunch} already defined)
+(label {bf:{txt}asam_enrolled_under_90_days} already defined)
+(label {bf:{txt}el_us_schools_under_12_months} already defined)
+(label {bf:{txt}gifted_talented} already defined)
+(label {bf:{txt}language} already defined)
+(label {bf:{txt}cst_ela_passed_3_years} already defined)
+(label {bf:{txt}english_proficiency} already defined)
+(label {bf:{txt}not_tested} already defined)
+(label {bf:{txt}male} already defined)
+(label {bf:{txt}record_type} already defined)
+(label {bf:{txt}cst_cma_capa_sts_perf_level} already defined)
+(label {bf:{txt}cst_capa_sts_raw_score} already defined)
+(label {bf:{txt}cst_eoc_science_subject} already defined)
+(label {bf:{txt}cst_math_subject} already defined)
+(label {bf:{txt}cbeds_school} already defined)
+(label {bf:{txt}cbeds_district} already defined)
+(label {bf:{txt}parent_education} already defined)
+(label {bf:{txt}white} already defined)
+(label {bf:{txt}other_pacific_islander} already defined)
+(label {bf:{txt}tahitian} already defined)
+(label {bf:{txt}samoan} already defined)
+(label {bf:{txt}guamanian} already defined)
+(label {bf:{txt}native_hawaiian} already defined)
+(label {bf:{txt}hispanic} already defined)
+(label {bf:{txt}filipino} already defined)
+(label {bf:{txt}other_asian} already defined)
+(label {bf:{txt}cambodian} already defined)
+(label {bf:{txt}laotian} already defined)
+(label {bf:{txt}indian} already defined)
+(label {bf:{txt}vietnamese} already defined)
+(label {bf:{txt}korean} already defined)
+(label {bf:{txt}japanese} already defined)
+(label {bf:{txt}chinese} already defined)
+(label {bf:{txt}native_american} already defined)
+(label {bf:{txt}black} already defined)
+(label {bf:{txt}ethnicity} already defined)
+(label {bf:{txt}iep_nonpublic_nonsectarian} already defined)
+(label {bf:{txt}disability_code} already defined)
+(label {bf:{txt}free_lunch} already defined)
+(label {bf:{txt}asam_enrolled_under_90_days} already defined)
+(label {bf:{txt}el_us_schools_under_12_months} already defined)
+(label {bf:{txt}gifted_talented} already defined)
+(label {bf:{txt}language} already defined)
+(label {bf:{txt}cst_ela_passed_3_years} already defined)
+(label {bf:{txt}english_proficiency} already defined)
+(label {bf:{txt}not_tested} already defined)
+(label {bf:{txt}independent_charter_school} already defined)
+(label {bf:{txt}male} already defined)
+(label {bf:{txt}record_type} already defined)
+(label {bf:{txt}cst_cma_capa_sts_perf_level} already defined)
+(label {bf:{txt}cma_raw_score} already defined)
+(label {bf:{txt}cst_capa_sts_raw_score} already defined)
+(label {bf:{txt}cst_cma_results_reported} already defined)
+(label {bf:{txt}cst_eoc_science_subject} already defined)
+(label {bf:{txt}cst_math_subject} already defined)
+(label {bf:{txt}cbeds_school} already defined)
+(label {bf:{txt}cbeds_district} already defined)
+(label {bf:{txt}parent_education} already defined)
+(label {bf:{txt}white} already defined)
+(label {bf:{txt}other_pacific_islander} already defined)
+(label {bf:{txt}tahitian} already defined)
+(label {bf:{txt}samoan} already defined)
+(label {bf:{txt}guamanian} already defined)
+(label {bf:{txt}native_hawaiian} already defined)
+(label {bf:{txt}hispanic} already defined)
+(label {bf:{txt}filipino} already defined)
+(label {bf:{txt}other_asian} already defined)
+(label {bf:{txt}cambodian} already defined)
+(label {bf:{txt}laotian} already defined)
+(label {bf:{txt}indian} already defined)
+(label {bf:{txt}vietnamese} already defined)
+(label {bf:{txt}korean} already defined)
+(label {bf:{txt}japanese} already defined)
+(label {bf:{txt}chinese} already defined)
+(label {bf:{txt}native_american} already defined)
+(label {bf:{txt}black} already defined)
+(label {bf:{txt}ethnicity} already defined)
+(label {bf:{txt}iep_nonpublic_nonsectarian} already defined)
+(label {bf:{txt}disability_code} already defined)
+(label {bf:{txt}free_lunch} already defined)
+(label {bf:{txt}asam_enrolled_under_90_days} already defined)
+(label {bf:{txt}el_us_schools_under_12_months} already defined)
+(label {bf:{txt}gifted_talented} already defined)
+(label {bf:{txt}language} already defined)
+(label {bf:{txt}cst_ela_passed_3_years} already defined)
+(label {bf:{txt}english_proficiency} already defined)
+(label {bf:{txt}independent_charter_school} already defined)
+(label {bf:{txt}male} already defined)
+(label {bf:{txt}record_type} already defined)
+{p 0 7 2}
+(variable
+{bf:first_name} was {bf:str9}, now {bf:str10} to accommodate using data's values)
+{p_end}
+(label {bf:{txt}unmatched_writing_test} already defined)
+(label {bf:{txt}cst_cma_capa_sts_perf_level} already defined)
+(label {bf:{txt}cma_raw_score} already defined)
+(label {bf:{txt}cst_capa_sts_raw_score} already defined)
+(label {bf:{txt}cst_cma_results_reported} already defined)
+(label {bf:{txt}cst_eoc_science_subject} already defined)
+(label {bf:{txt}cst_math_subject} already defined)
+(label {bf:{txt}cbeds_school} already defined)
+(label {bf:{txt}cbeds_district} already defined)
+(label {bf:{txt}parent_education} already defined)
+(label {bf:{txt}ethnicity} already defined)
+(label {bf:{txt}white} already defined)
+(label {bf:{txt}black} already defined)
+(label {bf:{txt}filipino} already defined)
+(label {bf:{txt}other_pacific_islander} already defined)
+(label {bf:{txt}tahitian} already defined)
+(label {bf:{txt}samoan} already defined)
+(label {bf:{txt}guamanian} already defined)
+(label {bf:{txt}native_hawaiian} already defined)
+(label {bf:{txt}other_asian} already defined)
+(label {bf:{txt}cambodian} already defined)
+(label {bf:{txt}laotian} already defined)
+(label {bf:{txt}indian} already defined)
+(label {bf:{txt}vietnamese} already defined)
+(label {bf:{txt}korean} already defined)
+(label {bf:{txt}japanese} already defined)
+(label {bf:{txt}chinese} already defined)
+(label {bf:{txt}native_american} already defined)
+(label {bf:{txt}hispanic} already defined)
+(label {bf:{txt}iep_nonpublic_nonsectarian} already defined)
+(label {bf:{txt}disability_code} already defined)
+(label {bf:{txt}free_lunch} already defined)
+(label {bf:{txt}asam_enrolled_under_90_days} already defined)
+(label {bf:{txt}el_us_schools_under_12_months} already defined)
+(label {bf:{txt}gifted_talented} already defined)
+(label {bf:{txt}language} already defined)
+(label {bf:{txt}cst_ela_passed_3_years} already defined)
+(label {bf:{txt}english_proficiency} already defined)
+(label {bf:{txt}independent_charter_school} already defined)
+(label {bf:{txt}male} already defined)
+(label {bf:{txt}record_type} already defined)
+(label {bf:{txt}unmatched_writing_test} already defined)
+(label {bf:{txt}cst_cma_capa_sts_perf_level} already defined)
+(label {bf:{txt}cma_raw_score} already defined)
+(label {bf:{txt}cst_capa_sts_raw_score} already defined)
+(label {bf:{txt}cst_cma_results_reported} already defined)
+(label {bf:{txt}cst_eoc_science_subject} already defined)
+(label {bf:{txt}cst_math_subject} already defined)
+(label {bf:{txt}cbeds_school} already defined)
+(label {bf:{txt}cbeds_district} already defined)
+(label {bf:{txt}parent_education} already defined)
+(label {bf:{txt}ethnicity} already defined)
+(label {bf:{txt}white} already defined)
+(label {bf:{txt}black} already defined)
+(label {bf:{txt}filipino} already defined)
+(label {bf:{txt}other_pacific_islander} already defined)
+(label {bf:{txt}tahitian} already defined)
+(label {bf:{txt}samoan} already defined)
+(label {bf:{txt}guamanian} already defined)
+(label {bf:{txt}native_hawaiian} already defined)
+(label {bf:{txt}other_asian} already defined)
+(label {bf:{txt}hmong} already defined)
+(label {bf:{txt}cambodian} already defined)
+(label {bf:{txt}laotian} already defined)
+(label {bf:{txt}indian} already defined)
+(label {bf:{txt}vietnamese} already defined)
+(label {bf:{txt}korean} already defined)
+(label {bf:{txt}japanese} already defined)
+(label {bf:{txt}chinese} already defined)
+(label {bf:{txt}native_american} already defined)
+(label {bf:{txt}hispanic} already defined)
+(label {bf:{txt}iep_nonpublic_nonsectarian} already defined)
+(label {bf:{txt}disability_code} already defined)
+(label {bf:{txt}free_lunch} already defined)
+(label {bf:{txt}asam_enrolled_under_90_days} already defined)
+(label {bf:{txt}el_us_schools_under_12_months} already defined)
+(label {bf:{txt}gifted_talented} already defined)
+(label {bf:{txt}language} already defined)
+(label {bf:{txt}cst_ela_passed_3_years} already defined)
+(label {bf:{txt}english_proficiency} already defined)
+(label {bf:{txt}independent_charter_school} already defined)
+(label {bf:{txt}male} already defined)
+(label {bf:{txt}record_type} already defined)
+(label {bf:{txt}unmatched_writing_test} already defined)
+(label {bf:{txt}cst_cma_capa_sts_perf_level} already defined)
+(label {bf:{txt}cma_raw_score} already defined)
+(label {bf:{txt}cst_capa_sts_raw_score} already defined)
+(label {bf:{txt}cst_cma_results_reported} already defined)
+(label {bf:{txt}cma_assessed} already defined)
+(label {bf:{txt}cst_eoc_science_subject} already defined)
+(label {bf:{txt}cst_math_subject} already defined)
+(label {bf:{txt}cbeds_school} already defined)
+(label {bf:{txt}cbeds_district} already defined)
+(label {bf:{txt}parent_education} already defined)
+(label {bf:{txt}ethnicity} already defined)
+(label {bf:{txt}white} already defined)
+(label {bf:{txt}black} already defined)
+(label {bf:{txt}filipino} already defined)
+(label {bf:{txt}other_pacific_islander} already defined)
+(label {bf:{txt}tahitian} already defined)
+(label {bf:{txt}samoan} already defined)
+(label {bf:{txt}guamanian} already defined)
+(label {bf:{txt}native_hawaiian} already defined)
+(label {bf:{txt}other_asian} already defined)
+(label {bf:{txt}hmong} already defined)
+(label {bf:{txt}cambodian} already defined)
+(label {bf:{txt}laotian} already defined)
+(label {bf:{txt}indian} already defined)
+(label {bf:{txt}vietnamese} already defined)
+(label {bf:{txt}korean} already defined)
+(label {bf:{txt}japanese} already defined)
+(label {bf:{txt}chinese} already defined)
+(label {bf:{txt}native_american} already defined)
+(label {bf:{txt}hispanic} already defined)
+(label {bf:{txt}iep_nonpublic_nonsectarian} already defined)
+(label {bf:{txt}disability_code} already defined)
+(label {bf:{txt}free_lunch} already defined)
+(label {bf:{txt}el_us_schools_under_12_months} already defined)
+(label {bf:{txt}gifted_talented} already defined)
+(label {bf:{txt}language} already defined)
+(label {bf:{txt}cst_ela_passed_3_years} already defined)
+(label {bf:{txt}english_proficiency} already defined)
+(label {bf:{txt}independent_charter_school} already defined)
+(label {bf:{txt}male} already defined)
+(label {bf:{txt}record_type} already defined)
+(label {bf:{txt}unmatched_writing_test} already defined)
+(label {bf:{txt}cst_cma_capa_sts_perf_level} already defined)
+(label {bf:{txt}cma_raw_score} already defined)
+(label {bf:{txt}cst_capa_sts_raw_score} already defined)
+(label {bf:{txt}cst_cma_results_reported} already defined)
+(label {bf:{txt}cma_assessed} already defined)
+(label {bf:{txt}cst_eoc_science_subject} already defined)
+(label {bf:{txt}cst_math_subject} already defined)
+(label {bf:{txt}parent_education} already defined)
+(label {bf:{txt}ethnicity} already defined)
+(label {bf:{txt}white} already defined)
+(label {bf:{txt}black} already defined)
+(label {bf:{txt}filipino} already defined)
+(label {bf:{txt}other_pacific_islander} already defined)
+(label {bf:{txt}tahitian} already defined)
+(label {bf:{txt}samoan} already defined)
+(label {bf:{txt}guamanian} already defined)
+(label {bf:{txt}native_hawaiian} already defined)
+(label {bf:{txt}other_asian} already defined)
+(label {bf:{txt}hmong} already defined)
+(label {bf:{txt}cambodian} already defined)
+(label {bf:{txt}laotian} already defined)
+(label {bf:{txt}indian} already defined)
+(label {bf:{txt}vietnamese} already defined)
+(label {bf:{txt}korean} already defined)
+(label {bf:{txt}japanese} already defined)
+(label {bf:{txt}chinese} already defined)
+(label {bf:{txt}native_american} already defined)
+(label {bf:{txt}hispanic} already defined)
+(label {bf:{txt}iep_nonpublic_nonsectarian} already defined)
+(label {bf:{txt}disability_code} already defined)
+(label {bf:{txt}free_lunch} already defined)
+(label {bf:{txt}el_us_schools_under_12_months} already defined)
+(label {bf:{txt}gifted_talented} already defined)
+(label {bf:{txt}language} already defined)
+(label {bf:{txt}cst_ela_passed_3_years} already defined)
+(label {bf:{txt}english_proficiency} already defined)
+(label {bf:{txt}independent_charter_school} already defined)
+(label {bf:{txt}male} already defined)
+(label {bf:{txt}record_type} already defined)
+
+{com}. 
+. //drop observations with missing street address line 1. Note that missing() does not work since some observations have one character such as Y or 0
+. drop if strlen(street_address_line_one) <= 1
+{txt}(13,251,999 observations deleted)
+
+{com}. drop if missing(state_student_id)
+{txt}(3,380,685 observations deleted)
+
+{com}. tempfile master
+{txt}
+{com}. save `master'
+{txt}{p 0 4 2}
+file {bf}
+/home/tmp/St192370.000001{rm}
+saved
+as .dta format
+{p_end}
+
+{com}. 
+. 
+. ********************************************************************************
+. /* Match siblings based on last name, address, and year. This rules out cases
+> where someone with the same last name moves to the same address after the previous
+> student moves out */
+. local matchonsameyear = 1
+{txt}
+{com}. if `matchonsameyear' == 1 {c -(}
+. 
+.   use `master', clear
+. 
+.   /* check for duplicates. Do not need middle initial and zip code to be the same to count as duplicates, because
+>   middle initial has 38.56% missing and zip code has 7.36% missing, whereas city and state have around 0.01% and 0% missing, respectively.
+>   This avoids treating the same person with and w/o middle initial or zip code as different people
+>   Q: what if 2 people with same last and first names but different middle initial and born on the same day are twins? */
+.   duplicates report state_student_id year street_address_line_one street_address_line_two city state
+
+{p 0 4}{txt}Duplicates in terms of {res} state_student_id year street_address_line_one street_address_line_two city state{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   Copies {c |} Observations       Surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}     {res}31572828             0
+        {txt}2 {c |}       {res}378702        189351
+        {txt}3 {c |}           {res}72            48
+{txt}{hline 10}{c BT}{hline 27}
+{com}.   /* only keep one observation per state student ID, year, name, and address*/
+.   duplicates drop state_student_id year street_address_line_one street_address_line_two city state, force
+
+{p 0 4}{txt}Duplicates in terms of {res} state_student_id year street_address_line_one street_address_line_two city state{p_end}
+
+{txt}(189,399 observations deleted)
+{com}. 
+. 
+. 
+.   /* generate family groups based on last name, address, and year. Treat missing
+>   as any other variables and group observations with match vars missing into the same family */
+.   egen long siblings_name_address_year = group(year last_name street_address_line_one street_address_line_two city state zip_code), mi
+{res}{com}.   /* tostring siblings_name_address_year, replace format("%17.0f") */
+. 
+.   /* drop if no siblings */
+.   bysort siblings_name_address_year: drop if _N==1
+{txt}(19,542,084 observations deleted)
+{com}. 
+.   //generate a variable for number of siblings for each student
+.   bysort siblings_name_address_year: gen numsiblings = _N-1
+.   label var numsiblings "number of siblings excluding self"
+. 
+. 
+.   // Save data
+.   order siblings_name_address_year year numsiblings state_student_id first_name  last_name birth_date street_address_line_one street_address_line_two city state zip_code
+.   sort siblings_name_address_year year
+.   label var siblings_name_address_year "family ID after matching on name address and year"
+.   compress
+  {txt}variable {bf}{res}year{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}numsiblings{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}birth_date{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+{txt}  (85,540,833 bytes saved)
+{com}. 
+.   label data "CST data siblings crosswalk matching on same year, last name, and address"
+. 
+.   save $projdir/dta/siblingxwalk/k12_xwalk_name_address_year, replace
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/siblingxwalk/k12_xwalk_name_address_year.dta{rm}
+saved
+{p_end}
+{com}. {c )-}
+{txt}
+{com}. 
+. /* duplicates report state_student_id birth_date first_name last_name street_address_line_one street_address_line_two city state zip_code
+> duplicates report state_student_id birth_date first_name last_name street_address_line_one street_address_line_two city state */
+. 
+. 
+. ********************************************************************************
+. /* Match siblings based on last name and address */
+. local matchacrossyears = 1
+{txt}
+{com}. if `matchacrossyears' == 1 {c -(}
+.   use `master', clear
+. 
+.   /* check for duplicates and keep one observation per state student ID, last name, and address*/
+.   duplicates report state_student_id street_address_line_one street_address_line_two city state
+
+{p 0 4}{txt}Duplicates in terms of {res} state_student_id street_address_line_one street_address_line_two city state{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   Copies {c |} Observations       Surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}      {res}7281362             0
+        {txt}2 {c |}      {res}6420068       3210034
+        {txt}3 {c |}      {res}5274033       3516022
+        {txt}4 {c |}      {res}4033508       3025131
+        {txt}5 {c |}      {res}3029610       2423688
+        {txt}6 {c |}      {res}2234802       1862335
+        {txt}7 {c |}      {res}1694406       1452348
+        {txt}8 {c |}      {res}1223056       1070174
+        {txt}9 {c |}       {res}633780        563360
+       {txt}10 {c |}       {res}119520        107568
+       {txt}11 {c |}         {res}5544          5040
+       {txt}12 {c |}         {res}1416          1298
+       {txt}13 {c |}          {res}455           420
+       {txt}14 {c |}           {res}42            39
+{txt}{hline 10}{c BT}{hline 27}
+{com}.   duplicates drop state_student_id street_address_line_one street_address_line_two city state, force
+
+{p 0 4}{txt}Duplicates in terms of {res} state_student_id street_address_line_one street_address_line_two city state{p_end}
+
+{txt}(17,237,457 observations deleted)
+{com}. 
+.   // Group observations if they match on last name, and address
+.   egen long siblings_name_address = group(last_name street_address_line_one street_address_line_two city state zip_code), mi
+{res}{com}.   /* tostring siblings_name_address, replace format("%17.0f") */
+. 
+.   // Drop if no siblings
+.   bysort siblings_name_address: drop if _N==1
+{txt}(8,897,611 observations deleted)
+{com}. 
+.   //generate a variable for number of siblings for each student
+.   bysort siblings_name_address: gen numsiblings = _N-1
+.   label var numsiblings "number of siblings excluding self"
+. 
+.   //save data
+.   order siblings_name_address numsiblings state_student_id first_name last_name birth_date street_address_line_one street_address_line_two city state zip_code
+.   sort siblings_name_address
+.   label var siblings_name_address "family ID after matching on name and address"
+.   compress
+  {txt}variable {bf}{res}numsiblings{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}birth_date{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}year{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+{txt}  (40,715,738 bytes saved)
+{com}. 
+.   label data "CST data siblings crosswalk matching on same last name and address"
+. 
+.   save $projdir/dta/siblingxwalk/k12_xwalk_name_address, replace
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/siblingxwalk/k12_xwalk_name_address.dta{rm}
+saved
+{p_end}
+{com}. {c )-}
+{txt}
+{com}. 
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingxwalk/siblingmatch.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 7 Apr 2022, 16:14:31
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

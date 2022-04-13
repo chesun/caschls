@@ -1,0 +1,561 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/indexhorserace.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 7 Apr 2022, 14:57:52
+{txt}
+{com}. 
+. ////////////////////////////////////////////////////////////////////////////////
+> /* complete case analysis  */
+. 
+. 
+. use $projdir/dta/allsvyfactor/categoryindex/compcasecategoryindex, clear
+{txt}(parent pooled (over years) dataset ready for analysis with stats and response ra)
+
+{com}. 
+. //local macro for VA vars in z scores
+. local vasdvars z_va_ela z_va_math z_va_enr z_va_enrela z_va_enrmath z_va_enrdk z_va_2yr z_va_2yrela z_va_2yrmath z_va_2yrdk z_va_4yr z_va_4yrela z_va_4yrmath z_va_4yrdk
+{txt}
+{com}. 
+. //local macro for z score index vars
+. local indexsdvars z_climateindex z_qualityindex z_supportindex
+{txt}
+{com}. 
+. // regress va vars on index vars
+. foreach i of local vasdvars {c -(}
+{txt}  2{com}.   local append replace
+{txt}  3{com}. 
+.   eststo: reg `i' `indexsdvars'
+{txt}  4{com}. 
+.   local append append
+{txt}  5{com}. {c )-}
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       292
+{txt}{hline 13}{c +}{hline 34}   F(3, 288)       = {res}     6.59
+{txt}       Model {c |} {res} 18.0307781         3  6.01025938   {txt}Prob > F        ={res}    0.0003
+{txt}    Residual {c |} {res} 262.540536       288  .911599084   {txt}R-squared       ={res}    0.0643
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0545
+{txt}       Total {c |} {res} 280.571314       291  .964162592   {txt}Root MSE        =   {res} .95478
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}    z_va_ela{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+z_climatei~x {c |}{col 14}{res}{space 2} .2599395{col 26}{space 2} .1354908{col 37}{space 1}    1.92{col 46}{space 3}0.056{col 54}{space 4}-.0067382{col 67}{space 3} .5266172
+{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.0786621{col 26}{space 2}   .14348{col 37}{space 1}   -0.55{col 46}{space 3}0.584{col 54}{space 4}-.3610645{col 67}{space 3} .2037403
+{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0858614{col 26}{space 2} .0764097{col 37}{space 1}    1.12{col 46}{space 3}0.262{col 54}{space 4}-.0645309{col 67}{space 3} .2362536
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0130516{col 26}{space 2} .0561897{col 37}{space 1}   -0.23{col 46}{space 3}0.816{col 54}{space 4}-.1236462{col 67}{space 3} .0975431
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est1{txt} stored)
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       292
+{txt}{hline 13}{c +}{hline 34}   F(3, 288)       = {res}    15.36
+{txt}       Model {c |} {res} 36.4889552         3  12.1629851   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 228.070565       288  .791911683   {txt}R-squared       ={res}    0.1379
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1289
+{txt}       Total {c |} {res}  264.55952       291  .909139244   {txt}Root MSE        =   {res} .88989
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}   z_va_math{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+z_climatei~x {c |}{col 14}{res}{space 2} .4810994{col 26}{space 2} .1262834{col 37}{space 1}    3.81{col 46}{space 3}0.000{col 54}{space 4}  .232544{col 67}{space 3} .7296547
+{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.1705954{col 26}{space 2} .1337297{col 37}{space 1}   -1.28{col 46}{space 3}0.203{col 54}{space 4}-.4338069{col 67}{space 3} .0926161
+{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0394461{col 26}{space 2} .0712172{col 37}{space 1}    0.55{col 46}{space 3}0.580{col 54}{space 4}-.1007261{col 67}{space 3} .1796183
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0458346{col 26}{space 2} .0523713{col 37}{space 1}    0.88{col 46}{space 3}0.382{col 54}{space 4}-.0572445{col 67}{space 3} .1489136
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est2{txt} stored)
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       292
+{txt}{hline 13}{c +}{hline 34}   F(3, 288)       = {res}     7.96
+{txt}       Model {c |} {res} 22.4679406         3  7.48931354   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 271.072973       288  .941225602   {txt}R-squared       ={res}    0.0765
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0669
+{txt}       Total {c |} {res} 293.540914       291  1.00873166   {txt}Root MSE        =   {res} .97017
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}    z_va_enr{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+z_climatei~x {c |}{col 14}{res}{space 2} .4966697{col 26}{space 2} .1376749{col 37}{space 1}    3.61{col 46}{space 3}0.000{col 54}{space 4} .2256932{col 67}{space 3} .7676462
+{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.4961103{col 26}{space 2} .1457929{col 37}{space 1}   -3.40{col 46}{space 3}0.001{col 54}{space 4} -.783065{col 67}{space 3}-.2091556
+{txt}z_supporti~x {c |}{col 14}{res}{space 2} .1954197{col 26}{space 2} .0776414{col 37}{space 1}    2.52{col 46}{space 3}0.012{col 54}{space 4} .0426032{col 67}{space 3} .3482363
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .1473192{col 26}{space 2} .0570955{col 37}{space 1}    2.58{col 46}{space 3}0.010{col 54}{space 4} .0349418{col 67}{space 3} .2596966
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est3{txt} stored)
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       292
+{txt}{hline 13}{c +}{hline 34}   F(3, 288)       = {res}     5.51
+{txt}       Model {c |} {res} 16.9646204         3  5.65487348   {txt}Prob > F        ={res}    0.0011
+{txt}    Residual {c |} {res} 295.551244       288   1.0262196   {txt}R-squared       ={res}    0.0543
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0444
+{txt}       Total {c |} {res} 312.515864       291  1.07393768   {txt}Root MSE        =   {res}  1.013
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1} z_va_enrela{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+z_climatei~x {c |}{col 14}{res}{space 2} .4610388{col 26}{space 2} .1437566{col 37}{space 1}    3.21{col 46}{space 3}0.001{col 54}{space 4} .1780919{col 67}{space 3} .7439857
+{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.4845089{col 26}{space 2} .1522333{col 37}{space 1}   -3.18{col 46}{space 3}0.002{col 54}{space 4}-.7841398{col 67}{space 3} -.184878
+{txt}z_supporti~x {c |}{col 14}{res}{space 2} .1650698{col 26}{space 2} .0810712{col 37}{space 1}    2.04{col 46}{space 3}0.043{col 54}{space 4} .0055026{col 67}{space 3}  .324637
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .1617525{col 26}{space 2} .0596177{col 37}{space 1}    2.71{col 46}{space 3}0.007{col 54}{space 4} .0444108{col 67}{space 3} .2790941
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est4{txt} stored)
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       292
+{txt}{hline 13}{c +}{hline 34}   F(3, 288)       = {res}     4.32
+{txt}       Model {c |} {res} 12.6964435         3  4.23214782   {txt}Prob > F        ={res}    0.0053
+{txt}    Residual {c |} {res} 282.170463       288  .979758551   {txt}R-squared       ={res}    0.0431
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0331
+{txt}       Total {c |} {res} 294.866906       291  1.01328834   {txt}Root MSE        =   {res} .98983
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}z_va_enrmath{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+z_climatei~x {c |}{col 14}{res}{space 2} .3793902{col 26}{space 2} .1404647{col 37}{space 1}    2.70{col 46}{space 3}0.007{col 54}{space 4} .1029226{col 67}{space 3} .6558578
+{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.4627368{col 26}{space 2} .1487473{col 37}{space 1}   -3.11{col 46}{space 3}0.002{col 54}{space 4}-.7555064{col 67}{space 3}-.1699672
+{txt}z_supporti~x {c |}{col 14}{res}{space 2} .1683786{col 26}{space 2} .0792147{col 37}{space 1}    2.13{col 46}{space 3}0.034{col 54}{space 4} .0124654{col 67}{space 3} .3242919
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .1490122{col 26}{space 2} .0582525{col 37}{space 1}    2.56{col 46}{space 3}0.011{col 54}{space 4} .0343576{col 67}{space 3} .2636669
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est5{txt} stored)
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       292
+{txt}{hline 13}{c +}{hline 34}   F(3, 288)       = {res}     4.30
+{txt}       Model {c |} {res} 12.7033282         3  4.23444273   {txt}Prob > F        ={res}    0.0055
+{txt}    Residual {c |} {res}  283.63691       288  .984850382   {txt}R-squared       ={res}    0.0429
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0329
+{txt}       Total {c |} {res} 296.340238       291  1.01835133   {txt}Root MSE        =   {res}  .9924
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  z_va_enrdk{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+z_climatei~x {c |}{col 14}{res}{space 2} .3802284{col 26}{space 2} .1408293{col 37}{space 1}    2.70{col 46}{space 3}0.007{col 54}{space 4} .1030433{col 67}{space 3} .6574135
+{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.4636353{col 26}{space 2} .1491333{col 37}{space 1}   -3.11{col 46}{space 3}0.002{col 54}{space 4}-.7571647{col 67}{space 3}-.1701059
+{txt}z_supporti~x {c |}{col 14}{res}{space 2} .1679308{col 26}{space 2} .0794203{col 37}{space 1}    2.11{col 46}{space 3}0.035{col 54}{space 4}  .011613{col 67}{space 3} .3242487
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .1506894{col 26}{space 2} .0584037{col 37}{space 1}    2.58{col 46}{space 3}0.010{col 54}{space 4} .0357372{col 67}{space 3} .2656416
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est6{txt} stored)
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       292
+{txt}{hline 13}{c +}{hline 34}   F(3, 288)       = {res}     1.48
+{txt}       Model {c |} {res} 3.99256914         3  1.33085638   {txt}Prob > F        ={res}    0.2193
+{txt}    Residual {c |} {res} 258.436929       288  .897350447   {txt}R-squared       ={res}    0.0152
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0050
+{txt}       Total {c |} {res} 262.429498       291  .901819581   {txt}Root MSE        =   {res} .94729
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}    z_va_2yr{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+z_climatei~x {c |}{col 14}{res}{space 2} .1142074{col 26}{space 2} .1344277{col 37}{space 1}    0.85{col 46}{space 3}0.396{col 54}{space 4}-.1503779{col 67}{space 3} .3787928
+{txt}z_qualityi~x {c |}{col 14}{res}{space 2} -.247196{col 26}{space 2} .1423543{col 37}{space 1}   -1.74{col 46}{space 3}0.084{col 54}{space 4}-.5273827{col 67}{space 3} .0329907
+{txt}z_supporti~x {c |}{col 14}{res}{space 2}  .063542{col 26}{space 2} .0758102{col 37}{space 1}    0.84{col 46}{space 3}0.403{col 54}{space 4}-.0856703{col 67}{space 3} .2127542
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .2409721{col 26}{space 2} .0557489{col 37}{space 1}    4.32{col 46}{space 3}0.000{col 54}{space 4} .1312452{col 67}{space 3}  .350699
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est7{txt} stored)
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       292
+{txt}{hline 13}{c +}{hline 34}   F(3, 288)       = {res}     1.40
+{txt}       Model {c |} {res} 3.76012904         3  1.25337635   {txt}Prob > F        ={res}    0.2434
+{txt}    Residual {c |} {res} 258.121779       288  .896256178   {txt}R-squared       ={res}    0.0144
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0041
+{txt}       Total {c |} {res} 261.881908       291  .899937829   {txt}Root MSE        =   {res} .94671
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1} z_va_2yrela{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+z_climatei~x {c |}{col 14}{res}{space 2} .1222284{col 26}{space 2} .1343457{col 37}{space 1}    0.91{col 46}{space 3}0.364{col 54}{space 4}-.1421956{col 67}{space 3} .3866524
+{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.2448443{col 26}{space 2} .1422674{col 37}{space 1}   -1.72{col 46}{space 3}0.086{col 54}{space 4}-.5248601{col 67}{space 3} .0351715
+{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0526548{col 26}{space 2} .0757639{col 37}{space 1}    0.69{col 46}{space 3}0.488{col 54}{space 4}-.0964664{col 67}{space 3} .2017761
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .2418511{col 26}{space 2} .0557149{col 37}{space 1}    4.34{col 46}{space 3}0.000{col 54}{space 4} .1321911{col 67}{space 3} .3515111
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est8{txt} stored)
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       292
+{txt}{hline 13}{c +}{hline 34}   F(3, 288)       = {res}     1.28
+{txt}       Model {c |} {res} 3.45068106         3  1.15022702   {txt}Prob > F        ={res}    0.2824
+{txt}    Residual {c |} {res} 259.388727       288  .900655302   {txt}R-squared       ={res}    0.0131
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0028
+{txt}       Total {c |} {res} 262.839408       291  .903228206   {txt}Root MSE        =   {res} .94903
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}z_va_2yrmath{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+z_climatei~x {c |}{col 14}{res}{space 2} .1447285{col 26}{space 2}  .134675{col 37}{space 1}    1.07{col 46}{space 3}0.283{col 54}{space 4}-.1203437{col 67}{space 3} .4098006
+{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.2528814{col 26}{space 2} .1426162{col 37}{space 1}   -1.77{col 46}{space 3}0.077{col 54}{space 4}-.5335836{col 67}{space 3} .0278207
+{txt}z_supporti~x {c |}{col 14}{res}{space 2}  .054018{col 26}{space 2} .0759497{col 37}{space 1}    0.71{col 46}{space 3}0.478{col 54}{space 4}-.0954687{col 67}{space 3} .2035048
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .2435374{col 26}{space 2} .0558514{col 37}{space 1}    4.36{col 46}{space 3}0.000{col 54}{space 4} .1336086{col 67}{space 3} .3534662
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est9{txt} stored)
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       292
+{txt}{hline 13}{c +}{hline 34}   F(3, 288)       = {res}     1.29
+{txt}       Model {c |} {res} 3.49860967         3  1.16620322   {txt}Prob > F        ={res}    0.2780
+{txt}    Residual {c |} {res} 260.328096       288  .903916999   {txt}R-squared       ={res}    0.0133
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0030
+{txt}       Total {c |} {res} 263.826705       291  .906620981   {txt}Root MSE        =   {res} .95075
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  z_va_2yrdk{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+z_climatei~x {c |}{col 14}{res}{space 2} .1460207{col 26}{space 2} .1349187{col 37}{space 1}    1.08{col 46}{space 3}0.280{col 54}{space 4} -.119531{col 67}{space 3} .4115724
+{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.2542721{col 26}{space 2} .1428742{col 37}{space 1}   -1.78{col 46}{space 3}0.076{col 54}{space 4}-.5354821{col 67}{space 3} .0269379
+{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0524085{col 26}{space 2} .0760871{col 37}{space 1}    0.69{col 46}{space 3}0.492{col 54}{space 4}-.0973487{col 67}{space 3} .2021657
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .2467256{col 26}{space 2} .0559525{col 37}{space 1}    4.41{col 46}{space 3}0.000{col 54}{space 4}  .136598{col 67}{space 3} .3568533
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est10{txt} stored)
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       292
+{txt}{hline 13}{c +}{hline 34}   F(3, 288)       = {res}     7.54
+{txt}       Model {c |} {res} 16.8341975         3  5.61139916   {txt}Prob > F        ={res}    0.0001
+{txt}    Residual {c |} {res} 214.233195       288   .74386526   {txt}R-squared       ={res}    0.0729
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0632
+{txt}       Total {c |} {res} 231.067392       291  .794046022   {txt}Root MSE        =   {res} .86248
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}    z_va_4yr{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+z_climatei~x {c |}{col 14}{res}{space 2} .3191957{col 26}{space 2} .1223925{col 37}{space 1}    2.61{col 46}{space 3}0.010{col 54}{space 4} .0782984{col 67}{space 3}  .560093
+{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.2027695{col 26}{space 2} .1296094{col 37}{space 1}   -1.56{col 46}{space 3}0.119{col 54}{space 4}-.4578713{col 67}{space 3} .0523323
+{txt}z_supporti~x {c |}{col 14}{res}{space 2} .1255834{col 26}{space 2}  .069023{col 37}{space 1}    1.82{col 46}{space 3}0.070{col 54}{space 4}  -.01027{col 67}{space 3} .2614368
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.1287944{col 26}{space 2} .0507577{col 37}{space 1}   -2.54{col 46}{space 3}0.012{col 54}{space 4}-.2286976{col 67}{space 3}-.0288913
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est11{txt} stored)
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       292
+{txt}{hline 13}{c +}{hline 34}   F(3, 288)       = {res}     4.49
+{txt}       Model {c |} {res} 10.9372472         3  3.64574906   {txt}Prob > F        ={res}    0.0043
+{txt}    Residual {c |} {res} 234.042213       288  .812646574   {txt}R-squared       ={res}    0.0446
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0347
+{txt}       Total {c |} {res}  244.97946       291  .841853816   {txt}Root MSE        =   {res} .90147
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1} z_va_4yrela{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+z_climatei~x {c |}{col 14}{res}{space 2} .2658283{col 26}{space 2} .1279259{col 37}{space 1}    2.08{col 46}{space 3}0.039{col 54}{space 4}   .01404{col 67}{space 3} .5176167
+{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.1815165{col 26}{space 2} .1354691{col 37}{space 1}   -1.34{col 46}{space 3}0.181{col 54}{space 4}-.4481516{col 67}{space 3} .0851186
+{txt}z_supporti~x {c |}{col 14}{res}{space 2} .1072232{col 26}{space 2} .0721435{col 37}{space 1}    1.49{col 46}{space 3}0.138{col 54}{space 4}-.0347722{col 67}{space 3} .2492187
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.1266624{col 26}{space 2} .0530525{col 37}{space 1}   -2.39{col 46}{space 3}0.018{col 54}{space 4}-.2310823{col 67}{space 3}-.0222426
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est12{txt} stored)
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       292
+{txt}{hline 13}{c +}{hline 34}   F(3, 288)       = {res}     2.17
+{txt}       Model {c |} {res} 5.26830943         3  1.75610314   {txt}Prob > F        ={res}    0.0916
+{txt}    Residual {c |} {res} 232.991383       288  .808997859   {txt}R-squared       ={res}    0.0221
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0119
+{txt}       Total {c |} {res} 238.259693       291  .818761831   {txt}Root MSE        =   {res} .89944
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}z_va_4yrmath{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+z_climatei~x {c |}{col 14}{res}{space 2} .1603548{col 26}{space 2} .1276384{col 37}{space 1}    1.26{col 46}{space 3}0.210{col 54}{space 4}-.0908677{col 67}{space 3} .4115772
+{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.1403494{col 26}{space 2} .1351647{col 37}{space 1}   -1.04{col 46}{space 3}0.300{col 54}{space 4}-.4063852{col 67}{space 3} .1256864
+{txt}z_supporti~x {c |}{col 14}{res}{space 2}  .108545{col 26}{space 2} .0719814{col 37}{space 1}    1.51{col 46}{space 3}0.133{col 54}{space 4}-.0331313{col 67}{space 3} .2502213
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.1498139{col 26}{space 2} .0529333{col 37}{space 1}   -2.83{col 46}{space 3}0.005{col 54}{space 4} -.253999{col 67}{space 3}-.0456288
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est13{txt} stored)
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       292
+{txt}{hline 13}{c +}{hline 34}   F(3, 288)       = {res}     2.23
+{txt}       Model {c |} {res} 5.36305505         3  1.78768502   {txt}Prob > F        ={res}    0.0851
+{txt}    Residual {c |} {res} 231.088616       288  .802391027   {txt}R-squared       ={res}    0.0227
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0125
+{txt}       Total {c |} {res} 236.451671       291  .812548697   {txt}Root MSE        =   {res} .89576
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  z_va_4yrdk{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+z_climatei~x {c |}{col 14}{res}{space 2} .1601913{col 26}{space 2} .1271162{col 37}{space 1}    1.26{col 46}{space 3}0.209{col 54}{space 4}-.0900032{col 67}{space 3} .4103859
+{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.1400909{col 26}{space 2} .1346116{col 37}{space 1}   -1.04{col 46}{space 3}0.299{col 54}{space 4}-.4050382{col 67}{space 3} .1248564
+{txt}z_supporti~x {c |}{col 14}{res}{space 2} .1099075{col 26}{space 2} .0716869{col 37}{space 1}    1.53{col 46}{space 3}0.126{col 54}{space 4}-.0311891{col 67}{space 3} .2510041
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.1516327{col 26}{space 2} .0527167{col 37}{space 1}   -2.88{col 46}{space 3}0.004{col 54}{space 4}-.2553916{col 67}{space 3}-.0478739
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est14{txt} stored)
+
+{com}. 
+. esttab using $projdir/out/csv/factoranalysis/indexhorserace/compcasehorserace.csv, replace
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/compcasehorserace.csv"'})
+
+{com}. 
+. eststo clear
+{txt}
+{com}. 
+. 
+. 
+. ////////////////////////////////////////////////////////////////////////////////
+> /* imputed data analysis  */
+. 
+. use $projdir/dta/allsvyfactor/categoryindex/imputedcategoryindex, clear
+{txt}(parent pooled (over years) dataset ready for analysis with stats and response ra)
+
+{com}. 
+. //local macro for VA vars in z scores
+. local vasdvars z_va_ela z_va_math z_va_enr z_va_enrela z_va_enrmath z_va_enrdk z_va_2yr z_va_2yrela z_va_2yrmath z_va_2yrdk z_va_4yr z_va_4yrela z_va_4yrmath z_va_4yrdk
+{txt}
+{com}. 
+. //local macro for z score index vars
+. local indexsdvars z_climateindex z_qualityindex z_supportindex
+{txt}
+{com}. 
+. 
+. // regress va vars on index vars
+. foreach i of local vasdvars {c -(}
+{txt}  2{com}.   local append replace
+{txt}  3{com}. 
+.   eststo: reg `i' `indexsdvars'
+{txt}  4{com}. 
+.   local append append
+{txt}  5{com}. {c )-}
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       918
+{txt}{hline 13}{c +}{hline 34}   F(3, 914)       = {res}    22.55
+{txt}       Model {c |} {res} 63.1877118         3  21.0625706   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 853.812286       914  .934149109   {txt}R-squared       ={res}    0.0689
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0659
+{txt}       Total {c |} {res} 916.999998       917  .999999997   {txt}Root MSE        =   {res} .96651
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}    z_va_ela{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+z_climatei~x {c |}{col 14}{res}{space 2} .4060284{col 26}{space 2} .0608242{col 37}{space 1}    6.68{col 46}{space 3}0.000{col 54}{space 4}  .286657{col 67}{space 3} .5253998
+{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.2040856{col 26}{space 2} .0663197{col 37}{space 1}   -3.08{col 46}{space 3}0.002{col 54}{space 4}-.3342422{col 67}{space 3}-.0739291
+{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0233842{col 26}{space 2} .0408682{col 37}{space 1}    0.57{col 46}{space 3}0.567{col 54}{space 4}-.0568222{col 67}{space 3} .1035905
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0036669{col 26}{space 2} .0319105{col 37}{space 1}    0.11{col 46}{space 3}0.909{col 54}{space 4}-.0589595{col 67}{space 3} .0662932
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est1{txt} stored)
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       918
+{txt}{hline 13}{c +}{hline 34}   F(3, 914)       = {res}    36.53
+{txt}       Model {c |} {res} 98.1708303         3  32.7236101   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 818.829173       914  .895874369   {txt}R-squared       ={res}    0.1071
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1041
+{txt}       Total {c |} {res} 917.000003       917           1   {txt}Root MSE        =   {res} .94651
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}   z_va_math{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+z_climatei~x {c |}{col 14}{res}{space 2} .4557205{col 26}{space 2} .0595651{col 37}{space 1}    7.65{col 46}{space 3}0.000{col 54}{space 4} .3388202{col 67}{space 3} .5726208
+{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.1347833{col 26}{space 2} .0649468{col 37}{space 1}   -2.08{col 46}{space 3}0.038{col 54}{space 4}-.2622456{col 67}{space 3}-.0073211
+{txt}z_supporti~x {c |}{col 14}{res}{space 2}-.0350571{col 26}{space 2} .0400222{col 37}{space 1}   -0.88{col 46}{space 3}0.381{col 54}{space 4}-.1136031{col 67}{space 3}  .043489
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0056048{col 26}{space 2} .0312499{col 37}{space 1}    0.18{col 46}{space 3}0.858{col 54}{space 4}-.0557251{col 67}{space 3} .0669347
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est2{txt} stored)
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       917
+{txt}{hline 13}{c +}{hline 34}   F(3, 913)       = {res}    17.55
+{txt}       Model {c |} {res} 49.9504219         3  16.6501406   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 866.049571       913  .948575653   {txt}R-squared       ={res}    0.0545
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0514
+{txt}       Total {c |} {res} 915.999993       916  .999999992   {txt}Root MSE        =   {res} .97395
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}    z_va_enr{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+z_climatei~x {c |}{col 14}{res}{space 2} .4097032{col 26}{space 2} .0613002{col 37}{space 1}    6.68{col 46}{space 3}0.000{col 54}{space 4} .2893975{col 67}{space 3} .5300089
+{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.2851863{col 26}{space 2}   .06683{col 37}{space 1}   -4.27{col 46}{space 3}0.000{col 54}{space 4}-.4163446{col 67}{space 3} -.154028
+{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0351074{col 26}{space 2} .0411827{col 37}{space 1}    0.85{col 46}{space 3}0.394{col 54}{space 4}-.0457163{col 67}{space 3} .1159312
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}  .002111{col 26}{space 2} .0321744{col 37}{space 1}    0.07{col 46}{space 3}0.948{col 54}{space 4}-.0610333{col 67}{space 3} .0652553
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est3{txt} stored)
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       917
+{txt}{hline 13}{c +}{hline 34}   F(3, 913)       = {res}    10.69
+{txt}       Model {c |} {res} 31.0701743         3  10.3567248   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 884.929828       913  .969255014   {txt}R-squared       ={res}    0.0339
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0307
+{txt}       Total {c |} {res} 916.000002       916           1   {txt}Root MSE        =   {res} .98451
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1} z_va_enrela{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+z_climatei~x {c |}{col 14}{res}{space 2} .3330795{col 26}{space 2} .0619648{col 37}{space 1}    5.38{col 46}{space 3}0.000{col 54}{space 4} .2114695{col 67}{space 3} .4546895
+{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.2436953{col 26}{space 2} .0675546{col 37}{space 1}   -3.61{col 46}{space 3}0.000{col 54}{space 4}-.3762756{col 67}{space 3} -.111115
+{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0218751{col 26}{space 2} .0416292{col 37}{space 1}    0.53{col 46}{space 3}0.599{col 54}{space 4}-.0598249{col 67}{space 3}  .103575
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0013168{col 26}{space 2} .0325232{col 37}{space 1}    0.04{col 46}{space 3}0.968{col 54}{space 4} -.062512{col 67}{space 3} .0651457
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est4{txt} stored)
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       917
+{txt}{hline 13}{c +}{hline 34}   F(3, 913)       = {res}     7.80
+{txt}       Model {c |} {res} 22.8933354         3   7.6311118   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res}  893.10666       913  .978211019   {txt}R-squared       ={res}    0.0250
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0218
+{txt}       Total {c |} {res} 915.999996       916  .999999995   {txt}Root MSE        =   {res} .98905
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}z_va_enrmath{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+z_climatei~x {c |}{col 14}{res}{space 2}  .293192{col 26}{space 2} .0622504{col 37}{space 1}    4.71{col 46}{space 3}0.000{col 54}{space 4} .1710214{col 67}{space 3} .4153625
+{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.2579007{col 26}{space 2} .0678659{col 37}{space 1}   -3.80{col 46}{space 3}0.000{col 54}{space 4}-.3910921{col 67}{space 3}-.1247093
+{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0348401{col 26}{space 2}  .041821{col 37}{space 1}    0.83{col 46}{space 3}0.405{col 54}{space 4}-.0472365{col 67}{space 3} .1169166
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0002695{col 26}{space 2} .0326731{col 37}{space 1}    0.01{col 46}{space 3}0.993{col 54}{space 4}-.0638536{col 67}{space 3} .0643925
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est5{txt} stored)
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       917
+{txt}{hline 13}{c +}{hline 34}   F(3, 913)       = {res}     7.67
+{txt}       Model {c |} {res} 22.5038364         3  7.50127881   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 893.496162       913  .978637636   {txt}R-squared       ={res}    0.0246
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0214
+{txt}       Total {c |} {res} 915.999998       916  .999999998   {txt}Root MSE        =   {res} .98926
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  z_va_enrdk{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+z_climatei~x {c |}{col 14}{res}{space 2}  .290852{col 26}{space 2}  .062264{col 37}{space 1}    4.67{col 46}{space 3}0.000{col 54}{space 4} .1686549{col 67}{space 3} .4130492
+{txt}z_qualityi~x {c |}{col 14}{res}{space 2} -.255567{col 26}{space 2} .0678807{col 37}{space 1}   -3.76{col 46}{space 3}0.000{col 54}{space 4}-.3887874{col 67}{space 3}-.1223466
+{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0340431{col 26}{space 2} .0418302{col 37}{space 1}    0.81{col 46}{space 3}0.416{col 54}{space 4}-.0480514{col 67}{space 3} .1161376
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0002669{col 26}{space 2} .0326802{col 37}{space 1}    0.01{col 46}{space 3}0.993{col 54}{space 4}-.0638701{col 67}{space 3}  .064404
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est6{txt} stored)
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       917
+{txt}{hline 13}{c +}{hline 34}   F(3, 913)       = {res}     3.49
+{txt}       Model {c |} {res} 10.3772144         3  3.45907145   {txt}Prob > F        ={res}    0.0154
+{txt}    Residual {c |} {res} 905.622784       913  .991919807   {txt}R-squared       ={res}    0.0113
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0081
+{txt}       Total {c |} {res} 915.999998       916  .999999998   {txt}Root MSE        =   {res} .99595
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}    z_va_2yr{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+z_climatei~x {c |}{col 14}{res}{space 2} .1228292{col 26}{space 2} .0626851{col 37}{space 1}    1.96{col 46}{space 3}0.050{col 54}{space 4}-.0001944{col 67}{space 3} .2458529
+{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.2019707{col 26}{space 2} .0683398{col 37}{space 1}   -2.96{col 46}{space 3}0.003{col 54}{space 4}-.3360921{col 67}{space 3}-.0678493
+{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0144505{col 26}{space 2} .0421131{col 37}{space 1}    0.34{col 46}{space 3}0.732{col 54}{space 4}-.0681992{col 67}{space 3} .0971001
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0022984{col 26}{space 2} .0329012{col 37}{space 1}   -0.07{col 46}{space 3}0.944{col 54}{space 4}-.0668692{col 67}{space 3} .0622725
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est7{txt} stored)
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       917
+{txt}{hline 13}{c +}{hline 34}   F(3, 913)       = {res}     3.45
+{txt}       Model {c |} {res} 10.2648988         3  3.42163293   {txt}Prob > F        ={res}    0.0162
+{txt}    Residual {c |} {res} 905.735102       913  .992042828   {txt}R-squared       ={res}    0.0112
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0080
+{txt}       Total {c |} {res} 916.000001       916           1   {txt}Root MSE        =   {res} .99601
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1} z_va_2yrela{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+z_climatei~x {c |}{col 14}{res}{space 2} .1241794{col 26}{space 2}  .062689{col 37}{space 1}    1.98{col 46}{space 3}0.048{col 54}{space 4} .0011481{col 67}{space 3} .2472106
+{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.1998511{col 26}{space 2} .0683441{col 37}{space 1}   -2.92{col 46}{space 3}0.004{col 54}{space 4}-.3339808{col 67}{space 3}-.0657213
+{txt}z_supporti~x {c |}{col 14}{res}{space 2}  .010682{col 26}{space 2} .0421157{col 37}{space 1}    0.25{col 46}{space 3}0.800{col 54}{space 4}-.0719728{col 67}{space 3} .0933368
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0022686{col 26}{space 2} .0329033{col 37}{space 1}   -0.07{col 46}{space 3}0.945{col 54}{space 4}-.0668434{col 67}{space 3} .0623063
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est8{txt} stored)
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       917
+{txt}{hline 13}{c +}{hline 34}   F(3, 913)       = {res}     3.41
+{txt}       Model {c |} {res} 10.1617529         3  3.38725097   {txt}Prob > F        ={res}    0.0170
+{txt}    Residual {c |} {res} 905.838248       913  .992155803   {txt}R-squared       ={res}    0.0111
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0078
+{txt}       Total {c |} {res} 916.000001       916           1   {txt}Root MSE        =   {res} .99607
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}z_va_2yrmath{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+z_climatei~x {c |}{col 14}{res}{space 2} .1435104{col 26}{space 2} .0626926{col 37}{space 1}    2.29{col 46}{space 3}0.022{col 54}{space 4} .0204721{col 67}{space 3} .2665486
+{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.2054688{col 26}{space 2}  .068348{col 37}{space 1}   -3.01{col 46}{space 3}0.003{col 54}{space 4}-.3396062{col 67}{space 3}-.0713315
+{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0097091{col 26}{space 2} .0421181{col 37}{space 1}    0.23{col 46}{space 3}0.818{col 54}{space 4}-.0729504{col 67}{space 3} .0923686
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0020056{col 26}{space 2} .0329052{col 37}{space 1}   -0.06{col 46}{space 3}0.951{col 54}{space 4}-.0665841{col 67}{space 3} .0625729
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est9{txt} stored)
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       917
+{txt}{hline 13}{c +}{hline 34}   F(3, 913)       = {res}     3.28
+{txt}       Model {c |} {res} 9.76290173         3  3.25430058   {txt}Prob > F        ={res}    0.0205
+{txt}    Residual {c |} {res} 906.237097       913  .992592658   {txt}R-squared       ={res}    0.0107
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0074
+{txt}       Total {c |} {res} 915.999999       916  .999999999   {txt}Root MSE        =   {res} .99629
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  z_va_2yrdk{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+z_climatei~x {c |}{col 14}{res}{space 2} .1371292{col 26}{space 2} .0627064{col 37}{space 1}    2.19{col 46}{space 3}0.029{col 54}{space 4} .0140639{col 67}{space 3} .2601946
+{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.1993448{col 26}{space 2}  .068363{col 37}{space 1}   -2.92{col 46}{space 3}0.004{col 54}{space 4}-.3335117{col 67}{space 3}-.0651779
+{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0076187{col 26}{space 2} .0421274{col 37}{space 1}    0.18{col 46}{space 3}0.857{col 54}{space 4} -.075059{col 67}{space 3} .0902964
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0020174{col 26}{space 2} .0329124{col 37}{space 1}   -0.06{col 46}{space 3}0.951{col 54}{space 4}-.0666102{col 67}{space 3} .0625753
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est10{txt} stored)
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       917
+{txt}{hline 13}{c +}{hline 34}   F(3, 913)       = {res}    12.54
+{txt}       Model {c |} {res} 36.2364544         3  12.0788181   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 879.763548       913  .963596438   {txt}R-squared       ={res}    0.0396
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0364
+{txt}       Total {c |} {res} 916.000002       916           1   {txt}Root MSE        =   {res} .98163
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}    z_va_4yr{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+z_climatei~x {c |}{col 14}{res}{space 2} .2285464{col 26}{space 2} .0617837{col 37}{space 1}    3.70{col 46}{space 3}0.000{col 54}{space 4} .1072919{col 67}{space 3} .3498009
+{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.0444934{col 26}{space 2} .0673571{col 37}{space 1}   -0.66{col 46}{space 3}0.509{col 54}{space 4}-.1766861{col 67}{space 3} .0876993
+{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0216935{col 26}{space 2} .0415075{col 37}{space 1}    0.52{col 46}{space 3}0.601{col 54}{space 4}-.0597676{col 67}{space 3} .1031547
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0041471{col 26}{space 2} .0324281{col 37}{space 1}    0.13{col 46}{space 3}0.898{col 54}{space 4}-.0594952{col 67}{space 3} .0677893
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est11{txt} stored)
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       917
+{txt}{hline 13}{c +}{hline 34}   F(3, 913)       = {res}     7.11
+{txt}       Model {c |} {res} 20.9049033         3  6.96830109   {txt}Prob > F        ={res}    0.0001
+{txt}    Residual {c |} {res} 895.095095       913  .980388932   {txt}R-squared       ={res}    0.0228
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0196
+{txt}       Total {c |} {res} 915.999998       916  .999999998   {txt}Root MSE        =   {res} .99015
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1} z_va_4yrela{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+z_climatei~x {c |}{col 14}{res}{space 2} .1486306{col 26}{space 2} .0623197{col 37}{space 1}    2.38{col 46}{space 3}0.017{col 54}{space 4} .0263241{col 67}{space 3} .2709371
+{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.0012805{col 26}{space 2} .0679415{col 37}{space 1}   -0.02{col 46}{space 3}0.985{col 54}{space 4}-.1346201{col 67}{space 3} .1320591
+{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0141555{col 26}{space 2} .0418676{col 37}{space 1}    0.34{col 46}{space 3}0.735{col 54}{space 4}-.0680124{col 67}{space 3} .0963234
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}  .003407{col 26}{space 2} .0327094{col 37}{space 1}    0.10{col 46}{space 3}0.917{col 54}{space 4}-.0607874{col 67}{space 3} .0676014
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est12{txt} stored)
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       917
+{txt}{hline 13}{c +}{hline 34}   F(3, 913)       = {res}     3.18
+{txt}       Model {c |} {res} 9.47216635         3  3.15738878   {txt}Prob > F        ={res}    0.0234
+{txt}    Residual {c |} {res} 906.527836       913  .992911102   {txt}R-squared       ={res}    0.0103
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0071
+{txt}       Total {c |} {res} 916.000003       916           1   {txt}Root MSE        =   {res} .99645
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}z_va_4yrmath{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+z_climatei~x {c |}{col 14}{res}{space 2} .0876496{col 26}{space 2} .0627164{col 37}{space 1}    1.40{col 46}{space 3}0.163{col 54}{space 4}-.0354354{col 67}{space 3} .2107347
+{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.0000668{col 26}{space 2}  .068374{col 37}{space 1}   -0.00{col 46}{space 3}0.999{col 54}{space 4}-.1342553{col 67}{space 3} .1341216
+{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0270754{col 26}{space 2} .0421341{col 37}{space 1}    0.64{col 46}{space 3}0.521{col 54}{space 4}-.0556155{col 67}{space 3} .1097664
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}  .002295{col 26}{space 2} .0329177{col 37}{space 1}    0.07{col 46}{space 3}0.944{col 54}{space 4}-.0623081{col 67}{space 3} .0668981
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est13{txt} stored)
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       917
+{txt}{hline 13}{c +}{hline 34}   F(3, 913)       = {res}     3.32
+{txt}       Model {c |} {res} 9.87506998         3  3.29168999   {txt}Prob > F        ={res}    0.0194
+{txt}    Residual {c |} {res} 906.124933       913  .992469806   {txt}R-squared       ={res}    0.0108
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0075
+{txt}       Total {c |} {res} 916.000003       916           1   {txt}Root MSE        =   {res} .99623
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  z_va_4yrdk{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+z_climatei~x {c |}{col 14}{res}{space 2} .0933456{col 26}{space 2} .0627025{col 37}{space 1}    1.49{col 46}{space 3}0.137{col 54}{space 4}-.0297122{col 67}{space 3} .2164033
+{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.0054509{col 26}{space 2} .0683588{col 37}{space 1}   -0.08{col 46}{space 3}0.936{col 54}{space 4}-.1396095{col 67}{space 3} .1287077
+{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0287247{col 26}{space 2} .0421247{col 37}{space 1}    0.68{col 46}{space 3}0.495{col 54}{space 4}-.0539478{col 67}{space 3} .1113973
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0023046{col 26}{space 2} .0329104{col 37}{space 1}    0.07{col 46}{space 3}0.944{col 54}{space 4}-.0622841{col 67}{space 3} .0668934
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est14{txt} stored)
+
+{com}. 
+. esttab using $projdir/out/csv/factoranalysis/indexhorserace/imputedhorserace.csv, replace
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/imputedhorserace.csv"'})
+
+{com}. 
+. eststo clear
+{txt}
+{com}. 
+. 
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/indexhorserace.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 7 Apr 2022, 14:57:53
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

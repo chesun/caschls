@@ -1,0 +1,1201 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factor
+> analysis/compcasecategoryindex.smcl
+  log type:  smcl
+ opened on:   7 Apr 2022, 14:57:51
+
+. 
+. use $projdir/dta/allsvyfactor/allsvyqoimeans, clear
+(parent pooled (over years) dataset ready for analysis with stats and response 
+> ra)
+
+. 
+. local climatevars parentqoi16mean_pooled parentqoi17mean_pooled parentqoi27me
+> an_pooled secqoi22mean_pooled secqoi23mean_pooled secqoi24mean_pooled secqoi2
+> 6mean_pooled secqoi27mean_pooled  secqoi29mean_pooled
+
+. local qualityvars parentqoi30mean_pooled parentqoi31mean_pooled parentqoi32me
+> an_pooled parentqoi33mean_pooled parentqoi34mean_pooled secqoi28mean_pooled s
+> ecqoi35mean_pooled secqoi36mean_pooled secqoi37mean_pooled secqoi38mean_poole
+> d secqoi39mean_pooled secqoi40mean_pooled staffqoi20mean_pooled staffqoi24mea
+> n_pooled staffqoi87mean_pooled
+
+. local supportvars parentqoi15mean_pooled parentqoi64mean_pooled staffqoi10mea
+> n_pooled staffqoi128mean_pooled
+
+. /* local motivationvars secqoi31mean_pooled secqoi32mean_pooled secqoi33mean_
+> pooled secqoi34mean_pooled */
+. 
+. /* generate linear index by summing the variables in each category */
+. gen climateindex = 0
+
+. 
+. foreach climatevar of local climatevars {
+  2.   replace climateindex = climateindex + `climatevar'
+  3. }
+(932 real changes made, 522 to missing)
+(412 real changes made)
+(411 real changes made)
+(414 real changes made, 3 to missing)
+(411 real changes made)
+(411 real changes made)
+(411 real changes made)
+(410 real changes made, 1 to missing)
+(410 real changes made)
+
+. 
+. gen qualityindex = 0
+
+. 
+. foreach qualityvar of local qualityvars {
+  2.   replace qualityindex =  qualityindex + `qualityvar'
+  3. }
+(933 real changes made, 567 to missing)
+(368 real changes made)
+(363 real changes made, 37 to missing)
+(330 real changes made)
+(328 real changes made)
+(331 real changes made, 1 to missing)
+(331 real changes made)
+(331 real changes made)
+(329 real changes made)
+(331 real changes made)
+(331 real changes made)
+(331 real changes made)
+(331 real changes made, 12 to missing)
+(319 real changes made, 20 to missing)
+(299 real changes made)
+
+. 
+. gen supportindex = 0
+
+. 
+. foreach supportvar of local supportvars {
+  2.   replace supportindex = supportindex + `supportvar'
+  3. }
+(928 real changes made, 522 to missing)
+(409 real changes made, 3 to missing)
+(409 real changes made, 18 to missing)
+(391 real changes made)
+
+. 
+. 
+. //creating a local macro for va variables
+. local vavars va_ela va_math va_enr va_enrela va_enrmath va_enrdk va_2yr va_2y
+> rela va_2yrmath va_2yrdk va_4yr va_4yrela va_4yrmath va_4yrdk
+
+. 
+. // local macro for index vars
+. local indexvars climateindex qualityindex supportindex
+
+. 
+. //generate standardized z scores for variables
+. foreach i of local vavars {
+  2.   sum `i'
+  3.   gen z_`i' = (`i' - r(mean))/r(sd)
+  4. }
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+      va_ela |        918   -.0044957    .1244807  -.5117936   .4654645
+(18 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+     va_math |        918   -.0092631    .1293891  -.4140317    .533576
+(18 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+      va_enr |        917   -.0065057     .070122  -.3218017   .1879139
+(19 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+   va_enrela |        917   -.0065926    .0667884  -.2764804   .1895136
+(19 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+  va_enrmath |        917     -.00558    .0640854  -.2734655   .1611573
+(19 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    va_enrdk |        917   -.0056182    .0641014  -.2717487   .1612013
+(19 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+      va_2yr |        917     .000243    .0878421  -.2201452   .3168623
+(19 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+   va_2yrela |        917    .0000878    .0879257  -.2211967   .3173668
+(19 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+  va_2yrmath |        917   -.0001205    .0874952  -.2276422   .3271176
+(19 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    va_2yrdk |        917   -.0002113    .0872508  -.2205214   .3273853
+(19 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+      va_4yr |        917   -.0075877    .0823293  -.2059489   .3337834
+(19 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+   va_4yrela |        917   -.0075587    .0794496   -.214651   .2841309
+(19 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+  va_4yrmath |        917   -.0061947    .0739263  -.2563807   .2777519
+(19 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    va_4yrdk |        917   -.0061365    .0738012  -.2564268    .275094
+(19 missing values generated)
+
+. 
+. foreach i of local indexvars {
+  2.   sum `i'
+  3.   gen z_`i' = (`i' - r(mean))/r(sd)
+  4. }
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+climateindex |        410    5.396399     2.01696  -.2750432       12.1
+(526 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+qualityindex |        299    10.86374    3.174672   .4187376       22.8
+(637 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+supportindex |        393    3.417469    1.129727  -1.890909   6.784119
+(543 missing values generated)
+
+. 
+. // regress va vars on index vars, have one file for each index to save N in t
+> he dataset
+. foreach i of local indexvars {
+  2. 
+. 
+.   foreach j of local vavars {
+  3.     reg z_`j' z_`i'
+  4.     regsave using $projdir/out/dta/factor/compcase/`i'_`j'_compregs, repla
+> ce table(`j', format(%7.2f) parentheses(stderr) asterisk())
+  5. 
+.   }
+  6. }
+
+      Source |       SS           df       MS      Number of obs   =       400
+-------------+----------------------------------   F(1, 398)       =     16.96
+       Model |  15.2628412         1  15.2628412   Prob > F        =    0.0000
+    Residual |  358.069512       398  .899672141   R-squared       =    0.0409
+-------------+----------------------------------   Adj R-squared   =    0.0385
+       Total |  373.332353       399  .935670059   Root MSE        =    .94851
+
+------------------------------------------------------------------------------
+    z_va_ela | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_climatei~x |   .2033096   .0493608     4.12   0.000     .1062691    .3003501
+       _cons |  -.0249341   .0474507    -0.53   0.600    -.1182195    .0683512
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /climateindex_va_ela_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       400
+-------------+----------------------------------   F(1, 398)       =     34.01
+       Model |  28.2290693         1  28.2290693   Prob > F        =    0.0000
+    Residual |  330.308457       398  .829920745   R-squared       =    0.0787
+-------------+----------------------------------   Adj R-squared   =    0.0764
+       Total |  358.537526       399  .898590291   Root MSE        =      .911
+
+------------------------------------------------------------------------------
+   z_va_math | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_climatei~x |   .2764958   .0474088     5.83   0.000     .1832929    .3696987
+       _cons |   .0063177   .0455742     0.14   0.890    -.0832785     .095914
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /climateindex_va_math_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       400
+-------------+----------------------------------   F(1, 398)       =      5.15
+       Model |  5.35370035         1  5.35370035   Prob > F        =    0.0237
+    Residual |  413.528989       398  1.03901756   R-squared       =    0.0128
+-------------+----------------------------------   Adj R-squared   =    0.0103
+       Total |  418.882689       399   1.0498313   Root MSE        =    1.0193
+
+------------------------------------------------------------------------------
+    z_va_enr | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_climatei~x |   .1204113   .0530459     2.27   0.024     .0161262    .2246965
+       _cons |   .0334338   .0509932     0.66   0.512    -.0668158    .1336835
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /climateindex_va_enr_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       400
+-------------+----------------------------------   F(1, 398)       =      2.17
+       Model |   2.3767137         1   2.3767137   Prob > F        =    0.1411
+    Residual |  435.025647       398  1.09302926   R-squared       =    0.0054
+-------------+----------------------------------   Adj R-squared   =    0.0029
+       Total |  437.402361       399  1.09624652   Root MSE        =    1.0455
+
+------------------------------------------------------------------------------
+ z_va_enrela | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_climatei~x |   .0802285   .0544072     1.47   0.141    -.0267329    .1871899
+       _cons |   .0428585   .0523018     0.82   0.413    -.0599638    .1456808
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /climateindex_va_enrela_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       400
+-------------+----------------------------------   F(1, 398)       =      0.42
+       Model |  .450230249         1  .450230249   Prob > F        =    0.5167
+    Residual |  425.453257       398  1.06897803   R-squared       =    0.0011
+-------------+----------------------------------   Adj R-squared   =   -0.0015
+       Total |  425.903487       399  1.06742729   Root MSE        =    1.0339
+
+------------------------------------------------------------------------------
+z_va_enrmath | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_climatei~x |   .0349187   .0538052     0.65   0.517    -.0708594    .1406967
+       _cons |   .0352175   .0517232     0.68   0.496    -.0664673    .1369022
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /climateindex_va_enrmath_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       400
+-------------+----------------------------------   F(1, 398)       =      0.41
+       Model |  .436662812         1  .436662812   Prob > F        =    0.5237
+    Residual |   426.56943       398  1.07178249   R-squared       =    0.0010
+-------------+----------------------------------   Adj R-squared   =   -0.0015
+       Total |  427.006093       399  1.07019071   Root MSE        =    1.0353
+
+------------------------------------------------------------------------------
+  z_va_enrdk | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_climatei~x |   .0343885   .0538758     0.64   0.524    -.0715282    .1403052
+       _cons |   .0362772    .051791     0.70   0.484    -.0655408    .1380953
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /climateindex_va_enrdk_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       400
+-------------+----------------------------------   F(1, 398)       =      0.91
+       Model |  .807628915         1  .807628915   Prob > F        =    0.3395
+    Residual |  351.458618       398  .883061855   R-squared       =    0.0023
+-------------+----------------------------------   Adj R-squared   =   -0.0002
+       Total |  352.266247       399    .8828728   Root MSE        =    .93971
+
+------------------------------------------------------------------------------
+    z_va_2yr | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_climatei~x |  -.0467677    .048903    -0.96   0.339    -.1429083    .0493728
+       _cons |   .1662139   .0470106     3.54   0.000     .0737937    .2586341
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /climateindex_va_2yr_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       400
+-------------+----------------------------------   F(1, 398)       =      0.83
+       Model |  .728278295         1  .728278295   Prob > F        =    0.3642
+    Residual |   351.30149       398  .882667059   R-squared       =    0.0021
+-------------+----------------------------------   Adj R-squared   =   -0.0004
+       Total |  352.029768       399   .88228012   Root MSE        =     .9395
+
+------------------------------------------------------------------------------
+ z_va_2yrela | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_climatei~x |  -.0444108   .0488921    -0.91   0.364    -.1405299    .0517082
+       _cons |    .166621   .0470001     3.55   0.000     .0742214    .2590206
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /climateindex_va_2yrela_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       400
+-------------+----------------------------------   F(1, 398)       =      0.41
+       Model |  .365115317         1  .365115317   Prob > F        =    0.5213
+    Residual |  352.673387       398  .886114037   R-squared       =    0.0010
+-------------+----------------------------------   Adj R-squared   =   -0.0015
+       Total |  353.038502       399  .884808276   Root MSE        =    .94134
+
+------------------------------------------------------------------------------
+z_va_2yrmath | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_climatei~x |  -.0314453   .0489875    -0.64   0.521    -.1277518    .0648613
+       _cons |   .1669064   .0470918     3.54   0.000     .0743266    .2594862
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /climateindex_va_2yrmath_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       400
+-------------+----------------------------------   F(1, 398)       =      0.45
+       Model |  .400408078         1  .400408078   Prob > F        =    0.5015
+    Residual |   352.07485       398  .884610177   R-squared       =    0.0011
+-------------+----------------------------------   Adj R-squared   =   -0.0014
+       Total |  352.475258       399  .883396637   Root MSE        =    .94054
+
+------------------------------------------------------------------------------
+  z_va_2yrdk | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_climatei~x |    -.03293   .0489459    -0.67   0.501    -.1291548    .0632948
+       _cons |   .1690199   .0470518     3.59   0.000     .0765187    .2615211
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /climateindex_va_2yrdk_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       400
+-------------+----------------------------------   F(1, 398)       =     10.17
+       Model |  7.78953989         1  7.78953989   Prob > F        =    0.0015
+    Residual |  304.957158       398  .766224015   R-squared       =    0.0249
+-------------+----------------------------------   Adj R-squared   =    0.0225
+       Total |  312.746698       399  .783826311   Root MSE        =    .87534
+
+------------------------------------------------------------------------------
+    z_va_4yr | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_climatei~x |   .1452433   .0455531     3.19   0.002     .0556885    .2347981
+       _cons |  -.1519301   .0437904    -3.47   0.001    -.2380194   -.0658407
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /climateindex_va_4yr_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       400
+-------------+----------------------------------   F(1, 398)       =      4.94
+       Model |  4.05055475         1  4.05055475   Prob > F        =    0.0267
+    Residual |  326.100385       398    .8193477   R-squared       =    0.0123
+-------------+----------------------------------   Adj R-squared   =    0.0098
+       Total |   330.15094       399  .827445964   Root MSE        =    .90518
+
+------------------------------------------------------------------------------
+ z_va_4yrela | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_climatei~x |   .1047364   .0471058     2.22   0.027     .0121291    .1973436
+       _cons |  -.1489904    .045283    -3.29   0.001    -.2380141   -.0599667
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /climateindex_va_4yrela_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       400
+-------------+----------------------------------   F(1, 398)       =      1.26
+       Model |  1.00918859         1  1.00918859   Prob > F        =    0.2614
+    Residual |  317.522083       398  .797794179   R-squared       =    0.0032
+-------------+----------------------------------   Adj R-squared   =    0.0007
+       Total |  318.531272       399   .79832399   Root MSE        =    .89319
+
+------------------------------------------------------------------------------
+z_va_4yrmath | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_climatei~x |   .0522789   .0464821     1.12   0.261    -.0391022      .14366
+       _cons |  -.1632857   .0446834    -3.65   0.000    -.2511306   -.0754407
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /climateindex_va_4yrmath_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       400
+-------------+----------------------------------   F(1, 398)       =      1.34
+       Model |  1.06198229         1  1.06198229   Prob > F        =    0.2474
+    Residual |  315.029268       398  .791530825   R-squared       =    0.0034
+-------------+----------------------------------   Adj R-squared   =    0.0009
+       Total |   316.09125       399  .792208648   Root MSE        =    .88968
+
+------------------------------------------------------------------------------
+  z_va_4yrdk | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_climatei~x |   .0536289   .0462993     1.16   0.247    -.0373928    .1446506
+       _cons |  -.1645765   .0445076    -3.70   0.000     -.252076   -.0770771
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /climateindex_va_4yrdk_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       292
+-------------+----------------------------------   F(1, 290)       =     14.24
+       Model |  13.1298473         1  13.1298473   Prob > F        =    0.0002
+    Residual |  267.441467       290  .922211955   R-squared       =    0.0468
+-------------+----------------------------------   Adj R-squared   =    0.0435
+       Total |  280.571314       291  .964162592   Root MSE        =    .96032
+
+------------------------------------------------------------------------------
+    z_va_ela | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_qualityi~x |   .2204716   .0584303     3.77   0.000     .1054703    .3354728
+       _cons |  -.0260879   .0562321    -0.46   0.643    -.1367628    .0845869
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /qualityindex_va_ela_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       292
+-------------+----------------------------------   F(1, 290)       =     29.40
+       Model |  24.3520631         1  24.3520631   Prob > F        =    0.0000
+    Residual |  240.207457       290  .828301575   R-squared       =    0.0920
+-------------+----------------------------------   Adj R-squared   =    0.0889
+       Total |   264.55952       291  .909139244   Root MSE        =    .91011
+
+------------------------------------------------------------------------------
+   z_va_math | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_qualityi~x |   .3002552   .0553754     5.42   0.000     .1912666    .4092439
+       _cons |   .0265278   .0532922     0.50   0.619    -.0783607    .1314163
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /qualityindex_va_math_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       292
+-------------+----------------------------------   F(1, 290)       =      2.54
+       Model |  2.55113336         1  2.55113336   Prob > F        =    0.1119
+    Residual |  290.989781       290  1.00341304   R-squared       =    0.0087
+-------------+----------------------------------   Adj R-squared   =    0.0053
+       Total |  293.540914       291  1.00873166   Root MSE        =    1.0017
+
+------------------------------------------------------------------------------
+    z_va_enr | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_qualityi~x |   .0971828   .0609484     1.59   0.112    -.0227746    .2171402
+       _cons |   .1211448   .0586556     2.07   0.040     .0057002    .2365893
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /qualityindex_va_enr_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       292
+-------------+----------------------------------   F(1, 290)       =      0.76
+       Model |  .814274751         1  .814274751   Prob > F        =    0.3848
+    Residual |   311.70159       290  1.07483307   R-squared       =    0.0026
+-------------+----------------------------------   Adj R-squared   =   -0.0008
+       Total |  312.515864       291  1.07393768   Root MSE        =    1.0367
+
+------------------------------------------------------------------------------
+ z_va_enrela | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_qualityi~x |   .0549045   .0630802     0.87   0.385    -.0692486    .1790576
+       _cons |   .1381148   .0607071     2.28   0.024     .0186323    .2575972
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /qualityindex_va_enrela_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       292
+-------------+----------------------------------   F(1, 290)       =      0.00
+       Model |  .003697104         1  .003697104   Prob > F        =    0.9520
+    Residual |  294.863209       290  1.01676969   R-squared       =    0.0000
+-------------+----------------------------------   Adj R-squared   =   -0.0034
+       Total |  294.866906       291  1.01328834   Root MSE        =    1.0083
+
+------------------------------------------------------------------------------
+z_va_enrmath | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_qualityi~x |   .0036996   .0613527     0.06   0.952    -.1170535    .1244527
+       _cons |   .1282475   .0590447     2.17   0.031     .0120371    .2444578
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /qualityindex_va_enrmath_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       292
+-------------+----------------------------------   F(1, 290)       =      0.00
+       Model |  .002877019         1  .002877019   Prob > F        =    0.9577
+    Residual |  296.337361       290  1.02185297   R-squared       =    0.0000
+-------------+----------------------------------   Adj R-squared   =   -0.0034
+       Total |  296.340238       291  1.01835133   Root MSE        =    1.0109
+
+------------------------------------------------------------------------------
+  z_va_enrdk | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_qualityi~x |   .0032636   .0615059     0.05   0.958     -.117791    .1243182
+       _cons |   .1299118   .0591921     2.19   0.029     .0134113    .2464124
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /qualityindex_va_enrdk_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       292
+-------------+----------------------------------   F(1, 290)       =      2.89
+       Model |  2.58769184         1  2.58769184   Prob > F        =    0.0903
+    Residual |  259.841806       290  .896006228   R-squared       =    0.0099
+-------------+----------------------------------   Adj R-squared   =    0.0064
+       Total |  262.429498       291  .901819581   Root MSE        =    .94658
+
+------------------------------------------------------------------------------
+    z_va_2yr | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_qualityi~x |  -.0978766   .0575941    -1.70   0.090    -.2112321    .0154789
+       _cons |   .2342025   .0554274     4.23   0.000     .1251115    .3432936
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /qualityindex_va_2yr_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       292
+-------------+----------------------------------   F(1, 290)       =      2.76
+       Model |  2.47260391         1  2.47260391   Prob > F        =    0.0975
+    Residual |  259.409304       290  .894514843   R-squared       =    0.0094
+-------------+----------------------------------   Adj R-squared   =    0.0060
+       Total |  261.881908       291  .899937829   Root MSE        =    .94579
+
+------------------------------------------------------------------------------
+ z_va_2yrela | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_qualityi~x |  -.0956753   .0575462    -1.66   0.097    -.2089365    .0175858
+       _cons |   .2352255   .0553813     4.25   0.000     .1262253    .3442258
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /qualityindex_va_2yrela_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       292
+-------------+----------------------------------   F(1, 290)       =      2.02
+       Model |  1.81740336         1  1.81740336   Prob > F        =    0.1564
+    Residual |  261.022005       290  .900075878   R-squared       =    0.0069
+-------------+----------------------------------   Adj R-squared   =    0.0035
+       Total |  262.839408       291  .903228206   Root MSE        =    .94872
+
+------------------------------------------------------------------------------
+z_va_2yrmath | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_qualityi~x |  -.0820254   .0577248    -1.42   0.156     -.195638    .0315872
+       _cons |   .2360283   .0555532     4.25   0.000     .1266898    .3453668
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /qualityindex_va_2yrmath_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       292
+-------------+----------------------------------   F(1, 290)       =      2.08
+       Model |  1.87613526         1  1.87613526   Prob > F        =    0.1506
+    Residual |   261.95057       290  .903277828   R-squared       =    0.0071
+-------------+----------------------------------   Adj R-squared   =    0.0037
+       Total |  263.826705       291  .906620981   Root MSE        =    .95041
+
+------------------------------------------------------------------------------
+  z_va_2yrdk | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_qualityi~x |  -.0833403   .0578274    -1.44   0.151    -.1971548    .0304743
+       _cons |   .2392339   .0556519     4.30   0.000     .1297011    .3487667
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /qualityindex_va_2yrdk_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       292
+-------------+----------------------------------   F(1, 290)       =     11.22
+       Model |  8.60834366         1  8.60834366   Prob > F        =    0.0009
+    Residual |  222.459049       290  .767100168   R-squared       =    0.0373
+-------------+----------------------------------   Adj R-squared   =    0.0339
+       Total |  231.067392       291  .794046022   Root MSE        =    .87584
+
+------------------------------------------------------------------------------
+    z_va_4yr | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_qualityi~x |   .1785182   .0532904     3.35   0.001     .0736333    .2834031
+       _cons |  -.1456157   .0512856    -2.84   0.005    -.2465549   -.0446766
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /qualityindex_va_4yr_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       292
+-------------+----------------------------------   F(1, 290)       =      6.21
+       Model |  5.13292721         1  5.13292721   Prob > F        =    0.0133
+    Residual |  239.846533       290  .827057011   R-squared       =    0.0210
+-------------+----------------------------------   Adj R-squared   =    0.0176
+       Total |   244.97946       291  .841853816   Root MSE        =    .90943
+
+------------------------------------------------------------------------------
+ z_va_4yrela | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_qualityi~x |   .1378495   .0553338     2.49   0.013     .0289428    .2467563
+       _cons |  -.1407777   .0532521    -2.64   0.009    -.2455874   -.0359681
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /qualityindex_va_4yrela_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       292
+-------------+----------------------------------   F(1, 290)       =      2.27
+       Model |  1.84737048         1  1.84737048   Prob > F        =    0.1333
+    Residual |  236.412322       290  .815214904   R-squared       =    0.0078
+-------------+----------------------------------   Adj R-squared   =    0.0043
+       Total |  238.259693       291  .818761831   Root MSE        =    .90289
+
+------------------------------------------------------------------------------
+z_va_4yrmath | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_qualityi~x |   .0826989   .0549362     1.51   0.133    -.0254254    .1908232
+       _cons |  -.1600988   .0528695    -3.03   0.003    -.2641554   -.0560422
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /qualityindex_va_4yrmath_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       292
+-------------+----------------------------------   F(1, 290)       =      2.34
+       Model |  1.89467108         1  1.89467108   Prob > F        =    0.1270
+    Residual |     234.557       290   .80881724   R-squared       =    0.0080
+-------------+----------------------------------   Adj R-squared   =    0.0046
+       Total |  236.451671       291  .812548697   Root MSE        =    .89934
+
+------------------------------------------------------------------------------
+  z_va_4yrdk | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_qualityi~x |   .0837509   .0547202     1.53   0.127    -.0239482    .1914501
+       _cons |  -.1619666   .0526617    -3.08   0.002    -.2656141   -.0583191
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /qualityindex_va_4yrdk_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       382
+-------------+----------------------------------   F(1, 380)       =     14.23
+       Model |  12.6856686         1  12.6856686   Prob > F        =    0.0002
+    Residual |  338.861818       380  .891741626   R-squared       =    0.0361
+-------------+----------------------------------   Adj R-squared   =    0.0335
+       Total |  351.547487       381  .922696815   Root MSE        =    .94432
+
+------------------------------------------------------------------------------
+    z_va_ela | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_supporti~x |   .1833275   .0486061     3.77   0.000      .087757    .2788981
+       _cons |  -.0242037   .0483305    -0.50   0.617    -.1192325    .0708251
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /supportindex_va_ela_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       382
+-------------+----------------------------------   F(1, 380)       =     18.29
+       Model |  15.2699489         1  15.2699489   Prob > F        =    0.0000
+    Residual |  317.325841       380  .835068001   R-squared       =    0.0459
+-------------+----------------------------------   Adj R-squared   =    0.0434
+       Total |  332.595789       381  .872954828   Root MSE        =    .91382
+
+------------------------------------------------------------------------------
+   z_va_math | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_supporti~x |    .201136   .0470362     4.28   0.000     .1086522    .2936197
+       _cons |   .0203734   .0467695     0.44   0.663    -.0715861    .1123329
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /supportindex_va_math_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       382
+-------------+----------------------------------   F(1, 380)       =      6.18
+       Model |  6.49674501         1  6.49674501   Prob > F        =    0.0133
+    Residual |  399.271886       380  1.05071549   R-squared       =    0.0160
+-------------+----------------------------------   Adj R-squared   =    0.0134
+       Total |  405.768631       381  1.06500953   Root MSE        =     1.025
+
+------------------------------------------------------------------------------
+    z_va_enr | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_supporti~x |   .1311955   .0527611     2.49   0.013     .0274553    .2349357
+       _cons |   .0400651    .052462     0.76   0.446    -.0630871    .1432173
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /supportindex_va_enr_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       382
+-------------+----------------------------------   F(1, 380)       =      2.66
+       Model |  2.94967523         1  2.94967523   Prob > F        =    0.1039
+    Residual |  421.769677       380   1.1099202   R-squared       =    0.0069
+-------------+----------------------------------   Adj R-squared   =    0.0043
+       Total |  424.719352       381  1.11474896   Root MSE        =    1.0535
+
+------------------------------------------------------------------------------
+ z_va_enrela | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_supporti~x |   .0884012   .0542272     1.63   0.104    -.0182217    .1950241
+       _cons |   .0511638   .0539198     0.95   0.343    -.0548547    .1571823
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /supportindex_va_enrela_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       382
+-------------+----------------------------------   F(1, 380)       =      1.23
+       Model |   1.3413762         1   1.3413762   Prob > F        =    0.2677
+    Residual |  413.615868       380  1.08846281   R-squared       =    0.0032
+-------------+----------------------------------   Adj R-squared   =    0.0006
+       Total |  414.957244       381  1.08912663   Root MSE        =    1.0433
+
+------------------------------------------------------------------------------
+z_va_enrmath | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_supporti~x |   .0596137   .0537004     1.11   0.268    -.0459735    .1652009
+       _cons |    .039366    .053396     0.74   0.461    -.0656227    .1443547
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /supportindex_va_enrmath_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       382
+-------------+----------------------------------   F(1, 380)       =      1.20
+       Model |  1.31032085         1  1.31032085   Prob > F        =    0.2739
+    Residual |  414.714873       380  1.09135493   R-squared       =    0.0031
+-------------+----------------------------------   Adj R-squared   =    0.0005
+       Total |  416.025194       381  1.09192964   Root MSE        =    1.0447
+
+------------------------------------------------------------------------------
+  z_va_enrdk | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_supporti~x |   .0589196   .0537717     1.10   0.274    -.0468078     .164647
+       _cons |   .0406978   .0534669     0.76   0.447    -.0644303    .1458259
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /supportindex_va_enrdk_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       382
+-------------+----------------------------------   F(1, 380)       =      0.51
+       Model |  .461123653         1  .461123653   Prob > F        =    0.4744
+    Residual |  341.726075       380  .899279146   R-squared       =    0.0013
+-------------+----------------------------------   Adj R-squared   =   -0.0013
+       Total |  342.187199       381  .898129132   Root MSE        =     .9483
+
+------------------------------------------------------------------------------
+    z_va_2yr | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_supporti~x |  -.0349526   .0488111    -0.72   0.474    -.1309262     .061021
+       _cons |   .1678056   .0485344     3.46   0.001      .072376    .2632351
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /supportindex_va_2yr_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       382
+-------------+----------------------------------   F(1, 380)       =      0.62
+       Model |  .553320382         1  .553320382   Prob > F        =    0.4331
+    Residual |  341.378782       380  .898365215   R-squared       =    0.0016
+-------------+----------------------------------   Adj R-squared   =   -0.0010
+       Total |  341.932102       381  .897459586   Root MSE        =    .94782
+
+------------------------------------------------------------------------------
+ z_va_2yrela | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_supporti~x |  -.0382877   .0487863    -0.78   0.433    -.1342125    .0576371
+       _cons |   .1680915   .0485097     3.47   0.001     .0727104    .2634726
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /supportindex_va_2yrela_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       382
+-------------+----------------------------------   F(1, 380)       =      0.36
+       Model |   .32124621         1   .32124621   Prob > F        =    0.5510
+    Residual |  342.820526       380  .902159279   R-squared       =    0.0009
+-------------+----------------------------------   Adj R-squared   =   -0.0017
+       Total |  343.141772       381  .900634572   Root MSE        =    .94982
+
+------------------------------------------------------------------------------
+z_va_2yrmath | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_supporti~x |  -.0291736   .0488892    -0.60   0.551    -.1253008    .0669536
+       _cons |    .168855    .048612     3.47   0.001     .0732727    .2644372
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /supportindex_va_2yrmath_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       382
+-------------+----------------------------------   F(1, 380)       =      0.41
+       Model |  .368019346         1  .368019346   Prob > F        =    0.5232
+    Residual |  342.427003       380  .901123692   R-squared       =    0.0011
+-------------+----------------------------------   Adj R-squared   =   -0.0016
+       Total |  342.795022       381  .899724468   Root MSE        =    .94928
+
+------------------------------------------------------------------------------
+  z_va_2yrdk | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_supporti~x |  -.0312253   .0488611    -0.64   0.523    -.1272973    .0648467
+       _cons |   .1716208   .0485841     3.53   0.000     .0760934    .2671482
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /supportindex_va_2yrdk_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       382
+-------------+----------------------------------   F(1, 380)       =     12.01
+       Model |  9.04123627         1  9.04123627   Prob > F        =    0.0006
+    Residual |  286.029351       380  .752708819   R-squared       =    0.0306
+-------------+----------------------------------   Adj R-squared   =    0.0281
+       Total |  295.070587       381  .774463484   Root MSE        =    .86759
+
+------------------------------------------------------------------------------
+    z_va_4yr | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_supporti~x |   .1547693   .0446565     3.47   0.001     .0669646    .2425741
+       _cons |  -.1469529   .0444033    -3.31   0.001    -.2342599   -.0596458
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /supportindex_va_4yr_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       382
+-------------+----------------------------------   F(1, 380)       =      6.66
+       Model |  5.38764635         1  5.38764635   Prob > F        =    0.0102
+    Residual |  307.343742       380  .808799321   R-squared       =    0.0172
+-------------+----------------------------------   Adj R-squared   =    0.0146
+       Total |  312.731388       381  .820817292   Root MSE        =    .89933
+
+------------------------------------------------------------------------------
+ z_va_4yrela | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_supporti~x |   .1194732   .0462904     2.58   0.010     .0284557    .2104907
+       _cons |  -.1431078   .0460281    -3.11   0.002    -.2336094   -.0526062
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /supportindex_va_4yrela_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       382
+-------------+----------------------------------   F(1, 380)       =      3.65
+       Model |  2.89797851         1  2.89797851   Prob > F        =    0.0569
+    Residual |  301.804615       380  .794222671   R-squared       =    0.0095
+-------------+----------------------------------   Adj R-squared   =    0.0069
+       Total |  304.702594       381   .79974434   Root MSE        =    .89119
+
+------------------------------------------------------------------------------
+z_va_4yrmath | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_supporti~x |   .0876231   .0458714     1.91   0.057    -.0025705    .1778167
+       _cons |  -.1622976   .0456114    -3.56   0.000    -.2519799   -.0726153
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /supportindex_va_4yrmath_compregs.dta saved
+
+      Source |       SS           df       MS      Number of obs   =       382
+-------------+----------------------------------   F(1, 380)       =      3.82
+       Model |  3.00836936         1  3.00836936   Prob > F        =    0.0515
+    Residual |  299.474346       380  .788090383   R-squared       =    0.0099
+-------------+----------------------------------   Adj R-squared   =    0.0073
+       Total |  302.482715       381  .793917887   Root MSE        =    .88774
+
+------------------------------------------------------------------------------
+  z_va_4yrdk | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+z_supporti~x |   .0892764    .045694     1.95   0.051    -.0005683    .1791211
+       _cons |  -.1640841    .045435    -3.61   0.000    -.2534196   -.0747487
+------------------------------------------------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /supportindex_va_4yrdk_compregs.dta saved
+
+. 
+. 
+. //save dataset
+. save $projdir/dta/allsvyfactor/categoryindex/compcasecategoryindex, replace
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/allsvyfactor/catego
+    > ryindex/compcasecategoryindex.dta saved
+
+. 
+. 
+. //merge the va index reg datasets to produce combined table
+. // local macro for all va vars except the first one (va_ela) for merging loop
+. local vaminusfirst va_math va_enr va_enrela va_enrmath va_enrdk va_2yr va_2yr
+> ela va_2yrmath va_2yrdk va_4yr va_4yrela va_4yrmath va_4yrdk
+
+. 
+. foreach i of local indexvars {
+  2.   use $projdir/out/dta/factor/compcase/`i'_va_ela_compregs, clear
+  3.   foreach j of local vaminusfirst {
+  4.     merge 1:1 var using $projdir/out/dta/factor/compcase/`i'_`j'_compregs
+  5.     drop _merge
+  6.   }
+  7.   save $projdir/out/dta/factor/compcase/`i'_va_compregs, replace
+  8.   export excel using $projdir/out/xls/factor/compcase/`i'_va_compregs, rep
+> lace
+  9. }
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /climateindex_va_compregs.dta saved
+file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/factor/compcase/
+> climateindex_va_compregs.xls saved
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /qualityindex_va_compregs.dta saved
+file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/factor/compcase/
+> qualityindex_va_compregs.xls saved
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                 6  (_merge==3)
+    -----------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/compcase
+    > /supportindex_va_compregs.dta saved
+file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/factor/compcase/
+> supportindex_va_compregs.xls saved
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factor
+> analysis/compcasecategoryindex.smcl
+  log type:  smcl
+ closed on:   7 Apr 2022, 14:57:52
+-------------------------------------------------------------------------------

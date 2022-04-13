@@ -90,10 +90,10 @@ foreach subject in ela math {
   //original VA, sibling sample
   estimates use ``subject'_spec_va_sibling_og'
   eststo
-  test _b[va_cfr_g11_`subject'_nosibctrl] = 1
+  test _b[va_cfr_g11_`subject'] = 1
   matrix test_p = r(p)
   matrix rownames test_p = pvalue
-  matrix colnames test_p = va_cfr_g11_`subject'_nosibctrl
+  matrix colnames test_p = va_cfr_g11_`subject'
   estadd matrix test_p = test_p
 
 
@@ -154,10 +154,10 @@ foreach outcome in enr enr_2year enr_4year  {
   //original VA, sibling sample
   estimates use ``outcome'_spec_va_sibling_og'
   eststo
-  test _b[va_cfr_g11_`outcome'_nosibctrl] = 1
+  test _b[va_cfr_g11_`outcome'] = 1
   matrix test_p = r(p)
   matrix rownames test_p = pvalue
-  matrix colnames test_p = va_cfr_g11_`outcome'_nosibctrl
+  matrix colnames test_p = va_cfr_g11_`outcome'
   estadd matrix test_p = test_p
 
   //sibling VA, sibling sample
@@ -184,7 +184,7 @@ foreach outcome in enr enr_2year enr_4year  {
 
 
  timer off 1
- timer list 
+ timer list
  log close
 
  cd $projdir

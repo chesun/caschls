@@ -1,0 +1,17 @@
+="Forecast Bias Tests for Math VA"
+
+="",="L4 Score Sample",="Census Sample",="Sibling Sample"
+
+="va_cfr_g11_math",="0.007***",="0.138***",=""
+="",="(0.001)",="(0.015)",=""
+
+="va_cfr_g11_math_nosibctrl",="",="",="0.001***"
+="",="",="",="(0.000)"
+
+="_cons",="0.000",="0.000",="0.000"
+="",="(0.000)",="(0.002)",="(0.000)"
+
+="N",="743639",="508247",="449911"
+
+="Standard errors in parentheses"
+="* p<0.05, ** p<0.01, *** p<0.001"

@@ -1,0 +1,36 @@
+                                                       ___  ____  ____  ____  ____(R)
+                                                      /__    /   ____/   /   ____/   
+                                                     ___/   /   /___/   /   /___/    
+                                                       Statistics/Data analysis      
+      
+      
+     1 . sum nsc_enr nsc_enr_ontime nsc_enr_4year nsc_enr_2year nsc_enr_ontime_4year ns
+      > c_enr_ontime_2year nsc_enr_pub nsc_enr_priv nsc_enr_ontime_pub nsc_enr_ontime_
+      > priv nsc_enr_uc nsc_enr_ucplus nsc_enr_ontime_uc nsc_enr_ontime_ucplus if matc
+      > h_2017==1 & match_2018==0 & grade == 11 & year == 2016 & all_students_sample =
+      > = 1
+      
+          Variable |        Obs        Mean    Std. dev.       Min        Max
+      -------------+---------------------------------------------------------
+           nsc_enr |     61,140    .1291789    .3354006          0          1
+      nsc_enr_o~me |     61,140    .1056755    .3074244          0          1
+      nsc_enr_4y~r |     61,140    .0314524    .1745384          0          1
+      nsc_enr_2y~r |     61,140    .0996565    .2995439          0          1
+      nsc_~e_4year |     61,140     .029228    .1684464          0          1
+      -------------+---------------------------------------------------------
+      nsc_~e_2year |     61,140    .0768891    .2664176          0          1
+       nsc_enr_pub |     61,140    .1159634    .3201836          0          1
+      nsc_enr_priv |     61,140    .0154563      .12336          0          1
+      nsc_en~e_pub |     61,140    .0941609    .2920549          0          1
+      nsc_e~e_priv |     61,140    .0125123    .1111572          0          1
+      -------------+---------------------------------------------------------
+        nsc_enr_uc |     61,140     .001423    .0376957          0          1
+      nsc_enr_uc~s |     61,140    .0017501    .0417977          0          1
+      nsc_enr_on~c |     61,140    .0012103    .0347691          0          1
+      nsc_enr_on~s |     61,140    .0015211    .0389719          0          1
+      
+     2 . translate @Results $projdir/out/txt/outcomesumstats/k12_nsc_matchdiscrep_2017_
+      > 2018.txt, replace
+      (file
+          /home/research/ca_ed_lab/chesun/gsr/caschls/out/txt/outcomesumstats/k12_ns
+          > c_matchdiscrep_2017_2018.txt not found)
