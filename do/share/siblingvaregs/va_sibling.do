@@ -45,8 +45,8 @@ set scheme s1color
 //capture log close: Stata should not complain if there is no log open to close
 cap log close _all
 
-set trace on
-set tracedepth 1
+/* set trace on
+set tracedepth 1 */
 
 args setlimit
 

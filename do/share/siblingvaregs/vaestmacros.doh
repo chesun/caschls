@@ -59,6 +59,12 @@ foreach subject in ela math {
   //forecast bias test for sibling control leave out var
   **without peer controls
   local `subject'_fb_va_sibling "$projdir/est/siblingvaregs/test_score_va/fb_test_va_cfr_g11_`subject'_sibling.ster"
+
+
+  //sibling test score VA coefficients from vam command wihout sibling controls
+  local `subject'_sibling_vam_nosibctrl "$vaprojdir/estimates/sibling_va/test_score_va/vam_cfr_g11_`subject'_nosibctrl.ster"
+  //sibling test score VA coefficients from vam command with sibling controls
+  local `subject'_sibling_vam "$vaprojdir/estimates/sibling_va/test_score_va/vam_cfr_g11_`subject'.ster"
 }
 
 
@@ -127,4 +133,10 @@ foreach outcome in enr enr_2year enr_4year {
   //forecast bias test for sibling control leave out var
   **without peer controls
   local `outcome'_fb_va_sibling "$projdir/est/siblingvaregs/outcome_va/fb_test_va_cfr_g11_`outcome'_sibling.ster"
+
+
+  //sibling postsecondary outcome va coefficients from vam command without sibling controls
+  local `outcome'_sibling_vam_nosibctrl "$vaprojdir/estimates/sibling_va/outcome_va/vam_cfr_g11_`outcome'_nosibctrl.ster"
+  //sibling postsecondary outcome va coefficients from vam command with sibling controls
+  local `outcome'_sibling_vam "$vaprojdir/estimates/sibling_va/outcome_va/vam_cfr_g11_`outcome'.ster"
 }
