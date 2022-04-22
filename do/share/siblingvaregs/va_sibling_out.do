@@ -50,7 +50,7 @@ cap log close _all
 
 args setlimit
 
-/* file path macros  */
+/* file path macros for datasets and folders */
 include $projdir/do/share/siblingvaregs/vafilemacros.doh
 
 //change directory to common_core_va project directory

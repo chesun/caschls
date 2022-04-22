@@ -21,15 +21,15 @@ foreach subject in ela math {
 
 
   //original VA with leave out L4 scores sample
-  local `subject'_va_dta_l4 "$vaprojdir/data/sbac/bias_va_g11_`subject'_L4_cst_ela_z_score.dta"
+  local `subject'_va_dta_l4 "$vaprojdir/data/sbac/bias_va_g11_`subject'_L4ela.dta.dta"
   //spec test for VA on L4 leave out var sample
   **no peer controls
-  local `subject'_spec_va_l4 "$vaprojdir/estimates/sbac/bias_spec_test_va_cfr_g11_`subject'_L4_cst_ela_z_score.ster"
+  local `subject'_spec_va_l4 "$vaprojdir/estimates/sbac/bias_spec_test_va_cfr_g11_`subject'_L4ela.ster"
   **with peer controls
-  local `subject'_spec_va_l4_peer "$vaprojdir/estimates/sbac/bias_spec_test_va_cfr_g11_`subject'_L4_cst_ela_z_score_peer.ster"
+  local `subject'_spec_va_l4_peer "$vaprojdir/estimates/sbac/bias_spec_test_va_cfr_g11_`subject'_L4ela_peer.ster"
   //forecast bias test for VA with L4 score leave out var
   **without peer controls
-  local `subject'_fb_va_l4 "$vaprojdir/estimates/sbac/bias_test_va_cfr_g11_`subject'_L4_cst_ela_z_score.ster"
+  local `subject'_fb_va_l4 "$vaprojdir/estimates/sbac/bias_test_va_cfr_g11_`subject'_L4ela.ster"
 
 
 
@@ -93,15 +93,15 @@ foreach outcome in enr enr_2year enr_4year {
 
 
   //original VA with leave out L4 scores sample
-  local `outcome'_va_dta_l4 "$vaprojdir/data/sbac/bias_va_g11_`outcome'_L4_cst_ela_z_score.dta"
+  local `outcome'_va_dta_l4 "$vaprojdir/data/sbac/bias_va_g11_`outcome'_L4ela.dta.dta"
   //spec test for VA on L4 leave out var sample
   **no peer controls
-  local `outcome'_spec_va_l4 "$vaprojdir/estimates/sbac/bias_spec_test_va_cfr_g11_`outcome'_L4_cst_ela_z_score.ster"
+  local `outcome'_spec_va_l4 "$vaprojdir/estimates/sbac/bias_spec_test_va_cfr_g11_`outcome'_L4ela.ster"
   **with peer controls
-  local `outcome'_spec_va_l4_peer "$vaprojdir/estimates/sbac/bias_spec_test_va_cfr_g11_`outcome'_L4_cst_ela_z_score_peer.ster"
+  local `outcome'_spec_va_l4_peer "$vaprojdir/estimates/sbac/bias_spec_test_va_cfr_g11_`outcome'_L4ela_peer.ster"
   //forecast bias test for VA with L4 score leave out var
   **without peer controls
-  local `outcome'_fb_va_l4 "$vaprojdir/estimates/sbac/bias_test_va_cfr_g11_`outcome'_L4_cst_ela_z_score.ster"
+  local `outcome'_fb_va_l4 "$vaprojdir/estimates/sbac/bias_test_va_cfr_g11_`outcome'_L4ela.ster"
 
 
 
@@ -135,8 +135,23 @@ foreach outcome in enr enr_2year enr_4year {
   local `outcome'_fb_va_sibling "$projdir/est/siblingvaregs/outcome_va/fb_test_va_cfr_g11_`outcome'_sibling.ster"
 
 
+  // VA dataset on sibling census sample
+  local `outcome'_va_dta_sib_census "$vaprojdir/data/sibling_va/outcome_va/va_g11_`outcome'_sibling_census.dta"
+  // spec test for sibling census sample original VA without sibling or census controls
+  local `outcome'_spec_sib_census_og "$vaprojdir/estimates/sibling_va/outcome_va/spec_test_`outcome'_census_nosib_noacs.ster"
+  // spec test for sibling census sample VA with sibling control, no census control. Need a short enough name
+  /* local `outcome'_spec_ "$vaprojdir/estimates/sibling_va/outcome_va/spec_test_`outcome'_census_noacs.ster" */
+  // forecast bias test for sibling census sample VA with sibling control and census control as leave out var
+  /* local `outcome'_fb_sib_census "$vaprojdir/estimates/sibling_va/outcome_va/fb_test_`outcome'_census.ster" */
+
   //sibling postsecondary outcome va coefficients from vam command without sibling controls
-  local `outcome'_sibling_vam_nosibctrl "$vaprojdir/estimates/sibling_va/outcome_va/vam_cfr_g11_`outcome'_nosibctrl.ster"
+  /* local `outcome'_sibling_vam_nosibctrl "$vaprojdir/estimates/sibling_va/outcome_va/vam_cfr_g11_`outcome'_nosibctrl.ster" */
   //sibling postsecondary outcome va coefficients from vam command with sibling controls
   local `outcome'_sibling_vam "$vaprojdir/estimates/sibling_va/outcome_va/vam_cfr_g11_`outcome'.ster"
+  // sibling census sample outcome VA coefficients without sibling control or census control
+  /* local `outcome'_sib_census_vam_og "$vaprojdir/estimates/sibling_va/outcome_va/vam_`outcome'_census_nosib_noacs.ster" */
+  // sibling census sample outcome VA coefficients with sibling control, without census controls
+  /* local `outcome'_sib_census_vam_sibctrl "$vaprojdir/estimates/sibling_va/outcome_va/vam_`outcome'_census_noacs.ster" */
+  // sibling census sample outcome VA coefficients with sibling control and census controls
+  /* local `outcome'_sib_census_vam_allctrl "$vaprojdir/estimates/sibling_va/outcome_va/vam_`outcome'_sib_census.ster" */
 }

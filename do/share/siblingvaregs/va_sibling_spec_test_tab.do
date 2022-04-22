@@ -107,10 +107,11 @@ foreach subject in ela math {
   estadd matrix test_p = test_p
 
 
+
   esttab using $projdir/out/csv/siblingvaregs/spec_test/spec_test_`subject'.csv ///
   , replace nonumbers  ///
   cells(b(fmt(%5.3f) pvalue(test_p) star) se(fmt(%4.3f) par)) ///
-  mtitles("Original" "L4 Score Sample" "Census Sample" "Sibling Sample" "Sibling Controls") ///
+  mtitles("Original" "L4 Score Sample" "Census Sample" "Sibling Sample" "Sib Sample w/ Sib Ctrls") ///
   title("Spec Tests for ``subject'_str' VA")
 
   eststo clear
@@ -169,11 +170,30 @@ foreach outcome in enr enr_2year enr_4year  {
   matrix colnames test_p = va_cfr_g11_`outcome'
   estadd matrix test_p = test_p
 
+  //outcome VA without sibling controls on sibling census sample
+  estimates use "$vaprojdir/estimates/sibling_va/outcome_va/spec_test_`outcome'_census_nosib_noacs.ster"
+  eststo
+  test _b[va_`outcome'_nosib_noacs] = 1
+  matrix test_p = r(p)
+  matrix rownames test_p = pvalue
+  matrix colnames test_p = va_cfr_g11_`outcome'
+  estadd matrix test_p = test_p
+
+  //outcome VA with sibling controls on sibling census sample
+  estimates use "$vaprojdir/estimates/sibling_va/outcome_va/spec_test_`outcome'_census_noacs.ster"
+  eststo
+  test _b[va_`outcome'_noacs] = 1
+  matrix test_p = r(p)
+  matrix rownames test_p = pvalue
+  matrix colnames test_p = va_cfr_g11_`outcome'
+  estadd matrix test_p = test_p
+
+
 
   esttab using $projdir/out/csv/siblingvaregs/spec_test/spec_test_`outcome'.csv ///
   , replace nonumbers  ///
   cells(b(fmt(%5.3f) pvalue(test_p) star) se(fmt(%4.3f) par)) ///
-  mtitles("Original" "L4 Score Sample" "Census Sample" "Sibling Sample" "Sibling Controls") ///
+  mtitles("Original" "L4 Score Sample" "Census Sample" "Sibling Sample" "Sib Sample w/ Sib Ctrls" "Sibling Census Sample" "Sib-Cens with Sib Ctrls") ///
   title("Spec Tests for ``outcome'_str' VA")
 
   eststo clear

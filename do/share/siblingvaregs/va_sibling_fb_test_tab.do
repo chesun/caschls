@@ -64,6 +64,7 @@ do $projdir/do/share/siblingvaregs/va_sibling_fb_test_tab.do
    estimates use ``subject'_fb_va_sibling '
    eststo
 
+
    esttab using $projdir/out/csv/siblingvaregs/fb_test/fb_test_`subject'.csv ///
    , replace nonumbers se(%4.3f) b(%5.3f) ///
    mtitles("L4 Score Sample" "Census Sample" "Sibling Sample") ///
@@ -90,9 +91,13 @@ do $projdir/do/share/siblingvaregs/va_sibling_fb_test_tab.do
    estimates use ``outcome'_fb_va_sibling '
    eststo
 
+   // Sibling census sample with census leave out var
+   estimates use "$vaprojdir/estimates/sibling_va/outcome_va/fb_test_`outcome'_census.ster"
+   eststo
+
    esttab using $projdir/out/csv/siblingvaregs/fb_test/fb_test_`outcome'.csv ///
    , replace nonumbers se(%4.3f) b(%5.3f) ///
-   mtitles("L4 Score Sample" "Census Sample" "Sibling Sample") ///
+   mtitles("L4 Score" "Census" "Sibling" "Sibling Census") ///
    title("Forecast Bias Tests for ``outcome'_str' VA")
 
    eststo clear

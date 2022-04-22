@@ -499,6 +499,11 @@ if `do_sibling_va_regs' == 1 {
      do $projdir/do/share/siblingvaregs/va_sibling_out 0
      pause
 
+     /* do file to run forecast bias test on sibling long run outcomes VA sample, using
+     census tract variables as leave out variables . */
+     do $projdir/do/share/siblingvaregs/va_sibling_out_forecast_bias
+     pause 
+
      /* sum stats for the enrollment VA estimates with additional demographic control
      for has at least one older sibling who enrolled in college (2 year, 4 year) */
      do $projdir/do/share/siblingvaregs/va_sibling_out_est_sumstats
