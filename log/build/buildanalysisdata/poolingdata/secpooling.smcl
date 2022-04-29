@@ -1,0 +1,331 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/poolingdata/secpooling.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 7 Apr 2022, 14:57:23
+{txt}
+{com}. 
+. /* ssc install _gwtmean, replace //package to allow use of weights in egen mean  */
+. 
+. 
+. /* first append all years to make a pnael dataset to calculate pooled stats */
+. use $projdir/dta/buildanalysisdata/qoiclean/secondary/secqoiclean1819, clear
+{txt}(cleaned secondary 1819 survey questions of interest with percent disagree/agree )
+
+{com}. append using $projdir/dta/buildanalysisdata/qoiclean/secondary/secqoiclean1718
+{txt}{p 0 7 2}
+(variable
+{bf:strdisagree31} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+{p 0 7 2}
+(variable
+{bf:disagree31} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+{p 0 7 2}
+(variable
+{bf:disagree34} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+
+{com}. 
+. append using $projdir/dta/buildanalysisdata/qoiclean/secondary/secqoiclean1617
+{txt}
+{com}. 
+. append using $projdir/dta/buildanalysisdata/qoiclean/secondary/secqoiclean1516
+{txt}
+{com}. 
+. append using $projdir/dta/buildanalysisdata/qoiclean/secondary/secqoiclean1415
+{txt}
+{com}. 
+. drop if missing(cdscode) //there is one observation with missing cdscode
+{txt}(4 observations deleted)
+
+{com}. 
+. 
+. /* calculate the weighted average of qoi means pooled over years
+> ignore missing values */
+. /* Note: collapse doesn't work because the weight is different for each variable, would have to write everything out */
+. sort cdscode year
+{txt}
+{com}. 
+. foreach i of numlist 22/40 {c -(}
+{txt}  2{com}.   by cdscode: egen qoi`i'mean_pooled = wtmean(qoi`i'mean), weight(nettotalresp`i')
+{txt}  3{com}. {c )-}
+{txt}(1 missing value generated)
+(109 missing values generated)
+(109 missing values generated)
+(109 missing values generated)
+(109 missing values generated)
+(2 missing values generated)
+(1 missing value generated)
+(2 missing values generated)
+
+{com}. 
+. 
+. /* generate the percentages of agree/disagree etc for qoi 22-34 */
+. foreach i of numlist 22/34 {c -(}
+{txt}  2{com}.   by cdscode: egen pctagree`i'_pooled = wtmean(pctagree`i'), weight(nettotalresp`i')
+{txt}  3{com}.   by cdscode: egen pctdisagree`i'_pooled = wtmean(pctdisagree`i'), weight(nettotalresp`i')
+{txt}  4{com}.   by cdscode: egen pctneither`i'_pooled = wtmean(pctneither`i'), weight(nettotalresp`i')
+{txt}  5{com}. {c )-}
+{txt}(1 missing value generated)
+(1 missing value generated)
+(1 missing value generated)
+(109 missing values generated)
+(109 missing values generated)
+(109 missing values generated)
+(109 missing values generated)
+(109 missing values generated)
+(109 missing values generated)
+(109 missing values generated)
+(109 missing values generated)
+(109 missing values generated)
+(109 missing values generated)
+(109 missing values generated)
+(109 missing values generated)
+(2 missing values generated)
+(2 missing values generated)
+(2 missing values generated)
+(1 missing value generated)
+(1 missing value generated)
+(1 missing value generated)
+
+{com}. 
+. /* generate the percentages of true/not true etc for qoi 35-40 */
+. foreach i of numlist 35/40 {c -(}
+{txt}  2{com}.   by cdscode: egen pcttrue`i'_pooled = wtmean(pcttrue`i'), weight(nettotalresp`i')
+{txt}  3{com}.   by cdscode: egen pctnottrue`i'_pooled = wtmean(pctnottrue`i'), weight(nettotalresp`i')
+{txt}  4{com}. {c )-}
+{txt}(2 missing values generated)
+(2 missing values generated)
+
+{com}. 
+. 
+. collapse (mean) *pooled (sum) nettotalresp* missing* strdisagree* disagree* neither* agree* stragree* ///
+> nottrue* littletrue* prettytrue* verytrue*, by(cdscode)
+{res}{txt}
+{com}. 
+. /* label the pooled qoi means and nettotalresp and missing*/
+. foreach i of numlist 22/40 {c -(}
+{txt}  2{com}.   label var qoi`i'mean_pooled "weighted mean of qoi`i' responses over years for a given school"
+{txt}  3{com}.   label var nettotalresp`i' "net total responses for qoi`i' excluding missing pooled over years"
+{txt}  4{com}.   label var missing`i' "number of missing responses for qoi`i' pooled over years"
+{txt}  5{com}. {c )-}
+{txt}
+{com}. 
+. /* label the pooled percent agree/disagree vars */
+. foreach i of numlist 22/34 {c -(}
+{txt}  2{com}.   label var pctagree`i'_pooled "weighted average percent agree/strongly agree in qoi`i' pooled over years"
+{txt}  3{com}.   label var pctdisagree`i'_pooled "weighted average percent disagree/strongly disagree in qoi`i' pooled over years"
+{txt}  4{com}.   label var pctneither`i'_pooled "weighted average percent neither agree nor disagree in qoi`i' pooled over years"
+{txt}  5{com}. 
+.   label var strdisagree`i' "total number of strongly disagree for qoi`i' pooled over years"
+{txt}  6{com}.   label var disagree`i' "total number of disagree for qoi`i' pooled over years"
+{txt}  7{com}.   label var neither`i' "total number of neither disagree nor agree for qoi`i' pooled over years"
+{txt}  8{com}.   label var agree`i' "total number of agree for qoi`i' pooled over years"
+{txt}  9{com}.   label var stragree`i' "total number of strongly agree for qoi`i' pooled over years"
+{txt} 10{com}. {c )-}
+{txt}
+{com}. 
+. foreach i of numlist 35/40 {c -(}
+{txt}  2{com}.   label var pcttrue`i'_pooled "weighted average percent little true, pretty much true, and very much true in qoi`i' pooled over years"
+{txt}  3{com}.   label var pctnottrue`i'_pooled "weighted average percent not true in qoi`i' pooled over years"
+{txt}  4{com}. 
+.   label var nottrue`i' "total number of not true for qoi`i' pooled over years"
+{txt}  5{com}.   label var littletrue`i' "total number of a little true for qoi`i' pooled over years"
+{txt}  6{com}.   label var prettytrue`i' "total number of pretty much true for qoi`i' pooled over years"
+{txt}  7{com}.   label var verytrue`i' "total number of very true for qoi`i' pooled over years"
+{txt}  8{com}. {c )-}
+{txt}note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+
+{com}. 
+. 
+. label data "weighted average secondary qoi statistics pooled over years"
+{txt}
+{com}. compress
+  {txt}variable {bf}{res}nettotalresp22{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp23{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp24{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp25{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp26{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp27{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp28{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp29{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp30{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp31{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp32{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp33{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp34{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp35{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp36{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp37{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp38{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp39{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp40{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing22{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing23{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing24{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing25{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing26{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing27{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing28{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing29{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing30{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing31{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing32{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing33{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing34{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing35{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing36{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing37{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing38{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing39{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing40{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}strdisagree22{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}strdisagree23{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}strdisagree24{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}strdisagree25{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}strdisagree26{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}strdisagree27{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}strdisagree28{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}strdisagree29{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}strdisagree30{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}strdisagree31{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}strdisagree32{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}strdisagree33{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}strdisagree34{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree22{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree23{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree24{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree25{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree26{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree27{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree28{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree29{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree30{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree31{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree32{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree33{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree34{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}neither22{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}neither23{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}neither24{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}neither25{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}neither26{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}neither27{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}neither28{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}neither29{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}neither30{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}neither31{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}neither32{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}neither33{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}neither34{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree22{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree23{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree24{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree25{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree26{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree27{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree28{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree29{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree30{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree31{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree32{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree33{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree34{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree22{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree23{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree24{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree25{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree26{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree27{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree28{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree29{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree30{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree31{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree32{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree33{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree34{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nottrue35{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nottrue36{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nottrue37{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nottrue38{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nottrue39{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nottrue40{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}littletrue35{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}littletrue36{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}littletrue37{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}littletrue38{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}littletrue39{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}littletrue40{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}prettytrue35{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}prettytrue36{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}prettytrue37{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}prettytrue38{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}prettytrue39{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}prettytrue40{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}verytrue35{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}verytrue36{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}verytrue37{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}verytrue38{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}verytrue39{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}verytrue40{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+{txt}  (2,579,370 bytes saved)
+
+{com}. save $projdir/dta/buildanalysisdata/poolingdata/secpooledstats, replace
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/poolingdata/secpooledstats.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. /* merge with the response rate dataset */
+. 
+. merge 1:1 cdscode using $projdir/dta/buildanalysisdata/responserate/secresponserate
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}             334
+{txt}{col 9}from master{col 30}{res}             334{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}           3,051{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. drop _merge
+{txt}
+{com}. 
+. 
+. drop if missing(cdscode) //there is one observation with missing cdscode
+{txt}(0 observations deleted)
+
+{com}. 
+. label data "secondary pooled dataset ready for analysis with stats and response rate"
+{txt}
+{com}. compress
+{txt}  (0 bytes saved)
+
+{com}. save $projdir/dta/buildanalysisdata/analysisready/secanalysisready, replace
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/analysisready/secanalysisready.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/poolingdata/secpooling.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 7 Apr 2022, 14:57:24
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

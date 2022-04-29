@@ -1,0 +1,89 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/check/pooled
+> parentcheck.smcl
+  log type:  smcl
+ opened on:   7 Apr 2022, 14:56:13
+
+. 
+. use $projdir/dta/demographics/pooled/pooledparentdiagnostics, replace
+(Parent demographics diagnostics pooled across grade 9 and 11 across all 5 year
+> s)
+
+. 
+. grstyle init  //initializes the grstyle package
+
+. grstyle set plain   //set graph background to plain
+
+. grstyle set color Set1, opacity(50): histogram //use Set1 color palette (red 
+> and blue) for histogram bars fill color and set opacity to 50%
+
+. grstyle set color white, opacity(25): histogram_line //set color white and op
+> acity 25% for histogram bar outline color
+
+. 
+. //generate checks to see if survey responses are more than enrollment
+. gen checkgr9 = 0
+
+. replace checkgr9 = 1 if svygr9total > enrgr9total
+(197 real changes made)
+
+. gen checkgr11 = 0
+
+. replace checkgr11 = 1 if svygr11total > enrgr11total
+(113 real changes made)
+
+. 
+. label var checkgr9 "dummy equals 1 if pooled grade 9 survey response > enroll
+> ment"
+
+. label var checkgr11 "dummy equals 1 if pooled grade 11 survey response > enro
+> llment"
+
+. 
+. //generate variables for the discrepancy between survey response and enrollme
+> nt for grade 9 and 11
+. gen gr9discrep = svygr9total - enrgr9total
+
+. gen gr11discrep = svygr11total - enrgr11total
+
+. 
+. label var gr9discrep "pooled grade 9 survey response minus enrollment"
+
+. label var gr11discrep "pooled grade 11 survey response minus enrollment"
+
+. 
+. //create histograms for the discrepancy between survey response and enrollmen
+> t for grade 9 and 11 for schools with survey > enrollment
+. histogram gr9discrep if checkgr9 == 1, freq width(1)
+(bin=54, start=1, width=1)
+
+. graph export $projdir/out/graph/pooleddiagnostics/parenttroubleshooting/gr9di
+> screp.png, replace
+file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnost
+> ics/parenttroubleshooting/gr9discrep.png written in PNG format
+
+. histogram gr11discrep if checkgr11 == 1, freq width(1)
+(bin=5, start=1, width=1)
+
+. graph export $projdir/out/graph/pooleddiagnostics/parenttroubleshooting/gr11d
+> iscrep.png, replace
+file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnost
+> ics/parenttroubleshooting/gr11discrep.png written in PNG format
+
+. 
+. 
+. 
+. 
+. 
+. grstyle clear // sets off grstyle
+
+. 
+. 
+. log close
+      name:  <unnamed>
+       log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/check/pooled
+> parentcheck.smcl
+  log type:  smcl
+ closed on:   7 Apr 2022, 14:56:14
+-------------------------------------------------------------------------------

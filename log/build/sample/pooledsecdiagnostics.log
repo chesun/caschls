@@ -1,0 +1,217 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/sample
+> /pooledsecdiagnostics.smcl
+  log type:  smcl
+ opened on:   7 Apr 2022, 14:56:12
+
+. 
+. use $projdir/dta/demographics/pooled/paneldata/secdemopanel, replace
+
+. 
+. /* gen gr9resprate = svygr9/gr9enr
+> gen gr11reprate = svygr11/gr11enr
+> label var gr9resprate "grade 9 response rate"
+> label var gr11resprate "grade 11 response rate" */
+. 
+. /* combine grades  */
+. gen svytotal = svygr9 + svygr11
+
+. gen svyfemaletotal = svyfemalegr9 + svyfemalegr11
+
+. gen svymaletotal = svymalegr9 + svymalegr11
+
+. gen svyhispanictotal = svyhispanicgr9 + svyhispanicgr11
+
+. gen svyasiantotal = svyasiangr9 + svyasiangr11
+
+. gen svyblacktotal = svyblackgr9 + svyblackgr11
+
+. gen svywhitetotal = svywhitegr9 + svywhitegr11
+
+. 
+. gen enrtotal = gr9enr + gr11enr
+
+. gen enrfemaletotal = gr9femaleenr + gr11femaleenr
+
+. gen enrmaletotal = gr9maleenr + gr11maleenr
+
+. gen enrhispanictotal = gr9hispanicenr + gr11hispanicenr
+
+. gen enrasiantotal = gr9asianenr + gr11asianenr
+
+. gen enrblacktotal = gr9blackenr + gr11blackenr
+
+. gen enrwhitetotal = gr9whiteenr + gr11whiteenr
+
+. 
+. //combine across years by collapse dataset
+. collapse (sum) svytotal svygr9 svygr11 svyfemaletotal svymaletotal svyhispani
+> ctotal svyasiantotal svyblacktotal svywhitetotal ///
+>               enrtotal gr9enr gr11enr enrfemaletotal enrmaletotal enrhispanic
+> total enrasiantotal enrblacktotal enrwhitetotal, by(cdscode)
+
+. 
+. rename svygr9 svygr9total
+
+. rename svygr11 svygr11total
+
+. label var svytotal "total number of students surveyed in grade 9 and 11 from 
+> 1415 to 1819"
+
+. label var svygr9total "total numeber of students surveyed in grade 9 from 141
+> 5 to 1819"
+
+. label var svygr11total "total numeber of students surveyed in grade 11 from 1
+> 415 to 1819"
+
+. label var svyfemaletotal "total number of females surveyed in grade 9 and 11 
+> from 1415 to 1819"
+
+. label var svymaletotal "total number of males surveyed in grade 9 and 11 from
+>  1415 to 1819"
+
+. label var svyhispanictotal "total number of hispanics surveyed in grade 9 and
+>  11 from 1415 to 1819"
+
+. label var svyasiantotal "total number of asians surveyed in grade 9 and 11 fr
+> om 1415 to 1819"
+
+. label var svyblacktotal "total number of blacks surveyed in grade 9 and 11 fr
+> om 1415 to 1819"
+
+. label var svywhitetotal "total number of whites surveyed in grade 9 and 11 fr
+> om 1415 to 1819"
+
+. 
+. rename gr9enr enrgr9total
+
+. rename gr11enr enrgr11total
+
+. label var enrtotal "total numeber of student enrollment in grade 9 and 11 fro
+> m 1415 to 1819"
+
+. label var enrgr9total "total number of student enrollment in grade 9 from 141
+> 5 to 1819"
+
+. label var enrgr11total "total number of student enrollment in grade 11 from 1
+> 415 to 1819"
+
+. label var enrfemaletotal "total female enrollment in grade 9 and 11 from 1415
+>  to 1819"
+
+. label var enrmaletotal "total male enrollment in grade 9 and 11 from 1415 to 
+> 1819"
+
+. label var enrhispanictotal "total hispanic enrollment in grade 9 and 11 from 
+> 1415 to 1819"
+
+. label var enrasiantotal "total asian enrollment in grade 9 and 11 from 1415 t
+> o 1819"
+
+. label var enrblacktotal "total black enrollment in grade 9 and 11 from 1415 t
+> o 1819"
+
+. label var enrwhitetotal "total white enrollment in grade 9 and 11 from 1415 t
+> o 1819"
+
+. 
+. gen pooledrr = svytotal/enrtotal
+(1,565 missing values generated)
+
+. label var pooledrr "overall response rate pooling across grades and years"
+
+. 
+. gen pooledgr9rr = svygr9total/enrgr9total
+(1,766 missing values generated)
+
+. label var pooledgr9rr "pooled response rate for grade 9 across years"
+
+. gen pooledgr11rr = svygr11total/enrgr11total
+(1,610 missing values generated)
+
+. label var pooledgr11rr "pooled response rate for grade 11 across years"
+
+. 
+. /* note: denominator might be 0, causing missing entries */
+. gen pooledfemalerr = svyfemaletotal/enrfemaletotal
+(1,595 missing values generated)
+
+. label var pooledfemalerr "overall female response rate pooling across grades 
+> and years"
+
+. 
+. gen pooledmalerr = svymaletotal/enrmaletotal
+(1,575 missing values generated)
+
+. label var pooledmalerr "overall male response rate pooling across grades and 
+> years"
+
+. 
+. gen pooledhispanicrr = svyhispanictotal/enrhispanictotal
+(1,595 missing values generated)
+
+. label var pooledhispanicrr "overall hispanic response rate pooling across gra
+> des and years"
+
+. 
+. gen pooledasianrr = svyasiantotal/enrasiantotal
+(1,915 missing values generated)
+
+. label var pooledasianrr "overall asian response rate pooling across grades an
+> d years"
+
+. 
+. gen pooledblackrr = svyblacktotal/enrblacktotal
+(1,834 missing values generated)
+
+. label var pooledblackrr "overall black response rate pooling across grades an
+> d years"
+
+. 
+. gen pooledwhiterr = svywhitetotal/enrwhitetotal
+(1,619 missing values generated)
+
+. label var pooledwhiterr "overall white response rate pooling across grades an
+> d years"
+
+. 
+. compress
+  variable svytotal was double now int
+  variable svygr9total was double now int
+  variable svygr11total was double now int
+  variable svyfemaletotal was double now int
+  variable svymaletotal was double now int
+  variable svyhispanictotal was double now int
+  variable svyasiantotal was double now int
+  variable svyblacktotal was double now int
+  variable svywhitetotal was double now int
+  variable enrtotal was double now int
+  variable enrgr9total was double now int
+  variable enrgr11total was double now int
+  variable enrfemaletotal was double now int
+  variable enrmaletotal was double now int
+  variable enrhispanictotal was double now int
+  variable enrasiantotal was double now int
+  variable enrblacktotal was double now int
+  variable enrwhitetotal was double now int
+  (329,508 bytes saved)
+
+. label data "Secondary demographics diagnostics pooled across grade 9 and 11 a
+> cross all 5 years"
+note: label truncated to 80 characters
+
+. save $projdir/dta/demographics/pooled/pooledsecdiagnostics, replace
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/pooled
+    > /pooledsecdiagnostics.dta saved
+
+. 
+. 
+. log close
+      name:  <unnamed>
+       log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/sample
+> /pooledsecdiagnostics.smcl
+  log type:  smcl
+ closed on:   7 Apr 2022, 14:56:12
+-------------------------------------------------------------------------------

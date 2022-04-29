@@ -3,20 +3,37 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/va_sibling_spec_test_tab.smcl
   log type:  smcl
- opened on:  13 Jan 2022, 19:07:22
+ opened on:  21 Apr 2022, 22:54:08
 
 . 
 .  //run the do helper file to set the local macros
-.  include `mattdofiles'/macros_va.doh
+.  include `vaprojdofiles'/sbac/macros_va.doh
 
 . #delimit ;
 delimiter now ;
+. *** file paths
+> local home $vaprojdir ;
+. local vaprojdofiles "$vaprojdir/do_files"
+> local ca_ed_lab "/home/research/ca_ed_lab" ;
+
+. local k12_test_scores "$vaprojdir/data/restricted_access/clean/k12_test_score
+> s" ;
+
+. local public_access "$vaprojdir/data/public_access" ;
+
+. local k12_public_schools "$vaprojdir/data/public_access/clean/k12_public_scho
+> ols" ;
+
+. local k12_test_scores_public "$vaprojdir/data/public_access/clean/k12_test_sc
+> ores" ;
+
+. **** Dates ;
 . local test_score_min_year
 >         2015
 >         ;
 
 . local test_score_max_year
->         2019
+>         2018
 >         ;
 
 . local star_min_year
@@ -43,6 +60,7 @@ delimiter now ;
 >         2018
 >         ;
 
+. **** Outcome Strings ;
 . local ela_str
 >         "ELA"
 >         ;
@@ -63,6 +81,7 @@ delimiter now ;
 >         "Enrolled On Time 4-Year"
 >         ;
 
+. **** Value Added ;
 . local school_controls
 >         /*cohort_size*/
 >         ;
@@ -111,6 +130,10 @@ delimiter now ;
 
 . local va_control_vars : list uniq va_control_vars ;
 
+. local census_grade
+>         6
+>         ;
+
 . local census_controls
 >         /*eth_white_pct*/ eth_asian_pct eth_hispanic_pct eth_black_pct /*eth_
 > other_pct*/
@@ -118,6 +141,59 @@ delimiter now ;
 >         pov_fam_child_lt18_pct
 >         inc_median_hh
 >         ;
+
+. **** School Characteristics ;
+. local sch_chars
+>         fte_teach_pc fte_pupil_pc /*fte_admin_pc*/
+>         /*eng_learner_staff_pc*/
+>         new_teacher_prop
+>         /*educ_grad_sch_prop educ_associate_prop*/
+>         /*status_tenured_prop*/
+>         credential_full_prop
+>         /*authorization_stem_prop authorization_ela_prop*/
+>         c.male_prop##c.enr_male_prop
+>         c.eth_minority_prop##c.enr_minority_prop
+>         enr_total
+>         ;
+
+. local sch_char_vars "`sch_chars'" ;
+
+. local sch_char_vars : subinstr local sch_char_vars "i." "", all ;
+
+. local sch_char_vars : subinstr local sch_char_vars "c." "", all ;
+
+. local sch_char_vars : subinstr local sch_char_vars "##" " ", all ;
+
+. local sch_char_vars : subinstr local sch_char_vars "#" " ", all ;
+
+. local sch_char_vars : list uniq sch_char_vars ;
+
+. local dem_chars
+>         enr_male_prop
+>         enr_minority_prop
+>         frpm_prop el_prop
+>         enr_total
+>         ;
+
+. local dem_char_vars "`dem_chars'" ;
+
+. local dem_char_vars : list uniq dem_char_vars ;
+
+. local expenditures
+>         expenditures_instr_pc
+>         expenditures3000_pc
+>         expenditures4000_pc
+>         expenditures_other_pc
+>         expenditures7000_pc
+>         ;
+
+. local expenditure_vars "`expenditures'" ;
+
+. local expenditure_vars : list uniq expenditure_vars ;
+
+. local sch_char_control_vars : list sch_char_vars | dem_char_vars ;
+
+. local sch_char_control_vars : list sch_char_control_vars | expenditure_vars ;
 
 . #delimit cr
 delimiter now cr
@@ -128,12 +204,19 @@ delimiter now ;
 .  #delimit cr
 delimiter now cr
 .  macro list
-eststo_counter: 4
-eststo:         est1 est2 est3 est4
-vaprojdir:      /home/research/ca_ed_lab/projects/common_core_va
-nscdtadir:      /home/research/ca_ed_lab/data/restricted_access/clean/nsc
-cstdtadir:      /home/research/ca_ed_lab/data/restricted_access/clean/cst
+eststo_counter: 1
+eststo:         est1
+vaprojxwalks:   /home/research/ca_ed_lab/projects/common_core_va/data/restricte
+                > d_access/clean/crosswalks
+mattxwalks:     /home/research/ca_ed_lab/users/msnaven/data/restricted_access/c
+                > lean/crosswalks
+nscdtadir_oldformat:
+                /home/research/ca_ed_lab/data/restricted_access/clean/cde_nsc/o
+                > ldformat
+nscdtadir:      /home/research/ca_ed_lab/data/restricted_access/clean/cde_nsc
+cstdtadir:      /home/research/ca_ed_lab/data/restricted_access/clean//cde/cst
 vadtadir:       /home/research/ca_ed_lab/projects/common_core_va/data/sbac
+vaprojdir:      /home/research/ca_ed_lab/projects/common_core_va
 projdir:        /home/research/ca_ed_lab/users/chesun/gsr/caschls
 clndtadir:      /home/research/ca_ed_lab/data/restricted_access/clean/calschls
 rawdtadir:      /home/research/ca_ed_lab/data/restricted_access/raw/calschls/st
@@ -151,10 +234,30 @@ S_StataSE:      SE
 S_CONSOLE:      console
 S_OS:           Unix
 S_MACH:         PC (64-bit x86-64)
+_sch_char_control_vars:
+                fte_teach_pc fte_pupil_pc new_teacher_prop credential_full_prop
+                male_prop enr_male_prop eth_minority_prop enr_minority_prop
+                enr_total frpm_prop el_prop expenditures_instr_pc
+                expenditures3000_pc expenditures4000_pc expenditures_other_pc
+                expenditures7000_pc
+_expenditure_vars:
+                expenditures_instr_pc expenditures3000_pc expenditures4000_pc
+                expenditures_other_pc expenditures7000_pc
+_expenditures:  expenditures_instr_pc expenditures3000_pc expenditures4000_pc
+                expenditures_other_pc expenditures7000_pc
+_dem_char_vars: enr_male_prop enr_minority_prop frpm_prop el_prop enr_total
+_dem_chars:     enr_male_prop enr_minority_prop frpm_prop el_prop enr_total
+_sch_char_vars: fte_teach_pc fte_pupil_pc new_teacher_prop credential_full_prop
+                male_prop enr_male_prop eth_minority_prop enr_minority_prop
+                enr_total
+_sch_chars:     fte_teach_pc fte_pupil_pc new_teacher_prop credential_full_prop
+                c.male_prop##c.enr_male_prop
+                c.eth_minority_prop##c.enr_minority_prop enr_total
 _census_controls:
                 eth_asian_pct eth_hispanic_pct eth_black_pct
                 educ_hs_dropout_prop educ_deg_4year_plus_prop
                 pov_fam_child_lt18_pct inc_median_hh
+_census_grade:  6
 _va_control_vars:
                 age male eth_asian eth_hispanic eth_black eth_other
                 econ_disadvantage limited_eng_prof disabled
@@ -193,9 +296,31 @@ _caaspp_min_year:
 _star_max_year: 2013
 _star_min_year: 2003
 _test_score_max_year:
-                2019
+                2018
 _test_score_min_year:
                 2015
+_k12_test_scores_public:
+                /home/research/ca_ed_lab/projects/common_core_va/data/public_ac
+                > cess/clean/k12_test_scores
+_k12_public_schools:
+                /home/research/ca_ed_lab/projects/common_core_va/data/public_ac
+                > cess/clean/k12_public_schools
+_public_access: /home/research/ca_ed_lab/projects/common_core_va/data/public_ac
+                > cess
+_k12_test_scores:
+                /home/research/ca_ed_lab/projects/common_core_va/data/restricte
+                > d_access/clean/k12_test_scores
+_vaprojdofiles: /home/research/ca_ed_lab/projects/common_core_va/do_files"
+                local ca_ed_lab "/home/research/ca_ed_lab
+_enr_4year_sibling_vam:
+                /home/research/ca_ed_lab/projects/common_core_va/estimates/sibl
+                > ing_va/outcome_va/vam_cfr_g11_enr_4year.ster
+_enr_4year_spec_sib_census_og:
+                /home/research/ca_ed_lab/projects/common_core_va/estimates/sibl
+                > ing_va/outcome_va/spec_test_enr_4year_census_nosib_noacs.ster
+_enr_4year_va_dta_sib_census:
+                /home/research/ca_ed_lab/projects/common_core_va/data/sibling_v
+                > a/outcome_va/va_g11_enr_4year_sibling_census.dta
 _enr_4year_fb_va_sibling:
                 /home/research/ca_ed_lab/users/chesun/gsr/caschls/est/siblingva
                 > regs/outcome_va/fb_test_va_cfr_g11_enr_4year_sibling.ster
@@ -227,17 +352,16 @@ _enr_4year_va_dta_census:
                 > _va_g11_enr_4year_census.dta
 _enr_4year_fb_va_l4:
                 /home/research/ca_ed_lab/projects/common_core_va/estimates/sbac
-                > /bias_test_va_cfr_g11_enr_4year_L4_cst_ela_z_score.ster
+                > /bias_test_va_cfr_g11_enr_4year_L4ela.ster.ster
 _enr_4year_spec_va_l4_peer:
                 /home/research/ca_ed_lab/projects/common_core_va/estimates/sbac
-                > /bias_spec_test_va_cfr_g11_enr_4year_L4_cst_ela_z_score_peer.
-                > ster
+                > /bias_spec_test_va_cfr_g11_enr_4year_L4ela_peer.ster
 _enr_4year_spec_va_l4:
                 /home/research/ca_ed_lab/projects/common_core_va/estimates/sbac
-                > /bias_spec_test_va_cfr_g11_enr_4year_L4_cst_ela_z_score.ster
+                > /bias_spec_test_va_cfr_g11_enr_4year_L4ela.ster
 _enr_4year_va_dta_l4:
                 /home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias
-                > _va_g11_enr_4year_L4_cst_ela_z_score.dta
+                > _va_g11_enr_4year_L4ela.dta.dta
 _enr_4year_spec_va_peer:
                 /home/research/ca_ed_lab/projects/common_core_va/estimates/sbac
                 > /spec_test_va_cfr_g11_enr_4year_peer.ster
@@ -247,6 +371,15 @@ _enr_4year_spec_va:
 _enr_4year_va_dta:
                 /home/research/ca_ed_lab/projects/common_core_va/data/sbac/va_g
                 > 11_enr_4year.dta, replace
+_enr_2year_sibling_vam:
+                /home/research/ca_ed_lab/projects/common_core_va/estimates/sibl
+                > ing_va/outcome_va/vam_cfr_g11_enr_2year.ster
+_enr_2year_spec_sib_census_og:
+                /home/research/ca_ed_lab/projects/common_core_va/estimates/sibl
+                > ing_va/outcome_va/spec_test_enr_2year_census_nosib_noacs.ster
+_enr_2year_va_dta_sib_census:
+                /home/research/ca_ed_lab/projects/common_core_va/data/sibling_v
+                > a/outcome_va/va_g11_enr_2year_sibling_census.dta
 _enr_2year_fb_va_sibling:
                 /home/research/ca_ed_lab/users/chesun/gsr/caschls/est/siblingva
                 > regs/outcome_va/fb_test_va_cfr_g11_enr_2year_sibling.ster
@@ -278,17 +411,16 @@ _enr_2year_va_dta_census:
                 > _va_g11_enr_2year_census.dta
 _enr_2year_fb_va_l4:
                 /home/research/ca_ed_lab/projects/common_core_va/estimates/sbac
-                > /bias_test_va_cfr_g11_enr_2year_L4_cst_ela_z_score.ster
+                > /bias_test_va_cfr_g11_enr_2year_L4ela.ster.ster
 _enr_2year_spec_va_l4_peer:
                 /home/research/ca_ed_lab/projects/common_core_va/estimates/sbac
-                > /bias_spec_test_va_cfr_g11_enr_2year_L4_cst_ela_z_score_peer.
-                > ster
+                > /bias_spec_test_va_cfr_g11_enr_2year_L4ela_peer.ster
 _enr_2year_spec_va_l4:
                 /home/research/ca_ed_lab/projects/common_core_va/estimates/sbac
-                > /bias_spec_test_va_cfr_g11_enr_2year_L4_cst_ela_z_score.ster
+                > /bias_spec_test_va_cfr_g11_enr_2year_L4ela.ster
 _enr_2year_va_dta_l4:
                 /home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias
-                > _va_g11_enr_2year_L4_cst_ela_z_score.dta
+                > _va_g11_enr_2year_L4ela.dta.dta
 _enr_2year_spec_va_peer:
                 /home/research/ca_ed_lab/projects/common_core_va/estimates/sbac
                 > /spec_test_va_cfr_g11_enr_2year_peer.ster
@@ -298,6 +430,15 @@ _enr_2year_spec_va:
 _enr_2year_va_dta:
                 /home/research/ca_ed_lab/projects/common_core_va/data/sbac/va_g
                 > 11_enr_2year.dta, replace
+_enr_sibling_vam:
+                /home/research/ca_ed_lab/projects/common_core_va/estimates/sibl
+                > ing_va/outcome_va/vam_cfr_g11_enr.ster
+_enr_spec_sib_census_og:
+                /home/research/ca_ed_lab/projects/common_core_va/estimates/sibl
+                > ing_va/outcome_va/spec_test_enr_census_nosib_noacs.ster
+_enr_va_dta_sib_census:
+                /home/research/ca_ed_lab/projects/common_core_va/data/sibling_v
+                > a/outcome_va/va_g11_enr_sibling_census.dta
 _enr_fb_va_sibling:
                 /home/research/ca_ed_lab/users/chesun/gsr/caschls/est/siblingva
                 > regs/outcome_va/fb_test_va_cfr_g11_enr_sibling.ster
@@ -327,15 +468,15 @@ _enr_va_dta_census:
                 /home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias
                 > _va_g11_enr_census.dta
 _enr_fb_va_l4:  /home/research/ca_ed_lab/projects/common_core_va/estimates/sbac
-                > /bias_test_va_cfr_g11_enr_L4_cst_ela_z_score.ster
+                > /bias_test_va_cfr_g11_enr_L4ela.ster.ster
 _enr_spec_va_l4_peer:
                 /home/research/ca_ed_lab/projects/common_core_va/estimates/sbac
-                > /bias_spec_test_va_cfr_g11_enr_L4_cst_ela_z_score_peer.ster
+                > /bias_spec_test_va_cfr_g11_enr_L4ela_peer.ster
 _enr_spec_va_l4:
                 /home/research/ca_ed_lab/projects/common_core_va/estimates/sbac
-                > /bias_spec_test_va_cfr_g11_enr_L4_cst_ela_z_score.ster
+                > /bias_spec_test_va_cfr_g11_enr_L4ela.ster
 _enr_va_dta_l4: /home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias
-                > _va_g11_enr_L4_cst_ela_z_score.dta
+                > _va_g11_enr_L4ela.dta.dta
 _enr_spec_va_peer:
                 /home/research/ca_ed_lab/projects/common_core_va/estimates/sbac
                 > /spec_test_va_cfr_g11_enr_peer.ster
@@ -343,6 +484,12 @@ _enr_spec_va:   /home/research/ca_ed_lab/projects/common_core_va/estimates/sbac
                 > /spec_test_va_cfr_g11_enr.ster
 _enr_va_dta:    /home/research/ca_ed_lab/projects/common_core_va/data/sbac/va_g
                 > 11_enr.dta, replace
+_math_sibling_vam:
+                /home/research/ca_ed_lab/projects/common_core_va/estimates/sibl
+                > ing_va/test_score_va/vam_cfr_g11_math.ster
+_math_sibling_vam_nosibctrl:
+                /home/research/ca_ed_lab/projects/common_core_va/estimates/sibl
+                > ing_va/test_score_va/vam_cfr_g11_math_nosibctrl.ster
 _math_fb_va_sibling:
                 /home/research/ca_ed_lab/users/chesun/gsr/caschls/est/siblingva
                 > regs/test_score_va/fb_test_va_cfr_g11_math_sibling.ster
@@ -373,16 +520,16 @@ _math_va_dta_census:
                 /home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias
                 > _va_g11_math_census.dta
 _math_fb_va_l4: /home/research/ca_ed_lab/projects/common_core_va/estimates/sbac
-                > /bias_test_va_cfr_g11_math_L4_cst_ela_z_score.ster
+                > /bias_test_va_cfr_g11_math_L4ela.ster
 _math_spec_va_l4_peer:
                 /home/research/ca_ed_lab/projects/common_core_va/estimates/sbac
-                > /bias_spec_test_va_cfr_g11_math_L4_cst_ela_z_score_peer.ster
+                > /bias_spec_test_va_cfr_g11_math_L4ela_peer.ster
 _math_spec_va_l4:
                 /home/research/ca_ed_lab/projects/common_core_va/estimates/sbac
-                > /bias_spec_test_va_cfr_g11_math_L4_cst_ela_z_score.ster
+                > /bias_spec_test_va_cfr_g11_math_L4ela.ster
 _math_va_dta_l4:
                 /home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias
-                > _va_g11_math_L4_cst_ela_z_score.dta
+                > _va_g11_math_L4ela.dta.dta
 _math_spec_va_peer:
                 /home/research/ca_ed_lab/projects/common_core_va/estimates/sbac
                 > /spec_test_va_cfr_g11_math_peer.ster
@@ -390,6 +537,12 @@ _math_spec_va:  /home/research/ca_ed_lab/projects/common_core_va/estimates/sbac
                 > /spec_test_va_cfr_g11_math.ster
 _math_va_dta:   /home/research/ca_ed_lab/projects/common_core_va/data/sbac/va_g
                 > 11_math.dta, replace
+_ela_sibling_vam:
+                /home/research/ca_ed_lab/projects/common_core_va/estimates/sibl
+                > ing_va/test_score_va/vam_cfr_g11_ela.ster
+_ela_sibling_vam_nosibctrl:
+                /home/research/ca_ed_lab/projects/common_core_va/estimates/sibl
+                > ing_va/test_score_va/vam_cfr_g11_ela_nosibctrl.ster
 _ela_fb_va_sibling:
                 /home/research/ca_ed_lab/users/chesun/gsr/caschls/est/siblingva
                 > regs/test_score_va/fb_test_va_cfr_g11_ela_sibling.ster
@@ -419,15 +572,15 @@ _ela_va_dta_census:
                 /home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias
                 > _va_g11_ela_census.dta
 _ela_fb_va_l4:  /home/research/ca_ed_lab/projects/common_core_va/estimates/sbac
-                > /bias_test_va_cfr_g11_ela_L4_cst_ela_z_score.ster
+                > /bias_test_va_cfr_g11_ela_L4ela.ster
 _ela_spec_va_l4_peer:
                 /home/research/ca_ed_lab/projects/common_core_va/estimates/sbac
-                > /bias_spec_test_va_cfr_g11_ela_L4_cst_ela_z_score_peer.ster
+                > /bias_spec_test_va_cfr_g11_ela_L4ela_peer.ster
 _ela_spec_va_l4:
                 /home/research/ca_ed_lab/projects/common_core_va/estimates/sbac
-                > /bias_spec_test_va_cfr_g11_ela_L4_cst_ela_z_score.ster
+                > /bias_spec_test_va_cfr_g11_ela_L4ela.ster
 _ela_va_dta_l4: /home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias
-                > _va_g11_ela_L4_cst_ela_z_score.dta
+                > _va_g11_ela_L4ela.dta.dta
 _ela_spec_va_peer:
                 /home/research/ca_ed_lab/projects/common_core_va/estimates/sbac
                 > /spec_test_va_cfr_g11_ela_peer.ster
@@ -453,19 +606,6 @@ _va_g11_dataset:
                 > re_va/va_g11_dataset
 _va_dataset:    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_co
                 > re_va/va_dataset
-_k12_test_scores_public:
-                /home/research/ca_ed_lab/projects/common_core_va/data/public_ac
-                > cess/clean/k12_test_scores
-_k12_public_schools:
-                /home/research/ca_ed_lab/projects/common_core_va/data/public_ac
-                > cess/clean/k12_public_schools
-_public_access: /home/research/ca_ed_lab/data/public_access
-_k12_test_scores:
-                /home/research/ca_ed_lab/projects/common_core_va/data/restricte
-                > d_access/clean/k12_test_scores
-_ca_ed_lab:     /home/research/ca_ed_lab
-_mattdofiles:   /home/research/ca_ed_lab/users/chesun/gsr/caschls/do/matt/adapt
-                > ed_commoncore_va_matt
 
 . 
 . 
@@ -514,10 +654,10 @@ _mattdofiles:   /home/research/ca_ed_lab/users/chesun/gsr/caschls/do/matt/adapt
 .   //original VA, sibling sample
 .   estimates use ``subject'_spec_va_sibling_og'
  24.   eststo
- 25.   test _b[va_cfr_g11_`subject'_nosibctrl] = 1
+ 25.   test _b[va_cfr_g11_`subject'] = 1
  26.   matrix test_p = r(p)
  27.   matrix rownames test_p = pvalue
- 28.   matrix colnames test_p = va_cfr_g11_`subject'_nosibctrl
+ 28.   matrix colnames test_p = va_cfr_g11_`subject'
  29.   estadd matrix test_p = test_p
  30. 
 . 
@@ -531,12 +671,13 @@ _mattdofiles:   /home/research/ca_ed_lab/users/chesun/gsr/caschls/do/matt/adapt
  36.   estadd matrix test_p = test_p
  37. 
 . 
+. 
 .   esttab using $projdir/out/csv/siblingvaregs/spec_test/spec_test_`subject'.c
 > sv ///
 >   , replace nonumbers  ///
 >   cells(b(fmt(%5.3f) pvalue(test_p) star) se(fmt(%4.3f) par)) ///
->   mtitles("Original" "L4 Score Sample" "Census Sample" "Sibling Sample" "Sibl
-> ing Controls") ///
+>   mtitles("Original" "L4 Score Sample" "Census Sample" "Sibling Sample" "Sib 
+> Sample w/ Sib Ctrls") ///
 >   title("Spec Tests for ``subject'_str' VA")
  38. 
 .   eststo clear
@@ -546,8 +687,8 @@ _mattdofiles:   /home/research/ca_ed_lab/users/chesun/gsr/caschls/do/matt/adapt
 
  ( 1)  va_cfr_g11_ela = 1
 
-       F(  1,  1312) =    4.18
-            Prob > F =    0.0411
+       F(  1,  1280) =    2.04
+            Prob > F =    0.1537
 
 added matrix:
              e(test_p) :  1 x 1
@@ -555,8 +696,8 @@ added matrix:
 
  ( 1)  va_cfr_g11_ela = 1
 
-       F(  1,  1236) =    7.43
-            Prob > F =    0.0065
+       F(  1,  1248) =    0.00
+            Prob > F =    0.9864
 
 added matrix:
              e(test_p) :  1 x 1
@@ -564,17 +705,17 @@ added matrix:
 
  ( 1)  va_cfr_g11_ela = 1
 
-       F(  1,  1253) =    2.67
-            Prob > F =    0.1025
+       F(  1,  1265) =    0.20
+            Prob > F =    0.6580
 
 added matrix:
              e(test_p) :  1 x 1
 (est4 stored)
 
- ( 1)  va_cfr_g11_ela_nosibctrl = 1
+ ( 1)  va_cfr_g11_ela = 1
 
-       F(  1,  1288) =    0.77
-            Prob > F =    0.3802
+       F(  1,  1275) =    0.71
+            Prob > F =    0.4006
 
 added matrix:
              e(test_p) :  1 x 1
@@ -582,8 +723,8 @@ added matrix:
 
  ( 1)  va_cfr_g11_ela = 1
 
-       F(  1,  1288) =    0.76
-            Prob > F =    0.3835
+       F(  1,  1275) =    0.71
+            Prob > F =    0.3982
 
 added matrix:
              e(test_p) :  1 x 1
@@ -593,8 +734,8 @@ added matrix:
 
  ( 1)  va_cfr_g11_math = 1
 
-       F(  1,  1311) =    0.12
-            Prob > F =    0.7330
+       F(  1,  1279) =   17.07
+            Prob > F =    0.0000
 
 added matrix:
              e(test_p) :  1 x 1
@@ -602,8 +743,8 @@ added matrix:
 
  ( 1)  va_cfr_g11_math = 1
 
-       F(  1,  1235) =   12.67
-            Prob > F =    0.0004
+       F(  1,  1245) =   21.09
+            Prob > F =    0.0000
 
 added matrix:
              e(test_p) :  1 x 1
@@ -611,17 +752,17 @@ added matrix:
 
  ( 1)  va_cfr_g11_math = 1
 
-       F(  1,  1252) =   16.67
-            Prob > F =    0.0000
+       F(  1,  1263) =    3.22
+            Prob > F =    0.0730
 
 added matrix:
              e(test_p) :  1 x 1
 (est4 stored)
 
- ( 1)  va_cfr_g11_math_nosibctrl = 1
+ ( 1)  va_cfr_g11_math = 1
 
-       F(  1,  1287) =    0.13
-            Prob > F =    0.7202
+       F(  1,  1273) =    4.33
+            Prob > F =    0.0376
 
 added matrix:
              e(test_p) :  1 x 1
@@ -629,8 +770,8 @@ added matrix:
 
  ( 1)  va_cfr_g11_math = 1
 
-       F(  1,  1287) =    0.14
-            Prob > F =    0.7113
+       F(  1,  1273) =    4.44
+            Prob > F =    0.0354
 
 added matrix:
              e(test_p) :  1 x 1
@@ -676,10 +817,10 @@ added matrix:
 .   //original VA, sibling sample
 .   estimates use ``outcome'_spec_va_sibling_og'
  24.   eststo
- 25.   test _b[va_cfr_g11_`outcome'_nosibctrl] = 1
+ 25.   test _b[va_cfr_g11_`outcome'] = 1
  26.   matrix test_p = r(p)
  27.   matrix rownames test_p = pvalue
- 28.   matrix colnames test_p = va_cfr_g11_`outcome'_nosibctrl
+ 28.   matrix colnames test_p = va_cfr_g11_`outcome'
  29.   estadd matrix test_p = test_p
  30. 
 .   //sibling VA, sibling sample
@@ -691,24 +832,45 @@ added matrix:
  35.   matrix colnames test_p = va_cfr_g11_`outcome'
  36.   estadd matrix test_p = test_p
  37. 
+.   //outcome VA without sibling controls on sibling census sample
+.   estimates use "$vaprojdir/estimates/sibling_va/outcome_va/spec_test_`outcom
+> e'_census_nosib_noacs.ster"
+ 38.   eststo
+ 39.   test _b[va_`outcome'_nosib_noacs] = 1
+ 40.   matrix test_p = r(p)
+ 41.   matrix rownames test_p = pvalue
+ 42.   matrix colnames test_p = va_cfr_g11_`outcome'
+ 43.   estadd matrix test_p = test_p
+ 44. 
+.   //outcome VA with sibling controls on sibling census sample
+.   estimates use "$vaprojdir/estimates/sibling_va/outcome_va/spec_test_`outcom
+> e'_census_noacs.ster"
+ 45.   eststo
+ 46.   test _b[va_`outcome'_noacs] = 1
+ 47.   matrix test_p = r(p)
+ 48.   matrix rownames test_p = pvalue
+ 49.   matrix colnames test_p = va_cfr_g11_`outcome'
+ 50.   estadd matrix test_p = test_p
+ 51. 
+. 
 . 
 .   esttab using $projdir/out/csv/siblingvaregs/spec_test/spec_test_`outcome'.c
 > sv ///
 >   , replace nonumbers  ///
 >   cells(b(fmt(%5.3f) pvalue(test_p) star) se(fmt(%4.3f) par)) ///
->   mtitles("Original" "L4 Score Sample" "Census Sample" "Sibling Sample" "Sibl
-> ing Controls") ///
+>   mtitles("Original" "L4 Score Sample" "Census Sample" "Sibling Sample" "Sib 
+> Sample w/ Sib Ctrls" "Sibling Census Sample" "Sib-Cens with Sib Ctrls") ///
 >   title("Spec Tests for ``outcome'_str' VA")
- 38. 
+ 52. 
 .   eststo clear
- 39. 
+ 53. 
 . }
 (est1 stored)
 
  ( 1)  va_cfr_g11_enr = 1
 
-       F(  1,  1194) =    0.29
-            Prob > F =    0.5872
+       F(  1,  1281) =    9.08
+            Prob > F =    0.0026
 
 added matrix:
              e(test_p) :  1 x 1
@@ -716,8 +878,8 @@ added matrix:
 
  ( 1)  va_cfr_g11_enr = 1
 
-       F(  1,  1224) =    0.00
-            Prob > F =    0.9567
+       F(  1,  1267) =   36.96
+            Prob > F =    0.0000
 
 added matrix:
              e(test_p) :  1 x 1
@@ -725,17 +887,17 @@ added matrix:
 
  ( 1)  va_cfr_g11_enr = 1
 
-       F(  1,  1171) =    1.66
-            Prob > F =    0.1984
+       F(  1,  1286) =    7.28
+            Prob > F =    0.0071
 
 added matrix:
              e(test_p) :  1 x 1
 (est4 stored)
 
- ( 1)  va_cfr_g11_enr_nosibctrl = 1
+ ( 1)  va_cfr_g11_enr = 1
 
-       F(  1,  1183) =    0.67
-            Prob > F =    0.4131
+       F(  1,  1277) =   23.54
+            Prob > F =    0.0000
 
 added matrix:
              e(test_p) :  1 x 1
@@ -743,8 +905,26 @@ added matrix:
 
  ( 1)  va_cfr_g11_enr = 1
 
-       F(  1,  1183) =    0.65
-            Prob > F =    0.4190
+       F(  1,  1277) =   23.15
+            Prob > F =    0.0000
+
+added matrix:
+             e(test_p) :  1 x 1
+(est6 stored)
+
+ ( 1)  va_enr_nosib_noacs = 1
+
+       F(  1,  1249) =   13.62
+            Prob > F =    0.0002
+
+added matrix:
+             e(test_p) :  1 x 1
+(est7 stored)
+
+ ( 1)  va_enr_noacs = 1
+
+       F(  1,  1249) =   13.37
+            Prob > F =    0.0003
 
 added matrix:
              e(test_p) :  1 x 1
@@ -754,8 +934,8 @@ added matrix:
 
  ( 1)  va_cfr_g11_enr_2year = 1
 
-       F(  1,  1194) =    2.45
-            Prob > F =    0.1175
+       F(  1,  1281) =    6.81
+            Prob > F =    0.0092
 
 added matrix:
              e(test_p) :  1 x 1
@@ -763,8 +943,8 @@ added matrix:
 
  ( 1)  va_cfr_g11_enr_2year = 1
 
-       F(  1,  1224) =   16.28
-            Prob > F =    0.0001
+       F(  1,  1267) =   36.62
+            Prob > F =    0.0000
 
 added matrix:
              e(test_p) :  1 x 1
@@ -772,17 +952,17 @@ added matrix:
 
  ( 1)  va_cfr_g11_enr_2year = 1
 
-       F(  1,  1171) =    7.13
-            Prob > F =    0.0077
+       F(  1,  1286) =    6.11
+            Prob > F =    0.0136
 
 added matrix:
              e(test_p) :  1 x 1
 (est4 stored)
 
- ( 1)  va_cfr_g11_enr_2year_nosibctrl = 1
+ ( 1)  va_cfr_g11_enr_2year = 1
 
-       F(  1,  1183) =    1.19
-            Prob > F =    0.2750
+       F(  1,  1277) =    0.39
+            Prob > F =    0.5308
 
 added matrix:
              e(test_p) :  1 x 1
@@ -790,8 +970,26 @@ added matrix:
 
  ( 1)  va_cfr_g11_enr_2year = 1
 
-       F(  1,  1183) =    1.08
-            Prob > F =    0.2997
+       F(  1,  1277) =    0.58
+            Prob > F =    0.4459
+
+added matrix:
+             e(test_p) :  1 x 1
+(est6 stored)
+
+ ( 1)  va_enr_2year_nosib_noacs = 1
+
+       F(  1,  1249) =    2.14
+            Prob > F =    0.1437
+
+added matrix:
+             e(test_p) :  1 x 1
+(est7 stored)
+
+ ( 1)  va_enr_2year_noacs = 1
+
+       F(  1,  1249) =    1.77
+            Prob > F =    0.1837
 
 added matrix:
              e(test_p) :  1 x 1
@@ -801,8 +999,8 @@ added matrix:
 
  ( 1)  va_cfr_g11_enr_4year = 1
 
-       F(  1,  1194) =    0.75
-            Prob > F =    0.3861
+       F(  1,  1281) =    1.07
+            Prob > F =    0.3008
 
 added matrix:
              e(test_p) :  1 x 1
@@ -810,8 +1008,8 @@ added matrix:
 
  ( 1)  va_cfr_g11_enr_4year = 1
 
-       F(  1,  1224) =    3.73
-            Prob > F =    0.0537
+       F(  1,  1267) =    1.52
+            Prob > F =    0.2175
 
 added matrix:
              e(test_p) :  1 x 1
@@ -819,17 +1017,17 @@ added matrix:
 
  ( 1)  va_cfr_g11_enr_4year = 1
 
-       F(  1,  1171) =    0.35
-            Prob > F =    0.5536
+       F(  1,  1286) =   10.38
+            Prob > F =    0.0013
 
 added matrix:
              e(test_p) :  1 x 1
 (est4 stored)
 
- ( 1)  va_cfr_g11_enr_4year_nosibctrl = 1
+ ( 1)  va_cfr_g11_enr_4year = 1
 
-       F(  1,  1183) =    0.01
-            Prob > F =    0.9426
+       F(  1,  1277) =    9.54
+            Prob > F =    0.0021
 
 added matrix:
              e(test_p) :  1 x 1
@@ -837,8 +1035,26 @@ added matrix:
 
  ( 1)  va_cfr_g11_enr_4year = 1
 
-       F(  1,  1183) =    0.01
-            Prob > F =    0.9337
+       F(  1,  1277) =    9.53
+            Prob > F =    0.0021
+
+added matrix:
+             e(test_p) :  1 x 1
+(est6 stored)
+
+ ( 1)  va_enr_4year_nosib_noacs = 1
+
+       F(  1,  1249) =   11.43
+            Prob > F =    0.0007
+
+added matrix:
+             e(test_p) :  1 x 1
+(est7 stored)
+
+ ( 1)  va_enr_4year_noacs = 1
+
+       F(  1,  1249) =   10.84
+            Prob > F =    0.0010
 
 added matrix:
              e(test_p) :  1 x 1
@@ -851,10 +1067,13 @@ added matrix:
 . 
 .  timer off 1
 
+.  timer list
+   1:      0.30 /        1 =       0.2960
+
 .  log close
       name:  <unnamed>
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/va_sibling_spec_test_tab.smcl
   log type:  smcl
- closed on:  13 Jan 2022, 19:07:23
+ closed on:  21 Apr 2022, 22:54:09
 -------------------------------------------------------------------------------

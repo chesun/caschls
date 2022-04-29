@@ -1,0 +1,116 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/sample/pooledsecdemographics.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 7 Apr 2022, 14:56:12
+{txt}
+{com}. 
+. local years 1415 1516 1617 1718 1819 //local macro for dataset years
+{txt}
+{com}. 
+. /* reconstruct secondary demographics datasets for pooling across years */
+. local runsecforpooling = 1 //local toggle for reconstructing secondary demographics data for pooling
+{txt}
+{com}. if `runsecforpooling' == 1 {c -(}
+.  foreach year of local years {c -(}
+{txt}  2{com}.    use $projdir/dta/demographics/secondary/secdemo`year', replace
+{txt}  3{com}.    replace gr9asianenr = gr9asianenr + gr9filipinoenr
+{txt}  4{com}.    replace gr11asianenr = gr11asianenr + gr11filipinoenr
+{txt}  5{com}.    keep cdscode svygr9 svygr11 svyfemalegr9 svyfemalegr11 svymalegr9 svymalegr11 ///
+>    svyhispanicgr9 svyhispanicgr11 svyasiangr9 svyasiangr11 svyblackgr9 svyblackgr11 svywhitegr9 svywhitegr11 ///
+>    gr9enr gr11enr gr9femaleenr gr9maleenr gr11femaleenr gr11maleenr ///
+>    gr9asianenr gr9hispanicenr gr9blackenr gr9whiteenr ///
+>    gr11asianenr gr11hispanicenr gr11blackenr gr11whiteenr
+{txt}  6{com}. 
+.    gen year = `year' //generate a variable for the survey year
+{txt}  7{com}.    tostring year, replace //make into string
+{txt}  8{com}.    label var year "survey year"
+{txt}  9{com}. 
+.    compress
+{txt} 10{com}.    save $projdir/dta/demographics/pooled/forpooling/secondary/secdemoforpooling`year', replace
+{txt} 11{com}.  {c )-}
+{txt}(292 real changes made)
+(305 real changes made)
+year was {res:float} now {res:str4}
+  (0 bytes saved)
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/pooled/forpooling/secondary/secdemoforpooling1415.dta{rm}
+saved
+{p_end}
+(2015-16 secondary CHKS data)
+(413 real changes made)
+(464 real changes made)
+year was {res:float} now {res:str4}
+  (0 bytes saved)
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/pooled/forpooling/secondary/secdemoforpooling1516.dta{rm}
+saved
+{p_end}
+(2016-17 Secondary CHKS Data)
+(365 real changes made)
+(385 real changes made)
+year was {res:float} now {res:str4}
+  (0 bytes saved)
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/pooled/forpooling/secondary/secdemoforpooling1617.dta{rm}
+saved
+{p_end}
+(2017-18 Secondary CHKS Data)
+(451 real changes made)
+(507 real changes made)
+year was {res:float} now {res:str4}
+  (0 bytes saved)
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/pooled/forpooling/secondary/secdemoforpooling1718.dta{rm}
+saved
+{p_end}
+(2018-19 Secondary CHKS Data)
+(410 real changes made)
+(440 real changes made)
+year was {res:float} now {res:str4}
+  (0 bytes saved)
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/pooled/forpooling/secondary/secdemoforpooling1819.dta{rm}
+saved
+{p_end}
+{com}. {c )-}
+{txt}
+{com}. 
+. /* append all secondary datasets to construct a panel dataset */
+. use $projdir/dta/demographics/pooled/forpooling/secondary/secdemoforpooling1415, replace
+{txt}
+{com}. append using $projdir/dta/demographics/pooled/forpooling/secondary/secdemoforpooling1516
+{txt}
+{com}. append using $projdir/dta/demographics/pooled/forpooling/secondary/secdemoforpooling1617
+{txt}
+{com}. append using $projdir/dta/demographics/pooled/forpooling/secondary/secdemoforpooling1718
+{txt}
+{com}. append using $projdir/dta/demographics/pooled/forpooling/secondary/secdemoforpooling1819
+{txt}
+{com}. 
+. compress
+{txt}  (0 bytes saved)
+
+{com}. save $projdir/dta/demographics/pooled/paneldata/secdemopanel, replace
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/pooled/paneldata/secdemopanel.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/sample/pooledsecdemographics.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 7 Apr 2022, 14:56:12
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

@@ -1,0 +1,85 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/prepare/poolgr11enr.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 7 Apr 2022, 14:57:25
+{txt}
+{com}. 
+. /* append the datasets */
+. use $projdir/dta/enrollment/schoollevel/enr1819, clear
+{txt}
+{com}. append using $projdir/dta/enrollment/schoollevel/enr1718
+{txt}{p 0 7 2}
+(variable
+{bf:gr1noethnicenr} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+{p 0 7 2}
+(variable
+{bf:gr3blackenr} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+{p 0 7 2}
+(variable
+{bf:gr6noethnicenr} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+{p 0 7 2}
+(variable
+{bf:gr7noethnicenr} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+{p 0 7 2}
+(variable
+{bf:gr8noethnicenr} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+
+{com}. append using $projdir/dta/enrollment/schoollevel/enr1617
+{txt}{p 0 7 2}
+(variable
+{bf:gr5blackenr} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+
+{com}. append using $projdir/dta/enrollment/schoollevel/enr1516
+{txt}
+{com}. append using $projdir/dta/enrollment/schoollevel/enr1415
+{txt}{p 0 7 2}
+(variable
+{bf:gr2noethnicenr} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+{p 0 7 2}
+(variable
+{bf:gr3noethnicenr} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+{p 0 7 2}
+(variable
+{bf:gr4noethnicenr} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+{p 0 7 2}
+(variable
+{bf:gr5noethnicenr} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+
+{com}. 
+. /* collapse to get avg grade 11 enrollment over years */
+. collapse (mean) gr11enr, by(cdscode)
+{res}{txt}
+{com}. rename gr11enr gr11enr_mean
+{res}{txt}
+{com}. label var gr11enr_mean "average grade 11 enrollment over years"
+{txt}
+{com}. 
+. save $projdir/dta/enrollment/schoollevel/poolgr11enr, replace
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/enrollment/schoollevel/poolgr11enr.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/prepare/poolgr11enr.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 7 Apr 2022, 14:57:25
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

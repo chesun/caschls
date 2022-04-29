@@ -51,6 +51,8 @@ timer on 1
    tempfile va_dataset
    save `va_dataset'
 
+
+
    save $projdir/dta/common_core_va/va_dataset, replace
 
 
@@ -64,6 +66,8 @@ timer on 1
 
   **the above steps create the VA dataset for the VA CFR regressions (score VA)
   compress
+
+  label data "Test Score Grade 11 VA Sample"
   save $projdir/dta/common_core_va/va_g11_dataset, replace
 
   //erase the tempfile to avoid name conflict
@@ -121,6 +125,7 @@ timer on 1
 
   ** this creates the VA dataset for the long term outcome VA regressions
   compress
+  label data "Enrollment Outcome Grade 11 VA Sample"
   save $projdir/dta/common_core_va/va_g11_out_dataset, replace
 
 

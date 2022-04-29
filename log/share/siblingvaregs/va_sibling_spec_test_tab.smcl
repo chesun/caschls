@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sibling_spec_test_tab.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}12 Apr 2022, 13:05:39
+ {txt}opened on:  {res}21 Apr 2022, 22:54:08
 {txt}
 {com}. 
 .  //run the do helper file to set the local macros
@@ -13,7 +13,8 @@
 {txt}delimiter now ;
 {com}. *** file paths
 > local home $vaprojdir ;
-. local ca_ed_lab "/home/research/ca_ed_lab" ;
+. local vaprojdofiles "$vaprojdir/do_files"
+> local ca_ed_lab "/home/research/ca_ed_lab" ;
 {txt}
 {com}. local k12_test_scores "$vaprojdir/data/restricted_access/clean/k12_test_scores" ;
 {txt}
@@ -196,25 +197,10 @@
 {txt}delimiter now cr
 {com}.  macro list
 {txt}{p 0 16}
-eststo_counter:{space 1}{res}{res}4
+eststo_counter:{space 1}{res}{res}1
 {p_end}
 {txt}{p 0 16}
-eststo:{space 9}{res}{res}est1 est2 est3 est4
-{p_end}
-{txt}{p 0 16}
-T_gm_fix_span:{space 2}{res}{res}0
-{p_end}
-{txt}{p 0 16}
-S_4:{space 12}{res}{res}.003900032715465
-{p_end}
-{txt}{p 0 16}
-S_2:{space 12}{res}{res}300
-{p_end}
-{txt}{p 0 16}
-S_3:{space 12}{res}{res}.020595561559967
-{p_end}
-{txt}{p 0 16}
-S_1:{space 12}{res}{res}epanechnikov
+eststo:{space 9}{res}{res}est1
 {p_end}
 {txt}{p 0 16}
 vaprojxwalks:{space 3}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/restricted_access/clean/crosswalks
@@ -249,33 +235,6 @@ rawdtadir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/raw
 {p_end}
 {txt}{p 0 16}
 rawcsvdir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/raw/calschls/csv
-{p_end}
-{txt}{p 0 16}
-S_6:{space 12}{res}{res}.7097029923018954
-{p_end}
-{txt}{p 0 16}
-S_5:{space 12}{res}{res}4
-{p_end}
-{txt}{p 0 16}
-ReS_jv2:{space 8}{res}{res}__000006 __000007 __000008 __000009 __00000A __00000B __00000C __00000D __00000E __00000F __00000G __00000H __00000I __00000J __00000K
-{p_end}
-{txt}{p 0 16}
-dropv:{space 10}{res}{res}_cdscode_x
-{p_end}
-{txt}{p 0 16}
-n_offset:{space 7}{res}{res}0
-{p_end}
-{txt}{p 0 16}
-sort:{space 11}{res}{res}0
-{p_end}
-{txt}{p 0 16}
-dots:{space 11}{res}{res}nois _dots 5 0
-{p_end}
-{txt}{p 0 16}
-dotss:{space 10}{res}{res}nois _dots 0, title(Survey results being calculated)
-{p_end}
-{txt}{p 0 16}
-ReS_Call:{space 7}{res}{res}version 16.1:
 {p_end}
 {txt}{p 0 16}
 S_level:{space 8}{res}{res}95
@@ -429,7 +388,19 @@ _k12_test_scores:{break}
 {res}/home/research/ca_ed_lab/projects/common_core_va/data/restricted_access/clean/k12_test_scores
 {p_end}
 {txt}{p 0 16}
-_ca_ed_lab:{space 5}{res}{res}/home/research/ca_ed_lab
+_vaprojdofiles:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/do_files" local ca_ed_lab "/home/research/ca_ed_lab
+{p_end}
+{txt}{p 0 16}
+_enr_4year_sibling_vam:{break}
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/vam_cfr_g11_enr_4year.ster
+{p_end}
+{txt}{p 0 16}
+_enr_4year_spec_sib_census_og:{break}
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/spec_test_enr_4year_census_nosib_noacs.ster
+{p_end}
+{txt}{p 0 16}
+_enr_4year_va_dta_sib_census:{break}
+{res}/home/research/ca_ed_lab/projects/common_core_va/data/sibling_va/outcome_va/va_g11_enr_4year_sibling_census.dta
 {p_end}
 {txt}{p 0 16}
 _enr_4year_fb_va_sibling:{break}
@@ -469,19 +440,19 @@ _enr_4year_va_dta_census:{break}
 {p_end}
 {txt}{p 0 16}
 _enr_4year_fb_va_l4:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_test_va_cfr_g11_enr_4year_L4_cst_ela_z_score.ster
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_test_va_cfr_g11_enr_4year_L4ela.ster.ster
 {p_end}
 {txt}{p 0 16}
 _enr_4year_spec_va_l4_peer:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_enr_4year_L4_cst_ela_z_score_peer.ster
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_enr_4year_L4ela_peer.ster
 {p_end}
 {txt}{p 0 16}
 _enr_4year_spec_va_l4:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_enr_4year_L4_cst_ela_z_score.ster
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_enr_4year_L4ela.ster
 {p_end}
 {txt}{p 0 16}
 _enr_4year_va_dta_l4:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias_va_g11_enr_4year_L4_cst_ela_z_score.dta
+{res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias_va_g11_enr_4year_L4ela.dta.dta
 {p_end}
 {txt}{p 0 16}
 _enr_4year_spec_va_peer:{break}
@@ -494,6 +465,18 @@ _enr_4year_spec_va:{break}
 {txt}{p 0 16}
 _enr_4year_va_dta:{break}
 {res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/va_g11_enr_4year.dta, replace
+{p_end}
+{txt}{p 0 16}
+_enr_2year_sibling_vam:{break}
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/vam_cfr_g11_enr_2year.ster
+{p_end}
+{txt}{p 0 16}
+_enr_2year_spec_sib_census_og:{break}
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/spec_test_enr_2year_census_nosib_noacs.ster
+{p_end}
+{txt}{p 0 16}
+_enr_2year_va_dta_sib_census:{break}
+{res}/home/research/ca_ed_lab/projects/common_core_va/data/sibling_va/outcome_va/va_g11_enr_2year_sibling_census.dta
 {p_end}
 {txt}{p 0 16}
 _enr_2year_fb_va_sibling:{break}
@@ -533,19 +516,19 @@ _enr_2year_va_dta_census:{break}
 {p_end}
 {txt}{p 0 16}
 _enr_2year_fb_va_l4:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_test_va_cfr_g11_enr_2year_L4_cst_ela_z_score.ster
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_test_va_cfr_g11_enr_2year_L4ela.ster.ster
 {p_end}
 {txt}{p 0 16}
 _enr_2year_spec_va_l4_peer:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_enr_2year_L4_cst_ela_z_score_peer.ster
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_enr_2year_L4ela_peer.ster
 {p_end}
 {txt}{p 0 16}
 _enr_2year_spec_va_l4:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_enr_2year_L4_cst_ela_z_score.ster
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_enr_2year_L4ela.ster
 {p_end}
 {txt}{p 0 16}
 _enr_2year_va_dta_l4:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias_va_g11_enr_2year_L4_cst_ela_z_score.dta
+{res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias_va_g11_enr_2year_L4ela.dta.dta
 {p_end}
 {txt}{p 0 16}
 _enr_2year_spec_va_peer:{break}
@@ -558,6 +541,18 @@ _enr_2year_spec_va:{break}
 {txt}{p 0 16}
 _enr_2year_va_dta:{break}
 {res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/va_g11_enr_2year.dta, replace
+{p_end}
+{txt}{p 0 16}
+_enr_sibling_vam:{break}
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/vam_cfr_g11_enr.ster
+{p_end}
+{txt}{p 0 16}
+_enr_spec_sib_census_og:{break}
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/spec_test_enr_census_nosib_noacs.ster
+{p_end}
+{txt}{p 0 16}
+_enr_va_dta_sib_census:{break}
+{res}/home/research/ca_ed_lab/projects/common_core_va/data/sibling_va/outcome_va/va_g11_enr_sibling_census.dta
 {p_end}
 {txt}{p 0 16}
 _enr_fb_va_sibling:{break}
@@ -596,18 +591,18 @@ _enr_va_dta_census:{break}
 {res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias_va_g11_enr_census.dta
 {p_end}
 {txt}{p 0 16}
-_enr_fb_va_l4:{space 2}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_test_va_cfr_g11_enr_L4_cst_ela_z_score.ster
+_enr_fb_va_l4:{space 2}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_test_va_cfr_g11_enr_L4ela.ster.ster
 {p_end}
 {txt}{p 0 16}
 _enr_spec_va_l4_peer:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_enr_L4_cst_ela_z_score_peer.ster
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_enr_L4ela_peer.ster
 {p_end}
 {txt}{p 0 16}
 _enr_spec_va_l4:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_enr_L4_cst_ela_z_score.ster
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_enr_L4ela.ster
 {p_end}
 {txt}{p 0 16}
-_enr_va_dta_l4:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias_va_g11_enr_L4_cst_ela_z_score.dta
+_enr_va_dta_l4:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias_va_g11_enr_L4ela.dta.dta
 {p_end}
 {txt}{p 0 16}
 _enr_spec_va_peer:{break}
@@ -618,6 +613,14 @@ _enr_spec_va:{space 3}{res}{res}/home/research/ca_ed_lab/projects/common_core_va
 {p_end}
 {txt}{p 0 16}
 _enr_va_dta:{space 4}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/va_g11_enr.dta, replace
+{p_end}
+{txt}{p 0 16}
+_math_sibling_vam:{break}
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/test_score_va/vam_cfr_g11_math.ster
+{p_end}
+{txt}{p 0 16}
+_math_sibling_vam_nosibctrl:{break}
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/test_score_va/vam_cfr_g11_math_nosibctrl.ster
 {p_end}
 {txt}{p 0 16}
 _math_fb_va_sibling:{break}
@@ -656,19 +659,19 @@ _math_va_dta_census:{break}
 {res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias_va_g11_math_census.dta
 {p_end}
 {txt}{p 0 16}
-_math_fb_va_l4:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_test_va_cfr_g11_math_L4_cst_ela_z_score.ster
+_math_fb_va_l4:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_test_va_cfr_g11_math_L4ela.ster
 {p_end}
 {txt}{p 0 16}
 _math_spec_va_l4_peer:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_math_L4_cst_ela_z_score_peer.ster
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_math_L4ela_peer.ster
 {p_end}
 {txt}{p 0 16}
 _math_spec_va_l4:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_math_L4_cst_ela_z_score.ster
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_math_L4ela.ster
 {p_end}
 {txt}{p 0 16}
 _math_va_dta_l4:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias_va_g11_math_L4_cst_ela_z_score.dta
+{res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias_va_g11_math_L4ela.dta.dta
 {p_end}
 {txt}{p 0 16}
 _math_spec_va_peer:{break}
@@ -679,6 +682,14 @@ _math_spec_va:{space 2}{res}{res}/home/research/ca_ed_lab/projects/common_core_v
 {p_end}
 {txt}{p 0 16}
 _math_va_dta:{space 3}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/va_g11_math.dta, replace
+{p_end}
+{txt}{p 0 16}
+_ela_sibling_vam:{break}
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/test_score_va/vam_cfr_g11_ela.ster
+{p_end}
+{txt}{p 0 16}
+_ela_sibling_vam_nosibctrl:{break}
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/test_score_va/vam_cfr_g11_ela_nosibctrl.ster
 {p_end}
 {txt}{p 0 16}
 _ela_fb_va_sibling:{break}
@@ -717,18 +728,18 @@ _ela_va_dta_census:{break}
 {res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias_va_g11_ela_census.dta
 {p_end}
 {txt}{p 0 16}
-_ela_fb_va_l4:{space 2}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_test_va_cfr_g11_ela_L4_cst_ela_z_score.ster
+_ela_fb_va_l4:{space 2}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_test_va_cfr_g11_ela_L4ela.ster
 {p_end}
 {txt}{p 0 16}
 _ela_spec_va_l4_peer:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_ela_L4_cst_ela_z_score_peer.ster
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_ela_L4ela_peer.ster
 {p_end}
 {txt}{p 0 16}
 _ela_spec_va_l4:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_ela_L4_cst_ela_z_score.ster
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_ela_L4ela.ster
 {p_end}
 {txt}{p 0 16}
-_ela_va_dta_l4:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias_va_g11_ela_L4_cst_ela_z_score.dta
+_ela_va_dta_l4:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias_va_g11_ela_L4ela.dta.dta
 {p_end}
 {txt}{p 0 16}
 _ela_spec_va_peer:{break}
@@ -764,9 +775,6 @@ _va_g11_dataset:{break}
 {p_end}
 {txt}{p 0 16}
 _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_core_va/va_dataset
-{p_end}
-{txt}{p 0 16}
-_vaprojdofiles:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/do_files
 {p_end}
 {txt}
 {com}. 
@@ -832,10 +840,11 @@ _vaprojdofiles:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_
 {txt} 36{com}.   estadd matrix test_p = test_p
 {txt} 37{com}. 
 . 
+. 
 .   esttab using $projdir/out/csv/siblingvaregs/spec_test/spec_test_`subject'.csv ///
 >   , replace nonumbers  ///
 >   cells(b(fmt(%5.3f) pvalue(test_p) star) se(fmt(%4.3f) par)) ///
->   mtitles("Original" "L4 Score Sample" "Census Sample" "Sibling Sample" "Sibling Controls") ///
+>   mtitles("Original" "L4 Score Sample" "Census Sample" "Sibling Sample" "Sib Sample w/ Sib Ctrls") ///
 >   title("Spec Tests for ``subject'_str' VA")
 {txt} 38{com}. 
 .   eststo clear
@@ -854,8 +863,8 @@ _vaprojdofiles:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_ela = 1{p_end}
 
-{txt}       F(  1,  1236) ={res}    7.43
-{txt}{col 13}Prob > F ={res}    0.0065
+{txt}       F(  1,  1248) ={res}    0.00
+{txt}{col 13}Prob > F ={res}    0.9864
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -900,8 +909,8 @@ _vaprojdofiles:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_math = 1{p_end}
 
-{txt}       F(  1,  1235) ={res}   12.67
-{txt}{col 13}Prob > F ={res}    0.0004
+{txt}       F(  1,  1245) ={res}   21.09
+{txt}{col 13}Prob > F ={res}    0.0000
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -987,15 +996,34 @@ _vaprojdofiles:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_
 {txt} 35{com}.   matrix colnames test_p = va_cfr_g11_`outcome'
 {txt} 36{com}.   estadd matrix test_p = test_p
 {txt} 37{com}. 
+.   //outcome VA without sibling controls on sibling census sample
+.   estimates use "$vaprojdir/estimates/sibling_va/outcome_va/spec_test_`outcome'_census_nosib_noacs.ster"
+{txt} 38{com}.   eststo
+{txt} 39{com}.   test _b[va_`outcome'_nosib_noacs] = 1
+{txt} 40{com}.   matrix test_p = r(p)
+{txt} 41{com}.   matrix rownames test_p = pvalue
+{txt} 42{com}.   matrix colnames test_p = va_cfr_g11_`outcome'
+{txt} 43{com}.   estadd matrix test_p = test_p
+{txt} 44{com}. 
+.   //outcome VA with sibling controls on sibling census sample
+.   estimates use "$vaprojdir/estimates/sibling_va/outcome_va/spec_test_`outcome'_census_noacs.ster"
+{txt} 45{com}.   eststo
+{txt} 46{com}.   test _b[va_`outcome'_noacs] = 1
+{txt} 47{com}.   matrix test_p = r(p)
+{txt} 48{com}.   matrix rownames test_p = pvalue
+{txt} 49{com}.   matrix colnames test_p = va_cfr_g11_`outcome'
+{txt} 50{com}.   estadd matrix test_p = test_p
+{txt} 51{com}. 
+. 
 . 
 .   esttab using $projdir/out/csv/siblingvaregs/spec_test/spec_test_`outcome'.csv ///
 >   , replace nonumbers  ///
 >   cells(b(fmt(%5.3f) pvalue(test_p) star) se(fmt(%4.3f) par)) ///
->   mtitles("Original" "L4 Score Sample" "Census Sample" "Sibling Sample" "Sibling Controls") ///
+>   mtitles("Original" "L4 Score Sample" "Census Sample" "Sibling Sample" "Sib Sample w/ Sib Ctrls" "Sibling Census Sample" "Sib-Cens with Sib Ctrls") ///
 >   title("Spec Tests for ``outcome'_str' VA")
-{txt} 38{com}. 
+{txt} 52{com}. 
 .   eststo clear
-{txt} 39{com}. 
+{txt} 53{com}. 
 . {c )-}
 {res}{txt}({res}est1{txt} stored)
 
@@ -1010,8 +1038,8 @@ _vaprojdofiles:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_enr = 1{p_end}
 
-{txt}       F(  1,  1224) ={res}    0.00
-{txt}{col 13}Prob > F ={res}    0.9567
+{txt}       F(  1,  1267) ={res}   36.96
+{txt}{col 13}Prob > F ={res}    0.0000
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -1025,18 +1053,185 @@ _vaprojdofiles:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
 {txt}({res}est4{txt} stored)
-{err}[va_cfr_g11_enr] not found
-{txt}{search r(111), local:r(111);}
 
-end of do-file
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_enr = 1{p_end}
 
-{search r(111), local:r(111);}
+{txt}       F(  1,  1277) ={res}   23.54
+{txt}{col 13}Prob > F ={res}    0.0000
 
-{com}. log close
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est5{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_enr = 1{p_end}
+
+{txt}       F(  1,  1277) ={res}   23.15
+{txt}{col 13}Prob > F ={res}    0.0000
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est6{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_nosib_noacs = 1{p_end}
+
+{txt}       F(  1,  1249) ={res}   13.62
+{txt}{col 13}Prob > F ={res}    0.0002
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est7{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_noacs = 1{p_end}
+
+{txt}       F(  1,  1249) ={res}   13.37
+{txt}{col 13}Prob > F ={res}    0.0003
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/spec_test/spec_test_enr.csv"'})
+{res}{txt}({res}est1{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_enr_2year = 1{p_end}
+
+{txt}       F(  1,  1281) ={res}    6.81
+{txt}{col 13}Prob > F ={res}    0.0092
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est2{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_enr_2year = 1{p_end}
+
+{txt}       F(  1,  1267) ={res}   36.62
+{txt}{col 13}Prob > F ={res}    0.0000
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est3{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_enr_2year = 1{p_end}
+
+{txt}       F(  1,  1286) ={res}    6.11
+{txt}{col 13}Prob > F ={res}    0.0136
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est4{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_enr_2year = 1{p_end}
+
+{txt}       F(  1,  1277) ={res}    0.39
+{txt}{col 13}Prob > F ={res}    0.5308
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est5{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_enr_2year = 1{p_end}
+
+{txt}       F(  1,  1277) ={res}    0.58
+{txt}{col 13}Prob > F ={res}    0.4459
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est6{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_2year_nosib_noacs = 1{p_end}
+
+{txt}       F(  1,  1249) ={res}    2.14
+{txt}{col 13}Prob > F ={res}    0.1437
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est7{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_2year_noacs = 1{p_end}
+
+{txt}       F(  1,  1249) ={res}    1.77
+{txt}{col 13}Prob > F ={res}    0.1837
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/spec_test/spec_test_enr_2year.csv"'})
+{res}{txt}({res}est1{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_enr_4year = 1{p_end}
+
+{txt}       F(  1,  1281) ={res}    1.07
+{txt}{col 13}Prob > F ={res}    0.3008
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est2{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_enr_4year = 1{p_end}
+
+{txt}       F(  1,  1267) ={res}    1.52
+{txt}{col 13}Prob > F ={res}    0.2175
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est3{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_enr_4year = 1{p_end}
+
+{txt}       F(  1,  1286) ={res}   10.38
+{txt}{col 13}Prob > F ={res}    0.0013
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est4{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_enr_4year = 1{p_end}
+
+{txt}       F(  1,  1277) ={res}    9.54
+{txt}{col 13}Prob > F ={res}    0.0021
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est5{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_enr_4year = 1{p_end}
+
+{txt}       F(  1,  1277) ={res}    9.53
+{txt}{col 13}Prob > F ={res}    0.0021
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est6{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_4year_nosib_noacs = 1{p_end}
+
+{txt}       F(  1,  1249) ={res}   11.43
+{txt}{col 13}Prob > F ={res}    0.0007
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est7{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_4year_noacs = 1{p_end}
+
+{txt}       F(  1,  1249) ={res}   10.84
+{txt}{col 13}Prob > F ={res}    0.0010
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/spec_test/spec_test_enr_4year.csv"'})
+
+{com}. 
+. 
+. 
+. 
+.  timer off 1
+{txt}
+{com}.  timer list
+{res}   1:      0.30 /        1 =       0.2960
+{txt}
+{com}.  log close
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sibling_spec_test_tab.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}12 Apr 2022, 13:07:17
+ {txt}closed on:  {res}21 Apr 2022, 22:54:09
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

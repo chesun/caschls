@@ -1,0 +1,82 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/poolingdata/mergeva.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 7 Apr 2022, 14:57:25
+{txt}
+{com}. 
+. local dtaname `" "sec" "parent" "staff" "' //local macro for looping over different survey analysis datasets
+{txt}
+{com}. 
+. foreach name of local dtaname {c -(}
+{txt}  2{com}.   use $projdir/dta/buildanalysisdata/analysisready/`name'analysisready, clear
+{txt}  3{com}. 
+.   merge 1:1 cdscode using $projdir/dta/buildanalysisdata/va/combinedva
+{txt}  4{com}.   drop _merge
+{txt}  5{com}. 
+.   save, replace
+{txt}  6{com}. 
+. {c )-}
+{txt}(secondary pooled dataset ready for analysis with stats and response rate)
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}           2,902
+{txt}{col 9}from master{col 30}{res}           2,453{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             449{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}             932{txt}  (_merge==3)
+{col 5}{hline 41}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/analysisready/secanalysisready.dta{rm}
+saved
+{p_end}
+(parent pooled (over years) dataset ready for analysis with stats and response ra)
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}           3,521
+{txt}{col 9}from master{col 30}{res}           2,568{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             953{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}             428{txt}  (_merge==3)
+{col 5}{hline 41}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/analysisready/parentanalysisready.dta{rm}
+saved
+{p_end}
+(weighted average staff qoi statistics pooled over years)
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}           4,405
+{txt}{col 9}from master{col 30}{res}           3,618{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             787{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}             594{txt}  (_merge==3)
+{col 5}{hline 41}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/analysisready/staffanalysisready.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. /* NOte:
+> 931 matched for secondary, 2883 not matched. 2454 from master, 429 from using.
+> 427 matched for parent, 3502 not matched. 2569 from master, 933 from using
+> 591 matched for staff, 4390 not matched, 3621 from master, 769 from using
+> */
+. 
+. 
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/poolingdata/mergeva.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 7 Apr 2022, 14:57:25
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

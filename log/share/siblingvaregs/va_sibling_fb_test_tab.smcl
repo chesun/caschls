@@ -3,20 +3,34 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sibling_fb_test_tab.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}13 Jan 2022, 17:46:01
+ {txt}opened on:  {res}21 Apr 2022, 22:54:55
 {txt}
 {com}. 
 .  //run the do helper file to set the local macros
-.  include `mattdofiles'/macros_va.doh
+.  include `vaprojdofiles'/sbac/macros_va.doh
 {txt}
 {com}. #delimit ;
 {txt}delimiter now ;
-{com}. local test_score_min_year
+{com}. *** file paths
+> local home $vaprojdir ;
+. local vaprojdofiles "$vaprojdir/do_files"
+> local ca_ed_lab "/home/research/ca_ed_lab" ;
+{txt}
+{com}. local k12_test_scores "$vaprojdir/data/restricted_access/clean/k12_test_scores" ;
+{txt}
+{com}. local public_access "$vaprojdir/data/public_access" ;
+{txt}
+{com}. local k12_public_schools "$vaprojdir/data/public_access/clean/k12_public_schools" ;
+{txt}
+{com}. local k12_test_scores_public "$vaprojdir/data/public_access/clean/k12_test_scores" ;
+{txt}
+{com}. **** Dates ;
+. local test_score_min_year
 >         2015
 >         ;
 {txt}
 {com}. local test_score_max_year
->         2019
+>         2018
 >         ;
 {txt}
 {com}. local star_min_year
@@ -43,7 +57,8 @@
 >         2018
 >         ;
 {txt}
-{com}. local ela_str
+{com}. **** Outcome Strings ;
+. local ela_str
 >         "ELA"
 >         ;
 {txt}
@@ -63,7 +78,8 @@
 >         "Enrolled On Time 4-Year"
 >         ;
 {txt}
-{com}. local school_controls
+{com}. **** Value Added ;
+. local school_controls
 >         /*cohort_size*/
 >         ;
 {txt}
@@ -107,12 +123,69 @@
 {txt}
 {com}. local va_control_vars : list uniq va_control_vars ;
 {txt}
+{com}. local census_grade
+>         6
+>         ;
+{txt}
 {com}. local census_controls
 >         /*eth_white_pct*/ eth_asian_pct eth_hispanic_pct eth_black_pct /*eth_other_pct*/
 >         educ_hs_dropout_prop /*educ_deg_2year_prop*/ educ_deg_4year_plus_prop
 >         pov_fam_child_lt18_pct
 >         inc_median_hh
 >         ;
+{txt}
+{com}. **** School Characteristics ;
+. local sch_chars
+>         fte_teach_pc fte_pupil_pc /*fte_admin_pc*/
+>         /*eng_learner_staff_pc*/
+>         new_teacher_prop
+>         /*educ_grad_sch_prop educ_associate_prop*/
+>         /*status_tenured_prop*/
+>         credential_full_prop
+>         /*authorization_stem_prop authorization_ela_prop*/
+>         c.male_prop##c.enr_male_prop
+>         c.eth_minority_prop##c.enr_minority_prop
+>         enr_total
+>         ;
+{txt}
+{com}. local sch_char_vars "`sch_chars'" ;
+{txt}
+{com}. local sch_char_vars : subinstr local sch_char_vars "i." "", all ;
+{txt}
+{com}. local sch_char_vars : subinstr local sch_char_vars "c." "", all ;
+{txt}
+{com}. local sch_char_vars : subinstr local sch_char_vars "##" " ", all ;
+{txt}
+{com}. local sch_char_vars : subinstr local sch_char_vars "#" " ", all ;
+{txt}
+{com}. local sch_char_vars : list uniq sch_char_vars ;
+{txt}
+{com}. local dem_chars
+>         enr_male_prop
+>         enr_minority_prop
+>         frpm_prop el_prop
+>         enr_total
+>         ;
+{txt}
+{com}. local dem_char_vars "`dem_chars'" ;
+{txt}
+{com}. local dem_char_vars : list uniq dem_char_vars ;
+{txt}
+{com}. local expenditures
+>         expenditures_instr_pc
+>         expenditures3000_pc
+>         expenditures4000_pc
+>         expenditures_other_pc
+>         expenditures7000_pc
+>         ;
+{txt}
+{com}. local expenditure_vars "`expenditures'" ;
+{txt}
+{com}. local expenditure_vars : list uniq expenditure_vars ;
+{txt}
+{com}. local sch_char_control_vars : list sch_char_vars | dem_char_vars ;
+{txt}
+{com}. local sch_char_control_vars : list sch_char_control_vars | expenditure_vars ;
 {txt}
 {com}. #delimit cr
 {txt}delimiter now cr
@@ -124,22 +197,26 @@
 {txt}delimiter now cr
 {com}.  macro list
 {txt}{p 0 16}
-eststo_counter:{space 1}{res}{res}3
+vaprojxwalks:{space 3}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/restricted_access/clean/crosswalks
 {p_end}
 {txt}{p 0 16}
-eststo:{space 9}{res}{res}est1 est2 est3
+mattxwalks:{space 5}{res}{res}/home/research/ca_ed_lab/users/msnaven/data/restricted_access/clean/crosswalks
 {p_end}
 {txt}{p 0 16}
-vaprojdir:{space 6}{res}{res}/home/research/ca_ed_lab/projects/common_core_va
+nscdtadir_oldformat:{break}
+{res}/home/research/ca_ed_lab/data/restricted_access/clean/cde_nsc/oldformat
 {p_end}
 {txt}{p 0 16}
-nscdtadir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/clean/nsc
+nscdtadir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/clean/cde_nsc
 {p_end}
 {txt}{p 0 16}
-cstdtadir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/clean/cst
+cstdtadir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/clean//cde/cst
 {p_end}
 {txt}{p 0 16}
 vadtadir:{space 7}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac
+{p_end}
+{txt}{p 0 16}
+vaprojdir:{space 6}{res}{res}/home/research/ca_ed_lab/projects/common_core_va
 {p_end}
 {txt}{p 0 16}
 projdir:{space 8}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
@@ -187,8 +264,34 @@ S_OS:{space 11}{res}{res}Unix
 S_MACH:{space 9}{res}{res}PC (64-bit x86-64)
 {p_end}
 {txt}{p 0 16}
+_sch_char_control_vars:{break}
+{res}fte_teach_pc fte_pupil_pc new_teacher_prop credential_full_prop male_prop enr_male_prop eth_minority_prop enr_minority_prop enr_total frpm_prop el_prop expenditures_instr_pc expenditures3000_pc expenditures4000_pc expenditures_other_pc expenditures7000_pc
+{p_end}
+{txt}{p 0 16}
+_expenditure_vars:{break}
+{res}expenditures_instr_pc expenditures3000_pc expenditures4000_pc expenditures_other_pc expenditures7000_pc
+{p_end}
+{txt}{p 0 16}
+_expenditures:{space 2}{res}{res}expenditures_instr_pc         expenditures3000_pc         expenditures4000_pc         expenditures_other_pc         expenditures7000_pc
+{p_end}
+{txt}{p 0 16}
+_dem_char_vars:{space 1}{res}{res}enr_male_prop enr_minority_prop frpm_prop el_prop enr_total
+{p_end}
+{txt}{p 0 16}
+_dem_chars:{space 5}{res}{res}enr_male_prop         enr_minority_prop         frpm_prop el_prop         enr_total
+{p_end}
+{txt}{p 0 16}
+_sch_char_vars:{space 1}{res}{res}fte_teach_pc fte_pupil_pc new_teacher_prop credential_full_prop male_prop enr_male_prop eth_minority_prop enr_minority_prop enr_total
+{p_end}
+{txt}{p 0 16}
+_sch_chars:{space 5}{res}{res}fte_teach_pc fte_pupil_pc                   new_teacher_prop                           credential_full_prop                  c.male_prop##c.enr_male_prop         c.eth_minority_prop##c.enr_minority_prop         enr_total
+{p_end}
+{txt}{p 0 16}
 _census_controls:{break}
 {res}eth_asian_pct eth_hispanic_pct eth_black_pct          educ_hs_dropout_prop  educ_deg_4year_plus_prop         pov_fam_child_lt18_pct         inc_median_hh
+{p_end}
+{txt}{p 0 16}
+_census_grade:{space 2}{res}{res}6
 {p_end}
 {txt}{p 0 16}
 _va_control_vars:{break}
@@ -257,11 +360,41 @@ _star_min_year:{space 1}{res}{res}2003
 {p_end}
 {txt}{p 0 16}
 _test_score_max_year:{break}
-{res}2019
+{res}2018
 {p_end}
 {txt}{p 0 16}
 _test_score_min_year:{break}
 {res}2015
+{p_end}
+{txt}{p 0 16}
+_k12_test_scores_public:{break}
+{res}/home/research/ca_ed_lab/projects/common_core_va/data/public_access/clean/k12_test_scores
+{p_end}
+{txt}{p 0 16}
+_k12_public_schools:{break}
+{res}/home/research/ca_ed_lab/projects/common_core_va/data/public_access/clean/k12_public_schools
+{p_end}
+{txt}{p 0 16}
+_public_access:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/public_access
+{p_end}
+{txt}{p 0 16}
+_k12_test_scores:{break}
+{res}/home/research/ca_ed_lab/projects/common_core_va/data/restricted_access/clean/k12_test_scores
+{p_end}
+{txt}{p 0 16}
+_vaprojdofiles:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/do_files" local ca_ed_lab "/home/research/ca_ed_lab
+{p_end}
+{txt}{p 0 16}
+_enr_4year_sibling_vam:{break}
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/vam_cfr_g11_enr_4year.ster
+{p_end}
+{txt}{p 0 16}
+_enr_4year_spec_sib_census_og:{break}
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/spec_test_enr_4year_census_nosib_noacs.ster
+{p_end}
+{txt}{p 0 16}
+_enr_4year_va_dta_sib_census:{break}
+{res}/home/research/ca_ed_lab/projects/common_core_va/data/sibling_va/outcome_va/va_g11_enr_4year_sibling_census.dta
 {p_end}
 {txt}{p 0 16}
 _enr_4year_fb_va_sibling:{break}
@@ -301,19 +434,19 @@ _enr_4year_va_dta_census:{break}
 {p_end}
 {txt}{p 0 16}
 _enr_4year_fb_va_l4:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_test_va_cfr_g11_enr_4year_L4_cst_ela_z_score.ster
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_test_va_cfr_g11_enr_4year_L4ela.ster
 {p_end}
 {txt}{p 0 16}
 _enr_4year_spec_va_l4_peer:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_enr_4year_L4_cst_ela_z_score_peer.ster
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_enr_4year_L4ela_peer.ster
 {p_end}
 {txt}{p 0 16}
 _enr_4year_spec_va_l4:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_enr_4year_L4_cst_ela_z_score.ster
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_enr_4year_L4ela.ster
 {p_end}
 {txt}{p 0 16}
 _enr_4year_va_dta_l4:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias_va_g11_enr_4year_L4_cst_ela_z_score.dta
+{res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias_va_g11_enr_4year_L4ela.dta.dta
 {p_end}
 {txt}{p 0 16}
 _enr_4year_spec_va_peer:{break}
@@ -326,6 +459,18 @@ _enr_4year_spec_va:{break}
 {txt}{p 0 16}
 _enr_4year_va_dta:{break}
 {res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/va_g11_enr_4year.dta, replace
+{p_end}
+{txt}{p 0 16}
+_enr_2year_sibling_vam:{break}
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/vam_cfr_g11_enr_2year.ster
+{p_end}
+{txt}{p 0 16}
+_enr_2year_spec_sib_census_og:{break}
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/spec_test_enr_2year_census_nosib_noacs.ster
+{p_end}
+{txt}{p 0 16}
+_enr_2year_va_dta_sib_census:{break}
+{res}/home/research/ca_ed_lab/projects/common_core_va/data/sibling_va/outcome_va/va_g11_enr_2year_sibling_census.dta
 {p_end}
 {txt}{p 0 16}
 _enr_2year_fb_va_sibling:{break}
@@ -365,19 +510,19 @@ _enr_2year_va_dta_census:{break}
 {p_end}
 {txt}{p 0 16}
 _enr_2year_fb_va_l4:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_test_va_cfr_g11_enr_2year_L4_cst_ela_z_score.ster
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_test_va_cfr_g11_enr_2year_L4ela.ster
 {p_end}
 {txt}{p 0 16}
 _enr_2year_spec_va_l4_peer:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_enr_2year_L4_cst_ela_z_score_peer.ster
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_enr_2year_L4ela_peer.ster
 {p_end}
 {txt}{p 0 16}
 _enr_2year_spec_va_l4:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_enr_2year_L4_cst_ela_z_score.ster
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_enr_2year_L4ela.ster
 {p_end}
 {txt}{p 0 16}
 _enr_2year_va_dta_l4:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias_va_g11_enr_2year_L4_cst_ela_z_score.dta
+{res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias_va_g11_enr_2year_L4ela.dta.dta
 {p_end}
 {txt}{p 0 16}
 _enr_2year_spec_va_peer:{break}
@@ -390,6 +535,18 @@ _enr_2year_spec_va:{break}
 {txt}{p 0 16}
 _enr_2year_va_dta:{break}
 {res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/va_g11_enr_2year.dta, replace
+{p_end}
+{txt}{p 0 16}
+_enr_sibling_vam:{break}
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/vam_cfr_g11_enr.ster
+{p_end}
+{txt}{p 0 16}
+_enr_spec_sib_census_og:{break}
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/spec_test_enr_census_nosib_noacs.ster
+{p_end}
+{txt}{p 0 16}
+_enr_va_dta_sib_census:{break}
+{res}/home/research/ca_ed_lab/projects/common_core_va/data/sibling_va/outcome_va/va_g11_enr_sibling_census.dta
 {p_end}
 {txt}{p 0 16}
 _enr_fb_va_sibling:{break}
@@ -428,18 +585,18 @@ _enr_va_dta_census:{break}
 {res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias_va_g11_enr_census.dta
 {p_end}
 {txt}{p 0 16}
-_enr_fb_va_l4:{space 2}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_test_va_cfr_g11_enr_L4_cst_ela_z_score.ster
+_enr_fb_va_l4:{space 2}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_test_va_cfr_g11_enr_L4ela.ster
 {p_end}
 {txt}{p 0 16}
 _enr_spec_va_l4_peer:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_enr_L4_cst_ela_z_score_peer.ster
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_enr_L4ela_peer.ster
 {p_end}
 {txt}{p 0 16}
 _enr_spec_va_l4:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_enr_L4_cst_ela_z_score.ster
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_enr_L4ela.ster
 {p_end}
 {txt}{p 0 16}
-_enr_va_dta_l4:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias_va_g11_enr_L4_cst_ela_z_score.dta
+_enr_va_dta_l4:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias_va_g11_enr_L4ela.dta.dta
 {p_end}
 {txt}{p 0 16}
 _enr_spec_va_peer:{break}
@@ -450,6 +607,14 @@ _enr_spec_va:{space 3}{res}{res}/home/research/ca_ed_lab/projects/common_core_va
 {p_end}
 {txt}{p 0 16}
 _enr_va_dta:{space 4}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/va_g11_enr.dta, replace
+{p_end}
+{txt}{p 0 16}
+_math_sibling_vam:{break}
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/test_score_va/vam_cfr_g11_math.ster
+{p_end}
+{txt}{p 0 16}
+_math_sibling_vam_nosibctrl:{break}
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/test_score_va/vam_cfr_g11_math_nosibctrl.ster
 {p_end}
 {txt}{p 0 16}
 _math_fb_va_sibling:{break}
@@ -488,19 +653,19 @@ _math_va_dta_census:{break}
 {res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias_va_g11_math_census.dta
 {p_end}
 {txt}{p 0 16}
-_math_fb_va_l4:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_test_va_cfr_g11_math_L4_cst_ela_z_score.ster
+_math_fb_va_l4:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_test_va_cfr_g11_math_L4ela.ster
 {p_end}
 {txt}{p 0 16}
 _math_spec_va_l4_peer:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_math_L4_cst_ela_z_score_peer.ster
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_math_L4ela_peer.ster
 {p_end}
 {txt}{p 0 16}
 _math_spec_va_l4:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_math_L4_cst_ela_z_score.ster
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_math_L4ela.ster
 {p_end}
 {txt}{p 0 16}
 _math_va_dta_l4:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias_va_g11_math_L4_cst_ela_z_score.dta
+{res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias_va_g11_math_L4ela.dta.dta
 {p_end}
 {txt}{p 0 16}
 _math_spec_va_peer:{break}
@@ -511,6 +676,14 @@ _math_spec_va:{space 2}{res}{res}/home/research/ca_ed_lab/projects/common_core_v
 {p_end}
 {txt}{p 0 16}
 _math_va_dta:{space 3}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/va_g11_math.dta, replace
+{p_end}
+{txt}{p 0 16}
+_ela_sibling_vam:{break}
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/test_score_va/vam_cfr_g11_ela.ster
+{p_end}
+{txt}{p 0 16}
+_ela_sibling_vam_nosibctrl:{break}
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/test_score_va/vam_cfr_g11_ela_nosibctrl.ster
 {p_end}
 {txt}{p 0 16}
 _ela_fb_va_sibling:{break}
@@ -549,18 +722,18 @@ _ela_va_dta_census:{break}
 {res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias_va_g11_ela_census.dta
 {p_end}
 {txt}{p 0 16}
-_ela_fb_va_l4:{space 2}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_test_va_cfr_g11_ela_L4_cst_ela_z_score.ster
+_ela_fb_va_l4:{space 2}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_test_va_cfr_g11_ela_L4ela.ster
 {p_end}
 {txt}{p 0 16}
 _ela_spec_va_l4_peer:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_ela_L4_cst_ela_z_score_peer.ster
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_ela_L4ela_peer.ster
 {p_end}
 {txt}{p 0 16}
 _ela_spec_va_l4:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_ela_L4_cst_ela_z_score.ster
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_spec_test_va_cfr_g11_ela_L4ela.ster
 {p_end}
 {txt}{p 0 16}
-_ela_va_dta_l4:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias_va_g11_ela_L4_cst_ela_z_score.dta
+_ela_va_dta_l4:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias_va_g11_ela_L4ela.dta.dta
 {p_end}
 {txt}{p 0 16}
 _ela_spec_va_peer:{break}
@@ -597,27 +770,6 @@ _va_g11_dataset:{break}
 {txt}{p 0 16}
 _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_core_va/va_dataset
 {p_end}
-{txt}{p 0 16}
-_k12_test_scores_public:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/data/public_access/clean/k12_test_scores
-{p_end}
-{txt}{p 0 16}
-_k12_public_schools:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/data/public_access/clean/k12_public_schools
-{p_end}
-{txt}{p 0 16}
-_public_access:{space 1}{res}{res}/home/research/ca_ed_lab/data/public_access
-{p_end}
-{txt}{p 0 16}
-_k12_test_scores:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/data/restricted_access/clean/k12_test_scores
-{p_end}
-{txt}{p 0 16}
-_ca_ed_lab:{space 5}{res}{res}/home/research/ca_ed_lab
-{p_end}
-{txt}{p 0 16}
-_mattdofiles:{space 3}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/do/matt/adapted_commoncore_va_matt
-{p_end}
 {txt}
 {com}. 
 . 
@@ -641,6 +793,7 @@ _mattdofiles:{space 3}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschl
 .    estimates use ``subject'_fb_va_sibling '
 {txt}  7{com}.    eststo
 {txt}  8{com}. 
+. 
 .    esttab using $projdir/out/csv/siblingvaregs/fb_test/fb_test_`subject'.csv ///
 >    , replace nonumbers se(%4.3f) b(%5.3f) ///
 >    mtitles("L4 Score Sample" "Census Sample" "Sibling Sample") ///
@@ -676,35 +829,45 @@ _mattdofiles:{space 3}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschl
 .    estimates use ``outcome'_fb_va_sibling '
 {txt}  7{com}.    eststo
 {txt}  8{com}. 
+.    // Sibling census sample with census leave out var
+.    estimates use "$vaprojdir/estimates/sibling_va/outcome_va/fb_test_`outcome'_census.ster"
+{txt}  9{com}.    eststo
+{txt} 10{com}. 
 .    esttab using $projdir/out/csv/siblingvaregs/fb_test/fb_test_`outcome'.csv ///
 >    , replace nonumbers se(%4.3f) b(%5.3f) ///
->    mtitles("L4 Score Sample" "Census Sample" "Sibling Sample") ///
+>    mtitles("L4 Score" "Census" "Sibling" "Sibling Census") ///
 >    title("Forecast Bias Tests for ``outcome'_str' VA")
-{txt}  9{com}. 
+{txt} 11{com}. 
 .    eststo clear
-{txt} 10{com}.  {c )-}
+{txt} 12{com}.  {c )-}
 {res}{txt}({res}est1{txt} stored)
 {res}{txt}({res}est2{txt} stored)
 {res}{txt}({res}est3{txt} stored)
+{res}{txt}({res}est4{txt} stored)
 {res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/fb_test/fb_test_enr.csv"'})
 {res}{txt}({res}est1{txt} stored)
 {res}{txt}({res}est2{txt} stored)
 {res}{txt}({res}est3{txt} stored)
+{res}{txt}({res}est4{txt} stored)
 {res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/fb_test/fb_test_enr_2year.csv"'})
 {res}{txt}({res}est1{txt} stored)
 {res}{txt}({res}est2{txt} stored)
 {res}{txt}({res}est3{txt} stored)
+{res}{txt}({res}est4{txt} stored)
 {res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/fb_test/fb_test_enr_4year.csv"'})
 
 {com}. 
 . 
 .  timer off 1
 {txt}
+{com}.  timer list
+{res}   1:      0.18 /        1 =       0.1820
+{txt}
 {com}.  log close
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sibling_fb_test_tab.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}13 Jan 2022, 17:46:01
+ {txt}closed on:  {res}21 Apr 2022, 22:54:55
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

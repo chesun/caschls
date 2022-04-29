@@ -1,0 +1,237 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/responserate/secresponserate.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 7 Apr 2022, 14:56:14
+{txt}
+{com}. 
+. use $projdir/dta/buildanalysisdata/demotrim/secondary/trimsecdemo1415, replace
+{txt}(trimmed secondary demographics 1415 including only survey response and enrollmen)
+
+{com}. merge 1:1 cdscode using $projdir/dta/buildanalysisdata/demotrim/secondary/trimsecdemo1516
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}           1,994
+{txt}{col 9}from master{col 30}{res}             725{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,269{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}             459{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. /* matched: 459. not matched: 1994 (from master: 725, from using: 1269) */
+. 
+. drop _merge
+{txt}
+{com}. merge 1:1 cdscode using $projdir/dta/buildanalysisdata/demotrim/secondary/trimsecdemo1617
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}           1,567
+{txt}{col 9}from master{col 30}{res}           1,269{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             298{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}           1,184{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. /* matched: 1184. not matched: 1567 (frin naster: 1269, from using: 298) */
+. 
+. drop _merge
+{txt}
+{com}. merge 1:1 cdscode using $projdir/dta/buildanalysisdata/demotrim/secondary/trimsecdemo1718
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}           1,297
+{txt}{col 9}from master{col 30}{res}           1,116{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             181{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}           1,635{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. /* matched: 1635. not matched: 1297 (from master: 1116, from using: 181) */
+. 
+. drop _merge
+{txt}
+{com}. merge 1:1 cdscode using $projdir/dta/buildanalysisdata/demotrim/secondary/trimsecdemo1819
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}           1,590
+{txt}{col 9}from master{col 30}{res}           1,471{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             119{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}           1,461{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. /* matched: 1461. not matched: 1590 (from master: 1471, from using: 119) */
+. 
+. drop _merge
+{txt}
+{com}. 
+. local grades `" "9" "10" "11" "12" "' //local macro for grades
+{txt}
+{com}. //recode the missing values for survey response as 0 since unmatched means there were no responses for that year
+. foreach i of local grades {c -(}
+{txt}  2{com}.   replace svygr`i'_1415 = 0 if svygr`i'_1415 == .
+{txt}  3{com}.   replace svygr`i'_1516 = 0 if svygr`i'_1516 == .
+{txt}  4{com}.   replace svygr`i'_1617 = 0 if svygr`i'_1617 == .
+{txt}  5{com}.   replace svygr`i'_1718 = 0 if svygr`i'_1718 == .
+{txt}  6{com}.   replace svygr`i'_1819 = 0 if svygr`i'_1819 == .
+{txt}  7{com}. {c )-}
+{txt}(1,867 real changes made)
+(1,323 real changes made)
+(1,569 real changes made)
+(1,235 real changes made)
+(1,471 real changes made)
+(1,867 real changes made)
+(1,323 real changes made)
+(1,569 real changes made)
+(1,235 real changes made)
+(1,471 real changes made)
+(1,867 real changes made)
+(1,323 real changes made)
+(1,569 real changes made)
+(1,235 real changes made)
+(1,471 real changes made)
+(1,867 real changes made)
+(1,323 real changes made)
+(1,569 real changes made)
+(1,235 real changes made)
+(1,471 real changes made)
+
+{com}. 
+. 
+. 
+. /* generate indicators for which year each school had survey responses */
+. local years `" "1415" "1516" "1617" "1718" "1819" "' //local macro for survey years
+{txt}
+{com}. //generate total survey responses for grades 9-12
+. foreach year of local years {c -(}
+{txt}  2{com}.   gen svy`year' = svygr9_`year' + svygr10_`year' + svygr11_`year' + svygr12_`year'
+{txt}  3{com}.   label var svy`year' "total survey response grades 9-12 in year `year'"
+{txt}  4{com}. {c )-}
+{txt}
+{com}. //generate total enrollment for grades 9-12
+. foreach year of local years {c -(}
+{txt}  2{com}.   gen enr`year' = enrgr9_`year' + enrgr10_`year' + enrgr11_`year' + enrgr12_`year'
+{txt}  3{com}.   label var enr`year' "total enrollment in grades 9-12 in year `year'"
+{txt}  4{com}. {c )-}
+{txt}(1,867 missing values generated)
+(1,323 missing values generated)
+(1,569 missing values generated)
+(1,235 missing values generated)
+(1,471 missing values generated)
+
+{com}. //generate indicators for which years the school has survey responses
+. foreach year of local years {c -(}
+{txt}  2{com}.   gen has`year' = 0
+{txt}  3{com}.   replace has`year' = 1 if svy`year' > 0
+{txt}  4{com}.   label var has`year' "has survey response in year `year'"
+{txt}  5{com}. {c )-}
+{txt}(412 real changes made)
+(583 real changes made)
+(527 real changes made)
+(626 real changes made)
+(570 real changes made)
+
+{com}. 
+. //generate overall response rate for each school including only years with survey responses
+. gen denomtemp = 0 //generate a temp var for the denominator of response rate
+{txt}
+{com}. gen numertemp = 0 //generate a temp var for the numerator of response rate
+{txt}
+{com}. //add up the number of survey responses and enrollment from all years with survey response
+. foreach year of local years {c -(}
+{txt}  2{com}.   replace denomtemp = denomtemp + enr`year' if has`year' == 1
+{txt}  3{com}.   replace numertemp = numertemp + svy`year' if has`year' == 1
+{txt}  4{com}. {c )-}
+{txt}(409 real changes made)
+(412 real changes made)
+(582 real changes made)
+(583 real changes made)
+(527 real changes made)
+(527 real changes made)
+(626 real changes made)
+(626 real changes made)
+(570 real changes made)
+(570 real changes made)
+
+{com}. //generate the pooled response rate only including years with responses
+. gen pooledrr = numertemp/denomtemp
+{txt}(1,995 missing values generated)
+
+{com}. label var pooledrr "pooled response rate for grades 9-12"
+{txt}
+{com}. drop denomtemp numertemp
+{txt}
+{com}. 
+. //generate pooled response rate for grades 9 and 11 for each school including only years with survey responses
+. gen denomtemp = 0 //generate a temp var for the denominator of response rate
+{txt}
+{com}. gen numertemp = 0 //generate a temp var for the numerator of response rate
+{txt}
+{com}. //add up the number of survey responses in grades 9 and 11 and enrollment for grades 9 and 11 from all years with survey response
+. foreach year of local years {c -(}
+{txt}  2{com}.   replace denomtemp = denomtemp + enrgr9_`year' + enrgr11_`year' if has`year' == 1
+{txt}  3{com}.   replace numertemp = numertemp + svygr9_`year' + svygr11_`year' if has`year' == 1
+{txt}  4{com}. {c )-}
+{txt}(409 real changes made)
+(411 real changes made)
+(582 real changes made)
+(582 real changes made)
+(527 real changes made)
+(527 real changes made)
+(626 real changes made)
+(619 real changes made)
+(570 real changes made)
+(559 real changes made)
+
+{com}. //generate the pooled response rate only including years with responses
+. gen pooledrr_gr9and11 = numertemp/denomtemp
+{txt}(1,995 missing values generated)
+
+{com}. label var pooledrr_gr9and11 "pooled response rate for grades 9 and 11"
+{txt}
+{com}. drop denomtemp numertemp
+{txt}
+{com}. 
+. 
+. label data "secondary survey response numbers by grade year with pooled response rates"
+{txt}
+{com}. compress
+  {txt}variable {bf}{res}svy1415{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svy1516{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svy1617{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svy1718{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svy1819{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}enr1415{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}enr1516{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}enr1617{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}enr1718{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}enr1819{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}has1415{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}has1516{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}has1617{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}has1718{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}has1819{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
+{txt}  (106,785 bytes saved)
+
+{com}. save $projdir/dta/buildanalysisdata/responserate/secresponserate, replace
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/responserate/secresponserate.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/responserate/secresponserate.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 7 Apr 2022, 14:56:14
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

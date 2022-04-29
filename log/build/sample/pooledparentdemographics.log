@@ -1,0 +1,88 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/sample
+> /pooledparentdemographics.smcl
+  log type:  smcl
+ opened on:   7 Apr 2022, 14:56:13
+
+. 
+. local years 1415 1516 1617 1718 1819 //local macro for dataset years
+
+. 
+. /* reconstruct parents demographics datasets for pooling across years */
+. local runparentforpooling = 1 //local toggle for reconstructing parents demog
+> raphics data for pooling
+
+. if `runparentforpooling' == 1 {
+.   foreach year of local years {
+  2.     use $projdir/dta/demographics/parent/parentdemo`year', replace
+  3.     keep cdscode svygr9 svygr11 gr9enr gr11enr //there is no sex or ethnic
+> ity in parent data
+  4.     gen year = `year' //generate a variable for the survey year
+  5.     tostring year, replace //make into string
+  6.     label var year "survey year"
+  7. 
+.     compress
+  8.     save $projdir/dta/demographics/pooled/forpooling/parent/parentdemoforp
+> ooling`year', replace
+  9.   }
+( )
+year was float now str4
+  (0 bytes saved)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/pooled
+    > /forpooling/parent/parentdemoforpooling1415.dta saved
+(2015-16 Parent CSPS Data)
+year was float now str4
+  (0 bytes saved)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/pooled
+    > /forpooling/parent/parentdemoforpooling1516.dta saved
+(2016-17 Parent CSPS Data)
+year was float now str4
+  (0 bytes saved)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/pooled
+    > /forpooling/parent/parentdemoforpooling1617.dta saved
+(2017-18 Parent CSPS Data)
+year was float now str4
+  (0 bytes saved)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/pooled
+    > /forpooling/parent/parentdemoforpooling1718.dta saved
+(2018-19 Parent CSPS Data)
+year was float now str4
+  (0 bytes saved)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/pooled
+    > /forpooling/parent/parentdemoforpooling1819.dta saved
+. }
+
+. 
+. /* append all secondary datasets to construct a panel dataset */
+. use $projdir/dta/demographics/pooled/forpooling/parent/parentdemoforpooling14
+> 15, replace
+( )
+
+. append using $projdir/dta/demographics/pooled/forpooling/parent/parentdemofor
+> pooling1516
+
+. append using $projdir/dta/demographics/pooled/forpooling/parent/parentdemofor
+> pooling1617
+
+. append using $projdir/dta/demographics/pooled/forpooling/parent/parentdemofor
+> pooling1718
+
+. append using $projdir/dta/demographics/pooled/forpooling/parent/parentdemofor
+> pooling1819
+
+. 
+. compress
+  (0 bytes saved)
+
+. save $projdir/dta/demographics/pooled/paneldata/parentdemopanel, replace
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/pooled
+    > /paneldata/parentdemopanel.dta saved
+
+. 

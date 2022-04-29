@@ -7,10 +7,14 @@ number of older siblings enrolled and proportion of older siblings enrolled
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************
 ********************** First written on Sep 22, 2021 ***************************
-/* Change log:
+/* CHANGE LOG:
 10/22/2021 Corrected wrong values for has sibling matching to postsec indicators.
 Problem was caused by Stata treating missing value as greater than any nonmissing
 so >0 logic does not work and will return true in case of missing
+
+4/28/2022: Added an indicator for the sibling controls sample for 2 yr and 4 yr
+sibling enrollment controls. This sample consists of obs with at least 1 sibling
+matched to postsec outcomes, and who have non-missing for 2yr and 4yr enr sibling controls
  */
 
 /* to run this do file:
@@ -140,7 +144,10 @@ foreach i of local outcomes {
 
 drop lower_bound
 
-
+// sample indicator for obs to use in VA with sibling 2 yr and 4 yr enrollment controls
+// This sample consists of obs with at least 1 sibling matched to postsec outcomes, and who have non-missing for the sibling controls
+gen sibling_2y_4y_controls_sample = 0
+replace sibling_2y_4y_controls_sample = 1 if !mi(has_older_sibling_enr_2year) & !mi(has_older_sibling_enr_4year) & sibling_out_sample==1
 
 //create sibling outcomes crosswalk
 compress

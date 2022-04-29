@@ -1,0 +1,108 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/poolingdata/mergegr11enr.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 7 Apr 2022, 14:57:25
+{txt}
+{com}. 
+. /* merge gr11 enrollment with parent pooled dataset */
+. use $projdir/dta/buildanalysisdata/analysisready/parentanalysisready, clear
+{txt}(parent pooled (over years) dataset ready for analysis with stats and response ra)
+
+{com}. merge 1:1 cdscode using $projdir/dta/enrollment/schoollevel/poolgr11enr, keepusing(gr11enr_mean)
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}           9,029
+{txt}{col 9}from master{col 30}{res}             445{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           8,584{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}           2,551{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. drop if _merge == 2 //drop unmatched observations from the enrollment dataset
+{txt}(8,584 observations deleted)
+
+{com}. drop _merge
+{txt}
+{com}. 
+. save, replace
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/analysisready/parentanalysisready.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. 
+. /* merge gr11 enrollment with secondary pooled dataset */
+. use $projdir/dta/buildanalysisdata/analysisready/secanalysisready, clear
+{txt}(secondary pooled dataset ready for analysis with stats and response rate)
+
+{com}. merge 1:1 cdscode using $projdir/dta/enrollment/schoollevel/poolgr11enr, keepusing(gr11enr_mean)
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}           8,416
+{txt}{col 9}from master{col 30}{res}             333{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           8,083{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}           3,052{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. drop if _merge == 2 //drop unmatched observations from the enrollment dataset
+{txt}(8,083 observations deleted)
+
+{com}. drop _merge
+{txt}
+{com}. 
+. save, replace
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/analysisready/secanalysisready.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. 
+. /* merge gr11 enrollment with staff pooled dataset */
+. use $projdir/dta/buildanalysisdata/poolingdata/staffpooledstats, clear
+{txt}(weighted average staff qoi statistics pooled over years)
+
+{com}. merge 1:1 cdscode using $projdir/dta/enrollment/schoollevel/poolgr11enr, keepusing(gr11enr_mean)
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}           7,899
+{txt}{col 9}from master{col 30}{res}             488{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           7,411{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}           3,724{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. drop if _merge == 2 //drop unmatched observations from the enrollment dataset
+{txt}(7,411 observations deleted)
+
+{com}. drop _merge
+{txt}
+{com}. 
+. save $projdir/dta/buildanalysisdata/analysisready/staffanalysisready, replace
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/analysisready/staffanalysisready.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/poolingdata/mergegr11enr.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 7 Apr 2022, 14:57:25
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

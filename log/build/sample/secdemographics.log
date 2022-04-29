@@ -1,0 +1,1321 @@
+-------------------------------------------------------------------------------
+      name:  secdemographics
+       log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/sample
+> /secdemographics.smcl
+  log type:  smcl
+ opened on:   7 Apr 2022, 14:53:39
+
+. 
+. *****************************************************************************
+> ***
+. /* the following block renames variables in the secondary datasets. THis crea
+> tes temp datasets to build
+> demographics datasets from in the following block of code */
+. 
+. local runsecblock = 0
+
+. if `runsecblock' == 1 {
+.   use $clndtadir/secondary/sec1415, clear
+.   rename a4 sex
+.   label var sex "sex of student"
+.   rename a5 selfreportgrade
+.   label var selfreportgrade "self-reported grade"
+.   rename a6 hispanic
+.   label var hispanic "the student is hispanic or latino"
+.   rename a7 race
+.   label var race "race of student"
+.   save $projdir/dta/demographics/temp/secondary/sec1415temp, replace
+. 
+. 
+.   use $clndtadir/secondary/sec1516, clear
+.   rename a4 sex
+.   label var sex "sex of student"
+.   rename a5 selfreportgrade
+.   label var selfreportgrade "self-reported grade"
+.   rename a6 hispanic
+.   label var hispanic "the student is hispanic or latino"
+.   rename a7 race
+.   label var race "race of student"
+.   save $projdir/dta/demographics/temp/secondary/sec1516temp, replace
+. 
+. 
+.   use $clndtadir/secondary/sec1617, clear
+.   rename a3 sex
+.   label var sex "sex of student"
+.   rename a4 selfreportgrade
+.   label var selfreportgrade "self-reported grade"
+.   rename a5 hispanic
+.   label var hispanic "the student is hispanic or latino"
+.   rename a6 race
+.   label var race "race of student"
+.   save $projdir/dta/demographics/temp/secondary/sec1617temp, replace
+. 
+. 
+.   /* note: sec1718 and 1819 also  has a self reported gender variable, includ
+> es trans,nb, or questioning as an option */
+. 
+.   use $clndtadir/secondary/sec1718, clear
+.   rename a3 sex
+.   label var sex "sex of student"
+.   rename a4 selfreportgrade
+.   label var selfreportgrade "self-reported grade"
+.   rename a5 hispanic
+.   label var hispanic "the student is hispanic or latino"
+.   rename a6 race
+.   label var race "race of student"
+.   save $projdir/dta/demographics/temp/secondary/sec1718temp, replace
+. 
+. 
+.   use $clndtadir/secondary/sec1819, clear
+.   rename a3 sex
+.   label var sex "sex of student"
+.   rename a4 selfreportgrade
+.   label var selfreportgrade "self-reported grade"
+.   rename a5 hispanic
+.   label var hispanic "the student is hispanic or latino"
+.   rename a6 race
+.   label var race "race of student"
+.   save $projdir/dta/demographics/temp/secondary/sec1819temp, replace
+. 
+. }
+
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. *****************************************************************************
+> ***
+. /* The following block of code builds secondary survey demographics dataset a
+> nd merges with enrollment dataset */
+. 
+. local years `" "1415" "1516" "1617" "1718" "1819" "' //local macro for datase
+> t years, only care about last 5 years right now
+
+. 
+. foreach year of local years {
+  2.   use $projdir/dta/demographics/temp/secondary/sec`year'temp, clear
+  3. 
+.   /* gaenerate variables indicating the sex of each student */
+. 
+.   // NOte: in secondary datasets the var sex equals 1 if male and 2 if female
+.   gen byte female = 0
+  4.   replace female = 1 if sex == 2
+  5. 
+.   gen byte male = 0
+  6.   replace male = 1 if sex == 1
+  7. 
+.   /* generate variables indicating each grade */
+.   /* value label of grade var:
+>   6: 6th grade
+>   7: 7th grade
+>   8: 8th grade
+>   9: 9th grade
+>   10: 10th grade
+>   11: 11th grade
+>   12: 12th grade
+>   13: non traditional  */
+. 
+.   gen byte gr6 = 0
+  8.   gen byte gr7 = 0
+  9.   gen byte gr8 = 0
+ 10.   gen byte gr9 = 0
+ 11.   gen byte gr10 = 0
+ 12.   gen byte gr11 = 0
+ 13.   gen byte gr12 = 0
+ 14.   gen byte grnt = 0
+ 15. 
+.   replace gr6 = 1 if grade == 6 //note: the grade variable here is adjusted b
+> y CBEDS enrollment
+ 16.   replace gr7 = 1 if grade == 7
+ 17.   replace gr8 = 1 if grade == 8
+ 18.   replace gr9 = 1 if grade == 9
+ 19.   replace gr10 = 1 if grade == 10
+ 20.   replace gr11 = 1 if grade == 11
+ 21.   replace gr12 = 1 if grade == 12
+ 22.   replace grnt = 1 if grade == 13 //grnt is a dummy var for non traditioan
+> l student
+ 23. 
+.   /* generate vars for number of female and male students in each grade */
+.   gen byte femalegr6 = 0
+ 24.   replace femalegr6 = 1 if female == 1 & gr6 == 1
+ 25.   gen byte femalegr7 = 0
+ 26.   replace femalegr7 = 1 if female == 1 & gr7 == 1
+ 27.   gen byte femalegr8 = 0
+ 28.   replace femalegr8 = 1 if female == 1 & gr8 == 1
+ 29.   gen byte femalegr9 = 0
+ 30.   replace femalegr9 = 1 if female == 1 & gr9 == 1
+ 31.   gen byte femalegr10 = 0
+ 32.   replace femalegr10 = 1 if female == 1 & gr10 == 1
+ 33.   gen byte femalegr11 = 0
+ 34.   replace femalegr11 = 1 if female == 1 & gr11 == 1
+ 35.   gen byte femalegr12 = 0
+ 36.   replace femalegr12 = 1 if female == 1 & gr12 == 1
+ 37.   gen byte femalegrnt = 0
+ 38.   replace femalegrnt = 1 if female == 1 & grnt == 1
+ 39. 
+.   gen byte malegr6 = 0
+ 40.   replace malegr6 = 1 if male == 1 & gr6 == 1
+ 41.   gen byte malegr7 = 0
+ 42.   replace malegr7 = 1 if male == 1 & gr7 == 1
+ 43.   gen byte malegr8 = 0
+ 44.   replace malegr8 = 1 if male == 1 & gr8 == 1
+ 45.   gen byte malegr9 = 0
+ 46.   replace malegr9 = 1 if male == 1 & gr9 == 1
+ 47.   gen byte malegr10 = 0
+ 48.   replace malegr10 = 1 if male == 1 & gr10 == 1
+ 49.   gen byte malegr11 = 0
+ 50.   replace malegr11 = 1 if male == 1 & gr11 == 1
+ 51.   gen byte malegr12 = 0
+ 52.   replace malegr12 = 1 if male == 1 & gr12 == 1
+ 53.   gen byte malegrnt = 0
+ 54.   replace malegrnt = 1 if male == 1 & grnt == 1
+ 55. 
+.   /* generate vars for number of students by race in each grade */
+. 
+.   /* value label for hispanic:
+>   1: No
+>   2: Yes
+>   value label for race:
+>   1: American Indian or Alaska Native
+>   2: Asian
+>   3: Black or African American
+>   4: Native Hawaiian or Pacific Islander
+>   5: White
+>   6: Mixed (two or more) races */
+. 
+.   local grades `" "6" "7" "8" "9" "10" "11" "12" "nt" "' //generate a local m
+> acro for grades in the dataset
+ 56.   foreach i of local grades {
+ 57.     gen byte hispanicgr`i' = 0 // a dummy var for hispanic students in gra
+> de i
+ 58.     replace hispanicgr`i' = 1 if hispanic == 2 & gr`i' == 1
+ 59.     gen byte nativegr`i' = 0 //a dummy var for american indian or alaskan 
+> native students in grade i
+ 60.     replace nativegr`i' = 1 if race == 1 & gr`i' == 1
+ 61.     gen byte asiangr`i' = 0 //dummy var for asian students in grade i
+ 62.     replace asiangr`i' = 1 if race == 2 & gr`i' == 1
+ 63.     gen byte blackgr`i' = 0 //dummy var for black or african american stud
+> ents in grade i
+ 64.     replace blackgr`i' = 1 if race == 3 & gr`i' == 1
+ 65.     gen byte pacificgr`i' = 0 //dummy var for native hawaiian or pacific i
+> slander students in grade i
+ 66.     replace pacificgr`i' = 1 if race == 4 & gr`i' == 1
+ 67.     gen byte whitegr`i' = 0 //a dummuy var for white students in grade i
+ 68.     replace whitegr`i' = 1 if race == 5 & gr`i' == 1
+ 69.     gen byte mixedgr`i' = 0 //dummy var for mixed (two or more) races stud
+> ents in grade i
+ 70.     replace mixedgr`i' = 1 if race == 6 & gr`i' == 1
+ 71.   }
+ 72. 
+.   //collapse by sum of these dummy vars to get the number of each category of
+>  students for each school
+.   collapse (sum) female male gr6 gr7 gr8 gr9 gr10 gr11 gr12 grnt ///
+>   femalegr6 femalegr7 femalegr8 femalegr9 femalegr10 femalegr11 femalegr12 fe
+> malegrnt ///
+>   malegr6 malegr7 malegr8 malegr9 malegr10 malegr11 malegr12 malegrnt ///
+>   hispanicgr6 hispanicgr7 hispanicgr8 hispanicgr9 hispanicgr10 hispanicgr11 h
+> ispanicgr12 hispanicgrnt ///
+>   nativegr6 nativegr7 nativegr8 nativegr9 nativegr10 nativegr11 nativegr12 na
+> tivegrnt ///
+>   asiangr6 asiangr7 asiangr8 asiangr9 asiangr10 asiangr11 asiangr12 asiangrnt
+>  ///
+>   blackgr6 blackgr7 blackgr8 blackgr9 blackgr10 blackgr11 blackgr12 blackgrnt
+>  ///
+>   pacificgr6 pacificgr7 pacificgr8 pacificgr9 pacificgr10 pacificgr11 pacific
+> gr12 pacificgrnt ///
+>   whitegr6 whitegr7 whitegr8 whitegr9 whitegr10 whitegr11 whitegr12 whitegrnt
+>  ///
+>   mixedgr6 mixedgr7 mixedgr8 mixedgr9 mixedgr10 mixedgr11 mixedgr12 mixedgrnt
+> , by(cdscode)
+ 73. 
+.   rename female svyfemale
+ 74.   rename male svymale
+ 75.   label var svyfemale "number of female students in the survey"
+ 76.   label var svymale "number of male students in the survey"
+ 77. 
+.   foreach i of local grades {
+ 78.     rename gr`i' svygr`i'
+ 79.     label var svygr`i' "number of students in grade `i' in survey"
+ 80.     rename femalegr`i' svyfemalegr`i'
+ 81.     label var svyfemalegr`i' "number of female students in grade `i' in su
+> rvey"
+ 82.     rename malegr`i' svymalegr`i'
+ 83.     label var svymalegr`i' "number of male students in grade `i' in survey
+> "
+ 84. 
+.     rename hispanicgr`i' svyhispanicgr`i'
+ 85.     label var svyhispanicgr`i' "number of Hispanic students in grade `i' i
+> n the survey"
+ 86.     rename nativegr`i' svynativegr`i'
+ 87.     label var svynativegr`i' "number of Native American students in grade 
+> `i' in the survey"
+ 88.     rename asiangr`i' svyasiangr`i'
+ 89.     label var svyasiangr`i' "number of Asian students in grade `i' in the 
+> survey"
+ 90.     rename blackgr`i' svyblackgr`i'
+ 91.     label var svyblackgr`i' "number of black students in grade `i' in the 
+> survey"
+ 92.     rename pacificgr`i' svypacificgr`i'
+ 93.     label var svypacificgr`i' "number of Pacific Islander students in grad
+> e `i' in the survey"
+ 94.     rename whitegr`i' svywhitegr`i'
+ 95.     label var svywhitegr`i' "number of white students in grade `i' in the 
+> survey"
+ 96.     rename mixedgr`i' svymixedgr`i'
+ 97.     label var svymixedgr`i' "number of mixed race students in grade `i' in
+>  the survey"
+ 98.   }
+ 99. 
+. 
+.   //rename the non traditional student vars
+.   label var svygrnt "number of non-traditional students in survey"
+100.   label var svyfemalegrnt "number of non-traditional female students in su
+> rvey"
+101.   label var svymalegrnt "number of non-traditioanl male students in survey
+> "
+102. 
+.   label var svyhispanicgrnt "number of Hispanic non-traditional students in s
+> urvey"
+103.   label var svynativegrnt "number of Native American non-traditional stude
+> nts in survey"
+104.   label var svyasiangrnt "number of Asian non-traditional students in surv
+> ey"
+105.   label var svyblackgrnt "number of black non-traditional students in surv
+> ey"
+106.   label var svypacificgrnt "number of Pacific Islander non-traditional stu
+> dents in survey"
+107.   label var svywhitegrnt "number of white non-traditional students in surv
+> ey"
+108.   label var svymixedgrnt "number of mixed-race non-traditional students in
+>  survey"
+109. 
+.   drop if missing(cdscode) //drop observations with missing cdscode
+110. 
+.   merge 1:1 cdscode using $projdir/dta/enrollment/schoollevel/enr`year' //mer
+> ge with frequency dataset (number of surveys for each school)
+111.   drop if _merge != 3 //drop all observations that are not matched
+112.   drop _merge
+113. 
+.   compress //compress dataset to save memory
+114.   save $projdir/dta/demographics/secondary/secdemo`year', replace
+115. 
+. }
+(169,291 real changes made)
+(168,770 real changes made)
+(3,732 real changes made)
+(115,167 real changes made)
+(7,398 real changes made)
+(103,731 real changes made)
+(13,869 real changes made)
+(84,351 real changes made)
+(9,829 real changes made)
+(9,140 real changes made)
+(1,400 real changes made)
+(56,124 real changes made)
+(3,225 real changes made)
+(50,028 real changes made)
+(6,752 real changes made)
+(41,319 real changes made)
+(4,920 real changes made)
+(3,422 real changes made)
+(1,381 real changes made)
+(54,756 real changes made)
+(3,129 real changes made)
+(49,924 real changes made)
+(6,911 real changes made)
+(40,306 real changes made)
+(4,808 real changes made)
+(5,395 real changes made)
+(2,049 real changes made)
+(266 real changes made)
+(204 real changes made)
+(196 real changes made)
+(54 real changes made)
+(923 real changes made)
+(1,733 real changes made)
+(61,442 real changes made)
+(4,305 real changes made)
+(11,078 real changes made)
+(4,826 real changes made)
+(1,706 real changes made)
+(29,377 real changes made)
+(49,736 real changes made)
+(4,262 real changes made)
+(442 real changes made)
+(393 real changes made)
+(376 real changes made)
+(102 real changes made)
+(1,716 real changes made)
+(3,232 real changes made)
+(55,380 real changes made)
+(3,711 real changes made)
+(11,363 real changes made)
+(4,727 real changes made)
+(2,140 real changes made)
+(27,169 real changes made)
+(39,741 real changes made)
+(7,434 real changes made)
+(542 real changes made)
+(1,197 real changes made)
+(780 real changes made)
+(274 real changes made)
+(3,959 real changes made)
+(4,571 real changes made)
+(45,544 real changes made)
+(2,754 real changes made)
+(8,712 real changes made)
+(3,903 real changes made)
+(1,988 real changes made)
+(24,890 real changes made)
+(28,174 real changes made)
+(5,116 real changes made)
+(302 real changes made)
+(1,004 real changes made)
+(652 real changes made)
+(196 real changes made)
+(3,213 real changes made)
+(2,574 real changes made)
+(6,134 real changes made)
+(565 real changes made)
+(213 real changes made)
+(684 real changes made)
+(173 real changes made)
+(1,964 real changes made)
+(3,721 real changes made)
+(1 observation deleted)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         9,331
+        from master                        96  (_merge==1)
+        from using                      9,235  (_merge==2)
+
+    Matched                             1,184  (_merge==3)
+    -----------------------------------------
+(9,331 observations deleted)
+  variable gr1femaleenr was int now byte
+  variable gr1maleenr was int now byte
+  variable gr2maleenr was int now byte
+  variable gr3femaleenr was int now byte
+  variable gr4femaleenr was int now byte
+  variable gr4maleenr was int now byte
+  variable gr5femaleenr was int now byte
+  variable gr5maleenr was int now byte
+  variable gr1noethnicenr was int now byte
+  variable gr1asianenr was int now byte
+  variable gr1blackenr was int now byte
+  variable gr1whiteenr was int now byte
+  variable gr2noethnicenr was int now byte
+  variable gr2asianenr was int now byte
+  variable gr2blackenr was int now byte
+  variable gr2whiteenr was int now byte
+  variable gr3noethnicenr was int now byte
+  variable gr3asianenr was int now byte
+  variable gr4noethnicenr was int now byte
+  variable gr4asianenr was int now byte
+  variable gr5noethnicenr was int now byte
+  variable gr5asianenr was int now byte
+  variable gr6filipinoenr was int now byte
+  variable gr9noethnicenr was int now byte
+  variable gr12noethnicenr was int now byte
+  variable svyfemale was double now int
+  variable svymale was double now int
+  variable svygr6 was double now int
+  variable svygr7 was double now int
+  variable svygr8 was double now int
+  variable svygr9 was double now int
+  variable svygr10 was double now int
+  variable svygr11 was double now int
+  variable svygr12 was double now int
+  variable svygrnt was double now int
+  variable svyfemalegr6 was double now int
+  variable svyfemalegr7 was double now int
+  variable svyfemalegr8 was double now int
+  variable svyfemalegr9 was double now int
+  variable svyfemalegr10 was double now int
+  variable svyfemalegr11 was double now int
+  variable svyfemalegr12 was double now int
+  variable svyfemalegrnt was double now int
+  variable svymalegr6 was double now int
+  variable svymalegr7 was double now int
+  variable svymalegr8 was double now int
+  variable svymalegr9 was double now int
+  variable svymalegr10 was double now int
+  variable svymalegr11 was double now int
+  variable svymalegr12 was double now int
+  variable svymalegrnt was double now int
+  variable svyhispanicgr6 was double now int
+  variable svyhispanicgr7 was double now int
+  variable svyhispanicgr8 was double now int
+  variable svyhispanicgr9 was double now int
+  variable svyhispanicgr10 was double now int
+  variable svyhispanicgr11 was double now int
+  variable svyhispanicgr12 was double now int
+  variable svyhispanicgrnt was double now int
+  variable svynativegr6 was double now byte
+  variable svynativegr7 was double now int
+  variable svynativegr8 was double now int
+  variable svynativegr9 was double now int
+  variable svynativegr10 was double now byte
+  variable svynativegr11 was double now int
+  variable svynativegr12 was double now byte
+  variable svynativegrnt was double now byte
+  variable svyasiangr6 was double now byte
+  variable svyasiangr7 was double now int
+  variable svyasiangr8 was double now byte
+  variable svyasiangr9 was double now int
+  variable svyasiangr10 was double now int
+  variable svyasiangr11 was double now int
+  variable svyasiangr12 was double now int
+  variable svyasiangrnt was double now byte
+  variable svyblackgr6 was double now byte
+  variable svyblackgr7 was double now byte
+  variable svyblackgr8 was double now byte
+  variable svyblackgr9 was double now int
+  variable svyblackgr10 was double now byte
+  variable svyblackgr11 was double now byte
+  variable svyblackgr12 was double now byte
+  variable svyblackgrnt was double now byte
+  variable svypacificgr6 was double now byte
+  variable svypacificgr7 was double now byte
+  variable svypacificgr8 was double now byte
+  variable svypacificgr9 was double now byte
+  variable svypacificgr10 was double now byte
+  variable svypacificgr11 was double now byte
+  variable svypacificgr12 was double now byte
+  variable svypacificgrnt was double now byte
+  variable svywhitegr6 was double now byte
+  variable svywhitegr7 was double now int
+  variable svywhitegr8 was double now int
+  variable svywhitegr9 was double now int
+  variable svywhitegr10 was double now int
+  variable svywhitegr11 was double now int
+  variable svywhitegr12 was double now int
+  variable svywhitegrnt was double now int
+  variable svymixedgr6 was double now int
+  variable svymixedgr7 was double now int
+  variable svymixedgr8 was double now int
+  variable svymixedgr9 was double now int
+  variable svymixedgr10 was double now int
+  variable svymixedgr11 was double now int
+  variable svymixedgr12 was double now int
+  variable svymixedgrnt was double now int
+  (639,360 bytes saved)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/second
+    > ary/secdemo1415.dta saved
+(2015-16 secondary CHKS data)
+(271,552 real changes made)
+(278,755 real changes made)
+(5,074 real changes made)
+(175,756 real changes made)
+(13,888 real changes made)
+(167,629 real changes made)
+(20,250 real changes made)
+(141,346 real changes made)
+(15,970 real changes made)
+(17,989 real changes made)
+(2,478 real changes made)
+(85,349 real changes made)
+(6,675 real changes made)
+(81,494 real changes made)
+(9,628 real changes made)
+(69,215 real changes made)
+(7,769 real changes made)
+(6,474 real changes made)
+(2,411 real changes made)
+(86,466 real changes made)
+(7,012 real changes made)
+(82,121 real changes made)
+(10,151 real changes made)
+(68,839 real changes made)
+(7,847 real changes made)
+(11,052 real changes made)
+(2,141 real changes made)
+(234 real changes made)
+(592 real changes made)
+(436 real changes made)
+(58 real changes made)
+(1,227 real changes made)
+(2,115 real changes made)
+(79,961 real changes made)
+(6,484 real changes made)
+(21,120 real changes made)
+(7,481 real changes made)
+(2,565 real changes made)
+(46,892 real changes made)
+(75,648 real changes made)
+(6,922 real changes made)
+(423 real changes made)
+(1,064 real changes made)
+(935 real changes made)
+(207 real changes made)
+(3,515 real changes made)
+(5,926 real changes made)
+(80,003 real changes made)
+(5,885 real changes made)
+(18,713 real changes made)
+(7,748 real changes made)
+(3,358 real changes made)
+(49,997 real changes made)
+(63,280 real changes made)
+(10,055 real changes made)
+(741 real changes made)
+(1,939 real changes made)
+(1,247 real changes made)
+(423 real changes made)
+(6,134 real changes made)
+(6,686 real changes made)
+(67,118 real changes made)
+(4,377 real changes made)
+(16,590 real changes made)
+(6,718 real changes made)
+(2,990 real changes made)
+(48,403 real changes made)
+(43,429 real changes made)
+(7,939 real changes made)
+(525 real changes made)
+(1,636 real changes made)
+(1,041 real changes made)
+(274 real changes made)
+(5,433 real changes made)
+(4,407 real changes made)
+(11,361 real changes made)
+(1,076 real changes made)
+(471 real changes made)
+(1,620 real changes made)
+(293 real changes made)
+(3,903 real changes made)
+(7,533 real changes made)
+(1 observation deleted)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         8,959
+        from master                       226  (_merge==1)
+        from using                      8,733  (_merge==2)
+
+    Matched                             1,728  (_merge==3)
+    -----------------------------------------
+(8,959 observations deleted)
+  variable gr1femaleenr was int now byte
+  variable gr1maleenr was int now byte
+  variable gr2femaleenr was int now byte
+  variable gr2maleenr was int now byte
+  variable gr3femaleenr was int now byte
+  variable gr3maleenr was int now byte
+  variable gr4femaleenr was int now byte
+  variable gr4maleenr was int now byte
+  variable gr1asianenr was int now byte
+  variable gr1blackenr was int now byte
+  variable gr1whiteenr was int now byte
+  variable gr2asianenr was int now byte
+  variable gr2blackenr was int now byte
+  variable gr2whiteenr was int now byte
+  variable gr3asianenr was int now byte
+  variable gr3blackenr was int now byte
+  variable gr3whiteenr was int now byte
+  variable gr4asianenr was int now byte
+  variable gr5blackenr was int now byte
+  variable gr6noethnicenr was int now byte
+  variable gr6filipinoenr was int now byte
+  variable gr6blackenr was int now byte
+  variable gr7noethnicenr was int now byte
+  variable gr7filipinoenr was int now byte
+  variable gr8noethnicenr was int now byte
+  variable gr8filipinoenr was int now byte
+  variable svyfemale was double now int
+  variable svymale was double now int
+  variable svygr6 was double now int
+  variable svygr7 was double now int
+  variable svygr8 was double now int
+  variable svygr9 was double now int
+  variable svygr10 was double now int
+  variable svygr11 was double now int
+  variable svygr12 was double now int
+  variable svygrnt was double now int
+  variable svyfemalegr6 was double now int
+  variable svyfemalegr7 was double now int
+  variable svyfemalegr8 was double now int
+  variable svyfemalegr9 was double now int
+  variable svyfemalegr10 was double now int
+  variable svyfemalegr11 was double now int
+  variable svyfemalegr12 was double now int
+  variable svyfemalegrnt was double now int
+  variable svymalegr6 was double now int
+  variable svymalegr7 was double now int
+  variable svymalegr8 was double now int
+  variable svymalegr9 was double now int
+  variable svymalegr10 was double now int
+  variable svymalegr11 was double now int
+  variable svymalegr12 was double now int
+  variable svymalegrnt was double now int
+  variable svyhispanicgr6 was double now int
+  variable svyhispanicgr7 was double now int
+  variable svyhispanicgr8 was double now int
+  variable svyhispanicgr9 was double now int
+  variable svyhispanicgr10 was double now int
+  variable svyhispanicgr11 was double now int
+  variable svyhispanicgr12 was double now int
+  variable svyhispanicgrnt was double now int
+  variable svynativegr6 was double now byte
+  variable svynativegr7 was double now int
+  variable svynativegr8 was double now byte
+  variable svynativegr9 was double now int
+  variable svynativegr10 was double now byte
+  variable svynativegr11 was double now int
+  variable svynativegr12 was double now byte
+  variable svynativegrnt was double now byte
+  variable svyasiangr6 was double now byte
+  variable svyasiangr7 was double now int
+  variable svyasiangr8 was double now int
+  variable svyasiangr9 was double now int
+  variable svyasiangr10 was double now int
+  variable svyasiangr11 was double now int
+  variable svyasiangr12 was double now byte
+  variable svyasiangrnt was double now byte
+  variable svyblackgr6 was double now byte
+  variable svyblackgr7 was double now byte
+  variable svyblackgr8 was double now byte
+  variable svyblackgr9 was double now int
+  variable svyblackgr10 was double now byte
+  variable svyblackgr11 was double now byte
+  variable svyblackgr12 was double now byte
+  variable svyblackgrnt was double now byte
+  variable svypacificgr6 was double now byte
+  variable svypacificgr7 was double now byte
+  variable svypacificgr8 was double now byte
+  variable svypacificgr9 was double now byte
+  variable svypacificgr10 was double now byte
+  variable svypacificgr11 was double now byte
+  variable svypacificgr12 was double now byte
+  variable svypacificgrnt was double now byte
+  variable svywhitegr6 was double now int
+  variable svywhitegr7 was double now int
+  variable svywhitegr8 was double now int
+  variable svywhitegr9 was double now int
+  variable svywhitegr10 was double now int
+  variable svywhitegr11 was double now int
+  variable svywhitegr12 was double now int
+  variable svywhitegrnt was double now int
+  variable svymixedgr6 was double now int
+  variable svymixedgr7 was double now int
+  variable svymixedgr8 was double now int
+  variable svymixedgr9 was double now int
+  variable svymixedgr10 was double now int
+  variable svymixedgr11 was double now int
+  variable svymixedgr12 was double now int
+  variable svymixedgrnt was double now int
+  (934,848 bytes saved)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/second
+    > ary/secdemo1516.dta saved
+(2016-17 Secondary CHKS Data)
+(229,260 real changes made)
+(233,578 real changes made)
+(4,688 real changes made)
+(145,275 real changes made)
+(14,672 real changes made)
+(141,666 real changes made)
+(18,215 real changes made)
+(121,194 real changes made)
+(14,314 real changes made)
+(13,166 real changes made)
+(2,239 real changes made)
+(70,260 real changes made)
+(7,300 real changes made)
+(68,489 real changes made)
+(8,544 real changes made)
+(58,785 real changes made)
+(6,862 real changes made)
+(4,742 real changes made)
+(2,246 real changes made)
+(70,897 real changes made)
+(7,151 real changes made)
+(68,682 real changes made)
+(8,922 real changes made)
+(58,556 real changes made)
+(7,047 real changes made)
+(7,838 real changes made)
+(2,168 real changes made)
+(149 real changes made)
+(316 real changes made)
+(213 real changes made)
+(57 real changes made)
+(1,524 real changes made)
+(2,031 real changes made)
+(76,786 real changes made)
+(5,676 real changes made)
+(14,076 real changes made)
+(5,914 real changes made)
+(1,871 real changes made)
+(36,213 real changes made)
+(68,737 real changes made)
+(6,650 real changes made)
+(425 real changes made)
+(1,119 real changes made)
+(690 real changes made)
+(181 real changes made)
+(4,839 real changes made)
+(5,916 real changes made)
+(78,120 real changes made)
+(5,516 real changes made)
+(13,629 real changes made)
+(6,312 real changes made)
+(2,440 real changes made)
+(38,451 real changes made)
+(59,599 real changes made)
+(8,882 real changes made)
+(641 real changes made)
+(1,783 real changes made)
+(1,016 real changes made)
+(269 real changes made)
+(6,141 real changes made)
+(5,717 real changes made)
+(66,312 real changes made)
+(4,643 real changes made)
+(13,241 real changes made)
+(5,783 real changes made)
+(2,244 real changes made)
+(37,709 real changes made)
+(40,303 real changes made)
+(6,923 real changes made)
+(431 real changes made)
+(1,561 real changes made)
+(939 real changes made)
+(240 real changes made)
+(5,166 real changes made)
+(3,546 real changes made)
+(9,188 real changes made)
+(805 real changes made)
+(244 real changes made)
+(953 real changes made)
+(191 real changes made)
+(2,762 real changes made)
+(5,977 real changes made)
+(1 observation deleted)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         9,130
+        from master                       129  (_merge==1)
+        from using                      9,001  (_merge==2)
+
+    Matched                             1,482  (_merge==3)
+    -----------------------------------------
+(9,130 observations deleted)
+  variable gr1maleenr was int now byte
+  variable gr2femaleenr was int now byte
+  variable gr2maleenr was int now byte
+  variable gr3femaleenr was int now byte
+  variable gr3maleenr was int now byte
+  variable gr4maleenr was int now byte
+  variable gr5femaleenr was int now byte
+  variable gr5maleenr was int now byte
+  variable gr1noethnicenr was int now byte
+  variable gr1asianenr was int now byte
+  variable gr1blackenr was int now byte
+  variable gr1whiteenr was int now byte
+  variable gr2asianenr was int now byte
+  variable gr2blackenr was int now byte
+  variable gr2whiteenr was int now byte
+  variable gr3asianenr was int now byte
+  variable gr3blackenr was int now byte
+  variable gr3whiteenr was int now byte
+  variable gr4asianenr was int now byte
+  variable gr5asianenr was int now byte
+  variable gr5blackenr was int now byte
+  variable gr6filipinoenr was int now byte
+  variable gr6blackenr was int now byte
+  variable svyfemale was double now int
+  variable svymale was double now int
+  variable svygr6 was double now int
+  variable svygr7 was double now int
+  variable svygr8 was double now int
+  variable svygr9 was double now int
+  variable svygr10 was double now int
+  variable svygr11 was double now int
+  variable svygr12 was double now int
+  variable svygrnt was double now int
+  variable svyfemalegr6 was double now int
+  variable svyfemalegr7 was double now int
+  variable svyfemalegr8 was double now int
+  variable svyfemalegr9 was double now int
+  variable svyfemalegr10 was double now int
+  variable svyfemalegr11 was double now int
+  variable svyfemalegr12 was double now int
+  variable svyfemalegrnt was double now int
+  variable svymalegr6 was double now int
+  variable svymalegr7 was double now int
+  variable svymalegr8 was double now int
+  variable svymalegr9 was double now int
+  variable svymalegr10 was double now int
+  variable svymalegr11 was double now int
+  variable svymalegr12 was double now int
+  variable svymalegrnt was double now int
+  variable svyhispanicgr6 was double now int
+  variable svyhispanicgr7 was double now int
+  variable svyhispanicgr8 was double now int
+  variable svyhispanicgr9 was double now int
+  variable svyhispanicgr10 was double now int
+  variable svyhispanicgr11 was double now int
+  variable svyhispanicgr12 was double now int
+  variable svyhispanicgrnt was double now int
+  variable svynativegr6 was double now byte
+  variable svynativegr7 was double now int
+  variable svynativegr8 was double now byte
+  variable svynativegr9 was double now int
+  variable svynativegr10 was double now byte
+  variable svynativegr11 was double now int
+  variable svynativegr12 was double now byte
+  variable svynativegrnt was double now byte
+  variable svyasiangr6 was double now int
+  variable svyasiangr7 was double now int
+  variable svyasiangr8 was double now int
+  variable svyasiangr9 was double now int
+  variable svyasiangr10 was double now int
+  variable svyasiangr11 was double now int
+  variable svyasiangr12 was double now int
+  variable svyasiangrnt was double now byte
+  variable svyblackgr6 was double now byte
+  variable svyblackgr7 was double now byte
+  variable svyblackgr8 was double now byte
+  variable svyblackgr9 was double now byte
+  variable svyblackgr10 was double now byte
+  variable svyblackgr11 was double now byte
+  variable svyblackgr12 was double now byte
+  variable svyblackgrnt was double now byte
+  variable svypacificgr6 was double now byte
+  variable svypacificgr7 was double now byte
+  variable svypacificgr8 was double now byte
+  variable svypacificgr9 was double now byte
+  variable svypacificgr10 was double now byte
+  variable svypacificgr11 was double now byte
+  variable svypacificgr12 was double now byte
+  variable svypacificgrnt was double now byte
+  variable svywhitegr6 was double now int
+  variable svywhitegr7 was double now int
+  variable svywhitegr8 was double now int
+  variable svywhitegr9 was double now int
+  variable svywhitegr10 was double now int
+  variable svywhitegr11 was double now int
+  variable svywhitegr12 was double now int
+  variable svywhitegrnt was double now int
+  variable svymixedgr6 was double now byte
+  variable svymixedgr7 was double now int
+  variable svymixedgr8 was double now int
+  variable svymixedgr9 was double now int
+  variable svymixedgr10 was double now int
+  variable svymixedgr11 was double now int
+  variable svymixedgr12 was double now int
+  variable svymixedgrnt was double now int
+  (797,316 bytes saved)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/second
+    > ary/secdemo1617.dta saved
+(2017-18 Secondary CHKS Data)
+(304,310 real changes made)
+(311,584 real changes made)
+(5,315 real changes made)
+(205,794 real changes made)
+(15,419 real changes made)
+(193,787 real changes made)
+(26,057 real changes made)
+(162,863 real changes made)
+(20,123 real changes made)
+(18,364 real changes made)
+(2,658 real changes made)
+(96,539 real changes made)
+(7,465 real changes made)
+(91,445 real changes made)
+(11,522 real changes made)
+(77,654 real changes made)
+(9,811 real changes made)
+(6,130 real changes made)
+(2,527 real changes made)
+(97,573 real changes made)
+(7,777 real changes made)
+(92,049 real changes made)
+(12,006 real changes made)
+(77,464 real changes made)
+(9,859 real changes made)
+(11,118 real changes made)
+(3,051 real changes made)
+(229 real changes made)
+(261 real changes made)
+(416 real changes made)
+(58 real changes made)
+(1,049 real changes made)
+(2,604 real changes made)
+(99,426 real changes made)
+(7,717 real changes made)
+(25,606 real changes made)
+(8,540 real changes made)
+(2,789 real changes made)
+(49,876 real changes made)
+(96,179 real changes made)
+(7,744 real changes made)
+(472 real changes made)
+(1,215 real changes made)
+(1,017 real changes made)
+(152 real changes made)
+(4,227 real changes made)
+(6,797 real changes made)
+(95,458 real changes made)
+(7,124 real changes made)
+(23,082 real changes made)
+(8,262 real changes made)
+(3,356 real changes made)
+(55,744 real changes made)
+(79,429 real changes made)
+(12,028 real changes made)
+(890 real changes made)
+(2,646 real changes made)
+(1,366 real changes made)
+(458 real changes made)
+(7,142 real changes made)
+(8,809 real changes made)
+(79,691 real changes made)
+(5,767 real changes made)
+(21,085 real changes made)
+(7,425 real changes made)
+(3,200 real changes made)
+(54,779 real changes made)
+(53,499 real changes made)
+(9,808 real changes made)
+(621 real changes made)
+(2,437 real changes made)
+(1,251 real changes made)
+(347 real changes made)
+(7,081 real changes made)
+(5,718 real changes made)
+(12,151 real changes made)
+(1,126 real changes made)
+(422 real changes made)
+(1,528 real changes made)
+(309 real changes made)
+(3,871 real changes made)
+(8,462 real changes made)
+(1 observation deleted)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         8,932
+        from master                       273  (_merge==1)
+        from using                      8,659  (_merge==2)
+
+    Matched                             1,816  (_merge==3)
+    -----------------------------------------
+(8,932 observations deleted)
+  variable gr1femaleenr was int now byte
+  variable gr1maleenr was int now byte
+  variable gr2femaleenr was int now byte
+  variable gr2maleenr was int now byte
+  variable gr3femaleenr was int now byte
+  variable gr3maleenr was int now byte
+  variable gr4femaleenr was int now byte
+  variable gr4maleenr was int now byte
+  variable gr1noethnicenr was int now byte
+  variable gr1asianenr was int now byte
+  variable gr1blackenr was int now byte
+  variable gr1whiteenr was int now byte
+  variable gr2asianenr was int now byte
+  variable gr2blackenr was int now byte
+  variable gr2whiteenr was int now byte
+  variable gr3asianenr was int now byte
+  variable gr3blackenr was int now byte
+  variable gr3whiteenr was int now byte
+  variable gr4asianenr was int now byte
+  variable gr6filipinoenr was int now byte
+  variable gr7filipinoenr was int now byte
+  variable gr8noethnicenr was int now byte
+  variable gr8blackenr was int now byte
+  variable gr10noethnicenr was int now byte
+  variable gr11noethnicenr was int now byte
+  variable svyfemale was double now int
+  variable svymale was double now int
+  variable svygr6 was double now int
+  variable svygr7 was double now int
+  variable svygr8 was double now int
+  variable svygr9 was double now int
+  variable svygr10 was double now int
+  variable svygr11 was double now int
+  variable svygr12 was double now int
+  variable svygrnt was double now int
+  variable svyfemalegr6 was double now int
+  variable svyfemalegr7 was double now int
+  variable svyfemalegr8 was double now int
+  variable svyfemalegr9 was double now int
+  variable svyfemalegr10 was double now int
+  variable svyfemalegr11 was double now int
+  variable svyfemalegr12 was double now int
+  variable svyfemalegrnt was double now int
+  variable svymalegr6 was double now int
+  variable svymalegr7 was double now int
+  variable svymalegr8 was double now int
+  variable svymalegr9 was double now int
+  variable svymalegr10 was double now int
+  variable svymalegr11 was double now int
+  variable svymalegr12 was double now int
+  variable svymalegrnt was double now int
+  variable svyhispanicgr6 was double now int
+  variable svyhispanicgr7 was double now int
+  variable svyhispanicgr8 was double now int
+  variable svyhispanicgr9 was double now int
+  variable svyhispanicgr10 was double now int
+  variable svyhispanicgr11 was double now int
+  variable svyhispanicgr12 was double now int
+  variable svyhispanicgrnt was double now int
+  variable svynativegr6 was double now byte
+  variable svynativegr7 was double now int
+  variable svynativegr8 was double now byte
+  variable svynativegr9 was double now int
+  variable svynativegr10 was double now byte
+  variable svynativegr11 was double now int
+  variable svynativegr12 was double now byte
+  variable svynativegrnt was double now byte
+  variable svyasiangr6 was double now byte
+  variable svyasiangr7 was double now int
+  variable svyasiangr8 was double now int
+  variable svyasiangr9 was double now int
+  variable svyasiangr10 was double now int
+  variable svyasiangr11 was double now int
+  variable svyasiangr12 was double now int
+  variable svyasiangrnt was double now byte
+  variable svyblackgr6 was double now byte
+  variable svyblackgr7 was double now byte
+  variable svyblackgr8 was double now byte
+  variable svyblackgr9 was double now int
+  variable svyblackgr10 was double now byte
+  variable svyblackgr11 was double now byte
+  variable svyblackgr12 was double now byte
+  variable svyblackgrnt was double now byte
+  variable svypacificgr6 was double now byte
+  variable svypacificgr7 was double now byte
+  variable svypacificgr8 was double now byte
+  variable svypacificgr9 was double now byte
+  variable svypacificgr10 was double now byte
+  variable svypacificgr11 was double now byte
+  variable svypacificgr12 was double now byte
+  variable svypacificgrnt was double now byte
+  variable svywhitegr6 was double now byte
+  variable svywhitegr7 was double now int
+  variable svywhitegr8 was double now int
+  variable svywhitegr9 was double now int
+  variable svywhitegr10 was double now int
+  variable svywhitegr11 was double now int
+  variable svywhitegr12 was double now int
+  variable svywhitegrnt was double now int
+  variable svymixedgr6 was double now int
+  variable svymixedgr7 was double now int
+  variable svymixedgr8 was double now int
+  variable svymixedgr9 was double now int
+  variable svymixedgr10 was double now int
+  variable svymixedgr11 was double now int
+  variable svymixedgr12 was double now int
+  variable svymixedgrnt was double now int
+  (980,640 bytes saved)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/second
+    > ary/secdemo1718.dta saved
+(2018-19 Secondary CHKS Data)
+(234,430 real changes made)
+(239,019 real changes made)
+(5,434 real changes made)
+(165,956 real changes made)
+(14,639 real changes made)
+(148,280 real changes made)
+(21,796 real changes made)
+(121,986 real changes made)
+(18,215 real changes made)
+(12,842 real changes made)
+(2,779 real changes made)
+(76,232 real changes made)
+(7,140 real changes made)
+(67,775 real changes made)
+(10,516 real changes made)
+(56,469 real changes made)
+(8,621 real changes made)
+(4,205 real changes made)
+(2,574 real changes made)
+(77,465 real changes made)
+(7,139 real changes made)
+(68,540 real changes made)
+(10,458 real changes made)
+(55,688 real changes made)
+(8,799 real changes made)
+(7,659 real changes made)
+(2,771 real changes made)
+(156 real changes made)
+(271 real changes made)
+(308 real changes made)
+(51 real changes made)
+(1,411 real changes made)
+(2,742 real changes made)
+(89,561 real changes made)
+(6,091 real changes made)
+(15,589 real changes made)
+(6,674 real changes made)
+(1,911 real changes made)
+(38,966 real changes made)
+(84,014 real changes made)
+(7,788 real changes made)
+(437 real changes made)
+(895 real changes made)
+(828 real changes made)
+(184 real changes made)
+(4,029 real changes made)
+(6,987 real changes made)
+(80,131 real changes made)
+(5,629 real changes made)
+(16,218 real changes made)
+(5,886 real changes made)
+(2,251 real changes made)
+(39,924 real changes made)
+(64,395 real changes made)
+(11,621 real changes made)
+(807 real changes made)
+(2,313 real changes made)
+(895 real changes made)
+(360 real changes made)
+(6,876 real changes made)
+(8,107 real changes made)
+(66,041 real changes made)
+(4,831 real changes made)
+(14,037 real changes made)
+(5,029 real changes made)
+(1,995 real changes made)
+(39,895 real changes made)
+(42,055 real changes made)
+(9,383 real changes made)
+(589 real changes made)
+(2,326 real changes made)
+(847 real changes made)
+(290 real changes made)
+(6,619 real changes made)
+(5,082 real changes made)
+(8,836 real changes made)
+(738 real changes made)
+(273 real changes made)
+(880 real changes made)
+(206 real changes made)
+(2,808 real changes made)
+(6,170 real changes made)
+(0 observations deleted)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         9,072
+        from master                       131  (_merge==1)
+        from using                      8,941  (_merge==2)
+
+    Matched                             1,580  (_merge==3)
+    -----------------------------------------
+(9,072 observations deleted)
+  variable gr1asianenr was int now byte
+  variable gr1blackenr was int now byte
+  variable gr2asianenr was int now byte
+  variable gr2blackenr was int now byte
+  variable gr3asianenr was int now byte
+  variable gr4asianenr was int now byte
+  variable gr5asianenr was int now byte
+  variable gr6filipinoenr was int now byte
+  variable svyfemale was double now int
+  variable svymale was double now int
+  variable svygr6 was double now int
+  variable svygr7 was double now int
+  variable svygr8 was double now int
+  variable svygr9 was double now int
+  variable svygr10 was double now int
+  variable svygr11 was double now int
+  variable svygr12 was double now int
+  variable svygrnt was double now int
+  variable svyfemalegr6 was double now int
+  variable svyfemalegr7 was double now int
+  variable svyfemalegr8 was double now int
+  variable svyfemalegr9 was double now int
+  variable svyfemalegr10 was double now int
+  variable svyfemalegr11 was double now int
+  variable svyfemalegr12 was double now int
+  variable svyfemalegrnt was double now int
+  variable svymalegr6 was double now int
+  variable svymalegr7 was double now int
+  variable svymalegr8 was double now int
+  variable svymalegr9 was double now int
+  variable svymalegr10 was double now int
+  variable svymalegr11 was double now int
+  variable svymalegr12 was double now int
+  variable svymalegrnt was double now int
+  variable svyhispanicgr6 was double now int
+  variable svyhispanicgr7 was double now int
+  variable svyhispanicgr8 was double now int
+  variable svyhispanicgr9 was double now int
+  variable svyhispanicgr10 was double now int
+  variable svyhispanicgr11 was double now int
+  variable svyhispanicgr12 was double now int
+  variable svyhispanicgrnt was double now int
+  variable svynativegr6 was double now byte
+  variable svynativegr7 was double now int
+  variable svynativegr8 was double now byte
+  variable svynativegr9 was double now int
+  variable svynativegr10 was double now byte
+  variable svynativegr11 was double now int
+  variable svynativegr12 was double now byte
+  variable svynativegrnt was double now byte
+  variable svyasiangr6 was double now byte
+  variable svyasiangr7 was double now int
+  variable svyasiangr8 was double now byte
+  variable svyasiangr9 was double now int
+  variable svyasiangr10 was double now int
+  variable svyasiangr11 was double now int
+  variable svyasiangr12 was double now int
+  variable svyasiangrnt was double now byte
+  variable svyblackgr6 was double now byte
+  variable svyblackgr7 was double now byte
+  variable svyblackgr8 was double now byte
+  variable svyblackgr9 was double now byte
+  variable svyblackgr10 was double now byte
+  variable svyblackgr11 was double now byte
+  variable svyblackgr12 was double now byte
+  variable svyblackgrnt was double now byte
+  variable svypacificgr6 was double now byte
+  variable svypacificgr7 was double now byte
+  variable svypacificgr8 was double now byte
+  variable svypacificgr9 was double now byte
+  variable svypacificgr10 was double now byte
+  variable svypacificgr11 was double now byte
+  variable svypacificgr12 was double now byte
+  variable svypacificgrnt was double now byte
+  variable svywhitegr6 was double now int
+  variable svywhitegr7 was double now int
+  variable svywhitegr8 was double now int
+  variable svywhitegr9 was double now int
+  variable svywhitegr10 was double now int
+  variable svywhitegr11 was double now int
+  variable svywhitegr12 was double now int
+  variable svywhitegrnt was double now int
+  variable svymixedgr6 was double now int
+  variable svymixedgr7 was double now int
+  variable svymixedgr8 was double now int
+  variable svymixedgr9 was double now int
+  variable svymixedgr10 was double now int
+  variable svymixedgr11 was double now int
+  variable svymixedgr12 was double now int
+  variable svymixedgrnt was double now int
+  (827,920 bytes saved)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/second
+    > ary/secdemo1819.dta saved
+
+. 
+. 
+. log close secdemographics
+      name:  secdemographics
+       log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/sample
+> /secdemographics.smcl
+  log type:  smcl
+ closed on:   7 Apr 2022, 14:54:49
+-------------------------------------------------------------------------------

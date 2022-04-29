@@ -1,0 +1,246 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/poolingdata/staffpooling.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 7 Apr 2022, 14:57:24
+{txt}
+{com}. 
+. /* first append all years to make a pnael dataset to calculate pooled stats */
+. use $projdir/dta/buildanalysisdata/qoiclean/staff/staffqoiclean1819, clear
+{txt}(cleaned staff 1819 survey questions of interest with percent disagree/agree etc.)
+
+{com}. append using $projdir/dta/buildanalysisdata/qoiclean/staff/staffqoiclean1718
+{txt}
+{com}. 
+. append using $projdir/dta/buildanalysisdata/qoiclean/staff/staffqoiclean1617
+{txt}
+{com}. 
+. append using $projdir/dta/buildanalysisdata/qoiclean/staff/staffqoiclean1516
+{txt}{p 0 7 2}
+(variable
+{bf:stragree87} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+{p 0 7 2}
+(variable
+{bf:agree10} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+{p 0 7 2}
+(variable
+{bf:neither20} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+{p 0 7 2}
+(variable
+{bf:yes103} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+{p 0 7 2}
+(variable
+{bf:yes104} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+{p 0 7 2}
+(variable
+{bf:yes105} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+{p 0 7 2}
+(variable
+{bf:yes112} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+{p 0 7 2}
+(variable
+{bf:missing87} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+{p 0 7 2}
+(variable
+{bf:nettotalresp128} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+
+{com}. 
+. append using $projdir/dta/buildanalysisdata/qoiclean/staff/staffqoiclean1415
+{txt}{p 0 7 2}
+(variable
+{bf:neither41} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+{p 0 7 2}
+(variable
+{bf:mild98} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+{p 0 7 2}
+(variable
+{bf:no109} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+{p 0 7 2}
+(variable
+{bf:no111} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+
+{com}. 
+. drop if missing(cdscode) //there is one observation with missing cdscode
+{txt}(4 observations deleted)
+
+{com}. 
+. 
+. /* calculate the weighted average of qoi means pooled over years
+> ignore missing values */
+. /* Note: collapse doesn't work because the weight is different for each variable, would have to write everything out */
+. sort cdscode year
+{txt}
+{com}. 
+. foreach i of numlist 10 20 24 41 44 64 87 98 103/105 109 111 112 128 {c -(}
+{txt}  2{com}.   by cdscode: egen qoi`i'mean_pooled =  wtmean(qoi`i'mean), weight(nettotalresp`i')
+{txt}  3{com}. {c )-}
+{txt}(13 missing values generated)
+(18 missing values generated)
+(1,589 missing values generated)
+(13 missing values generated)
+(15 missing values generated)
+(1,588 missing values generated)
+(408 missing values generated)
+(13 missing values generated)
+(15 missing values generated)
+(15 missing values generated)
+(15 missing values generated)
+(15 missing values generated)
+(15 missing values generated)
+(15 missing values generated)
+(169 missing values generated)
+
+{com}. 
+. /* generate the percentage agree/disagree for qoi 10 20 24 41 44 64 87 128 */
+. foreach i of numlist 10 20 24 41 44 64 87 128 {c -(}
+{txt}  2{com}.   by cdscode: egen pctagree`i'_pooled = wtmean(pctagree`i'), weight(nettotalresp`i')
+{txt}  3{com}.   by cdscode: egen pctdisagree`i'_pooled = wtmean(pctdisagree`i'), weight(nettotalresp`i')
+{txt}  4{com}. {c )-}
+{txt}(13 missing values generated)
+(13 missing values generated)
+(18 missing values generated)
+(18 missing values generated)
+(1,589 missing values generated)
+(1,589 missing values generated)
+(13 missing values generated)
+(13 missing values generated)
+(15 missing values generated)
+(15 missing values generated)
+(1,588 missing values generated)
+(1,588 missing values generated)
+(408 missing values generated)
+(408 missing values generated)
+(169 missing values generated)
+(169 missing values generated)
+
+{com}. 
+. /* generate pooled weighted average percentage small/big problem for qoi98 */
+. by cdscode: egen pctsmallprob98_pooled = wtmean(pctsmallprob98), weight(nettotalresp98)
+{txt}(13 missing values generated)
+
+{com}. by cdscode: egen pctbigprob98_pooled = wtmean(pctbigprob98), weight(nettotalresp98)
+{txt}(13 missing values generated)
+
+{com}. 
+. /* generate pooled weighted percentage yes/no for qoi 103/105 109 111 112 */
+. foreach i of numlist 103/105 109 111 112 {c -(}
+{txt}  2{com}.   by cdscode: egen pctyes`i'_pooled = wtmean(pctyes`i'), weight(nettotalresp`i')
+{txt}  3{com}.   by cdscode: egen pctno`i'_pooled = wtmean(pctno`i'), weight(nettotalresp`i')
+{txt}  4{com}. {c )-}
+{txt}(15 missing values generated)
+(15 missing values generated)
+(15 missing values generated)
+(15 missing values generated)
+(15 missing values generated)
+(15 missing values generated)
+(15 missing values generated)
+(15 missing values generated)
+(15 missing values generated)
+(15 missing values generated)
+(15 missing values generated)
+(15 missing values generated)
+
+{com}. 
+. collapse (mean) *pooled (sum) nettotalresp* missing*, by(cdscode)
+{res}{txt}
+{com}. 
+. /* label the pooled qoi means and nettotalresp and missing*/
+. foreach i of numlist 10 20 24 41 44 64 87 98 103/105 109 111 112 128 {c -(}
+{txt}  2{com}.   label var qoi`i'mean_pooled "weighted mean of qoi`i' responses over years for a given school"
+{txt}  3{com}.   label var nettotalresp`i' "net total responses for qoi`i' excluding missing pooled over years"
+{txt}  4{com}.   label var missing`i' "number of missing responses for qoi`i' pooled over years"
+{txt}  5{com}. {c )-}
+{txt}
+{com}. 
+. ********************** label all the weighted pooled vars **********************
+. /* label the pooled percent agree/disagree vars */
+. foreach i of numlist 10 20 24 41 44 64 87 128 {c -(}
+{txt}  2{com}.   label var pctagree`i'_pooled "weighted average percent agree/strongly agree in qoi`i' pooled over years"
+{txt}  3{com}.   label var pctdisagree`i'_pooled "weighted average percent disagree/strongly disagree in qoi`i' pooled over years"
+{txt}  4{com}. {c )-}
+{txt}
+{com}. 
+. /* label the pooled percent small/big problem  for qoi98 */
+. label var pctsmallprob98_pooled "weighted avg percent insignificant or mild problem in qoi98 pooled over years"
+{txt}
+{com}. label var pctbigprob98_pooled "weighted avg percent moderate or severe problem in qoi98 pooled over years"
+{txt}
+{com}. 
+. /* label the pooled percent yes/no for qoi 103/105 109 111 112 */
+. foreach i of numlist 103/105 109 111 112 {c -(}
+{txt}  2{com}.   label var pctyes`i'_pooled "weighted avg percent yes in qoi `i' pooled over years"
+{txt}  3{com}.   label var pctno`i'_pooled "weighted avg percent no in qoi`i' pooled over years"
+{txt}  4{com}. {c )-}
+{txt}
+{com}. 
+. 
+. 
+. 
+. /* there is no staff response rate so cannot merge with the response rate dataset */
+. 
+. label data "weighted average staff qoi statistics pooled over years"
+{txt}
+{com}. compress
+  {txt}variable {bf}{res}nettotalresp10{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp20{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp24{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp41{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp44{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp64{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp87{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp98{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp103{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp104{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp105{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp109{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp111{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp112{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp128{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing10{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}missing20{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}missing24{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}missing41{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing44{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}missing64{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}missing87{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing128{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing98{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}missing103{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}missing104{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}missing105{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}missing109{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}missing111{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}missing112{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+{txt}  (808,704 bytes saved)
+
+{com}. save $projdir/dta/buildanalysisdata/poolingdata/staffpooledstats, replace
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/poolingdata/staffpooledstats.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/poolingdata/staffpooling.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 7 Apr 2022, 14:57:25
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

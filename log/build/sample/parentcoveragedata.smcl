@@ -1,0 +1,199 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/sample/parentcoveragedata.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 7 Apr 2022, 14:55:59
+{txt}
+{com}. 
+. local years `" "1415" "1516" "1617" "1718" "1819" "' //local macro for elementary dataset years
+{txt}
+{com}. 
+. foreach year of local years {c -(}
+{txt}  2{com}.   use $projdir/dta/demographics/parent/parentdemo`year', clear
+{txt}  3{com}. 
+.   ******************************************************************************
+.   *********************generate survey response rates **************************
+.   ******************************************************************************
+. 
+.   local grades `" "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" "' //local macro for kids' grades in parent survey, kindergarten enrollment not included so omit
+{txt}  4{com}.   foreach i of local grades {c -(}
+{txt}  5{com}.     //generate a new var that calculates kids in each grade whose parents answered the survey as a percentage of total enrollment in that grade (i.e. response rate)
+.     gen svygr`i'resprate = .a
+{txt}  6{com}.     label var svygr`i'resprate "response rate for households with kids in grade `i'"
+{txt}  7{com}.     //make sure denominator is not 0 when calculating response rate
+.     replace svygr`i'resprate = svygr`i'/gr`i'enr if gr`i'enr != 0
+{txt}  8{com}.     //label extended missing values for the cases where enrollment is 0
+.     label define svygr`i'resprate .a "grade `i' enrollment is 0"
+{txt}  9{com}.   {c )-}
+{txt} 10{com}. 
+.   compress //compress dataset to save memory
+{txt} 11{com}.   label data "Parent `year' demographics data with survey coverage analysis variables"
+{txt} 12{com}.   save $projdir/dta/demographics/analysis/parent/parentdemo`year'analysis, replace
+{txt} 13{com}. {c )-}
+{txt}( )
+(735 missing values generated)
+(476 real changes made)
+(735 missing values generated)
+(474 real changes made)
+(735 missing values generated)
+(477 real changes made)
+(735 missing values generated)
+(481 real changes made)
+(735 missing values generated)
+(484 real changes made)
+(735 missing values generated)
+(401 real changes made)
+(735 missing values generated)
+(243 real changes made)
+(735 missing values generated)
+(243 real changes made)
+(735 missing values generated)
+(135 real changes made)
+(735 missing values generated)
+(145 real changes made)
+(735 missing values generated)
+(151 real changes made)
+(735 missing values generated)
+(150 real changes made)
+  variable {bf}{res}svygr7resprate{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
+{txt}  (2,205 bytes saved)
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/analysis/parent/parentdemo1415analysis.dta{rm}
+saved
+{p_end}
+(2015-16 Parent CSPS Data)
+(909 missing values generated)
+(545 real changes made)
+(909 missing values generated)
+(546 real changes made)
+(909 missing values generated)
+(548 real changes made)
+(909 missing values generated)
+(551 real changes made)
+(909 missing values generated)
+(559 real changes made)
+(909 missing values generated)
+(417 real changes made)
+(909 missing values generated)
+(272 real changes made)
+(909 missing values generated)
+(263 real changes made)
+(909 missing values generated)
+(195 real changes made)
+(909 missing values generated)
+(210 real changes made)
+(909 missing values generated)
+(220 real changes made)
+(909 missing values generated)
+(219 real changes made)
+  (0 bytes saved)
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/analysis/parent/parentdemo1516analysis.dta{rm}
+saved
+{p_end}
+(2016-17 Parent CSPS Data)
+(1,098 missing values generated)
+(677 real changes made)
+(1,098 missing values generated)
+(679 real changes made)
+(1,098 missing values generated)
+(682 real changes made)
+(1,098 missing values generated)
+(685 real changes made)
+(1,098 missing values generated)
+(689 real changes made)
+(1,098 missing values generated)
+(474 real changes made)
+(1,098 missing values generated)
+(294 real changes made)
+(1,098 missing values generated)
+(298 real changes made)
+(1,098 missing values generated)
+(240 real changes made)
+(1,098 missing values generated)
+(258 real changes made)
+(1,098 missing values generated)
+(270 real changes made)
+(1,098 missing values generated)
+(269 real changes made)
+  (0 bytes saved)
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/analysis/parent/parentdemo1617analysis.dta{rm}
+saved
+{p_end}
+(2017-18 Parent CSPS Data)
+(1,499 missing values generated)
+(917 real changes made)
+(1,499 missing values generated)
+(919 real changes made)
+(1,499 missing values generated)
+(919 real changes made)
+(1,499 missing values generated)
+(924 real changes made)
+(1,499 missing values generated)
+(930 real changes made)
+(1,499 missing values generated)
+(644 real changes made)
+(1,499 missing values generated)
+(432 real changes made)
+(1,499 missing values generated)
+(432 real changes made)
+(1,499 missing values generated)
+(305 real changes made)
+(1,499 missing values generated)
+(332 real changes made)
+(1,499 missing values generated)
+(350 real changes made)
+(1,499 missing values generated)
+(347 real changes made)
+  (0 bytes saved)
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/analysis/parent/parentdemo1718analysis.dta{rm}
+saved
+{p_end}
+(2018-19 Parent CSPS Data)
+(1,436 missing values generated)
+(900 real changes made)
+(1,436 missing values generated)
+(903 real changes made)
+(1,436 missing values generated)
+(910 real changes made)
+(1,436 missing values generated)
+(908 real changes made)
+(1,436 missing values generated)
+(911 real changes made)
+(1,436 missing values generated)
+(615 real changes made)
+(1,436 missing values generated)
+(414 real changes made)
+(1,436 missing values generated)
+(420 real changes made)
+(1,436 missing values generated)
+(281 real changes made)
+(1,436 missing values generated)
+(304 real changes made)
+(1,436 missing values generated)
+(319 real changes made)
+(1,436 missing values generated)
+(320 real changes made)
+  (0 bytes saved)
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/analysis/parent/parentdemo1819analysis.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/sample/parentcoveragedata.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 7 Apr 2022, 14:55:59
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

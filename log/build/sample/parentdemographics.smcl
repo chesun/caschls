@@ -1,0 +1,430 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/sample/parentdemographics.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 7 Apr 2022, 14:55:58
+{txt}
+{com}. 
+. /* The following block of code rename child's grade to be consistent across datasets. THis creates temp datasets to build
+> demographics datasets from in the following block of code */
+. local runparentname = 0 //a macro toggle for rename variables
+{txt}
+{com}. if `runparentname' == 1 {c -(}
+.   use $clndtadir/parent/parent1415, clear
+.   gen childgr = q6
+.   label var childgr "grade of the child"
+.   label define childgr 1 "kindergarten" 2 "grade 1" 3 "grade 2" 4 "grade 3" 5 "grade 4" 6 "grade 5" ///
+>   7 "grade 6" 8 "grade 7" 9 "grade 8" 10 "grade 9" 11 "grade 10" 12 "grade 11" 13 "grade 12" 14 "other" 15 "ungraded"
+.   label values childgr childgr //assign value label
+.   save $projdir/dta/demographics/temp/parent/parent1415temp, replace
+. 
+.   use $clndtadir/parent/parent1516, clear
+.   gen childgr = p7
+.   label var childgr "grade of the child"
+.   label define childgr 1 "kindergarten" 2 "grade 1" 3 "grade 2" 4 "grade 3" 5 "grade 4" 6 "grade 5" ///
+>   7 "grade 6" 8 "grade 7" 9 "grade 8" 10 "grade 9" 11 "grade 10" 12 "grade 11" 13 "grade 12" 14 "other" 15 "ungraded"
+.   label values childgr childgr //assign value label
+.   save $projdir/dta/demographics/temp/parent/parent1516temp, replace
+. 
+.   use $clndtadir/parent/parent1617, clear
+.   gen childgr = p7
+.   label var childgr "grade of the child"
+.   label define childgr 1 "kindergarten" 2 "grade 1" 3 "grade 2" 4 "grade 3" 5 "grade 4" 6 "grade 5" ///
+>   7 "grade 6" 8 "grade 7" 9 "grade 8" 10 "grade 9" 11 "grade 10" 12 "grade 11" 13 "grade 12" 14 "other" 15 "ungraded"
+.   label values childgr childgr //assign value label
+.   save $projdir/dta/demographics/temp/parent/parent1617temp, replace
+. 
+.   use $clndtadir/parent/parent1718, clear
+.   gen childgr = p7
+.   label var childgr "grade of the child"
+.   label define childgr 1 "kindergarten" 2 "grade 1" 3 "grade 2" 4 "grade 3" 5 "grade 4" 6 "grade 5" ///
+>   7 "grade 6" 8 "grade 7" 9 "grade 8" 10 "grade 9" 11 "grade 10" 12 "grade 11" 13 "grade 12" 14 "other" 15 "ungraded"
+.   label values childgr childgr //assign value label
+.   save $projdir/dta/demographics/temp/parent/parent1718temp, replace
+. 
+.   use $clndtadir/parent/parent1819, clear
+.   gen childgr = p7
+.   label var childgr "grade of the child"
+.   label define childgr 1 "kindergarten" 2 "grade 1" 3 "grade 2" 4 "grade 3" 5 "grade 4" 6 "grade 5" ///
+>   7 "grade 6" 8 "grade 7" 9 "grade 8" 10 "grade 9" 11 "grade 10" 12 "grade 11" 13 "grade 12" 14 "other" 15 "ungraded"
+.   label values childgr childgr //assign value label
+.   save $projdir/dta/demographics/temp/parent/parent1819temp, replace
+. {c )-}
+{txt}
+{com}. 
+. /* The following block of code builds parent survey demographics dataset and merges with enrollment dataset */
+. 
+. local years `" "1415" "1516" "1617" "1718" "1819" "' //local macro for dataset years
+{txt}
+{com}. 
+.  foreach year of local years {c -(}
+{txt}  2{com}.    use $projdir/dta/demographics/temp/parent/parent`year'temp, clear
+{txt}  3{com}. 
+.    //generate indicator variables for kids in each grade
+.    gen byte grk = 0 //dummy for whether kid is in kindergarten
+{txt}  4{com}.    gen byte gr1 = 0
+{txt}  5{com}.    gen byte gr2 = 0
+{txt}  6{com}.    gen byte gr3 = 0
+{txt}  7{com}.    gen byte gr4 = 0
+{txt}  8{com}.    gen byte gr5 = 0
+{txt}  9{com}.    gen byte gr6 = 0
+{txt} 10{com}.    gen byte gr7 = 0
+{txt} 11{com}.    gen byte gr8 = 0
+{txt} 12{com}.    gen byte gr9 = 0
+{txt} 13{com}.    gen byte gr10 = 0
+{txt} 14{com}.    gen byte gr11 = 0
+{txt} 15{com}.    gen byte gr12 = 0
+{txt} 16{com}. 
+.    replace grk = 1 if childgr == 1
+{txt} 17{com}.    replace gr1 = 1 if childgr == 2
+{txt} 18{com}.    replace gr2 = 1 if childgr == 3
+{txt} 19{com}.    replace gr3 = 1 if childgr == 4
+{txt} 20{com}.    replace gr4 = 1 if childgr == 5
+{txt} 21{com}.    replace gr5 = 1 if childgr == 6
+{txt} 22{com}.    replace gr6 = 1 if childgr == 7
+{txt} 23{com}.    replace gr7 = 1 if childgr == 8
+{txt} 24{com}.    replace gr8 = 1 if childgr == 9
+{txt} 25{com}.    replace gr9 = 1 if childgr ==10
+{txt} 26{com}.    replace gr10 = 1 if childgr == 11
+{txt} 27{com}.    replace gr11 = 1 if childgr == 12
+{txt} 28{com}.    replace gr12 = 1 if childgr == 13
+{txt} 29{com}. 
+.    collapse (sum) grk gr1 gr2 gr3 gr4 gr5 gr6 gr7 gr8 gr9 gr10 gr11 gr12, by(cdscode)
+{txt} 30{com}. 
+.    local grades `" "k" "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" "' //local macro for kids' grades in parent survey
+{txt} 31{com}.    foreach i of local grades {c -(}
+{txt} 32{com}.      rename gr`i' svygr`i'
+{txt} 33{com}.      label var svygr`i' "number of households with child in grade `i'"
+{txt} 34{com}.    {c )-}
+{txt} 35{com}.    label var svygrk "number of households with child in kindergarten" //relabel for kindergarten
+{txt} 36{com}. 
+.    drop if missing(cdscode) //drop observations with missing cdscode
+{txt} 37{com}. 
+.    merge 1:1 cdscode using $projdir/dta/enrollment/schoollevel/enr`year' //merge with frequency dataset (number of surveys for each school)
+{txt} 38{com}.    drop if _merge != 3 //drop all observations that are not matched
+{txt} 39{com}.    drop _merge
+{txt} 40{com}. 
+.    compress //compress dataset to save memory
+{txt} 41{com}.    save $projdir/dta/demographics/parent/parentdemo`year', replace
+{txt} 42{com}. 
+.    {c )-}
+{txt}( )
+(3,080 real changes made)
+(3,183 real changes made)
+(3,257 real changes made)
+(3,346 real changes made)
+(3,457 real changes made)
+(6,658 real changes made)
+(3,022 real changes made)
+(0 real changes made)
+(2,042 real changes made)
+(2,410 real changes made)
+(2,273 real changes made)
+(2,168 real changes made)
+(1,513 real changes made)
+{res}{txt}(0 observations deleted)
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}           9,808
+{txt}{col 9}from master{col 30}{res}             124{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           9,684{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}             735{txt}  (_merge==3)
+{col 5}{hline 41}
+(9,808 observations deleted)
+  variable {bf}{res}gr1noethnicenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr1asianenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr1blackenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr2noethnicenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr2asianenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr2blackenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr3noethnicenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr3asianenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr4noethnicenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr4asianenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr5noethnicenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr5asianenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr6filipinoenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr6blackenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr7blackenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr8filipinoenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr8blackenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr9noethnicenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr12noethnicenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}svygrk{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr1{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}svygr2{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr3{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr4{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr5{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr6{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr7{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}svygr8{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr9{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr10{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr11{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr12{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+{txt}  (73,500 bytes saved)
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/parent/parentdemo1415.dta{rm}
+saved
+{p_end}
+(2015-16 Parent CSPS Data)
+(4,171 real changes made)
+(4,571 real changes made)
+(4,884 real changes made)
+(5,224 real changes made)
+(5,802 real changes made)
+(8,030 real changes made)
+(5,033 real changes made)
+(5,798 real changes made)
+(4,635 real changes made)
+(5,516 real changes made)
+(4,465 real changes made)
+(4,946 real changes made)
+(3,461 real changes made)
+{res}{txt}(1 observation deleted)
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}           9,684
+{txt}{col 9}from master{col 30}{res}             132{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           9,552{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}             909{txt}  (_merge==3)
+{col 5}{hline 41}
+(9,684 observations deleted)
+  variable {bf}{res}gr1femaleenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr1maleenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr2maleenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr3femaleenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr4maleenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr1asianenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr1blackenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr1whiteenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr2blackenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr2whiteenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr3asianenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr3blackenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr4asianenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr5asianenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr5blackenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr6noethnicenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr6filipinoenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr6blackenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr7noethnicenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr7filipinoenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr8noethnicenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr8filipinoenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}svygrk{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr1{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr2{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr3{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr4{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr5{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr6{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr7{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr8{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr9{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr10{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr11{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr12{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+{txt}  (90,900 bytes saved)
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/parent/parentdemo1516.dta{rm}
+saved
+{p_end}
+(2016-17 Parent CSPS Data)
+(11,911 real changes made)
+(10,017 real changes made)
+(9,655 real changes made)
+(10,720 real changes made)
+(11,571 real changes made)
+(9,602 real changes made)
+(7,498 real changes made)
+(7,780 real changes made)
+(6,660 real changes made)
+(7,261 real changes made)
+(6,556 real changes made)
+(7,455 real changes made)
+(5,628 real changes made)
+{res}{txt}(1 observation deleted)
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}           9,561
+{txt}{col 9}from master{col 30}{res}             176{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           9,385{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}           1,098{txt}  (_merge==3)
+{col 5}{hline 41}
+(9,561 observations deleted)
+  variable {bf}{res}gr1noethnicenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr1asianenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr1blackenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr2asianenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr2blackenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr2whiteenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr3asianenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr3blackenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr3whiteenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr4asianenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr4whiteenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr5asianenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr5blackenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr6filipinoenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr6blackenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr7filipinoenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr8filipinoenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}svygrk{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr1{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr2{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr3{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr4{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr5{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr6{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr7{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr8{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr9{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr10{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr11{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr12{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+{txt}  (104,310 bytes saved)
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/parent/parentdemo1617.dta{rm}
+saved
+{p_end}
+(2017-18 Parent CSPS Data)
+(11,404 real changes made)
+(11,590 real changes made)
+(11,475 real changes made)
+(12,120 real changes made)
+(12,928 real changes made)
+(13,989 real changes made)
+(10,404 real changes made)
+(10,916 real changes made)
+(9,300 real changes made)
+(10,302 real changes made)
+(9,154 real changes made)
+(9,928 real changes made)
+(8,096 real changes made)
+{res}{txt}(1 observation deleted)
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}           9,254
+{txt}{col 9}from master{col 30}{res}             278{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           8,976{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}           1,499{txt}  (_merge==3)
+{col 5}{hline 41}
+(9,254 observations deleted)
+  variable {bf}{res}gr2femaleenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr2maleenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr1noethnicenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr1blackenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr2asianenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr2blackenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr3asianenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr3blackenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr5asianenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr6noethnicenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr6filipinoenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr6blackenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr7filipinoenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr7blackenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr8noethnicenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr8filipinoenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr8blackenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr10noethnicenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr11noethnicenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}svygrk{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr1{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr2{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr3{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr4{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr5{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr6{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr7{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr8{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr9{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr10{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr11{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr12{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+{txt}  (145,403 bytes saved)
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/parent/parentdemo1718.dta{rm}
+saved
+{p_end}
+(2018-19 Parent CSPS Data)
+(12,442 real changes made)
+(12,056 real changes made)
+(12,512 real changes made)
+(13,536 real changes made)
+(13,554 real changes made)
+(16,602 real changes made)
+(11,770 real changes made)
+(12,568 real changes made)
+(9,940 real changes made)
+(10,899 real changes made)
+(9,417 real changes made)
+(10,262 real changes made)
+(8,332 real changes made)
+{res}{txt}(0 observations deleted)
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}           9,325
+{txt}{col 9}from master{col 30}{res}             240{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           9,085{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}           1,436{txt}  (_merge==3)
+{col 5}{hline 41}
+(9,325 observations deleted)
+  variable {bf}{res}gr1asianenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr1blackenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr2blackenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr3asianenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr4asianenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr5asianenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr6filipinoenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr6blackenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr7filipinoenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr7blackenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr8filipinoenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}gr8blackenr{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}svygrk{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr1{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr2{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr3{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr4{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr5{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr6{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr7{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr8{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr9{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr10{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr11{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}svygr12{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+{txt}  (129,240 bytes saved)
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/parent/parentdemo1819.dta{rm}
+saved
+{p_end}
+
+{com}. 
+.    log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/sample/parentdemographics.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 7 Apr 2022, 14:55:59
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

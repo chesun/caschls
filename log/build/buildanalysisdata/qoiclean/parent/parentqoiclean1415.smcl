@@ -1,0 +1,334 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/qoiclean/parent/parentqoiclean1415.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 7 Apr 2022, 14:57:19
+{txt}
+{com}. 
+. use $clndtadir/parent/parent1415, clear
+{txt}( )
+
+{com}. 
+. //only keep questions of interest. 1415 dataset does not have qoi30 32 34 64
+. keep cdscode q7 q13 q14 q15 q26 q39 q41
+{txt}
+{com}. //delete all value labels not associated with variables
+. labdu , delete
+{res}{txt}
+{com}. //rename questions of interest using question numbers in 1819 as standard
+. rename q7 qoi9
+{res}{txt}
+{com}. elabel rename q7 qoi9
+{res}{txt}
+{com}. rename q13 qoi15
+{res}{txt}
+{com}. elabel rename q13 qoi15
+{res}{txt}
+{com}. rename q14 qoi16
+{res}{txt}
+{com}. elabel rename q14 qoi16
+{res}{txt}
+{com}. rename q15 qoi17
+{res}{txt}
+{com}. elabel rename q15 qoi17
+{res}{txt}
+{com}. rename q26 qoi27
+{res}{txt}
+{com}. elabel rename q26 qoi27
+{res}{txt}
+{com}. rename q39 qoi31
+{res}{txt}
+{com}. elabel rename q39 qoi31
+{res}{txt}
+{com}. rename q41 qoi33
+{res}{txt}
+{com}. elabel rename q41 qoi33
+{res}{txt}
+{com}. 
+. /* count the total number of responses in each school */
+. sort cdscode
+{txt}
+{com}. by cdscode: gen totalresp = _N
+{txt}
+{com}. label var totalresp "total number of responses at each school including missing"
+{txt}
+{com}. 
+. 
+. ********************************************************************************
+. /* generate dummies for each response option and missing for qoi 9 15-17 27 31 33 */
+. 
+. /* value labels for qoi 9 15-17 27 31 33:
+> 1 strongly agree
+> 2 agree
+> 3 disagree
+> 4 strongly disagree
+> 5 don't know/NA
+> 
+> Recode:
+> -2 strongly disagree
+> -1 disagree
+> 0 neutral
+> 1 agree
+> 2 strongly agree
+> */
+. 
+. /* recode qoi 9 15/17 27 31 33 */
+. foreach i of numlist 9 15/17 27 31 33 {c -(}
+{txt}  2{com}.   gen qoi`i'temp = .
+{txt}  3{com}.   replace qoi`i'temp = -2 if qoi`i' == 4
+{txt}  4{com}.   replace qoi`i'temp = -1 if qoi`i' == 3
+{txt}  5{com}.   replace qoi`i'temp =  0 if qoi`i' == 5
+{txt}  6{com}.   replace qoi`i'temp =  1 if qoi`i' == 2
+{txt}  7{com}.   replace qoi`i'temp =  2 if qoi`i' == 1
+{txt}  8{com}. 
+.   drop qoi`i'
+{txt}  9{com}.   rename qoi`i'temp qoi`i'
+{txt} 10{com}. {c )-}
+{txt}(43,106 missing values generated)
+(870 real changes made)
+(2,318 real changes made)
+(1,494 real changes made)
+(20,510 real changes made)
+(15,993 real changes made)
+{res}{txt}(43,106 missing values generated)
+(1,610 real changes made)
+(3,876 real changes made)
+(7,432 real changes made)
+(16,375 real changes made)
+(11,928 real changes made)
+{res}{txt}(43,106 missing values generated)
+(2,555 real changes made)
+(2,584 real changes made)
+(1,711 real changes made)
+(18,445 real changes made)
+(15,825 real changes made)
+{res}{txt}(43,106 missing values generated)
+(2,664 real changes made)
+(2,735 real changes made)
+(2,968 real changes made)
+(17,612 real changes made)
+(15,020 real changes made)
+{res}{txt}(43,106 missing values generated)
+(1,120 real changes made)
+(2,917 real changes made)
+(1,671 real changes made)
+(18,898 real changes made)
+(16,373 real changes made)
+{res}{txt}(43,106 missing values generated)
+(690 real changes made)
+(2,082 real changes made)
+(896 real changes made)
+(17,176 real changes made)
+(14,823 real changes made)
+{res}{txt}(43,106 missing values generated)
+(839 real changes made)
+(1,898 real changes made)
+(1,500 real changes made)
+(15,779 real changes made)
+(15,569 real changes made)
+{res}{txt}
+{com}. 
+. foreach i of numlist 9 15/17 27 31 33 {c -(}
+{txt}  2{com}.   gen stragree`i' = 0
+{txt}  3{com}.   replace stragree`i' = 1 if qoi`i' == 2
+{txt}  4{com}. 
+.   gen agree`i' = 0
+{txt}  5{com}.   replace agree`i' = 1 if qoi`i' == 1
+{txt}  6{com}. 
+.   gen disagree`i' = 0
+{txt}  7{com}.   replace disagree`i' = 1 if qoi`i' == -1
+{txt}  8{com}. 
+.   gen strdisagree`i' = 0
+{txt}  9{com}.   replace strdisagree`i' = 1 if qoi`i' == -2
+{txt} 10{com}. 
+.   gen dontknow`i' = 0
+{txt} 11{com}.   replace dontknow`i' = 1 if qoi`i' == 0
+{txt} 12{com}. 
+.   gen missing`i' = 0
+{txt} 13{com}.   replace missing`i' = 1 if missing(qoi`i')
+{txt} 14{com}. {c )-}
+{txt}(15,993 real changes made)
+(20,510 real changes made)
+(2,318 real changes made)
+(870 real changes made)
+(1,494 real changes made)
+(1,921 real changes made)
+(11,928 real changes made)
+(16,375 real changes made)
+(3,876 real changes made)
+(1,610 real changes made)
+(7,432 real changes made)
+(1,885 real changes made)
+(15,825 real changes made)
+(18,445 real changes made)
+(2,584 real changes made)
+(2,555 real changes made)
+(1,711 real changes made)
+(1,986 real changes made)
+(15,020 real changes made)
+(17,612 real changes made)
+(2,735 real changes made)
+(2,664 real changes made)
+(2,968 real changes made)
+(2,107 real changes made)
+(16,373 real changes made)
+(18,898 real changes made)
+(2,917 real changes made)
+(1,120 real changes made)
+(1,671 real changes made)
+(2,127 real changes made)
+(14,823 real changes made)
+(17,176 real changes made)
+(2,082 real changes made)
+(690 real changes made)
+(896 real changes made)
+(7,439 real changes made)
+(15,569 real changes made)
+(15,779 real changes made)
+(1,898 real changes made)
+(839 real changes made)
+(1,500 real changes made)
+(7,521 real changes made)
+
+{com}. 
+. /* generate means for the qoi  */
+. foreach i of numlist 9 15/17 27 31 33 {c -(}
+{txt}  2{com}.   egen qoi`i'mean = mean(qoi`i'), by(cdscode)
+{txt}  3{com}. {c )-}
+{txt}(5 missing values generated)
+(5 missing values generated)
+(5 missing values generated)
+(5 missing values generated)
+(5 missing values generated)
+(1,595 missing values generated)
+(1,595 missing values generated)
+
+{com}. 
+. 
+. /* This is old code before the recoding of qoi values
+>  /* generate mean of vars, excluding don't know. */
+>  //generate temp vars for low and high bounds to use with rangestat
+>  gen lowbound = 1
+>  gen highbound = 4
+> foreach i of numlist 9 15/17 27 30/34 64 {c -(}
+>   rangestat (mean) qoi`i', interval(qoi`i' lowbound highbound) by(cdscode)
+>   rename qoi`i'_mean qoi`i'mean //rename the generated mean vars
+> {c )-}
+> /* Note: don't worry about missing values generated because it does not matter
+> after collapsing dataset */
+> drop lowbound highbound //drop the temp vars */
+. 
+. 
+. /* collapse the dataset, resulting dataset has mean for each qoi, total number
+> of responses, and number of responses for each option in each question */
+. collapse (mean) qoi*mean totalresp (sum) stragree* agree* disagree* strdisagree* dontknow* missing*, by(cdscode)
+{res}{txt}
+{com}. //some schools have missing means because they have very low number of responses and with either don't know or missing
+. 
+. **************************** relabel the vars **********************************
+. /* label mean vars */
+. label var qoi9mean "Mean (excluding don't know) of Q: promotes academic success for all students"
+{txt}
+{com}. 
+. label var qoi15mean "Mean (excluding don't know) of Q: provides quality counseling or other ways..."
+{txt}
+{com}. label var qoi16mean "Mean (excluding don't know) of Q: is a supportive and inviting place..."
+{txt}
+{com}. label var qoi17mean "Mean (excluding don't know) of Q: allows input and welcomes parents'..."
+{txt}
+{com}. 
+. label var qoi27mean "Mean (excluding don't know) of Q: encourages me to be an active partner..."
+{txt}
+{com}. 
+. label var qoi31mean "Mean (excluding don't know) of Q: motivates students to learn"
+{txt}
+{com}. 
+. label var qoi33mean "Mean (excluding don't know) of Q: has adults who really care about students"
+{txt}
+{com}. 
+. label var totalresp "total number of responses in the school including missing"
+{txt}
+{com}. 
+. /* label vars for the number of response for each option */
+. foreach i of numlist 9 15/17 27 31 33 {c -(}
+{txt}  2{com}.   label var stragree`i' "number of people choosing strongly agree for qoi`i'"
+{txt}  3{com}.   label var agree`i' "number of people choosing agree for qoi`i'"
+{txt}  4{com}.   label var disagree`i' "number of people choosing disagree for qoi`i'"
+{txt}  5{com}.   label var strdisagree`i' "number of people choosing strongly disagree for qoi`i'"
+{txt}  6{com}.   label var dontknow`i' "number of people choosing don't know for qoi`i'"
+{txt}  7{com}.   label var missing`i' "number of missing responses for qoi`i'"
+{txt}  8{com}. {c )-}
+{txt}
+{com}. 
+. /* generate a year var to prepare for constructing a panel */
+. gen year = 1415
+{txt}
+{com}. 
+. label data "cleaned parent 1415 survey questions of interest with percent disagree/agree etc."
+{txt}note: label truncated to 80 characters
+
+{com}. compress
+  {txt}variable {bf}{res}totalresp{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}year{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree9{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree15{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree16{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree17{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree27{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree31{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree33{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree9{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree15{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree16{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree17{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree27{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree31{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree33{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree9{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}disagree15{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree16{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree17{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree27{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}disagree31{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}disagree33{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}strdisagree9{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}strdisagree15{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}strdisagree16{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}strdisagree17{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}strdisagree27{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}strdisagree31{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}strdisagree33{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}dontknow9{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}dontknow15{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}dontknow16{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}dontknow17{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}dontknow27{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}dontknow31{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}dontknow33{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}missing9{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}missing15{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}missing16{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}missing17{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}missing27{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing31{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing33{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+{txt}  (234,507 bytes saved)
+
+{com}. save $projdir/dta/buildanalysisdata/qoiclean/parent/parentqoiclean1415, replace
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/qoiclean/parent/parentqoiclean1415.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/qoiclean/parent/parentqoiclean1415.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 7 Apr 2022, 14:57:19
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

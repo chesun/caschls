@@ -1,0 +1,157 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/poolingva/poolva.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 7 Apr 2022, 14:57:25
+{txt}
+{com}. 
+. /* created pooled average for ELA test score VA */
+. use $vadtadir/va_g11_ela, clear
+{txt}(CST/SBAC Student Test Score Samples)
+
+{com}. sort cdscode year
+{txt}
+{com}. collapse va_cfr_g11_ela, by(cdscode)
+{res}{txt}
+{com}. rename va_cfr_g11_ela va_ela
+{res}{txt}
+{com}. label var va_ela "VA estimate on ELA test scores"
+{txt}
+{com}. save $projdir/dta/buildanalysisdata/va/ela, replace
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/va/ela.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. /* create pooled average for math test score VA */
+. use $vadtadir/va_g11_math.dta, clear
+{txt}(CST/SBAC Student Test Score Samples)
+
+{com}. sort cdscode year
+{txt}
+{com}. collapse va_cfr_g11_math, by(cdscode)
+{res}{txt}
+{com}. rename va_cfr_g11_math va_math
+{res}{txt}
+{com}. label var va_math "VA estimate on math test scores"
+{txt}
+{com}. save $projdir/dta/buildanalysisdata/va/math, replace
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/va/math.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. /* create pooled average for VA on postsecondary enrollment */
+. use $vadtadir/va_g11_enr.dta, clear
+{txt}(CST/SBAC Student Test Score Samples)
+
+{com}. sort cdscode year
+{txt}
+{com}. collapse va_cfr_g11_enr va_cfr_g11_enr_ela va_cfr_g11_enr_math va_cfr_g11_enr_dk, by(cdscode)
+{res}{txt}
+{com}. rename va_cfr_g11_enr va_enr
+{res}{txt}
+{com}. rename va_cfr_g11_enr_ela va_enrela
+{res}{txt}
+{com}. rename va_cfr_g11_enr_math va_enrmath
+{res}{txt}
+{com}. rename va_cfr_g11_enr_dk va_enrdk
+{res}{txt}
+{com}. label var va_enr "VA on postsecondary enrollment"
+{txt}
+{com}. label var va_enrela "VA on postsec enrollment controlling for ELA VA"
+{txt}
+{com}. label var va_enrmath "VA on postsec enrollment controlling for math VA"
+{txt}
+{com}. label var va_enrdk "deep knowledge VA on postsec enrollment controlling for ELA and math VA"
+{txt}
+{com}. save $projdir/dta/buildanalysisdata/va/enr, replace
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/va/enr.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. /* create pooled average for VA on 2 year community college enrollment */
+. use $vadtadir/va_g11_enr_2year.dta, clear
+{txt}(CST/SBAC Student Test Score Samples)
+
+{com}. sort cdscode year
+{txt}
+{com}. collapse va_cfr_g11_enr_2year va_cfr_g11_enr_2year_ela va_cfr_g11_enr_2year_math va_cfr_g11_enr_2year_dk, by(cdscode)
+{res}{txt}
+{com}. rename va_cfr_g11_enr_2year va_2yr
+{res}{txt}
+{com}. rename va_cfr_g11_enr_2year_ela va_2yrela
+{res}{txt}
+{com}. rename va_cfr_g11_enr_2year_math va_2yrmath
+{res}{txt}
+{com}. rename va_cfr_g11_enr_2year_dk va_2yrdk
+{res}{txt}
+{com}. label var va_2yr "VA on 2 year CC enrollment"
+{txt}
+{com}. label var va_2yrela "VA on 2 year CC enrollment controlling for ELA VA"
+{txt}
+{com}. label var va_2yrmath "VA on 2 year CC enrollment controlling for math VA"
+{txt}
+{com}. label var va_2yrdk "deep knowledge VA on 2 year CC enrollment controlling for ELA and math"
+{txt}
+{com}. save $projdir/dta/buildanalysisdata/va/2yr, replace
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/va/2yr.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. /* create pooled average for VA on 4 year college enrollment */
+. use $vadtadir/va_g11_enr_4year.dta, clear
+{txt}(CST/SBAC Student Test Score Samples)
+
+{com}. sort cdscode year
+{txt}
+{com}. collapse va_cfr_g11_enr_4year va_cfr_g11_enr_4year_ela va_cfr_g11_enr_4year_math va_cfr_g11_enr_4year_dk, by(cdscode)
+{res}{txt}
+{com}. rename va_cfr_g11_enr_4year va_4yr
+{res}{txt}
+{com}. rename va_cfr_g11_enr_4year_ela va_4yrela
+{res}{txt}
+{com}. rename va_cfr_g11_enr_4year_math va_4yrmath
+{res}{txt}
+{com}. rename va_cfr_g11_enr_4year_dk va_4yrdk
+{res}{txt}
+{com}. label var va_4yr "VA on 4 year college enrollment"
+{txt}
+{com}. label var va_4yrela "VA on 4 year college enrollment controlling for ELA VA"
+{txt}
+{com}. label var va_4yrmath "VA on 4 year college enrollment controlling for math VA"
+{txt}
+{com}. label var va_4yrdk "deep knowledge VA on 4 year college enrollment controlling for ELA and math VA"
+{txt}
+{com}. save $projdir/dta/buildanalysisdata/va/4yr, replace
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/va/4yr.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/poolingva/poolva.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 7 Apr 2022, 14:57:25
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

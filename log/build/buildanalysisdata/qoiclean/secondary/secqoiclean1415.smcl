@@ -1,0 +1,477 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/qoiclean/secondary/secqoiclean1415.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 7 Apr 2022, 14:57:05
+{txt}
+{com}. 
+. use $clndtadir/secondary/sec1415, clear
+{txt}
+{com}. //shorten the var names for the vars we will deal with to make subsequent operations easier
+. rename a#_a# a#
+{res}{txt}
+{com}. //keep only the questions of interest
+. keep cdscode a14 a15 a16 a17 a18 a19 a20 a21 a22 a23 a24 a25 a26 a27 a28
+{txt}
+{com}. //rename value labels to be consistent with var names
+. elabel rename (a#_a#) (a#)
+{res}{txt}
+{com}. //rename questions of interest and rename value labels using question numbers in 1819 as standard
+. /* Note: 1415 dataset does not have qoi 27-30 */
+. /* 14-18 correspond to qoi 22-26 */
+. foreach i of numlist 14/18 {c -(}
+{txt}  2{com}.   local j = `i' + 8
+{txt}  3{com}.   rename a`i' qoi`j'
+{txt}  4{com}.   elabel rename a`i' qoi`j'
+{txt}  5{com}. {c )-}
+{res}{txt}
+{com}. /* 19=28 correspond to qoi 31-40 */
+. foreach i of numlist 19/28 {c -(}
+{txt}  2{com}.   local j = `i' + 12
+{txt}  3{com}.   rename a`i' qoi`j'
+{txt}  4{com}.   elabel rename a`i' qoi`j'
+{txt}  5{com}. {c )-}
+{res}{txt}
+{com}. 
+. * count the total number of responses in each school */
+. sort cdscode
+{txt}
+{com}. by cdscode: gen totalresp = _N
+{txt}
+{com}. label var totalresp "total number of responses at each school including missing"
+{txt}
+{com}. 
+. 
+. ******** clean qoi 22-26 and 31-34 as they have the same response options ******
+. /* value labels qoi 22-26 and 31-34:
+> 1 strongly disagree
+> 2 disagree
+> 3 neither disagree nor disagree4 disagree5 strongly agree
+> 4 agree
+> 5 strongly agree
+> 
+> Recode:
+> -2 strongly disagree
+> -1 disagree
+> 0 neutral
+> 1 agree
+> 2 strongly agree
+> */
+. 
+. 
+. /* recode qoi 22-26 and 31-34 */
+. foreach i of numlist 22/26 31/34 {c -(}
+{txt}  2{com}.   replace qoi`i' = qoi`i' - 3
+{txt}  3{com}. {c )-}
+{txt}(345,879 real changes made)
+(345,661 real changes made)
+(339,187 real changes made)
+(345,411 real changes made)
+(340,965 real changes made)
+(340,399 real changes made)
+(340,364 real changes made)
+(340,876 real changes made)
+(341,001 real changes made)
+
+{com}. 
+. /* generate dummies for each response option for qoi 22-26 and 31-34*/
+. foreach i of numlist 22/26 31/34 {c -(}
+{txt}  2{com}.   gen strdisagree`i' = 0
+{txt}  3{com}.   replace strdisagree`i' = 1 if qoi`i' == -2
+{txt}  4{com}. 
+.   gen disagree`i' = 0
+{txt}  5{com}.   replace disagree`i' = 1 if qoi`i' == -1
+{txt}  6{com}. 
+.   gen neither`i' = 0
+{txt}  7{com}.   replace neither`i' = 1 if qoi`i' == 0
+{txt}  8{com}. 
+.   gen agree`i' = 0
+{txt}  9{com}.   replace agree`i' = 1 if qoi`i' == 1
+{txt} 10{com}. 
+.   gen stragree`i' = 0
+{txt} 11{com}.   replace stragree`i' = 1 if qoi`i' == 2
+{txt} 12{com}. 
+.   gen missing`i' = 0
+{txt} 13{com}.   replace missing`i' = 1 if missing(qoi`i')
+{txt} 14{com}. {c )-}
+{txt}(20,574 real changes made)
+(26,029 real changes made)
+(83,416 real changes made)
+(148,629 real changes made)
+(67,231 real changes made)
+(7,338 real changes made)
+(24,608 real changes made)
+(25,893 real changes made)
+(85,228 real changes made)
+(137,823 real changes made)
+(72,109 real changes made)
+(7,556 real changes made)
+(25,079 real changes made)
+(34,417 real changes made)
+(97,489 real changes made)
+(128,712 real changes made)
+(53,490 real changes made)
+(14,030 real changes made)
+(25,787 real changes made)
+(38,906 real changes made)
+(94,361 real changes made)
+(134,790 real changes made)
+(51,567 real changes made)
+(7,806 real changes made)
+(18,078 real changes made)
+(22,592 real changes made)
+(83,994 real changes made)
+(147,552 real changes made)
+(68,749 real changes made)
+(12,252 real changes made)
+(11,002 real changes made)
+(11,834 real changes made)
+(52,237 real changes made)
+(139,820 real changes made)
+(125,506 real changes made)
+(12,818 real changes made)
+(18,396 real changes made)
+(32,045 real changes made)
+(94,110 real changes made)
+(123,318 real changes made)
+(72,495 real changes made)
+(12,853 real changes made)
+(12,653 real changes made)
+(17,048 real changes made)
+(68,441 real changes made)
+(149,347 real changes made)
+(93,387 real changes made)
+(12,341 real changes made)
+(11,892 real changes made)
+(12,198 real changes made)
+(54,525 real changes made)
+(137,307 real changes made)
+(125,079 real changes made)
+(12,216 real changes made)
+
+{com}. 
+. 
+. *********** clean qoi 35-40 as they have the same response options *************
+. /* value labels for qoi 35-40
+>  1 not at all true
+>  2 a little true
+>  3 pretty much true
+>  4 very much true
+> 
+>  recode:
+> -2 not at all true
+> -1 a little true
+> 1 pretty much true
+> 2 very much true
+>  */
+. 
+.  /* recode qoi 35-40 */
+.  foreach i of numlist 35/40 {c -(}
+{txt}  2{com}.    replace qoi`i' = qoi`i' - 3 if qoi`i' == 1 | qoi`i' == 2
+{txt}  3{com}.    replace qoi`i' = qoi`i' - 2 if qoi`i' == 3 | qoi`i' == 4
+{txt}  4{com}.  {c )-}
+{txt}(148,060 real changes made)
+(194,746 real changes made)
+(111,833 real changes made)
+(231,257 real changes made)
+(145,232 real changes made)
+(194,968 real changes made)
+(79,935 real changes made)
+(261,804 real changes made)
+(119,176 real changes made)
+(223,164 real changes made)
+(99,750 real changes made)
+(242,505 real changes made)
+
+{com}. 
+.  /* generate dummies for each response option for qoi 35-40*/
+.  foreach i of numlist 35/40 {c -(}
+{txt}  2{com}.    gen nottrue`i' = 0
+{txt}  3{com}.    replace nottrue`i' = 1 if qoi`i' == -2
+{txt}  4{com}. 
+.    gen littletrue`i' = 0
+{txt}  5{com}.    replace littletrue`i' = 1 if qoi`i' == -1
+{txt}  6{com}. 
+.    gen prettytrue`i' = 0
+{txt}  7{com}.    replace prettytrue`i' = 1 if qoi`i' == 1
+{txt}  8{com}. 
+.    gen verytrue`i' = 0
+{txt}  9{com}.    replace verytrue`i' = 1 if qoi`i' == 2
+{txt} 10{com}. 
+.    gen missing`i' = 0
+{txt} 11{com}.    replace missing`i' = 1 if missing(qoi`i')
+{txt} 12{com}.  {c )-}
+{txt}(42,519 real changes made)
+(105,541 real changes made)
+(114,162 real changes made)
+(80,584 real changes made)
+(10,411 real changes made)
+(31,728 real changes made)
+(80,105 real changes made)
+(127,672 real changes made)
+(103,585 real changes made)
+(10,127 real changes made)
+(51,082 real changes made)
+(94,150 real changes made)
+(108,551 real changes made)
+(86,417 real changes made)
+(13,017 real changes made)
+(21,957 real changes made)
+(57,978 real changes made)
+(111,967 real changes made)
+(149,837 real changes made)
+(11,478 real changes made)
+(38,381 real changes made)
+(80,795 real changes made)
+(118,094 real changes made)
+(105,070 real changes made)
+(10,877 real changes made)
+(32,364 real changes made)
+(67,386 real changes made)
+(109,603 real changes made)
+(132,902 real changes made)
+(10,962 real changes made)
+
+{com}. 
+.  /* collapse the dataset, resulting dataset has mean for each qoi, total number of responses, and number of responses for each option in each question */
+.   collapse (mean) qoi* totalresp (sum) strdisagree* disagree* neither* agree* stragree* missing* nottrue* littletrue* prettytrue* verytrue*, by(cdscode)
+{res}{txt}
+{com}. 
+. 
+.   ************************ relabel all the vars **********************************
+.   /* label all the mean qoi vars */
+.   label var qoi22 "Mean of Q: I feel close to people at this school"
+{txt}
+{com}.   label var qoi23 "Mean of Q: I am happy to be at this school"
+{txt}
+{com}.   label var qoi24 "Mean of Q: I feel like I am part of this school"
+{txt}
+{com}.   label var qoi25 "Mean of Q: The teachers at this school treat students fairly"
+{txt}
+{com}.   label var qoi26 "Mean of Q: I feel safe in my school"
+{txt}
+{com}. 
+.   label var qoi31 "Mean of Q: I try hard to make sure that I am good at my schoolwork"
+{txt}
+{com}.   label var qoi32 "Mean of Q: I try hard at school because I am interested in my work"
+{txt}
+{com}.   label var qoi33 "Mean of Q: I work hard to try to understand new things at school"
+{txt}
+{com}.   label var qoi34 "Mean of Q: I am always trying to do better in my schoolwork"
+{txt}
+{com}. 
+.   label var qoi35 "Mean of Q: There is... who really cares about me"
+{txt}
+{com}.   label var qoi36 "Mean of Q: There is... who tells me when I do a good job"
+{txt}
+{com}.   label var qoi37 "Mean of Q: There is... who notices when I’m not there"
+{txt}
+{com}.   label var qoi38 "Mean of Q: There is... who always wants me to do my best"
+{txt}
+{com}.   label var qoi39 "Mean of Q: There is... who listens to me when I have something to say"
+{txt}
+{com}.   label var qoi40 "Mean of Q: There is... who believes that I will be a success"
+{txt}
+{com}. 
+.   label var totalresp "total number of responses in the school including missing"
+{txt}
+{com}. 
+.   /* rename the qoi vars to reflect they are now averages */
+.   rename qoi* qoi*mean
+{res}{txt}
+{com}. 
+.   /* label vars for the number of response for each option */
+.   foreach i of numlist 22/26 31/34 {c -(}
+{txt}  2{com}.     label var strdisagree`i' "number of people choosing strongly disagree for qoi`i'"
+{txt}  3{com}.     label var disagree`i' "number of people choosing disagree for qoi`i'"
+{txt}  4{com}.     label var neither`i' "number of people choosing neither disagree or agree for qoi`i'"
+{txt}  5{com}.     label var agree`i' "number of people choosing agree for qoi`i'"
+{txt}  6{com}.     label var stragree`i' "number of people choosing strongly agree for qoi`i'"
+{txt}  7{com}.     label var missing`i' "number of missing responses for qoi`i'"
+{txt}  8{com}.   {c )-}
+{txt}
+{com}. 
+.   foreach i of numlist 35/40 {c -(}
+{txt}  2{com}.     label var nottrue`i' "number of people choosing not at all true for qoi`i'"
+{txt}  3{com}.     label var littletrue`i' "number of people choosing a little true for qoi`i'"
+{txt}  4{com}.     label var prettytrue`i' "number of people choosing pretty much true for qoi`i'"
+{txt}  5{com}.     label var verytrue`i' "number of people choosing very much true for qoi`i'"
+{txt}  6{com}.     label var missing`i' "number of missing responses for qoi`i'"
+{txt}  7{com}.   {c )-}
+{txt}
+{com}. 
+.   ********************* generate percentage agree/disagree etc *******************
+. 
+.   /* first, generate the net total responses for each question excluding missing */
+.   foreach i of numlist 22/26 31/40 {c -(}
+{txt}  2{com}.     gen nettotalresp`i' = totalresp - missing`i'
+{txt}  3{com}.     label var nettotalresp`i' "net total responses for qoi`i' excluding missing "
+{txt}  4{com}.   {c )-}
+{txt}
+{com}. 
+.   /* generate pct disagree/agree for qoi 22-26 and 31-34 */
+.   foreach i of numlist 22/26 31/34 {c -(}
+{txt}  2{com}.     gen pctdisagree`i' = (strdisagree`i' + disagree`i')/nettotalresp`i'
+{txt}  3{com}.     label var pctdisagree`i' "percent strongly disagree or disagree in qoi`i'"
+{txt}  4{com}.     gen pctagree`i' = (stragree`i' + agree`i')/nettotalresp`i'
+{txt}  5{com}.     label var pctagree`i' "percent strongly agree or agree in qoi`i'"
+{txt}  6{com}.     gen pctneither`i' = neither`i'/nettotalresp`i'
+{txt}  7{com}.     label var pctneither`i' "percent neither disagree nor agree in qoi`i'"
+{txt}  8{com}.   {c )-}
+{txt}(1 missing value generated)
+(1 missing value generated)
+(1 missing value generated)
+(1 missing value generated)
+(1 missing value generated)
+(1 missing value generated)
+(5 missing values generated)
+(5 missing values generated)
+(5 missing values generated)
+(6 missing values generated)
+(6 missing values generated)
+(6 missing values generated)
+(6 missing values generated)
+(6 missing values generated)
+(6 missing values generated)
+(6 missing values generated)
+(6 missing values generated)
+(6 missing values generated)
+
+{com}. 
+.   /* generate pct no true/true for qoi 35-40 */
+.   foreach i of numlist 35/40 {c -(}
+{txt}  2{com}.     gen pctnottrue`i' = nottrue`i'/nettotalresp`i'
+{txt}  3{com}.     label var pctnottrue`i' "percent not true in qoi`i'"
+{txt}  4{com}.     gen pcttrue`i' = (littletrue`i' + prettytrue`i' + verytrue`i')/nettotalresp`i'
+{txt}  5{com}.     label var pcttrue`i' "percent a little true, pretty much true, and very much true in qoi`i'"
+{txt}  6{com}.   {c )-}
+{txt}
+{com}. 
+. /* generate a year var to prepare for constructing a panel */
+. gen year = 1415
+{txt}
+{com}. 
+.   label data "cleaned secondary 1415 survey questions of interest with percent disagree/agree etc."
+{txt}note: label truncated to 80 characters
+
+{com}.   compress
+  {txt}variable {bf}{res}totalresp{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp22{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp23{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp24{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp25{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp26{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp31{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp32{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp33{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp34{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp35{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp36{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp37{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp38{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp39{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp40{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}year{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}strdisagree22{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}strdisagree23{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}strdisagree24{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}strdisagree25{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}strdisagree26{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}strdisagree31{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}strdisagree32{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}strdisagree33{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}strdisagree34{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree22{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree23{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree24{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree25{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree26{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree31{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree32{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree33{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree34{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}neither22{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}neither23{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}neither24{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}neither25{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}neither26{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}neither31{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}neither32{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}neither33{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}neither34{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree22{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree23{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree24{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree25{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree26{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree31{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree32{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree33{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree34{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree22{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree23{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree24{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree25{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree26{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree31{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree32{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree33{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree34{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing22{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing23{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing24{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing25{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing26{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing31{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing32{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing33{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing34{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing35{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing36{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing37{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing38{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing39{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing40{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nottrue35{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nottrue36{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nottrue37{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nottrue38{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nottrue39{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nottrue40{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}littletrue35{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}littletrue36{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}littletrue37{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}littletrue38{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}littletrue39{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}littletrue40{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}prettytrue35{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}prettytrue36{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}prettytrue37{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}prettytrue38{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}prettytrue39{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}prettytrue40{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}verytrue35{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}verytrue36{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}verytrue37{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}verytrue38{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}verytrue39{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}verytrue40{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+{txt}  (691,740 bytes saved)
+
+{com}.   save $projdir/dta/buildanalysisdata/qoiclean/secondary/secqoiclean1415, replace
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/qoiclean/secondary/secqoiclean1415.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/qoiclean/secondary/secqoiclean1415.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 7 Apr 2022, 14:57:11
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

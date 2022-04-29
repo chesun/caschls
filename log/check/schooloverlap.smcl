@@ -1,9 +1,9 @@
 {smcl}
-{txt}{sf}{ul off}{.-}
+{com}{sf}{ul off}{txt}{.-}
       name:  {res}schooloverlap
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log//check/schooloverlap.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 6 Apr 2022, 18:35:42
+ {txt}opened on:  {res} 7 Apr 2022, 14:51:48
 {txt}
 {com}. 
 . 
@@ -1103,7 +1103,7 @@ saved
       {txt}name:  {res}schooloverlap
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log//check/schooloverlap.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 6 Apr 2022, 18:35:43
+ {txt}closed on:  {res} 7 Apr 2022, 14:51:49
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

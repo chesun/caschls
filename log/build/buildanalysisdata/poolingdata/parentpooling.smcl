@@ -1,0 +1,308 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/poolingdata/parentpooling.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 7 Apr 2022, 14:57:24
+{txt}
+{com}. 
+. /* first append all years to make a pnael dataset to calculate pooled stats */
+. use $projdir/dta/buildanalysisdata/qoiclean/parent/parentqoiclean1819, clear
+{txt}(cleaned parent 1819 survey questions of interest with percent disagree/agree etc)
+
+{com}. 
+. append using $projdir/dta/buildanalysisdata/qoiclean/parent/parentqoiclean1718
+{txt}{p 0 7 2}
+(variable
+{bf:disagree30} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+{p 0 7 2}
+(variable
+{bf:dontknow31} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+
+{com}. 
+. append using $projdir/dta/buildanalysisdata/qoiclean/parent/parentqoiclean1617
+{txt}{p 0 7 2}
+(variable
+{bf:disagree16} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+{p 0 7 2}
+(variable
+{bf:disagree33} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+
+{com}. 
+. append using $projdir/dta/buildanalysisdata/qoiclean/parent/parentqoiclean1516
+{txt}
+{com}. 
+. append using $projdir/dta/buildanalysisdata/qoiclean/parent/parentqoiclean1415
+{txt}{p 0 7 2}
+(variable
+{bf:strdisagree16} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+{p 0 7 2}
+(variable
+{bf:strdisagree17} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+{p 0 7 2}
+(variable
+{bf:dontknow16} was {bf:byte}, now {bf:int} to accommodate using data's values)
+{p_end}
+
+{com}. 
+. drop if missing(cdscode) //there are 3 observations with missing cdscode
+{txt}(3 observations deleted)
+
+{com}. 
+. /* calculate the wieghted average of qoi means pooled over years
+> ignore missing values */
+. 
+. sort cdscode year
+{txt}
+{com}. 
+. foreach i of numlist 9 15/17 27 30/34 64 {c -(}
+{txt}  2{com}.   by cdscode: egen qoi`i'mean_pooled =  wtmean(qoi`i'mean), weight(nettotalresp`i')
+{txt}  3{com}. {c )-}
+{txt}(216 missing values generated)
+(211 missing values generated)
+(213 missing values generated)
+(211 missing values generated)
+(211 missing values generated)
+(662 missing values generated)
+(221 missing values generated)
+(1,108 missing values generated)
+(218 missing values generated)
+(662 missing values generated)
+(323 missing values generated)
+
+{com}. 
+. /* generate the pct agree/disagree/don't know for qoi 9 15/17 27 30/34 */
+. foreach i of numlist 9 15/17 27 30/34 {c -(}
+{txt}  2{com}.   by cdscode: egen pctagree`i'_pooled = wtmean(pctagree`i'), weight(nettotalresp`i')
+{txt}  3{com}.   by cdscode: egen pctdisagree`i'_pooled = wtmean(pctdisagree`i'), weight(nettotalresp`i')
+{txt}  4{com}.   by cdscode: egen pctdontknow`i'_pooled = wtmean(pctdontknow`i'), weight(nettotalresp`i')
+{txt}  5{com}. {c )-}
+{txt}(216 missing values generated)
+(216 missing values generated)
+(216 missing values generated)
+(211 missing values generated)
+(211 missing values generated)
+(211 missing values generated)
+(213 missing values generated)
+(213 missing values generated)
+(213 missing values generated)
+(211 missing values generated)
+(211 missing values generated)
+(211 missing values generated)
+(211 missing values generated)
+(211 missing values generated)
+(211 missing values generated)
+(662 missing values generated)
+(662 missing values generated)
+(662 missing values generated)
+(221 missing values generated)
+(221 missing values generated)
+(221 missing values generated)
+(1,108 missing values generated)
+(1,108 missing values generated)
+(1,108 missing values generated)
+(218 missing values generated)
+(218 missing values generated)
+(218 missing values generated)
+(662 missing values generated)
+(662 missing values generated)
+(662 missing values generated)
+
+{com}. 
+. /* generate the pct well/okay/notwell/dontknow for qoi64 */
+. by cdscode: egen pctwell64_pooled = wtmean(pctwell64), weight(nettotalresp64)
+{txt}(323 missing values generated)
+
+{com}. by cdscode: egen pctokay64_pooled = wtmean(pctokay64), weight(nettotalresp64)
+{txt}(323 missing values generated)
+
+{com}. by cdscode: egen pctnotwell64_pooled = wtmean(pctnotwell64), weight(nettotalresp64)
+{txt}(323 missing values generated)
+
+{com}. by cdscode: egen pctdontknow64_pooled = wtmean(pctdontknow64), weight(nettotalresp64)
+{txt}(323 missing values generated)
+
+{com}. 
+. 
+. collapse (mean) *pooled (sum) nettotalresp* stragree* agree* disagree* strdisagree* dontknow* ///
+> verywell64 justokay64 notwell64 doesnotdo64 missing*, by(cdscode)
+{res}{txt}
+{com}. 
+. /* label the pooled qoi means and nettotalresp and missing*/
+. foreach i of numlist 9 15/17 27 30/34 64 {c -(}
+{txt}  2{com}.   label var qoi`i'mean_pooled "weighted mean of qoi`i' responses over years for a given school"
+{txt}  3{com}.   label var nettotalresp`i' "net total responses for qoi`i' excluding missing pooled over years"
+{txt}  4{com}.   label var missing`i' "number of missing responses for qoi`i' pooled over years"
+{txt}  5{com}. {c )-}
+{txt}
+{com}. 
+. /* label the pooled percent agree/disagree vars */
+. foreach i of numlist 9 15/17 27 30/34 {c -(}
+{txt}  2{com}.   label var pctagree`i'_pooled "weighted average percent agree/strongly agree in qoi`i' pooled over years"
+{txt}  3{com}.   label var pctdisagree`i'_pooled "weighted average percent disagree/strongly disagree in qoi`i' pooled over years"
+{txt}  4{com}.   label var pctdontknow`i'_pooled "weight average percent don't know in qoi`i' pooled over years"
+{txt}  5{com}. 
+.   label var strdisagree`i' "total number of strongly disagree for qoi`i' pooled over years"
+{txt}  6{com}.   label var disagree`i' "total number of disagree for qoi`i' pooled over years"
+{txt}  7{com}.   label var dontknow`i' "total number of don't know for qoi`i' pooled over years"
+{txt}  8{com}.   label var agree`i' "total number of agree for qoi`i' pooled over years"
+{txt}  9{com}.   label var stragree`i' "total number of strongly agree for qoi`i' pooled over years"
+{txt} 10{com}. {c )-}
+{txt}
+{com}. 
+. label var pctwell64_pooled "weighted avg percent very well in qoi64 pooled over years"
+{txt}
+{com}. label var pctokay64_pooled "weighted avg percent just okay in qoi64 pooled over years"
+{txt}
+{com}. label var pctnotwell64_pooled "weighted avg percent not well or does not do at all in qoi64 pooled over years"
+{txt}
+{com}. 
+. label var verywell64 "total number of very well for qoi64 pooled over years"
+{txt}
+{com}. label var justokay64 "total number of just okay for qoi64 pooled over years"
+{txt}
+{com}. label var notwell64 "total number of not well for qoi64 pooled over years"
+{txt}
+{com}. label var doesnotdo64 "total number of does not do it at all for qoi64 pooled over years"
+{txt}
+{com}. label var dontknow64 "total number of don't know for qoi64 pooled over years"
+{txt}
+{com}. 
+. label data "weighted average parent qoi statistics pooled over years"
+{txt}
+{com}. compress
+  {txt}variable {bf}{res}nettotalresp9{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp15{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp16{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp17{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp27{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp30{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp31{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp32{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp33{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp34{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}nettotalresp64{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree9{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree15{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree16{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree17{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree27{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree30{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree31{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree32{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree33{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}stragree34{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree9{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree15{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree16{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree17{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree27{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree30{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree31{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree32{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree33{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}agree34{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree9{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree15{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree16{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree17{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree27{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree30{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree31{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree32{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree33{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}disagree34{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}strdisagree9{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}strdisagree15{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}strdisagree16{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}strdisagree17{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}strdisagree27{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}strdisagree30{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}strdisagree31{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}strdisagree32{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}strdisagree33{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}strdisagree34{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}dontknow9{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}dontknow15{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}dontknow16{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}dontknow17{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}dontknow27{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}dontknow30{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}dontknow31{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}dontknow32{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}dontknow33{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}dontknow34{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}dontknow64{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}verywell64{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}justokay64{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}notwell64{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}doesnotdo64{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing9{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing15{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing16{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing17{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing27{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing30{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing31{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing32{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing33{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing34{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+  {txt}variable {bf}{res}missing64{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}int{sf}
+{txt}  (1,402,128 bytes saved)
+
+{com}. save $projdir/dta/buildanalysisdata/poolingdata/parentpooledstats, replace
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/poolingdata/parentpooledstats.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. /* merge with the response rate dataset */
+. merge 1:1 cdscode using $projdir/dta/buildanalysisdata/responserate/parentresponserate
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}             445
+{txt}{col 9}from master{col 30}{res}             445{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}Matched{col 30}{res}           2,551{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. drop _merge
+{txt}
+{com}. 
+. drop if missing(cdscode)
+{txt}(0 observations deleted)
+
+{com}. 
+. label data "parent pooled (over years) dataset ready for analysis with stats and response rates"
+{txt}note: label truncated to 80 characters
+
+{com}. compress
+{txt}  (0 bytes saved)
+
+{com}. save $projdir/dta/buildanalysisdata/analysisready/parentanalysisready, replace
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/analysisready/parentanalysisready.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/poolingdata/parentpooling.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 7 Apr 2022, 14:57:24
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

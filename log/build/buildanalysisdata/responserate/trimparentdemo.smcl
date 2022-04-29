@@ -1,0 +1,160 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/responserate/trimparentdemo.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 7 Apr 2022, 14:56:15
+{txt}
+{com}. 
+. /* rename variables in the secondary demographics datasets to indicate year, keep only vars needed to calculate response rates */
+. local grades `" "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" "' //local macro for grades
+{txt}
+{com}. 
+. use $projdir/dta/demographics/parent/parentdemo1415, replace
+{txt}( )
+
+{com}. keep cdscode svygr1 svygr2 svygr3 svygr4 svygr5 svygr6 svygr7 svygr8 svygr9 svygr10 svygr11 svygr12 ///
+> gr1enr gr2enr gr3enr gr4enr gr5enr gr6enr gr7enr gr8enr gr9enr gr10enr gr11enr gr12enr
+{txt}
+{com}. //renaming vars to indicate the year of the dataset to prepare for merging with other years later
+. foreach i of local grades {c -(}
+{txt}  2{com}.   rename svygr`i' svygr`i'_1415
+{txt}  3{com}.   rename gr`i'enr enrgr`i'_1415
+{txt}  4{com}.   label var svygr`i'_1415 "number of grade `i' household responses in 1415"
+{txt}  5{com}.   label var enrgr`i'_1415 "grade `i' enrollment in 1415"
+{txt}  6{com}. {c )-}
+{res}{txt}
+{com}. label data "trimmed parent demographics 1415 including only survey responses and enrollment for grades 1-12"
+{txt}note: label truncated to 80 characters
+
+{com}. compress
+{txt}  (0 bytes saved)
+
+{com}. save $projdir/dta/buildanalysisdata/demotrim/parent/trimparentdemo1415, replace
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/demotrim/parent/trimparentdemo1415.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. use $projdir/dta/demographics/parent/parentdemo1516, replace
+{txt}(2015-16 Parent CSPS Data)
+
+{com}. keep cdscode svygr1 svygr2 svygr3 svygr4 svygr5 svygr6 svygr7 svygr8 svygr9 svygr10 svygr11 svygr12 ///
+> gr1enr gr2enr gr3enr gr4enr gr5enr gr6enr gr7enr gr8enr gr9enr gr10enr gr11enr gr12enr
+{txt}
+{com}. foreach i of local grades {c -(}
+{txt}  2{com}.   rename svygr`i' svygr`i'_1516
+{txt}  3{com}.   rename gr`i'enr enrgr`i'_1516
+{txt}  4{com}.   label var svygr`i'_1516 "number of grade `i' household responses in 1516"
+{txt}  5{com}.   label var enrgr`i'_1516 "grade `i' enrollment in 1516"
+{txt}  6{com}. {c )-}
+{res}{txt}
+{com}. label data "trimmed parent demographics 1516 including only survey responses and enrollment for grades 1-12"
+{txt}note: label truncated to 80 characters
+
+{com}. compress
+{txt}  (0 bytes saved)
+
+{com}. save $projdir/dta/buildanalysisdata/demotrim/parent/trimparentdemo1516, replace
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/demotrim/parent/trimparentdemo1516.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. use $projdir/dta/demographics/parent/parentdemo1617, replace
+{txt}(2016-17 Parent CSPS Data)
+
+{com}. keep cdscode svygr1 svygr2 svygr3 svygr4 svygr5 svygr6 svygr7 svygr8 svygr9 svygr10 svygr11 svygr12 ///
+> gr1enr gr2enr gr3enr gr4enr gr5enr gr6enr gr7enr gr8enr gr9enr gr10enr gr11enr gr12enr
+{txt}
+{com}. foreach i of local grades {c -(}
+{txt}  2{com}.   rename svygr`i' svygr`i'_1617
+{txt}  3{com}.   rename gr`i'enr enrgr`i'_1617
+{txt}  4{com}.   label var svygr`i'_1617 "number of grade `i' household responses in 1617"
+{txt}  5{com}.   label var enrgr`i'_1617 "grade `i' enrollment in 1617"
+{txt}  6{com}. {c )-}
+{res}{txt}
+{com}. label data "trimmed parent demographics 1617 including only survey responses and enrollment for grades 1-12"
+{txt}note: label truncated to 80 characters
+
+{com}. compress
+{txt}  (0 bytes saved)
+
+{com}. save $projdir/dta/buildanalysisdata/demotrim/parent/trimparentdemo1617, replace
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/demotrim/parent/trimparentdemo1617.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. use $projdir/dta/demographics/parent/parentdemo1718, replace
+{txt}(2017-18 Parent CSPS Data)
+
+{com}. keep cdscode svygr1 svygr2 svygr3 svygr4 svygr5 svygr6 svygr7 svygr8 svygr9 svygr10 svygr11 svygr12 ///
+> gr1enr gr2enr gr3enr gr4enr gr5enr gr6enr gr7enr gr8enr gr9enr gr10enr gr11enr gr12enr
+{txt}
+{com}. foreach i of local grades {c -(}
+{txt}  2{com}.   rename svygr`i' svygr`i'_1718
+{txt}  3{com}.   rename gr`i'enr enrgr`i'_1718
+{txt}  4{com}.   label var svygr`i'_1718 "number of grade `i' household responses in 1718"
+{txt}  5{com}.   label var enrgr`i'_1718 "grade `i' enrollment in 1718"
+{txt}  6{com}. {c )-}
+{res}{txt}
+{com}. label data "trimmed parent demographics 1718 including only survey responses and enrollment for grades 1-12"
+{txt}note: label truncated to 80 characters
+
+{com}. compress
+{txt}  (0 bytes saved)
+
+{com}. save $projdir/dta/buildanalysisdata/demotrim/parent/trimparentdemo1718, replace
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/demotrim/parent/trimparentdemo1718.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. use $projdir/dta/demographics/parent/parentdemo1819, replace
+{txt}(2018-19 Parent CSPS Data)
+
+{com}. keep cdscode svygr1 svygr2 svygr3 svygr4 svygr5 svygr6 svygr7 svygr8 svygr9 svygr10 svygr11 svygr12 ///
+> gr1enr gr2enr gr3enr gr4enr gr5enr gr6enr gr7enr gr8enr gr9enr gr10enr gr11enr gr12enr
+{txt}
+{com}. foreach i of local grades {c -(}
+{txt}  2{com}.   rename svygr`i' svygr`i'_1819
+{txt}  3{com}.   rename gr`i'enr enrgr`i'_1819
+{txt}  4{com}.   label var svygr`i'_1819 "number of grade `i' household responses in 1819"
+{txt}  5{com}.   label var enrgr`i'_1819 "grade `i' enrollment in 1819"
+{txt}  6{com}. {c )-}
+{res}{txt}
+{com}. label data "trimmed parent demographics 1819 including only survey responses and enrollment for grades 1-12"
+{txt}note: label truncated to 80 characters
+
+{com}. compress
+{txt}  (0 bytes saved)
+
+{com}. save $projdir/dta/buildanalysisdata/demotrim/parent/trimparentdemo1819, replace
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/demotrim/parent/trimparentdemo1819.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/responserate/trimparentdemo.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 7 Apr 2022, 14:56:15
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

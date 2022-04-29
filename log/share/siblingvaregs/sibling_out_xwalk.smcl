@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/sibling_out_xwalk.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 9 Apr 2022, 02:25:34
+ {txt}opened on:  {res}28 Apr 2022, 13:16:57
 {txt}
 {com}. 
 . 
@@ -156,8 +156,14 @@
 . drop lower_bound
 {txt}
 {com}. 
-. 
-. 
+. // sample indicator for obs to use in VA with sibling 2 yr and 4 yr enrollment controls
+. // This sample consists obs with at least 1 sibling matched to postsec outcomes, and who have non-missing for the sibling controls 
+. gen sibling_2y_4y_controls_sample = 0
+{txt}
+{com}. replace sibling_2y_4y_controls_sample = 1 if !mi(has_older_sibling_enr_2year) & !mi(has_older_sibling_enr_4year) & sibling_out_sample==1
+{txt}(2,946,010 real changes made)
+
+{com}. 
 . //create sibling outcomes crosswalk
 . compress
   {txt}variable {bf}{res}k12_postsec_match{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
@@ -167,11 +173,12 @@
   {txt}variable {bf}{res}has_older_sibling_enr{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
   {txt}variable {bf}{res}has_older_sibling_enr_2year{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
   {txt}variable {bf}{res}has_older_sibling_enr_4year{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
+  {txt}variable {bf}{res}sibling_2y_4y_controls_sample{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
   {txt}variable {bf}{res}num_older_sibling_postsec_match{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
   {txt}variable {bf}{res}numsiblings_older_enr{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
   {txt}variable {bf}{res}numsiblings_older_enr_2year{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
   {txt}variable {bf}{res}numsiblings_older_enr_4year{sf}{txt} was {bf}{res}double{sf}{txt} now {bf}{res}byte{sf}
-{txt}  (200,149,271 bytes saved)
+{txt}  (212,403,308 bytes saved)
 
 {com}. label data "Sibling enrollment outcomes crosswalk organized by unique families"
 {txt}
@@ -189,13 +196,13 @@ saved
 .  timer off 1
 {txt}
 {com}.  timer list
-{res}   1:    143.93 /        1 =     143.9270
+{res}   1:    218.42 /        1 =     218.4160
 {txt}
 {com}.  log close
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/sibling_out_xwalk.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 9 Apr 2022, 02:27:58
+ {txt}closed on:  {res}28 Apr 2022, 13:20:36
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

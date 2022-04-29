@@ -1,0 +1,2734 @@
+-------------------------------------------------------------------------------
+      name:  seccoveragedata
+       log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/sample
+> /seccoveragedata.smcl
+  log type:  smcl
+ opened on:   7 Apr 2022, 14:54:49
+
+. 
+. local years `" "1415" "1516" "1617" "1718" "1819" "' //local macro for datase
+> t years
+
+. 
+. foreach year of local years {
+  2.   use $projdir/dta/demographics/secondary/secdemo`year', clear
+  3. 
+.   local secgrades `" "6" "7" "8" "9" "10" "11" "12" "' //generate a local mac
+> ro for grades in the secondary datasets, excluding non traditional students f
+> or simplicity
+  4. 
+.   ***************************************************************************
+> ***
+.   *******************generate survey sample diagnostics**********************
+> ***
+.   ***************************************************************************
+> ***
+.   foreach i of local secgrades {
+  5.     /* generate response rates for each grade and use extended missing val
+> ue for labeling later */
+.     //generate a new var that calculates students in each grade in the survey
+>  as a percentage of total enrollment in that grade (i.e. response rate)
+.     gen svygr`i'resprate = .a
+  6.     label var svygr`i'resprate "grade `i' response rate"
+  7.     //make sure denominator is not 0 when calculating response rate
+.     replace svygr`i'resprate = svygr`i'/gr`i'enr if gr`i'enr != 0
+  8.     //label extended missing values for the cases where enrollment is 0
+.     label define svygr`i'resprate .a "grade `i' enrollment is 0"
+  9. 
+. 
+.     /* generate percentage of surveyed female students in each grade in surve
+> y sample and use extended missing value for labeling later */
+.     //generate a var that calculates the percentage of surveyed female studen
+> ts in each grade in the survey sample
+.     gen svyfemalegr`i'pct = .a
+ 10.     label var svyfemalegr`i'pct "percent of female students in grade `i' i
+> n survey sample"
+ 11.     // make sure denominator is not 0 when calculating percentage
+.     replace svyfemalegr`i'pct = svyfemalegr`i'/svygr`i' if svygr`i' != 0
+ 12.     //label extended missing values for the cases where denominator is 0
+.     label define svyfemalegr`i'pct .a "no grade `i' student surveyed"
+ 13. 
+.     /* generate percentage of surveyed male students in each grade in survey 
+> sample and use extended missing value for labeling later */
+.     //generate a var that calculates the percentage of surveyed male students
+>  in each grade in the survey sample
+.     gen svymalegr`i'pct = .a
+ 14.     label var svymalegr`i'pct "percent of male students in grade `i' in su
+> rvey sample"
+ 15.     // make sure denominator is not 0 when calculating percentage
+.     replace svymalegr`i'pct = svymalegr`i'/svygr`i' if svygr`i' != 0
+ 16.     //label extended missing values for the cases where denominator is 0
+.     label define svymalegr`i'pct .a "no grade `i' students surveyed"
+ 17. 
+.     /* generate percentage of each race in each grade in the survey sample an
+> d use extended missing value for labeling later. The race vars are svyhispani
+> cgr`i'
+>     svynativegr`i' svyasiangr`i' svyblackgr`i' svypacificgr`i' svywhitegr`i' 
+> svymixedgr`i' */
+.     //generate a var that calculates the percentage of surveyed hispanic stud
+> ents
+.     gen svyhispanicgr`i'pct = .a
+ 18.     label var svyhispanicgr`i'pct "percent of hispanic students in grade `
+> i' in survey sample"
+ 19.     //make sure denominator is not 0 when calculating percentage
+.     replace svyhispanicgr`i'pct = svyhispanicgr`i'/svygr`i' if svygr`i' != 0
+ 20.     //label extended missing values for the cases when denominator is 0
+.     label define svyhispanicgr`i'pct .a "no grade `i' students surveyed"
+ 21. 
+.     //generate a var that caculates the percentage of surveyed Native America
+> n students in each grade
+.     gen svynativegr`i'pct = .a
+ 22.     label var svynativegr`i'pct "percent of Native American students in gr
+> ade `i' in survey sample"
+ 23.     //make sure denominator is not 0 when calculating percentage
+.     replace svynativegr`i'pct = svynativegr`i'/svygr`i' if svygr`i' != 0
+ 24.     //label extended missing values for the cases when denominator is 0
+.     label define svynativegr`i'pct .a "no grade `i' students surveyed"
+ 25. 
+.     //generate a var that calculates the percentage of Asian students surveye
+> d in each grade
+.     gen svyasiangr`i'pct = .a
+ 26.     label var svyasiangr`i'pct "percent of Asian students in grade `i' in 
+> survey sample"
+ 27.     //make sure denominator is not 0
+.     replace svyasiangr`i'pct = svyasiangr`i'/svygr`i' if svygr`i' != 0
+ 28.     //label extended missing values for cases when denominator is 0
+.     label define svyasiangr`i'pct .a "no grade`i' students surveyed"
+ 29. 
+.     //generate a var that calculates the percentage of black students surveye
+> d in each graph grade
+.     gen svyblackgr`i'pct = .a
+ 30.     label var svyblackgr`i'pct "percent of black students in grade `i' in 
+> survey sample"
+ 31.     //make sure denominator is not 0
+.     replace svyblackgr`i'pct = svyblackgr`i'/svygr`i' if svygr`i' != 0
+ 32.     //label extended missing values for cases when denominator is 0
+.     label define svyblackgr`i'pct .a "no grade `i' students surveyed"
+ 33. 
+.     //generate a var that calculates the percentage of Pacific Islander stude
+> nts surveyed in each grade
+.     gen svypacificgr`i'pct = .a
+ 34.     label var svypacificgr`i'pct "percent of Pacific Islander students in 
+> grade `i' in survey sample"
+ 35.     //make sure denominator is not 0
+.     replace svypacificgr`i'pct = svypacificgr`i'/svygr`i' if svygr`i' != 0
+ 36.     //label extended missing values for cases when denominator is 0
+.     label define svypacificgr`i'pct .a "no grade `i' students surveyed"
+ 37. 
+.     //generate a var that calculates the percentage of white stuents surveyed
+>  in each grade
+.     gen svywhitegr`i'pct = .a
+ 38.     label var svywhitegr`i'pct "percent of white students in grade `i' in 
+> survey sample"
+ 39.     //make sure denominator is not 0
+.     replace svywhitegr`i'pct = svywhitegr`i'/svygr`i' if svygr`i' != 0
+ 40.     //label extended missing values for cases when denominator is 0
+.     label define svywhitegr`i'pct .a "no grade `i' students surveyed"
+ 41. 
+.     //generate a var that calculates the percentage of mixed race students su
+> rveyed in each grade
+.     gen svymixedgr`i'pct = .a
+ 42.     label var svymixedgr`i'pct "percent of mixed race students in grade `i
+> ' in survey sample"
+ 43.     //make sure denominator is not 0
+.     replace svymixedgr`i'pct = svymixedgr`i'/svygr`i' if svygr`i' != 0
+ 44.     //label extended missing values for cases when denominator is 0
+.     label define svymixedgr`i'pct .a "no grade `i' students surveyed"
+ 45. 
+.   }
+ 46. 
+. 
+. 
+. 
+.   ***************************************************************************
+> ***
+.   *******************generate enrollment sample diagnostics******************
+> ***
+.   ***************************************************************************
+> ***
+. 
+.   /* generate a var that calculates the percentage of female and male student
+> s and students of each ethnicity in total enrollment */
+.   local enrgrades 1 2 3 4 5 6 7 8 9 10 11 12 //generate a kicak nacri for gra
+> de bynvers
+ 47.   foreach j of local enrgrades {
+ 48.     //generate a var that calculates the percentage of female students in 
+> each grade in the enrollment data
+.     gen enrfemalegr`j'pct = .a //generate extended missing value first for la
+> beling later
+ 49.     label var enrfemalegr`j'pct "percent of female students in grade `j' i
+> n enrollment data"
+ 50.     replace enrfemalegr`j'pct = gr`j'femaleenr/gr`j'enr if gr`j'enr != 0 /
+> /calculates the percentage of female students in each grade in the enrollment
+>  data if denominator is not 0
+ 51.     label define enrfemalegr`j'pct .a "grade `j' enrollment is 0"
+ 52. 
+.     //generate a var that calculates the percentage of male students in each 
+> grade in the enrollment data, generate extended missing value first for label
+> ing later
+.     gen enrmalegr`j'pct = .a //generate extended missing value first for labe
+> ling later
+ 53.     label var enrmalegr`j'pct "percent of male students in grade `j' in en
+> rollment data"
+ 54.     replace enrmalegr`j'pct = gr`j'maleenr/gr`j'enr if gr`j'enr != 0 //cal
+> culates the percentage of male students in each grade in the enrollment data 
+> if denominator is not 0
+ 55.     label define enrmalegr`j'pct .a "grade `j' enrollment is 0"
+ 56. 
+.     //generate a var that calculates the percentage of hispanic students in e
+> ach grade in the enrollment data, generate extended missing value first for l
+> abeling later
+.     gen enrhispanicgr`j'pct = .a //generate extended missing value first for 
+> labeling later
+ 57.     label var enrhispanicgr`j'pct "percent of hispanic students in grade `
+> j' in enrollment data"
+ 58.     replace enrhispanicgr`j'pct = gr`j'hispanicenr/gr`j'enr if gr`j'enr !=
+>  0 //calculates the percentage of hispanic students in each grade in the enro
+> llment data if denominator is not 0
+ 59.     label define enrhispanicgr`j'pct .a "grade `j' enrollment is 0"
+ 60. 
+.     //generate a var that calculates the percentage of Native American studen
+> ts in each grade in the enrollment data, generate extended missing value firs
+> t for labeling later
+.     gen enrnativegr`j'pct = .a //generate extended missing value first for la
+> beling later
+ 61.     label var enrnativegr`j'pct "percent of Native American students in gr
+> ade `j' in enrollment data"
+ 62.     replace enrnativegr`j'pct = gr`j'nativeenr/gr`j'enr if gr`j'enr != 0 /
+> /calculates the percentage of Native American students in each grade in the e
+> nrollment data if denominator is not 0
+ 63.     label define enrnativegr`j'pct .a "grade `j' enrollment is 0"
+ 64. 
+.     //generate a var that calculates the percentage of Asian students in each
+>  grade in the enrollment data, generate extended missing value first for labe
+> ling later
+.     gen enrasiangr`j'pct = .a //generate extended missing value first for lab
+> eling later
+ 65.     label var enrasiangr`j'pct "percent of Asian students in grade `j' in 
+> enrollment data"
+ 66.     replace enrasiangr`j'pct = gr`j'asianenr/gr`j'enr if gr`j'enr != 0 //c
+> alculates the percentage of Asian students in each grade in the enrollment da
+> ta if denominator is not 0
+ 67.     label define enrasiangr`j'pct .a "grade `j' enrollment is 0"
+ 68. 
+.     //generate a var that calculates the percentage of black students in each
+>  grade in the enrollment data, generate extended missing value first for labe
+> ling later
+.     gen enrblackgr`j'pct = .a //generate extended missing value first for lab
+> eling later
+ 69.     label var enrblackgr`j'pct "percent of black students in grade `j' in 
+> enrollment data"
+ 70.     replace enrblackgr`j'pct = gr`j'blackenr/gr`j'enr if gr`j'enr != 0 //c
+> alculates the percentage of black students in each grade in the enrollment da
+> ta if denominator is not 0
+ 71.     label define enrblackgr`j'pct .a "grade `j' enrollment is 0"
+ 72. 
+.     //generate a var that calculates the percentage of Pacific Islander stude
+> nts in each grade in the enrollment data, generate extended missing value fir
+> st for labeling later
+.     gen enrpacificgr`j'pct = .a //generate extended missing value first for l
+> abeling later
+ 73.     label var enrpacificgr`j'pct "percent of Pacific Islander students in 
+> grade `j' in enrollment data"
+ 74.     replace enrpacificgr`j'pct = gr`j'pacificenr/gr`j'enr if gr`j'enr != 0
+>  //calculates the percentage of Pacific Islander students in each grade in th
+> e enrollment data if denominator is not 0
+ 75.     label define enrpacificgr`j'pct .a "grade `j' enrollment is 0"
+ 76. 
+.     //generate a var that calculates the percentage of white students in each
+>  grade in the enrollment data, generate extended missing value first for labe
+> ling later
+.     gen enrwhitegr`j'pct = .a //generate extended missing value first for lab
+> eling later
+ 77.     label var enrwhitegr`j'pct "percent of white students in grade `j' in 
+> enrollment data"
+ 78.     replace enrwhitegr`j'pct = gr`j'whiteenr/gr`j'enr if gr`j'enr != 0 //c
+> alculates the percentage of white students in each grade in the enrollment da
+> ta if denominator is not 0
+ 79.     label define enrwhitegr`j'pct .a "grade `j' enrollment is 0"
+ 80. 
+.     //generate a var that calculates the percentage of mixed race students in
+>  each grade in the enrollment data, generate extended missing value first for
+>  labeling later
+.     gen enrmixedgr`j'pct = .a //generate extended missing value first for lab
+> eling later
+ 81.     label var enrmixedgr`j'pct "percent of mixed race students in grade `j
+> ' in enrollment data"
+ 82.     replace enrmixedgr`j'pct = gr`j'mixedenr/gr`j'enr if gr`j'enr != 0 //c
+> alculates the percentage of mixed race students in each grade in the enrollme
+> nt data if denominator is not 0
+ 83.     label define enrmixedgr`j'pct .a "grade `j' enrollment is 0"
+ 84.   }
+ 85. 
+. 
+.   ***************************************************************************
+> ***************************
+.   *******************calculate difference between survey and enrollment diagn
+> ostics*********************
+.   ***************************************************************************
+> ***************************
+. 
+.   foreach i of local secgrades {
+ 86.     gen femalegr`i'dif = svyfemalegr`i'pct - enrfemalegr`i'pct //calculate
+> s the difference between the survey sample and enrollment data for female stu
+> dents in grade i
+ 87.     gen malegr`i'dif = svymalegr`i'pct - enrmalegr`i'pct       //calculate
+> s the difference between the survey sample and enrollment data for male stude
+> nts in grade i
+ 88.     label var femalegr`i'dif "Difference in grade `i' female percentage be
+> tween survey sample and enrollment data"
+ 89.     label var malegr`i'dif "Difference in grade `i' male percentage betwee
+> n survey sample and enrollment data"
+ 90. 
+.     gen hispanicgr`i'dif = svyhispanicgr`i'pct - enrhispanicgr`i'pct //percen
+> tage point difference between survey sample and enrollment for hispanic stude
+> nts in grade i
+ 91.     gen nativegr`i'dif = svynativegr`i'pct - enrnativegr`i'pct //percentag
+> e point difference between survey sample and enrollment for Native American s
+> tudents in grade i
+ 92.     gen asiangr`i'dif = svyasiangr`i'pct - enrasiangr`i'pct //percentage p
+> oint difference between survey sample and enrollment for Asian students in gr
+> ade i
+ 93.     gen blackgr`i'dif = svyblackgr`i'pct - enrblackgr`i'pct //percentage p
+> oint difference between survey sample and enrollment for black students in gr
+> ade i
+ 94.     gen pacificgr`i'dif = svypacificgr`i'pct - enrpacificgr`i'pct //percen
+> tage point difference between survey sample and enrollment for Pacific Island
+> er students in grade i
+ 95.     gen whitegr`i'dif = svywhitegr`i'pct - enrwhitegr`i'pct //percentage p
+> oint difference between survey sample and enrollment for white students in gr
+> ade i
+ 96.     gen mixedgr`i'dif = svymixedgr`i'pct - enrmixedgr`i'pct //percentage p
+> oint difference between survey sample and enrollment for mixed race students 
+> in grade i
+ 97.     label var hispanicgr`i'dif "difference in grade `i' hispanic percentag
+> e between survey sample and enrollment data"
+ 98.     label var nativegr`i'dif "difference in grade `i' Native American perc
+> entage between survey sample and enrollment data"
+ 99.     label var asiangr`i'dif "difference in grade `i' Asian percentage betw
+> een survey sample and enrollment data"
+100.     label var blackgr`i'dif "difference in grade `i' black percentage betw
+> een survey sample and enrollment data"
+101.     label var pacificgr`i'dif "difference in grade `i' Pacific Islander pe
+> rcentage between survey sample and enrollment data"
+102.     label var whitegr`i'dif "difference in grade `i' white percentage betw
+> een survey sample and enrollment data"
+103.     label var mixedgr`i'dif "difference in grade `i' mixed race percentage
+>  between survey sample and enrollment data"
+104.   }
+105. 
+.   compress //compress dataset to save memory
+106.   label data "Secondary `year' demographics data with survey coverage anal
+> ysis variables"
+107.   save $projdir/dta/demographics/analysis/secondary/secdemo`year'analysis,
+>  replace
+108. 
+. }
+(1,184 missing values generated)
+(572 real changes made)
+(1,184 missing values generated)
+(243 real changes made)
+(1,184 missing values generated)
+(243 real changes made)
+(1,184 missing values generated)
+(243 real changes made)
+(1,184 missing values generated)
+(243 real changes made)
+(1,184 missing values generated)
+(243 real changes made)
+(1,184 missing values generated)
+(243 real changes made)
+(1,184 missing values generated)
+(243 real changes made)
+(1,184 missing values generated)
+(243 real changes made)
+(1,184 missing values generated)
+(243 real changes made)
+(1,184 missing values generated)
+(712 real changes made)
+(1,184 missing values generated)
+(687 real changes made)
+(1,184 missing values generated)
+(687 real changes made)
+(1,184 missing values generated)
+(687 real changes made)
+(1,184 missing values generated)
+(687 real changes made)
+(1,184 missing values generated)
+(687 real changes made)
+(1,184 missing values generated)
+(687 real changes made)
+(1,184 missing values generated)
+(687 real changes made)
+(1,184 missing values generated)
+(687 real changes made)
+(1,184 missing values generated)
+(687 real changes made)
+(1,184 missing values generated)
+(721 real changes made)
+(1,184 missing values generated)
+(291 real changes made)
+(1,184 missing values generated)
+(291 real changes made)
+(1,184 missing values generated)
+(291 real changes made)
+(1,184 missing values generated)
+(291 real changes made)
+(1,184 missing values generated)
+(291 real changes made)
+(1,184 missing values generated)
+(291 real changes made)
+(1,184 missing values generated)
+(291 real changes made)
+(1,184 missing values generated)
+(291 real changes made)
+(1,184 missing values generated)
+(291 real changes made)
+(1,184 missing values generated)
+(468 real changes made)
+(1,184 missing values generated)
+(401 real changes made)
+(1,184 missing values generated)
+(401 real changes made)
+(1,184 missing values generated)
+(401 real changes made)
+(1,184 missing values generated)
+(401 real changes made)
+(1,184 missing values generated)
+(401 real changes made)
+(1,184 missing values generated)
+(401 real changes made)
+(1,184 missing values generated)
+(401 real changes made)
+(1,184 missing values generated)
+(401 real changes made)
+(1,184 missing values generated)
+(401 real changes made)
+(1,184 missing values generated)
+(503 real changes made)
+(1,184 missing values generated)
+(336 real changes made)
+(1,184 missing values generated)
+(336 real changes made)
+(1,184 missing values generated)
+(336 real changes made)
+(1,184 missing values generated)
+(336 real changes made)
+(1,184 missing values generated)
+(336 real changes made)
+(1,184 missing values generated)
+(336 real changes made)
+(1,184 missing values generated)
+(336 real changes made)
+(1,184 missing values generated)
+(336 real changes made)
+(1,184 missing values generated)
+(336 real changes made)
+(1,184 missing values generated)
+(527 real changes made)
+(1,184 missing values generated)
+(387 real changes made)
+(1,184 missing values generated)
+(387 real changes made)
+(1,184 missing values generated)
+(387 real changes made)
+(1,184 missing values generated)
+(387 real changes made)
+(1,184 missing values generated)
+(387 real changes made)
+(1,184 missing values generated)
+(387 real changes made)
+(1,184 missing values generated)
+(387 real changes made)
+(1,184 missing values generated)
+(387 real changes made)
+(1,184 missing values generated)
+(387 real changes made)
+(1,184 missing values generated)
+(521 real changes made)
+(1,184 missing values generated)
+(323 real changes made)
+(1,184 missing values generated)
+(323 real changes made)
+(1,184 missing values generated)
+(323 real changes made)
+(1,184 missing values generated)
+(323 real changes made)
+(1,184 missing values generated)
+(323 real changes made)
+(1,184 missing values generated)
+(323 real changes made)
+(1,184 missing values generated)
+(323 real changes made)
+(1,184 missing values generated)
+(323 real changes made)
+(1,184 missing values generated)
+(323 real changes made)
+(1,184 missing values generated)
+(262 real changes made)
+(1,184 missing values generated)
+(262 real changes made)
+(1,184 missing values generated)
+(262 real changes made)
+(1,184 missing values generated)
+(262 real changes made)
+(1,184 missing values generated)
+(262 real changes made)
+(1,184 missing values generated)
+(262 real changes made)
+(1,184 missing values generated)
+(262 real changes made)
+(1,184 missing values generated)
+(262 real changes made)
+(1,184 missing values generated)
+(262 real changes made)
+(1,184 missing values generated)
+(261 real changes made)
+(1,184 missing values generated)
+(261 real changes made)
+(1,184 missing values generated)
+(261 real changes made)
+(1,184 missing values generated)
+(261 real changes made)
+(1,184 missing values generated)
+(261 real changes made)
+(1,184 missing values generated)
+(261 real changes made)
+(1,184 missing values generated)
+(261 real changes made)
+(1,184 missing values generated)
+(261 real changes made)
+(1,184 missing values generated)
+(261 real changes made)
+(1,184 missing values generated)
+(270 real changes made)
+(1,184 missing values generated)
+(270 real changes made)
+(1,184 missing values generated)
+(270 real changes made)
+(1,184 missing values generated)
+(270 real changes made)
+(1,184 missing values generated)
+(270 real changes made)
+(1,184 missing values generated)
+(270 real changes made)
+(1,184 missing values generated)
+(270 real changes made)
+(1,184 missing values generated)
+(270 real changes made)
+(1,184 missing values generated)
+(270 real changes made)
+(1,184 missing values generated)
+(277 real changes made)
+(1,184 missing values generated)
+(277 real changes made)
+(1,184 missing values generated)
+(277 real changes made)
+(1,184 missing values generated)
+(277 real changes made)
+(1,184 missing values generated)
+(277 real changes made)
+(1,184 missing values generated)
+(277 real changes made)
+(1,184 missing values generated)
+(277 real changes made)
+(1,184 missing values generated)
+(277 real changes made)
+(1,184 missing values generated)
+(277 real changes made)
+(1,184 missing values generated)
+(293 real changes made)
+(1,184 missing values generated)
+(293 real changes made)
+(1,184 missing values generated)
+(293 real changes made)
+(1,184 missing values generated)
+(293 real changes made)
+(1,184 missing values generated)
+(293 real changes made)
+(1,184 missing values generated)
+(293 real changes made)
+(1,184 missing values generated)
+(293 real changes made)
+(1,184 missing values generated)
+(293 real changes made)
+(1,184 missing values generated)
+(293 real changes made)
+(1,184 missing values generated)
+(572 real changes made)
+(1,184 missing values generated)
+(572 real changes made)
+(1,184 missing values generated)
+(572 real changes made)
+(1,184 missing values generated)
+(572 real changes made)
+(1,184 missing values generated)
+(572 real changes made)
+(1,184 missing values generated)
+(572 real changes made)
+(1,184 missing values generated)
+(572 real changes made)
+(1,184 missing values generated)
+(572 real changes made)
+(1,184 missing values generated)
+(572 real changes made)
+(1,184 missing values generated)
+(712 real changes made)
+(1,184 missing values generated)
+(712 real changes made)
+(1,184 missing values generated)
+(712 real changes made)
+(1,184 missing values generated)
+(712 real changes made)
+(1,184 missing values generated)
+(712 real changes made)
+(1,184 missing values generated)
+(712 real changes made)
+(1,184 missing values generated)
+(712 real changes made)
+(1,184 missing values generated)
+(712 real changes made)
+(1,184 missing values generated)
+(712 real changes made)
+(1,184 missing values generated)
+(721 real changes made)
+(1,184 missing values generated)
+(721 real changes made)
+(1,184 missing values generated)
+(721 real changes made)
+(1,184 missing values generated)
+(721 real changes made)
+(1,184 missing values generated)
+(721 real changes made)
+(1,184 missing values generated)
+(721 real changes made)
+(1,184 missing values generated)
+(721 real changes made)
+(1,184 missing values generated)
+(721 real changes made)
+(1,184 missing values generated)
+(721 real changes made)
+(1,184 missing values generated)
+(468 real changes made)
+(1,184 missing values generated)
+(468 real changes made)
+(1,184 missing values generated)
+(468 real changes made)
+(1,184 missing values generated)
+(468 real changes made)
+(1,184 missing values generated)
+(468 real changes made)
+(1,184 missing values generated)
+(468 real changes made)
+(1,184 missing values generated)
+(468 real changes made)
+(1,184 missing values generated)
+(468 real changes made)
+(1,184 missing values generated)
+(468 real changes made)
+(1,184 missing values generated)
+(503 real changes made)
+(1,184 missing values generated)
+(503 real changes made)
+(1,184 missing values generated)
+(503 real changes made)
+(1,184 missing values generated)
+(503 real changes made)
+(1,184 missing values generated)
+(503 real changes made)
+(1,184 missing values generated)
+(503 real changes made)
+(1,184 missing values generated)
+(503 real changes made)
+(1,184 missing values generated)
+(503 real changes made)
+(1,184 missing values generated)
+(503 real changes made)
+(1,184 missing values generated)
+(527 real changes made)
+(1,184 missing values generated)
+(527 real changes made)
+(1,184 missing values generated)
+(527 real changes made)
+(1,184 missing values generated)
+(527 real changes made)
+(1,184 missing values generated)
+(527 real changes made)
+(1,184 missing values generated)
+(527 real changes made)
+(1,184 missing values generated)
+(527 real changes made)
+(1,184 missing values generated)
+(527 real changes made)
+(1,184 missing values generated)
+(527 real changes made)
+(1,184 missing values generated)
+(521 real changes made)
+(1,184 missing values generated)
+(521 real changes made)
+(1,184 missing values generated)
+(521 real changes made)
+(1,184 missing values generated)
+(521 real changes made)
+(1,184 missing values generated)
+(521 real changes made)
+(1,184 missing values generated)
+(521 real changes made)
+(1,184 missing values generated)
+(521 real changes made)
+(1,184 missing values generated)
+(521 real changes made)
+(1,184 missing values generated)
+(521 real changes made)
+(1,007 missing values generated)
+(1,007 missing values generated)
+note: label truncated to 80 characters
+(1,007 missing values generated)
+(1,007 missing values generated)
+(1,007 missing values generated)
+(1,007 missing values generated)
+(1,007 missing values generated)
+(1,007 missing values generated)
+(1,007 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+(506 missing values generated)
+(506 missing values generated)
+note: label truncated to 80 characters
+(506 missing values generated)
+(506 missing values generated)
+(506 missing values generated)
+(506 missing values generated)
+(506 missing values generated)
+(506 missing values generated)
+(506 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+(904 missing values generated)
+(904 missing values generated)
+note: label truncated to 80 characters
+(904 missing values generated)
+(904 missing values generated)
+(904 missing values generated)
+(904 missing values generated)
+(904 missing values generated)
+(904 missing values generated)
+(904 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+(789 missing values generated)
+(789 missing values generated)
+note: label truncated to 80 characters
+(789 missing values generated)
+(789 missing values generated)
+(789 missing values generated)
+(789 missing values generated)
+(789 missing values generated)
+(789 missing values generated)
+(789 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+(852 missing values generated)
+(852 missing values generated)
+note: label truncated to 80 characters
+(852 missing values generated)
+(852 missing values generated)
+(852 missing values generated)
+(852 missing values generated)
+(852 missing values generated)
+(852 missing values generated)
+(852 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+(800 missing values generated)
+(800 missing values generated)
+note: label truncated to 80 characters
+(800 missing values generated)
+(800 missing values generated)
+(800 missing values generated)
+(800 missing values generated)
+(800 missing values generated)
+(800 missing values generated)
+(800 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+(864 missing values generated)
+(864 missing values generated)
+note: label truncated to 80 characters
+(864 missing values generated)
+(864 missing values generated)
+(864 missing values generated)
+(864 missing values generated)
+(864 missing values generated)
+(864 missing values generated)
+(864 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+  variable enrmixedgr1pct was float now byte
+  variable enrmixedgr2pct was float now byte
+  variable enrmixedgr3pct was float now byte
+  variable enrmixedgr4pct was float now byte
+  variable enrmixedgr5pct was float now byte
+  variable enrmixedgr6pct was float now byte
+  variable enrmixedgr7pct was float now byte
+  variable enrmixedgr8pct was float now byte
+  variable enrmixedgr9pct was float now byte
+  variable enrmixedgr10pct was float now byte
+  variable enrmixedgr11pct was float now byte
+  variable enrmixedgr12pct was float now byte
+  (42,624 bytes saved)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/analys
+    > is/secondary/secdemo1415analysis.dta saved
+(2015-16 secondary CHKS data)
+(1,728 missing values generated)
+(813 real changes made)
+(1,728 missing values generated)
+(321 real changes made)
+(1,728 missing values generated)
+(321 real changes made)
+(1,728 missing values generated)
+(321 real changes made)
+(1,728 missing values generated)
+(321 real changes made)
+(1,728 missing values generated)
+(321 real changes made)
+(1,728 missing values generated)
+(321 real changes made)
+(1,728 missing values generated)
+(321 real changes made)
+(1,728 missing values generated)
+(321 real changes made)
+(1,728 missing values generated)
+(321 real changes made)
+(1,728 missing values generated)
+(996 real changes made)
+(1,728 missing values generated)
+(949 real changes made)
+(1,728 missing values generated)
+(949 real changes made)
+(1,728 missing values generated)
+(949 real changes made)
+(1,728 missing values generated)
+(949 real changes made)
+(1,728 missing values generated)
+(949 real changes made)
+(1,728 missing values generated)
+(949 real changes made)
+(1,728 missing values generated)
+(949 real changes made)
+(1,728 missing values generated)
+(949 real changes made)
+(1,728 missing values generated)
+(949 real changes made)
+(1,728 missing values generated)
+(1,012 real changes made)
+(1,728 missing values generated)
+(414 real changes made)
+(1,728 missing values generated)
+(414 real changes made)
+(1,728 missing values generated)
+(414 real changes made)
+(1,728 missing values generated)
+(414 real changes made)
+(1,728 missing values generated)
+(414 real changes made)
+(1,728 missing values generated)
+(414 real changes made)
+(1,728 missing values generated)
+(414 real changes made)
+(1,728 missing values generated)
+(414 real changes made)
+(1,728 missing values generated)
+(414 real changes made)
+(1,728 missing values generated)
+(685 real changes made)
+(1,728 missing values generated)
+(565 real changes made)
+(1,728 missing values generated)
+(565 real changes made)
+(1,728 missing values generated)
+(565 real changes made)
+(1,728 missing values generated)
+(565 real changes made)
+(1,728 missing values generated)
+(565 real changes made)
+(1,728 missing values generated)
+(565 real changes made)
+(1,728 missing values generated)
+(565 real changes made)
+(1,728 missing values generated)
+(565 real changes made)
+(1,728 missing values generated)
+(565 real changes made)
+(1,728 missing values generated)
+(780 real changes made)
+(1,728 missing values generated)
+(481 real changes made)
+(1,728 missing values generated)
+(481 real changes made)
+(1,728 missing values generated)
+(481 real changes made)
+(1,728 missing values generated)
+(481 real changes made)
+(1,728 missing values generated)
+(481 real changes made)
+(1,728 missing values generated)
+(481 real changes made)
+(1,728 missing values generated)
+(481 real changes made)
+(1,728 missing values generated)
+(481 real changes made)
+(1,728 missing values generated)
+(481 real changes made)
+(1,728 missing values generated)
+(816 real changes made)
+(1,728 missing values generated)
+(569 real changes made)
+(1,728 missing values generated)
+(569 real changes made)
+(1,728 missing values generated)
+(569 real changes made)
+(1,728 missing values generated)
+(569 real changes made)
+(1,728 missing values generated)
+(569 real changes made)
+(1,728 missing values generated)
+(569 real changes made)
+(1,728 missing values generated)
+(569 real changes made)
+(1,728 missing values generated)
+(569 real changes made)
+(1,728 missing values generated)
+(569 real changes made)
+(1,728 missing values generated)
+(806 real changes made)
+(1,728 missing values generated)
+(467 real changes made)
+(1,728 missing values generated)
+(467 real changes made)
+(1,728 missing values generated)
+(467 real changes made)
+(1,728 missing values generated)
+(467 real changes made)
+(1,728 missing values generated)
+(467 real changes made)
+(1,728 missing values generated)
+(467 real changes made)
+(1,728 missing values generated)
+(467 real changes made)
+(1,728 missing values generated)
+(467 real changes made)
+(1,728 missing values generated)
+(467 real changes made)
+(1,728 missing values generated)
+(345 real changes made)
+(1,728 missing values generated)
+(345 real changes made)
+(1,728 missing values generated)
+(345 real changes made)
+(1,728 missing values generated)
+(345 real changes made)
+(1,728 missing values generated)
+(345 real changes made)
+(1,728 missing values generated)
+(345 real changes made)
+(1,728 missing values generated)
+(345 real changes made)
+(1,728 missing values generated)
+(345 real changes made)
+(1,728 missing values generated)
+(345 real changes made)
+(1,728 missing values generated)
+(347 real changes made)
+(1,728 missing values generated)
+(347 real changes made)
+(1,728 missing values generated)
+(347 real changes made)
+(1,728 missing values generated)
+(347 real changes made)
+(1,728 missing values generated)
+(347 real changes made)
+(1,728 missing values generated)
+(347 real changes made)
+(1,728 missing values generated)
+(347 real changes made)
+(1,728 missing values generated)
+(347 real changes made)
+(1,728 missing values generated)
+(347 real changes made)
+(1,728 missing values generated)
+(352 real changes made)
+(1,728 missing values generated)
+(352 real changes made)
+(1,728 missing values generated)
+(352 real changes made)
+(1,728 missing values generated)
+(352 real changes made)
+(1,728 missing values generated)
+(352 real changes made)
+(1,728 missing values generated)
+(352 real changes made)
+(1,728 missing values generated)
+(352 real changes made)
+(1,728 missing values generated)
+(352 real changes made)
+(1,728 missing values generated)
+(352 real changes made)
+(1,728 missing values generated)
+(368 real changes made)
+(1,728 missing values generated)
+(368 real changes made)
+(1,728 missing values generated)
+(368 real changes made)
+(1,728 missing values generated)
+(368 real changes made)
+(1,728 missing values generated)
+(368 real changes made)
+(1,728 missing values generated)
+(368 real changes made)
+(1,728 missing values generated)
+(368 real changes made)
+(1,728 missing values generated)
+(368 real changes made)
+(1,728 missing values generated)
+(368 real changes made)
+(1,728 missing values generated)
+(399 real changes made)
+(1,728 missing values generated)
+(399 real changes made)
+(1,728 missing values generated)
+(399 real changes made)
+(1,728 missing values generated)
+(399 real changes made)
+(1,728 missing values generated)
+(399 real changes made)
+(1,728 missing values generated)
+(399 real changes made)
+(1,728 missing values generated)
+(399 real changes made)
+(1,728 missing values generated)
+(399 real changes made)
+(1,728 missing values generated)
+(399 real changes made)
+(1,728 missing values generated)
+(813 real changes made)
+(1,728 missing values generated)
+(813 real changes made)
+(1,728 missing values generated)
+(813 real changes made)
+(1,728 missing values generated)
+(813 real changes made)
+(1,728 missing values generated)
+(813 real changes made)
+(1,728 missing values generated)
+(813 real changes made)
+(1,728 missing values generated)
+(813 real changes made)
+(1,728 missing values generated)
+(813 real changes made)
+(1,728 missing values generated)
+(813 real changes made)
+(1,728 missing values generated)
+(996 real changes made)
+(1,728 missing values generated)
+(996 real changes made)
+(1,728 missing values generated)
+(996 real changes made)
+(1,728 missing values generated)
+(996 real changes made)
+(1,728 missing values generated)
+(996 real changes made)
+(1,728 missing values generated)
+(996 real changes made)
+(1,728 missing values generated)
+(996 real changes made)
+(1,728 missing values generated)
+(996 real changes made)
+(1,728 missing values generated)
+(996 real changes made)
+(1,728 missing values generated)
+(1,012 real changes made)
+(1,728 missing values generated)
+(1,012 real changes made)
+(1,728 missing values generated)
+(1,012 real changes made)
+(1,728 missing values generated)
+(1,012 real changes made)
+(1,728 missing values generated)
+(1,012 real changes made)
+(1,728 missing values generated)
+(1,012 real changes made)
+(1,728 missing values generated)
+(1,012 real changes made)
+(1,728 missing values generated)
+(1,012 real changes made)
+(1,728 missing values generated)
+(1,012 real changes made)
+(1,728 missing values generated)
+(685 real changes made)
+(1,728 missing values generated)
+(685 real changes made)
+(1,728 missing values generated)
+(685 real changes made)
+(1,728 missing values generated)
+(685 real changes made)
+(1,728 missing values generated)
+(685 real changes made)
+(1,728 missing values generated)
+(685 real changes made)
+(1,728 missing values generated)
+(685 real changes made)
+(1,728 missing values generated)
+(685 real changes made)
+(1,728 missing values generated)
+(685 real changes made)
+(1,728 missing values generated)
+(780 real changes made)
+(1,728 missing values generated)
+(780 real changes made)
+(1,728 missing values generated)
+(780 real changes made)
+(1,728 missing values generated)
+(780 real changes made)
+(1,728 missing values generated)
+(780 real changes made)
+(1,728 missing values generated)
+(780 real changes made)
+(1,728 missing values generated)
+(780 real changes made)
+(1,728 missing values generated)
+(780 real changes made)
+(1,728 missing values generated)
+(780 real changes made)
+(1,728 missing values generated)
+(816 real changes made)
+(1,728 missing values generated)
+(816 real changes made)
+(1,728 missing values generated)
+(816 real changes made)
+(1,728 missing values generated)
+(816 real changes made)
+(1,728 missing values generated)
+(816 real changes made)
+(1,728 missing values generated)
+(816 real changes made)
+(1,728 missing values generated)
+(816 real changes made)
+(1,728 missing values generated)
+(816 real changes made)
+(1,728 missing values generated)
+(816 real changes made)
+(1,728 missing values generated)
+(806 real changes made)
+(1,728 missing values generated)
+(806 real changes made)
+(1,728 missing values generated)
+(806 real changes made)
+(1,728 missing values generated)
+(806 real changes made)
+(1,728 missing values generated)
+(806 real changes made)
+(1,728 missing values generated)
+(806 real changes made)
+(1,728 missing values generated)
+(806 real changes made)
+(1,728 missing values generated)
+(806 real changes made)
+(1,728 missing values generated)
+(806 real changes made)
+(1,484 missing values generated)
+(1,484 missing values generated)
+note: label truncated to 80 characters
+(1,484 missing values generated)
+(1,484 missing values generated)
+(1,484 missing values generated)
+(1,484 missing values generated)
+(1,484 missing values generated)
+(1,484 missing values generated)
+(1,484 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+(782 missing values generated)
+(782 missing values generated)
+note: label truncated to 80 characters
+(782 missing values generated)
+(782 missing values generated)
+(782 missing values generated)
+(782 missing values generated)
+(782 missing values generated)
+(782 missing values generated)
+(782 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+(1,317 missing values generated)
+(1,317 missing values generated)
+note: label truncated to 80 characters
+(1,317 missing values generated)
+(1,317 missing values generated)
+(1,317 missing values generated)
+(1,317 missing values generated)
+(1,317 missing values generated)
+(1,317 missing values generated)
+(1,317 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+(1,166 missing values generated)
+(1,166 missing values generated)
+note: label truncated to 80 characters
+(1,166 missing values generated)
+(1,166 missing values generated)
+(1,166 missing values generated)
+(1,166 missing values generated)
+(1,166 missing values generated)
+(1,166 missing values generated)
+(1,166 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+(1,248 missing values generated)
+(1,248 missing values generated)
+note: label truncated to 80 characters
+(1,248 missing values generated)
+(1,248 missing values generated)
+(1,248 missing values generated)
+(1,248 missing values generated)
+(1,248 missing values generated)
+(1,248 missing values generated)
+(1,248 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+(1,160 missing values generated)
+(1,160 missing values generated)
+note: label truncated to 80 characters
+(1,160 missing values generated)
+(1,160 missing values generated)
+(1,160 missing values generated)
+(1,160 missing values generated)
+(1,160 missing values generated)
+(1,160 missing values generated)
+(1,160 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+(1,264 missing values generated)
+(1,264 missing values generated)
+note: label truncated to 80 characters
+(1,264 missing values generated)
+(1,264 missing values generated)
+(1,264 missing values generated)
+(1,264 missing values generated)
+(1,264 missing values generated)
+(1,264 missing values generated)
+(1,264 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+  variable enrmixedgr1pct was float now byte
+  variable enrmixedgr2pct was float now byte
+  variable enrmixedgr3pct was float now byte
+  variable enrmixedgr4pct was float now byte
+  variable enrmixedgr5pct was float now byte
+  variable enrmixedgr6pct was float now byte
+  variable enrmixedgr7pct was float now byte
+  variable enrmixedgr8pct was float now byte
+  variable enrmixedgr9pct was float now byte
+  variable enrmixedgr10pct was float now byte
+  variable enrmixedgr11pct was float now byte
+  variable enrmixedgr12pct was float now byte
+  (62,208 bytes saved)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/analys
+    > is/secondary/secdemo1516analysis.dta saved
+(2016-17 Secondary CHKS Data)
+(1,482 missing values generated)
+(705 real changes made)
+(1,482 missing values generated)
+(349 real changes made)
+(1,482 missing values generated)
+(349 real changes made)
+(1,482 missing values generated)
+(349 real changes made)
+(1,482 missing values generated)
+(349 real changes made)
+(1,482 missing values generated)
+(349 real changes made)
+(1,482 missing values generated)
+(349 real changes made)
+(1,482 missing values generated)
+(349 real changes made)
+(1,482 missing values generated)
+(349 real changes made)
+(1,482 missing values generated)
+(349 real changes made)
+(1,482 missing values generated)
+(886 real changes made)
+(1,482 missing values generated)
+(847 real changes made)
+(1,482 missing values generated)
+(847 real changes made)
+(1,482 missing values generated)
+(847 real changes made)
+(1,482 missing values generated)
+(847 real changes made)
+(1,482 missing values generated)
+(847 real changes made)
+(1,482 missing values generated)
+(847 real changes made)
+(1,482 missing values generated)
+(847 real changes made)
+(1,482 missing values generated)
+(847 real changes made)
+(1,482 missing values generated)
+(847 real changes made)
+(1,482 missing values generated)
+(898 real changes made)
+(1,482 missing values generated)
+(450 real changes made)
+(1,482 missing values generated)
+(450 real changes made)
+(1,482 missing values generated)
+(450 real changes made)
+(1,482 missing values generated)
+(450 real changes made)
+(1,482 missing values generated)
+(450 real changes made)
+(1,482 missing values generated)
+(450 real changes made)
+(1,482 missing values generated)
+(450 real changes made)
+(1,482 missing values generated)
+(450 real changes made)
+(1,482 missing values generated)
+(450 real changes made)
+(1,482 missing values generated)
+(607 real changes made)
+(1,482 missing values generated)
+(510 real changes made)
+(1,482 missing values generated)
+(510 real changes made)
+(1,482 missing values generated)
+(510 real changes made)
+(1,482 missing values generated)
+(510 real changes made)
+(1,482 missing values generated)
+(510 real changes made)
+(1,482 missing values generated)
+(510 real changes made)
+(1,482 missing values generated)
+(510 real changes made)
+(1,482 missing values generated)
+(510 real changes made)
+(1,482 missing values generated)
+(510 real changes made)
+(1,482 missing values generated)
+(659 real changes made)
+(1,482 missing values generated)
+(427 real changes made)
+(1,482 missing values generated)
+(427 real changes made)
+(1,482 missing values generated)
+(427 real changes made)
+(1,482 missing values generated)
+(427 real changes made)
+(1,482 missing values generated)
+(427 real changes made)
+(1,482 missing values generated)
+(427 real changes made)
+(1,482 missing values generated)
+(427 real changes made)
+(1,482 missing values generated)
+(427 real changes made)
+(1,482 missing values generated)
+(427 real changes made)
+(1,482 missing values generated)
+(688 real changes made)
+(1,482 missing values generated)
+(504 real changes made)
+(1,482 missing values generated)
+(504 real changes made)
+(1,482 missing values generated)
+(504 real changes made)
+(1,482 missing values generated)
+(504 real changes made)
+(1,482 missing values generated)
+(504 real changes made)
+(1,482 missing values generated)
+(504 real changes made)
+(1,482 missing values generated)
+(504 real changes made)
+(1,482 missing values generated)
+(504 real changes made)
+(1,482 missing values generated)
+(504 real changes made)
+(1,482 missing values generated)
+(684 real changes made)
+(1,482 missing values generated)
+(442 real changes made)
+(1,482 missing values generated)
+(442 real changes made)
+(1,482 missing values generated)
+(442 real changes made)
+(1,482 missing values generated)
+(442 real changes made)
+(1,482 missing values generated)
+(442 real changes made)
+(1,482 missing values generated)
+(442 real changes made)
+(1,482 missing values generated)
+(442 real changes made)
+(1,482 missing values generated)
+(442 real changes made)
+(1,482 missing values generated)
+(442 real changes made)
+(1,482 missing values generated)
+(314 real changes made)
+(1,482 missing values generated)
+(314 real changes made)
+(1,482 missing values generated)
+(314 real changes made)
+(1,482 missing values generated)
+(314 real changes made)
+(1,482 missing values generated)
+(314 real changes made)
+(1,482 missing values generated)
+(314 real changes made)
+(1,482 missing values generated)
+(314 real changes made)
+(1,482 missing values generated)
+(314 real changes made)
+(1,482 missing values generated)
+(314 real changes made)
+(1,482 missing values generated)
+(318 real changes made)
+(1,482 missing values generated)
+(318 real changes made)
+(1,482 missing values generated)
+(318 real changes made)
+(1,482 missing values generated)
+(318 real changes made)
+(1,482 missing values generated)
+(318 real changes made)
+(1,482 missing values generated)
+(318 real changes made)
+(1,482 missing values generated)
+(318 real changes made)
+(1,482 missing values generated)
+(318 real changes made)
+(1,482 missing values generated)
+(318 real changes made)
+(1,482 missing values generated)
+(322 real changes made)
+(1,482 missing values generated)
+(322 real changes made)
+(1,482 missing values generated)
+(322 real changes made)
+(1,482 missing values generated)
+(322 real changes made)
+(1,482 missing values generated)
+(322 real changes made)
+(1,482 missing values generated)
+(322 real changes made)
+(1,482 missing values generated)
+(322 real changes made)
+(1,482 missing values generated)
+(322 real changes made)
+(1,482 missing values generated)
+(322 real changes made)
+(1,482 missing values generated)
+(331 real changes made)
+(1,482 missing values generated)
+(331 real changes made)
+(1,482 missing values generated)
+(331 real changes made)
+(1,482 missing values generated)
+(331 real changes made)
+(1,482 missing values generated)
+(331 real changes made)
+(1,482 missing values generated)
+(331 real changes made)
+(1,482 missing values generated)
+(331 real changes made)
+(1,482 missing values generated)
+(331 real changes made)
+(1,482 missing values generated)
+(331 real changes made)
+(1,482 missing values generated)
+(363 real changes made)
+(1,482 missing values generated)
+(363 real changes made)
+(1,482 missing values generated)
+(363 real changes made)
+(1,482 missing values generated)
+(363 real changes made)
+(1,482 missing values generated)
+(363 real changes made)
+(1,482 missing values generated)
+(363 real changes made)
+(1,482 missing values generated)
+(363 real changes made)
+(1,482 missing values generated)
+(363 real changes made)
+(1,482 missing values generated)
+(363 real changes made)
+(1,482 missing values generated)
+(705 real changes made)
+(1,482 missing values generated)
+(705 real changes made)
+(1,482 missing values generated)
+(705 real changes made)
+(1,482 missing values generated)
+(705 real changes made)
+(1,482 missing values generated)
+(705 real changes made)
+(1,482 missing values generated)
+(705 real changes made)
+(1,482 missing values generated)
+(705 real changes made)
+(1,482 missing values generated)
+(705 real changes made)
+(1,482 missing values generated)
+(705 real changes made)
+(1,482 missing values generated)
+(886 real changes made)
+(1,482 missing values generated)
+(886 real changes made)
+(1,482 missing values generated)
+(886 real changes made)
+(1,482 missing values generated)
+(886 real changes made)
+(1,482 missing values generated)
+(886 real changes made)
+(1,482 missing values generated)
+(886 real changes made)
+(1,482 missing values generated)
+(886 real changes made)
+(1,482 missing values generated)
+(886 real changes made)
+(1,482 missing values generated)
+(886 real changes made)
+(1,482 missing values generated)
+(898 real changes made)
+(1,482 missing values generated)
+(898 real changes made)
+(1,482 missing values generated)
+(898 real changes made)
+(1,482 missing values generated)
+(898 real changes made)
+(1,482 missing values generated)
+(898 real changes made)
+(1,482 missing values generated)
+(898 real changes made)
+(1,482 missing values generated)
+(898 real changes made)
+(1,482 missing values generated)
+(898 real changes made)
+(1,482 missing values generated)
+(898 real changes made)
+(1,482 missing values generated)
+(607 real changes made)
+(1,482 missing values generated)
+(607 real changes made)
+(1,482 missing values generated)
+(607 real changes made)
+(1,482 missing values generated)
+(607 real changes made)
+(1,482 missing values generated)
+(607 real changes made)
+(1,482 missing values generated)
+(607 real changes made)
+(1,482 missing values generated)
+(607 real changes made)
+(1,482 missing values generated)
+(607 real changes made)
+(1,482 missing values generated)
+(607 real changes made)
+(1,482 missing values generated)
+(659 real changes made)
+(1,482 missing values generated)
+(659 real changes made)
+(1,482 missing values generated)
+(659 real changes made)
+(1,482 missing values generated)
+(659 real changes made)
+(1,482 missing values generated)
+(659 real changes made)
+(1,482 missing values generated)
+(659 real changes made)
+(1,482 missing values generated)
+(659 real changes made)
+(1,482 missing values generated)
+(659 real changes made)
+(1,482 missing values generated)
+(659 real changes made)
+(1,482 missing values generated)
+(688 real changes made)
+(1,482 missing values generated)
+(688 real changes made)
+(1,482 missing values generated)
+(688 real changes made)
+(1,482 missing values generated)
+(688 real changes made)
+(1,482 missing values generated)
+(688 real changes made)
+(1,482 missing values generated)
+(688 real changes made)
+(1,482 missing values generated)
+(688 real changes made)
+(1,482 missing values generated)
+(688 real changes made)
+(1,482 missing values generated)
+(688 real changes made)
+(1,482 missing values generated)
+(684 real changes made)
+(1,482 missing values generated)
+(684 real changes made)
+(1,482 missing values generated)
+(684 real changes made)
+(1,482 missing values generated)
+(684 real changes made)
+(1,482 missing values generated)
+(684 real changes made)
+(1,482 missing values generated)
+(684 real changes made)
+(1,482 missing values generated)
+(684 real changes made)
+(1,482 missing values generated)
+(684 real changes made)
+(1,482 missing values generated)
+(684 real changes made)
+(1,217 missing values generated)
+(1,217 missing values generated)
+note: label truncated to 80 characters
+(1,217 missing values generated)
+(1,217 missing values generated)
+(1,217 missing values generated)
+(1,217 missing values generated)
+(1,217 missing values generated)
+(1,217 missing values generated)
+(1,217 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+(639 missing values generated)
+(639 missing values generated)
+note: label truncated to 80 characters
+(639 missing values generated)
+(639 missing values generated)
+(639 missing values generated)
+(639 missing values generated)
+(639 missing values generated)
+(639 missing values generated)
+(639 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+(1,039 missing values generated)
+(1,039 missing values generated)
+note: label truncated to 80 characters
+(1,039 missing values generated)
+(1,039 missing values generated)
+(1,039 missing values generated)
+(1,039 missing values generated)
+(1,039 missing values generated)
+(1,039 missing values generated)
+(1,039 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+(972 missing values generated)
+(972 missing values generated)
+note: label truncated to 80 characters
+(972 missing values generated)
+(972 missing values generated)
+(972 missing values generated)
+(972 missing values generated)
+(972 missing values generated)
+(972 missing values generated)
+(972 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+(1,056 missing values generated)
+(1,056 missing values generated)
+note: label truncated to 80 characters
+(1,056 missing values generated)
+(1,056 missing values generated)
+(1,056 missing values generated)
+(1,056 missing values generated)
+(1,056 missing values generated)
+(1,056 missing values generated)
+(1,056 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+(978 missing values generated)
+(978 missing values generated)
+note: label truncated to 80 characters
+(978 missing values generated)
+(978 missing values generated)
+(978 missing values generated)
+(978 missing values generated)
+(978 missing values generated)
+(978 missing values generated)
+(978 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+(1,042 missing values generated)
+(1,042 missing values generated)
+note: label truncated to 80 characters
+(1,042 missing values generated)
+(1,042 missing values generated)
+(1,042 missing values generated)
+(1,042 missing values generated)
+(1,042 missing values generated)
+(1,042 missing values generated)
+(1,042 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+  variable enrmixedgr1pct was float now byte
+  variable enrmixedgr2pct was float now byte
+  variable enrmixedgr3pct was float now byte
+  variable enrmixedgr4pct was float now byte
+  variable enrmixedgr5pct was float now byte
+  variable enrmixedgr6pct was float now byte
+  variable enrmixedgr7pct was float now byte
+  variable enrmixedgr8pct was float now byte
+  variable enrmixedgr9pct was float now byte
+  variable enrmixedgr10pct was float now byte
+  variable enrmixedgr11pct was float now byte
+  variable enrmixedgr12pct was float now byte
+  (53,352 bytes saved)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/analys
+    > is/secondary/secdemo1617analysis.dta saved
+(2017-18 Secondary CHKS Data)
+(1,816 missing values generated)
+(860 real changes made)
+(1,816 missing values generated)
+(75 real changes made)
+(1,816 missing values generated)
+(75 real changes made)
+(1,816 missing values generated)
+(75 real changes made)
+(1,816 missing values generated)
+(75 real changes made)
+(1,816 missing values generated)
+(75 real changes made)
+(1,816 missing values generated)
+(75 real changes made)
+(1,816 missing values generated)
+(75 real changes made)
+(1,816 missing values generated)
+(75 real changes made)
+(1,816 missing values generated)
+(75 real changes made)
+(1,816 missing values generated)
+(1,083 real changes made)
+(1,816 missing values generated)
+(1,002 real changes made)
+(1,816 missing values generated)
+(1,002 real changes made)
+(1,816 missing values generated)
+(1,002 real changes made)
+(1,816 missing values generated)
+(1,002 real changes made)
+(1,816 missing values generated)
+(1,002 real changes made)
+(1,816 missing values generated)
+(1,002 real changes made)
+(1,816 missing values generated)
+(1,002 real changes made)
+(1,816 missing values generated)
+(1,002 real changes made)
+(1,816 missing values generated)
+(1,002 real changes made)
+(1,816 missing values generated)
+(1,097 real changes made)
+(1,816 missing values generated)
+(157 real changes made)
+(1,816 missing values generated)
+(157 real changes made)
+(1,816 missing values generated)
+(157 real changes made)
+(1,816 missing values generated)
+(157 real changes made)
+(1,816 missing values generated)
+(157 real changes made)
+(1,816 missing values generated)
+(157 real changes made)
+(1,816 missing values generated)
+(157 real changes made)
+(1,816 missing values generated)
+(157 real changes made)
+(1,816 missing values generated)
+(157 real changes made)
+(1,816 missing values generated)
+(737 real changes made)
+(1,816 missing values generated)
+(570 real changes made)
+(1,816 missing values generated)
+(570 real changes made)
+(1,816 missing values generated)
+(570 real changes made)
+(1,816 missing values generated)
+(570 real changes made)
+(1,816 missing values generated)
+(570 real changes made)
+(1,816 missing values generated)
+(570 real changes made)
+(1,816 missing values generated)
+(570 real changes made)
+(1,816 missing values generated)
+(570 real changes made)
+(1,816 missing values generated)
+(570 real changes made)
+(1,816 missing values generated)
+(808 real changes made)
+(1,816 missing values generated)
+(210 real changes made)
+(1,816 missing values generated)
+(210 real changes made)
+(1,816 missing values generated)
+(210 real changes made)
+(1,816 missing values generated)
+(210 real changes made)
+(1,816 missing values generated)
+(210 real changes made)
+(1,816 missing values generated)
+(210 real changes made)
+(1,816 missing values generated)
+(210 real changes made)
+(1,816 missing values generated)
+(210 real changes made)
+(1,816 missing values generated)
+(210 real changes made)
+(1,816 missing values generated)
+(843 real changes made)
+(1,816 missing values generated)
+(578 real changes made)
+(1,816 missing values generated)
+(578 real changes made)
+(1,816 missing values generated)
+(578 real changes made)
+(1,816 missing values generated)
+(578 real changes made)
+(1,816 missing values generated)
+(578 real changes made)
+(1,816 missing values generated)
+(578 real changes made)
+(1,816 missing values generated)
+(578 real changes made)
+(1,816 missing values generated)
+(578 real changes made)
+(1,816 missing values generated)
+(578 real changes made)
+(1,816 missing values generated)
+(839 real changes made)
+(1,816 missing values generated)
+(227 real changes made)
+(1,816 missing values generated)
+(227 real changes made)
+(1,816 missing values generated)
+(227 real changes made)
+(1,816 missing values generated)
+(227 real changes made)
+(1,816 missing values generated)
+(227 real changes made)
+(1,816 missing values generated)
+(227 real changes made)
+(1,816 missing values generated)
+(227 real changes made)
+(1,816 missing values generated)
+(227 real changes made)
+(1,816 missing values generated)
+(227 real changes made)
+(1,816 missing values generated)
+(367 real changes made)
+(1,816 missing values generated)
+(367 real changes made)
+(1,816 missing values generated)
+(367 real changes made)
+(1,816 missing values generated)
+(367 real changes made)
+(1,816 missing values generated)
+(367 real changes made)
+(1,816 missing values generated)
+(367 real changes made)
+(1,816 missing values generated)
+(367 real changes made)
+(1,816 missing values generated)
+(367 real changes made)
+(1,816 missing values generated)
+(367 real changes made)
+(1,816 missing values generated)
+(369 real changes made)
+(1,816 missing values generated)
+(369 real changes made)
+(1,816 missing values generated)
+(369 real changes made)
+(1,816 missing values generated)
+(369 real changes made)
+(1,816 missing values generated)
+(369 real changes made)
+(1,816 missing values generated)
+(369 real changes made)
+(1,816 missing values generated)
+(369 real changes made)
+(1,816 missing values generated)
+(369 real changes made)
+(1,816 missing values generated)
+(369 real changes made)
+(1,816 missing values generated)
+(374 real changes made)
+(1,816 missing values generated)
+(374 real changes made)
+(1,816 missing values generated)
+(374 real changes made)
+(1,816 missing values generated)
+(374 real changes made)
+(1,816 missing values generated)
+(374 real changes made)
+(1,816 missing values generated)
+(374 real changes made)
+(1,816 missing values generated)
+(374 real changes made)
+(1,816 missing values generated)
+(374 real changes made)
+(1,816 missing values generated)
+(374 real changes made)
+(1,816 missing values generated)
+(393 real changes made)
+(1,816 missing values generated)
+(393 real changes made)
+(1,816 missing values generated)
+(393 real changes made)
+(1,816 missing values generated)
+(393 real changes made)
+(1,816 missing values generated)
+(393 real changes made)
+(1,816 missing values generated)
+(393 real changes made)
+(1,816 missing values generated)
+(393 real changes made)
+(1,816 missing values generated)
+(393 real changes made)
+(1,816 missing values generated)
+(393 real changes made)
+(1,816 missing values generated)
+(434 real changes made)
+(1,816 missing values generated)
+(434 real changes made)
+(1,816 missing values generated)
+(434 real changes made)
+(1,816 missing values generated)
+(434 real changes made)
+(1,816 missing values generated)
+(434 real changes made)
+(1,816 missing values generated)
+(434 real changes made)
+(1,816 missing values generated)
+(434 real changes made)
+(1,816 missing values generated)
+(434 real changes made)
+(1,816 missing values generated)
+(434 real changes made)
+(1,816 missing values generated)
+(860 real changes made)
+(1,816 missing values generated)
+(860 real changes made)
+(1,816 missing values generated)
+(860 real changes made)
+(1,816 missing values generated)
+(860 real changes made)
+(1,816 missing values generated)
+(860 real changes made)
+(1,816 missing values generated)
+(860 real changes made)
+(1,816 missing values generated)
+(860 real changes made)
+(1,816 missing values generated)
+(860 real changes made)
+(1,816 missing values generated)
+(860 real changes made)
+(1,816 missing values generated)
+(1,083 real changes made)
+(1,816 missing values generated)
+(1,083 real changes made)
+(1,816 missing values generated)
+(1,083 real changes made)
+(1,816 missing values generated)
+(1,083 real changes made)
+(1,816 missing values generated)
+(1,083 real changes made)
+(1,816 missing values generated)
+(1,083 real changes made)
+(1,816 missing values generated)
+(1,083 real changes made)
+(1,816 missing values generated)
+(1,083 real changes made)
+(1,816 missing values generated)
+(1,083 real changes made)
+(1,816 missing values generated)
+(1,097 real changes made)
+(1,816 missing values generated)
+(1,097 real changes made)
+(1,816 missing values generated)
+(1,097 real changes made)
+(1,816 missing values generated)
+(1,097 real changes made)
+(1,816 missing values generated)
+(1,097 real changes made)
+(1,816 missing values generated)
+(1,097 real changes made)
+(1,816 missing values generated)
+(1,097 real changes made)
+(1,816 missing values generated)
+(1,097 real changes made)
+(1,816 missing values generated)
+(1,097 real changes made)
+(1,816 missing values generated)
+(737 real changes made)
+(1,816 missing values generated)
+(737 real changes made)
+(1,816 missing values generated)
+(737 real changes made)
+(1,816 missing values generated)
+(737 real changes made)
+(1,816 missing values generated)
+(737 real changes made)
+(1,816 missing values generated)
+(737 real changes made)
+(1,816 missing values generated)
+(737 real changes made)
+(1,816 missing values generated)
+(737 real changes made)
+(1,816 missing values generated)
+(737 real changes made)
+(1,816 missing values generated)
+(808 real changes made)
+(1,816 missing values generated)
+(808 real changes made)
+(1,816 missing values generated)
+(808 real changes made)
+(1,816 missing values generated)
+(808 real changes made)
+(1,816 missing values generated)
+(808 real changes made)
+(1,816 missing values generated)
+(808 real changes made)
+(1,816 missing values generated)
+(808 real changes made)
+(1,816 missing values generated)
+(808 real changes made)
+(1,816 missing values generated)
+(808 real changes made)
+(1,816 missing values generated)
+(843 real changes made)
+(1,816 missing values generated)
+(843 real changes made)
+(1,816 missing values generated)
+(843 real changes made)
+(1,816 missing values generated)
+(843 real changes made)
+(1,816 missing values generated)
+(843 real changes made)
+(1,816 missing values generated)
+(843 real changes made)
+(1,816 missing values generated)
+(843 real changes made)
+(1,816 missing values generated)
+(843 real changes made)
+(1,816 missing values generated)
+(843 real changes made)
+(1,816 missing values generated)
+(839 real changes made)
+(1,816 missing values generated)
+(839 real changes made)
+(1,816 missing values generated)
+(839 real changes made)
+(1,816 missing values generated)
+(839 real changes made)
+(1,816 missing values generated)
+(839 real changes made)
+(1,816 missing values generated)
+(839 real changes made)
+(1,816 missing values generated)
+(839 real changes made)
+(1,816 missing values generated)
+(839 real changes made)
+(1,816 missing values generated)
+(839 real changes made)
+(1,742 missing values generated)
+(1,742 missing values generated)
+note: label truncated to 80 characters
+(1,742 missing values generated)
+(1,742 missing values generated)
+(1,742 missing values generated)
+(1,742 missing values generated)
+(1,742 missing values generated)
+(1,742 missing values generated)
+(1,742 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+(814 missing values generated)
+(814 missing values generated)
+note: label truncated to 80 characters
+(814 missing values generated)
+(814 missing values generated)
+(814 missing values generated)
+(814 missing values generated)
+(814 missing values generated)
+(814 missing values generated)
+(814 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+(1,659 missing values generated)
+(1,659 missing values generated)
+note: label truncated to 80 characters
+(1,659 missing values generated)
+(1,659 missing values generated)
+(1,659 missing values generated)
+(1,659 missing values generated)
+(1,659 missing values generated)
+(1,659 missing values generated)
+(1,659 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+(1,246 missing values generated)
+(1,246 missing values generated)
+note: label truncated to 80 characters
+(1,246 missing values generated)
+(1,246 missing values generated)
+(1,246 missing values generated)
+(1,246 missing values generated)
+(1,246 missing values generated)
+(1,246 missing values generated)
+(1,246 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+(1,606 missing values generated)
+(1,606 missing values generated)
+note: label truncated to 80 characters
+(1,606 missing values generated)
+(1,606 missing values generated)
+(1,606 missing values generated)
+(1,606 missing values generated)
+(1,606 missing values generated)
+(1,606 missing values generated)
+(1,606 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+(1,239 missing values generated)
+(1,239 missing values generated)
+note: label truncated to 80 characters
+(1,239 missing values generated)
+(1,239 missing values generated)
+(1,239 missing values generated)
+(1,239 missing values generated)
+(1,239 missing values generated)
+(1,239 missing values generated)
+(1,239 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+(1,589 missing values generated)
+(1,589 missing values generated)
+note: label truncated to 80 characters
+(1,589 missing values generated)
+(1,589 missing values generated)
+(1,589 missing values generated)
+(1,589 missing values generated)
+(1,589 missing values generated)
+(1,589 missing values generated)
+(1,589 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+  variable enrmixedgr1pct was float now byte
+  variable enrmixedgr2pct was float now byte
+  variable enrmixedgr3pct was float now byte
+  variable enrmixedgr4pct was float now byte
+  variable enrmixedgr5pct was float now byte
+  variable enrmixedgr6pct was float now byte
+  variable enrmixedgr7pct was float now byte
+  variable enrmixedgr8pct was float now byte
+  variable enrmixedgr9pct was float now byte
+  variable enrmixedgr10pct was float now byte
+  variable enrmixedgr11pct was float now byte
+  variable enrmixedgr12pct was float now byte
+  (65,376 bytes saved)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/analys
+    > is/secondary/secdemo1718analysis.dta saved
+(2018-19 Secondary CHKS Data)
+(1,580 missing values generated)
+(753 real changes made)
+(1,580 missing values generated)
+(63 real changes made)
+(1,580 missing values generated)
+(63 real changes made)
+(1,580 missing values generated)
+(63 real changes made)
+(1,580 missing values generated)
+(63 real changes made)
+(1,580 missing values generated)
+(63 real changes made)
+(1,580 missing values generated)
+(63 real changes made)
+(1,580 missing values generated)
+(63 real changes made)
+(1,580 missing values generated)
+(63 real changes made)
+(1,580 missing values generated)
+(63 real changes made)
+(1,580 missing values generated)
+(939 real changes made)
+(1,580 missing values generated)
+(885 real changes made)
+(1,580 missing values generated)
+(885 real changes made)
+(1,580 missing values generated)
+(885 real changes made)
+(1,580 missing values generated)
+(885 real changes made)
+(1,580 missing values generated)
+(885 real changes made)
+(1,580 missing values generated)
+(885 real changes made)
+(1,580 missing values generated)
+(885 real changes made)
+(1,580 missing values generated)
+(885 real changes made)
+(1,580 missing values generated)
+(885 real changes made)
+(1,580 missing values generated)
+(941 real changes made)
+(1,580 missing values generated)
+(141 real changes made)
+(1,580 missing values generated)
+(141 real changes made)
+(1,580 missing values generated)
+(141 real changes made)
+(1,580 missing values generated)
+(141 real changes made)
+(1,580 missing values generated)
+(141 real changes made)
+(1,580 missing values generated)
+(141 real changes made)
+(1,580 missing values generated)
+(141 real changes made)
+(1,580 missing values generated)
+(141 real changes made)
+(1,580 missing values generated)
+(141 real changes made)
+(1,580 missing values generated)
+(648 real changes made)
+(1,580 missing values generated)
+(525 real changes made)
+(1,580 missing values generated)
+(525 real changes made)
+(1,580 missing values generated)
+(525 real changes made)
+(1,580 missing values generated)
+(525 real changes made)
+(1,580 missing values generated)
+(525 real changes made)
+(1,580 missing values generated)
+(525 real changes made)
+(1,580 missing values generated)
+(525 real changes made)
+(1,580 missing values generated)
+(525 real changes made)
+(1,580 missing values generated)
+(525 real changes made)
+(1,580 missing values generated)
+(698 real changes made)
+(1,580 missing values generated)
+(181 real changes made)
+(1,580 missing values generated)
+(181 real changes made)
+(1,580 missing values generated)
+(181 real changes made)
+(1,580 missing values generated)
+(181 real changes made)
+(1,580 missing values generated)
+(181 real changes made)
+(1,580 missing values generated)
+(181 real changes made)
+(1,580 missing values generated)
+(181 real changes made)
+(1,580 missing values generated)
+(181 real changes made)
+(1,580 missing values generated)
+(181 real changes made)
+(1,580 missing values generated)
+(734 real changes made)
+(1,580 missing values generated)
+(530 real changes made)
+(1,580 missing values generated)
+(530 real changes made)
+(1,580 missing values generated)
+(530 real changes made)
+(1,580 missing values generated)
+(530 real changes made)
+(1,580 missing values generated)
+(530 real changes made)
+(1,580 missing values generated)
+(530 real changes made)
+(1,580 missing values generated)
+(530 real changes made)
+(1,580 missing values generated)
+(530 real changes made)
+(1,580 missing values generated)
+(530 real changes made)
+(1,580 missing values generated)
+(732 real changes made)
+(1,580 missing values generated)
+(190 real changes made)
+(1,580 missing values generated)
+(190 real changes made)
+(1,580 missing values generated)
+(190 real changes made)
+(1,580 missing values generated)
+(190 real changes made)
+(1,580 missing values generated)
+(190 real changes made)
+(1,580 missing values generated)
+(190 real changes made)
+(1,580 missing values generated)
+(190 real changes made)
+(1,580 missing values generated)
+(190 real changes made)
+(1,580 missing values generated)
+(190 real changes made)
+(1,580 missing values generated)
+(333 real changes made)
+(1,580 missing values generated)
+(333 real changes made)
+(1,580 missing values generated)
+(333 real changes made)
+(1,580 missing values generated)
+(333 real changes made)
+(1,580 missing values generated)
+(333 real changes made)
+(1,580 missing values generated)
+(333 real changes made)
+(1,580 missing values generated)
+(333 real changes made)
+(1,580 missing values generated)
+(333 real changes made)
+(1,580 missing values generated)
+(333 real changes made)
+(1,580 missing values generated)
+(335 real changes made)
+(1,580 missing values generated)
+(335 real changes made)
+(1,580 missing values generated)
+(335 real changes made)
+(1,580 missing values generated)
+(335 real changes made)
+(1,580 missing values generated)
+(335 real changes made)
+(1,580 missing values generated)
+(335 real changes made)
+(1,580 missing values generated)
+(335 real changes made)
+(1,580 missing values generated)
+(335 real changes made)
+(1,580 missing values generated)
+(335 real changes made)
+(1,580 missing values generated)
+(337 real changes made)
+(1,580 missing values generated)
+(337 real changes made)
+(1,580 missing values generated)
+(337 real changes made)
+(1,580 missing values generated)
+(337 real changes made)
+(1,580 missing values generated)
+(337 real changes made)
+(1,580 missing values generated)
+(337 real changes made)
+(1,580 missing values generated)
+(337 real changes made)
+(1,580 missing values generated)
+(337 real changes made)
+(1,580 missing values generated)
+(337 real changes made)
+(1,580 missing values generated)
+(350 real changes made)
+(1,580 missing values generated)
+(350 real changes made)
+(1,580 missing values generated)
+(350 real changes made)
+(1,580 missing values generated)
+(350 real changes made)
+(1,580 missing values generated)
+(350 real changes made)
+(1,580 missing values generated)
+(350 real changes made)
+(1,580 missing values generated)
+(350 real changes made)
+(1,580 missing values generated)
+(350 real changes made)
+(1,580 missing values generated)
+(350 real changes made)
+(1,580 missing values generated)
+(372 real changes made)
+(1,580 missing values generated)
+(372 real changes made)
+(1,580 missing values generated)
+(372 real changes made)
+(1,580 missing values generated)
+(372 real changes made)
+(1,580 missing values generated)
+(372 real changes made)
+(1,580 missing values generated)
+(372 real changes made)
+(1,580 missing values generated)
+(372 real changes made)
+(1,580 missing values generated)
+(372 real changes made)
+(1,580 missing values generated)
+(372 real changes made)
+(1,580 missing values generated)
+(753 real changes made)
+(1,580 missing values generated)
+(753 real changes made)
+(1,580 missing values generated)
+(753 real changes made)
+(1,580 missing values generated)
+(753 real changes made)
+(1,580 missing values generated)
+(753 real changes made)
+(1,580 missing values generated)
+(753 real changes made)
+(1,580 missing values generated)
+(753 real changes made)
+(1,580 missing values generated)
+(753 real changes made)
+(1,580 missing values generated)
+(753 real changes made)
+(1,580 missing values generated)
+(939 real changes made)
+(1,580 missing values generated)
+(939 real changes made)
+(1,580 missing values generated)
+(939 real changes made)
+(1,580 missing values generated)
+(939 real changes made)
+(1,580 missing values generated)
+(939 real changes made)
+(1,580 missing values generated)
+(939 real changes made)
+(1,580 missing values generated)
+(939 real changes made)
+(1,580 missing values generated)
+(939 real changes made)
+(1,580 missing values generated)
+(939 real changes made)
+(1,580 missing values generated)
+(941 real changes made)
+(1,580 missing values generated)
+(941 real changes made)
+(1,580 missing values generated)
+(941 real changes made)
+(1,580 missing values generated)
+(941 real changes made)
+(1,580 missing values generated)
+(941 real changes made)
+(1,580 missing values generated)
+(941 real changes made)
+(1,580 missing values generated)
+(941 real changes made)
+(1,580 missing values generated)
+(941 real changes made)
+(1,580 missing values generated)
+(941 real changes made)
+(1,580 missing values generated)
+(648 real changes made)
+(1,580 missing values generated)
+(648 real changes made)
+(1,580 missing values generated)
+(648 real changes made)
+(1,580 missing values generated)
+(648 real changes made)
+(1,580 missing values generated)
+(648 real changes made)
+(1,580 missing values generated)
+(648 real changes made)
+(1,580 missing values generated)
+(648 real changes made)
+(1,580 missing values generated)
+(648 real changes made)
+(1,580 missing values generated)
+(648 real changes made)
+(1,580 missing values generated)
+(698 real changes made)
+(1,580 missing values generated)
+(698 real changes made)
+(1,580 missing values generated)
+(698 real changes made)
+(1,580 missing values generated)
+(698 real changes made)
+(1,580 missing values generated)
+(698 real changes made)
+(1,580 missing values generated)
+(698 real changes made)
+(1,580 missing values generated)
+(698 real changes made)
+(1,580 missing values generated)
+(698 real changes made)
+(1,580 missing values generated)
+(698 real changes made)
+(1,580 missing values generated)
+(734 real changes made)
+(1,580 missing values generated)
+(734 real changes made)
+(1,580 missing values generated)
+(734 real changes made)
+(1,580 missing values generated)
+(734 real changes made)
+(1,580 missing values generated)
+(734 real changes made)
+(1,580 missing values generated)
+(734 real changes made)
+(1,580 missing values generated)
+(734 real changes made)
+(1,580 missing values generated)
+(734 real changes made)
+(1,580 missing values generated)
+(734 real changes made)
+(1,580 missing values generated)
+(732 real changes made)
+(1,580 missing values generated)
+(732 real changes made)
+(1,580 missing values generated)
+(732 real changes made)
+(1,580 missing values generated)
+(732 real changes made)
+(1,580 missing values generated)
+(732 real changes made)
+(1,580 missing values generated)
+(732 real changes made)
+(1,580 missing values generated)
+(732 real changes made)
+(1,580 missing values generated)
+(732 real changes made)
+(1,580 missing values generated)
+(732 real changes made)
+(1,518 missing values generated)
+(1,518 missing values generated)
+note: label truncated to 80 characters
+(1,518 missing values generated)
+(1,518 missing values generated)
+(1,518 missing values generated)
+(1,518 missing values generated)
+(1,518 missing values generated)
+(1,518 missing values generated)
+(1,518 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+(697 missing values generated)
+(697 missing values generated)
+note: label truncated to 80 characters
+(697 missing values generated)
+(697 missing values generated)
+(697 missing values generated)
+(697 missing values generated)
+(697 missing values generated)
+(697 missing values generated)
+(697 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+(1,439 missing values generated)
+(1,439 missing values generated)
+note: label truncated to 80 characters
+(1,439 missing values generated)
+(1,439 missing values generated)
+(1,439 missing values generated)
+(1,439 missing values generated)
+(1,439 missing values generated)
+(1,439 missing values generated)
+(1,439 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+(1,055 missing values generated)
+(1,055 missing values generated)
+note: label truncated to 80 characters
+(1,055 missing values generated)
+(1,055 missing values generated)
+(1,055 missing values generated)
+(1,055 missing values generated)
+(1,055 missing values generated)
+(1,055 missing values generated)
+(1,055 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+(1,399 missing values generated)
+(1,399 missing values generated)
+note: label truncated to 80 characters
+(1,399 missing values generated)
+(1,399 missing values generated)
+(1,399 missing values generated)
+(1,399 missing values generated)
+(1,399 missing values generated)
+(1,399 missing values generated)
+(1,399 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+(1,050 missing values generated)
+(1,050 missing values generated)
+note: label truncated to 80 characters
+(1,050 missing values generated)
+(1,050 missing values generated)
+(1,050 missing values generated)
+(1,050 missing values generated)
+(1,050 missing values generated)
+(1,050 missing values generated)
+(1,050 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+(1,390 missing values generated)
+(1,390 missing values generated)
+note: label truncated to 80 characters
+(1,390 missing values generated)
+(1,390 missing values generated)
+(1,390 missing values generated)
+(1,390 missing values generated)
+(1,390 missing values generated)
+(1,390 missing values generated)
+(1,390 missing values generated)
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+note: label truncated to 80 characters
+  variable enrmixedgr1pct was float now byte
+  variable enrmixedgr2pct was float now byte
+  variable enrmixedgr3pct was float now byte
+  variable enrmixedgr4pct was float now byte
+  variable enrmixedgr5pct was float now byte
+  variable enrmixedgr6pct was float now byte
+  variable enrmixedgr7pct was float now byte
+  variable enrmixedgr8pct was float now byte
+  variable enrmixedgr9pct was float now byte
+  variable enrmixedgr10pct was float now byte
+  variable enrmixedgr11pct was float now byte
+  variable enrmixedgr12pct was float now byte
+  (56,880 bytes saved)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/analys
+    > is/secondary/secdemo1819analysis.dta saved
+
+. 
+. log close seccoveragedata
+      name:  seccoveragedata
+       log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/sample
+> /seccoveragedata.smcl
+  log type:  smcl
+ closed on:   7 Apr 2022, 14:54:49
+-------------------------------------------------------------------------------

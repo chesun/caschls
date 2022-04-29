@@ -1,0 +1,116 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/sample/pooledparentdemographics.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 7 Apr 2022, 14:56:13
+{txt}
+{com}. 
+. local years 1415 1516 1617 1718 1819 //local macro for dataset years
+{txt}
+{com}. 
+. /* reconstruct parents demographics datasets for pooling across years */
+. local runparentforpooling = 1 //local toggle for reconstructing parents demographics data for pooling
+{txt}
+{com}. if `runparentforpooling' == 1 {c -(}
+.   foreach year of local years {c -(}
+{txt}  2{com}.     use $projdir/dta/demographics/parent/parentdemo`year', replace
+{txt}  3{com}.     keep cdscode svygr9 svygr11 gr9enr gr11enr //there is no sex or ethnicity in parent data
+{txt}  4{com}.     gen year = `year' //generate a variable for the survey year
+{txt}  5{com}.     tostring year, replace //make into string
+{txt}  6{com}.     label var year "survey year"
+{txt}  7{com}. 
+.     compress
+{txt}  8{com}.     save $projdir/dta/demographics/pooled/forpooling/parent/parentdemoforpooling`year', replace
+{txt}  9{com}.   {c )-}
+{txt}( )
+year was {res:float} now {res:str4}
+  (0 bytes saved)
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/pooled/forpooling/parent/parentdemoforpooling1415.dta{rm}
+saved
+{p_end}
+(2015-16 Parent CSPS Data)
+year was {res:float} now {res:str4}
+  (0 bytes saved)
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/pooled/forpooling/parent/parentdemoforpooling1516.dta{rm}
+saved
+{p_end}
+(2016-17 Parent CSPS Data)
+year was {res:float} now {res:str4}
+  (0 bytes saved)
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/pooled/forpooling/parent/parentdemoforpooling1617.dta{rm}
+saved
+{p_end}
+(2017-18 Parent CSPS Data)
+year was {res:float} now {res:str4}
+  (0 bytes saved)
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/pooled/forpooling/parent/parentdemoforpooling1718.dta{rm}
+saved
+{p_end}
+(2018-19 Parent CSPS Data)
+year was {res:float} now {res:str4}
+  (0 bytes saved)
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/pooled/forpooling/parent/parentdemoforpooling1819.dta{rm}
+saved
+{p_end}
+{com}. {c )-}
+{txt}
+{com}. 
+. /* append all secondary datasets to construct a panel dataset */
+. use $projdir/dta/demographics/pooled/forpooling/parent/parentdemoforpooling1415, replace
+{txt}( )
+
+{com}. append using $projdir/dta/demographics/pooled/forpooling/parent/parentdemoforpooling1516
+{txt}
+{com}. append using $projdir/dta/demographics/pooled/forpooling/parent/parentdemoforpooling1617
+{txt}
+{com}. append using $projdir/dta/demographics/pooled/forpooling/parent/parentdemoforpooling1718
+{txt}
+{com}. append using $projdir/dta/demographics/pooled/forpooling/parent/parentdemoforpooling1819
+{txt}
+{com}. 
+. compress
+{txt}  (0 bytes saved)
+
+{com}. save $projdir/dta/demographics/pooled/paneldata/parentdemopanel, replace
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/demographics/pooled/paneldata/parentdemopanel.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. translate $projdir/log/build/sample/pooledparentdemographics.smcl $projdir/log/build/sample/pooledparentdemographics.log, replace 
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/sample/pooledparentdemographics.log{rm}
+saved as
+.log
+format
+{p_end}
+
+{com}. 
+{txt}end of do-file
+{com}.   pause
+. 
+.   do $projdir/do/build/sample/pooledparentdiagnostics
+{txt}
+{com}. ********************************************************************************
+. ************** generate diagnostics for pooled parent data  ****************
+. ********************************************************************************
+. ********************************************************************************
+. *************** written by Che Sun. Email: ucsun@ucdavis.edu ********************
+. ********************************************************************************
+. cap log close _all
+{smcl}
+{com}{sf}{ul off}

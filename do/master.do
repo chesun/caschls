@@ -502,6 +502,26 @@ if `do_sibling_va_regs' == 1 {
      /* do file to run forecast bias test on sibling long run outcomes VA sample, using
      census tract variables as leave out variables . */
      do $projdir/do/share/siblingvaregs/va_sibling_out_forecast_bias
+     pause
+
+     /* do file to create test score VA estimates using a restricted sample that
+     only has observations with sibling controls and ACS controls, without teacher
+     fixed effects or peer effects. There are 4 differentVA specifications:
+     1. Primary specification without sibling controls or ACS controls
+     2. Primary specification plus ACS controls
+     3. Primary specification plus sibling controls
+     4. Primary Specificationv plus ACS and sibling controls */
+     do $projdir/do/share/siblingvaregs/create_va_sib_acs_restr_smp
+     pause
+
+     /* do file to create test score VA estimates on the restricted sample that
+     only has observations with sibling controls and ACS controls, without teacher
+     fixed effects or peer effects. There are 4 differentVA specifications:
+     1. Primary specification without sibling controls or ACS controls
+     2. Primary specification plus ACS controls
+     3. Primary specification plus sibling controls
+     4. Primary Specificationv plus ACS and sibling controls */
+     do $projdir/do/share/siblingvaregs/va_sib_acs
      pause 
 
      /* sum stats for the enrollment VA estimates with additional demographic control
