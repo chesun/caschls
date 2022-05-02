@@ -3,13 +3,59 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sib_acs_restr_smp.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}28 Apr 2022, 12:59:54
+ {txt}opened on:  {res}28 Apr 2022, 22:28:08
 {txt}
+{com}. 
+. /* change directory to common_core_va project directory for all value added
+> do files because some called subroutines written by Matt may use relative file paths  */
+. cd $vaprojdir
+{res}/home/research/ca_ed_lab/projects/common_core_va
+{txt}
+{com}. 
+. /* file path macros for datasets */
+. include $projdir/do/share/siblingvaregs/vafilemacros.doh
+{txt}
+{com}. ********************************************************************************
+. /* Macros for common core VA project folder file paths, and relevant datasets to make it possible
+> to use Matt's doh files  */
+. ********************************************************************************
+. ********************************************************************************
+. /* First written by Che Sun, 12/13/2021
+> 1/27/2022: changed mattdofiles path to the do files folder in project folder
+> after Matt updated the do files to reconcile file paths. Now direct run these
+> do files from the $vaprojdir/do_files_sbac folder*/
+. 
+. /* to include this in do files:
+> include $projdir/do/share/siblingvaregs/vafilemacros.doh
+>  */
+. 
+.  local vaprojdofiles "$vaprojdir/do_files"
+{txt}
+{com}. 
+. *** macros for my own datasets
+. local va_dataset "$projdir/dta/common_core_va/va_dataset"
+{txt}
+{com}. local va_g11_dataset "$projdir/dta/common_core_va/va_g11_dataset"
+{txt}
+{com}. local va_g11_out_dataset "$projdir/dta/common_core_va/va_g11_out_dataset"
+{txt}
+{com}. local siblingxwalk "$projdir/dta/siblingxwalk/siblingpairxwalk"
+{txt}
+{com}. local ufamilyxwalk "$projdir/dta/siblingxwalk/ufamilyxwalk"
+{txt}
+{com}. local k12_postsecondary_out_merge "$projdir/dta/common_core_va/k12_postsecondary_out_merge"
+{txt}
+{com}. local sibling_out_xwalk "$projdir/dta/siblingxwalk/sibling_out_xwalk"
+{txt}
+{com}. {txt}
 {com}. 
 . //run Matt's do helper file to set the local macros for VA project
 . include $vaprojdir/do_files/sbac/macros_va.doh
 {txt}
-{com}. #delimit ;
+{com}. /* CHANGE LOG
+> 4/28/2022: Added macro for sibling controls  */
+. 
+. #delimit ;
 {txt}delimiter now ;
 {com}. *** file paths
 > local home $vaprojdir ;
@@ -132,6 +178,11 @@
 >         educ_hs_dropout_prop /*educ_deg_2year_prop*/ educ_deg_4year_plus_prop
 >         pov_fam_child_lt18_pct
 >         inc_median_hh
+>         ;
+{txt}
+{com}. local sibling_controls
+>         i.has_older_sibling_enr_2year
+>         i.has_older_sibling_enr_4year
 >         ;
 {txt}
 {com}. **** School Characteristics ;
@@ -283,6 +334,10 @@ _sch_char_vars:{space 1}{res}{res}fte_teach_pc fte_pupil_pc new_teacher_prop cre
 _sch_chars:{space 5}{res}{res}fte_teach_pc fte_pupil_pc                   new_teacher_prop                           credential_full_prop                  c.male_prop##c.enr_male_prop         c.eth_minority_prop##c.enr_minority_prop         enr_total
 {p_end}
 {txt}{p 0 16}
+_sibling_controls:{break}
+{res}i.has_older_sibling_enr_2year         i.has_older_sibling_enr_4year
+{p_end}
+{txt}{p 0 16}
 _census_controls:{break}
 {res}eth_asian_pct eth_hispanic_pct eth_black_pct          educ_hs_dropout_prop  educ_deg_4year_plus_prop         pov_fam_child_lt18_pct         inc_median_hh
 {p_end}
@@ -432,17 +487,16 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 {col 5}{hline 41}
 
 {com}. 
-. //drop observations that do not have any older siblings matched to enrollment outcomes
-. drop if mi(has_older_sibling_enr_2year)
-{txt}(884,570 observations deleted)
-
-{com}. drop if mi(has_older_sibling_enr_4year)
-{txt}(0 observations deleted)
+. 
+. // keep the sibling controls sample for 2yr and 4yr sibling enrollment controls
+. keep if sibling_2y_4y_controls_sample==1
+{txt}(902,429 observations deleted)
 
 {com}. 
+. 
 . compress
   {txt}variable {bf}{res}age{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
-{txt}  (1,800,588 bytes saved)
+{txt}  (1,764,870 bytes saved)
 
 {com}. label data "Test Score VA with Sibling Control Sample"
 {txt}
@@ -463,9 +517,14 @@ as .dta format
 {com}. ********************************************************************************
 . /* do helper file to merge census tract controls to VA sample. Arguments need
 > to be set for
-> -- which VA dataset is being merged to
+> -- what type of VA, test score or outcome
+> -- which VA dataset file is being merged to using the tempfile macro in calling file
+> -- the name for the tempfile being merged to, using a string
 > -- what purpose does the calling do file have, create VA estimates or create VA sample
 > -- what is the exact name for the VA being created, what subject or outcome
+> 
+> If purpose is create_va, this produces a dataset with obs that has non-missing
+> census controls, and that are in the touse sample for the corresponding VA estimation 
 > 
 > See comments above the args command for details on how to set arguments */
 . ********************************************************************************
@@ -502,7 +561,10 @@ as .dta format
 . //run Matt's do helper file to set the local macros for VA project
 . include $vaprojdir/do_files/sbac/macros_va.doh
 {txt}
-{com}. #delimit ;
+{com}. /* CHANGE LOG
+> 4/28/2022: Added macro for sibling controls  */
+. 
+. #delimit ;
 {txt}delimiter now ;
 {com}. *** file paths
 > local home $vaprojdir ;
@@ -625,6 +687,11 @@ as .dta format
 >         educ_hs_dropout_prop /*educ_deg_2year_prop*/ educ_deg_4year_plus_prop
 >         pov_fam_child_lt18_pct
 >         inc_median_hh
+>         ;
+{txt}
+{com}. local sibling_controls
+>         i.has_older_sibling_enr_2year
+>         i.has_older_sibling_enr_4year
 >         ;
 {txt}
 {com}. **** School Characteristics ;
@@ -808,7 +875,7 @@ as .dta format
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
 {col 5}Not matched{col 30}{res}               0
-{txt}{col 5}Matched{col 30}{res}         866,170{txt}  (merge_lagged_address==3)
+{txt}{col 5}Matched{col 30}{res}         849,448{txt}  (merge_lagged_address==3)
 {col 5}{hline 41}
 
 {com}. merge m:1 street_address_line_one city state zip_code using `address_id' ///
@@ -817,7 +884,7 @@ as .dta format
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
 {col 5}Not matched{col 30}{res}               0
-{txt}{col 5}Matched{col 30}{res}         866,170{txt}  (merge_address_id==3)
+{txt}{col 5}Matched{col 30}{res}         849,448{txt}  (merge_address_id==3)
 {col 5}{hline 41}
 
 {com}. merge m:1 address_id using `census_geocode' ///
@@ -826,7 +893,7 @@ as .dta format
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
 {col 5}Not matched{col 30}{res}               0
-{txt}{col 5}Matched{col 30}{res}         865,808{txt}  (merge_census_geocode==3)
+{txt}{col 5}Matched{col 30}{res}         849,092{txt}  (merge_census_geocode==3)
 {col 5}{hline 41}
 
 {com}. rename census_sct geoid2
@@ -838,7 +905,7 @@ as .dta format
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
 {col 5}Not matched{col 30}{res}               0
-{txt}{col 5}Matched{col 30}{res}         536,496{txt}  (merge_acs==3)
+{txt}{col 5}Matched{col 30}{res}         526,691{txt}  (merge_acs==3)
 {col 5}{hline 41}
 
 {com}. rename geoid2 census_sct
@@ -855,9 +922,13 @@ as .dta format
 (0 observations deleted)
 
 {com}. 
-. 
+. // create a sample indicator for obs with census controls
+. gen byte census_controls_sample = 1
+{txt}
+{com}. 
 . 
 . if "`purpose'" == "create_va" {c -(}
+.   // only keep obs needed for the current VA estimation
 .   keep if touse_g11_`va_name'==1
 .   di "ACS controls merged successfully to `va_dataset_name'"
 .   di "Ready to create VA estimates for `va_name'"
@@ -874,8 +945,26 @@ as .dta format
 {com}. 
 . 
 . 
-. 
-. 
+. // saving the restricted sample dataset
+. compress
+  {txt}variable {bf}{res}geodisplaylabel{sf}{txt} was {bf}{res}str94{sf}{txt} now {bf}{res}str55{sf}
+{txt}  (20,538,726 bytes saved)
+
+{com}. label data "Restrcited Test Score VA Sample with Sibling Controls and Census Controls"
+{txt}
+{com}. save $vaprojdir/data/va_samples/va_sib_acs_restr_smp.dta, replace
+{txt}{p 0 4 2}
+(file {bf}
+/home/research/ca_ed_lab/projects/common_core_va/data/va_samples/va_sib_acs_restr_smp.dta{rm}
+not found)
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/projects/common_core_va/data/va_samples/va_sib_acs_restr_smp.dta{rm}
+saved
+{p_end}
+
+{com}. 
 . 
 . 
 . 
@@ -889,7 +978,7 @@ as .dta format
 . timer off 1
 {txt}
 {com}. timer list
-{res}   1:    341.62 /        1 =     341.6250
+{res}   1:    315.63 /        1 =     315.6350
 {txt}
 {com}. 
 . set trace off
@@ -908,60 +997,31 @@ format
 {com}. 
 {txt}end of do-file
 
-{com}. tab sibling_out_sample
-
-  {txt}Indicator {c |}
-for sibling {c |}
-sample that {c |}
-are matched {c |}
-         to {c |}
-postseconda {c |}
-ry outcomes {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}      9,805        1.83        1.83
-{txt}          1 {c |}{res}    526,634       98.17      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}    536,439      100.00
-
-{com}. tab has_older_sibling_enr_2year
-
-     {txt}Has at {c |}
-    least 1 {c |}
-      older {c |}
-    sibling {c |}
- matched to {c |}
-    postsec {c |}
-outcome and {c |}
-       with {c |}
-enr_2year = {c |}
-          1 {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-          0 {c |}{res}    498,364       92.90       92.90
-{txt}          1 {c |}{res}     38,075        7.10      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}    536,439      100.00
-
-{com}. do $projdir/do/share/siblingvaregs/siblingoutxwalk.do
+{com}. do $projdir/do/share/siblingvaregs/va_sib_acs
 {txt}
 {com}. ********************************************************************************
-. /* create a sibling enrollment outcomes crosswalk dataset by merging k-12 test scores
-> to the postsecondary outcomes and then merge to ufamilyxwalk.dta and calculuate
-> number of older siblings enrolled and proportion of older siblings enrolled
->  */
+. /* do file to create test score VA estimates on the restricted sample that
+> only has observations with sibling controls and ACS controls, without teacher
+> fixed effects or peer effects. There are 4 differentVA specifications:
+> 1. Primary specification without sibling controls or ACS controls
+> 2. Primary specification plus ACS controls
+> 3. Primary specification plus sibling controls
+> 4. Primary Specificationv plus ACS and sibling controls */
 . ********************************************************************************
 . ********************************************************************************
 . *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************
-. ********************** First written on Sep 22, 2021 ***************************
-. /* Change log:
-> 10/22/2021 Corrected wrong values for has sibling matching to postsec indicators.
-> Problem was caused by Stata treating missing value as greater than any nonmissing
-> so >0 logic does not work and will return true in case of missing
+. ********************** First written on April 27. 2022 *************************
+. 
+. /* To run this do file:
+> 
+> do $projdir/do/share/siblingvaregs/va_sib_acs
+> 
 >  */
 . 
-. /* to run this do file:
-> do $projdir/do/share/siblingvaregs/siblingoutxwalk.do
-> */
 . 
+. /* CHANGE LOG:
+> 
+>  */
 . 
 . clear all
 {res}{txt}
@@ -971,7 +1031,7 @@ enr_2year = {c |}
 {txt}
 {com}. set scheme s1color
 {txt}
-{com}. 
+{com}. //capture log close: Stata should not complain if there is no log open to close
 . cap log close _all
 {smcl}
 {com}{sf}{ul off}

@@ -3,12 +3,64 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/va_sib_acs_restr_smp.smcl
   log type:  smcl
- opened on:  28 Apr 2022, 12:59:54
+ opened on:  28 Apr 2022, 22:28:08
 
+. 
+. /* change directory to common_core_va project directory for all value added
+> do files because some called subroutines written by Matt may use relative fil
+> e paths  */
+. cd $vaprojdir
+/home/research/ca_ed_lab/projects/common_core_va
+
+. 
+. /* file path macros for datasets */
+. include $projdir/do/share/siblingvaregs/vafilemacros.doh
+
+. *****************************************************************************
+> ***
+. /* Macros for common core VA project folder file paths, and relevant datasets
+>  to make it possible
+> to use Matt's doh files  */
+. *****************************************************************************
+> ***
+. *****************************************************************************
+> ***
+. /* First written by Che Sun, 12/13/2021
+> 1/27/2022: changed mattdofiles path to the do files folder in project folder
+> after Matt updated the do files to reconcile file paths. Now direct run these
+> do files from the $vaprojdir/do_files_sbac folder*/
+. 
+. /* to include this in do files:
+> include $projdir/do/share/siblingvaregs/vafilemacros.doh
+>  */
+. 
+.  local vaprojdofiles "$vaprojdir/do_files"
+
+. 
+. *** macros for my own datasets
+. local va_dataset "$projdir/dta/common_core_va/va_dataset"
+
+. local va_g11_dataset "$projdir/dta/common_core_va/va_g11_dataset"
+
+. local va_g11_out_dataset "$projdir/dta/common_core_va/va_g11_out_dataset"
+
+. local siblingxwalk "$projdir/dta/siblingxwalk/siblingpairxwalk"
+
+. local ufamilyxwalk "$projdir/dta/siblingxwalk/ufamilyxwalk"
+
+. local k12_postsecondary_out_merge "$projdir/dta/common_core_va/k12_postsecond
+> ary_out_merge"
+
+. local sibling_out_xwalk "$projdir/dta/siblingxwalk/sibling_out_xwalk"
+
+. 
 . 
 . //run Matt's do helper file to set the local macros for VA project
 . include $vaprojdir/do_files/sbac/macros_va.doh
 
+. /* CHANGE LOG
+> 4/28/2022: Added macro for sibling controls  */
+. 
 . #delimit ;
 delimiter now ;
 . *** file paths
@@ -140,6 +192,11 @@ delimiter now ;
 >         educ_hs_dropout_prop /*educ_deg_2year_prop*/ educ_deg_4year_plus_prop
 >         pov_fam_child_lt18_pct
 >         inc_median_hh
+>         ;
+
+. local sibling_controls
+>         i.has_older_sibling_enr_2year
+>         i.has_older_sibling_enr_4year
 >         ;
 
 . **** School Characteristics ;
@@ -247,6 +304,8 @@ _sch_char_vars: fte_teach_pc fte_pupil_pc new_teacher_prop credential_full_prop
 _sch_chars:     fte_teach_pc fte_pupil_pc new_teacher_prop credential_full_prop
                 c.male_prop##c.enr_male_prop
                 c.eth_minority_prop##c.enr_minority_prop enr_total
+_sibling_controls:
+                i.has_older_sibling_enr_2year i.has_older_sibling_enr_4year
 _census_controls:
                 eth_asian_pct eth_hispanic_pct eth_black_pct
                 educ_hs_dropout_prop educ_deg_4year_plus_prop
@@ -352,18 +411,17 @@ _va_dataset:    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_co
     -----------------------------------------
 
 . 
-. //drop observations that do not have any older siblings matched to enrollment
->  outcomes
-. drop if mi(has_older_sibling_enr_2year)
-(884,570 observations deleted)
+. 
+. // keep the sibling controls sample for 2yr and 4yr sibling enrollment contro
+> ls
+. keep if sibling_2y_4y_controls_sample==1
+(902,429 observations deleted)
 
-. drop if mi(has_older_sibling_enr_4year)
-(0 observations deleted)
-
+. 
 . 
 . compress
   variable age was float now int
-  (1,800,588 bytes saved)
+  (1,764,870 bytes saved)
 
 . label data "Test Score VA with Sibling Control Sample"
 
@@ -382,10 +440,18 @@ file /home/tmp/St16505.000001 saved as .dta format
 > ***
 . /* do helper file to merge census tract controls to VA sample. Arguments need
 > to be set for
-> -- which VA dataset is being merged to
+> -- what type of VA, test score or outcome
+> -- which VA dataset file is being merged to using the tempfile macro in calli
+> ng file
+> -- the name for the tempfile being merged to, using a string
 > -- what purpose does the calling do file have, create VA estimates or create 
 > VA sample
 > -- what is the exact name for the VA being created, what subject or outcome
+> 
+> If purpose is create_va, this produces a dataset with obs that has non-missin
+> g
+> census controls, and that are in the touse sample for the corresponding VA es
+> timation 
 > 
 > See comments above the args command for details on how to set arguments */
 . *****************************************************************************
@@ -428,6 +494,9 @@ file /home/tmp/St16505.000001 saved as .dta format
 . //run Matt's do helper file to set the local macros for VA project
 . include $vaprojdir/do_files/sbac/macros_va.doh
 
+. /* CHANGE LOG
+> 4/28/2022: Added macro for sibling controls  */
+. 
 . #delimit ;
 delimiter now ;
 . *** file paths
@@ -559,6 +628,11 @@ delimiter now ;
 >         educ_hs_dropout_prop /*educ_deg_2year_prop*/ educ_deg_4year_plus_prop
 >         pov_fam_child_lt18_pct
 >         inc_median_hh
+>         ;
+
+. local sibling_controls
+>         i.has_older_sibling_enr_2year
+>         i.has_older_sibling_enr_4year
 >         ;
 
 . **** School Characteristics ;
@@ -731,7 +805,7 @@ file /home/tmp/St16505.000005 saved as .dta format
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                           866,170  (merge_lagged_address==3)
+    Matched                           849,448  (merge_lagged_address==3)
     -----------------------------------------
 
 . merge m:1 street_address_line_one city state zip_code using `address_id' ///
@@ -740,7 +814,7 @@ file /home/tmp/St16505.000005 saved as .dta format
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                           866,170  (merge_address_id==3)
+    Matched                           849,448  (merge_address_id==3)
     -----------------------------------------
 
 . merge m:1 address_id using `census_geocode' ///
@@ -749,7 +823,7 @@ file /home/tmp/St16505.000005 saved as .dta format
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                           865,808  (merge_census_geocode==3)
+    Matched                           849,092  (merge_census_geocode==3)
     -----------------------------------------
 
 . rename census_sct geoid2
@@ -761,7 +835,7 @@ file /home/tmp/St16505.000005 saved as .dta format
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                           536,496  (merge_acs==3)
+    Matched                           526,691  (merge_acs==3)
     -----------------------------------------
 
 . rename geoid2 census_sct
@@ -778,9 +852,13 @@ file /home/tmp/St16505.000005 saved as .dta format
 (0 observations deleted)
 
 . 
+. // create a sample indicator for obs with census controls
+. gen byte census_controls_sample = 1
+
 . 
 . 
 . if "`purpose'" == "create_va" {
+.   // only keep obs needed for the current VA estimation
 .   keep if touse_g11_`va_name'==1
 .   di "ACS controls merged successfully to `va_dataset_name'"
 .   di "Ready to create VA estimates for `va_name'"
@@ -797,7 +875,22 @@ end of do-file
 . 
 . 
 . 
-. 
+. // saving the restricted sample dataset
+. compress
+  variable geodisplaylabel was str94 now str55
+  (20,538,726 bytes saved)
+
+. label data "Restrcited Test Score VA Sample with Sibling Controls and Census 
+> Controls"
+
+. save $vaprojdir/data/va_samples/va_sib_acs_restr_smp.dta, replace
+(file
+    /home/research/ca_ed_lab/projects/common_core_va/data/va_samples/va_sib_a
+    > cs_restr_smp.dta not found)
+file
+    /home/research/ca_ed_lab/projects/common_core_va/data/va_samples/va_sib_a
+    > cs_restr_smp.dta saved
+
 . 
 . 
 . 
@@ -812,7 +905,7 @@ end of do-file
 . timer off 1
 
 . timer list
-   1:    341.62 /        1 =     341.6250
+   1:    315.63 /        1 =     315.6350
 
 . 
 . set trace off
