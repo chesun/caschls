@@ -1,5 +1,8 @@
 ********************************************************************************
-/* Macros for common core VA project stored estimates  */
+/* Macros for common core VA project stored estimates
+NOTE: does not include estimates from the sibling acs restricted sample. Too much
+bloating in the number of files, impossible to find unique local macro names
+and it's getting out of control. */
 ********************************************************************************
 ********************************************************************************
 /* First written by Che Sun, 1/6/2022  */

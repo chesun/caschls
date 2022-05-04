@@ -21,8 +21,6 @@ set scheme s1color
 cap log close _all
 
 
-args setlimit
-
 /* file path macros  */
 include $projdir/do/share/siblingvaregs/vafilemacros.doh
 /* estimates macros  */
@@ -53,7 +51,7 @@ foreach subject in ela math {
 
 esttab using $projdir/out/csv/siblingvaregs/vam/test_score_sibling_vam.csv ///
 , replace nonumbers se(%4.3f) b(%5.3f) ///
-title("VAM Output for Sibling VA with Sibling Controls")
+title("VAM Output for Test Score VA with Sibling Controls")
 
 eststo clear
 
@@ -74,6 +72,9 @@ eststo clear
 
 timer off 1
 timer list
+
+//change directory back to my own personal directory 
+cd $projdir
 
 log close
 translate $projdir/log/share/siblingvaregs/va_sibling_vam_tab.smcl $projdir/log/share/siblingvaregs/va_sibling_vam_tab.log, replace

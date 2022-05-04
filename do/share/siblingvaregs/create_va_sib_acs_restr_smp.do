@@ -29,7 +29,7 @@ cap log close _all
 set tracedepth 2 */
 
 //starting log file
-log using $projdir/log/share/siblingvaregs/va_sib_acs_restr_smp.smcl, replace
+log using $projdir/log/share/siblingvaregs/create_va_sib_acs_restr_smp.smcl, replace
 
 /* change directory to common_core_va project directory for all value added
 do files because some called subroutines written by Matt may use relative file paths  */
@@ -49,7 +49,7 @@ timer on 1
 
 ********************************************************************************
 
-//load the VA grade 11 sample
+//load the test score VA grade 11 sample
 use `va_g11_dataset', clear
 
 //merge on to sibling outcomes crosswalk to get sibling enrollment controls
@@ -72,7 +72,7 @@ do $vaprojdir/do_files/sbac/merge_va_smp_acs.doh test_score `va_g11_sibling_data
 
 // saving the restricted sample dataset
 compress
-label data "Restrcited Test Score VA Sample with Sibling Controls and Census Controls"
+label data "Test Score VA Restrcited Sample with Sibling Controls and Census Controls"
 save $vaprojdir/data/va_samples/va_sib_acs_restr_smp.dta, replace
 
 
@@ -90,5 +90,8 @@ timer list
 
 set trace off
 
+//change directory back to my own personal directory
+cd $projdir 
+
 //translate log file into txt file
-translate $projdir/log/share/siblingvaregs/va_sib_acs_restr_smp.smcl $projdir/log/share/siblingvaregs/va_sib_acs_restr_smp.log, replace
+translate $projdir/log/share/siblingvaregs/create_va_sib_acs_restr_smp.smcl $projdir/log/share/siblingvaregs/create_va_sib_acs_restr_smp.log, replace

@@ -8,7 +8,7 @@
 
 /* IMPORTAMT: before running this master do file, make sure the directories global macros
 are set correctly in the settings.do file according to your current file structure
-cd "/home/research/ca_ed_lab/chesun/gsr/caschls"
+cd "/home/research/ca_ed_lab/users/chesun/gsr/caschls"
  */
 
 
@@ -514,6 +514,10 @@ if `do_sibling_va_regs' == 1 {
      do $projdir/do/share/siblingvaregs/create_va_sib_acs_restr_smp
      pause
 
+     /* Create the restricted sibling acs sample for outcome VA */
+     do $projdir/do/share/siblingvaregs/create_va_sib_acs_out_restr_smp
+     pause
+
      /* do file to create test score VA estimates on the restricted sample that
      only has observations with sibling controls and ACS controls, without teacher
      fixed effects or peer effects. There are 4 differentVA specifications:
@@ -522,7 +526,26 @@ if `do_sibling_va_regs' == 1 {
      3. Primary specification plus sibling controls
      4. Primary Specificationv plus ACS and sibling controls */
      do $projdir/do/share/siblingvaregs/va_sib_acs
-     pause 
+     pause
+
+     /* create outcome VA on the resitrcted sibling acs sample */
+     do $projdir/do/share/siblingvaregs/va_sib_acs_out
+     pause
+
+     /* create deep knowledge enrollment VA on sibling acs restricted sample */
+     do $projdir/do/share/siblingvaregs/va_sib_acs_out_dk
+     pause
+
+     /* create output tables for test score and outcome VAM regression coefficients
+     with sibling controls */
+     do $projdir/do/share/siblingvaregs/va_sibling_vam_tab
+     pause
+
+     /* do file to create output tables for the regression coefficients from the
+     vam regressions for test score VA and outcome VA on the sibling census
+    restricted sample. 4 specifications  */
+    do $projdir/do/share/siblingvaregs/va_sib_acs_vam_tab
+    pause
 
      /* sum stats for the enrollment VA estimates with additional demographic control
      for has at least one older sibling who enrolled in college (2 year, 4 year) */
@@ -532,6 +555,11 @@ if `do_sibling_va_regs' == 1 {
      /* do file to create a regression output table for spec test for test score VA
      with original sample, sibling sample without control, sibling sample with control */
      do $projdir/do/share/siblingvaregs/va_sibling_spec_test_tab
+     pause
+
+     /* create a regression output table for spec tests for test score VA
+     and outcome VA on the sibling census restricted sample. 4 VA specifications */
+     do $projdir/do/share/siblingvaregs/va_sib_acs_spec_test_tab
      pause
 
      /* do file to create a regression output table for forecast bias tests for test score VA

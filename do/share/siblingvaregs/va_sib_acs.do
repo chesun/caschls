@@ -80,15 +80,15 @@ foreach subject in ela math {
     // rename the va estimates and the test score residuals
     rename tv va_`subject'_og
     rename score_r `subject'_r_og
-    label var va_`subject'_og "``subject'_Str' VA OG Specification"
-    label var `subject'_r_og "Score Residual from ``subject'_Str' VA OG Specification"
+    label var va_`subject'_og "``subject'_str' VA OG Specification"
+    label var `subject'_r_og "Score Residual from ``subject'_str' VA OG Specification"
 
     *******************
     // specification test: regress score residuals on va estimates
     reg `subject'_r_og va_`subject'_og, cluster(school_id)
 
     // save spec test estimates
-    estimates save $vaprojdir/estimates/sib_acs_restr_smp/test_score_va/spec_test_va_`subject'_og.ster, replace
+    estimates save $vaprojdir/estimates/sib_acs_restr_smp/test_score_va/spec_test_`subject'_og.ster, replace
 
 
 
@@ -113,8 +113,8 @@ foreach subject in ela math {
     // rename va estimates and score residuals
     rename tv va_`subject'_acs
     rename score_r `subject'_r_acs
-    label var va_`subject'_acs "``subject'_Str' VA with Census Controls"
-    label var `subject'_r_acs "Score Residual from ``subject'_Str' VA with Census Controls"
+    label var va_`subject'_acs "``subject'_str' VA with Census Controls"
+    label var `subject'_r_acs "Score Residual from ``subject'_str' VA with Census Controls"
 
 
     *******************
@@ -154,8 +154,8 @@ foreach subject in ela math {
     //rename va estimates sand score residuals
     rename tv va_`subject'_sib
     rename score_r `subject'_r_sib
-    label var va_`subject'_sib "``subject'_Str' VA with Sibling Controls"
-    label var `subject'_r_sib "Score Residual from ``subject'_Str' VA with Sibling Controls"
+    label var va_`subject'_sib "``subject'_str' VA with Sibling Controls"
+    label var `subject'_r_sib "Score Residual from ``subject'_str' VA with Sibling Controls"
 
     *******************
     // specification test: regress score residuals on va estimates
@@ -191,13 +191,13 @@ foreach subject in ela math {
       ) ///
       data(merge tv score_r) ///
       driftlimit(`drift_limit') ///
-      estimates($vaprojdir/estimates/sib_acs_restr_smp/test_score_va/vam_`subject'_sib_acs.ster, replace)
+      estimates($vaprojdir/estimates/sib_acs_restr_smp/test_score_va/vam_`subject'_both.ster, replace)
 
       //rename va estimates sand score residuals
       rename tv va_`subject'_both
       rename score_r `subject'_r_both
-      label var va_`subject'_both "``subject'_Str' VA with Sibling and Census Controls"
-      label var `subject'_r_both "Score Residual from ``subject'_Str' VA with Sibling and Census Controls"
+      label var va_`subject'_both "``subject'_str' VA with Sibling and Census Controls"
+      label var `subject'_r_both "Score Residual from ``subject'_str' VA with Sibling and Census Controls"
 
       *******************
       // specification test: regress score residuals on va estimates
@@ -243,6 +243,9 @@ foreach subject in ela math {
 
 timer off 1
 timer list
+
+//change directory back to my own personal directory
+cd $projdir
 
 log close
 translate $projdir/log/share/siblingvaregs/va_sib_acs.smcl $projdir/log/share/siblingvaregs/va_sib_acs.log, replace
