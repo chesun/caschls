@@ -1,0 +1,2568 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
+> gvaregs/va_sib_acs_out.smcl
+  log type:  smcl
+ opened on:   3 May 2022, 22:29:44
+
+. 
+. /* change directory to common_core_va project directory for all value added
+> do files because some called subroutines written by Matt may use relative fil
+> e paths  */
+. cd $vaprojdir
+/home/research/ca_ed_lab/projects/common_core_va
+
+. 
+. /* file path macros for datasets */
+. include $projdir/do/share/siblingvaregs/vafilemacros.doh
+
+. *****************************************************************************
+> ***
+. /* Macros for common core VA project folder file paths, and relevant datasets
+>  to make it possible
+> to use Matt's doh files  */
+. *****************************************************************************
+> ***
+. *****************************************************************************
+> ***
+. /* First written by Che Sun, 12/13/2021
+> 1/27/2022: changed mattdofiles path to the do files folder in project folder
+> after Matt updated the do files to reconcile file paths. Now direct run these
+> do files from the $vaprojdir/do_files_sbac folder*/
+. 
+. /* to include this in do files:
+> include $projdir/do/share/siblingvaregs/vafilemacros.doh
+>  */
+. 
+.  local vaprojdofiles "$vaprojdir/do_files"
+
+. 
+. *** macros for my own datasets
+. local va_dataset "$projdir/dta/common_core_va/va_dataset"
+
+. local va_g11_dataset "$projdir/dta/common_core_va/va_g11_dataset"
+
+. local va_g11_out_dataset "$projdir/dta/common_core_va/va_g11_out_dataset"
+
+. local siblingxwalk "$projdir/dta/siblingxwalk/siblingpairxwalk"
+
+. local ufamilyxwalk "$projdir/dta/siblingxwalk/ufamilyxwalk"
+
+. local k12_postsecondary_out_merge "$projdir/dta/common_core_va/k12_postsecond
+> ary_out_merge"
+
+. local sibling_out_xwalk "$projdir/dta/siblingxwalk/sibling_out_xwalk"
+
+. 
+. 
+. //run Matt's do helper file to set the local macros for VA project
+. include $vaprojdir/do_files/sbac/macros_va.doh
+
+. /* CHANGE LOG
+> 4/28/2022: Added macro for sibling controls  */
+. 
+. #delimit ;
+delimiter now ;
+. *** file paths
+> local home $vaprojdir ;
+. local vaprojdofiles "$vaprojdir/do_files"
+> local ca_ed_lab "/home/research/ca_ed_lab" ;
+
+. local k12_test_scores "$vaprojdir/data/restricted_access/clean/k12_test_score
+> s" ;
+
+. local public_access "$vaprojdir/data/public_access" ;
+
+. local k12_public_schools "$vaprojdir/data/public_access/clean/k12_public_scho
+> ols" ;
+
+. local k12_test_scores_public "$vaprojdir/data/public_access/clean/k12_test_sc
+> ores" ;
+
+. **** Dates ;
+. local test_score_min_year
+>         2015
+>         ;
+
+. local test_score_max_year
+>         2018
+>         ;
+
+. local star_min_year
+>         2003
+>         ;
+
+. local star_max_year
+>         2013
+>         ;
+
+. local caaspp_min_year
+>         2015
+>         ;
+
+. local caaspp_max_year
+>         2019
+>         ;
+
+. local outcome_min_year
+>         2015
+>         ;
+
+. local outcome_max_year
+>         2018
+>         ;
+
+. **** Outcome Strings ;
+. local ela_str
+>         "ELA"
+>         ;
+
+. local math_str
+>         "Math"
+>         ;
+
+. local enr_str
+>         "Enrolled On Time"
+>         ;
+
+. local enr_2year_str
+>         "Enrolled On Time 2-Year"
+>         ;
+
+. local enr_4year_str
+>         "Enrolled On Time 4-Year"
+>         ;
+
+. **** Value Added ;
+. local school_controls
+>         /*cohort_size*/
+>         ;
+
+. local demographic_controls
+>         age
+>         i.male
+>         i.eth_asian i.eth_hispanic i.eth_black i.eth_other
+>         i.econ_disadvantage
+>         i.limited_eng_prof
+>         i.disabled
+>         ;
+
+. local peer_demographic_controls
+>         peer_age
+>         peer_male
+>         peer_eth_asian peer_eth_hispanic peer_eth_black peer_eth_other
+>         peer_econ_disadvantage
+>         peer_limited_eng_prof
+>         peer_disabled
+>         ;
+
+. local ela_score_controls
+>         i.year#(c.prior_ela_z_score##c.prior_ela_z_score##c.prior_ela_z_score
+> )
+>         ;
+
+. local peer_ela_score_controls
+>         i.year#(c.peer_prior_ela_z_score##c.peer_prior_ela_z_score##c.peer_pr
+> ior_ela_z_score)
+>         ;
+
+. local math_score_controls
+>         i.year#(c.prior_math_z_score##c.prior_math_z_score##c.prior_math_z_sc
+> ore)
+>         ;
+
+. local peer_math_score_controls
+>         i.year#(c.peer_prior_math_z_score##c.peer_prior_math_z_score##c.peer_
+> prior_math_z_score)
+>         ;
+
+. local va_control_vars "`school_controls' `demographic_controls'" ;
+
+. local va_control_vars : subinstr local va_control_vars "i." "", all ;
+
+. local va_control_vars : list uniq va_control_vars ;
+
+. local census_grade
+>         6
+>         ;
+
+. local census_controls
+>         /*eth_white_pct*/ eth_asian_pct eth_hispanic_pct eth_black_pct /*eth_
+> other_pct*/
+>         educ_hs_dropout_prop /*educ_deg_2year_prop*/ educ_deg_4year_plus_prop
+>         pov_fam_child_lt18_pct
+>         inc_median_hh
+>         ;
+
+. local sibling_controls
+>         i.has_older_sibling_enr_2year
+>         i.has_older_sibling_enr_4year
+>         ;
+
+. **** School Characteristics ;
+. local sch_chars
+>         fte_teach_pc fte_pupil_pc /*fte_admin_pc*/
+>         /*eng_learner_staff_pc*/
+>         new_teacher_prop
+>         /*educ_grad_sch_prop educ_associate_prop*/
+>         /*status_tenured_prop*/
+>         credential_full_prop
+>         /*authorization_stem_prop authorization_ela_prop*/
+>         c.male_prop##c.enr_male_prop
+>         c.eth_minority_prop##c.enr_minority_prop
+>         enr_total
+>         ;
+
+. local sch_char_vars "`sch_chars'" ;
+
+. local sch_char_vars : subinstr local sch_char_vars "i." "", all ;
+
+. local sch_char_vars : subinstr local sch_char_vars "c." "", all ;
+
+. local sch_char_vars : subinstr local sch_char_vars "##" " ", all ;
+
+. local sch_char_vars : subinstr local sch_char_vars "#" " ", all ;
+
+. local sch_char_vars : list uniq sch_char_vars ;
+
+. local dem_chars
+>         enr_male_prop
+>         enr_minority_prop
+>         frpm_prop el_prop
+>         enr_total
+>         ;
+
+. local dem_char_vars "`dem_chars'" ;
+
+. local dem_char_vars : list uniq dem_char_vars ;
+
+. local expenditures
+>         expenditures_instr_pc
+>         expenditures3000_pc
+>         expenditures4000_pc
+>         expenditures_other_pc
+>         expenditures7000_pc
+>         ;
+
+. local expenditure_vars "`expenditures'" ;
+
+. local expenditure_vars : list uniq expenditure_vars ;
+
+. local sch_char_control_vars : list sch_char_vars | dem_char_vars ;
+
+. local sch_char_control_vars : list sch_char_control_vars | expenditure_vars ;
+
+. #delimit cr
+delimiter now cr
+. 
+. 
+. macro list
+T_gm_fix_span:  0
+S_4:            .003900032715465
+S_2:            300
+S_3:            .020595561559967
+S_1:            epanechnikov
+vaprojxwalks:   /home/research/ca_ed_lab/projects/common_core_va/data/restricte
+                > d_access/clean/crosswalks
+mattxwalks:     /home/research/ca_ed_lab/users/msnaven/data/restricted_access/c
+                > lean/crosswalks
+nscdtadir_oldformat:
+                /home/research/ca_ed_lab/data/restricted_access/clean/cde_nsc/o
+                > ldformat
+nscdtadir:      /home/research/ca_ed_lab/data/restricted_access/clean/cde_nsc
+cstdtadir:      /home/research/ca_ed_lab/data/restricted_access/clean//cde/cst
+vadtadir:       /home/research/ca_ed_lab/projects/common_core_va/data/sbac
+vaprojdir:      /home/research/ca_ed_lab/projects/common_core_va
+projdir:        /home/research/ca_ed_lab/users/chesun/gsr/caschls
+clndtadir:      /home/research/ca_ed_lab/data/restricted_access/clean/calschls
+rawdtadir:      /home/research/ca_ed_lab/data/restricted_access/raw/calschls/st
+                > ata
+rawcsvdir:      /home/research/ca_ed_lab/data/restricted_access/raw/calschls/cs
+                > v
+S_level:        95
+F1:             help advice;
+F2:             describe;
+F7:             save
+F8:             use
+S_ADO:          BASE;SITE;.;PERSONAL;PLUS;OLDPLACE
+S_StataMP:      MP
+S_StataSE:      SE
+S_CONSOLE:      console
+S_OS:           Unix
+S_MACH:         PC (64-bit x86-64)
+_sch_char_control_vars:
+                fte_teach_pc fte_pupil_pc new_teacher_prop credential_full_prop
+                male_prop enr_male_prop eth_minority_prop enr_minority_prop
+                enr_total frpm_prop el_prop expenditures_instr_pc
+                expenditures3000_pc expenditures4000_pc expenditures_other_pc
+                expenditures7000_pc
+_expenditure_vars:
+                expenditures_instr_pc expenditures3000_pc expenditures4000_pc
+                expenditures_other_pc expenditures7000_pc
+_expenditures:  expenditures_instr_pc expenditures3000_pc expenditures4000_pc
+                expenditures_other_pc expenditures7000_pc
+_dem_char_vars: enr_male_prop enr_minority_prop frpm_prop el_prop enr_total
+_dem_chars:     enr_male_prop enr_minority_prop frpm_prop el_prop enr_total
+_sch_char_vars: fte_teach_pc fte_pupil_pc new_teacher_prop credential_full_prop
+                male_prop enr_male_prop eth_minority_prop enr_minority_prop
+                enr_total
+_sch_chars:     fte_teach_pc fte_pupil_pc new_teacher_prop credential_full_prop
+                c.male_prop##c.enr_male_prop
+                c.eth_minority_prop##c.enr_minority_prop enr_total
+_sibling_controls:
+                i.has_older_sibling_enr_2year i.has_older_sibling_enr_4year
+_census_controls:
+                eth_asian_pct eth_hispanic_pct eth_black_pct
+                educ_hs_dropout_prop educ_deg_4year_plus_prop
+                pov_fam_child_lt18_pct inc_median_hh
+_census_grade:  6
+_va_control_vars:
+                age male eth_asian eth_hispanic eth_black eth_other
+                econ_disadvantage limited_eng_prof disabled
+_peer_math_score_controls:
+                i.year#(c.peer_prior_math_z_score##c.peer_prior_math_z_score##c
+                > .peer_prior_math_z_score)
+_math_score_controls:
+                i.year#(c.prior_math_z_score##c.prior_math_z_score##c.prior_mat
+                > h_z_score)
+_peer_ela_score_controls:
+                i.year#(c.peer_prior_ela_z_score##c.peer_prior_ela_z_score##c.p
+                > eer_prior_ela_z_score)
+_ela_score_controls:
+                i.year#(c.prior_ela_z_score##c.prior_ela_z_score##c.prior_ela_z
+                > _score)
+_peer_demographic_controls:
+                peer_age peer_male peer_eth_asian peer_eth_hispanic
+                peer_eth_black peer_eth_other peer_econ_disadvantage
+                peer_limited_eng_prof peer_disabled
+_demographic_controls:
+                age i.male i.eth_asian i.eth_hispanic i.eth_black i.eth_other
+                i.econ_disadvantage i.limited_eng_prof i.disabled
+_enr_4year_str: Enrolled On Time 4-Year
+_enr_2year_str: Enrolled On Time 2-Year
+_enr_str:       Enrolled On Time
+_math_str:      Math
+_ela_str:       ELA
+_outcome_max_year:
+                2018
+_outcome_min_year:
+                2015
+_caaspp_max_year:
+                2019
+_caaspp_min_year:
+                2015
+_star_max_year: 2013
+_star_min_year: 2003
+_test_score_max_year:
+                2018
+_test_score_min_year:
+                2015
+_k12_test_scores_public:
+                /home/research/ca_ed_lab/projects/common_core_va/data/public_ac
+                > cess/clean/k12_test_scores
+_k12_public_schools:
+                /home/research/ca_ed_lab/projects/common_core_va/data/public_ac
+                > cess/clean/k12_public_schools
+_public_access: /home/research/ca_ed_lab/projects/common_core_va/data/public_ac
+                > cess
+_k12_test_scores:
+                /home/research/ca_ed_lab/projects/common_core_va/data/restricte
+                > d_access/clean/k12_test_scores
+_vaprojdofiles: /home/research/ca_ed_lab/projects/common_core_va/do_files"
+                local ca_ed_lab "/home/research/ca_ed_lab
+_sibling_out_xwalk:
+                /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/siblingxw
+                > alk/sibling_out_xwalk
+_k12_postsecondary_out_merge:
+                /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_co
+                > re_va/k12_postsecondary_out_merge
+_ufamilyxwalk:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/siblingxw
+                > alk/ufamilyxwalk
+_siblingxwalk:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/siblingxw
+                > alk/siblingpairxwalk
+_va_g11_out_dataset:
+                /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_co
+                > re_va/va_g11_out_dataset
+_va_g11_dataset:
+                /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_co
+                > re_va/va_g11_dataset
+_va_dataset:    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_co
+                > re_va/va_dataset
+
+. 
+. //startomg timer
+. timer on 1
+
+. 
+. 
+. 
+. 
+. *****************************************************************************
+> ***
+. 
+. local drift_limit = max(`test_score_max_year' - `test_score_min_year' - 1, 1)
+
+. 
+. 
+. *****************************************************************************
+> ***
+. *****************************************************************************
+> ***
+. /* Outcome VA, 4 specifications  */
+. 
+. foreach outcome in enr enr_2year enr_4year {
+  2.   // load the resctricted sample with sibling and acs controls
+.   use $vaprojdir/data/va_samples/va_sib_acs_out_restr_smp.dta if touse_g11_`o
+> utcome'==1, clear
+  3. 
+.   ***************************************************************************
+> *****
+.   /* Primary outcome va specification, no tfx, no peer fx, no sibling ctrl, n
+> o acs ctrl */
+.   ***************************************************************************
+> *****
+.   vam `outcome' ///
+>     , teacher(school_id) year(year) class(school_id) ///
+>     controls( ///
+>       i.year ///
+>       `school_controls' ///
+>       `demographic_controls' ///
+>       `ela_score_controls' ///
+>       `math_score_controls' ///
+>     ) ///
+>     data(merge tv score_r) ///
+>     driftlimit(`drift_limit') ///
+>     estimates($vaprojdir/estimates/sib_acs_restr_smp/outcome_va/vam_`outcome'
+> _og.ster, replace)
+  4. 
+.   // rename the va estimates and the residuals
+.   rename tv va_`outcome'_og
+  5.   rename score_r `outcome'_r_og
+  6.   label var va_`outcome'_og "``outcome'_str' VA OG Specification"
+  7.   label var `outcome'_r_og "Outcome Residual from ``outcome'_str' VA OG Sp
+> ecification"
+  8. 
+.   *******************
+.   // specification test: regress outcome residuals on va estimates
+.   reg `outcome'_r_og va_`outcome'_og, cluster(school_id)
+  9. 
+.   // save spec test estimates
+.   estimates save $vaprojdir/estimates/sib_acs_restr_smp/outcome_va/spec_test_
+> `outcome'_og.ster, replace
+ 10. 
+. 
+. 
+.   ***************************************************************************
+> *****
+.   /* Outcome VA, no tfx, no peer fx, no sibling ctrl, with acs ctrl */
+.   ***************************************************************************
+> *****
+.   vam `outcome' ///
+>     , teacher(school_id) year(year) class(school_id) ///
+>     controls( ///
+>       i.year ///
+>       `school_controls' ///
+>       `demographic_controls' ///
+>       `ela_score_controls' ///
+>       `math_score_controls' ///
+>       `census_controls' ///
+>     ) ///
+>     data(merge tv score_r) ///
+>     driftlimit(`drift_limit') ///
+>     estimates($vaprojdir/estimates/sib_acs_restr_smp/outcome_va/vam_`outcome'
+> _acs.ster, replace)
+ 11. 
+.   // rename va estimates and score residuals
+.   rename tv va_`outcome'_acs
+ 12.   rename score_r `outcome'_r_acs
+ 13.   label var va_`outcome'_acs "``outcome'_str' VA with Census Controls"
+ 14.   label var `outcome'_r_acs "Outcome Residual from ``outcome'_str' VA with
+>  Census Controls"
+ 15. 
+. 
+.   *******************
+.   // specification test: regress outcome residuals on va estimates
+.   reg `outcome'_r_acs va_`outcome'_acs, cluster(school_id)
+ 16. 
+.   estimates save $vaprojdir/estimates/sib_acs_restr_smp/outcome_va/spec_test_
+> `outcome'_acs.ster, replace
+ 17. 
+. 
+.   *******************
+.   // forecast bias test for ACS leave out vars
+. 
+.   // difference in outcome residuals
+.   gen `outcome'_r_d_og_acs = `outcome'_r_og - `outcome'_r_acs
+ 18.   // fb test
+.   reg `outcome'_r_d_og_acs va_`outcome'_og, cluster(school_id)
+ 19.   estimates save $vaprojdir/estimates/sib_acs_restr_smp/outcome_va/fb_test
+> _`outcome'_acs_og.ster, replace
+ 20. 
+. 
+. 
+. 
+.   ***************************************************************************
+> *****
+.   /* Outcome VA, no tfx, no peer fx, with sibling ctrl, no acs ctrl */
+.   ***************************************************************************
+> *****
+.   vam `outcome' ///
+>     , teacher(school_id) year(year) class(school_id) ///
+>     controls( ///
+>       i.year ///
+>       `school_controls' ///
+>       `demographic_controls' ///
+>       `ela_score_controls' ///
+>       `math_score_controls' ///
+>       `sibling_controls' ///
+>     ) ///
+>     data(merge tv score_r) ///
+>     driftlimit(`drift_limit') ///
+>     estimates($vaprojdir/estimates/sib_acs_restr_smp/outcome_va/vam_`outcome'
+> _sib.ster, replace)
+ 21. 
+.   //rename va estimates sand score residuals
+.   rename tv va_`outcome'_sib
+ 22.   rename score_r `outcome'_r_sib
+ 23.   label var va_`outcome'_sib "``outcome'_str' VA with Sibling Controls"
+ 24.   label var `outcome'_r_sib "Outcome Residual from ``outcome'_str' VA with
+>  Sibling Controls"
+ 25. 
+. 
+.   *******************
+.   // specification test: regress outcome residuals on va estimates
+.   reg `outcome'_r_sib va_`outcome'_sib, cluster(school_id)
+ 26. 
+.   estimates save $vaprojdir/estimates/sib_acs_restr_smp/outcome_va/spec_test_
+> `outcome'_sib.ster, replace
+ 27. 
+. 
+.   *******************
+.   // forecast bias test for sibling controls as leave out vars
+.   // difference in outcome residuals
+.   gen `outcome'_r_d_og_sib = `outcome'_r_og - `outcome'_r_sib
+ 28.   // fb test
+.   reg `outcome'_r_d_og_sib va_`outcome'_og, cluster(school_id)
+ 29.   estimates save $vaprojdir/estimates/sib_acs_restr_smp/outcome_va/fb_test
+> _`outcome'_sib_og.ster, replace
+ 30. 
+. 
+. 
+. 
+.   ***************************************************************************
+> *****
+.   /* Outcome VA, no tfx, no peer fx, with sibling ctrl, with acs ctrl */
+.   ***************************************************************************
+> *****
+.   vam `outcome' ///
+>     , teacher(school_id) year(year) class(school_id) ///
+>     controls( ///
+>       i.year ///
+>       `school_controls' ///
+>       `demographic_controls' ///
+>       `ela_score_controls' ///
+>       `math_score_controls' ///
+>       `sibling_controls' ///
+>       `census_controls' ///
+>     ) ///
+>     data(merge tv score_r) ///
+>     driftlimit(`drift_limit') ///
+>     estimates($vaprojdir/estimates/sib_acs_restr_smp/outcome_va/vam_`outcome'
+> _both.ster, replace)
+ 31. 
+.   //rename va estimates sand outcome residuals
+.   rename tv va_`outcome'_both
+ 32.   rename score_r `outcome'_r_both
+ 33.   label var va_`outcome'_both "``outcome'_str' VA with Sibling and Census 
+> Controls"
+ 34.   label var `outcome'_r_both "Outcome Residual from ``outcome'_str' VA wit
+> h Sibling and Census Controls"
+ 35. 
+. 
+.   *******************
+.   // specification test: regress outcome residuals on va estimates
+.   reg `outcome'_r_both va_`outcome'_both, cluster(school_id)
+ 36. 
+.   estimates save $vaprojdir/estimates/sib_acs_restr_smp/outcome_va/spec_test_
+> `outcome'_both.ster, replace
+ 37. 
+. 
+.   *******************
+.   // forecast bias test for sibling controls as leave out vars against specif
+> ication with only census controls
+.   // difference in outcome residuals with census controls and residuals with 
+> both census and sibling controls
+.   gen `outcome'_r_d_acs_both = `outcome'_r_acs - `outcome'_r_both
+ 38.   // fb test
+.   reg `outcome'_r_d_acs_both va_`outcome'_acs, cluster(school_id)
+ 39.   //naming convention: forecast bias test for leave out variables being si
+> bling controls, against VA with only acs controls
+.   estimates save $vaprojdir/estimates/sib_acs_restr_smp/outcome_va/fb_test_`o
+> utcome'_sib_acs.ster, replace
+ 40. 
+. 
+.   *******************
+.   // forecast bias test for census controls as leave out vars against specifi
+> cation with only sibling controls
+.   // difference in outcome residuals with census controls and residuals with 
+> both census and sibling controls
+.   gen `outcome'_r_d_sib_both = `outcome'_r_sib - `outcome'_r_both
+ 41.   // fb test
+.   reg `outcome'_r_d_sib_both va_`outcome'_sib, cluster(school_id)
+ 42.   estimates save $vaprojdir/estimates/sib_acs_restr_smp/outcome_va/fb_test
+> _`outcome'_acs_sib.ster, replace
+ 43. 
+. 
+. 
+. 
+. 
+.   ********* Save VA estimates
+.   collapse (firstnm) va_* ///
+>     (mean) `outcome'* ///
+>     (sum) n_g11_`outcome' = touse_g11_`outcome' ///
+>     , by(school_id cdscode grade year)
+ 44.   // save to VA project data folder
+.   save $vaprojdir/data/sib_acs_restr_smp/outcome_va/va_`outcome'_sib_acs.dta,
+>  replace
+ 45. 
+. }
+(Outcome VA Restrcited Sample with Sibling Controls and Census Controls)
+-------------------------------------------------------------------------------
+
+      Source |       SS           df       MS      Number of obs   =   433,321
+-------------+----------------------------------   F(36, 433284)   =   1626.20
+       Model |  10228.9303        36  284.136952   Prob > F        =    0.0000
+    Residual |  75705.1916   433,284   .17472418   R-squared       =    0.1190
+-------------+----------------------------------   Adj R-squared   =    0.1190
+       Total |  85934.1218   433,320  .198315614   Root MSE        =      .418
+
+------------------------------------------------------------------------------
+         enr | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        year |
+       2016  |   .0080793   .0025292     3.19   0.001     .0031221    .0130365
+       2017  |  -.0156801   .0025371    -6.18   0.000    -.0206527   -.0107075
+       2018  |  -.0285355    .002559   -11.15   0.000    -.0335511   -.0235199
+             |
+         age |  -.0001494   4.60e-06   -32.47   0.000    -.0001584   -.0001403
+             |
+        male |
+       Male  |  -.0676871   .0012993   -52.09   0.000    -.0702338   -.0651405
+ 1.eth_asian |   .0559961   .0020319    27.56   0.000     .0520136    .0599786
+1.eth_hisp~c |  -.0297156    .001782   -16.68   0.000    -.0332083   -.0262228
+ 1.eth_black |  -.0001818   .0035886    -0.05   0.960    -.0072153    .0068517
+ 1.eth_other |  -.0123152   .0038608    -3.19   0.001    -.0198823   -.0047482
+             |
+econ_disad~e |
+Economic ..  |  -.0686525   .0015103   -45.46   0.000    -.0716126   -.0656925
+             |
+limited_en~f |
+Limited E..  |  -.0494867     .00347   -14.26   0.000    -.0562877   -.0426856
+             |
+    disabled |
+   Disabled  |   -.017878   .0033913    -5.27   0.000    -.0245249   -.0112312
+             |
+        year#|
+          c. |
+prior_ela_~e |
+       2015  |   .0810289   .0025534    31.73   0.000     .0760242    .0860335
+       2016  |    .071873   .0024912    28.85   0.000     .0669903    .0767558
+       2017  |   .0743551   .0026418    28.15   0.000     .0691772     .079533
+       2018  |   .0714336   .0032906    21.71   0.000     .0649841    .0778832
+             |
+        year#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e |
+       2015  |   -.018257   .0013516   -13.51   0.000    -.0209061   -.0156078
+       2016  |  -.0226558   .0013548   -16.72   0.000    -.0253113   -.0200004
+       2017  |  -.0120325   .0014118    -8.52   0.000    -.0147995   -.0092654
+       2018  |  -.0132942   .0014084    -9.44   0.000    -.0160546   -.0105338
+             |
+        year#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e |
+       2015  |   -.000558   .0006108    -0.91   0.361    -.0017552    .0006392
+       2016  |   .0012194   .0005614     2.17   0.030     .0001191    .0023197
+       2017  |  -.0018669   .0005577    -3.35   0.001      -.00296   -.0007738
+       2018  |   -.004792   .0009243    -5.18   0.000    -.0066036   -.0029805
+             |
+        year#|
+          c. |
+prior_math~e |
+       2015  |    .056722   .0025403    22.33   0.000     .0517432    .0617009
+       2016  |   .0631796   .0025832    24.46   0.000     .0581167    .0682425
+       2017  |   .0582077   .0027163    21.43   0.000     .0528839    .0635314
+       2018  |   .0890106   .0033084    26.90   0.000     .0825263     .095495
+             |
+        year#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e |
+       2015  |   -.012016   .0016952    -7.09   0.000    -.0153386   -.0086934
+       2016  |  -.0155677   .0016532    -9.42   0.000    -.0188079   -.0123274
+       2017  |  -.0132672   .0017402    -7.62   0.000    -.0166779   -.0098565
+       2018  |  -.0028468   .0013788    -2.06   0.039    -.0055493   -.0001443
+             |
+        year#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e |
+       2015  |  -.0003835   .0006876    -0.56   0.577    -.0017312    .0009642
+       2016  |   .0006532     .00073     0.89   0.371    -.0007775     .002084
+       2017  |  -8.81e-06    .000733    -0.01   0.990    -.0014456    .0014279
+       2018  |  -.0070424   .0009087    -7.75   0.000    -.0088233   -.0052615
+             |
+       _cons |   1.721826   .0281714    61.12   0.000      1.66661    1.777041
+------------------------------------------------------------------------------
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/vam_enr_og.ster saved
+Standard deviations: total, classes, students, teachers same year
+.41800022 .07933718 .41040199 .
+Covariances (left), correlations (middle), observations (right).  Row i indicat
+> es the relation between year t and t+i:
+                 1             2             3
+    +-------------------------------------------+
+  1 |  .0052915541   .6467203864          3446  |
+  2 |  .0044355875   .5608180385          2241  |
+  3 |  .0037866653   .4972289734          1078  |
+    +-------------------------------------------+
+Drift limit specified:
+2
+Covariances used for VA computations:
+                 1
+    +---------------+
+  1 |  .0052915541  |
+  2 |  .0044355875  |
+  3 |  .0044355875  |
+    +---------------+
+-------------------------------------------------------------------------------
+
+Linear regression                               Number of obs     =    432,360
+                                                F(1, 1249)        =    3873.43
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.0234
+                                                Root MSE          =     .41288
+
+                          (Std. err. adjusted for 1,250 clusters in school_id)
+------------------------------------------------------------------------------
+             |               Robust
+    enr_r_og | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+   va_enr_og |   1.063041   .0170806    62.24   0.000     1.029532    1.096551
+       _cons |  -.0018853   .0003794    -4.97   0.000    -.0026297   -.0011409
+------------------------------------------------------------------------------
+(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_
+> restr_smp/outcome_va/spec_test_enr_og.ster not found)
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/spec_test_enr_og.ster saved
+-------------------------------------------------------------------------------
+
+      Source |       SS           df       MS      Number of obs   =   433,321
+-------------+----------------------------------   F(43, 433277)   =   1431.22
+       Model |  10687.9084        43  248.556008   Prob > F        =    0.0000
+    Residual |  75246.2135   433,277  .173667685   R-squared       =    0.1244
+-------------+----------------------------------   Adj R-squared   =    0.1243
+       Total |  85934.1218   433,320  .198315614   Root MSE        =    .41673
+
+------------------------------------------------------------------------------
+         enr | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        year |
+       2016  |   .0081336   .0025231     3.22   0.001     .0031883    .0130788
+       2017  |   -.016013   .0025361    -6.31   0.000    -.0209838   -.0110422
+       2018  |  -.0273545   .0025647   -10.67   0.000    -.0323812   -.0223278
+             |
+         age |   -.000154   4.59e-06   -33.52   0.000     -.000163    -.000145
+             |
+        male |
+       Male  |  -.0687574   .0012957   -53.07   0.000    -.0712969   -.0662179
+ 1.eth_asian |   .0478054   .0022882    20.89   0.000     .0433207    .0522902
+1.eth_hisp~c |  -.0023892   .0019763    -1.21   0.227    -.0062627    .0014843
+ 1.eth_black |   .0263821   .0037573     7.02   0.000     .0190179    .0337463
+ 1.eth_other |  -.0097234   .0038637    -2.52   0.012    -.0172962   -.0021506
+             |
+econ_disad~e |
+Economic ..  |  -.0414332    .001613   -25.69   0.000    -.0445946   -.0382718
+             |
+limited_en~f |
+Limited E..  |  -.0496326   .0034607   -14.34   0.000    -.0564154   -.0428497
+             |
+    disabled |
+   Disabled  |  -.0272253   .0033861    -8.04   0.000     -.033862   -.0205886
+             |
+        year#|
+          c. |
+prior_ela_~e |
+       2015  |   .0754515   .0025485    29.61   0.000     .0704566    .0804464
+       2016  |   .0663673   .0024865    26.69   0.000     .0614938    .0712409
+       2017  |    .067507   .0026376    25.59   0.000     .0623374    .0726766
+       2018  |    .067569   .0032819    20.59   0.000     .0611365    .0740014
+             |
+        year#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e |
+       2015  |  -.0183528   .0013478   -13.62   0.000    -.0209945   -.0157111
+       2016  |  -.0226996    .001351   -16.80   0.000    -.0253476   -.0200516
+       2017  |  -.0122603   .0014079    -8.71   0.000    -.0150196   -.0095009
+       2018  |  -.0128725   .0014043    -9.17   0.000    -.0156248   -.0101202
+             |
+        year#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e |
+       2015  |  -.0004517    .000609    -0.74   0.458    -.0016453    .0007419
+       2016  |   .0012316   .0005597     2.20   0.028     .0001346    .0023286
+       2017  |  -.0016315   .0005561    -2.93   0.003    -.0027214   -.0005416
+       2018  |  -.0048256   .0009215    -5.24   0.000    -.0066316   -.0030195
+             |
+        year#|
+          c. |
+prior_math~e |
+       2015  |    .055395    .002533    21.87   0.000     .0504305    .0603595
+       2016  |   .0618942   .0025756    24.03   0.000      .056846    .0669423
+       2017  |   .0575461   .0027084    21.25   0.000     .0522377    .0628544
+       2018  |   .0851196   .0032995    25.80   0.000     .0786526    .0915866
+             |
+        year#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e |
+       2015  |  -.0117026   .0016905    -6.92   0.000     -.015016   -.0083892
+       2016  |  -.0152358   .0016485    -9.24   0.000    -.0184669   -.0120047
+       2017  |  -.0134066   .0017351    -7.73   0.000    -.0168073   -.0100059
+       2018  |   -.004127   .0013753    -3.00   0.003    -.0068225   -.0014316
+             |
+        year#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e |
+       2015  |  -.0006396   .0006856    -0.93   0.351    -.0019834    .0007042
+       2016  |   .0004459   .0007278     0.61   0.540    -.0009806    .0018723
+       2017  |  -.0001406   .0007308    -0.19   0.847    -.0015731    .0012918
+       2018  |  -.0073478   .0009061    -8.11   0.000    -.0091236    -.005572
+             |
+eth_asian_~t |   .0006526   .0000483    13.51   0.000     .0005579    .0007473
+eth_hispan~t |  -.0003593    .000048    -7.48   0.000    -.0004535   -.0002652
+eth_black_~t |  -.0011754   .0000891   -13.19   0.000    -.0013501   -.0010008
+educ_hs_dr~p |   -.312742   .1289955    -2.42   0.015    -.5655691   -.0599148
+educ~us_prop |   .7033405   .1176949     5.98   0.000      .472662     .934019
+pov_fam_ch~t |  -.0005165   .0000735    -7.03   0.000    -.0006605   -.0003724
+inc_medi~_hh |   4.75e-07   3.34e-08    14.22   0.000     4.10e-07    5.41e-07
+       _cons |   1.705803   .0283648    60.14   0.000     1.650209    1.761397
+------------------------------------------------------------------------------
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/vam_enr_acs.ster saved
+Standard deviations: total, classes, students, teachers same year
+.41673455 .0758051 .40978198 .
+Covariances (left), correlations (middle), observations (right).  Row i indicat
+> es the relation between year t and t+i:
+                 1             2             3
+    +-------------------------------------------+
+  1 |  .0047203494   .6208461978          3446  |
+  2 |  .0038814445   .5262368355          2241  |
+  3 |  .0033683391   .4691698703          1078  |
+    +-------------------------------------------+
+Drift limit specified:
+2
+Covariances used for VA computations:
+                 1
+    +---------------+
+  1 |  .0047203494  |
+  2 |  .0038814445  |
+  3 |  .0038814445  |
+    +---------------+
+-------------------------------------------------------------------------------
+
+Linear regression                               Number of obs     =    432,360
+                                                F(1, 1249)        =    3009.56
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.0205
+                                                Root MSE          =     .41226
+
+                          (Std. err. adjusted for 1,250 clusters in school_id)
+------------------------------------------------------------------------------
+             |               Robust
+   enr_r_acs | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  va_enr_acs |   1.078942   .0196674    54.86   0.000     1.040357    1.117526
+       _cons |  -.0014381   .0003811    -3.77   0.000    -.0021857   -.0006904
+------------------------------------------------------------------------------
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/spec_test_enr_acs.ster saved
+
+Linear regression                               Number of obs     =    432,360
+                                                F(1, 1249)        =     151.29
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.0364
+                                                Root MSE          =     .03195
+
+                          (Std. err. adjusted for 1,250 clusters in school_id)
+------------------------------------------------------------------------------
+             |               Robust
+enr_r_d_og~s | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+   va_enr_og |    .103173   .0083881    12.30   0.000     .0867167    .1196293
+       _cons |  -.0001938   .0006975    -0.28   0.781    -.0015621    .0011746
+------------------------------------------------------------------------------
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/fb_test_enr_acs_og.ster saved
+-------------------------------------------------------------------------------
+
+      Source |       SS           df       MS      Number of obs   =   433,321
+-------------+----------------------------------   F(38, 433282)   =   1557.03
+       Model |  10324.8925        38  271.707698   Prob > F        =    0.0000
+    Residual |  75609.2293   433,282  .174503509   R-squared       =    0.1201
+-------------+----------------------------------   Adj R-squared   =    0.1201
+       Total |  85934.1218   433,320  .198315614   Root MSE        =    .41774
+
+------------------------------------------------------------------------------
+         enr | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        year |
+       2016  |   .0075404   .0025278     2.98   0.003     .0025861    .0124948
+       2017  |  -.0169168   .0025361    -6.67   0.000    -.0218875   -.0119461
+       2018  |   -.030238   .0025591   -11.82   0.000    -.0352537   -.0252223
+             |
+         age |  -.0001472   4.60e-06   -32.01   0.000    -.0001562   -.0001382
+             |
+        male |
+       Male  |  -.0677341   .0012985   -52.16   0.000    -.0702792   -.0651891
+ 1.eth_asian |     .05471   .0020315    26.93   0.000     .0507283    .0586917
+1.eth_hisp~c |  -.0295257   .0017813   -16.58   0.000    -.0330171   -.0260343
+ 1.eth_black |  -.0002485   .0035863    -0.07   0.945    -.0072776    .0067806
+ 1.eth_other |   -.011669   .0038585    -3.02   0.002    -.0192315   -.0041065
+             |
+econ_disad~e |
+Economic ..  |  -.0690718   .0015096   -45.76   0.000    -.0720305   -.0661131
+             |
+limited_en~f |
+Limited E..  |  -.0493925   .0034678   -14.24   0.000    -.0561893   -.0425957
+             |
+    disabled |
+   Disabled  |  -.0172004   .0033893    -5.07   0.000    -.0238433   -.0105575
+             |
+        year#|
+          c. |
+prior_ela_~e |
+       2015  |   .0809373    .002552    31.72   0.000     .0759355    .0859391
+       2016  |   .0719257   .0024899    28.89   0.000     .0670456    .0768057
+       2017  |   .0745338   .0026405    28.23   0.000     .0693585    .0797092
+       2018  |   .0710587   .0032887    21.61   0.000     .0646129    .0775045
+             |
+        year#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e |
+       2015  |  -.0181758   .0013508   -13.46   0.000    -.0208234   -.0155283
+       2016  |  -.0225298    .001354   -16.64   0.000    -.0251836   -.0198759
+       2017  |  -.0118256    .001411    -8.38   0.000    -.0145911   -.0090602
+       2018  |  -.0132348   .0014075    -9.40   0.000    -.0159936   -.0104761
+             |
+        year#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e |
+       2015  |  -.0005209   .0006104    -0.85   0.393    -.0017173    .0006755
+       2016  |   .0012196    .000561     2.17   0.030       .00012    .0023192
+       2017  |  -.0018863   .0005574    -3.38   0.001    -.0029787   -.0007938
+       2018  |  -.0046638   .0009237    -5.05   0.000    -.0064743   -.0028534
+             |
+        year#|
+          c. |
+prior_math~e |
+       2015  |   .0560606   .0025389    22.08   0.000     .0510845    .0610367
+       2016  |   .0621817   .0025819    24.08   0.000     .0571212    .0672422
+       2017  |   .0573892   .0027148    21.14   0.000     .0520682    .0627102
+       2018  |     .08816   .0033067    26.66   0.000     .0816789    .0946411
+             |
+        year#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e |
+       2015  |  -.0118983   .0016942    -7.02   0.000    -.0152189   -.0085778
+       2016  |  -.0155177   .0016522    -9.39   0.000    -.0187559   -.0122795
+       2017  |  -.0132504   .0017391    -7.62   0.000     -.016659   -.0098418
+       2018  |  -.0027031   .0013781    -1.96   0.050    -.0054041   -2.12e-06
+             |
+        year#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e |
+       2015  |  -.0003558   .0006872    -0.52   0.605    -.0017027     .000991
+       2016  |    .000749   .0007295     1.03   0.305    -.0006808    .0021789
+       2017  |    .000068   .0007326     0.09   0.926    -.0013678    .0015039
+       2018  |    -.00689   .0009081    -7.59   0.000    -.0086699   -.0051102
+             |
+1.has_~2year |   .0192949   .0025053     7.70   0.000     .0143846    .0242052
+1.has_~4year |    .058537   .0027063    21.63   0.000     .0532328    .0638412
+       _cons |   1.704774   .0281646    60.53   0.000     1.649573    1.759976
+------------------------------------------------------------------------------
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/vam_enr_sib.ster saved
+Standard deviations: total, classes, students, teachers same year
+.41773617 .07912378 .41017428 .
+Covariances (left), correlations (middle), observations (right).  Row i indicat
+> es the relation between year t and t+i:
+                 1             2             3
+    +-------------------------------------------+
+  1 |  .0052640688   .6462596709          3446  |
+  2 |  .0044106222   .5602091837          2241  |
+  3 |  .0037574775   .4958062058          1078  |
+    +-------------------------------------------+
+Drift limit specified:
+2
+Covariances used for VA computations:
+                 1
+    +---------------+
+  1 |  .0052640688  |
+  2 |  .0044106222  |
+  3 |  .0044106222  |
+    +---------------+
+-------------------------------------------------------------------------------
+
+Linear regression                               Number of obs     =    432,360
+                                                F(1, 1249)        =    3867.42
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.0233
+                                                Root MSE          =     .41264
+
+                          (Std. err. adjusted for 1,250 clusters in school_id)
+------------------------------------------------------------------------------
+             |               Robust
+   enr_r_sib | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  va_enr_sib |   1.062476   .0170847    62.19   0.000     1.028958    1.095994
+       _cons |  -.0018553   .0003792    -4.89   0.000    -.0025993   -.0011114
+------------------------------------------------------------------------------
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/spec_test_enr_sib.ster saved
+
+Linear regression                               Number of obs     =    432,360
+                                                F(1, 1249)        =      16.98
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.0001
+                                                Root MSE          =     .01488
+
+                          (Std. err. adjusted for 1,250 clusters in school_id)
+------------------------------------------------------------------------------
+             |               Robust
+enr_r_d_og~b | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+   va_enr_og |   .0027057   .0006566     4.12   0.000     .0014175    .0039939
+       _cons |  -4.28e-06   .0000478    -0.09   0.929     -.000098    .0000895
+------------------------------------------------------------------------------
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/fb_test_enr_sib_og.ster saved
+-------------------------------------------------------------------------------
+
+      Source |       SS           df       MS      Number of obs   =   433,321
+-------------+----------------------------------   F(45, 433275)   =   1381.71
+       Model |  10784.3516        45  239.652258   Prob > F        =    0.0000
+    Residual |  75149.7702   433,275  .173445895   R-squared       =    0.1255
+-------------+----------------------------------   Adj R-squared   =    0.1254
+       Total |  85934.1218   433,320  .198315614   Root MSE        =    .41647
+
+------------------------------------------------------------------------------
+         enr | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        year |
+       2016  |   .0076016   .0025217     3.01   0.003     .0026592     .012544
+       2017  |  -.0172541   .0025352    -6.81   0.000    -.0222231   -.0122852
+       2018  |  -.0290849   .0025648   -11.34   0.000    -.0341118   -.0240581
+             |
+         age |  -.0001518   4.59e-06   -33.05   0.000    -.0001608   -.0001428
+             |
+        male |
+       Male  |  -.0688058   .0012948   -53.14   0.000    -.0713437    -.066268
+ 1.eth_asian |   .0463526   .0022876    20.26   0.000     .0418689    .0508362
+1.eth_hisp~c |  -.0021444   .0019754    -1.09   0.278    -.0060161    .0017273
+ 1.eth_black |   .0263248   .0037549     7.01   0.000     .0189653    .0336843
+ 1.eth_other |   -.009125   .0038614    -2.36   0.018    -.0166931   -.0015568
+             |
+econ_disad~e |
+Economic ..  |   -.041899   .0016122   -25.99   0.000    -.0450588   -.0387392
+             |
+limited_en~f |
+Limited E..  |  -.0495545   .0034585   -14.33   0.000     -.056333   -.0427759
+             |
+    disabled |
+   Disabled  |  -.0265603   .0033841    -7.85   0.000     -.033193   -.0199275
+             |
+        year#|
+          c. |
+prior_ela_~e |
+       2015  |    .075351    .002547    29.58   0.000      .070359    .0803431
+       2016  |   .0664173   .0024851    26.73   0.000     .0615465    .0712881
+       2017  |   .0677005   .0026363    25.68   0.000     .0625336    .0728675
+       2018  |   .0672069     .00328    20.49   0.000     .0607782    .0736356
+             |
+        year#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e |
+       2015  |  -.0182644    .001347   -13.56   0.000    -.0209044   -.0156243
+       2016  |  -.0225655   .0013502   -16.71   0.000    -.0252119   -.0199192
+       2017  |  -.0120425    .001407    -8.56   0.000    -.0148002   -.0092848
+       2018  |  -.0128054   .0014034    -9.12   0.000     -.015556   -.0100548
+             |
+        year#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e |
+       2015  |   -.000415   .0006086    -0.68   0.495    -.0016078    .0007779
+       2016  |   .0012312   .0005594     2.20   0.028     .0001349    .0023275
+       2017  |  -.0016539   .0005557    -2.98   0.003    -.0027431   -.0005646
+       2018  |  -.0046972   .0009209    -5.10   0.000    -.0065022   -.0028922
+             |
+        year#|
+          c. |
+prior_math~e |
+       2015  |    .054745   .0025315    21.63   0.000     .0497833    .0597067
+       2016  |   .0609059   .0025744    23.66   0.000     .0558602    .0659516
+       2017  |   .0567424   .0027069    20.96   0.000     .0514369    .0620479
+       2018  |   .0842769   .0032979    25.55   0.000     .0778132    .0907406
+             |
+        year#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e |
+       2015  |  -.0115729   .0016895    -6.85   0.000    -.0148842   -.0082616
+       2016  |  -.0151776   .0016475    -9.21   0.000    -.0184066   -.0119486
+       2017  |  -.0133841    .001734    -7.72   0.000    -.0167827   -.0099856
+       2018  |  -.0039722   .0013745    -2.89   0.004    -.0066662   -.0012783
+             |
+        year#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e |
+       2015  |  -.0006153   .0006852    -0.90   0.369    -.0019582    .0007276
+       2016  |   .0005401   .0007274     0.74   0.458    -.0008855    .0019657
+       2017  |   -.000065   .0007304    -0.09   0.929    -.0014966    .0013665
+       2018  |  -.0071943   .0009055    -7.95   0.000    -.0089691   -.0054196
+             |
+1.has_~2year |    .020184   .0024985     8.08   0.000     .0152871    .0250809
+1.has_~4year |    .058327   .0026993    21.61   0.000     .0530365    .0636175
+eth_asian_~t |   .0006606   .0000483    13.68   0.000      .000566    .0007553
+eth_hispan~t |  -.0003624    .000048    -7.55   0.000    -.0004565   -.0002683
+eth_black_~t |  -.0011839   .0000891   -13.29   0.000    -.0013585   -.0010094
+educ_hs_dr~p |  -.3367706   .1289176    -2.61   0.009    -.5894452   -.0840959
+educ~us_prop |   .7409006   .1176436     6.30   0.000     .5103227    .9714785
+pov_fam_ch~t |  -.0005168   .0000735    -7.04   0.000    -.0006608   -.0003728
+inc_medi~_hh |   4.58e-07   3.34e-08    13.71   0.000     3.93e-07    5.24e-07
+       _cons |   1.689598   .0283573    59.58   0.000     1.634018    1.745177
+------------------------------------------------------------------------------
+(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_
+> restr_smp/outcome_va/vam_enr_both.ster not found)
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/vam_enr_both.ster saved
+Standard deviations: total, classes, students, teachers same year
+.41646836 .0755283 .40956241 .
+Covariances (left), correlations (middle), observations (right).  Row i indicat
+> es the relation between year t and t+i:
+                 1             2             3
+    +-------------------------------------------+
+  1 |  .0046842304   .6197800818          3446  |
+  2 |  .0038480169   .5248522647          2241  |
+  3 |  .0033322607   .4670068082          1078  |
+    +-------------------------------------------+
+Drift limit specified:
+2
+Covariances used for VA computations:
+                 1
+    +---------------+
+  1 |  .0046842304  |
+  2 |  .0038480169  |
+  3 |  .0038480169  |
+    +---------------+
+-------------------------------------------------------------------------------
+
+Linear regression                               Number of obs     =    432,360
+                                                F(1, 1249)        =    2983.92
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.0203
+                                                Root MSE          =     .41203
+
+                          (Std. err. adjusted for 1,250 clusters in school_id)
+------------------------------------------------------------------------------
+             |               Robust
+  enr_r_both | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ va_enr_both |   1.078706   .0197474    54.63   0.000     1.039965    1.117448
+       _cons |  -.0014076   .0003811    -3.69   0.000    -.0021553   -.0006598
+------------------------------------------------------------------------------
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/spec_test_enr_both.ster saved
+
+Linear regression                               Number of obs     =    432,360
+                                                F(1, 1249)        =      38.38
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.0003
+                                                Root MSE          =     .01492
+
+                          (Std. err. adjusted for 1,250 clusters in school_id)
+------------------------------------------------------------------------------
+             |               Robust
+enr_r_d_ac~h | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  va_enr_acs |   .0042772   .0006904     6.20   0.000     .0029228    .0056317
+       _cons |  -5.66e-06   .0000459    -0.12   0.902    -.0000957    .0000844
+------------------------------------------------------------------------------
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/fb_test_enr_sib_acs.ster saved
+
+Linear regression                               Number of obs     =    432,360
+                                                F(1, 1249)        =     154.21
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.0372
+                                                Root MSE          =     .03195
+
+                          (Std. err. adjusted for 1,250 clusters in school_id)
+------------------------------------------------------------------------------
+             |               Robust
+enr_r_d_si~h | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  va_enr_sib |   .1046817   .0084298    12.42   0.000     .0881436    .1212198
+       _cons |   -.000194   .0006955    -0.28   0.780    -.0015586    .0011705
+------------------------------------------------------------------------------
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/fb_test_enr_acs_sib.ster saved
+file
+    /home/research/ca_ed_lab/projects/common_core_va/data/sib_acs_restr_smp/o
+    > utcome_va/va_enr_sib_acs.dta saved
+(Outcome VA Restrcited Sample with Sibling Controls and Census Controls)
+-------------------------------------------------------------------------------
+
+      Source |       SS           df       MS      Number of obs   =   433,321
+-------------+----------------------------------   F(36, 433284)   =    675.15
+       Model |  5306.93704        36  147.414918   Prob > F        =    0.0000
+    Residual |  94604.6607   433,284  .218343305   R-squared       =    0.0531
+-------------+----------------------------------   Adj R-squared   =    0.0530
+       Total |  99911.5978   433,320   .23057232   Root MSE        =    .46727
+
+------------------------------------------------------------------------------
+   enr_2year | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        year |
+       2016  |  -.0089381   .0028274    -3.16   0.002    -.0144796   -.0033966
+       2017  |  -.0365328   .0028361   -12.88   0.000    -.0420915   -.0309741
+       2018  |  -.0110887   .0028606    -3.88   0.000    -.0166955    -.005482
+             |
+         age |   -.000074   5.14e-06   -14.38   0.000     -.000084   -.0000639
+             |
+        male |
+       Male  |   .0219846   .0014525    15.14   0.000     .0191378    .0248314
+ 1.eth_asian |   -.010686   .0022714    -4.70   0.000     -.015138   -.0062341
+1.eth_hisp~c |  -.0068752   .0019921    -3.45   0.001    -.0107796   -.0029707
+ 1.eth_black |   -.038048   .0040116    -9.48   0.000    -.0459106   -.0301854
+ 1.eth_other |   .0018867   .0043159     0.44   0.662    -.0065724    .0103457
+             |
+econ_disad~e |
+Economic ..  |  -.0256155   .0016883   -15.17   0.000    -.0289245   -.0223065
+             |
+limited_en~f |
+Limited E..  |  -.0248342    .003879    -6.40   0.000    -.0324369   -.0172315
+             |
+    disabled |
+   Disabled  |    .029782    .003791     7.86   0.000     .0223517    .0372124
+             |
+        year#|
+          c. |
+prior_ela_~e |
+       2015  |  -.0602651   .0028544   -21.11   0.000    -.0658596   -.0546705
+       2016  |  -.0561696   .0027849   -20.17   0.000    -.0616278   -.0507113
+       2017  |  -.0519059   .0029532   -17.58   0.000    -.0576941   -.0461177
+       2018  |  -.0263823   .0036785    -7.17   0.000    -.0335921   -.0191726
+             |
+        year#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e |
+       2015  |  -.0420911    .001511   -27.86   0.000    -.0450525   -.0391297
+       2016  |  -.0408767   .0015145   -26.99   0.000    -.0438452   -.0379082
+       2017  |   -.031305   .0015782   -19.84   0.000    -.0343983   -.0282118
+       2018  |  -.0322875   .0015744   -20.51   0.000    -.0353733   -.0292017
+             |
+        year#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e |
+       2015  |   .0109504   .0006828    16.04   0.000     .0096121    .0122887
+       2016  |   .0107875   .0006276    17.19   0.000     .0095575    .0120175
+       2017  |   .0083695   .0006234    13.42   0.000     .0071476    .0095915
+       2018  |   .0042003   .0010332     4.07   0.000     .0021753    .0062254
+             |
+        year#|
+          c. |
+prior_math~e |
+       2015  |  -.0656146   .0028397   -23.11   0.000    -.0711803   -.0600488
+       2016  |  -.0660868   .0028876   -22.89   0.000    -.0717465   -.0604271
+       2017  |  -.0669177   .0030364   -22.04   0.000     -.072869   -.0609664
+       2018  |   -.055986   .0036983   -15.14   0.000    -.0632347   -.0487374
+             |
+        year#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e |
+       2015  |  -.0298069    .001895   -15.73   0.000    -.0335212   -.0260927
+       2016  |  -.0338855   .0018481   -18.34   0.000    -.0375077   -.0302634
+       2017  |  -.0266691   .0019453   -13.71   0.000    -.0304819   -.0228563
+       2018  |  -.0360506   .0015414   -23.39   0.000    -.0390716   -.0330296
+             |
+        year#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e |
+       2015  |   .0097658   .0007687    12.71   0.000     .0082592    .0112723
+       2016  |   .0115171    .000816    14.11   0.000     .0099178    .0131165
+       2017  |   .0092879   .0008195    11.33   0.000     .0076818     .010894
+       2018  |    .002163   .0010158     2.13   0.033     .0001722    .0041539
+             |
+       _cons |   .9127041   .0314921    28.98   0.000     .8509805    .9744277
+------------------------------------------------------------------------------
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/vam_enr_2year_og.ster saved
+Standard deviations: total, classes, students, teachers same year
+.4672722 .09864404 .45674135 .
+Covariances (left), correlations (middle), observations (right).  Row i indicat
+> es the relation between year t and t+i:
+                 1             2             3
+    +-------------------------------------------+
+  1 |  .0091692745   .7456888287          3446  |
+  2 |  .0083130812   .6818006704          2241  |
+  3 |  .0074336527   .6292131052          1078  |
+    +-------------------------------------------+
+Drift limit specified:
+2
+Covariances used for VA computations:
+                 1
+    +---------------+
+  1 |  .0091692745  |
+  2 |  .0083130812  |
+  3 |  .0083130812  |
+    +---------------+
+-------------------------------------------------------------------------------
+
+Linear regression                               Number of obs     =    432,360
+                                                F(1, 1249)        =   14544.08
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.0354
+                                                Root MSE          =     .45889
+
+                          (Std. err. adjusted for 1,250 clusters in school_id)
+------------------------------------------------------------------------------
+             |               Robust
+enr_2year_~g | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+va_enr_2ye~g |   .9880147   .0081926   120.60   0.000      .971942    1.004087
+       _cons |  -.0012025   .0003926    -3.06   0.002    -.0019727   -.0004323
+------------------------------------------------------------------------------
+(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_
+> restr_smp/outcome_va/spec_test_enr_2year_og.ster not found)
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/spec_test_enr_2year_og.ster saved
+-------------------------------------------------------------------------------
+
+      Source |       SS           df       MS      Number of obs   =   433,321
+-------------+----------------------------------   F(43, 433277)   =    649.08
+       Model |  6046.47826        43  140.615773   Prob > F        =    0.0000
+    Residual |  93865.1195   433,277  .216639977   R-squared       =    0.0605
+-------------+----------------------------------   Adj R-squared   =    0.0604
+       Total |  99911.5978   433,320   .23057232   Root MSE        =    .46545
+
+------------------------------------------------------------------------------
+   enr_2year | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        year |
+       2016  |  -.0067902   .0028181    -2.41   0.016    -.0123135   -.0012669
+       2017  |  -.0338324   .0028326   -11.94   0.000    -.0393842   -.0282806
+       2018  |  -.0079825   .0028645    -2.79   0.005    -.0135968   -.0023683
+             |
+         age |  -.0000738   5.13e-06   -14.38   0.000    -.0000838   -.0000637
+             |
+        male |
+       Male  |   .0211608   .0014471    14.62   0.000     .0183245    .0239971
+ 1.eth_asian |  -.0224241   .0025556    -8.77   0.000    -.0274331   -.0174151
+1.eth_hisp~c |   .0118536   .0022073     5.37   0.000     .0075273    .0161798
+ 1.eth_black |  -.0142296   .0041965    -3.39   0.001    -.0224546   -.0060046
+ 1.eth_other |   .0003487   .0043154     0.08   0.936    -.0081093    .0088067
+             |
+econ_disad~e |
+Economic ..  |   -.018224   .0018015   -10.12   0.000     -.021755   -.0146931
+             |
+limited_en~f |
+Limited E..  |  -.0262846   .0038652    -6.80   0.000    -.0338602   -.0187089
+             |
+    disabled |
+   Disabled  |     .02605   .0037819     6.89   0.000     .0186376    .0334625
+             |
+        year#|
+          c. |
+prior_ela_~e |
+       2015  |   -.063496   .0028464   -22.31   0.000    -.0690747   -.0579172
+       2016  |  -.0592859   .0027772   -21.35   0.000    -.0647291   -.0538427
+       2017  |  -.0542098   .0029459   -18.40   0.000    -.0599836   -.0484359
+       2018  |  -.0279827   .0036655    -7.63   0.000     -.035167   -.0207983
+             |
+        year#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e |
+       2015  |  -.0407144   .0015054   -27.05   0.000    -.0436649   -.0377639
+       2016  |  -.0394647    .001509   -26.15   0.000    -.0424222   -.0365072
+       2017  |  -.0296997   .0015724   -18.89   0.000    -.0327816   -.0266178
+       2018  |  -.0311641   .0015684   -19.87   0.000    -.0342381   -.0280901
+             |
+        year#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e |
+       2015  |   .0109282   .0006802    16.07   0.000     .0095951    .0122613
+       2016  |   .0107666   .0006251    17.22   0.000     .0095414    .0119919
+       2017  |   .0082518   .0006211    13.29   0.000     .0070346    .0094691
+       2018  |   .0043407   .0010292     4.22   0.000     .0023235    .0063579
+             |
+        year#|
+          c. |
+prior_math~e |
+       2015  |  -.0645866    .002829   -22.83   0.000    -.0701314   -.0590418
+       2016  |  -.0651312   .0028767   -22.64   0.000    -.0707694    -.059493
+       2017  |  -.0655843    .003025   -21.68   0.000    -.0715131   -.0596554
+       2018  |  -.0576221   .0036852   -15.64   0.000    -.0648451   -.0503992
+             |
+        year#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e |
+       2015  |  -.0275217   .0018881   -14.58   0.000    -.0312224    -.023821
+       2016  |  -.0320706   .0018412   -17.42   0.000    -.0356793   -.0284619
+       2017  |  -.0256213   .0019379   -13.22   0.000    -.0294195   -.0218231
+       2018  |  -.0348175    .001536   -22.67   0.000     -.037828   -.0318069
+             |
+        year#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e |
+       2015  |   .0091505   .0007657    11.95   0.000     .0076496    .0106513
+       2016  |   .0110588   .0008129    13.60   0.000     .0094656     .012652
+       2017  |   .0090272   .0008163    11.06   0.000     .0074274    .0106271
+       2018  |   .0025854    .001012     2.55   0.011      .000602    .0045688
+             |
+eth_asian_~t |   .0006863    .000054    12.72   0.000     .0005805     .000792
+eth_hispan~t |  -.0010306   .0000536   -19.21   0.000    -.0011358   -.0009255
+eth_black_~t |  -.0025235   .0000995   -25.36   0.000    -.0027185   -.0023284
+educ_hs_dr~p |  -2.115741   .1440735   -14.69   0.000    -2.398121   -1.833362
+educ~us_prop |   -1.82378   .1314521   -13.87   0.000    -2.081423   -1.566138
+pov_fam_ch~t |   -.001292   .0000821   -15.74   0.000    -.0014529   -.0011311
+inc_medi~_hh |  -1.21e-06   3.73e-08   -32.39   0.000    -1.28e-06   -1.14e-06
+       _cons |   1.079887   .0316803    34.09   0.000     1.017794    1.141979
+------------------------------------------------------------------------------
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/vam_enr_2year_acs.ster saved
+Standard deviations: total, classes, students, teachers same year
+.465446 .08837523 .45697899 .
+Covariances (left), correlations (middle), observations (right).  Row i indicat
+> es the relation between year t and t+i:
+                 1             2             3
+    +-------------------------------------------+
+  1 |  .0071697442   .6943884532          3446  |
+  2 |  .0063339158   .6166365994          2241  |
+  3 |  .0055979858   .5589865645          1078  |
+    +-------------------------------------------+
+Drift limit specified:
+2
+Covariances used for VA computations:
+                 1
+    +---------------+
+  1 |  .0071697442  |
+  2 |  .0063339158  |
+  3 |  .0063339158  |
+    +---------------+
+-------------------------------------------------------------------------------
+
+Linear regression                               Number of obs     =    432,360
+                                                F(1, 1249)        =    9630.60
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.0269
+                                                Root MSE          =      .4591
+
+                          (Std. err. adjusted for 1,250 clusters in school_id)
+------------------------------------------------------------------------------
+             |               Robust
+enr_2year_~s | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+va_enr_2ye~s |   .9928397    .010117    98.14   0.000     .9729915    1.012688
+       _cons |  -.0011973   .0004174    -2.87   0.004    -.0020163   -.0003783
+------------------------------------------------------------------------------
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/spec_test_enr_2year_acs.ster saved
+
+Linear regression                               Number of obs     =    432,360
+                                                F(1, 1249)        =     257.00
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.0991
+                                                Root MSE          =     .03921
+
+                          (Std. err. adjusted for 1,250 clusters in school_id)
+------------------------------------------------------------------------------
+             |               Robust
+enr_2y~g_acs | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+va_enr_2ye~g |   .1461276   .0091152    16.03   0.000     .1282447    .1640105
+       _cons |   -.000212   .0008046    -0.26   0.792    -.0017906    .0013665
+------------------------------------------------------------------------------
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/fb_test_enr_2year_acs_og.ster saved
+-------------------------------------------------------------------------------
+
+      Source |       SS           df       MS      Number of obs   =   433,321
+-------------+----------------------------------   F(38, 433282)   =    694.92
+       Model |   5739.4278        38  151.037574   Prob > F        =    0.0000
+    Residual |    94172.17   433,282  .217346139   R-squared       =    0.0574
+-------------+----------------------------------   Adj R-squared   =    0.0574
+       Total |  99911.5978   433,320   .23057232   Root MSE        =     .4662
+
+------------------------------------------------------------------------------
+   enr_2year | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        year |
+       2016  |  -.0092785   .0028211    -3.29   0.001    -.0148077   -.0037493
+       2017  |  -.0369742   .0028304   -13.06   0.000    -.0425217   -.0314268
+       2018  |  -.0127956    .002856    -4.48   0.000    -.0183932    -.007198
+             |
+         age |  -.0000735   5.13e-06   -14.32   0.000    -.0000836   -.0000634
+             |
+        male |
+       Male  |   .0221581   .0014492    15.29   0.000     .0193178    .0249984
+ 1.eth_asian |   -.011008   .0022672    -4.86   0.000    -.0154516   -.0065643
+1.eth_hisp~c |  -.0087946    .001988    -4.42   0.000     -.012691   -.0048981
+ 1.eth_black |  -.0382891   .0040024    -9.57   0.000    -.0461337   -.0304445
+ 1.eth_other |   .0012086   .0043061     0.28   0.779    -.0072313    .0096485
+             |
+econ_disad~e |
+Economic ..  |   -.026349   .0016847   -15.64   0.000     -.029651   -.0230471
+             |
+limited_en~f |
+Limited E..  |   -.025508   .0038702    -6.59   0.000    -.0330934   -.0179226
+             |
+    disabled |
+   Disabled  |   .0299755   .0037825     7.92   0.000     .0225618    .0373892
+             |
+        year#|
+          c. |
+prior_ela_~e |
+       2015  |  -.0588603   .0028481   -20.67   0.000    -.0644424   -.0532782
+       2016  |  -.0546739   .0027787   -19.68   0.000    -.0601201   -.0492276
+       2017  |  -.0498852   .0029469   -16.93   0.000     -.055661   -.0441094
+       2018  |   -.024776   .0036703    -6.75   0.000    -.0319697   -.0175824
+             |
+        year#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e |
+       2015  |  -.0417918   .0015075   -27.72   0.000    -.0447465   -.0388371
+       2016  |  -.0405195   .0015111   -26.81   0.000    -.0434813   -.0375578
+       2017  |  -.0310362   .0015747   -19.71   0.000    -.0341224   -.0279499
+       2018  |  -.0320509   .0015708   -20.40   0.000    -.0351297   -.0289722
+             |
+        year#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e |
+       2015  |   .0107814   .0006813    15.83   0.000     .0094462    .0121167
+       2016  |   .0106275   .0006261    16.97   0.000     .0094003    .0118547
+       2017  |   .0081858    .000622    13.16   0.000     .0069666     .009405
+       2018  |   .0039853   .0010309     3.87   0.000     .0019648    .0060058
+             |
+        year#|
+          c. |
+prior_math~e |
+       2015  |  -.0644287   .0028335   -22.74   0.000    -.0699822   -.0588752
+       2016  |  -.0645742   .0028815   -22.41   0.000    -.0702219   -.0589265
+       2017  |  -.0654964   .0030298   -21.62   0.000    -.0714347    -.059558
+       2018  |  -.0535633   .0036904   -14.51   0.000    -.0607964   -.0463303
+             |
+        year#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e |
+       2015  |   -.029553   .0018907   -15.63   0.000    -.0332588   -.0258473
+       2016  |  -.0335699   .0018439   -18.21   0.000    -.0371838    -.029956
+       2017  |  -.0265182   .0019409   -13.66   0.000    -.0303222   -.0227141
+       2018  |  -.0353596    .001538   -22.99   0.000     -.038374   -.0323453
+             |
+        year#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e |
+       2015  |   .0096488   .0007669    12.58   0.000     .0081457    .0111519
+       2016  |   .0113395   .0008142    13.93   0.000     .0097438    .0129353
+       2017  |   .0091818   .0008176    11.23   0.000     .0075794    .0107843
+       2018  |   .0019426   .0010135     1.92   0.055    -.0000438     .003929
+             |
+1.has_~2year |   .1009133    .002796    36.09   0.000     .0954333    .1063934
+1.has_~4year |  -.0857727   .0030203   -28.40   0.000    -.0916924   -.0798531
+       _cons |   .9087471   .0314324    28.91   0.000     .8471404    .9703537
+------------------------------------------------------------------------------
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/vam_enr_2year_sib.ster saved
+Standard deviations: total, classes, students, teachers same year
+.46620397 .09684315 .45603459 .
+Covariances (left), correlations (middle), observations (right).  Row i indicat
+> es the relation between year t and t+i:
+                 1             2             3
+    +-------------------------------------------+
+  1 |  .0088227344   .7388064792          3446  |
+  2 |  .0079764817   .6738271472          2241  |
+  3 |  .0071159463   .6211271005          1078  |
+    +-------------------------------------------+
+Drift limit specified:
+2
+Covariances used for VA computations:
+                 1
+    +---------------+
+  1 |  .0088227344  |
+  2 |  .0079764817  |
+  3 |  .0079764817  |
+    +---------------+
+-------------------------------------------------------------------------------
+
+Linear regression                               Number of obs     =    432,360
+                                                F(1, 1249)        =   13961.99
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.0341
+                                                Root MSE          =     .45816
+
+                          (Std. err. adjusted for 1,250 clusters in school_id)
+------------------------------------------------------------------------------
+             |               Robust
+enr_2year_~b | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+va_enr_2ye~b |   .9888667   .0083688   118.16   0.000     .9724482    1.005285
+       _cons |  -.0012356   .0003926    -3.15   0.002    -.0020058   -.0004654
+------------------------------------------------------------------------------
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/spec_test_enr_2year_sib.ster saved
+
+Linear regression                               Number of obs     =    432,360
+                                                F(1, 1249)        =     531.29
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.0030
+                                                Root MSE          =     .03155
+
+                          (Std. err. adjusted for 1,250 clusters in school_id)
+------------------------------------------------------------------------------
+             |               Robust
+enr_2y~g_sib | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+va_enr_2ye~g |    .019575   .0008493    23.05   0.000     .0179088    .0212411
+       _cons |  -.0000228   .0000725    -0.31   0.753    -.0001649    .0001194
+------------------------------------------------------------------------------
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/fb_test_enr_2year_sib_og.ster saved
+-------------------------------------------------------------------------------
+
+      Source |       SS           df       MS      Number of obs   =   433,321
+-------------+----------------------------------   F(45, 433275)   =    664.44
+       Model |  6449.71307        45  143.326957   Prob > F        =    0.0000
+    Residual |  93461.8847   433,275   .21571031   R-squared       =    0.0646
+-------------+----------------------------------   Adj R-squared   =    0.0645
+       Total |  99911.5978   433,320   .23057232   Root MSE        =    .46445
+
+------------------------------------------------------------------------------
+   enr_2year | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        year |
+       2016  |   -.007184   .0028122    -2.55   0.011    -.0126957   -.0016722
+       2017  |  -.0343633   .0028273   -12.15   0.000    -.0399046   -.0288219
+       2018  |  -.0097422   .0028602    -3.41   0.001    -.0153482   -.0041363
+             |
+         age |  -.0000734   5.12e-06   -14.33   0.000    -.0000834   -.0000633
+             |
+        male |
+       Male  |   .0213279    .001444    14.77   0.000     .0184977    .0241581
+ 1.eth_asian |   -.022396   .0025511    -8.78   0.000    -.0273961   -.0173958
+1.eth_hisp~c |   .0100405    .002203     4.56   0.000     .0057227    .0143582
+ 1.eth_black |   -.014483   .0041875    -3.46   0.001    -.0226903   -.0062756
+ 1.eth_other |  -.0001549   .0043062    -0.04   0.971    -.0085949    .0082851
+             |
+econ_disad~e |
+Economic ..  |  -.0186725   .0017979   -10.39   0.000    -.0221963   -.0151487
+             |
+limited_en~f |
+Limited E..  |  -.0268896   .0038569    -6.97   0.000     -.034449   -.0193301
+             |
+    disabled |
+   Disabled  |   .0261939    .003774     6.94   0.000     .0187971    .0335908
+             |
+        year#|
+          c. |
+prior_ela_~e |
+       2015  |  -.0621542   .0028404   -21.88   0.000    -.0677214   -.0565871
+       2016  |  -.0578566   .0027714   -20.88   0.000    -.0632885   -.0524247
+       2017  |  -.0523027     .00294   -17.79   0.000    -.0580649   -.0465404
+       2018  |  -.0264612   .0036578    -7.23   0.000    -.0336305   -.0192919
+             |
+        year#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e |
+       2015  |  -.0404552   .0015022   -26.93   0.000    -.0433993    -.037511
+       2016  |  -.0391482   .0015058   -26.00   0.000    -.0420995    -.036197
+       2017  |   -.029475   .0015691   -18.78   0.000    -.0325504   -.0263996
+       2018  |  -.0309542    .001565   -19.78   0.000    -.0340216   -.0278867
+             |
+        year#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e |
+       2015  |   .0107676   .0006787    15.86   0.000     .0094373    .0120978
+       2016  |    .010613   .0006238    17.01   0.000     .0093903    .0118356
+       2017  |   .0080797   .0006197    13.04   0.000      .006865    .0092944
+       2018  |    .004131    .001027     4.02   0.000     .0021181     .006144
+             |
+        year#|
+          c. |
+prior_math~e |
+       2015  |  -.0635005   .0028232   -22.49   0.000    -.0690339   -.0579672
+       2016  |  -.0637312    .002871   -22.20   0.000    -.0693582   -.0581043
+       2017  |  -.0642672   .0030188   -21.29   0.000    -.0701839   -.0583505
+       2018  |  -.0553158   .0036778   -15.04   0.000    -.0625241   -.0481074
+             |
+        year#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e |
+       2015  |  -.0273181   .0018841   -14.50   0.000    -.0310109   -.0236253
+       2016  |   -.031798   .0018373   -17.31   0.000     -.035399    -.028197
+       2017  |  -.0254996   .0019337   -13.19   0.000    -.0292897   -.0217096
+       2018  |   -.034189   .0015328   -22.30   0.000    -.0371933   -.0311847
+             |
+        year#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e |
+       2015  |    .009048   .0007641    11.84   0.000     .0075504    .0105456
+       2016  |   .0108962   .0008112    13.43   0.000     .0093064     .012486
+       2017  |   .0089304   .0008145    10.96   0.000     .0073339    .0105268
+       2018  |   .0023626   .0010098     2.34   0.019     .0003834    .0043418
+             |
+1.has_~2year |   .0982552   .0027863    35.26   0.000     .0927942    .1037163
+1.has_~4year |  -.0817593   .0030102   -27.16   0.000    -.0876593   -.0758594
+eth_asian_~t |   .0006711   .0000538    12.47   0.000     .0005656    .0007767
+eth_hispan~t |  -.0010107   .0000535   -18.88   0.000    -.0011157   -.0009058
+eth_black_~t |  -.0024888   .0000993   -25.06   0.000    -.0026834   -.0022941
+educ_hs_dr~p |  -2.085219   .1437692   -14.50   0.000    -2.367002   -1.803436
+educ~us_prop |   -1.76247   .1311964   -13.43   0.000    -2.019611   -1.505329
+pov_fam_ch~t |  -.0012689   .0000819   -15.49   0.000    -.0014295   -.0011084
+inc_medi~_hh |  -1.17e-06   3.73e-08   -31.52   0.000    -1.25e-06   -1.10e-06
+       _cons |    1.07184   .0316241    33.89   0.000     1.009858    1.133823
+------------------------------------------------------------------------------
+(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_
+> restr_smp/outcome_va/vam_enr_2year_both.ster not found)
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/vam_enr_2year_both.ster saved
+Standard deviations: total, classes, students, teachers same year
+.46444624 .08684284 .45625501 .
+Covariances (left), correlations (middle), observations (right).  Row i indicat
+> es the relation between year t and t+i:
+                 1             2             3
+    +-------------------------------------------+
+  1 |  .0069088135   .6870797675          3446  |
+  2 |  .0060834846    .608348157          2241  |
+  3 |   .005366043    .551039979          1078  |
+    +-------------------------------------------+
+Drift limit specified:
+2
+Covariances used for VA computations:
+                 1
+    +---------------+
+  1 |  .0069088135  |
+  2 |  .0060834846  |
+  3 |  .0060834846  |
+    +---------------+
+-------------------------------------------------------------------------------
+note: label truncated to 80 characters
+
+Linear regression                               Number of obs     =    432,360
+                                                F(1, 1249)        =    9234.95
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.0259
+                                                Root MSE          =     .45835
+
+                          (Std. err. adjusted for 1,250 clusters in school_id)
+------------------------------------------------------------------------------
+             |               Robust
+enr_2year_~h | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+va_enr_2ye~h |   .9937878   .0103413    96.10   0.000     .9734996    1.014076
+       _cons |   -.001221   .0004175    -2.92   0.004    -.0020401   -.0004019
+------------------------------------------------------------------------------
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/spec_test_enr_2year_both.ster saved
+
+Linear regression                               Number of obs     =    432,360
+                                                F(1, 1249)        =     400.48
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.0023
+                                                Root MSE          =     .03047
+
+                          (Std. err. adjusted for 1,250 clusters in school_id)
+------------------------------------------------------------------------------
+             |               Robust
+enr_2~s_both | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+va_enr_2ye~s |   .0191169   .0009553    20.01   0.000     .0172428     .020991
+       _cons |  -.0000217   .0000691    -0.31   0.754    -.0001573    .0001139
+------------------------------------------------------------------------------
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/fb_test_enr_2year_sib_acs.ster saved
+
+Linear regression                               Number of obs     =    432,360
+                                                F(1, 1249)        =     256.60
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.0979
+                                                Root MSE          =     .03845
+
+                          (Std. err. adjusted for 1,250 clusters in school_id)
+------------------------------------------------------------------------------
+             |               Robust
+enr_2~b_both | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+va_enr_2ye~b |   .1455452   .0090859    16.02   0.000     .1277198    .1633705
+       _cons |  -.0002149   .0007861    -0.27   0.785    -.0017571    .0013274
+------------------------------------------------------------------------------
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/fb_test_enr_2year_acs_sib.ster saved
+file
+    /home/research/ca_ed_lab/projects/common_core_va/data/sib_acs_restr_smp/o
+    > utcome_va/va_enr_2year_sib_acs.dta saved
+(Outcome VA Restrcited Sample with Sibling Controls and Census Controls)
+-------------------------------------------------------------------------------
+
+      Source |       SS           df       MS      Number of obs   =   433,321
+-------------+----------------------------------   F(36, 433284)   =   3794.78
+       Model |  24123.3457        36  670.092936   Prob > F        =    0.0000
+    Residual |  76510.5204   433,284  .176582843   R-squared       =    0.2397
+-------------+----------------------------------   Adj R-squared   =    0.2397
+       Total |  100633.866   433,320  .232239145   Root MSE        =    .42022
+
+------------------------------------------------------------------------------
+   enr_4year | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        year |
+       2016  |   .0170174   .0025426     6.69   0.000     .0120339    .0220009
+       2017  |   .0208527   .0025505     8.18   0.000     .0158538    .0258516
+       2018  |  -.0174468   .0025726    -6.78   0.000    -.0224889   -.0124046
+             |
+         age |  -.0000754   4.62e-06   -16.30   0.000    -.0000845   -.0000663
+             |
+        male |
+       Male  |  -.0896718   .0013062   -68.65   0.000    -.0922319   -.0871116
+ 1.eth_asian |   .0666822   .0020427    32.64   0.000     .0626785    .0706858
+1.eth_hisp~c |  -.0228404   .0017915   -12.75   0.000    -.0263517   -.0193291
+ 1.eth_black |   .0378663   .0036076    10.50   0.000     .0307954    .0449371
+ 1.eth_other |  -.0142019   .0038813    -3.66   0.000    -.0218091   -.0065947
+             |
+econ_disad~e |
+Economic ..  |   -.043037   .0015183   -28.35   0.000    -.0460128   -.0400612
+             |
+limited_en~f |
+Limited E..  |  -.0246525   .0034884    -7.07   0.000    -.0314896   -.0178154
+             |
+    disabled |
+   Disabled  |  -.0476601   .0034093   -13.98   0.000    -.0543422    -.040978
+             |
+        year#|
+          c. |
+prior_ela_~e |
+       2015  |    .141294    .002567    55.04   0.000     .1362628    .1463251
+       2016  |   .1280426   .0025044    51.13   0.000      .123134    .1329512
+       2017  |    .126261   .0026558    47.54   0.000     .1210556    .1314663
+       2018  |    .097816   .0033081    29.57   0.000     .0913322    .1042997
+             |
+        year#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e |
+       2015  |   .0238341   .0013588    17.54   0.000     .0211709    .0264974
+       2016  |   .0182209    .001362    13.38   0.000     .0155513    .0208904
+       2017  |   .0192726   .0014193    13.58   0.000     .0164908    .0220543
+       2018  |   .0189933   .0014159    13.41   0.000     .0162182    .0217683
+             |
+        year#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e |
+       2015  |  -.0115084   .0006141   -18.74   0.000    -.0127119   -.0103048
+       2016  |  -.0095681   .0005644   -16.95   0.000    -.0106742    -.008462
+       2017  |  -.0102364   .0005607   -18.26   0.000    -.0113353   -.0091375
+       2018  |  -.0089923   .0009292    -9.68   0.000    -.0108135   -.0071712
+             |
+        year#|
+          c. |
+prior_math~e |
+       2015  |   .1223366   .0025537    47.90   0.000     .1173313    .1273419
+       2016  |   .1292664   .0025969    49.78   0.000     .1241766    .1343562
+       2017  |   .1251254   .0027307    45.82   0.000     .1197734    .1304774
+       2018  |   .1449967   .0033259    43.60   0.000      .138478    .1515154
+             |
+        year#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e |
+       2015  |    .017791   .0017042    10.44   0.000     .0144507    .0211312
+       2016  |   .0183179    .001662    11.02   0.000     .0150605    .0215753
+       2017  |   .0134019   .0017494     7.66   0.000      .009973    .0168307
+       2018  |   .0332038   .0013861    23.95   0.000      .030487    .0359206
+             |
+        year#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e |
+       2015  |  -.0101493   .0006913   -14.68   0.000    -.0115041   -.0087944
+       2016  |  -.0108639   .0007338   -14.80   0.000    -.0123022   -.0094256
+       2017  |  -.0092967   .0007369   -12.62   0.000    -.0107411   -.0078524
+       2018  |  -.0092054   .0009135   -10.08   0.000    -.0109958   -.0074151
+             |
+       _cons |   .8091215   .0283209    28.57   0.000     .7536135    .8646295
+------------------------------------------------------------------------------
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/vam_enr_4year_og.ster saved
+Standard deviations: total, classes, students, teachers same year
+.42021761 .09076733 .41029762 .
+Covariances (left), correlations (middle), observations (right).  Row i indicat
+> es the relation between year t and t+i:
+                 1             2             3
+    +-------------------------------------------+
+  1 |  .0078651885   .7685891339          3446  |
+  2 |  .0076158063   .7454884994          2241  |
+  3 |  .0071373031   .7121331728          1078  |
+    +-------------------------------------------+
+Drift limit specified:
+2
+Covariances used for VA computations:
+                 1
+    +---------------+
+  1 |  .0078651885  |
+  2 |  .0076158063  |
+  3 |  .0076158063  |
+    +---------------+
+-------------------------------------------------------------------------------
+
+Linear regression                               Number of obs     =    432,360
+                                                F(1, 1249)        =   25080.36
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.0392
+                                                Root MSE          =     .41195
+
+                          (Std. err. adjusted for 1,250 clusters in school_id)
+------------------------------------------------------------------------------
+             |               Robust
+enr_4year_~g | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+va_enr_4ye~g |   1.021815   .0064522   158.37   0.000     1.009157    1.034474
+       _cons |   -.000361   .0002427    -1.49   0.137    -.0008371    .0001151
+------------------------------------------------------------------------------
+(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_
+> restr_smp/outcome_va/spec_test_enr_4year_og.ster not found)
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/spec_test_enr_4year_og.ster saved
+-------------------------------------------------------------------------------
+
+      Source |       SS           df       MS      Number of obs   =   433,321
+-------------+----------------------------------   F(43, 433277)   =   3325.64
+       Model |  24972.0834        43  580.746125   Prob > F        =    0.0000
+    Residual |  75661.7828   433,277  .174626816   R-squared       =    0.2481
+-------------+----------------------------------   Adj R-squared   =    0.2481
+       Total |  100633.866   433,320  .232239145   Root MSE        =    .41788
+
+------------------------------------------------------------------------------
+   enr_4year | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        year |
+       2016  |   .0149238   .0025301     5.90   0.000     .0099649    .0198827
+       2017  |   .0178194   .0025431     7.01   0.000     .0128349    .0228039
+       2018  |   -.019372   .0025718    -7.53   0.000    -.0244126   -.0143314
+             |
+         age |  -.0000802   4.61e-06   -17.42   0.000    -.0000893   -.0000712
+             |
+        male |
+       Male  |  -.0899182   .0012992   -69.21   0.000    -.0924646   -.0873717
+ 1.eth_asian |   .0702295   .0022945    30.61   0.000     .0657324    .0747266
+1.eth_hisp~c |  -.0142427   .0019817    -7.19   0.000    -.0181269   -.0103586
+ 1.eth_black |   .0406117   .0037677    10.78   0.000     .0332271    .0479962
+ 1.eth_other |  -.0100721   .0038744    -2.60   0.009    -.0176657   -.0024784
+             |
+econ_disad~e |
+Economic ..  |  -.0232092   .0016174   -14.35   0.000    -.0263793    -.020039
+             |
+limited_en~f |
+Limited E..  |   -.023348   .0034702    -6.73   0.000    -.0301495   -.0165465
+             |
+    disabled |
+   Disabled  |  -.0532753   .0033955   -15.69   0.000    -.0599304   -.0466203
+             |
+        year#|
+          c. |
+prior_ela_~e |
+       2015  |   .1389475   .0025555    54.37   0.000     .1339388    .1439561
+       2016  |   .1256532   .0024934    50.39   0.000     .1207662    .1305402
+       2017  |   .1217168   .0026448    46.02   0.000      .116533    .1269006
+       2018  |   .0955516    .003291    29.03   0.000     .0891014    .1020018
+             |
+        year#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e |
+       2015  |   .0223616   .0013515    16.55   0.000     .0197126    .0250105
+       2016  |   .0167651   .0013548    12.37   0.000     .0141098    .0194204
+       2017  |   .0174394   .0014117    12.35   0.000     .0146725    .0202064
+       2018  |   .0182916   .0014081    12.99   0.000     .0155317    .0210515
+             |
+        year#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e |
+       2015  |    -.01138   .0006107   -18.64   0.000    -.0125768   -.0101831
+       2016  |  -.0095351   .0005612   -16.99   0.000    -.0106351   -.0084351
+       2017  |  -.0098833   .0005576   -17.72   0.000    -.0109762   -.0087905
+       2018  |  -.0091663    .000924    -9.92   0.000    -.0109773   -.0073552
+             |
+        year#|
+          c. |
+prior_math~e |
+       2015  |   .1199816   .0025399    47.24   0.000     .1150034    .1249598
+       2016  |   .1270254   .0025827    49.18   0.000     .1219634    .1320874
+       2017  |   .1231303   .0027159    45.34   0.000     .1178073    .1284533
+       2018  |   .1427417   .0033086    43.14   0.000     .1362569    .1492266
+             |
+        year#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e |
+       2015  |   .0158191   .0016952     9.33   0.000     .0124966    .0191416
+       2016  |   .0168348   .0016531    10.18   0.000     .0135948    .0200748
+       2017  |   .0122147   .0017399     7.02   0.000     .0088047    .0156248
+       2018  |   .0306904    .001379    22.25   0.000     .0279875    .0333933
+             |
+        year#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e |
+       2015  |  -.0097901   .0006875   -14.24   0.000    -.0111375   -.0084426
+       2016  |   -.010613   .0007298   -14.54   0.000    -.0120434   -.0091825
+       2017  |  -.0091679   .0007329   -12.51   0.000    -.0106043   -.0077315
+       2018  |  -.0099332   .0009086   -10.93   0.000     -.011714   -.0081525
+             |
+eth_asian_~t |  -.0000337   .0000484    -0.70   0.487    -.0001286    .0000613
+eth_hispan~t |   .0006713   .0000482    13.94   0.000     .0005769    .0007657
+eth_black_~t |    .001348   .0000894    15.09   0.000     .0011729    .0015231
+educ_hs_dr~p |   1.802999   .1293512    13.94   0.000     1.549475    2.056524
+educ~us_prop |   2.527121   .1180195    21.41   0.000     2.295806    2.758436
+pov_fam_ch~t |   .0007755   .0000737    10.52   0.000     .0006311      .00092
+inc_medi~_hh |   1.68e-06   3.35e-08    50.26   0.000     1.62e-06    1.75e-06
+       _cons |   .6259165    .028443    22.01   0.000     .5701691     .681664
+------------------------------------------------------------------------------
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/vam_enr_4year_acs.ster saved
+Standard deviations: total, classes, students, teachers same year
+.41788373 .08021234 .41011315 .
+Covariances (left), correlations (middle), observations (right).  Row i indicat
+> es the relation between year t and t+i:
+                 1             2             3
+    +-------------------------------------------+
+  1 |  .0060578702   .7196331671          3446  |
+  2 |  .0058319363   .6912552188          2241  |
+  3 |  .0053691267   .6484538174          1078  |
+    +-------------------------------------------+
+Drift limit specified:
+2
+Covariances used for VA computations:
+                 1
+    +---------------+
+  1 |  .0060578702  |
+  2 |  .0058319363  |
+  3 |  .0058319363  |
+    +---------------+
+-------------------------------------------------------------------------------
+
+Linear regression                               Number of obs     =    432,360
+                                                F(1, 1249)        =   14223.46
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.0294
+                                                Root MSE          =     .41174
+
+                          (Std. err. adjusted for 1,250 clusters in school_id)
+------------------------------------------------------------------------------
+             |               Robust
+enr_4year_~s | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+va_enr_4ye~s |   1.029627   .0086333   119.26   0.000      1.01269    1.046565
+       _cons |  -.0000903   .0002621    -0.34   0.730    -.0006046    .0004239
+------------------------------------------------------------------------------
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/spec_test_enr_4year_acs.ster saved
+
+Linear regression                               Number of obs     =    432,360
+                                                F(1, 1249)        =     160.69
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.1012
+                                                Root MSE          =     .04197
+
+                          (Std. err. adjusted for 1,250 clusters in school_id)
+------------------------------------------------------------------------------
+             |               Robust
+enr_4y~g_acs | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+va_enr_4ye~g |   .1730192   .0136488    12.68   0.000      .146242    .1997964
+       _cons |  -.0000545   .0009495    -0.06   0.954    -.0019174    .0018084
+------------------------------------------------------------------------------
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/fb_test_enr_4year_acs_og.ster saved
+-------------------------------------------------------------------------------
+
+      Source |       SS           df       MS      Number of obs   =   433,321
+-------------+----------------------------------   F(38, 433282)   =   3722.81
+       Model |  24769.6899        38  651.833945   Prob > F        =    0.0000
+    Residual |  75864.1762   433,282  .175091918   R-squared       =    0.2461
+-------------+----------------------------------   Adj R-squared   =    0.2461
+       Total |  100633.866   433,320  .232239145   Root MSE        =    .41844
+
+------------------------------------------------------------------------------
+   enr_4year | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        year |
+       2016  |   .0168189    .002532     6.64   0.000     .0118562    .0217816
+       2017  |   .0200574   .0025404     7.90   0.000     .0150783    .0250366
+       2018  |  -.0174424   .0025634    -6.80   0.000    -.0224666   -.0124183
+             |
+         age |  -.0000737   4.61e-06   -16.00   0.000    -.0000827   -.0000646
+             |
+        male |
+       Male  |  -.0898922   .0013007   -69.11   0.000    -.0924415   -.0873429
+ 1.eth_asian |    .065718   .0020349    32.29   0.000     .0617295    .0697064
+1.eth_hisp~c |  -.0207311   .0017843   -11.62   0.000    -.0242284   -.0172339
+ 1.eth_black |   .0380406   .0035924    10.59   0.000     .0309997    .0450815
+ 1.eth_other |  -.0128776    .003865    -3.33   0.001    -.0204528   -.0053023
+             |
+econ_disad~e |
+Economic ..  |  -.0427228   .0015121   -28.25   0.000    -.0456864   -.0397591
+             |
+limited_en~f |
+Limited E..  |  -.0238845   .0034736    -6.88   0.000    -.0306927   -.0170763
+             |
+    disabled |
+   Disabled  |  -.0471759    .003395   -13.90   0.000      -.05383   -.0405218
+             |
+        year#|
+          c. |
+prior_ela_~e |
+       2015  |   .1397976   .0025563    54.69   0.000     .1347874    .1448078
+       2016  |   .1265995    .002494    50.76   0.000     .1217113    .1314878
+       2017  |    .124419    .002645    47.04   0.000      .119235    .1296031
+       2018  |   .0958347   .0032943    29.09   0.000     .0893781    .1022914
+             |
+        year#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e |
+       2015  |    .023616   .0013531    17.45   0.000      .020964     .026268
+       2016  |   .0179898   .0013563    13.26   0.000     .0153314    .0206481
+       2017  |   .0192105   .0014133    13.59   0.000     .0164404    .0219806
+       2018  |   .0188161   .0014099    13.35   0.000     .0160527    .0215795
+             |
+        year#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e |
+       2015  |  -.0113024   .0006115   -18.48   0.000    -.0125008   -.0101039
+       2016  |  -.0094079    .000562   -16.74   0.000    -.0105094   -.0083065
+       2017  |  -.0100721   .0005583   -18.04   0.000    -.0111663   -.0089778
+       2018  |  -.0086491   .0009253    -9.35   0.000    -.0104626   -.0068356
+             |
+        year#|
+          c. |
+prior_math~e |
+       2015  |   .1204893   .0025432    47.38   0.000     .1155048    .1254738
+       2016  |   .1267559   .0025863    49.01   0.000     .1216869     .131825
+       2017  |   .1228856   .0027194    45.19   0.000     .1175556    .1282155
+       2018  |   .1417233   .0033123    42.79   0.000     .1352313    .1482153
+             |
+        year#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e |
+       2015  |   .0176547    .001697    10.40   0.000     .0143286    .0209808
+       2016  |   .0180522    .001655    10.91   0.000     .0148086    .0212959
+       2017  |   .0132677    .001742     7.62   0.000     .0098534    .0166821
+       2018  |   .0326565   .0013804    23.66   0.000      .029951     .035362
+             |
+        year#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e |
+       2015  |  -.0100047   .0006883   -14.53   0.000    -.0113538   -.0086556
+       2016  |  -.0105905   .0007308   -14.49   0.000    -.0120228   -.0091583
+       2017  |  -.0091138   .0007338   -12.42   0.000    -.0105521   -.0076755
+       2018  |  -.0088326   .0009096    -9.71   0.000    -.0106155   -.0070498
+             |
+1.has_~2year |  -.0816184   .0025095   -32.52   0.000     -.086537   -.0766998
+1.has_~4year |   .1443097   .0027108    53.23   0.000     .1389966    .1496228
+       _cons |   .7960273   .0282121    28.22   0.000     .7407325    .8513221
+------------------------------------------------------------------------------
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/vam_enr_4year_sib.ster saved
+Standard deviations: total, classes, students, teachers same year
+.41843986 .08861706 .40894857 .
+Covariances (left), correlations (middle), observations (right).  Row i indicat
+> es the relation between year t and t+i:
+                 1             2             3
+    +-------------------------------------------+
+  1 |  .0074940413   .7613671776          3446  |
+  2 |  .0072319033   .7367994935          2241  |
+  3 |  .0067499152   .7022210602          1078  |
+    +-------------------------------------------+
+Drift limit specified:
+2
+Covariances used for VA computations:
+                 1
+    +---------------+
+  1 |  .0074940413  |
+  2 |  .0072319033  |
+  3 |  .0072319033  |
+    +---------------+
+-------------------------------------------------------------------------------
+
+Linear regression                               Number of obs     =    432,360
+                                                F(1, 1249)        =   23010.97
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.0374
+                                                Root MSE          =     .41059
+
+                          (Std. err. adjusted for 1,250 clusters in school_id)
+------------------------------------------------------------------------------
+             |               Robust
+enr_4year_~b | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+va_enr_4ye~b |   1.022189   .0067385   151.69   0.000     1.008969     1.03541
+       _cons |  -.0003367   .0002457    -1.37   0.171    -.0008188    .0001454
+------------------------------------------------------------------------------
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/spec_test_enr_4year_sib.ster saved
+
+Linear regression                               Number of obs     =    432,360
+                                                F(1, 1249)        =     546.56
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.0030
+                                                Root MSE          =     .03857
+
+                          (Std. err. adjusted for 1,250 clusters in school_id)
+------------------------------------------------------------------------------
+             |               Robust
+enr_4y~g_sib | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+va_enr_4ye~g |   .0257992   .0011035    23.38   0.000     .0236342    .0279642
+       _cons |  -.0000151   .0000874    -0.17   0.863    -.0001866    .0001564
+------------------------------------------------------------------------------
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/fb_test_enr_4year_sib_og.ster saved
+-------------------------------------------------------------------------------
+
+      Source |       SS           df       MS      Number of obs   =   433,321
+-------------+----------------------------------   F(45, 433275)   =   3280.85
+       Model |   25575.948        45  568.354399   Prob > F        =    0.0000
+    Residual |  75057.9182   433,275    .1732339   R-squared       =    0.2541
+-------------+----------------------------------   Adj R-squared   =    0.2541
+       Total |  100633.866   433,320  .232239145   Root MSE        =    .41621
+
+------------------------------------------------------------------------------
+   enr_4year | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        year |
+       2016  |   .0147855   .0025201     5.87   0.000     .0098462    .0197249
+       2017  |   .0171092   .0025337     6.75   0.000     .0121433    .0220751
+       2018  |  -.0193427   .0025632    -7.55   0.000    -.0243664   -.0143189
+             |
+         age |  -.0000784   4.59e-06   -17.09   0.000    -.0000874   -.0000694
+             |
+        male |
+       Male  |  -.0901337   .0012941   -69.65   0.000      -.09267   -.0875974
+ 1.eth_asian |   .0687485   .0022862    30.07   0.000     .0642676    .0732294
+1.eth_hisp~c |  -.0121849   .0019742    -6.17   0.000    -.0160543   -.0083156
+ 1.eth_black |   .0408078   .0037526    10.87   0.000     .0334528    .0481628
+ 1.eth_other |  -.0089701    .003859    -2.32   0.020    -.0165336   -.0014066
+             |
+econ_disad~e |
+Economic ..  |  -.0232265   .0016112   -14.42   0.000    -.0263843   -.0200686
+             |
+limited_en~f |
+Limited E..  |  -.0226649   .0034564    -6.56   0.000    -.0294393   -.0158905
+             |
+    disabled |
+   Disabled  |  -.0527542    .003382   -15.60   0.000    -.0593829   -.0461255
+             |
+        year#|
+          c. |
+prior_ela_~e |
+       2015  |   .1375053   .0025454    54.02   0.000     .1325163    .1424943
+       2016  |   .1242739   .0024836    50.04   0.000     .1194061    .1291417
+       2017  |   .1200032   .0026346    45.55   0.000     .1148394     .125167
+       2018  |   .0936681    .003278    28.57   0.000     .0872434    .1000929
+             |
+        year#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e |
+       2015  |   .0221908   .0013462    16.48   0.000     .0195523    .0248292
+       2016  |   .0165827   .0013494    12.29   0.000      .013938    .0192275
+       2017  |   .0174324   .0014061    12.40   0.000     .0146764    .0201884
+       2018  |   .0181488   .0014025    12.94   0.000     .0153999    .0208977
+             |
+        year#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e#|
+          c. |
+prior_ela_~e |
+       2015  |  -.0111825   .0006082   -18.39   0.000    -.0123747   -.0099904
+       2016  |  -.0093817    .000559   -16.78   0.000    -.0104774   -.0082861
+       2017  |  -.0097335   .0005554   -17.53   0.000    -.0108221    -.008645
+       2018  |  -.0088282   .0009204    -9.59   0.000    -.0106321   -.0070244
+             |
+        year#|
+          c. |
+prior_math~e |
+       2015  |   .1182455     .00253    46.74   0.000     .1132868    .1232042
+       2016  |   .1246371   .0025728    48.44   0.000     .1195945    .1296798
+       2017  |   .1210096   .0027053    44.73   0.000     .1157073    .1263119
+       2018  |   .1395927   .0032959    42.35   0.000     .1331329    .1460525
+             |
+        year#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e |
+       2015  |   .0157452   .0016884     9.33   0.000     .0124359    .0190545
+       2016  |   .0166204   .0016465    10.09   0.000     .0133934    .0198475
+       2017  |   .0121155   .0017329     6.99   0.000     .0087191     .015512
+       2018  |   .0302168   .0013736    22.00   0.000     .0275245    .0329091
+             |
+        year#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e#|
+          c. |
+prior_math~e |
+       2015  |  -.0096633   .0006847   -14.11   0.000    -.0110054   -.0083212
+       2016  |  -.0103561   .0007269   -14.25   0.000    -.0117808   -.0089313
+       2017  |  -.0089954   .0007299   -12.32   0.000    -.0104261   -.0075647
+       2018  |  -.0095569    .000905   -10.56   0.000    -.0113306   -.0077833
+             |
+1.has_~2year |  -.0780712   .0024969   -31.27   0.000    -.0829651   -.0731773
+1.has_~4year |   .1400864   .0026976    51.93   0.000     .1347991    .1453736
+eth_asian_~t |  -.0000105   .0000482    -0.22   0.828    -.0001051    .0000841
+eth_hispan~t |   .0006483    .000048    13.51   0.000     .0005543    .0007424
+eth_black_~t |   .0013049    .000089    14.66   0.000     .0011304    .0014793
+educ_hs_dr~p |   1.748449   .1288388    13.57   0.000     1.495928    2.000969
+educ~us_prop |   2.503371   .1175717    21.29   0.000     2.272934    2.733808
+pov_fam_ch~t |   .0007521   .0000734    10.25   0.000     .0006082     .000896
+inc_medi~_hh |   1.63e-06   3.34e-08    48.89   0.000     1.57e-06    1.70e-06
+       _cons |   .6177572     .02834    21.80   0.000     .5622117    .6733027
+------------------------------------------------------------------------------
+(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_
+> restr_smp/outcome_va/vam_enr_4year_both.ster not found)
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/vam_enr_4year_both.ster saved
+Standard deviations: total, classes, students, teachers same year
+.41621377 .07835815 .40877121 .
+Covariances (left), correlations (middle), observations (right).  Row i indicat
+> es the relation between year t and t+i:
+                 1             2             3
+    +-------------------------------------------+
+  1 |   .005776478   .7115603293          3446  |
+  2 |  .0055393277   .6815302009          2241  |
+  3 |  .0050799247   .6377364727          1078  |
+    +-------------------------------------------+
+Drift limit specified:
+2
+Covariances used for VA computations:
+                 1
+    +---------------+
+  1 |   .005776478  |
+  2 |  .0055393277  |
+  3 |  .0055393277  |
+    +---------------+
+-------------------------------------------------------------------------------
+note: label truncated to 80 characters
+
+Linear regression                               Number of obs     =    432,360
+                                                F(1, 1249)        =   13094.44
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.0281
+                                                Root MSE          =     .41038
+
+                          (Std. err. adjusted for 1,250 clusters in school_id)
+------------------------------------------------------------------------------
+             |               Robust
+enr_4year_~h | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+va_enr_4ye~h |   1.030506   .0090055   114.43   0.000     1.012839    1.048174
+       _cons |  -.0000587   .0002649    -0.22   0.825    -.0005784     .000461
+------------------------------------------------------------------------------
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/spec_test_enr_4year_both.ster saved
+
+Linear regression                               Number of obs     =    432,360
+                                                F(1, 1249)        =     427.70
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.0023
+                                                Root MSE          =     .03729
+
+                          (Std. err. adjusted for 1,250 clusters in school_id)
+------------------------------------------------------------------------------
+             |               Robust
+enr_4~s_both | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+va_enr_4ye~s |   .0259315   .0012539    20.68   0.000     .0234715    .0283914
+       _cons |  -8.16e-06   .0000822    -0.10   0.921    -.0001695    .0001532
+------------------------------------------------------------------------------
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/fb_test_enr_4year_sib_acs.ster saved
+
+Linear regression                               Number of obs     =    432,360
+                                                F(1, 1249)        =     159.80
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.1007
+                                                Root MSE          =     .04092
+
+                          (Std. err. adjusted for 1,250 clusters in school_id)
+------------------------------------------------------------------------------
+             |               Robust
+enr_4~b_both | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+va_enr_4ye~b |    .172904   .0136777    12.64   0.000     .1460702    .1997377
+       _cons |  -.0000514   .0009241    -0.06   0.956    -.0018643    .0017615
+------------------------------------------------------------------------------
+file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_s
+> mp/outcome_va/fb_test_enr_4year_acs_sib.ster saved
+file
+    /home/research/ca_ed_lab/projects/common_core_va/data/sib_acs_restr_smp/o
+    > utcome_va/va_enr_4year_sib_acs.dta saved
+
+. 
+. 
+. 
+. 
+. 
+. timer off 1
+
+. timer list
+   1:     91.28 /        1 =      91.2760
+
+. 
+. //change directory back to my own personal directory
+. cd $projdir 
+/home/research/ca_ed_lab/users/chesun/gsr/caschls
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
+> gvaregs/va_sib_acs_out.smcl
+  log type:  smcl
+ closed on:   3 May 2022, 22:31:16
+-------------------------------------------------------------------------------

@@ -567,6 +567,9 @@ if `do_sibling_va_regs' == 1 {
      do $projdir/do/share/siblingvaregs/va_sibling_fb_test_tab
      pause
 
+
+     /* Regress outcomes on test score VA and DK VA */
+
 }
 
 

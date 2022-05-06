@@ -3,18 +3,22 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/createvasample.smcl
   log type:  smcl
- opened on:   9 Apr 2022, 00:45:56
+ opened on:   3 May 2022, 18:40:04
 
 . 
 . 
 . //run the do helper file to set the local macros
-. include `vaprojdofiles'/sbac/macros_va.doh
+. include $vaprojdir/do_files/sbac/macros_va.doh
 
+. /* CHANGE LOG
+> 4/28/2022: Added macro for sibling controls  */
+. 
 . #delimit ;
 delimiter now ;
 . *** file paths
 > local home $vaprojdir ;
-. local ca_ed_lab "/home/research/ca_ed_lab" ;
+. local vaprojdofiles "$vaprojdir/do_files"
+> local ca_ed_lab "/home/research/ca_ed_lab" ;
 
 . local k12_test_scores "$vaprojdir/data/restricted_access/clean/k12_test_score
 > s" ;
@@ -142,6 +146,11 @@ delimiter now ;
 >         inc_median_hh
 >         ;
 
+. local sibling_controls
+>         i.has_older_sibling_enr_2year
+>         i.has_older_sibling_enr_4year
+>         ;
+
 . **** School Characteristics ;
 . local sch_chars
 >         fte_teach_pc fte_pupil_pc /*fte_admin_pc*/
@@ -211,7 +220,7 @@ delimiter now cr
 . 
 .     ** this creates the full VA sample
 .    //run the do helper file to create the VA sample
-.    include `vaprojdofiles'/sbac/create_va_sample.doh
+.    include $vaprojdir/do_files/sbac/create_va_sample.doh
 
 . **************** Create VA Dataset
 . use merge_id_k12_test_scores all_students_sample first_scores_sample ///
@@ -338,8 +347,10 @@ delimiter now cr
 .    tempfile va_dataset
 
 .    save `va_dataset'
-file /home/tmp/St192370.000001 saved as .dta format
+file /home/tmp/St16505.000001 saved as .dta format
 
+. 
+. 
 . 
 .    save $projdir/dta/common_core_va/va_dataset, replace
 file
@@ -355,7 +366,7 @@ file
 > *****
 .   **create the VA dataset for the VA CFR regressions (score VA)
 .   ** use onoy 11th Grade (8th Grade ELA Controls, 6th Grade Math Controls)
-.   include `vaprojdofiles'/sbac/create_va_g11_sample.doh
+.   include $vaprojdir/do_files/sbac/create_va_g11_sample.doh
 
 . local drift_limit = max(`test_score_max_year' - `test_score_min_year' - 1, 1)
 
@@ -441,7 +452,7 @@ file
 . tempfile va_g11_dataset
 
 . save `va_g11_dataset'
-file /home/tmp/St192370.000002 saved as .dta format
+file /home/tmp/St16505.000002 saved as .dta format
 
 . 
 . 
@@ -449,6 +460,9 @@ file /home/tmp/St192370.000002 saved as .dta format
 > A)
 .   compress
   (0 bytes saved)
+
+. 
+.   label data "Test Score Grade 11 VA Sample"
 
 .   save $projdir/dta/common_core_va/va_g11_dataset, replace
 file
@@ -474,7 +488,7 @@ file
 (CST/SBAC Student Test Score Samples)
 
 .   // merge on postsecondary Outcomes
-.   do `vaprojdofiles'/merge_k12_postsecondary.doh enr_only
+.   do $vaprojdir/do_files/merge_k12_postsecondary.doh enr_only
 
 . version 16.1
 
@@ -2935,7 +2949,7 @@ file
 (CST/SBAC Student Test Score Samples)
 
 .   // merge on postsecondary Outcomes
-.   do `vaprojdofiles'/merge_k12_postsecondary.doh enr_only
+.   do $vaprojdir/do_files/merge_k12_postsecondary.doh enr_only
 
 . version 16.1
 
@@ -5227,7 +5241,7 @@ end of do-file
 .   tempfile va_dataset
 
 .   save `va_dataset'
-file /home/tmp/St192370.000003 saved as .dta format
+file /home/tmp/St16505.000003 saved as .dta format
 
 . 
 . 
@@ -5236,7 +5250,7 @@ file /home/tmp/St192370.000003 saved as .dta format
 > 11_sample.doh
 . 
 .   // use only 11th Grade (8th Grade ELA Controls, 6th Grade Math Controls)
-.   include `vaprojdofiles'/sbac/create_va_g11_out_sample.doh
+.   include $vaprojdir/do_files/sbac/create_va_g11_out_sample.doh
 
 . local drift_limit = max(`outcome_max_year' - `outcome_min_year' - 1, 1)
 
@@ -5322,13 +5336,15 @@ file /home/tmp/St192370.000003 saved as .dta format
 . tempfile va_g11_dataset
 
 . save `va_g11_dataset'
-file /home/tmp/St192370.000004 saved as .dta format
+file /home/tmp/St16505.000004 saved as .dta format
 
 . 
 . 
 .   ** this creates the VA dataset for the long term outcome VA regressions
 .   compress
   (0 bytes saved)
+
+.   label data "Enrollment Outcome Grade 11 VA Sample"
 
 .   save $projdir/dta/common_core_va/va_g11_out_dataset, replace
 file
@@ -5351,12 +5367,12 @@ file
 . timer off 1
 
 . timer list
-   1:   5972.81 /        1 =    5972.8140
+   1:   7631.47 /        1 =    7631.4680
 
 . log close
       name:  <unnamed>
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/createvasample.smcl
   log type:  smcl
- closed on:   9 Apr 2022, 02:25:29
+ closed on:   3 May 2022, 20:47:16
 -------------------------------------------------------------------------------

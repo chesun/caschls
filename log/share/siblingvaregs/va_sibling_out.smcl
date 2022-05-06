@@ -3,17 +3,21 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sibling_out.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}12 Apr 2022, 13:14:16
+ {txt}opened on:  {res} 3 May 2022, 22:03:12
 {txt}
 {com}. 
 . //run the do helper file to set the local macros
 . include `vaprojdofiles'/sbac/macros_va.doh
 {txt}
-{com}. #delimit ;
+{com}. /* CHANGE LOG
+> 4/28/2022: Added macro for sibling controls  */
+. 
+. #delimit ;
 {txt}delimiter now ;
 {com}. *** file paths
 > local home $vaprojdir ;
-. local ca_ed_lab "/home/research/ca_ed_lab" ;
+. local vaprojdofiles "$vaprojdir/do_files"
+> local ca_ed_lab "/home/research/ca_ed_lab" ;
 {txt}
 {com}. local k12_test_scores "$vaprojdir/data/restricted_access/clean/k12_test_scores" ;
 {txt}
@@ -133,6 +137,11 @@
 >         inc_median_hh
 >         ;
 {txt}
+{com}. local sibling_controls
+>         i.has_older_sibling_enr_2year
+>         i.has_older_sibling_enr_4year
+>         ;
+{txt}
 {com}. **** School Characteristics ;
 . local sch_chars
 >         fte_teach_pc fte_pupil_pc /*fte_admin_pc*/
@@ -196,12 +205,6 @@
 {txt}delimiter now cr
 {com}. macro list
 {txt}{p 0 16}
-eststo_counter:{space 1}{res}{res}4
-{p_end}
-{txt}{p 0 16}
-eststo:{space 9}{res}{res}est1 est2 est3 est4
-{p_end}
-{txt}{p 0 16}
 T_gm_fix_span:{space 2}{res}{res}0
 {p_end}
 {txt}{p 0 16}
@@ -249,33 +252,6 @@ rawdtadir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/raw
 {p_end}
 {txt}{p 0 16}
 rawcsvdir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/raw/calschls/csv
-{p_end}
-{txt}{p 0 16}
-S_6:{space 12}{res}{res}.7097029923018954
-{p_end}
-{txt}{p 0 16}
-S_5:{space 12}{res}{res}4
-{p_end}
-{txt}{p 0 16}
-ReS_jv2:{space 8}{res}{res}__000006 __000007 __000008 __000009 __00000A __00000B __00000C __00000D __00000E __00000F __00000G __00000H __00000I __00000J __00000K
-{p_end}
-{txt}{p 0 16}
-dropv:{space 10}{res}{res}_cdscode_x
-{p_end}
-{txt}{p 0 16}
-n_offset:{space 7}{res}{res}0
-{p_end}
-{txt}{p 0 16}
-sort:{space 11}{res}{res}0
-{p_end}
-{txt}{p 0 16}
-dots:{space 11}{res}{res}nois _dots 5 0
-{p_end}
-{txt}{p 0 16}
-dotss:{space 10}{res}{res}nois _dots 0, title(Survey results being calculated)
-{p_end}
-{txt}{p 0 16}
-ReS_Call:{space 7}{res}{res}version 16.1:
 {p_end}
 {txt}{p 0 16}
 S_level:{space 8}{res}{res}95
@@ -332,6 +308,10 @@ _sch_char_vars:{space 1}{res}{res}fte_teach_pc fte_pupil_pc new_teacher_prop cre
 {p_end}
 {txt}{p 0 16}
 _sch_chars:{space 5}{res}{res}fte_teach_pc fte_pupil_pc                   new_teacher_prop                           credential_full_prop                  c.male_prop##c.enr_male_prop         c.eth_minority_prop##c.enr_minority_prop         enr_total
+{p_end}
+{txt}{p 0 16}
+_sibling_controls:{break}
+{res}i.has_older_sibling_enr_2year         i.has_older_sibling_enr_4year
 {p_end}
 {txt}{p 0 16}
 _census_controls:{break}
@@ -429,7 +409,7 @@ _k12_test_scores:{break}
 {res}/home/research/ca_ed_lab/projects/common_core_va/data/restricted_access/clean/k12_test_scores
 {p_end}
 {txt}{p 0 16}
-_ca_ed_lab:{space 5}{res}{res}/home/research/ca_ed_lab
+_vaprojdofiles:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/do_files" local ca_ed_lab "/home/research/ca_ed_lab
 {p_end}
 {txt}{p 0 16}
 _sibling_out_xwalk:{break}
@@ -457,9 +437,6 @@ _va_g11_dataset:{break}
 _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_core_va/va_dataset
 {p_end}
 {txt}{p 0 16}
-_vaprojdofiles:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/do_files
-{p_end}
-{txt}{p 0 16}
 _setlimit:{space 6}{res}{res}0
 {p_end}
 {txt}{p 0 16}
@@ -477,7 +454,7 @@ _0:{space 13}{res}{res}0
 . 
 . //load the VA grade 11 college outcomes sample
 . use `va_g11_out_dataset', clear
-{txt}(CST/SBAC Student Test Score Samples)
+{txt}(Enrollment Outcome Grade 11 VA Sample)
 
 {com}. 
 . //merge on to sibling outcomes crosswalk to get sibling enrollment controls
@@ -510,7 +487,7 @@ _0:{space 13}{res}{res}0
 {com}. save `va_g11_out_sibling_dataset'
 {txt}{p 0 4 2}
 file {bf}
-/home/tmp/St192370.000001{rm}
+/home/tmp/St16505.000001{rm}
 saved
 as .dta format
 {p_end}
@@ -771,7 +748,7 @@ as .dta format
 {txt} 28{com}. 
 . 
 . {c )-}
-{txt}(CST/SBAC Student Test Score Samples)
+{txt}(Enrollment Outcome Grade 11 VA Sample)
 {txt}{hline}
 
       Source {c |}       SS           df       MS      Number of obs   ={res}   700,442
@@ -869,8 +846,7 @@ prior_math~e {c |}
 {txt}{space 12} {c |}
 {space 7}_cons {c |}{col 14}{res}{space 2} 1.858858{col 26}{space 2} .0214888{col 37}{space 1}   86.50{col 46}{space 3}0.000{col 54}{space 4} 1.816741{col 67}{space 3} 1.900976
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/vam_cfr_g11_enr_nosibctrl.ster not found)
-{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/vam_cfr_g11_enr_nosibctrl.ster} saved
+{res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/vam_cfr_g11_enr_nosibctrl.ster} saved
 {res}Standard deviations: total, classes, students, teachers same year
 .42304838 .08273089 .41488014 .
 Covariances (left), correlations (middle), observations (right).  Row i indicates the relation between year t and t+i:
@@ -906,8 +882,7 @@ va_cfr_g11~r {c |}{col 14}{res}{space 2}  1.05573{col 26}{space 2} .0114863{col 
 {txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0016024{col 26}{space 2} .0002828{col 37}{space 1}   -5.67{col 46}{space 3}0.000{col 54}{space 4}-.0021571{col 67}{space 3}-.0010477
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/est/siblingvaregs/outcome_va/spec_test_va_cfr_g11_enr_sibling_nocontrol.ster} saved
-{res}{txt}(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/spec_test_va_cfr_g11_enr_sibling_nocontrol.ster not found)
-{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/spec_test_va_cfr_g11_enr_sibling_nocontrol.ster} saved
+{res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/spec_test_va_cfr_g11_enr_sibling_nocontrol.ster} saved
 {res}{txt}{hline}
 
       Source {c |}       SS           df       MS      Number of obs   ={res}   700,442
@@ -1007,8 +982,7 @@ prior_math~e {c |}
 {txt}{space 12} {c |}
 {space 7}_cons {c |}{col 14}{res}{space 2}  1.83833{col 26}{space 2} .0214853{col 37}{space 1}   85.56{col 46}{space 3}0.000{col 54}{space 4}  1.79622{col 67}{space 3}  1.88044
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/vam_cfr_g11_enr.ster not found)
-{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/vam_cfr_g11_enr.ster} saved
+{res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/vam_cfr_g11_enr.ster} saved
 {res}Standard deviations: total, classes, students, teachers same year
 .42275216 .08247168 .41462973 .
 Covariances (left), correlations (middle), observations (right).  Row i indicates the relation between year t and t+i:
@@ -1044,8 +1018,7 @@ va_cfr_g11~r {c |}{col 14}{res}{space 2} 1.055314{col 26}{space 2} .0114957{col 
 {txt}{space 7}_cons {c |}{col 14}{res}{space 2} -.001577{col 26}{space 2} .0002827{col 37}{space 1}   -5.58{col 46}{space 3}0.000{col 54}{space 4}-.0021316{col 67}{space 3}-.0010224
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/est/siblingvaregs/outcome_va/spec_test_va_cfr_g11_enr_sibling.ster} saved
-{res}{txt}(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/spec_test_va_cfr_g11_enr_sibling.ster not found)
-{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/spec_test_va_cfr_g11_enr_sibling.ster} saved
+{res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/spec_test_va_cfr_g11_enr_sibling.ster} saved
 {res}
 {txt}Linear regression                               Number of obs     = {res}   698,620
                                                 {txt}F(1, 1277)        =  {res}    26.74
@@ -1062,24 +1035,18 @@ va_cfr_g11~r {c |}{col 14}{res}{space 2} .0035064{col 26}{space 2} .0006781{col 
 {txt}{space 7}_cons {c |}{col 14}{res}{space 2}-5.25e-06{col 26}{space 2} .0000479{col 37}{space 1}   -0.11{col 46}{space 3}0.913{col 54}{space 4}-.0000993{col 67}{space 3} .0000888
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/est/siblingvaregs/outcome_va/fb_test_va_cfr_g11_enr_sibling.ster} saved
-{res}{txt}(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/fb_test_va_cfr_g11_enr_sibling.ster not found)
-{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/fb_test_va_cfr_g11_enr_sibling.ster} saved
+{res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/fb_test_va_cfr_g11_enr_sibling.ster} saved
 {res}{txt}{p 0 4 2}
 file {bf}
 /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_core_va/outcome_va/va_g11_enr_sibling.dta{rm}
 saved
 {p_end}
 {p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/projects/common_core_va/data/sibling_va/outcome_va/va_g11_enr_sibling.dta{rm}
-not found)
-{p_end}
-{p 0 4 2}
 file {bf}
 /home/research/ca_ed_lab/projects/common_core_va/data/sibling_va/outcome_va/va_g11_enr_sibling.dta{rm}
 saved
 {p_end}
-(CST/SBAC Student Test Score Samples)
+(Enrollment Outcome Grade 11 VA Sample)
 {txt}{hline}
 
       Source {c |}       SS           df       MS      Number of obs   ={res}   700,442
@@ -1177,8 +1144,7 @@ prior_math~e {c |}
 {txt}{space 12} {c |}
 {space 7}_cons {c |}{col 14}{res}{space 2} 1.025411{col 26}{space 2} .0238333{col 37}{space 1}   43.02{col 46}{space 3}0.000{col 54}{space 4} .9786989{col 67}{space 3} 1.072124
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/vam_cfr_g11_enr_2year_nosibctrl.ster not found)
-{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/vam_cfr_g11_enr_2year_nosibctrl.ster} saved
+{res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/vam_cfr_g11_enr_2year_nosibctrl.ster} saved
 {res}Standard deviations: total, classes, students, teachers same year
 .46920467 .0983212 .45878749 .
 Covariances (left), correlations (middle), observations (right).  Row i indicates the relation between year t and t+i:
@@ -1214,8 +1180,7 @@ va_cfr_g11~r {c |}{col 14}{res}{space 2} 1.003413{col 26}{space 2} .0054444{col 
 {txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0011327{col 26}{space 2} .0002698{col 37}{space 1}   -4.20{col 46}{space 3}0.000{col 54}{space 4}-.0016619{col 67}{space 3}-.0006034
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/est/siblingvaregs/outcome_va/spec_test_va_cfr_g11_enr_2year_sibling_nocontrol.ster} saved
-{res}{txt}(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/spec_test_va_cfr_g11_enr_2year_sibling_nocontrol.ster not found)
-{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/spec_test_va_cfr_g11_enr_2year_sibling_nocontrol.ster} saved
+{res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/spec_test_va_cfr_g11_enr_2year_sibling_nocontrol.ster} saved
 {res}{txt}{hline}
 
       Source {c |}       SS           df       MS      Number of obs   ={res}   700,442
@@ -1315,8 +1280,7 @@ prior_math~e {c |}
 {txt}{space 12} {c |}
 {space 7}_cons {c |}{col 14}{res}{space 2} 1.020809{col 26}{space 2} .0237949{col 37}{space 1}   42.90{col 46}{space 3}0.000{col 54}{space 4} .9741716{col 67}{space 3} 1.067446
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/vam_cfr_g11_enr_2year.ster not found)
-{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/vam_cfr_g11_enr_2year.ster} saved
+{res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/vam_cfr_g11_enr_2year.ster} saved
 {res}Standard deviations: total, classes, students, teachers same year
 .46819649 .09666344 .4581093 .
 Covariances (left), correlations (middle), observations (right).  Row i indicates the relation between year t and t+i:
@@ -1352,8 +1316,7 @@ va_cfr_g11~r {c |}{col 14}{res}{space 2} 1.004256{col 26}{space 2} .0055821{col 
 {txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0011533{col 26}{space 2} .0002709{col 37}{space 1}   -4.26{col 46}{space 3}0.000{col 54}{space 4}-.0016847{col 67}{space 3}-.0006219
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/est/siblingvaregs/outcome_va/spec_test_va_cfr_g11_enr_2year_sibling.ster} saved
-{res}{txt}(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/spec_test_va_cfr_g11_enr_2year_sibling.ster not found)
-{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/spec_test_va_cfr_g11_enr_2year_sibling.ster} saved
+{res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/spec_test_va_cfr_g11_enr_2year_sibling.ster} saved
 {res}
 {txt}Linear regression                               Number of obs     = {res}   698,620
                                                 {txt}F(1, 1277)        =  {res}   668.36
@@ -1370,24 +1333,18 @@ va_cfr_g11~r {c |}{col 14}{res}{space 2} .0183776{col 26}{space 2} .0007109{col 
 {txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0000215{col 26}{space 2} .0000593{col 37}{space 1}   -0.36{col 46}{space 3}0.717{col 54}{space 4}-.0001378{col 67}{space 3} .0000948
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/est/siblingvaregs/outcome_va/fb_test_va_cfr_g11_enr_2year_sibling.ster} saved
-{res}{txt}(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/fb_test_va_cfr_g11_enr_2year_sibling.ster not found)
-{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/fb_test_va_cfr_g11_enr_2year_sibling.ster} saved
+{res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/fb_test_va_cfr_g11_enr_2year_sibling.ster} saved
 {res}{txt}{p 0 4 2}
 file {bf}
 /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_core_va/outcome_va/va_g11_enr_2year_sibling.dta{rm}
 saved
 {p_end}
 {p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/projects/common_core_va/data/sibling_va/outcome_va/va_g11_enr_2year_sibling.dta{rm}
-not found)
-{p_end}
-{p 0 4 2}
 file {bf}
 /home/research/ca_ed_lab/projects/common_core_va/data/sibling_va/outcome_va/va_g11_enr_2year_sibling.dta{rm}
 saved
 {p_end}
-(CST/SBAC Student Test Score Samples)
+(Enrollment Outcome Grade 11 VA Sample)
 {txt}{hline}
 
       Source {c |}       SS           df       MS      Number of obs   ={res}   700,442
@@ -1485,8 +1442,7 @@ prior_math~e {c |}
 {txt}{space 12} {c |}
 {space 7}_cons {c |}{col 14}{res}{space 2} .8334471{col 26}{space 2} .0211828{col 37}{space 1}   39.35{col 46}{space 3}0.000{col 54}{space 4} .7919296{col 67}{space 3} .8749646
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/vam_cfr_g11_enr_4year_nosibctrl.ster not found)
-{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/vam_cfr_g11_enr_4year_nosibctrl.ster} saved
+{res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/vam_cfr_g11_enr_4year_nosibctrl.ster} saved
 {res}Standard deviations: total, classes, students, teachers same year
 .4170242 .08808345 .40761561 .
 Covariances (left), correlations (middle), observations (right).  Row i indicates the relation between year t and t+i:
@@ -1522,8 +1478,7 @@ va_cfr_g11~r {c |}{col 14}{res}{space 2} 1.016409{col 26}{space 2} .0053137{col 
 {txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0001996{col 26}{space 2} .0001857{col 37}{space 1}   -1.07{col 46}{space 3}0.283{col 54}{space 4} -.000564{col 67}{space 3} .0001648
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/est/siblingvaregs/outcome_va/spec_test_va_cfr_g11_enr_4year_sibling_nocontrol.ster} saved
-{res}{txt}(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/spec_test_va_cfr_g11_enr_4year_sibling_nocontrol.ster not found)
-{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/spec_test_va_cfr_g11_enr_4year_sibling_nocontrol.ster} saved
+{res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/spec_test_va_cfr_g11_enr_4year_sibling_nocontrol.ster} saved
 {res}{txt}{hline}
 
       Source {c |}       SS           df       MS      Number of obs   ={res}   700,442
@@ -1623,8 +1578,7 @@ prior_math~e {c |}
 {txt}{space 12} {c |}
 {space 7}_cons {c |}{col 14}{res}{space 2} .8175212{col 26}{space 2} .0211051{col 37}{space 1}   38.74{col 46}{space 3}0.000{col 54}{space 4} .7761558{col 67}{space 3} .8588865
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/vam_cfr_g11_enr_4year.ster not found)
-{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/vam_cfr_g11_enr_4year.ster} saved
+{res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/vam_cfr_g11_enr_4year.ster} saved
 {res}Standard deviations: total, classes, students, teachers same year
 .41527214 .08609014 .40625047 .
 Covariances (left), correlations (middle), observations (right).  Row i indicates the relation between year t and t+i:
@@ -1660,8 +1614,7 @@ va_cfr_g11~r {c |}{col 14}{res}{space 2} 1.017027{col 26}{space 2} .0055156{col 
 {txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0001824{col 26}{space 2} .0001878{col 37}{space 1}   -0.97{col 46}{space 3}0.332{col 54}{space 4}-.0005508{col 67}{space 3} .0001861
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/est/siblingvaregs/outcome_va/spec_test_va_cfr_g11_enr_4year_sibling.ster} saved
-{res}{txt}(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/spec_test_va_cfr_g11_enr_4year_sibling.ster not found)
-{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/spec_test_va_cfr_g11_enr_4year_sibling.ster} saved
+{res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/spec_test_va_cfr_g11_enr_4year_sibling.ster} saved
 {res}
 {txt}Linear regression                               Number of obs     = {res}   698,620
                                                 {txt}F(1, 1277)        =  {res}   649.10
@@ -1678,17 +1631,11 @@ va_cfr_g11~r {c |}{col 14}{res}{space 2}  .024641{col 26}{space 2} .0009672{col 
 {txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0000104{col 26}{space 2} .0000773{col 37}{space 1}   -0.14{col 46}{space 3}0.892{col 54}{space 4} -.000162{col 67}{space 3} .0001411
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/est/siblingvaregs/outcome_va/fb_test_va_cfr_g11_enr_4year_sibling.ster} saved
-{res}{txt}(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/fb_test_va_cfr_g11_enr_4year_sibling.ster not found)
-{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/fb_test_va_cfr_g11_enr_4year_sibling.ster} saved
+{res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/outcome_va/fb_test_va_cfr_g11_enr_4year_sibling.ster} saved
 {res}{txt}{p 0 4 2}
 file {bf}
 /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_core_va/outcome_va/va_g11_enr_4year_sibling.dta{rm}
 saved
-{p_end}
-{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/projects/common_core_va/data/sibling_va/outcome_va/va_g11_enr_4year_sibling.dta{rm}
-not found)
 {p_end}
 {p 0 4 2}
 file {bf}
@@ -1708,13 +1655,13 @@ saved
 . timer off 1
 {txt}
 {com}. timer list
-{res}   1:     67.66 /        1 =      67.6550
+{res}   1:     54.55 /        1 =      54.5550
 {txt}
 {com}. log close
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sibling_out.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}12 Apr 2022, 13:15:24
+ {txt}closed on:  {res} 3 May 2022, 22:04:06
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sib_acs.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}28 Apr 2022, 23:03:52
+ {txt}opened on:  {res} 3 May 2022, 22:28:57
 {txt}
 {com}. 
 . /* change directory to common_core_va project directory for all value added
@@ -243,6 +243,21 @@
 {com}. {txt}
 {com}. 
 . macro list
+{txt}{p 0 16}
+T_gm_fix_span:{space 2}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+S_4:{space 12}{res}{res}.003900032715465
+{p_end}
+{txt}{p 0 16}
+S_2:{space 12}{res}{res}300
+{p_end}
+{txt}{p 0 16}
+S_3:{space 12}{res}{res}.020595561559967
+{p_end}
+{txt}{p 0 16}
+S_1:{space 12}{res}{res}epanechnikov
+{p_end}
 {txt}{p 0 16}
 vaprojxwalks:{space 3}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/restricted_access/clean/crosswalks
 {p_end}
@@ -497,15 +512,15 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 .     // rename the va estimates and the test score residuals
 .     rename tv va_`subject'_og
 {txt}  5{com}.     rename score_r `subject'_r_og
-{txt}  6{com}.     label var va_`subject'_og "``subject'_Str' VA OG Specification"
-{txt}  7{com}.     label var `subject'_r_og "Score Residual from ``subject'_Str' VA OG Specification"
+{txt}  6{com}.     label var va_`subject'_og "``subject'_str' VA OG Specification"
+{txt}  7{com}.     label var `subject'_r_og "Score Residual from ``subject'_str' VA OG Specification"
 {txt}  8{com}. 
 .     *******************
 .     // specification test: regress score residuals on va estimates
 .     reg `subject'_r_og va_`subject'_og, cluster(school_id)
 {txt}  9{com}. 
 .     // save spec test estimates
-.     estimates save $vaprojdir/estimates/sib_acs_restr_smp/test_score_va/spec_test_va_`subject'_og.ster, replace
+.     estimates save $vaprojdir/estimates/sib_acs_restr_smp/test_score_va/spec_test_`subject'_og.ster, replace
 {txt} 10{com}. 
 . 
 . 
@@ -530,8 +545,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 .     // rename va estimates and score residuals
 .     rename tv va_`subject'_acs
 {txt} 12{com}.     rename score_r `subject'_r_acs
-{txt} 13{com}.     label var va_`subject'_acs "``subject'_Str' VA with Census Controls"
-{txt} 14{com}.     label var `subject'_r_acs "Score Residual from ``subject'_Str' VA with Census Controls"
+{txt} 13{com}.     label var va_`subject'_acs "``subject'_str' VA with Census Controls"
+{txt} 14{com}.     label var `subject'_r_acs "Score Residual from ``subject'_str' VA with Census Controls"
 {txt} 15{com}. 
 . 
 .     *******************
@@ -571,8 +586,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 .     //rename va estimates sand score residuals
 .     rename tv va_`subject'_sib
 {txt} 22{com}.     rename score_r `subject'_r_sib
-{txt} 23{com}.     label var va_`subject'_sib "``subject'_Str' VA with Sibling Controls"
-{txt} 24{com}.     label var `subject'_r_sib "Score Residual from ``subject'_Str' VA with Sibling Controls"
+{txt} 23{com}.     label var va_`subject'_sib "``subject'_str' VA with Sibling Controls"
+{txt} 24{com}.     label var `subject'_r_sib "Score Residual from ``subject'_str' VA with Sibling Controls"
 {txt} 25{com}. 
 .     *******************
 .     // specification test: regress score residuals on va estimates
@@ -608,13 +623,13 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 >       ) ///
 >       data(merge tv score_r) ///
 >       driftlimit(`drift_limit') ///
->       estimates($vaprojdir/estimates/sib_acs_restr_smp/test_score_va/vam_`subject'_sib_acs.ster, replace)
+>       estimates($vaprojdir/estimates/sib_acs_restr_smp/test_score_va/vam_`subject'_both.ster, replace)
 {txt} 31{com}. 
 .       //rename va estimates sand score residuals
 .       rename tv va_`subject'_both
 {txt} 32{com}.       rename score_r `subject'_r_both
-{txt} 33{com}.       label var va_`subject'_both "``subject'_Str' VA with Sibling and Census Controls"
-{txt} 34{com}.       label var `subject'_r_both "Score Residual from ``subject'_Str' VA with Sibling and Census Controls"
+{txt} 33{com}.       label var va_`subject'_both "``subject'_str' VA with Sibling and Census Controls"
+{txt} 34{com}.       label var `subject'_r_both "Score Residual from ``subject'_str' VA with Sibling and Census Controls"
 {txt} 35{com}. 
 .       *******************
 .       // specification test: regress score residuals on va estimates
@@ -656,7 +671,7 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 . 
 . 
 . {c )-}
-{txt}(Restrcited Test Score VA Sample with Sibling Controls and Census Controls)
+{txt}(Test Score VA Restrcited Sample with Sibling Controls and Census Controls)
 {txt}{hline}
 
       Source {c |}       SS           df       MS      Number of obs   ={res}   419,150
@@ -789,7 +804,8 @@ Covariances used for VA computations:
 {space 3}va_ela_og {c |}{col 14}{res}{space 2} 1.001469{col 26}{space 2} .0262965{col 37}{space 1}   38.08{col 46}{space 3}0.000{col 54}{space 4} .9498789{col 67}{space 3} 1.053059
 {txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0006557{col 26}{space 2} .0013915{col 37}{space 1}   -0.47{col 46}{space 3}0.638{col 54}{space 4}-.0033856{col 67}{space 3} .0020742
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/spec_test_va_ela_og.ster} saved
+{res}{txt}(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/spec_test_ela_og.ster not found)
+{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/spec_test_ela_og.ster} saved
 {txt}{hline}
 
       Source {c |}       SS           df       MS      Number of obs   ={res}   419,150
@@ -1203,7 +1219,8 @@ prior_math~e {c |}
 {txt}inc_medi~_hh {c |}{col 14}{res}{space 2} 3.24e-07{col 26}{space 2} 4.68e-08{col 37}{space 1}    6.92{col 46}{space 3}0.000{col 54}{space 4} 2.32e-07{col 67}{space 3} 4.16e-07
 {txt}{space 7}_cons {c |}{col 14}{res}{space 2} 2.201968{col 26}{space 2} .0391943{col 37}{space 1}   56.18{col 46}{space 3}0.000{col 54}{space 4} 2.125148{col 67}{space 3} 2.278788
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/vam_ela_sib_acs.ster} saved
+{res}{txt}(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/vam_ela_both.ster not found)
+{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/vam_ela_both.ster} saved
 {res}Standard deviations: total, classes, students, teachers same year
 .56404095 .17687225 .53559164 .
 Covariances (left), correlations (middle), observations (right).  Row i indicates the relation between year t and t+i:
@@ -1272,16 +1289,11 @@ Linear regression                               Number of obs     = {res}   418,
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/fb_test_ela_acs_sib.ster} saved
 {res}{txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/projects/common_core_va/data/sib_acs_restr_smp/test_score_va/va_ela_sib_acs.dta{rm}
-not found)
-{p_end}
-{p 0 4 2}
 file {bf}
 /home/research/ca_ed_lab/projects/common_core_va/data/sib_acs_restr_smp/test_score_va/va_ela_sib_acs.dta{rm}
 saved
 {p_end}
-(Restrcited Test Score VA Sample with Sibling Controls and Census Controls)
+(Test Score VA Restrcited Sample with Sibling Controls and Census Controls)
 {txt}{hline}
 
       Source {c |}       SS           df       MS      Number of obs   ={res}   417,489
@@ -1379,8 +1391,7 @@ prior_math~e {c |}
 {txt}{space 12} {c |}
 {space 7}_cons {c |}{col 14}{res}{space 2} 2.251889{col 26}{space 2} .0376971{col 37}{space 1}   59.74{col 46}{space 3}0.000{col 54}{space 4} 2.178004{col 67}{space 3} 2.325774
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/vam_math_og.ster not found)
-{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/vam_math_og.ster} saved
+{res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/vam_math_og.ster} saved
 {res}Standard deviations: total, classes, students, teachers same year
 .54719828 .16247033 .5225221 .
 Covariances (left), correlations (middle), observations (right).  Row i indicates the relation between year t and t+i:
@@ -1415,8 +1426,8 @@ Covariances used for VA computations:
 {space 2}va_math_og {c |}{col 14}{res}{space 2} .9860723{col 26}{space 2} .0183269{col 37}{space 1}   53.80{col 46}{space 3}0.000{col 54}{space 4} .9501173{col 67}{space 3} 1.022027
 {txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0014052{col 26}{space 2} .0009957{col 37}{space 1}   -1.41{col 46}{space 3}0.158{col 54}{space 4}-.0033587{col 67}{space 3} .0005483
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/spec_test_va_math_og.ster not found)
-{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/spec_test_va_math_og.ster} saved
+{res}{txt}(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/spec_test_math_og.ster not found)
+{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/spec_test_math_og.ster} saved
 {txt}{hline}
 
       Source {c |}       SS           df       MS      Number of obs   ={res}   417,489
@@ -1521,8 +1532,7 @@ eth_asian_~t {c |}{col 14}{res}{space 2} .0014643{col 26}{space 2} .0000643{col 
 {txt}inc_medi~_hh {c |}{col 14}{res}{space 2} 1.28e-06{col 26}{space 2} 4.53e-08{col 37}{space 1}   28.21{col 46}{space 3}0.000{col 54}{space 4} 1.19e-06{col 67}{space 3} 1.37e-06
 {txt}{space 7}_cons {c |}{col 14}{res}{space 2} 2.113383{col 26}{space 2} .0379151{col 37}{space 1}   55.74{col 46}{space 3}0.000{col 54}{space 4}  2.03907{col 67}{space 3} 2.187695
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/vam_math_acs.ster not found)
-{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/vam_math_acs.ster} saved
+{res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/vam_math_acs.ster} saved
 {res}Standard deviations: total, classes, students, teachers same year
 .54480843 .15596383 .5220072 .
 Covariances (left), correlations (middle), observations (right).  Row i indicates the relation between year t and t+i:
@@ -1557,8 +1567,7 @@ Covariances used for VA computations:
 {space 1}va_math_acs {c |}{col 14}{res}{space 2} .9981633{col 26}{space 2} .0199996{col 37}{space 1}   49.91{col 46}{space 3}0.000{col 54}{space 4} .9589266{col 67}{space 3}   1.0374
 {txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0010735{col 26}{space 2} .0009948{col 37}{space 1}   -1.08{col 46}{space 3}0.281{col 54}{space 4}-.0030251{col 67}{space 3} .0008781
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/spec_test_math_acs.ster not found)
-{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/spec_test_math_acs.ster} saved
+{res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/spec_test_math_acs.ster} saved
 
 Linear regression                               Number of obs     = {res}   416,637
                                                 {txt}F(1, 1242)        =  {res}    57.57
@@ -1574,8 +1583,7 @@ Linear regression                               Number of obs     = {res}   416,
 {space 2}va_math_og {c |}{col 14}{res}{space 2}  .087943{col 26}{space 2}  .011591{col 37}{space 1}    7.59{col 46}{space 3}0.000{col 54}{space 4} .0652029{col 67}{space 3} .1106831
 {txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0001109{col 26}{space 2} .0012028{col 37}{space 1}   -0.09{col 46}{space 3}0.927{col 54}{space 4}-.0024706{col 67}{space 3} .0022489
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/fb_test_math_acs_og.ster not found)
-{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/fb_test_math_acs_og.ster} saved
+{res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/fb_test_math_acs_og.ster} saved
 {txt}{hline}
 
       Source {c |}       SS           df       MS      Number of obs   ={res}   417,489
@@ -1675,8 +1683,7 @@ prior_math~e {c |}
 {txt}1.has_~4year {c |}{col 14}{res}{space 2} .0681976{col 26}{space 2} .0035986{col 37}{space 1}   18.95{col 46}{space 3}0.000{col 54}{space 4} .0611444{col 67}{space 3} .0752507
 {txt}{space 7}_cons {c |}{col 14}{res}{space 2} 2.243605{col 26}{space 2} .0376928{col 37}{space 1}   59.52{col 46}{space 3}0.000{col 54}{space 4} 2.169728{col 67}{space 3} 2.317482
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/vam_math_sib.ster not found)
-{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/vam_math_sib.ster} saved
+{res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/vam_math_sib.ster} saved
 {res}Standard deviations: total, classes, students, teachers same year
 .54692433 .16222399 .52231179 .
 Covariances (left), correlations (middle), observations (right).  Row i indicates the relation between year t and t+i:
@@ -1711,8 +1718,7 @@ Covariances used for VA computations:
 {space 1}va_math_sib {c |}{col 14}{res}{space 2} .9857967{col 26}{space 2} .0183603{col 37}{space 1}   53.69{col 46}{space 3}0.000{col 54}{space 4} .9497761{col 67}{space 3} 1.021817
 {txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0013942{col 26}{space 2} .0009974{col 37}{space 1}   -1.40{col 46}{space 3}0.162{col 54}{space 4}-.0033509{col 67}{space 3} .0005626
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/spec_test_math_sib.ster not found)
-{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/spec_test_math_sib.ster} saved
+{res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/spec_test_math_sib.ster} saved
 
 Linear regression                               Number of obs     = {res}   416,637
                                                 {txt}F(1, 1242)        =  {res}    24.76
@@ -1728,8 +1734,7 @@ Linear regression                               Number of obs     = {res}   416,
 {space 2}va_math_og {c |}{col 14}{res}{space 2}  .002063{col 26}{space 2} .0004146{col 37}{space 1}    4.98{col 46}{space 3}0.000{col 54}{space 4} .0012496{col 67}{space 3} .0028764
 {txt}{space 7}_cons {c |}{col 14}{res}{space 2}-3.64e-06{col 26}{space 2} .0000542{col 37}{space 1}   -0.07{col 46}{space 3}0.946{col 54}{space 4}  -.00011{col 67}{space 3} .0001027
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/fb_test_math_sib_og.ster not found)
-{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/fb_test_math_sib_og.ster} saved
+{res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/fb_test_math_sib_og.ster} saved
 {txt}{hline}
 
       Source {c |}       SS           df       MS      Number of obs   ={res}   417,489
@@ -1836,8 +1841,8 @@ prior_math~e {c |}
 {txt}inc_medi~_hh {c |}{col 14}{res}{space 2} 1.26e-06{col 26}{space 2} 4.53e-08{col 37}{space 1}   27.69{col 46}{space 3}0.000{col 54}{space 4} 1.17e-06{col 67}{space 3} 1.34e-06
 {txt}{space 7}_cons {c |}{col 14}{res}{space 2} 2.106941{col 26}{space 2} .0379111{col 37}{space 1}   55.58{col 46}{space 3}0.000{col 54}{space 4} 2.032636{col 67}{space 3} 2.181246
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/vam_math_sib_acs.ster not found)
-{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/vam_math_sib_acs.ster} saved
+{res}{txt}(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/vam_math_both.ster not found)
+{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/vam_math_both.ster} saved
 {res}Standard deviations: total, classes, students, teachers same year
 .54455055 .15575246 .52180118 .
 Covariances (left), correlations (middle), observations (right).  Row i indicates the relation between year t and t+i:
@@ -1872,8 +1877,7 @@ Covariances used for VA computations:
 va_math_both {c |}{col 14}{res}{space 2} .9980369{col 26}{space 2} .0200152{col 37}{space 1}   49.86{col 46}{space 3}0.000{col 54}{space 4} .9587697{col 67}{space 3} 1.037304
 {txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0010616{col 26}{space 2} .0009961{col 37}{space 1}   -1.07{col 46}{space 3}0.287{col 54}{space 4}-.0030158{col 67}{space 3} .0008926
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/spec_test_math_both.ster not found)
-{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/spec_test_math_both.ster} saved
+{res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/spec_test_math_both.ster} saved
 
 Linear regression                               Number of obs     = {res}   416,637
                                                 {txt}F(1, 1242)        =  {res}    22.17
@@ -1889,8 +1893,7 @@ Linear regression                               Number of obs     = {res}   416,
 {space 1}va_math_acs {c |}{col 14}{res}{space 2} .0019556{col 26}{space 2} .0004153{col 37}{space 1}    4.71{col 46}{space 3}0.000{col 54}{space 4} .0011408{col 67}{space 3} .0027704
 {txt}{space 7}_cons {c |}{col 14}{res}{space 2}-2.93e-06{col 26}{space 2}   .00005{col 37}{space 1}   -0.06{col 46}{space 3}0.953{col 54}{space 4} -.000101{col 67}{space 3} .0000951
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/fb_test_math_sib_acs.ster not found)
-{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/fb_test_math_sib_acs.ster} saved
+{res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/fb_test_math_sib_acs.ster} saved
 
 Linear regression                               Number of obs     = {res}   416,637
                                                 {txt}F(1, 1242)        =  {res}    57.31
@@ -1906,14 +1909,8 @@ Linear regression                               Number of obs     = {res}   416,
 {space 1}va_math_sib {c |}{col 14}{res}{space 2} .0877265{col 26}{space 2} .0115882{col 37}{space 1}    7.57{col 46}{space 3}0.000{col 54}{space 4} .0649918{col 67}{space 3} .1104611
 {txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0001098{col 26}{space 2} .0011988{col 37}{space 1}   -0.09{col 46}{space 3}0.927{col 54}{space 4}-.0024617{col 67}{space 3} .0022421
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}(note: file /home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/fb_test_math_acs_sib.ster not found)
-{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/fb_test_math_acs_sib.ster} saved
+{res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sib_acs_restr_smp/test_score_va/fb_test_math_acs_sib.ster} saved
 {res}{txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/projects/common_core_va/data/sib_acs_restr_smp/test_score_va/va_math_sib_acs.dta{rm}
-not found)
-{p_end}
-{p 0 4 2}
 file {bf}
 /home/research/ca_ed_lab/projects/common_core_va/data/sib_acs_restr_smp/test_score_va/va_math_sib_acs.dta{rm}
 saved
@@ -1924,14 +1921,19 @@ saved
 . timer off 1
 {txt}
 {com}. timer list
-{res}   1:     45.84 /        1 =      45.8430
+{res}   1:     47.82 /        1 =      47.8190
+{txt}
+{com}. 
+. //change directory back to my own personal directory
+. cd $projdir
+{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 {txt}
 {com}. 
 . log close
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sib_acs.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}28 Apr 2022, 23:04:38
+ {txt}closed on:  {res} 3 May 2022, 22:29:44
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

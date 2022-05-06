@@ -3,17 +3,21 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/va_sibling_est_sumstats.smcl
   log type:  smcl
- opened on:  12 Apr 2022, 13:00:14
+ opened on:   3 May 2022, 22:03:09
 
 . 
 . //run the do helper file to set the local macros
 . include `vaprojdofiles'/sbac/macros_va.doh
 
+. /* CHANGE LOG
+> 4/28/2022: Added macro for sibling controls  */
+. 
 . #delimit ;
 delimiter now ;
 . *** file paths
 > local home $vaprojdir ;
-. local ca_ed_lab "/home/research/ca_ed_lab" ;
+. local vaprojdofiles "$vaprojdir/do_files"
+> local ca_ed_lab "/home/research/ca_ed_lab" ;
 
 . local k12_test_scores "$vaprojdir/data/restricted_access/clean/k12_test_score
 > s" ;
@@ -141,6 +145,11 @@ delimiter now ;
 >         inc_median_hh
 >         ;
 
+. local sibling_controls
+>         i.has_older_sibling_enr_2year
+>         i.has_older_sibling_enr_4year
+>         ;
+
 . **** School Characteristics ;
 . local sch_chars
 >         fte_teach_pc fte_pupil_pc /*fte_admin_pc*/
@@ -220,20 +229,6 @@ rawdtadir:      /home/research/ca_ed_lab/data/restricted_access/raw/calschls/st
                 > ata
 rawcsvdir:      /home/research/ca_ed_lab/data/restricted_access/raw/calschls/cs
                 > v
-T_gm_fix_span:  0
-S_6:            .7097029923018954
-S_5:            4
-S_4:            .379339567907114
-ReS_jv2:        __000006 __000007 __000008 __000009 __00000A __00000B __00000C
-                __00000D __00000E __00000F __00000G __00000H __00000I __00000J
-                __00000K
-dropv:          _cdscode_x
-n_offset:       0
-sort:           0
-dots:           nois _dots 5 0
-dotss:          nois _dots 0, title(Survey results being calculated)
-S_3:            .0104764158075594
-ReS_Call:       version 16.1:
 S_level:        95
 F1:             help advice;
 F2:             describe;
@@ -264,6 +259,8 @@ _sch_char_vars: fte_teach_pc fte_pupil_pc new_teacher_prop credential_full_prop
 _sch_chars:     fte_teach_pc fte_pupil_pc new_teacher_prop credential_full_prop
                 c.male_prop##c.enr_male_prop
                 c.eth_minority_prop##c.enr_minority_prop enr_total
+_sibling_controls:
+                i.has_older_sibling_enr_2year i.has_older_sibling_enr_4year
 _census_controls:
                 eth_asian_pct eth_hispanic_pct eth_black_pct
                 educ_hs_dropout_prop educ_deg_4year_plus_prop
@@ -321,7 +318,8 @@ _public_access: /home/research/ca_ed_lab/projects/common_core_va/data/public_ac
 _k12_test_scores:
                 /home/research/ca_ed_lab/projects/common_core_va/data/restricte
                 > d_access/clean/k12_test_scores
-_ca_ed_lab:     /home/research/ca_ed_lab
+_vaprojdofiles: /home/research/ca_ed_lab/projects/common_core_va/do_files"
+                local ca_ed_lab "/home/research/ca_ed_lab
 _sibling_out_xwalk:
                 /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/siblingxw
                 > alk/sibling_out_xwalk
@@ -340,7 +338,6 @@ _va_g11_dataset:
                 > re_va/va_g11_dataset
 _va_dataset:    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_co
                 > re_va/va_dataset
-_vaprojdofiles: /home/research/ca_ed_lab/projects/common_core_va/do_files
 
 . 
 . 
@@ -374,7 +371,7 @@ _vaprojdofiles: /home/research/ca_ed_lab/projects/common_core_va/do_files
  13.     save `va_`subject''
  14. 
 . }
-(CST/SBAC Student Test Score Samples)
+(Test Score Grade 11 VA Sample)
 
 Panel variable: school_id (unbalanced)
  Time variable: year, 2015 to 2018, but with gaps
@@ -385,8 +382,8 @@ Panel variable: school_id (unbalanced)
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
 va_cfr_g11~a |      4,841    9.72e-10    .1338945  -.6005455   .5052347
-file /home/tmp/St192370.000001 saved as .dta format
-(CST/SBAC Student Test Score Samples)
+file /home/tmp/St16505.000001 saved as .dta format
+(Test Score Grade 11 VA Sample)
 
 Panel variable: school_id (unbalanced)
  Time variable: year, 2015 to 2018, but with gaps
@@ -397,12 +394,12 @@ Panel variable: school_id (unbalanced)
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
 va_cfr_g11~h |      4,834   -6.66e-10    .1373837  -.5025851   .6632896
-file /home/tmp/St192370.000002 saved as .dta format
+file /home/tmp/St16505.000002 saved as .dta format
 
 . 
 . 
 .   use `va_ela', clear
-(CST/SBAC Student Test Score Samples)
+(Test Score Grade 11 VA Sample)
 
 .   merge 1:1 cdscode year using `va_math', nogen
 
@@ -443,7 +440,7 @@ va_cfr_g11~h |   1.0000
 .   tempfile va_ela_math_sibling
 
 .   save `va_ela_math_sibling'
-file /home/tmp/St192370.000003 saved as .dta format
+file /home/tmp/St16505.000003 saved as .dta format
 
 . 
 . 
@@ -539,9 +536,9 @@ file
   5.         save `va_`subject'_original'
   6. }
 (CST/SBAC Student Test Score Samples)
-file /home/tmp/St192370.000004 saved as .dta format
+file /home/tmp/St16505.000004 saved as .dta format
 (CST/SBAC Student Test Score Samples)
-file /home/tmp/St192370.000005 saved as .dta format
+file /home/tmp/St16505.000005 saved as .dta format
 
 . 
 . use `va_ela_original'
@@ -742,12 +739,12 @@ file
 . timer off 1
 
 . timer list
-   1:      3.45 /        1 =       3.4490
+   1:      3.30 /        1 =       3.3010
 
 . log close
       name:  <unnamed>
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/va_sibling_est_sumstats.smcl
   log type:  smcl
- closed on:  12 Apr 2022, 13:00:18
+ closed on:   3 May 2022, 22:03:12
 -------------------------------------------------------------------------------

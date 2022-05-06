@@ -1,13 +1,56 @@
 {smcl}
 {com}{sf}{ul off}{txt}{.-}
       name:  {res}<unnamed>
-       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sibling_sample_sumstats.smcl
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sib_acs_spec_test_tab.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 3 May 2022, 22:02:05
+ {txt}opened on:  {res} 3 May 2022, 22:32:42
 {txt}
 {com}. 
-. //run the do helper file to set the local macros
-. include `vaprojdofiles'/sbac/macros_va.doh
+. /* change directory to common_core_va project directory for all value added
+> do files because some called subroutines written by Matt may use relative file paths  */
+. cd $vaprojdir
+{res}/home/research/ca_ed_lab/projects/common_core_va
+{txt}
+{com}. 
+. /* file path macros for datasets */
+. include $projdir/do/share/siblingvaregs/vafilemacros.doh
+{txt}
+{com}. ********************************************************************************
+. /* Macros for common core VA project folder file paths, and relevant datasets to make it possible
+> to use Matt's doh files  */
+. ********************************************************************************
+. ********************************************************************************
+. /* First written by Che Sun, 12/13/2021
+> 1/27/2022: changed mattdofiles path to the do files folder in project folder
+> after Matt updated the do files to reconcile file paths. Now direct run these
+> do files from the $vaprojdir/do_files_sbac folder*/
+. 
+. /* to include this in do files:
+> include $projdir/do/share/siblingvaregs/vafilemacros.doh
+>  */
+. 
+.  local vaprojdofiles "$vaprojdir/do_files"
+{txt}
+{com}. 
+. *** macros for my own datasets
+. local va_dataset "$projdir/dta/common_core_va/va_dataset"
+{txt}
+{com}. local va_g11_dataset "$projdir/dta/common_core_va/va_g11_dataset"
+{txt}
+{com}. local va_g11_out_dataset "$projdir/dta/common_core_va/va_g11_out_dataset"
+{txt}
+{com}. local siblingxwalk "$projdir/dta/siblingxwalk/siblingpairxwalk"
+{txt}
+{com}. local ufamilyxwalk "$projdir/dta/siblingxwalk/ufamilyxwalk"
+{txt}
+{com}. local k12_postsecondary_out_merge "$projdir/dta/common_core_va/k12_postsecondary_out_merge"
+{txt}
+{com}. local sibling_out_xwalk "$projdir/dta/siblingxwalk/sibling_out_xwalk"
+{txt}
+{com}. {txt}
+{com}. 
+. //run Matt's do helper file to set the local macros for VA project
+. include $vaprojdir/do_files/sbac/macros_va.doh
 {txt}
 {com}. /* CHANGE LOG
 > 4/28/2022: Added macro for sibling controls  */
@@ -199,11 +242,22 @@
 {txt}delimiter now cr
 {com}. {txt}
 {com}. 
-. #delimit ;
-{txt}delimiter now ;
-{com}. #delimit cr
-{txt}delimiter now cr
-{com}. macro list
+. macro list
+{txt}{p 0 16}
+T_gm_fix_span:{space 2}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+S_4:{space 12}{res}{res}.0020423965494575
+{p_end}
+{txt}{p 0 16}
+S_2:{space 12}{res}{res}300
+{p_end}
+{txt}{p 0 16}
+S_3:{space 12}{res}{res}.0135669174878782
+{p_end}
+{txt}{p 0 16}
+S_1:{space 12}{res}{res}epanechnikov
+{p_end}
 {txt}{p 0 16}
 vaprojxwalks:{space 3}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/restricted_access/clean/crosswalks
 {p_end}
@@ -423,229 +477,118 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 {p_end}
 {txt}
 {com}. 
-. 
+. //startomg timer
 . timer on 1
 {txt}
 {com}. 
+. 
+. 
 . ********************************************************************************
-. /* Add family fixed effects as an additional demographic control in SBAC
-> VA estimation */
+. *start main code
 . 
-. //load the VA grade 11 sample
-. use `va_g11_dataset', clear
-{txt}(Test Score Grade 11 VA Sample)
-
-{com}. 
-. //merge on to ufamilyxwalk in order to use unique family ID for FE
-. merge m:1 state_student_id using `sibling_out_xwalk'
+. ********** test score VA spec test
+. foreach subject in ela math {c -(}
+{txt}  2{com}.   // primary specification without sibling or acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/test_score_va/spec_test_`subject'_og.ster
+{txt}  3{com}.   test _b[va_`subject'_og] = 1
+{txt}  4{com}.   matrix test_p = r(p)
+{txt}  5{com}.   matrix rownames test_p = pvalue
+{txt}  6{com}.   matrix colnames test_p = va_`subject'_og
+{txt}  7{com}.   estadd matrix test_p = test_p
+{txt}  8{com}. 
+.   // without sibling controls, with acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/test_score_va/spec_test_`subject'_acs.ster
+{txt}  9{com}.   test _b[va_`subject'_acs] = 1
+{txt} 10{com}.   matrix test_p = r(p)
+{txt} 11{com}.   matrix rownames test_p = pvalue
+{txt} 12{com}.   matrix colnames test_p = va_`subject'_acs
+{txt} 13{com}.   estadd matrix test_p = test_p
+{txt} 14{com}. 
+.   // with sibling controls, without acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/test_score_va/spec_test_`subject'_sib.ster
+{txt} 15{com}.   test _b[va_`subject'_sib] = 1
+{txt} 16{com}.   matrix test_p = r(p)
+{txt} 17{com}.   matrix rownames test_p = pvalue
+{txt} 18{com}.   matrix colnames test_p = va_`subject'_sib
+{txt} 19{com}.   estadd matrix test_p = test_p
+{txt} 20{com}. 
+.   // with both sibling controls and acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/test_score_va/spec_test_`subject'_both.ster
+{txt} 21{com}.   test _b[va_`subject'_both] = 1
+{txt} 22{com}.   matrix test_p = r(p)
+{txt} 23{com}.   matrix rownames test_p = pvalue
+{txt} 24{com}.   matrix colnames test_p = va_`subject'_both
+{txt} 25{com}.   estadd matrix test_p = test_p
+{txt} 26{com}. 
+. 
+.   esttab using ///
+>     $projdir/out/csv/siblingvaregs/spec_test/sib_acs_restr_smp/spec_test_sib_acs_restr_smp_`subject'.csv ///
+>   , replace nonumbers  ///
+>   cells(b(fmt(%5.3f) pvalue(test_p) star) se(fmt(%4.3f) par)) ///
+>   title("Specification Tests for ``subject'_str' VA on Sibling Census Restricted Sample") ///
+>   mtitles( "Original Specification" "Census Controls" ///
+>     "Sibling Controls" "Sibling and Census Controls" ) ///
+> {c )-}
 {res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}       4,157,551
-{txt}{col 9}from master{col 30}{res}         884,570{txt}  (_merge==1)
-{col 9}from using{col 30}{res}       3,272,981{txt}  (_merge==2)
+{p 0 7}{space 1}{text:( 1)}{space 1} va_ela_og = 1{p_end}
 
-{col 5}Matched{col 30}{res}         900,294{txt}  (_merge==3)
-{col 5}{hline 41}
+{txt}       F(  1,  1245) ={res}    0.00
+{txt}{col 13}Prob > F ={res}    0.9555
 
-{com}. drop _merge
-{txt}
-{com}. 
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+
+{p 0 7}{space 1}{text:( 1)}{space 1} va_ela_acs = 1{p_end}
+
+{txt}       F(  1,  1245) ={res}    0.01
+{txt}{col 13}Prob > F ={res}    0.9365
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+
+{p 0 7}{space 1}{text:( 1)}{space 1} va_ela_sib = 1{p_end}
+
+{txt}       F(  1,  1245) ={res}    0.00
+{txt}{col 13}Prob > F ={res}    0.9560
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+
+{p 0 7}{space 1}{text:( 1)}{space 1} va_ela_both = 1{p_end}
+
+{txt}       F(  1,  1245) ={res}    0.01
+{txt}{col 13}Prob > F ={res}    0.9361
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{err}option {bf:}} not allowed
+{txt}{search r(198), local:r(198);}
+
+end of do-file
+{search r(198), local:r(198);}
+{com}.      pause
 . 
-. compress
-{txt}  (0 bytes saved)
-
-{com}. tempfile va_g11_sibling_dataset
-{txt}
-{com}. save `va_g11_sibling_dataset'
-{txt}{p 0 4 2}
-file {bf}
-/home/tmp/St16505.000001{rm}
-saved
-as .dta format
-{p_end}
-
-{com}. 
+.      /* do file to create a regression output table for forecast bias tests for test score VA
+>      and enrollment VA on different samples */
+.      do $projdir/do/share/siblingvaregs/va_sibling_fb_test_tab
+.      pause
 . 
-. 
-. 
-. //check the average distance between siblings
-. //in the full sibling sample
-. use $projdir/dta/siblingxwalk/uniquesiblingpairxwalk, clear
-{txt}(Unique sibling pairs after dropping duplicate permutations)
+. {c )-}
+{txt}{search r(198), local:r(198);}
 
-{com}. 
-. //collapse to family level to only keep the average birth date distance in family
-. collapse (mean) avg_birth_date_distance_family, by(ufamilyid)
-{res}{txt}
-{com}. 
-. sum avg_birth_date_distance_family
+end of do-file
 
-{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
-{hline 13}{c +}{hline 57}
-avg_birth_~y {c |}{res}  1,715,345    3.114058    1.738753          0   14.90137
-{txt}
-{com}. 
-. //in the sibling test score VA sample
-. //merge average sibling birth date distance in family to test score VA sibling dataset
-. 
-. merge 1:m ufamilyid using `va_g11_sibling_dataset'
-{res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}         885,444
-{txt}{col 9}from master{col 30}{res}             874{txt}  (_merge==1)
-{col 9}from using{col 30}{res}         884,570{txt}  (_merge==2)
+{search r(198), local:r(198);}
 
-{col 5}Matched{col 30}{res}       4,173,275{txt}  (_merge==3)
-{col 5}{hline 41}
-
-{com}. 
-. sum avg_birth_date_distance_family ///
-> if grade == 11 & touse_g11_ela==1 & sibling_full_sample == 1
-
-{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
-{hline 13}{c +}{hline 57}
-avg_birth_~y {c |}{res}    685,772    3.349951    1.637888          0   14.50137
-{txt}
-{com}. 
-. sum avg_birth_date_distance_family ///
-> if grade == 11 & touse_g11_math==1 & sibling_full_sample == 1
-
-{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
-{hline 13}{c +}{hline 57}
-avg_birth_~y {c |}{res}    682,836    3.350443    1.638021          0   14.50137
-{txt}
-{com}. 
-. 
-. 
-. 
-. use `va_g11_sibling_dataset', clear
-{txt}(Test Score Grade 11 VA Sample)
-
-{com}. //check the number of families in this sample
-. di "number of families in the full sibling sample matched to the g11 va sample"
-{res}number of families in the full sibling sample matched to the g11 va sample
-{txt}
-{com}. 
-. di "ELA"
-{res}ELA
-{txt}
-{com}. egen family_temp = group(ufamilyid) ///
-> if grade == 11 & touse_g11_ela==1 & sibling_full_sample == 1
-{res}{txt}(4,372,019 missing values generated)
-
-{com}. sum family_temp
-
-{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
-{hline 13}{c +}{hline 57}
-{space 1}family_temp {c |}{res}    685,826    280120.2    158804.8          1     570129
-{txt}
-{com}. drop family_temp
-{txt}
-{com}. 
-. di "Math"
-{res}Math
-{txt}
-{com}. egen family_temp = group(ufamilyid) ///
-> if grade == 11 & touse_g11_math==1 & sibling_full_sample == 1
-{res}{txt}(4,374,954 missing values generated)
-
-{com}. sum family_temp
-
-{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
-{hline 13}{c +}{hline 57}
-{space 1}family_temp {c |}{res}    682,891    279138.3    158262.3          1     568115
-{txt}
-{com}. drop family_temp
-{txt}
-{com}. 
-. di "number of families in the sibling outcome sample matched to the g11 va sample"
-{res}number of families in the sibling outcome sample matched to the g11 va sample
-{txt}
-{com}. di "(have at least one older sibling matched to postsecondary outcomes)"
-{res}(have at least one older sibling matched to postsecondary outcomes)
-{txt}
-{com}. 
-. di "ELA"
-{res}ELA
-{txt}
-{com}. egen family_temp = group(ufamilyid) ///
-> if grade == 11 & touse_g11_ela==1 & sibling_out_sample == 1
-{res}{txt}(4,380,591 missing values generated)
-
-{com}. sum family_temp
-
-{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
-{hline 13}{c +}{hline 57}
-{space 1}family_temp {c |}{res}    677,254    277124.7    157088.9          1     563849
-{txt}
-{com}. drop family_temp
-{txt}
-{com}. 
-. di "Math"
-{res}Math
-{txt}
-{com}. egen family_temp = group(ufamilyid) ///
-> if grade == 11 & touse_g11_math==1 & sibling_out_sample == 1
-{res}{txt}(4,383,383 missing values generated)
-
-{com}. sum family_temp
-
-{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
-{hline 13}{c +}{hline 57}
-{space 1}family_temp {c |}{res}    674,462    276196.2    156576.4          1     561945
-{txt}
-{com}. drop family_temp
-{txt}
-{com}. 
-. 
-. //check the number of obs by year
-. tab year if grade == 11 & touse_g11_ela==1 & sibling_full_sample == 1
-
-    {txt}Year of {c |}
-     Spring {c |}
-   Semester {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-       2015 {c |}{res}    174,785       25.49       25.49
-{txt}       2016 {c |}{res}    171,579       25.02       50.50
-{txt}       2017 {c |}{res}    172,007       25.08       75.58
-{txt}       2018 {c |}{res}    167,455       24.42      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}    685,826      100.00
-{txt}
-{com}. 
-. tab year if grade == 11 & touse_g11_math==1 & sibling_full_sample == 1
-
-    {txt}Year of {c |}
-     Spring {c |}
-   Semester {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-       2015 {c |}{res}    173,908       25.47       25.47
-{txt}       2016 {c |}{res}    170,850       25.02       50.49
-{txt}       2017 {c |}{res}    171,207       25.07       75.56
-{txt}       2018 {c |}{res}    166,926       24.44      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}    682,891      100.00
-{txt}
-{com}. 
-. 
-. 
-. 
-. 
-. 
-. 
-. 
-. timer off 1
-{txt}
-{com}. timer list 
-{res}   1:     63.17 /        1 =      63.1680
-{txt}
 {com}. log close
       {txt}name:  {res}<unnamed>
-       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sibling_sample_sumstats.smcl
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sib_acs_spec_test_tab.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 3 May 2022, 22:03:08
+ {txt}closed on:  {res} 4 May 2022, 17:49:04
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

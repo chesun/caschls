@@ -1,13 +1,56 @@
 {smcl}
 {com}{sf}{ul off}{txt}{.-}
       name:  {res}<unnamed>
-       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sibling_sample_sumstats.smcl
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sib_acs_vam_tab.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 3 May 2022, 22:02:05
+ {txt}opened on:  {res} 3 May 2022, 22:32:36
 {txt}
 {com}. 
-. //run the do helper file to set the local macros
-. include `vaprojdofiles'/sbac/macros_va.doh
+. /* change directory to common_core_va project directory for all value added
+> do files because some called subroutines written by Matt may use relative file paths  */
+. cd $vaprojdir
+{res}/home/research/ca_ed_lab/projects/common_core_va
+{txt}
+{com}. 
+. /* file path macros for datasets */
+. include $projdir/do/share/siblingvaregs/vafilemacros.doh
+{txt}
+{com}. ********************************************************************************
+. /* Macros for common core VA project folder file paths, and relevant datasets to make it possible
+> to use Matt's doh files  */
+. ********************************************************************************
+. ********************************************************************************
+. /* First written by Che Sun, 12/13/2021
+> 1/27/2022: changed mattdofiles path to the do files folder in project folder
+> after Matt updated the do files to reconcile file paths. Now direct run these
+> do files from the $vaprojdir/do_files_sbac folder*/
+. 
+. /* to include this in do files:
+> include $projdir/do/share/siblingvaregs/vafilemacros.doh
+>  */
+. 
+.  local vaprojdofiles "$vaprojdir/do_files"
+{txt}
+{com}. 
+. *** macros for my own datasets
+. local va_dataset "$projdir/dta/common_core_va/va_dataset"
+{txt}
+{com}. local va_g11_dataset "$projdir/dta/common_core_va/va_g11_dataset"
+{txt}
+{com}. local va_g11_out_dataset "$projdir/dta/common_core_va/va_g11_out_dataset"
+{txt}
+{com}. local siblingxwalk "$projdir/dta/siblingxwalk/siblingpairxwalk"
+{txt}
+{com}. local ufamilyxwalk "$projdir/dta/siblingxwalk/ufamilyxwalk"
+{txt}
+{com}. local k12_postsecondary_out_merge "$projdir/dta/common_core_va/k12_postsecondary_out_merge"
+{txt}
+{com}. local sibling_out_xwalk "$projdir/dta/siblingxwalk/sibling_out_xwalk"
+{txt}
+{com}. {txt}
+{com}. 
+. //run Matt's do helper file to set the local macros for VA project
+. include $vaprojdir/do_files/sbac/macros_va.doh
 {txt}
 {com}. /* CHANGE LOG
 > 4/28/2022: Added macro for sibling controls  */
@@ -199,11 +242,22 @@
 {txt}delimiter now cr
 {com}. {txt}
 {com}. 
-. #delimit ;
-{txt}delimiter now ;
-{com}. #delimit cr
-{txt}delimiter now cr
-{com}. macro list
+. macro list
+{txt}{p 0 16}
+T_gm_fix_span:{space 2}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+S_4:{space 12}{res}{res}.003900032715465
+{p_end}
+{txt}{p 0 16}
+S_2:{space 12}{res}{res}300
+{p_end}
+{txt}{p 0 16}
+S_3:{space 12}{res}{res}.020595561559967
+{p_end}
+{txt}{p 0 16}
+S_1:{space 12}{res}{res}epanechnikov
+{p_end}
 {txt}{p 0 16}
 vaprojxwalks:{space 3}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/restricted_access/clean/crosswalks
 {p_end}
@@ -423,229 +477,194 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 {p_end}
 {txt}
 {com}. 
-. 
+. //startomg timer
 . timer on 1
 {txt}
 {com}. 
+. 
 . ********************************************************************************
-. /* Add family fixed effects as an additional demographic control in SBAC
-> VA estimation */
+. * begin main code
 . 
-. //load the VA grade 11 sample
-. use `va_g11_dataset', clear
-{txt}(Test Score Grade 11 VA Sample)
+. ********** test score VA coefficients table
+. foreach subject in ela math {c -(}
+{txt}  2{com}.   // primary specification without sibling or acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/test_score_va/vam_`subject'_og.ster
+{txt}  3{com}.   eststo
+{txt}  4{com}. 
+.   // primary specification without sibling control, with acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/test_score_va/vam_`subject'_acs.ster
+{txt}  5{com}.   eststo
+{txt}  6{com}. 
+.   // primary specification with sibling controls, withohut acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/test_score_va/vam_`subject'_sib.ster
+{txt}  7{com}.   eststo
+{txt}  8{com}. 
+.   // primary specification with sibling and acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/test_score_va/vam_`subject'_both.ster
+{txt}  9{com}.   eststo
+{txt} 10{com}. {c )-}
+{res}{txt}({res}est1{txt} stored)
+{res}{txt}({res}est2{txt} stored)
+{res}{txt}({res}est3{txt} stored)
+{res}{txt}({res}est4{txt} stored)
+{res}{txt}({res}est5{txt} stored)
+{res}{txt}({res}est6{txt} stored)
+{res}{txt}({res}est7{txt} stored)
+{res}{txt}({res}est8{txt} stored)
 
 {com}. 
-. //merge on to ufamilyxwalk in order to use unique family ID for FE
-. merge m:1 state_student_id using `sibling_out_xwalk'
-{res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}       4,157,551
-{txt}{col 9}from master{col 30}{res}         884,570{txt}  (_merge==1)
-{col 9}from using{col 30}{res}       3,272,981{txt}  (_merge==2)
+. esttab using ///
+>   $projdir/out/csv/siblingvaregs/vam/sib_acs_restr_smp/test_score_sib_acs_restr_smp_vam.csv ///
+>   , replace nonumbers se(%4.3f) b(%5.3f) ///
+>   title("VAM Output for Test Score VA on Sibling Census Restricted Sample") ///
+>   mtitles("Original Specification" "Census Controls" ///
+>     "Sibling Controls" "Sibling and Census Controls" ///
+>     "Original Specification" "Census Controls" ///
+>     "Sibling Controls" "Sibling and Census Controls") ///
+>   mgroups("ELA" "Math", pattern(1 0 0 0 1 0 0 0) )
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/vam/sib_acs_restr_smp/test_score_sib_acs_restr_smp_vam.csv"'})
 
-{col 5}Matched{col 30}{res}         900,294{txt}  (_merge==3)
-{col 5}{hline 41}
-
-{com}. drop _merge
-{txt}
 {com}. 
 . 
-. compress
-{txt}  (0 bytes saved)
-
-{com}. tempfile va_g11_sibling_dataset
-{txt}
-{com}. save `va_g11_sibling_dataset'
-{txt}{p 0 4 2}
-file {bf}
-/home/tmp/St16505.000001{rm}
-saved
-as .dta format
-{p_end}
-
-{com}. 
-. 
-. 
-. 
-. //check the average distance between siblings
-. //in the full sibling sample
-. use $projdir/dta/siblingxwalk/uniquesiblingpairxwalk, clear
-{txt}(Unique sibling pairs after dropping duplicate permutations)
-
-{com}. 
-. //collapse to family level to only keep the average birth date distance in family
-. collapse (mean) avg_birth_date_distance_family, by(ufamilyid)
-{res}{txt}
-{com}. 
-. sum avg_birth_date_distance_family
-
-{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
-{hline 13}{c +}{hline 57}
-avg_birth_~y {c |}{res}  1,715,345    3.114058    1.738753          0   14.90137
-{txt}
-{com}. 
-. //in the sibling test score VA sample
-. //merge average sibling birth date distance in family to test score VA sibling dataset
-. 
-. merge 1:m ufamilyid using `va_g11_sibling_dataset'
-{res}
-{txt}{col 5}Result{col 33}Number of obs
-{col 5}{hline 41}
-{col 5}Not matched{col 30}{res}         885,444
-{txt}{col 9}from master{col 30}{res}             874{txt}  (_merge==1)
-{col 9}from using{col 30}{res}         884,570{txt}  (_merge==2)
-
-{col 5}Matched{col 30}{res}       4,173,275{txt}  (_merge==3)
-{col 5}{hline 41}
-
-{com}. 
-. sum avg_birth_date_distance_family ///
-> if grade == 11 & touse_g11_ela==1 & sibling_full_sample == 1
-
-{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
-{hline 13}{c +}{hline 57}
-avg_birth_~y {c |}{res}    685,772    3.349951    1.637888          0   14.50137
-{txt}
-{com}. 
-. sum avg_birth_date_distance_family ///
-> if grade == 11 & touse_g11_math==1 & sibling_full_sample == 1
-
-{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
-{hline 13}{c +}{hline 57}
-avg_birth_~y {c |}{res}    682,836    3.350443    1.638021          0   14.50137
+.  eststo clear
 {txt}
 {com}. 
 . 
 . 
-. 
-. use `va_g11_sibling_dataset', clear
-{txt}(Test Score Grade 11 VA Sample)
+. ********** outcome VA coefficients table
+. foreach outcome in enr enr_2year enr_4year {c -(}
+{txt}  2{com}.   // primary specification without sibling or acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/outcome_va/vam_`outcome'_og.ster
+{txt}  3{com}.   eststo
+{txt}  4{com}. 
+.   // primary specification without sibling control, with acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/outcome_va/vam_`outcome'_acs.ster
+{txt}  5{com}.   eststo
+{txt}  6{com}. 
+.   // primary specification with sibling controls, withohut acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/outcome_va/vam_`outcome'_sib.ster
+{txt}  7{com}.   eststo
+{txt}  8{com}. 
+.   // primary specification with sibling and acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/outcome_va/vam_`outcome'_both.ster
+{txt}  9{com}.   eststo
+{txt} 10{com}. {c )-}
+{res}{txt}({res}est1{txt} stored)
+{res}{txt}({res}est2{txt} stored)
+{res}{txt}({res}est3{txt} stored)
+{res}{txt}({res}est4{txt} stored)
+{res}{txt}({res}est5{txt} stored)
+{res}{txt}({res}est6{txt} stored)
+{res}{txt}({res}est7{txt} stored)
+{res}{txt}({res}est8{txt} stored)
+{res}{txt}({res}est9{txt} stored)
+{res}{txt}({res}est10{txt} stored)
+{res}{txt}({res}est11{txt} stored)
+{res}{txt}({res}est12{txt} stored)
 
-{com}. //check the number of families in this sample
-. di "number of families in the full sibling sample matched to the g11 va sample"
-{res}number of families in the full sibling sample matched to the g11 va sample
-{txt}
-{com}. 
-. di "ELA"
-{res}ELA
-{txt}
-{com}. egen family_temp = group(ufamilyid) ///
-> if grade == 11 & touse_g11_ela==1 & sibling_full_sample == 1
-{res}{txt}(4,372,019 missing values generated)
-
-{com}. sum family_temp
-
-{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
-{hline 13}{c +}{hline 57}
-{space 1}family_temp {c |}{res}    685,826    280120.2    158804.8          1     570129
-{txt}
-{com}. drop family_temp
-{txt}
-{com}. 
-. di "Math"
-{res}Math
-{txt}
-{com}. egen family_temp = group(ufamilyid) ///
-> if grade == 11 & touse_g11_math==1 & sibling_full_sample == 1
-{res}{txt}(4,374,954 missing values generated)
-
-{com}. sum family_temp
-
-{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
-{hline 13}{c +}{hline 57}
-{space 1}family_temp {c |}{res}    682,891    279138.3    158262.3          1     568115
-{txt}
-{com}. drop family_temp
-{txt}
-{com}. 
-. di "number of families in the sibling outcome sample matched to the g11 va sample"
-{res}number of families in the sibling outcome sample matched to the g11 va sample
-{txt}
-{com}. di "(have at least one older sibling matched to postsecondary outcomes)"
-{res}(have at least one older sibling matched to postsecondary outcomes)
-{txt}
-{com}. 
-. di "ELA"
-{res}ELA
-{txt}
-{com}. egen family_temp = group(ufamilyid) ///
-> if grade == 11 & touse_g11_ela==1 & sibling_out_sample == 1
-{res}{txt}(4,380,591 missing values generated)
-
-{com}. sum family_temp
-
-{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
-{hline 13}{c +}{hline 57}
-{space 1}family_temp {c |}{res}    677,254    277124.7    157088.9          1     563849
-{txt}
-{com}. drop family_temp
-{txt}
-{com}. 
-. di "Math"
-{res}Math
-{txt}
-{com}. egen family_temp = group(ufamilyid) ///
-> if grade == 11 & touse_g11_math==1 & sibling_out_sample == 1
-{res}{txt}(4,383,383 missing values generated)
-
-{com}. sum family_temp
-
-{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
-{hline 13}{c +}{hline 57}
-{space 1}family_temp {c |}{res}    674,462    276196.2    156576.4          1     561945
-{txt}
-{com}. drop family_temp
-{txt}
 {com}. 
 . 
-. //check the number of obs by year
-. tab year if grade == 11 & touse_g11_ela==1 & sibling_full_sample == 1
+. esttab using ///
+>   $projdir/out/csv/siblingvaregs/vam/sib_acs_restr_smp/outcome_sib_acs_restr_smp_vam.csv ///
+>   , replace nonumbers se(%4.3f) b(%5.3f) ///
+>   title("VAM Output for Outcome VA on Sibling Census Restricted Sample") ///
+>   mtitles("Original Specification" "Census Controls" ///
+>     "Sibling Controls" "Sibling and Census Controls" ///
+>     "Original Specification" "Census Controls" ///
+>     "Sibling Controls" "Sibling and Census Controls" ///
+>     "Original Specification" "Census Controls" ///
+>     "Sibling Controls" "Sibling and Census Controls" ) ///
+>   mgroups("Overall Enrollment" "2 Year Enrollment" "4 Year Enrollment", pattern(1 0 0 0 1 0 0 0 1 0 0 0) )
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/vam/sib_acs_restr_smp/outcome_sib_acs_restr_smp_vam.csv"'})
 
-    {txt}Year of {c |}
-     Spring {c |}
-   Semester {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-       2015 {c |}{res}    174,785       25.49       25.49
-{txt}       2016 {c |}{res}    171,579       25.02       50.50
-{txt}       2017 {c |}{res}    172,007       25.08       75.58
-{txt}       2018 {c |}{res}    167,455       24.42      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}    685,826      100.00
-{txt}
 {com}. 
-. tab year if grade == 11 & touse_g11_math==1 & sibling_full_sample == 1
-
-    {txt}Year of {c |}
-     Spring {c |}
-   Semester {c |}      Freq.     Percent        Cum.
-{hline 12}{c +}{hline 35}
-       2015 {c |}{res}    173,908       25.47       25.47
-{txt}       2016 {c |}{res}    170,850       25.02       50.49
-{txt}       2017 {c |}{res}    171,207       25.07       75.56
-{txt}       2018 {c |}{res}    166,926       24.44      100.00
-{txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}    682,891      100.00
+. eststo clear
 {txt}
 {com}. 
 . 
 . 
-. 
-. 
-. 
+. ********** outcome deep knowledge VA coefficients
+. foreach outcome in enr enr_2year enr_4year {c -(}
+{txt}  2{com}.   // primary specification without sibling or acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/outcome_va/vam_`outcome'_og_dk.ster
+{txt}  3{com}.   eststo
+{txt}  4{com}. 
+.   // primary specification without sibling control, with acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/outcome_va/vam_`outcome'_acs_dk.ster
+{txt}  5{com}.   eststo
+{txt}  6{com}. 
+.   // primary specification with sibling controls, withohut acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/outcome_va/vam_`outcome'_sib_dk.ster
+{txt}  7{com}.   eststo
+{txt}  8{com}. 
+.   // primary specification with sibling and acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/outcome_va/vam_`outcome'_both_dk.ster
+{txt}  9{com}.   eststo
+{txt} 10{com}. {c )-}
+{res}{txt}({res}est1{txt} stored)
+{res}{txt}({res}est2{txt} stored)
+{res}{txt}({res}est3{txt} stored)
+{res}{txt}({res}est4{txt} stored)
+{res}{txt}({res}est5{txt} stored)
+{res}{txt}({res}est6{txt} stored)
+{res}{txt}({res}est7{txt} stored)
+{res}{txt}({res}est8{txt} stored)
+{res}{txt}({res}est9{txt} stored)
+{res}{txt}({res}est10{txt} stored)
+{res}{txt}({res}est11{txt} stored)
+{res}{txt}({res}est12{txt} stored)
+
+{com}. 
+. esttab using ///
+>   $projdir/out/csv/siblingvaregs/vam/sib_acs_restr_smp/outcome_dk_sib_acs_restr_smp_vam.csv ///
+>   , replace nonumbers se(%4.3f) b(%5.3f) ///
+>   title("VAM Output for Deep Knowledge Outcome VA on Sibling Census Restricted Sample") ///
+>   mtitles("Original Specification" "Census Controls" ///
+>     "Sibling Controls" "Sibling and Census Controls" ///
+>     "Original Specification" "Census Controls" ///
+>     "Sibling Controls" "Sibling and Census Controls" ///
+>     "Original Specification" "Census Controls" ///
+>     "Sibling Controls" "Sibling and Census Controls" ) ///
+>   mgroups("Overall Enrollment" "2 Year Enrollment" "4 Year Enrollment", pattern(1 0 0 0 1 0 0 0 1 0 0 0) )
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/vam/sib_acs_restr_smp/outcome_dk_sib_acs_restr_smp_vam.csv"'})
+
+{com}. 
+. eststo clear
+{txt}
+{com}. 
 . 
 . 
 . timer off 1
 {txt}
-{com}. timer list 
-{res}   1:     63.17 /        1 =      63.1680
+{com}. timer list
+{res}   1:      1.03 /        1 =       1.0320
 {txt}
-{com}. log close
+{com}. 
+. set trace off
+{txt}
+{com}. 
+. //change directory back to my own personal directory
+. cd $projdir 
+{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
+{txt}
+{com}. 
+. log close
       {txt}name:  {res}<unnamed>
-       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sibling_sample_sumstats.smcl
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sib_acs_vam_tab.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 3 May 2022, 22:03:08
+ {txt}closed on:  {res} 3 May 2022, 22:32:37
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

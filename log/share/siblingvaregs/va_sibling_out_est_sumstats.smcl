@@ -3,17 +3,21 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sibling_out_est_sumstats.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}12 Apr 2022, 13:18:31
+ {txt}opened on:  {res} 3 May 2022, 22:32:37
 {txt}
 {com}. 
 . //run the do helper file to set the local macros
 . include `vaprojdofiles'/sbac/macros_va.doh
 {txt}
-{com}. #delimit ;
+{com}. /* CHANGE LOG
+> 4/28/2022: Added macro for sibling controls  */
+. 
+. #delimit ;
 {txt}delimiter now ;
 {com}. *** file paths
 > local home $vaprojdir ;
-. local ca_ed_lab "/home/research/ca_ed_lab" ;
+. local vaprojdofiles "$vaprojdir/do_files"
+> local ca_ed_lab "/home/research/ca_ed_lab" ;
 {txt}
 {com}. local k12_test_scores "$vaprojdir/data/restricted_access/clean/k12_test_scores" ;
 {txt}
@@ -133,6 +137,11 @@
 >         inc_median_hh
 >         ;
 {txt}
+{com}. local sibling_controls
+>         i.has_older_sibling_enr_2year
+>         i.has_older_sibling_enr_4year
+>         ;
+{txt}
 {com}. **** School Characteristics ;
 . local sch_chars
 >         fte_teach_pc fte_pupil_pc /*fte_admin_pc*/
@@ -196,12 +205,6 @@
 {txt}delimiter now cr
 {com}. macro list
 {txt}{p 0 16}
-eststo_counter:{space 1}{res}{res}4
-{p_end}
-{txt}{p 0 16}
-eststo:{space 9}{res}{res}est1 est2 est3 est4
-{p_end}
-{txt}{p 0 16}
 T_gm_fix_span:{space 2}{res}{res}0
 {p_end}
 {txt}{p 0 16}
@@ -249,33 +252,6 @@ rawdtadir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/raw
 {p_end}
 {txt}{p 0 16}
 rawcsvdir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/raw/calschls/csv
-{p_end}
-{txt}{p 0 16}
-S_6:{space 12}{res}{res}.7097029923018954
-{p_end}
-{txt}{p 0 16}
-S_5:{space 12}{res}{res}4
-{p_end}
-{txt}{p 0 16}
-ReS_jv2:{space 8}{res}{res}__000006 __000007 __000008 __000009 __00000A __00000B __00000C __00000D __00000E __00000F __00000G __00000H __00000I __00000J __00000K
-{p_end}
-{txt}{p 0 16}
-dropv:{space 10}{res}{res}_cdscode_x
-{p_end}
-{txt}{p 0 16}
-n_offset:{space 7}{res}{res}0
-{p_end}
-{txt}{p 0 16}
-sort:{space 11}{res}{res}0
-{p_end}
-{txt}{p 0 16}
-dots:{space 11}{res}{res}nois _dots 5 0
-{p_end}
-{txt}{p 0 16}
-dotss:{space 10}{res}{res}nois _dots 0, title(Survey results being calculated)
-{p_end}
-{txt}{p 0 16}
-ReS_Call:{space 7}{res}{res}version 16.1:
 {p_end}
 {txt}{p 0 16}
 S_level:{space 8}{res}{res}95
@@ -332,6 +308,10 @@ _sch_char_vars:{space 1}{res}{res}fte_teach_pc fte_pupil_pc new_teacher_prop cre
 {p_end}
 {txt}{p 0 16}
 _sch_chars:{space 5}{res}{res}fte_teach_pc fte_pupil_pc                   new_teacher_prop                           credential_full_prop                  c.male_prop##c.enr_male_prop         c.eth_minority_prop##c.enr_minority_prop         enr_total
+{p_end}
+{txt}{p 0 16}
+_sibling_controls:{break}
+{res}i.has_older_sibling_enr_2year         i.has_older_sibling_enr_4year
 {p_end}
 {txt}{p 0 16}
 _census_controls:{break}
@@ -429,7 +409,7 @@ _k12_test_scores:{break}
 {res}/home/research/ca_ed_lab/projects/common_core_va/data/restricted_access/clean/k12_test_scores
 {p_end}
 {txt}{p 0 16}
-_ca_ed_lab:{space 5}{res}{res}/home/research/ca_ed_lab
+_vaprojdofiles:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/do_files" local ca_ed_lab "/home/research/ca_ed_lab
 {p_end}
 {txt}{p 0 16}
 _sibling_out_xwalk:{break}
@@ -455,9 +435,6 @@ _va_g11_dataset:{break}
 {p_end}
 {txt}{p 0 16}
 _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_core_va/va_dataset
-{p_end}
-{txt}{p 0 16}
-_vaprojdofiles:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/do_files
 {p_end}
 {txt}
 {com}. 
@@ -491,7 +468,7 @@ _vaprojdofiles:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_
 .   tempfile va_`outcome'
 {txt} 13{com}.   save `va_`outcome''
 {txt} 14{com}. {c )-}
-{txt}(CST/SBAC Student Test Score Samples)
+{txt}(Enrollment Outcome Grade 11 VA Sample)
 {res}
 {col 1}{txt:Panel variable: }{res:school_id}{txt: (unbalanced)}
 {p 1 16 2}{txt:Time variable: }{res:year}{txt:, }{res:{bind:2015}}{txt: to }{res:{bind:2018}}{txt:, but with gaps}{p_end}
@@ -504,11 +481,11 @@ _vaprojdofiles:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_
 va_cfr_g11~r {c |}{res}      4,869    3.60e-10    .0774787  -.3547636   .2218038
 {txt}{p 0 4 2}
 file {bf}
-/home/tmp/St192370.000001{rm}
+/home/tmp/St16505.000001{rm}
 saved
 as .dta format
 {p_end}
-(CST/SBAC Student Test Score Samples)
+(Enrollment Outcome Grade 11 VA Sample)
 {res}
 {col 1}{txt:Panel variable: }{res:school_id}{txt: (unbalanced)}
 {p 1 16 2}{txt:Time variable: }{res:year}{txt:, }{res:{bind:2015}}{txt: to }{res:{bind:2018}}{txt:, but with gaps}{p_end}
@@ -521,11 +498,11 @@ as .dta format
 va_cfr_g11~r {c |}{res}      4,869    4.59e-10    .0911288  -.2611847   .3558423
 {txt}{p 0 4 2}
 file {bf}
-/home/tmp/St192370.000002{rm}
+/home/tmp/St16505.000002{rm}
 saved
 as .dta format
 {p_end}
-(CST/SBAC Student Test Score Samples)
+(Enrollment Outcome Grade 11 VA Sample)
 {res}
 {col 1}{txt:Panel variable: }{res:school_id}{txt: (unbalanced)}
 {p 1 16 2}{txt:Time variable: }{res:year}{txt:, }{res:{bind:2015}}{txt: to }{res:{bind:2018}}{txt:, but with gaps}{p_end}
@@ -538,7 +515,7 @@ as .dta format
 va_cfr_g11~r {c |}{res}      4,869   -9.38e-10    .0908704  -.2317269    .378627
 {txt}{p 0 4 2}
 file {bf}
-/home/tmp/St192370.000003{rm}
+/home/tmp/St16505.000003{rm}
 saved
 as .dta format
 {p_end}
@@ -546,7 +523,7 @@ as .dta format
 {com}. 
 . 
 . use `va_enr'
-{txt}(CST/SBAC Student Test Score Samples)
+{txt}(Enrollment Outcome Grade 11 VA Sample)
 
 {com}. merge 1:1 cdscode year using `va_enr_2year', nogen
 {res}
@@ -571,7 +548,7 @@ as .dta format
 {com}. save `va_enr_merged_sibling'
 {txt}{p 0 4 2}
 file {bf}
-/home/tmp/St192370.000004{rm}
+/home/tmp/St16505.000004{rm}
 saved
 as .dta format
 {p_end}
@@ -659,21 +636,21 @@ format
 {txt}(CST/SBAC Student Test Score Samples)
 {p 0 4 2}
 file {bf}
-/home/tmp/St192370.000005{rm}
+/home/tmp/St16505.000005{rm}
 saved
 as .dta format
 {p_end}
 (CST/SBAC Student Test Score Samples)
 {p 0 4 2}
 file {bf}
-/home/tmp/St192370.000006{rm}
+/home/tmp/St16505.000006{rm}
 saved
 as .dta format
 {p_end}
 (CST/SBAC Student Test Score Samples)
 {p 0 4 2}
 file {bf}
-/home/tmp/St192370.000007{rm}
+/home/tmp/St16505.000007{rm}
 saved
 as .dta format
 {p_end}
@@ -950,13 +927,13 @@ format
 . timer off 1
 {txt}
 {com}. timer list
-{res}   1:      4.65 /        1 =       4.6520
+{res}   1:      4.64 /        1 =       4.6360
 {txt}
 {com}. log close
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sibling_out_est_sumstats.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}12 Apr 2022, 13:18:36
+ {txt}closed on:  {res} 3 May 2022, 22:32:41
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

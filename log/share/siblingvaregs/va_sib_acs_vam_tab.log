@@ -1,13 +1,62 @@
 -------------------------------------------------------------------------------
       name:  <unnamed>
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
-> gvaregs/va_sibling_sample_sumstats.smcl
+> gvaregs/va_sib_acs_vam_tab.smcl
   log type:  smcl
- opened on:   3 May 2022, 22:02:05
+ opened on:   3 May 2022, 22:32:36
 
 . 
-. //run the do helper file to set the local macros
-. include `vaprojdofiles'/sbac/macros_va.doh
+. /* change directory to common_core_va project directory for all value added
+> do files because some called subroutines written by Matt may use relative fil
+> e paths  */
+. cd $vaprojdir
+/home/research/ca_ed_lab/projects/common_core_va
+
+. 
+. /* file path macros for datasets */
+. include $projdir/do/share/siblingvaregs/vafilemacros.doh
+
+. *****************************************************************************
+> ***
+. /* Macros for common core VA project folder file paths, and relevant datasets
+>  to make it possible
+> to use Matt's doh files  */
+. *****************************************************************************
+> ***
+. *****************************************************************************
+> ***
+. /* First written by Che Sun, 12/13/2021
+> 1/27/2022: changed mattdofiles path to the do files folder in project folder
+> after Matt updated the do files to reconcile file paths. Now direct run these
+> do files from the $vaprojdir/do_files_sbac folder*/
+. 
+. /* to include this in do files:
+> include $projdir/do/share/siblingvaregs/vafilemacros.doh
+>  */
+. 
+.  local vaprojdofiles "$vaprojdir/do_files"
+
+. 
+. *** macros for my own datasets
+. local va_dataset "$projdir/dta/common_core_va/va_dataset"
+
+. local va_g11_dataset "$projdir/dta/common_core_va/va_g11_dataset"
+
+. local va_g11_out_dataset "$projdir/dta/common_core_va/va_g11_out_dataset"
+
+. local siblingxwalk "$projdir/dta/siblingxwalk/siblingpairxwalk"
+
+. local ufamilyxwalk "$projdir/dta/siblingxwalk/ufamilyxwalk"
+
+. local k12_postsecondary_out_merge "$projdir/dta/common_core_va/k12_postsecond
+> ary_out_merge"
+
+. local sibling_out_xwalk "$projdir/dta/siblingxwalk/sibling_out_xwalk"
+
+. 
+. 
+. //run Matt's do helper file to set the local macros for VA project
+. include $vaprojdir/do_files/sbac/macros_va.doh
 
 . /* CHANGE LOG
 > 4/28/2022: Added macro for sibling controls  */
@@ -207,11 +256,12 @@ delimiter now ;
 delimiter now cr
 . 
 . 
-. #delimit ;
-delimiter now ;
-. #delimit cr
-delimiter now cr
 . macro list
+T_gm_fix_span:  0
+S_4:            .003900032715465
+S_2:            300
+S_3:            .020595561559967
+S_1:            epanechnikov
 vaprojxwalks:   /home/research/ca_ed_lab/projects/common_core_va/data/restricte
                 > d_access/clean/crosswalks
 mattxwalks:     /home/research/ca_ed_lab/users/msnaven/data/restricted_access/c
@@ -340,228 +390,212 @@ _va_dataset:    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_co
                 > re_va/va_dataset
 
 . 
-. 
+. //startomg timer
 . timer on 1
 
 . 
+. 
 . *****************************************************************************
 > ***
-. /* Add family fixed effects as an additional demographic control in SBAC
-> VA estimation */
+. * begin main code
 . 
-. //load the VA grade 11 sample
-. use `va_g11_dataset', clear
-(Test Score Grade 11 VA Sample)
-
-. 
-. //merge on to ufamilyxwalk in order to use unique family ID for FE
-. merge m:1 state_student_id using `sibling_out_xwalk'
-
-    Result                      Number of obs
-    -----------------------------------------
-    Not matched                     4,157,551
-        from master                   884,570  (_merge==1)
-        from using                  3,272,981  (_merge==2)
-
-    Matched                           900,294  (_merge==3)
-    -----------------------------------------
-
-. drop _merge
-
-. 
-. 
-. compress
-  (0 bytes saved)
-
-. tempfile va_g11_sibling_dataset
-
-. save `va_g11_sibling_dataset'
-file /home/tmp/St16505.000001 saved as .dta format
-
-. 
-. 
-. 
-. 
-. //check the average distance between siblings
-. //in the full sibling sample
-. use $projdir/dta/siblingxwalk/uniquesiblingpairxwalk, clear
-(Unique sibling pairs after dropping duplicate permutations)
+. ********** test score VA coefficients table
+. foreach subject in ela math {
+  2.   // primary specification without sibling or acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/test_score_va/vam_`subject'_og.ste
+> r
+  3.   eststo
+  4. 
+.   // primary specification without sibling control, with acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/test_score_va/vam_`subject'_acs.st
+> er
+  5.   eststo
+  6. 
+.   // primary specification with sibling controls, withohut acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/test_score_va/vam_`subject'_sib.st
+> er
+  7.   eststo
+  8. 
+.   // primary specification with sibling and acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/test_score_va/vam_`subject'_both.s
+> ter
+  9.   eststo
+ 10. }
+(est1 stored)
+(est2 stored)
+(est3 stored)
+(est4 stored)
+(est5 stored)
+(est6 stored)
+(est7 stored)
+(est8 stored)
 
 . 
-. //collapse to family level to only keep the average birth date distance in fa
-> mily
-. collapse (mean) avg_birth_date_distance_family, by(ufamilyid)
+. esttab using ///
+>   $projdir/out/csv/siblingvaregs/vam/sib_acs_restr_smp/test_score_sib_acs_res
+> tr_smp_vam.csv ///
+>   , replace nonumbers se(%4.3f) b(%5.3f) ///
+>   title("VAM Output for Test Score VA on Sibling Census Restricted Sample") /
+> //
+>   mtitles("Original Specification" "Census Controls" ///
+>     "Sibling Controls" "Sibling and Census Controls" ///
+>     "Original Specification" "Census Controls" ///
+>     "Sibling Controls" "Sibling and Census Controls") ///
+>   mgroups("ELA" "Math", pattern(1 0 0 0 1 0 0 0) )
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/si
+> blingvaregs/vam/sib_acs_restr_smp/test_score_sib_acs_restr_smp_vam.csv)
 
 . 
-. sum avg_birth_date_distance_family
-
-    Variable |        Obs        Mean    Std. dev.       Min        Max
--------------+---------------------------------------------------------
-avg_birth_~y |  1,715,345    3.114058    1.738753          0   14.90137
-
 . 
-. //in the sibling test score VA sample
-. //merge average sibling birth date distance in family to test score VA siblin
-> g dataset
-. 
-. merge 1:m ufamilyid using `va_g11_sibling_dataset'
-
-    Result                      Number of obs
-    -----------------------------------------
-    Not matched                       885,444
-        from master                       874  (_merge==1)
-        from using                    884,570  (_merge==2)
-
-    Matched                         4,173,275  (_merge==3)
-    -----------------------------------------
-
-. 
-. sum avg_birth_date_distance_family ///
-> if grade == 11 & touse_g11_ela==1 & sibling_full_sample == 1
-
-    Variable |        Obs        Mean    Std. dev.       Min        Max
--------------+---------------------------------------------------------
-avg_birth_~y |    685,772    3.349951    1.637888          0   14.50137
-
-. 
-. sum avg_birth_date_distance_family ///
-> if grade == 11 & touse_g11_math==1 & sibling_full_sample == 1
-
-    Variable |        Obs        Mean    Std. dev.       Min        Max
--------------+---------------------------------------------------------
-avg_birth_~y |    682,836    3.350443    1.638021          0   14.50137
+.  eststo clear
 
 . 
 . 
 . 
-. 
-. use `va_g11_sibling_dataset', clear
-(Test Score Grade 11 VA Sample)
-
-. //check the number of families in this sample
-. di "number of families in the full sibling sample matched to the g11 va sampl
-> e"
-number of families in the full sibling sample matched to the g11 va sample
-
-. 
-. di "ELA"
-ELA
-
-. egen family_temp = group(ufamilyid) ///
-> if grade == 11 & touse_g11_ela==1 & sibling_full_sample == 1
-(4,372,019 missing values generated)
-
-. sum family_temp
-
-    Variable |        Obs        Mean    Std. dev.       Min        Max
--------------+---------------------------------------------------------
- family_temp |    685,826    280120.2    158804.8          1     570129
-
-. drop family_temp
-
-. 
-. di "Math"
-Math
-
-. egen family_temp = group(ufamilyid) ///
-> if grade == 11 & touse_g11_math==1 & sibling_full_sample == 1
-(4,374,954 missing values generated)
-
-. sum family_temp
-
-    Variable |        Obs        Mean    Std. dev.       Min        Max
--------------+---------------------------------------------------------
- family_temp |    682,891    279138.3    158262.3          1     568115
-
-. drop family_temp
-
-. 
-. di "number of families in the sibling outcome sample matched to the g11 va sa
-> mple"
-number of families in the sibling outcome sample matched to the g11 va sample
-
-. di "(have at least one older sibling matched to postsecondary outcomes)"
-(have at least one older sibling matched to postsecondary outcomes)
-
-. 
-. di "ELA"
-ELA
-
-. egen family_temp = group(ufamilyid) ///
-> if grade == 11 & touse_g11_ela==1 & sibling_out_sample == 1
-(4,380,591 missing values generated)
-
-. sum family_temp
-
-    Variable |        Obs        Mean    Std. dev.       Min        Max
--------------+---------------------------------------------------------
- family_temp |    677,254    277124.7    157088.9          1     563849
-
-. drop family_temp
-
-. 
-. di "Math"
-Math
-
-. egen family_temp = group(ufamilyid) ///
-> if grade == 11 & touse_g11_math==1 & sibling_out_sample == 1
-(4,383,383 missing values generated)
-
-. sum family_temp
-
-    Variable |        Obs        Mean    Std. dev.       Min        Max
--------------+---------------------------------------------------------
- family_temp |    674,462    276196.2    156576.4          1     561945
-
-. drop family_temp
+. ********** outcome VA coefficients table
+. foreach outcome in enr enr_2year enr_4year {
+  2.   // primary specification without sibling or acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/outcome_va/vam_`outcome'_og.ster
+  3.   eststo
+  4. 
+.   // primary specification without sibling control, with acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/outcome_va/vam_`outcome'_acs.ster
+  5.   eststo
+  6. 
+.   // primary specification with sibling controls, withohut acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/outcome_va/vam_`outcome'_sib.ster
+  7.   eststo
+  8. 
+.   // primary specification with sibling and acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/outcome_va/vam_`outcome'_both.ster
+  9.   eststo
+ 10. }
+(est1 stored)
+(est2 stored)
+(est3 stored)
+(est4 stored)
+(est5 stored)
+(est6 stored)
+(est7 stored)
+(est8 stored)
+(est9 stored)
+(est10 stored)
+(est11 stored)
+(est12 stored)
 
 . 
 . 
-. //check the number of obs by year
-. tab year if grade == 11 & touse_g11_ela==1 & sibling_full_sample == 1
-
-    Year of |
-     Spring |
-   Semester |      Freq.     Percent        Cum.
-------------+-----------------------------------
-       2015 |    174,785       25.49       25.49
-       2016 |    171,579       25.02       50.50
-       2017 |    172,007       25.08       75.58
-       2018 |    167,455       24.42      100.00
-------------+-----------------------------------
-      Total |    685,826      100.00
+. esttab using ///
+>   $projdir/out/csv/siblingvaregs/vam/sib_acs_restr_smp/outcome_sib_acs_restr_
+> smp_vam.csv ///
+>   , replace nonumbers se(%4.3f) b(%5.3f) ///
+>   title("VAM Output for Outcome VA on Sibling Census Restricted Sample") ///
+>   mtitles("Original Specification" "Census Controls" ///
+>     "Sibling Controls" "Sibling and Census Controls" ///
+>     "Original Specification" "Census Controls" ///
+>     "Sibling Controls" "Sibling and Census Controls" ///
+>     "Original Specification" "Census Controls" ///
+>     "Sibling Controls" "Sibling and Census Controls" ) ///
+>   mgroups("Overall Enrollment" "2 Year Enrollment" "4 Year Enrollment", patte
+> rn(1 0 0 0 1 0 0 0 1 0 0 0) )
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/si
+> blingvaregs/vam/sib_acs_restr_smp/outcome_sib_acs_restr_smp_vam.csv)
 
 . 
-. tab year if grade == 11 & touse_g11_math==1 & sibling_full_sample == 1
-
-    Year of |
-     Spring |
-   Semester |      Freq.     Percent        Cum.
-------------+-----------------------------------
-       2015 |    173,908       25.47       25.47
-       2016 |    170,850       25.02       50.49
-       2017 |    171,207       25.07       75.56
-       2018 |    166,926       24.44      100.00
-------------+-----------------------------------
-      Total |    682,891      100.00
+. eststo clear
 
 . 
 . 
 . 
+. ********** outcome deep knowledge VA coefficients
+. foreach outcome in enr enr_2year enr_4year {
+  2.   // primary specification without sibling or acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/outcome_va/vam_`outcome'_og_dk.ste
+> r
+  3.   eststo
+  4. 
+.   // primary specification without sibling control, with acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/outcome_va/vam_`outcome'_acs_dk.st
+> er
+  5.   eststo
+  6. 
+.   // primary specification with sibling controls, withohut acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/outcome_va/vam_`outcome'_sib_dk.st
+> er
+  7.   eststo
+  8. 
+.   // primary specification with sibling and acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/outcome_va/vam_`outcome'_both_dk.s
+> ter
+  9.   eststo
+ 10. }
+(est1 stored)
+(est2 stored)
+(est3 stored)
+(est4 stored)
+(est5 stored)
+(est6 stored)
+(est7 stored)
+(est8 stored)
+(est9 stored)
+(est10 stored)
+(est11 stored)
+(est12 stored)
+
 . 
+. esttab using ///
+>   $projdir/out/csv/siblingvaregs/vam/sib_acs_restr_smp/outcome_dk_sib_acs_res
+> tr_smp_vam.csv ///
+>   , replace nonumbers se(%4.3f) b(%5.3f) ///
+>   title("VAM Output for Deep Knowledge Outcome VA on Sibling Census Restricte
+> d Sample") ///
+>   mtitles("Original Specification" "Census Controls" ///
+>     "Sibling Controls" "Sibling and Census Controls" ///
+>     "Original Specification" "Census Controls" ///
+>     "Sibling Controls" "Sibling and Census Controls" ///
+>     "Original Specification" "Census Controls" ///
+>     "Sibling Controls" "Sibling and Census Controls" ) ///
+>   mgroups("Overall Enrollment" "2 Year Enrollment" "4 Year Enrollment", patte
+> rn(1 0 0 0 1 0 0 0 1 0 0 0) )
+(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/si
+> blingvaregs/vam/sib_acs_restr_smp/outcome_dk_sib_acs_restr_smp_vam.csv)
+
 . 
+. eststo clear
+
 . 
 . 
 . 
 . timer off 1
 
-. timer list 
-   1:     63.17 /        1 =      63.1680
+. timer list
+   1:      1.03 /        1 =       1.0320
 
+. 
+. set trace off
+
+. 
+. //change directory back to my own personal directory
+. cd $projdir 
+/home/research/ca_ed_lab/users/chesun/gsr/caschls
+
+. 
 . log close
       name:  <unnamed>
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
-> gvaregs/va_sibling_sample_sumstats.smcl
+> gvaregs/va_sib_acs_vam_tab.smcl
   log type:  smcl
- closed on:   3 May 2022, 22:03:08
+ closed on:   3 May 2022, 22:32:37
 -------------------------------------------------------------------------------

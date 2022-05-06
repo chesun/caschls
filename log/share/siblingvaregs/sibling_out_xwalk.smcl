@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/sibling_out_xwalk.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}28 Apr 2022, 13:16:57
+ {txt}opened on:  {res} 3 May 2022, 20:47:22
 {txt}
 {com}. 
 . 
@@ -157,7 +157,7 @@
 {txt}
 {com}. 
 . // sample indicator for obs to use in VA with sibling 2 yr and 4 yr enrollment controls
-. // This sample consists obs with at least 1 sibling matched to postsec outcomes, and who have non-missing for the sibling controls 
+. // This sample consists of obs with at least 1 sibling matched to postsec outcomes, and who have non-missing for the sibling controls
 . gen sibling_2y_4y_controls_sample = 0
 {txt}
 {com}. replace sibling_2y_4y_controls_sample = 1 if !mi(has_older_sibling_enr_2year) & !mi(has_older_sibling_enr_4year) & sibling_out_sample==1
@@ -196,13 +196,13 @@ saved
 .  timer off 1
 {txt}
 {com}.  timer list
-{res}   1:    218.42 /        1 =     218.4160
+{res}   1:    165.37 /        1 =     165.3730
 {txt}
 {com}.  log close
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/sibling_out_xwalk.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}28 Apr 2022, 13:20:36
+ {txt}closed on:  {res} 3 May 2022, 20:50:07
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

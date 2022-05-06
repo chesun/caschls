@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/siblingvasamples.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 9 Apr 2022, 02:27:58
+ {txt}opened on:  {res} 3 May 2022, 20:50:07
 {txt}
 {com}. 
 . /* file path macros  */
@@ -23,19 +23,7 @@
 > include $projdir/do/share/siblingvaregs/vafilemacros.doh
 >  */
 . 
-. //adapted matt do files
-. local vaprojdofiles "$vaprojdir/do_files"
-{txt}
-{com}. 
-. local ca_ed_lab "/home/research/ca_ed_lab"
-{txt}
-{com}. local k12_test_scores "$vaprojdir/data/restricted_access/clean/k12_test_scores"
-{txt}
-{com}. local public_access "/home/research/ca_ed_lab/data/public_access"
-{txt}
-{com}. local k12_public_schools "/home/research/ca_ed_lab/projects/common_core_va/data/public_access/clean/k12_public_schools"
-{txt}
-{com}. local k12_test_scores_public "/home/research/ca_ed_lab/projects/common_core_va/data/public_access/clean/k12_test_scores"
+.  local vaprojdofiles "$vaprojdir/do_files"
 {txt}
 {com}. 
 . *** macros for my own datasets
@@ -69,11 +57,15 @@
 . //run the do helper file to set the local macros
 . include `vaprojdofiles'/sbac/macros_va.doh
 {txt}
-{com}. #delimit ;
+{com}. /* CHANGE LOG
+> 4/28/2022: Added macro for sibling controls  */
+. 
+. #delimit ;
 {txt}delimiter now ;
 {com}. *** file paths
 > local home $vaprojdir ;
-. local ca_ed_lab "/home/research/ca_ed_lab" ;
+. local vaprojdofiles "$vaprojdir/do_files"
+> local ca_ed_lab "/home/research/ca_ed_lab" ;
 {txt}
 {com}. local k12_test_scores "$vaprojdir/data/restricted_access/clean/k12_test_scores" ;
 {txt}
@@ -193,6 +185,11 @@
 >         inc_median_hh
 >         ;
 {txt}
+{com}. local sibling_controls
+>         i.has_older_sibling_enr_2year
+>         i.has_older_sibling_enr_4year
+>         ;
+{txt}
 {com}. **** School Characteristics ;
 . local sch_chars
 >         fte_teach_pc fte_pupil_pc /*fte_admin_pc*/
@@ -290,42 +287,6 @@ rawdtadir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/raw
 rawcsvdir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/raw/calschls/csv
 {p_end}
 {txt}{p 0 16}
-T_gm_fix_span:{space 2}{res}{res}0
-{p_end}
-{txt}{p 0 16}
-S_6:{space 12}{res}{res}.7097029923018954
-{p_end}
-{txt}{p 0 16}
-S_5:{space 12}{res}{res}4
-{p_end}
-{txt}{p 0 16}
-S_4:{space 12}{res}{res}.379339567907114
-{p_end}
-{txt}{p 0 16}
-ReS_jv2:{space 8}{res}{res}__000006 __000007 __000008 __000009 __00000A __00000B __00000C __00000D __00000E __00000F __00000G __00000H __00000I __00000J __00000K
-{p_end}
-{txt}{p 0 16}
-dropv:{space 10}{res}{res}_cdscode_x
-{p_end}
-{txt}{p 0 16}
-n_offset:{space 7}{res}{res}0
-{p_end}
-{txt}{p 0 16}
-sort:{space 11}{res}{res}0
-{p_end}
-{txt}{p 0 16}
-dots:{space 11}{res}{res}nois _dots 5 0
-{p_end}
-{txt}{p 0 16}
-dotss:{space 10}{res}{res}nois _dots 0, title(Survey results being calculated)
-{p_end}
-{txt}{p 0 16}
-S_3:{space 12}{res}{res}.0104764158075594
-{p_end}
-{txt}{p 0 16}
-ReS_Call:{space 7}{res}{res}version 16.1:
-{p_end}
-{txt}{p 0 16}
 S_level:{space 8}{res}{res}95
 {p_end}
 {txt}{p 0 16}
@@ -380,6 +341,10 @@ _sch_char_vars:{space 1}{res}{res}fte_teach_pc fte_pupil_pc new_teacher_prop cre
 {p_end}
 {txt}{p 0 16}
 _sch_chars:{space 5}{res}{res}fte_teach_pc fte_pupil_pc                   new_teacher_prop                           credential_full_prop                  c.male_prop##c.enr_male_prop         c.eth_minority_prop##c.enr_minority_prop         enr_total
+{p_end}
+{txt}{p 0 16}
+_sibling_controls:{break}
+{res}i.has_older_sibling_enr_2year         i.has_older_sibling_enr_4year
 {p_end}
 {txt}{p 0 16}
 _census_controls:{break}
@@ -477,7 +442,7 @@ _k12_test_scores:{break}
 {res}/home/research/ca_ed_lab/projects/common_core_va/data/restricted_access/clean/k12_test_scores
 {p_end}
 {txt}{p 0 16}
-_ca_ed_lab:{space 5}{res}{res}/home/research/ca_ed_lab
+_vaprojdofiles:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/do_files" local ca_ed_lab "/home/research/ca_ed_lab
 {p_end}
 {txt}{p 0 16}
 _sibling_out_xwalk:{break}
@@ -503,9 +468,6 @@ _va_g11_dataset:{break}
 {p_end}
 {txt}{p 0 16}
 _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_core_va/va_dataset
-{p_end}
-{txt}{p 0 16}
-_vaprojdofiles:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/do_files
 {p_end}
 {txt}
 {com}. 
@@ -3111,13 +3073,13 @@ saved
 . timer off 1
 {txt}
 {com}. timer list
-{res}   1:   4493.46 /        1 =    4493.4630
+{res}   1:   4286.60 /        1 =    4286.5950
 {txt}
 {com}. log close
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/siblingvasamples.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 9 Apr 2022, 03:42:51
+ {txt}closed on:  {res} 3 May 2022, 22:01:34
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

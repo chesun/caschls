@@ -3,12 +3,15 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/va_sibling_out_forecast_bias.smcl
   log type:  smcl
- opened on:  28 Apr 2022, 13:20:47
+ opened on:   3 May 2022, 22:04:07
 
 . 
 . //run the do helper file to set the local macros
 . include `vaprojdofiles'/sbac/macros_va.doh
 
+. /* CHANGE LOG
+> 4/28/2022: Added macro for sibling controls  */
+. 
 . #delimit ;
 delimiter now ;
 . *** file paths
@@ -142,6 +145,11 @@ delimiter now ;
 >         inc_median_hh
 >         ;
 
+. local sibling_controls
+>         i.has_older_sibling_enr_2year
+>         i.has_older_sibling_enr_4year
+>         ;
+
 . **** School Characteristics ;
 . local sch_chars
 >         fte_teach_pc fte_pupil_pc /*fte_admin_pc*/
@@ -204,6 +212,11 @@ delimiter now ;
 . #delimit cr
 delimiter now cr
 . macro list
+T_gm_fix_span:  0
+S_4:            .003900032715465
+S_2:            300
+S_3:            .020595561559967
+S_1:            epanechnikov
 vaprojxwalks:   /home/research/ca_ed_lab/projects/common_core_va/data/restricte
                 > d_access/clean/crosswalks
 mattxwalks:     /home/research/ca_ed_lab/users/msnaven/data/restricted_access/c
@@ -251,6 +264,8 @@ _sch_char_vars: fte_teach_pc fte_pupil_pc new_teacher_prop credential_full_prop
 _sch_chars:     fte_teach_pc fte_pupil_pc new_teacher_prop credential_full_prop
                 c.male_prop##c.enr_male_prop
                 c.eth_minority_prop##c.enr_minority_prop enr_total
+_sibling_controls:
+                i.has_older_sibling_enr_2year i.has_older_sibling_enr_4year
 _census_controls:
                 eth_asian_pct eth_hispanic_pct eth_black_pct
                 educ_hs_dropout_prop educ_deg_4year_plus_prop
@@ -341,7 +356,7 @@ _va_dataset:    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_co
 . 
 . //load the VA grade 11 college outcomes sample
 . use `va_g11_out_dataset', clear
-(CST/SBAC Student Test Score Samples)
+(Enrollment Outcome Grade 11 VA Sample)
 
 . 
 . //merge on to sibling outcomes crosswalk to get sibling enrollment controls
@@ -357,17 +372,16 @@ _va_dataset:    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_co
     -----------------------------------------
 
 . 
-. drop if mi(has_older_sibling_enr_2year)
-(884,570 observations deleted)
-
-. drop if mi(has_older_sibling_enr_4year)
-(0 observations deleted)
+. // keep the sibling controls sample for 2yr and 4yr sibling enrollment contro
+> ls 
+. keep if sibling_2y_4y_controls_sample==1
+(902,429 observations deleted)
 
 . 
 . compress
   variable age was float now int
   variable major was long now int
-  (3,601,176 bytes saved)
+  (3,529,740 bytes saved)
 
 . tempfile va_g11_out_sibling_dataset
 
@@ -397,7 +411,7 @@ file /home/tmp/St16505.000001 saved as .dta format
 .    do $vaprojdir/do_files/sbac/merge_va_smp_acs.doh outcome `va_g11_out_sibli
 > ng_dataset' va_g11_out_sibling_dataset create_va `outcome'
   3. 
-.    
+. 
 . 
 .   **************** College Outcome VA without sibling controls
 .   ************** No peer controls
@@ -517,10 +531,18 @@ file /home/tmp/St16505.000001 saved as .dta format
 > ***
 . /* do helper file to merge census tract controls to VA sample. Arguments need
 > to be set for
-> -- which VA dataset is being merged to
+> -- what type of VA, test score or outcome
+> -- which VA dataset file is being merged to using the tempfile macro in calli
+> ng file
+> -- the name for the tempfile being merged to, using a string
 > -- what purpose does the calling do file have, create VA estimates or create 
 > VA sample
 > -- what is the exact name for the VA being created, what subject or outcome
+> 
+> If purpose is create_va, this produces a dataset with obs that has non-missin
+> g
+> census controls, and that are in the touse sample for the corresponding VA es
+> timation 
 > 
 > See comments above the args command for details on how to set arguments */
 . *****************************************************************************
@@ -563,6 +585,9 @@ file /home/tmp/St16505.000001 saved as .dta format
 . //run Matt's do helper file to set the local macros for VA project
 . include $vaprojdir/do_files/sbac/macros_va.doh
 
+. /* CHANGE LOG
+> 4/28/2022: Added macro for sibling controls  */
+. 
 . #delimit ;
 delimiter now ;
 . *** file paths
@@ -694,6 +719,11 @@ delimiter now ;
 >         educ_hs_dropout_prop /*educ_deg_2year_prop*/ educ_deg_4year_plus_prop
 >         pov_fam_child_lt18_pct
 >         inc_median_hh
+>         ;
+
+. local sibling_controls
+>         i.has_older_sibling_enr_2year
+>         i.has_older_sibling_enr_4year
 >         ;
 
 . **** School Characteristics ;
@@ -857,7 +887,7 @@ file /home/tmp/St16505.000005 saved as .dta format
 . 
 . 
 . use `va_dataset_file', clear
-(CST/SBAC Student Test Score Samples)
+(Enrollment Outcome Grade 11 VA Sample)
 
 . merge m:1 state_student_id using `lagged_address' ///
 >   , keep(3) keepusing(street_address_line_one city state zip_code year_grade`
@@ -866,7 +896,7 @@ file /home/tmp/St16505.000005 saved as .dta format
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                           866,170  (merge_lagged_address==3)
+    Matched                           849,448  (merge_lagged_address==3)
     -----------------------------------------
 
 . merge m:1 street_address_line_one city state zip_code using `address_id' ///
@@ -875,7 +905,7 @@ file /home/tmp/St16505.000005 saved as .dta format
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                           866,170  (merge_address_id==3)
+    Matched                           849,448  (merge_address_id==3)
     -----------------------------------------
 
 . merge m:1 address_id using `census_geocode' ///
@@ -884,7 +914,7 @@ file /home/tmp/St16505.000005 saved as .dta format
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                           865,808  (merge_census_geocode==3)
+    Matched                           849,092  (merge_census_geocode==3)
     -----------------------------------------
 
 . rename census_sct geoid2
@@ -896,7 +926,7 @@ file /home/tmp/St16505.000005 saved as .dta format
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                           536,496  (merge_acs==3)
+    Matched                           526,691  (merge_acs==3)
     -----------------------------------------
 
 . rename geoid2 census_sct
@@ -913,11 +943,15 @@ file /home/tmp/St16505.000005 saved as .dta format
 (0 observations deleted)
 
 . 
+. // create a sample indicator for obs with census controls
+. gen byte census_controls_sample = 1
+
 . 
 . 
 . if "`purpose'" == "create_va" {
+.   // only keep obs needed for the current VA estimation
 .   keep if touse_g11_`va_name'==1
-(103,118 observations deleted)
+(93,313 observations deleted)
 .   di "ACS controls merged successfully to `va_dataset_name'"
 ACS controls merged successfully to va_g11_out_sibling_dataset
 .   di "Ready to create VA estimates for `va_name'"
@@ -1366,10 +1400,18 @@ file
 > ***
 . /* do helper file to merge census tract controls to VA sample. Arguments need
 > to be set for
-> -- which VA dataset is being merged to
+> -- what type of VA, test score or outcome
+> -- which VA dataset file is being merged to using the tempfile macro in calli
+> ng file
+> -- the name for the tempfile being merged to, using a string
 > -- what purpose does the calling do file have, create VA estimates or create 
 > VA sample
 > -- what is the exact name for the VA being created, what subject or outcome
+> 
+> If purpose is create_va, this produces a dataset with obs that has non-missin
+> g
+> census controls, and that are in the touse sample for the corresponding VA es
+> timation 
 > 
 > See comments above the args command for details on how to set arguments */
 . *****************************************************************************
@@ -1412,6 +1454,9 @@ file
 . //run Matt's do helper file to set the local macros for VA project
 . include $vaprojdir/do_files/sbac/macros_va.doh
 
+. /* CHANGE LOG
+> 4/28/2022: Added macro for sibling controls  */
+. 
 . #delimit ;
 delimiter now ;
 . *** file paths
@@ -1543,6 +1588,11 @@ delimiter now ;
 >         educ_hs_dropout_prop /*educ_deg_2year_prop*/ educ_deg_4year_plus_prop
 >         pov_fam_child_lt18_pct
 >         inc_median_hh
+>         ;
+
+. local sibling_controls
+>         i.has_older_sibling_enr_2year
+>         i.has_older_sibling_enr_4year
 >         ;
 
 . **** School Characteristics ;
@@ -1706,7 +1756,7 @@ file /home/tmp/St16505.000005 saved as .dta format
 . 
 . 
 . use `va_dataset_file', clear
-(CST/SBAC Student Test Score Samples)
+(Enrollment Outcome Grade 11 VA Sample)
 
 . merge m:1 state_student_id using `lagged_address' ///
 >   , keep(3) keepusing(street_address_line_one city state zip_code year_grade`
@@ -1715,7 +1765,7 @@ file /home/tmp/St16505.000005 saved as .dta format
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                           866,170  (merge_lagged_address==3)
+    Matched                           849,448  (merge_lagged_address==3)
     -----------------------------------------
 
 . merge m:1 street_address_line_one city state zip_code using `address_id' ///
@@ -1724,7 +1774,7 @@ file /home/tmp/St16505.000005 saved as .dta format
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                           866,170  (merge_address_id==3)
+    Matched                           849,448  (merge_address_id==3)
     -----------------------------------------
 
 . merge m:1 address_id using `census_geocode' ///
@@ -1733,7 +1783,7 @@ file /home/tmp/St16505.000005 saved as .dta format
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                           865,808  (merge_census_geocode==3)
+    Matched                           849,092  (merge_census_geocode==3)
     -----------------------------------------
 
 . rename census_sct geoid2
@@ -1745,7 +1795,7 @@ file /home/tmp/St16505.000005 saved as .dta format
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                           536,496  (merge_acs==3)
+    Matched                           526,691  (merge_acs==3)
     -----------------------------------------
 
 . rename geoid2 census_sct
@@ -1762,11 +1812,15 @@ file /home/tmp/St16505.000005 saved as .dta format
 (0 observations deleted)
 
 . 
+. // create a sample indicator for obs with census controls
+. gen byte census_controls_sample = 1
+
 . 
 . 
 . if "`purpose'" == "create_va" {
+.   // only keep obs needed for the current VA estimation
 .   keep if touse_g11_`va_name'==1
-(103,118 observations deleted)
+(93,313 observations deleted)
 .   di "ACS controls merged successfully to `va_dataset_name'"
 ACS controls merged successfully to va_g11_out_sibling_dataset
 .   di "Ready to create VA estimates for `va_name'"
@@ -2215,10 +2269,18 @@ file
 > ***
 . /* do helper file to merge census tract controls to VA sample. Arguments need
 > to be set for
-> -- which VA dataset is being merged to
+> -- what type of VA, test score or outcome
+> -- which VA dataset file is being merged to using the tempfile macro in calli
+> ng file
+> -- the name for the tempfile being merged to, using a string
 > -- what purpose does the calling do file have, create VA estimates or create 
 > VA sample
 > -- what is the exact name for the VA being created, what subject or outcome
+> 
+> If purpose is create_va, this produces a dataset with obs that has non-missin
+> g
+> census controls, and that are in the touse sample for the corresponding VA es
+> timation 
 > 
 > See comments above the args command for details on how to set arguments */
 . *****************************************************************************
@@ -2261,6 +2323,9 @@ file
 . //run Matt's do helper file to set the local macros for VA project
 . include $vaprojdir/do_files/sbac/macros_va.doh
 
+. /* CHANGE LOG
+> 4/28/2022: Added macro for sibling controls  */
+. 
 . #delimit ;
 delimiter now ;
 . *** file paths
@@ -2392,6 +2457,11 @@ delimiter now ;
 >         educ_hs_dropout_prop /*educ_deg_2year_prop*/ educ_deg_4year_plus_prop
 >         pov_fam_child_lt18_pct
 >         inc_median_hh
+>         ;
+
+. local sibling_controls
+>         i.has_older_sibling_enr_2year
+>         i.has_older_sibling_enr_4year
 >         ;
 
 . **** School Characteristics ;
@@ -2555,7 +2625,7 @@ file /home/tmp/St16505.000005 saved as .dta format
 . 
 . 
 . use `va_dataset_file', clear
-(CST/SBAC Student Test Score Samples)
+(Enrollment Outcome Grade 11 VA Sample)
 
 . merge m:1 state_student_id using `lagged_address' ///
 >   , keep(3) keepusing(street_address_line_one city state zip_code year_grade`
@@ -2564,7 +2634,7 @@ file /home/tmp/St16505.000005 saved as .dta format
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                           866,170  (merge_lagged_address==3)
+    Matched                           849,448  (merge_lagged_address==3)
     -----------------------------------------
 
 . merge m:1 street_address_line_one city state zip_code using `address_id' ///
@@ -2573,7 +2643,7 @@ file /home/tmp/St16505.000005 saved as .dta format
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                           866,170  (merge_address_id==3)
+    Matched                           849,448  (merge_address_id==3)
     -----------------------------------------
 
 . merge m:1 address_id using `census_geocode' ///
@@ -2582,7 +2652,7 @@ file /home/tmp/St16505.000005 saved as .dta format
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                           865,808  (merge_census_geocode==3)
+    Matched                           849,092  (merge_census_geocode==3)
     -----------------------------------------
 
 . rename census_sct geoid2
@@ -2594,7 +2664,7 @@ file /home/tmp/St16505.000005 saved as .dta format
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                           536,496  (merge_acs==3)
+    Matched                           526,691  (merge_acs==3)
     -----------------------------------------
 
 . rename geoid2 census_sct
@@ -2611,11 +2681,15 @@ file /home/tmp/St16505.000005 saved as .dta format
 (0 observations deleted)
 
 . 
+. // create a sample indicator for obs with census controls
+. gen byte census_controls_sample = 1
+
 . 
 . 
 . if "`purpose'" == "create_va" {
+.   // only keep obs needed for the current VA estimation
 .   keep if touse_g11_`va_name'==1
-(103,118 observations deleted)
+(93,313 observations deleted)
 .   di "ACS controls merged successfully to `va_dataset_name'"
 ACS controls merged successfully to va_g11_out_sibling_dataset
 .   di "Ready to create VA estimates for `va_name'"
@@ -3072,7 +3146,7 @@ file
 . timer off 1
 
 . timer list
-   1:    898.88 /        1 =     898.8750
+   1:    879.46 /        1 =     879.4570
 
 . 
 . log close
@@ -3080,5 +3154,5 @@ file
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/va_sibling_out_forecast_bias.smcl
   log type:  smcl
- closed on:  28 Apr 2022, 13:35:46
+ closed on:   3 May 2022, 22:18:46
 -------------------------------------------------------------------------------

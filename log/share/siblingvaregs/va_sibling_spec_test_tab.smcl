@@ -3,13 +3,16 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sibling_spec_test_tab.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}21 Apr 2022, 22:54:08
+ {txt}opened on:  {res} 3 May 2022, 22:32:41
 {txt}
 {com}. 
 .  //run the do helper file to set the local macros
 .  include `vaprojdofiles'/sbac/macros_va.doh
 {txt}
-{com}. #delimit ;
+{com}. /* CHANGE LOG
+> 4/28/2022: Added macro for sibling controls  */
+. 
+. #delimit ;
 {txt}delimiter now ;
 {com}. *** file paths
 > local home $vaprojdir ;
@@ -134,6 +137,11 @@
 >         inc_median_hh
 >         ;
 {txt}
+{com}. local sibling_controls
+>         i.has_older_sibling_enr_2year
+>         i.has_older_sibling_enr_4year
+>         ;
+{txt}
 {com}. **** School Characteristics ;
 . local sch_chars
 >         fte_teach_pc fte_pupil_pc /*fte_admin_pc*/
@@ -197,10 +205,25 @@
 {txt}delimiter now cr
 {com}.  macro list
 {txt}{p 0 16}
-eststo_counter:{space 1}{res}{res}1
+T_gm_fix_span:{space 2}{res}{res}0
 {p_end}
 {txt}{p 0 16}
-eststo:{space 9}{res}{res}est1
+eststo_counter:{space 1}{res}{res}3
+{p_end}
+{txt}{p 0 16}
+eststo:{space 9}{res}{res}spec_g11_enr spec_g11_enr_2year spec_g11_enr_4year
+{p_end}
+{txt}{p 0 16}
+S_4:{space 12}{res}{res}.0020423965494575
+{p_end}
+{txt}{p 0 16}
+S_2:{space 12}{res}{res}300
+{p_end}
+{txt}{p 0 16}
+S_3:{space 12}{res}{res}.0135669174878782
+{p_end}
+{txt}{p 0 16}
+S_1:{space 12}{res}{res}epanechnikov
 {p_end}
 {txt}{p 0 16}
 vaprojxwalks:{space 3}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/restricted_access/clean/crosswalks
@@ -291,6 +314,10 @@ _sch_char_vars:{space 1}{res}{res}fte_teach_pc fte_pupil_pc new_teacher_prop cre
 {p_end}
 {txt}{p 0 16}
 _sch_chars:{space 5}{res}{res}fte_teach_pc fte_pupil_pc                   new_teacher_prop                           credential_full_prop                  c.male_prop##c.enr_male_prop         c.eth_minority_prop##c.enr_minority_prop         enr_total
+{p_end}
+{txt}{p 0 16}
+_sibling_controls:{break}
+{res}i.has_older_sibling_enr_2year         i.has_older_sibling_enr_4year
 {p_end}
 {txt}{p 0 16}
 _census_controls:{break}
@@ -440,7 +467,7 @@ _enr_4year_va_dta_census:{break}
 {p_end}
 {txt}{p 0 16}
 _enr_4year_fb_va_l4:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_test_va_cfr_g11_enr_4year_L4ela.ster.ster
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_test_va_cfr_g11_enr_4year_L4ela.ster
 {p_end}
 {txt}{p 0 16}
 _enr_4year_spec_va_l4_peer:{break}
@@ -516,7 +543,7 @@ _enr_2year_va_dta_census:{break}
 {p_end}
 {txt}{p 0 16}
 _enr_2year_fb_va_l4:{break}
-{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_test_va_cfr_g11_enr_2year_L4ela.ster.ster
+{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_test_va_cfr_g11_enr_2year_L4ela.ster
 {p_end}
 {txt}{p 0 16}
 _enr_2year_spec_va_l4_peer:{break}
@@ -591,7 +618,7 @@ _enr_va_dta_census:{break}
 {res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac/bias_va_g11_enr_census.dta
 {p_end}
 {txt}{p 0 16}
-_enr_fb_va_l4:{space 2}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_test_va_cfr_g11_enr_L4ela.ster.ster
+_enr_fb_va_l4:{space 2}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/estimates/sbac/bias_test_va_cfr_g11_enr_L4ela.ster
 {p_end}
 {txt}{p 0 16}
 _enr_spec_va_l4_peer:{break}
@@ -1225,13 +1252,13 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 .  timer off 1
 {txt}
 {com}.  timer list
-{res}   1:      0.30 /        1 =       0.2960
+{res}   1:      0.32 /        1 =       0.3170
 {txt}
 {com}.  log close
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sibling_spec_test_tab.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}21 Apr 2022, 22:54:09
+ {txt}closed on:  {res} 3 May 2022, 22:32:42
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/sibling_out_xwalk.smcl
   log type:  smcl
- opened on:  28 Apr 2022, 13:16:57
+ opened on:   3 May 2022, 20:47:22
 
 . 
 . 
@@ -180,8 +180,8 @@
 . 
 . // sample indicator for obs to use in VA with sibling 2 yr and 4 yr enrollmen
 > t controls
-. // This sample consists obs with at least 1 sibling matched to postsec outcom
-> es, and who have non-missing for the sibling controls 
+. // This sample consists of obs with at least 1 sibling matched to postsec out
+> comes, and who have non-missing for the sibling controls
 . gen sibling_2y_4y_controls_sample = 0
 
 . replace sibling_2y_4y_controls_sample = 1 if !mi(has_older_sibling_enr_2year)
@@ -220,12 +220,12 @@ file
 .  timer off 1
 
 .  timer list
-   1:    218.42 /        1 =     218.4160
+   1:    165.37 /        1 =     165.3730
 
 .  log close
       name:  <unnamed>
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/sibling_out_xwalk.smcl
   log type:  smcl
- closed on:  28 Apr 2022, 13:20:36
+ closed on:   3 May 2022, 20:50:07
 -------------------------------------------------------------------------------
