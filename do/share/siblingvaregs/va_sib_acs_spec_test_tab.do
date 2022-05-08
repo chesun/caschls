@@ -99,7 +99,7 @@ foreach subject in ela math {
     $projdir/out/csv/siblingvaregs/spec_test/sib_acs_restr_smp/spec_test_sib_acs_restr_smp_score.csv ///
     , replace nonumbers  ///
     cells(b(fmt(%5.3f) pvalue(test_p) star) se(fmt(%4.3f) par)) ///
-    title("Specification Tests for ``subject'_str' VA on Sibling Census Restricted Sample") ///
+    title("Specification Tests for Test Score VA on Sibling Census Restricted Sample") ///
     mtitles("Original Specification" "Census Controls" ///
       "Sibling Controls" "Sibling and Census Controls" ///
       "Original Specification" "Census Controls" ///
@@ -157,7 +157,7 @@ esttab using ///
   $projdir/out/csv/siblingvaregs/spec_test/sib_acs_restr_smp/spec_test_sib_acs_restr_smp_outcome.csv ///
   , replace nonumbers  ///
   cells(b(fmt(%5.3f) pvalue(test_p) star) se(fmt(%4.3f) par)) ///
-  title("Specification Tests for ``outcome'_str' VA on Sibling Census Restricted Sample") ///
+  title("Specification Tests for outcome VA on Sibling Census Restricted Sample") ///
   mtitles("Original Specification" "Census Controls" ///
     "Sibling Controls" "Sibling and Census Controls" ///
     "Original Specification" "Census Controls" ///
@@ -219,7 +219,7 @@ esttab using ///
   $projdir/out/csv/siblingvaregs/spec_test/sib_acs_restr_smp/spec_test_sib_acs_restr_smp_outcome_dk.csv ///
   , replace nonumbers  ///
   cells(b(fmt(%5.3f) pvalue(test_p) star) se(fmt(%4.3f) par)) ///
-  title("Specification Tests for ``outcome'_str' Deep Knowledge VA on Sibling Census Restricted Sample") ///
+  title("Specification Tests for Deep Knowledge VA on Sibling Census Restricted Sample") ///
   mtitles("Original Specification" "Census Controls" ///
     "Sibling Controls" "Sibling and Census Controls" ///
     "Original Specification" "Census Controls" ///

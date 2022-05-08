@@ -455,14 +455,7 @@ if `do_sibling_va_regs' == 1 {
    do $projdir/do/share/siblingvaregs/siblingvasamples.do
    pause
 
-   /* do file to run test score VA regressions with sibling effects.
-   Include as controls the dummies for
-   1) has an older sibling enrolled in 2 year
-   2) has an older sibling enrolled in 4 year
-
-   Comment on family fixed effects: Too many fixed effects, not enough observations.
-   Stata returns an error "attempted to fit a model with too many variables"
-   Only 749488 obs but 600210 families, too many variables from family fixed effects    */
+   /* do file to run test score VA regressions with sibling effects.   */
 
     /* To run this do file:
     for origianl drift limit
@@ -481,12 +474,7 @@ if `do_sibling_va_regs' == 1 {
     do $projdir/do/share/siblingvaregs/va_sibling_est_sumstats
     pause
 
-    /* do file to run enrollment outcome VA regressions with sibling effects.
-    Include as controls the dummies for
-    1) has an older sibling enrolled in 2 year
-    2) has an older sibling enrolled in 4 year
-
-    Comment on family fixed effects: Too many fixed effects, not enough observations. */
+    /* do file to run enrollment outcome VA regressions with sibling effects. */
 
     /* To run this do file:
     for origianl drift limit
@@ -567,8 +555,20 @@ if `do_sibling_va_regs' == 1 {
      do $projdir/do/share/siblingvaregs/va_sibling_fb_test_tab
      pause
 
+     /* create a regression output table for forecast bias tests for test score VA,
+     outcome VA and DK VA  on the sibling census restricted sample. 4 VA specifications */
+     do $projdir/do/share/siblingvaregs/va_sib_acs_fb_test_tab.do
+     pause 
 
-     /* Regress outcomes on test score VA and DK VA */
+     /* regress enrollment outcomes on test score VA estimates (4 specifications)
+     from the Sibling acs restricted sample to study test score VA persistence. */
+     do $projdir/do/share/siblingvaregs/reg_out_va_sib_acs
+     pause
+
+     /* regress enrollment outcomes on deep knowledge VA estimates (4 specifications)
+     from the Sibling acs restricted sample to study test score VA persistence. */
+     do $projdir/do/share/siblingvaregs/reg_out_va_sib_acs_dk
+     pause
 
 }
 

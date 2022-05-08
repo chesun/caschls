@@ -3,12 +3,15 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/va_sibling_fb_test_tab.smcl
   log type:  smcl
- opened on:  21 Apr 2022, 22:54:55
+ opened on:   4 May 2022, 18:26:55
 
 . 
 .  //run the do helper file to set the local macros
 .  include `vaprojdofiles'/sbac/macros_va.doh
 
+. /* CHANGE LOG
+> 4/28/2022: Added macro for sibling controls  */
+. 
 . #delimit ;
 delimiter now ;
 . *** file paths
@@ -142,6 +145,11 @@ delimiter now ;
 >         inc_median_hh
 >         ;
 
+. local sibling_controls
+>         i.has_older_sibling_enr_2year
+>         i.has_older_sibling_enr_4year
+>         ;
+
 . **** School Characteristics ;
 . local sch_chars
 >         fte_teach_pc fte_pupil_pc /*fte_admin_pc*/
@@ -204,6 +212,11 @@ delimiter now ;
 .  #delimit cr
 delimiter now cr
 .  macro list
+T_gm_fix_span:  0
+S_4:            .0020423965494575
+S_2:            300
+S_3:            .0135669174878782
+S_1:            epanechnikov
 vaprojxwalks:   /home/research/ca_ed_lab/projects/common_core_va/data/restricte
                 > d_access/clean/crosswalks
 mattxwalks:     /home/research/ca_ed_lab/users/msnaven/data/restricted_access/c
@@ -251,6 +264,8 @@ _sch_char_vars: fte_teach_pc fte_pupil_pc new_teacher_prop credential_full_prop
 _sch_chars:     fte_teach_pc fte_pupil_pc new_teacher_prop credential_full_prop
                 c.male_prop##c.enr_male_prop
                 c.eth_minority_prop##c.enr_minority_prop enr_total
+_sibling_controls:
+                i.has_older_sibling_enr_2year i.has_older_sibling_enr_4year
 _census_controls:
                 eth_asian_pct eth_hispanic_pct eth_black_pct
                 educ_hs_dropout_prop educ_deg_4year_plus_prop
@@ -705,12 +720,12 @@ _va_dataset:    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_co
 .  timer off 1
 
 .  timer list
-   1:      0.18 /        1 =       0.1820
+   1:      0.19 /        1 =       0.1910
 
 .  log close
       name:  <unnamed>
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/va_sibling_fb_test_tab.smcl
   log type:  smcl
- closed on:  21 Apr 2022, 22:54:55
+ closed on:   4 May 2022, 18:26:55
 -------------------------------------------------------------------------------

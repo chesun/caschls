@@ -57,6 +57,13 @@ foreach subject in ela math {
   merge m:1 cdscode year using ///
    $vaprojdir/data/sib_acs_restr_smp/test_score_va/va_`subject'_sib_acs.dta ///
    , nogen keep(1 3) keepusing(va_*)
+
+  // standardize the VA estimates into z scores
+  foreach va of varlist va_* {
+    sum `va'
+    replace `va' = `va' - r(mean)
+    replace `va' = `va' / r(sd)
+  }
 }
 
 
@@ -107,35 +114,6 @@ foreach outcome in enr enr_2year enr_4year {
 
 }
 
-
-
-// merge in dk VA dataset
-foreach outcome in enr enr_2year enr_4year {
-  //merge to test score VA estimates dataset
-  merge m:1 cdscode year using ///
-   $vaprojdir/data/sib_acs_restr_smp/outcome_va/va_`outcome'_sib_acs_dk.dta ///
-   , nogen keep(1 3) keepusing(va_*)
-}
-
-********** regress enrollment outcomes on deep knowledge outcome value added
-foreach outcome in enr enr_2year enr_4year {
-  //regressing on all 3 outcome VA's
-  foreach control in og acs sib both {
-    di "test score VA with `control' controls"
-
-    reg `outcome' va_enr_`control'_dk va_enr_2year_`control'_dk va_enr_4year_`control'_dk ///
-      i.year ///
-      `school_controls' ///
-      `demographic_controls' ///
-      `ela_score_controls' ///
-      `math_score_controls' ///
-      if touse_enr_dk==1 & touse_enr_2year_dk==1 & touse_enr_4year_dk==1 ///
-      , cluster(school_id)
-    //add mean of yvar to stored results
-    estadd ysumm, mean
-    estimates save $vaprojdir/estimates/sib_acs_restr_smp/persistence/reg_`outcome'_va_allenr_`control'.ster, replace
-  }
-}
 
 
 

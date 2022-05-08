@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sib_acs_spec_test_tab.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 3 May 2022, 22:32:42
+ {txt}opened on:  {res} 4 May 2022, 18:28:26
 {txt}
 {com}. 
 . /* change directory to common_core_va project directory for all value added
@@ -491,104 +491,522 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 {txt}  2{com}.   // primary specification without sibling or acs controls
 .   estimates use ///
 >     $vaprojdir/estimates/sib_acs_restr_smp/test_score_va/spec_test_`subject'_og.ster
-{txt}  3{com}.   test _b[va_`subject'_og] = 1
-{txt}  4{com}.   matrix test_p = r(p)
-{txt}  5{com}.   matrix rownames test_p = pvalue
-{txt}  6{com}.   matrix colnames test_p = va_`subject'_og
-{txt}  7{com}.   estadd matrix test_p = test_p
-{txt}  8{com}. 
+{txt}  3{com}.   eststo
+{txt}  4{com}.   test _b[va_`subject'_og] = 1
+{txt}  5{com}.   matrix test_p = r(p)
+{txt}  6{com}.   matrix rownames test_p = pvalue
+{txt}  7{com}.   matrix colnames test_p = va_`subject'_og
+{txt}  8{com}.   estadd matrix test_p = test_p
+{txt}  9{com}. 
 .   // without sibling controls, with acs controls
 .   estimates use ///
 >     $vaprojdir/estimates/sib_acs_restr_smp/test_score_va/spec_test_`subject'_acs.ster
-{txt}  9{com}.   test _b[va_`subject'_acs] = 1
-{txt} 10{com}.   matrix test_p = r(p)
-{txt} 11{com}.   matrix rownames test_p = pvalue
-{txt} 12{com}.   matrix colnames test_p = va_`subject'_acs
-{txt} 13{com}.   estadd matrix test_p = test_p
-{txt} 14{com}. 
+{txt} 10{com}.   eststo
+{txt} 11{com}.   test _b[va_`subject'_acs] = 1
+{txt} 12{com}.   matrix test_p = r(p)
+{txt} 13{com}.   matrix rownames test_p = pvalue
+{txt} 14{com}.   matrix colnames test_p = va_`subject'_acs
+{txt} 15{com}.   estadd matrix test_p = test_p
+{txt} 16{com}. 
 .   // with sibling controls, without acs controls
 .   estimates use ///
 >     $vaprojdir/estimates/sib_acs_restr_smp/test_score_va/spec_test_`subject'_sib.ster
-{txt} 15{com}.   test _b[va_`subject'_sib] = 1
-{txt} 16{com}.   matrix test_p = r(p)
-{txt} 17{com}.   matrix rownames test_p = pvalue
-{txt} 18{com}.   matrix colnames test_p = va_`subject'_sib
-{txt} 19{com}.   estadd matrix test_p = test_p
-{txt} 20{com}. 
+{txt} 17{com}.   eststo
+{txt} 18{com}.   test _b[va_`subject'_sib] = 1
+{txt} 19{com}.   matrix test_p = r(p)
+{txt} 20{com}.   matrix rownames test_p = pvalue
+{txt} 21{com}.   matrix colnames test_p = va_`subject'_sib
+{txt} 22{com}.   estadd matrix test_p = test_p
+{txt} 23{com}. 
 .   // with both sibling controls and acs controls
 .   estimates use ///
 >     $vaprojdir/estimates/sib_acs_restr_smp/test_score_va/spec_test_`subject'_both.ster
-{txt} 21{com}.   test _b[va_`subject'_both] = 1
-{txt} 22{com}.   matrix test_p = r(p)
-{txt} 23{com}.   matrix rownames test_p = pvalue
-{txt} 24{com}.   matrix colnames test_p = va_`subject'_both
-{txt} 25{com}.   estadd matrix test_p = test_p
-{txt} 26{com}. 
-. 
-.   esttab using ///
->     $projdir/out/csv/siblingvaregs/spec_test/sib_acs_restr_smp/spec_test_sib_acs_restr_smp_`subject'.csv ///
->   , replace nonumbers  ///
->   cells(b(fmt(%5.3f) pvalue(test_p) star) se(fmt(%4.3f) par)) ///
->   title("Specification Tests for ``subject'_str' VA on Sibling Census Restricted Sample") ///
->   mtitles( "Original Specification" "Census Controls" ///
->     "Sibling Controls" "Sibling and Census Controls" ) ///
-> {c )-}
-{res}
-{p 0 7}{space 1}{text:( 1)}{space 1} va_ela_og = 1{p_end}
+{txt} 24{com}.   eststo
+{txt} 25{com}.   test _b[va_`subject'_both] = 1
+{txt} 26{com}.   matrix test_p = r(p)
+{txt} 27{com}.   matrix rownames test_p = pvalue
+{txt} 28{com}.   matrix colnames test_p = va_`subject'_both
+{txt} 29{com}.   estadd matrix test_p = test_p
+{txt} 30{com}. 
+. {c )-}
+{res}{txt}({res}est1{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_ela_og = 1{p_end}
 
 {txt}       F(  1,  1245) ={res}    0.00
 {txt}{col 13}Prob > F ={res}    0.9555
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
+{txt}({res}est2{txt} stored)
 
-{p 0 7}{space 1}{text:( 1)}{space 1} va_ela_acs = 1{p_end}
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_ela_acs = 1{p_end}
 
 {txt}       F(  1,  1245) ={res}    0.01
 {txt}{col 13}Prob > F ={res}    0.9365
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
+{txt}({res}est3{txt} stored)
 
-{p 0 7}{space 1}{text:( 1)}{space 1} va_ela_sib = 1{p_end}
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_ela_sib = 1{p_end}
 
 {txt}       F(  1,  1245) ={res}    0.00
 {txt}{col 13}Prob > F ={res}    0.9560
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
+{txt}({res}est4{txt} stored)
 
-{p 0 7}{space 1}{text:( 1)}{space 1} va_ela_both = 1{p_end}
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_ela_both = 1{p_end}
 
 {txt}       F(  1,  1245) ={res}    0.01
 {txt}{col 13}Prob > F ={res}    0.9361
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
-{err}option {bf:}} not allowed
-{txt}{search r(198), local:r(198);}
+{txt}({res}est5{txt} stored)
 
-end of do-file
-{search r(198), local:r(198);}
-{com}.      pause
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_math_og = 1{p_end}
+
+{txt}       F(  1,  1242) ={res}    0.58
+{txt}{col 13}Prob > F ={res}    0.4474
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est6{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_math_acs = 1{p_end}
+
+{txt}       F(  1,  1242) ={res}    0.01
+{txt}{col 13}Prob > F ={res}    0.9268
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est7{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_math_sib = 1{p_end}
+
+{txt}       F(  1,  1242) ={res}    0.60
+{txt}{col 13}Prob > F ={res}    0.4393
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est8{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_math_both = 1{p_end}
+
+{txt}       F(  1,  1242) ={res}    0.01
+{txt}{col 13}Prob > F ={res}    0.9219
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}
+{com}. 
 . 
-.      /* do file to create a regression output table for forecast bias tests for test score VA
->      and enrollment VA on different samples */
-.      do $projdir/do/share/siblingvaregs/va_sibling_fb_test_tab
-.      pause
+.   esttab using ///
+>     $projdir/out/csv/siblingvaregs/spec_test/sib_acs_restr_smp/spec_test_sib_acs_restr_smp_score.csv ///
+>     , replace nonumbers  ///
+>     cells(b(fmt(%5.3f) pvalue(test_p) star) se(fmt(%4.3f) par)) ///
+>     title("Specification Tests for ``subject'_str' VA on Sibling Census Restricted Sample") ///
+>     mtitles("Original Specification" "Census Controls" ///
+>       "Sibling Controls" "Sibling and Census Controls" ///
+>       "Original Specification" "Census Controls" ///
+>       "Sibling Controls" "Sibling and Census Controls") ///
+>     mgroups("ELA" "Math", pattern(1 0 0 0 1 0 0 0) )
+{res}{txt}{p 0 4 2}
+(file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/spec_test/sib_acs_restr_smp/spec_test_sib_acs_restr_smp_score.csv{rm}
+not found)
+{p_end}
+(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/spec_test/sib_acs_restr_smp/spec_test_sib_acs_restr_smp_score.csv"'})
+
+{com}. 
+.   eststo clear
+{txt}
+{com}. 
 . 
+. ********** outcome VA spec test
+. foreach outcome in enr enr_2year enr_4year {c -(}
+{txt}  2{com}.   // primary specification without sibling or acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/outcome_va/spec_test_`outcome'_og.ster
+{txt}  3{com}.   eststo
+{txt}  4{com}.   test _b[va_`outcome'_og] = 1
+{txt}  5{com}.   matrix test_p = r(p)
+{txt}  6{com}.   matrix rownames test_p = pvalue
+{txt}  7{com}.   matrix colnames test_p = va_`outcome'_og
+{txt}  8{com}.   estadd matrix test_p = test_p
+{txt}  9{com}. 
+.   // without sibling controls, with acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/outcome_va/spec_test_`outcome'_acs.ster
+{txt} 10{com}.   eststo
+{txt} 11{com}.   test _b[va_`outcome'_acs] = 1
+{txt} 12{com}.   matrix test_p = r(p)
+{txt} 13{com}.   matrix rownames test_p = pvalue
+{txt} 14{com}.   matrix colnames test_p = va_`outcome'_acs
+{txt} 15{com}.   estadd matrix test_p = test_p
+{txt} 16{com}. 
+.   // with sibling controls, without acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/outcome_va/spec_test_`outcome'_sib.ster
+{txt} 17{com}.   eststo
+{txt} 18{com}.   test _b[va_`outcome'_sib] = 1
+{txt} 19{com}.   matrix test_p = r(p)
+{txt} 20{com}.   matrix rownames test_p = pvalue
+{txt} 21{com}.   matrix colnames test_p = va_`outcome'_sib
+{txt} 22{com}.   estadd matrix test_p = test_p
+{txt} 23{com}. 
+.   // with both sibling controls and acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/outcome_va/spec_test_`outcome'_both.ster
+{txt} 24{com}.   eststo
+{txt} 25{com}.   test _b[va_`outcome'_both] = 1
+{txt} 26{com}.   matrix test_p = r(p)
+{txt} 27{com}.   matrix rownames test_p = pvalue
+{txt} 28{com}.   matrix colnames test_p = va_`outcome'_both
+{txt} 29{com}.   estadd matrix test_p = test_p
+{txt} 30{com}. 
 . {c )-}
-{txt}{search r(198), local:r(198);}
+{res}{txt}({res}est1{txt} stored)
 
-end of do-file
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_og = 1{p_end}
 
-{search r(198), local:r(198);}
+{txt}       F(  1,  1249) ={res}   13.62
+{txt}{col 13}Prob > F ={res}    0.0002
 
-{com}. log close
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est2{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_acs = 1{p_end}
+
+{txt}       F(  1,  1249) ={res}   16.11
+{txt}{col 13}Prob > F ={res}    0.0001
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est3{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_sib = 1{p_end}
+
+{txt}       F(  1,  1249) ={res}   13.37
+{txt}{col 13}Prob > F ={res}    0.0003
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est4{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_both = 1{p_end}
+
+{txt}       F(  1,  1249) ={res}   15.89
+{txt}{col 13}Prob > F ={res}    0.0001
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est5{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_2year_og = 1{p_end}
+
+{txt}       F(  1,  1249) ={res}    2.14
+{txt}{col 13}Prob > F ={res}    0.1437
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est6{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_2year_acs = 1{p_end}
+
+{txt}       F(  1,  1249) ={res}    0.50
+{txt}{col 13}Prob > F ={res}    0.4792
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est7{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_2year_sib = 1{p_end}
+
+{txt}       F(  1,  1249) ={res}    1.77
+{txt}{col 13}Prob > F ={res}    0.1837
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est8{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_2year_both = 1{p_end}
+
+{txt}       F(  1,  1249) ={res}    0.36
+{txt}{col 13}Prob > F ={res}    0.5481
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est9{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_4year_og = 1{p_end}
+
+{txt}       F(  1,  1249) ={res}   11.43
+{txt}{col 13}Prob > F ={res}    0.0007
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est10{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_4year_acs = 1{p_end}
+
+{txt}       F(  1,  1249) ={res}   11.78
+{txt}{col 13}Prob > F ={res}    0.0006
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est11{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_4year_sib = 1{p_end}
+
+{txt}       F(  1,  1249) ={res}   10.84
+{txt}{col 13}Prob > F ={res}    0.0010
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est12{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_4year_both = 1{p_end}
+
+{txt}       F(  1,  1249) ={res}   11.48
+{txt}{col 13}Prob > F ={res}    0.0007
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}
+{com}. 
+. esttab using ///
+>   $projdir/out/csv/siblingvaregs/spec_test/sib_acs_restr_smp/spec_test_sib_acs_restr_smp_outcome.csv ///
+>   , replace nonumbers  ///
+>   cells(b(fmt(%5.3f) pvalue(test_p) star) se(fmt(%4.3f) par)) ///
+>   title("Specification Tests for ``outcome'_str' VA on Sibling Census Restricted Sample") ///
+>   mtitles("Original Specification" "Census Controls" ///
+>     "Sibling Controls" "Sibling and Census Controls" ///
+>     "Original Specification" "Census Controls" ///
+>     "Sibling Controls" "Sibling and Census Controls" ///
+>     "Original Specification" "Census Controls" ///
+>     "Sibling Controls" "Sibling and Census Controls" ) ///
+>   mgroups("Overall Enrollment" "2 Year Enrollment" "4 Year Enrollment", pattern(1 0 0 0 1 0 0 0 1 0 0 0) )
+{res}{txt}{p 0 4 2}
+(file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/spec_test/sib_acs_restr_smp/spec_test_sib_acs_restr_smp_outcome.csv{rm}
+not found)
+{p_end}
+(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/spec_test/sib_acs_restr_smp/spec_test_sib_acs_restr_smp_outcome.csv"'})
+
+{com}. 
+. eststo clear
+{txt}
+{com}. 
+. 
+. 
+. ********** deep knowledge outcome VA spec test
+. foreach outcome in enr enr_2year enr_4year {c -(}
+{txt}  2{com}.   // primary specification without sibling or acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/outcome_va/spec_test_`outcome'_og_dk.ster
+{txt}  3{com}.   eststo
+{txt}  4{com}.   test _b[va_`outcome'_og_dk] = 1
+{txt}  5{com}.   matrix test_p = r(p)
+{txt}  6{com}.   matrix rownames test_p = pvalue
+{txt}  7{com}.   matrix colnames test_p = va_`outcome'_og_dk
+{txt}  8{com}.   estadd matrix test_p = test_p
+{txt}  9{com}. 
+.   // without sibling controls, with acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/outcome_va/spec_test_`outcome'_acs_dk.ster
+{txt} 10{com}.   eststo
+{txt} 11{com}.   test _b[va_`outcome'_acs_dk] = 1
+{txt} 12{com}.   matrix test_p = r(p)
+{txt} 13{com}.   matrix rownames test_p = pvalue
+{txt} 14{com}.   matrix colnames test_p = va_`outcome'_acs_dk
+{txt} 15{com}.   estadd matrix test_p = test_p
+{txt} 16{com}. 
+.   // with sibling controls, without acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/outcome_va/spec_test_`outcome'_sib_dk.ster
+{txt} 17{com}.   eststo
+{txt} 18{com}.   test _b[va_`outcome'_sib_dk] = 1
+{txt} 19{com}.   matrix test_p = r(p)
+{txt} 20{com}.   matrix rownames test_p = pvalue
+{txt} 21{com}.   matrix colnames test_p = va_`outcome'_sib_dk
+{txt} 22{com}.   estadd matrix test_p = test_p
+{txt} 23{com}. 
+.   // with both sibling controls and acs controls
+.   estimates use ///
+>     $vaprojdir/estimates/sib_acs_restr_smp/outcome_va/spec_test_`outcome'_both_dk.ster
+{txt} 24{com}.   eststo
+{txt} 25{com}.   test _b[va_`outcome'_both_dk] = 1
+{txt} 26{com}.   matrix test_p = r(p)
+{txt} 27{com}.   matrix rownames test_p = pvalue
+{txt} 28{com}.   matrix colnames test_p = va_`outcome'_both_dk
+{txt} 29{com}.   estadd matrix test_p = test_p
+{txt} 30{com}. 
+. {c )-}
+{res}{txt}({res}est1{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_og_dk = 1{p_end}
+
+{txt}       F(  1,  1237) ={res}    6.84
+{txt}{col 13}Prob > F ={res}    0.0090
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est2{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_acs_dk = 1{p_end}
+
+{txt}       F(  1,  1237) ={res}    8.88
+{txt}{col 13}Prob > F ={res}    0.0029
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est3{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_sib_dk = 1{p_end}
+
+{txt}       F(  1,  1237) ={res}    6.68
+{txt}{col 13}Prob > F ={res}    0.0099
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est4{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_both_dk = 1{p_end}
+
+{txt}       F(  1,  1237) ={res}    8.73
+{txt}{col 13}Prob > F ={res}    0.0032
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est5{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_2year_og_dk = 1{p_end}
+
+{txt}       F(  1,  1237) ={res}    0.99
+{txt}{col 13}Prob > F ={res}    0.3200
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est6{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_2year_acs_dk = 1{p_end}
+
+{txt}       F(  1,  1237) ={res}    0.20
+{txt}{col 13}Prob > F ={res}    0.6569
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est7{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_2year_sib_dk = 1{p_end}
+
+{txt}       F(  1,  1237) ={res}    0.81
+{txt}{col 13}Prob > F ={res}    0.3691
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est8{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_2year_both_dk = 1{p_end}
+
+{txt}       F(  1,  1237) ={res}    0.13
+{txt}{col 13}Prob > F ={res}    0.7190
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est9{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_4year_og_dk = 1{p_end}
+
+{txt}       F(  1,  1237) ={res}    7.34
+{txt}{col 13}Prob > F ={res}    0.0068
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est10{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_4year_acs_dk = 1{p_end}
+
+{txt}       F(  1,  1237) ={res}    6.71
+{txt}{col 13}Prob > F ={res}    0.0097
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est11{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_4year_sib_dk = 1{p_end}
+
+{txt}       F(  1,  1237) ={res}    7.54
+{txt}{col 13}Prob > F ={res}    0.0061
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}({res}est12{txt} stored)
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_4year_both_dk = 1{p_end}
+
+{txt}       F(  1,  1237) ={res}    6.75
+{txt}{col 13}Prob > F ={res}    0.0095
+
+{txt}added matrix:
+             e(test_p) :  {res}1 x 1
+{txt}
+{com}. 
+. 
+. esttab using ///
+>   $projdir/out/csv/siblingvaregs/spec_test/sib_acs_restr_smp/spec_test_sib_acs_restr_smp_outcome_dk.csv ///
+>   , replace nonumbers  ///
+>   cells(b(fmt(%5.3f) pvalue(test_p) star) se(fmt(%4.3f) par)) ///
+>   title("Specification Tests for ``outcome'_str' Deep Knowledge VA on Sibling Census Restricted Sample") ///
+>   mtitles("Original Specification" "Census Controls" ///
+>     "Sibling Controls" "Sibling and Census Controls" ///
+>     "Original Specification" "Census Controls" ///
+>     "Sibling Controls" "Sibling and Census Controls" ///
+>     "Original Specification" "Census Controls" ///
+>     "Sibling Controls" "Sibling and Census Controls" ) ///
+>   mgroups("Overall Enrollment" "2 Year Enrollment" "4 Year Enrollment", pattern(1 0 0 0 1 0 0 0 1 0 0 0) )
+{res}{txt}{p 0 4 2}
+(file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/spec_test/sib_acs_restr_smp/spec_test_sib_acs_restr_smp_outcome_dk.csv{rm}
+not found)
+{p_end}
+(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/spec_test/sib_acs_restr_smp/spec_test_sib_acs_restr_smp_outcome_dk.csv"'})
+
+{com}. 
+. eststo clear
+{txt}
+{com}. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. timer off 1
+{txt}
+{com}. timer list
+{res}   1:      0.37 /        1 =       0.3670
+{txt}
+{com}. 
+. set trace off
+{txt}
+{com}. 
+. //change directory back to my own personal directory
+. cd $projdir
+{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
+{txt}
+{com}. 
+. log close
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sib_acs_spec_test_tab.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 4 May 2022, 17:49:04
+ {txt}closed on:  {res} 4 May 2022, 18:28:26
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}
