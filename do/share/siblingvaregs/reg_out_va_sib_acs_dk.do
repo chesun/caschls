@@ -12,9 +12,10 @@ do $projdir/do/share/siblingvaregs/reg_out_va_sib_acs_dk
 
  */
 
- /* CHANGE LOG
-
-  */
+/* CHANGE LOG
+5/10/2022: Added code for regressing outcome on dk VA interactedsf with
+prior score deciles
+*/
 
 clear all
 set more off
@@ -65,8 +66,12 @@ foreach outcome in enr enr_2year enr_4year {
  }
 }
 
-********** regress enrollment outcomes on deep knowledge outcome value added
+********** regress enrollment outcomes on all 3 deep knowledge outcome value added
+/* no tfx, no peer effects */
+
 foreach outcome in enr enr_2year enr_4year {
+  di "LHS = `outcome', RHS = All 3 enrollment outcomes"
+
   //regressing on all 3 outcome VA's
   foreach control in og acs sib both {
     di "Deep Knowledge VA with `control' controls"
@@ -81,15 +86,69 @@ foreach outcome in enr enr_2year enr_4year {
       , cluster(school_id)
     //add mean of yvar to stored results
     estadd ysumm, mean
-    estimates save $vaprojdir/estimates/sib_acs_restr_smp/persistence/reg_`outcome'_va_allenr_`control'.ster, replace
+    estimates save $vaprojdir/estimates/sib_acs_restr_smp/persistence/reg_`outcome'_va_allenr_`control'_dk.ster, replace
+  }
+}
+
+
+********** regress enrollment outcomes on deep knowledge VA, matching outcomes on LHS and RHS
+/* no tfx, no peer effects */
+
+foreach outcome in enr enr_2year enr_4year {
+  di "LHS = `outcome'"
+
+  foreach control in og acs sib both {
+        di "RHS: Deep Knowledge VA with `control' controls"
+
+        reg `outcome' va_`outcome'_`control'_dk ///
+          i.year ///
+          `school_controls' ///
+          `demographic_controls' ///
+          `ela_score_controls' ///
+          `math_score_controls' ///
+          if touse_`outcome'_dk==1 ///
+          , cluster(school_id)
+        //add mean of yvar to stored results
+        estadd ysumm, mean
+        estimates save $vaprojdir/estimates/sib_acs_restr_smp/persistence/reg_`outcome'_va_`outcome'_`control'_dk.ster, replace
   }
 }
 
 
 
 
+********** regress enrollment outcomes on dk va interacted with prior score deciles
+/* no tfx, no peer effects, matching outcome on LHS and RHS */
 
+//create prior score quantiles
+xtile prior_ela_z_score_xtile = prior_ela_z_score, n(10)
+xtile prior_math_z_score_xtile = prior_math_z_score, n(10)
 
+// 3 outcomes, 4 DK VA specifications, 2 prior subjects = 24 regressions
+foreach outcome in enr enr_2year enr_4year {
+    di "LHS = `outcome'"
+
+    foreach control in og acs sib both {
+      di "RHS DK VA: Deep Knowledge VA with `control' controls"
+
+      foreach prior_subject in ela math {
+        di "interaction with prior `prior_subject' score deciles "
+
+        reg `outcome' c.va_`outcome'_`control'_dk#i.prior_`prior_subject'_z_score_xtile ///
+          i.year ///
+          `school_controls' ///
+          `demographic_controls' ///
+          `ela_score_controls' ///
+          `math_score_controls' ///
+          if touse_`outcome'_dk==1 ///
+          , cluster(cdscode)
+        estadd ysumm, mean
+
+        estimates save $vaprojdir/estimates/sib_acs_restr_smp/persistence/het_reg_`outcome'_va_`outcome'_`control'_dk_x_prior_`prior_subject'.ster, replace
+
+      }
+    }
+}
 
 
 

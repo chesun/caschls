@@ -558,7 +558,7 @@ if `do_sibling_va_regs' == 1 {
      /* create a regression output table for forecast bias tests for test score VA,
      outcome VA and DK VA  on the sibling census restricted sample. 4 VA specifications */
      do $projdir/do/share/siblingvaregs/va_sib_acs_fb_test_tab.do
-     pause 
+     pause
 
      /* regress enrollment outcomes on test score VA estimates (4 specifications)
      from the Sibling acs restricted sample to study test score VA persistence. */
@@ -568,6 +568,11 @@ if `do_sibling_va_regs' == 1 {
      /* regress enrollment outcomes on deep knowledge VA estimates (4 specifications)
      from the Sibling acs restricted sample to study test score VA persistence. */
      do $projdir/do/share/siblingvaregs/reg_out_va_sib_acs_dk
+     pause
+
+     /* output regression estimates from regressing enrollment outcomes on test score
+     VA from the restricted sibling census sample to csv files */
+     do $projdir/do/share/siblingvaregs/reg_out_va_sib_acs_tab
      pause
 
 }

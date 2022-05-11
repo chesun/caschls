@@ -13,7 +13,8 @@ do $projdir/do/share/siblingvaregs/reg_out_va_sib_acs
  */
 
  /* CHANGE LOG
-
+5/10/2022: Added code for regressing outcome on test score VA interactedsf with
+prior score deciles
   */
 
 
@@ -116,7 +117,67 @@ foreach outcome in enr enr_2year enr_4year {
 
 
 
+********** Regress outcome on test score VA: heterogeneity by prior score deciles
+/* no peer effectsm no tfx */
 
+//create prior score quantiles
+xtile prior_ela_z_score_xtile = prior_ela_z_score, n(10)
+xtile prior_math_z_score_xtile = prior_math_z_score, n(10)
+
+
+foreach outcome in enr enr_2year enr_4year {
+  di "Dependent Var = `outcome'"
+
+  // regress outcomes on single test score VA interacted with prior score decile by subject
+  // 3 outcomes, 2 subject VAs, 2 prior scores, 4 VA specifications = 48 regressions
+  foreach subject in ela math {
+    di "VA Subject = `subject'"
+
+    foreach control in og acs sib both {
+      di "`subject' test score VA with `control' controls"
+
+        foreach prior_subject in ela math {
+          di "interaction with prior `prior_subject' score deciles"
+
+          reg `outcome' c.va_`subject'_`control'#i.prior_`prior_subject'_z_score_xtile ///
+            i.year ///
+            `school_controls' ///
+            `demographic_controls' ///
+            `ela_score_controls' ///
+            `math_score_controls' ///
+            if touse_g11_`subject'==1 ///
+            , cluster(cdscode)
+          estadd ysumm, mean
+
+          estimates save $vaprojdir/estimates/sib_acs_restr_smp/persistence/het_reg_`outcome'_va_`subject'_`control'_x_prior_`prior_subject'.ster, replace
+      }
+    }
+  }
+
+  // both subject VA interacted with prior score deciles
+  // 3 outcomes, 2 prior subjects, 4 specifications = 24 regressions
+  foreach control in og acs sib both {
+    di "both ELA and Math VA with `control' controls"
+
+    foreach prior_subject in ela math {
+      di "interaction with prior `prior_subject' score deciles"
+
+      reg `outcome' c.va_ela_`control'#i.prior_`prior_subject'_z_score_xtile c.va_math_`control'#i.prior_`prior_subject'_z_score_xtile ///
+        i.year ///
+        `school_controls' ///
+        `demographic_controls' ///
+        `ela_score_controls' ///
+        `math_score_controls' ///
+        if touse_g11_ela==1 & touse_g11_math==1 ///
+        , cluster(cdscode)
+      estadd ysumm, mean
+
+      estimates save $vaprojdir/estimates/sib_acs_restr_smp/persistence/het_reg_`outcome'_va_ela_math_`control'_x_prior_`prior_subject'.ster, replace
+
+    }
+
+  }
+}
 
 
 
