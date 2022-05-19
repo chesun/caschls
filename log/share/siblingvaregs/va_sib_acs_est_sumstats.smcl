@@ -1,0 +1,678 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sib_acs_est_sumstats.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}18 May 2022, 18:31:59
+{txt}
+{com}. 
+. /* change directory to common_core_va project directory for all value added
+> do files because some called subroutines written by Matt may use relative file paths  */
+. cd $vaprojdir
+{res}/home/research/ca_ed_lab/projects/common_core_va
+{txt}
+{com}. 
+. /* file path macros for datasets */
+. include $projdir/do/share/siblingvaregs/vafilemacros.doh
+{txt}
+{com}. ********************************************************************************
+. /* Macros for common core VA project folder file paths, and relevant datasets to make it possible
+> to use Matt's doh files  */
+. ********************************************************************************
+. ********************************************************************************
+. /* First written by Che Sun, 12/13/2021
+> 1/27/2022: changed mattdofiles path to the do files folder in project folder
+> after Matt updated the do files to reconcile file paths. Now direct run these
+> do files from the $vaprojdir/do_files_sbac folder*/
+. 
+. /* to include this in do files:
+> include $projdir/do/share/siblingvaregs/vafilemacros.doh
+>  */
+. 
+.  local vaprojdofiles "$vaprojdir/do_files"
+{txt}
+{com}. 
+. *** macros for my own datasets
+. local va_dataset "$projdir/dta/common_core_va/va_dataset"
+{txt}
+{com}. local va_g11_dataset "$projdir/dta/common_core_va/va_g11_dataset"
+{txt}
+{com}. local va_g11_out_dataset "$projdir/dta/common_core_va/va_g11_out_dataset"
+{txt}
+{com}. local siblingxwalk "$projdir/dta/siblingxwalk/siblingpairxwalk"
+{txt}
+{com}. local ufamilyxwalk "$projdir/dta/siblingxwalk/ufamilyxwalk"
+{txt}
+{com}. local k12_postsecondary_out_merge "$projdir/dta/common_core_va/k12_postsecondary_out_merge"
+{txt}
+{com}. local sibling_out_xwalk "$projdir/dta/siblingxwalk/sibling_out_xwalk"
+{txt}
+{com}. {txt}
+{com}. 
+. //run Matt's do helper file to set the local macros for VA project
+. include $vaprojdir/do_files/sbac/macros_va.doh
+{txt}
+{com}. /* CHANGE LOG
+> 4/28/2022: Added macro for sibling controls  */
+. 
+. #delimit ;
+{txt}delimiter now ;
+{com}. *** file paths
+> local home $vaprojdir ;
+. local vaprojdofiles "$vaprojdir/do_files"
+> local ca_ed_lab "/home/research/ca_ed_lab" ;
+{txt}
+{com}. local k12_test_scores "$vaprojdir/data/restricted_access/clean/k12_test_scores" ;
+{txt}
+{com}. local public_access "$vaprojdir/data/public_access" ;
+{txt}
+{com}. local k12_public_schools "$vaprojdir/data/public_access/clean/k12_public_schools" ;
+{txt}
+{com}. local k12_test_scores_public "$vaprojdir/data/public_access/clean/k12_test_scores" ;
+{txt}
+{com}. **** Dates ;
+. local test_score_min_year
+>         2015
+>         ;
+{txt}
+{com}. local test_score_max_year
+>         2018
+>         ;
+{txt}
+{com}. local star_min_year
+>         2003
+>         ;
+{txt}
+{com}. local star_max_year
+>         2013
+>         ;
+{txt}
+{com}. local caaspp_min_year
+>         2015
+>         ;
+{txt}
+{com}. local caaspp_max_year
+>         2019
+>         ;
+{txt}
+{com}. local outcome_min_year
+>         2015
+>         ;
+{txt}
+{com}. local outcome_max_year
+>         2018
+>         ;
+{txt}
+{com}. **** Outcome Strings ;
+. local ela_str
+>         "ELA"
+>         ;
+{txt}
+{com}. local math_str
+>         "Math"
+>         ;
+{txt}
+{com}. local enr_str
+>         "Enrolled On Time"
+>         ;
+{txt}
+{com}. local enr_2year_str
+>         "Enrolled On Time 2-Year"
+>         ;
+{txt}
+{com}. local enr_4year_str
+>         "Enrolled On Time 4-Year"
+>         ;
+{txt}
+{com}. **** Sibling Census Restricted Sample Controls Strings ;
+. local og_str
+>         "Original Specification"
+>         ;
+{txt}
+{com}. local acs_str
+>         "Original + Census"
+>         ;
+{txt}
+{com}. local sib_str
+>         "Original + Sibling"
+>         ;
+{txt}
+{com}. local both_str
+>         "Original + Census + Sibling"
+>         ;
+{txt}
+{com}. **** Value Added ;
+. local school_controls
+>         /*cohort_size*/
+>         ;
+{txt}
+{com}. local demographic_controls
+>         age
+>         i.male
+>         i.eth_asian i.eth_hispanic i.eth_black i.eth_other
+>         i.econ_disadvantage
+>         i.limited_eng_prof
+>         i.disabled
+>         ;
+{txt}
+{com}. local peer_demographic_controls
+>         peer_age
+>         peer_male
+>         peer_eth_asian peer_eth_hispanic peer_eth_black peer_eth_other
+>         peer_econ_disadvantage
+>         peer_limited_eng_prof
+>         peer_disabled
+>         ;
+{txt}
+{com}. local ela_score_controls
+>         i.year#(c.prior_ela_z_score##c.prior_ela_z_score##c.prior_ela_z_score)
+>         ;
+{txt}
+{com}. local peer_ela_score_controls
+>         i.year#(c.peer_prior_ela_z_score##c.peer_prior_ela_z_score##c.peer_prior_ela_z_score)
+>         ;
+{txt}
+{com}. local math_score_controls
+>         i.year#(c.prior_math_z_score##c.prior_math_z_score##c.prior_math_z_score)
+>         ;
+{txt}
+{com}. local peer_math_score_controls
+>         i.year#(c.peer_prior_math_z_score##c.peer_prior_math_z_score##c.peer_prior_math_z_score)
+>         ;
+{txt}
+{com}. local va_control_vars "`school_controls' `demographic_controls'" ;
+{txt}
+{com}. local va_control_vars : subinstr local va_control_vars "i." "", all ;
+{txt}
+{com}. local va_control_vars : list uniq va_control_vars ;
+{txt}
+{com}. local census_grade
+>         6
+>         ;
+{txt}
+{com}. local census_controls
+>         /*eth_white_pct*/ eth_asian_pct eth_hispanic_pct eth_black_pct /*eth_other_pct*/
+>         educ_hs_dropout_prop /*educ_deg_2year_prop*/ educ_deg_4year_plus_prop
+>         pov_fam_child_lt18_pct
+>         inc_median_hh
+>         ;
+{txt}
+{com}. local sibling_controls
+>         i.has_older_sibling_enr_2year
+>         i.has_older_sibling_enr_4year
+>         ;
+{txt}
+{com}. **** School Characteristics ;
+. local sch_chars
+>         fte_teach_pc fte_pupil_pc /*fte_admin_pc*/
+>         /*eng_learner_staff_pc*/
+>         new_teacher_prop
+>         /*educ_grad_sch_prop educ_associate_prop*/
+>         /*status_tenured_prop*/
+>         credential_full_prop
+>         /*authorization_stem_prop authorization_ela_prop*/
+>         c.male_prop##c.enr_male_prop
+>         c.eth_minority_prop##c.enr_minority_prop
+>         enr_total
+>         ;
+{txt}
+{com}. local sch_char_vars "`sch_chars'" ;
+{txt}
+{com}. local sch_char_vars : subinstr local sch_char_vars "i." "", all ;
+{txt}
+{com}. local sch_char_vars : subinstr local sch_char_vars "c." "", all ;
+{txt}
+{com}. local sch_char_vars : subinstr local sch_char_vars "##" " ", all ;
+{txt}
+{com}. local sch_char_vars : subinstr local sch_char_vars "#" " ", all ;
+{txt}
+{com}. local sch_char_vars : list uniq sch_char_vars ;
+{txt}
+{com}. local dem_chars
+>         enr_male_prop
+>         enr_minority_prop
+>         frpm_prop el_prop
+>         enr_total
+>         ;
+{txt}
+{com}. local dem_char_vars "`dem_chars'" ;
+{txt}
+{com}. local dem_char_vars : list uniq dem_char_vars ;
+{txt}
+{com}. local expenditures
+>         expenditures_instr_pc
+>         expenditures3000_pc
+>         expenditures4000_pc
+>         expenditures_other_pc
+>         expenditures7000_pc
+>         ;
+{txt}
+{com}. local expenditure_vars "`expenditures'" ;
+{txt}
+{com}. local expenditure_vars : list uniq expenditure_vars ;
+{txt}
+{com}. local sch_char_control_vars : list sch_char_vars | dem_char_vars ;
+{txt}
+{com}. local sch_char_control_vars : list sch_char_control_vars | expenditure_vars ;
+{txt}
+{com}. #delimit cr
+{txt}delimiter now cr
+{com}. {txt}
+{com}. 
+. macro list
+{txt}{p 0 16}
+T_gm_fix_span:{space 2}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+vaprojxwalks:{space 3}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/restricted_access/clean/crosswalks
+{p_end}
+{txt}{p 0 16}
+mattxwalks:{space 5}{res}{res}/home/research/ca_ed_lab/users/msnaven/data/restricted_access/clean/crosswalks
+{p_end}
+{txt}{p 0 16}
+nscdtadir_oldformat:{break}
+{res}/home/research/ca_ed_lab/data/restricted_access/clean/cde_nsc/oldformat
+{p_end}
+{txt}{p 0 16}
+nscdtadir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/clean/cde_nsc
+{p_end}
+{txt}{p 0 16}
+cstdtadir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/clean//cde/cst
+{p_end}
+{txt}{p 0 16}
+vadtadir:{space 7}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/sbac
+{p_end}
+{txt}{p 0 16}
+vaprojdir:{space 6}{res}{res}/home/research/ca_ed_lab/projects/common_core_va
+{p_end}
+{txt}{p 0 16}
+projdir:{space 8}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
+{p_end}
+{txt}{p 0 16}
+clndtadir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/clean/calschls
+{p_end}
+{txt}{p 0 16}
+rawdtadir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/raw/calschls/stata
+{p_end}
+{txt}{p 0 16}
+rawcsvdir:{space 6}{res}{res}/home/research/ca_ed_lab/data/restricted_access/raw/calschls/csv
+{p_end}
+{txt}{p 0 16}
+S_level:{space 8}{res}{res}95
+{p_end}
+{txt}{p 0 16}
+F1:{space 13}{res}{res}help advice;
+{p_end}
+{txt}{p 0 16}
+F2:{space 13}{res}{res}describe;
+{p_end}
+{txt}{p 0 16}
+F7:{space 13}{res}{res}save 
+{p_end}
+{txt}{p 0 16}
+F8:{space 13}{res}{res}use 
+{p_end}
+{txt}{p 0 16}
+S_ADO:{space 10}{res}{res}BASE;SITE;.;PERSONAL;PLUS;OLDPLACE
+{p_end}
+{txt}{p 0 16}
+S_StataMP:{space 6}{res}{res}MP
+{p_end}
+{txt}{p 0 16}
+S_StataSE:{space 6}{res}{res}SE
+{p_end}
+{txt}{p 0 16}
+S_CONSOLE:{space 6}{res}{res}console
+{p_end}
+{txt}{p 0 16}
+S_OS:{space 11}{res}{res}Unix
+{p_end}
+{txt}{p 0 16}
+S_MACH:{space 9}{res}{res}PC (64-bit x86-64)
+{p_end}
+{txt}{p 0 16}
+_sch_char_control_vars:{break}
+{res}fte_teach_pc fte_pupil_pc new_teacher_prop credential_full_prop male_prop enr_male_prop eth_minority_prop enr_minority_prop enr_total frpm_prop el_prop expenditures_instr_pc expenditures3000_pc expenditures4000_pc expenditures_other_pc expenditures7000_pc
+{p_end}
+{txt}{p 0 16}
+_expenditure_vars:{break}
+{res}expenditures_instr_pc expenditures3000_pc expenditures4000_pc expenditures_other_pc expenditures7000_pc
+{p_end}
+{txt}{p 0 16}
+_expenditures:{space 2}{res}{res}expenditures_instr_pc         expenditures3000_pc         expenditures4000_pc         expenditures_other_pc         expenditures7000_pc
+{p_end}
+{txt}{p 0 16}
+_dem_char_vars:{space 1}{res}{res}enr_male_prop enr_minority_prop frpm_prop el_prop enr_total
+{p_end}
+{txt}{p 0 16}
+_dem_chars:{space 5}{res}{res}enr_male_prop         enr_minority_prop         frpm_prop el_prop         enr_total
+{p_end}
+{txt}{p 0 16}
+_sch_char_vars:{space 1}{res}{res}fte_teach_pc fte_pupil_pc new_teacher_prop credential_full_prop male_prop enr_male_prop eth_minority_prop enr_minority_prop enr_total
+{p_end}
+{txt}{p 0 16}
+_sch_chars:{space 5}{res}{res}fte_teach_pc fte_pupil_pc                   new_teacher_prop                           credential_full_prop                  c.male_prop##c.enr_male_prop         c.eth_minority_prop##c.enr_minority_prop         enr_total
+{p_end}
+{txt}{p 0 16}
+_sibling_controls:{break}
+{res}i.has_older_sibling_enr_2year         i.has_older_sibling_enr_4year
+{p_end}
+{txt}{p 0 16}
+_census_controls:{break}
+{res}eth_asian_pct eth_hispanic_pct eth_black_pct          educ_hs_dropout_prop  educ_deg_4year_plus_prop         pov_fam_child_lt18_pct         inc_median_hh
+{p_end}
+{txt}{p 0 16}
+_census_grade:{space 2}{res}{res}6
+{p_end}
+{txt}{p 0 16}
+_va_control_vars:{break}
+{res}age male eth_asian eth_hispanic eth_black eth_other econ_disadvantage limited_eng_prof disabled
+{p_end}
+{txt}{p 0 16}
+_peer_math_score_controls:{break}
+{res}i.year#(c.peer_prior_math_z_score##c.peer_prior_math_z_score##c.peer_prior_math_z_score)
+{p_end}
+{txt}{p 0 16}
+_math_score_controls:{break}
+{res}i.year#(c.prior_math_z_score##c.prior_math_z_score##c.prior_math_z_score)
+{p_end}
+{txt}{p 0 16}
+_peer_ela_score_controls:{break}
+{res}i.year#(c.peer_prior_ela_z_score##c.peer_prior_ela_z_score##c.peer_prior_ela_z_score)
+{p_end}
+{txt}{p 0 16}
+_ela_score_controls:{break}
+{res}i.year#(c.prior_ela_z_score##c.prior_ela_z_score##c.prior_ela_z_score)
+{p_end}
+{txt}{p 0 16}
+_peer_demographic_controls:{break}
+{res}peer_age         peer_male         peer_eth_asian peer_eth_hispanic peer_eth_black peer_eth_other         peer_econ_disadvantage         peer_limited_eng_prof         peer_disabled
+{p_end}
+{txt}{p 0 16}
+_demographic_controls:{break}
+{res}age         i.male         i.eth_asian i.eth_hispanic i.eth_black i.eth_other         i.econ_disadvantage         i.limited_eng_prof         i.disabled
+{p_end}
+{txt}{p 0 16}
+_both_str:{space 6}{res}{res}Original + Census + Sibling
+{p_end}
+{txt}{p 0 16}
+_sib_str:{space 7}{res}{res}Original + Sibling
+{p_end}
+{txt}{p 0 16}
+_acs_str:{space 7}{res}{res}Original + Census
+{p_end}
+{txt}{p 0 16}
+_og_str:{space 8}{res}{res}Original Specification
+{p_end}
+{txt}{p 0 16}
+_enr_4year_str:{space 1}{res}{res}Enrolled On Time 4-Year
+{p_end}
+{txt}{p 0 16}
+_enr_2year_str:{space 1}{res}{res}Enrolled On Time 2-Year
+{p_end}
+{txt}{p 0 16}
+_enr_str:{space 7}{res}{res}Enrolled On Time
+{p_end}
+{txt}{p 0 16}
+_math_str:{space 6}{res}{res}Math
+{p_end}
+{txt}{p 0 16}
+_ela_str:{space 7}{res}{res}ELA
+{p_end}
+{txt}{p 0 16}
+_outcome_max_year:{break}
+{res}2018
+{p_end}
+{txt}{p 0 16}
+_outcome_min_year:{break}
+{res}2015
+{p_end}
+{txt}{p 0 16}
+_caaspp_max_year:{break}
+{res}2019
+{p_end}
+{txt}{p 0 16}
+_caaspp_min_year:{break}
+{res}2015
+{p_end}
+{txt}{p 0 16}
+_star_max_year:{space 1}{res}{res}2013
+{p_end}
+{txt}{p 0 16}
+_star_min_year:{space 1}{res}{res}2003
+{p_end}
+{txt}{p 0 16}
+_test_score_max_year:{break}
+{res}2018
+{p_end}
+{txt}{p 0 16}
+_test_score_min_year:{break}
+{res}2015
+{p_end}
+{txt}{p 0 16}
+_k12_test_scores_public:{break}
+{res}/home/research/ca_ed_lab/projects/common_core_va/data/public_access/clean/k12_test_scores
+{p_end}
+{txt}{p 0 16}
+_k12_public_schools:{break}
+{res}/home/research/ca_ed_lab/projects/common_core_va/data/public_access/clean/k12_public_schools
+{p_end}
+{txt}{p 0 16}
+_public_access:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/public_access
+{p_end}
+{txt}{p 0 16}
+_k12_test_scores:{break}
+{res}/home/research/ca_ed_lab/projects/common_core_va/data/restricted_access/clean/k12_test_scores
+{p_end}
+{txt}{p 0 16}
+_vaprojdofiles:{space 1}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/do_files" local ca_ed_lab "/home/research/ca_ed_lab
+{p_end}
+{txt}{p 0 16}
+_sibling_out_xwalk:{break}
+{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/siblingxwalk/sibling_out_xwalk
+{p_end}
+{txt}{p 0 16}
+_k12_postsecondary_out_merge:{break}
+{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_core_va/k12_postsecondary_out_merge
+{p_end}
+{txt}{p 0 16}
+_ufamilyxwalk:{space 2}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/siblingxwalk/ufamilyxwalk
+{p_end}
+{txt}{p 0 16}
+_siblingxwalk:{space 2}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/siblingxwalk/siblingpairxwalk
+{p_end}
+{txt}{p 0 16}
+_va_g11_out_dataset:{break}
+{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_core_va/va_g11_out_dataset
+{p_end}
+{txt}{p 0 16}
+_va_g11_dataset:{break}
+{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_core_va/va_g11_dataset
+{p_end}
+{txt}{p 0 16}
+_va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_core_va/va_dataset
+{p_end}
+{txt}
+{com}. 
+. //startomg timer
+. timer on 1
+{txt}
+{com}. 
+. 
+. ********************************************************************************
+. * begin main code
+. 
+. 
+. // merge original sample VA estimates with restricted sample VA estimates
+. 
+. foreach subject in ela math {c -(}
+{txt}  2{com}.   use $vaprojdir/data/sbac/va_g11_`subject'.dta, clear
+{txt}  3{com}.   sort school_id year
+{txt}  4{com}. 
+.   tempfile va_`subject'_original
+{txt}  5{com}.   save `va_`subject'_original'
+{txt}  6{com}. {c )-}
+{txt}(CST/SBAC Student Test Score Samples)
+{p 0 4 2}
+file {bf}
+/home/tmp/St20090.000001{rm}
+saved
+as .dta format
+{p_end}
+(CST/SBAC Student Test Score Samples)
+{p 0 4 2}
+file {bf}
+/home/tmp/St20090.000002{rm}
+saved
+as .dta format
+{p_end}
+
+{com}. 
+. // merge the original ELA and Math VA estimates
+. use `va_ela_original'
+{txt}(CST/SBAC Student Test Score Samples)
+
+{com}. merge 1:1 cdscode year using `va_math_original', nogen
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}              14
+{txt}{col 9}from master{col 30}{res}               9{txt}  
+{col 9}from using{col 30}{res}               5{txt}  
+
+{col 5}Matched{col 30}{res}           4,957{txt}  
+{col 5}{hline 41}
+
+{com}. 
+. keep cdscode year va_cfr_g11_*
+{txt}
+{com}. 
+. 
+. // merge on the sibling census restricted sample VA estimates
+. foreach subject in ela math {c -(}
+{txt}  2{com}.   merge 1:1 cdscode year using ///
+>    $vaprojdir/data/sib_acs_restr_smp/test_score_va/va_`subject'_sib_acs.dta ///
+>    , nogen
+{txt}  3{com}. 
+.   keep cdscode year va*
+{txt}  4{com}. {c )-}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}             166
+{txt}{col 9}from master{col 30}{res}             166{txt}  
+{col 9}from using{col 30}{res}               0{txt}  
+
+{col 5}Matched{col 30}{res}           4,805{txt}  
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}             177
+{txt}{col 9}from master{col 30}{res}             177{txt}  
+{col 9}from using{col 30}{res}               0{txt}  
+
+{col 5}Matched{col 30}{res}           4,794{txt}  
+{col 5}{hline 41}
+
+{com}. 
+. // create local macros for correlation coefficients
+. foreach subject in ela math {c -(}
+{txt}  2{com}.   corr va_cfr_g11_`subject' va_`subject'_og
+{txt}  3{com}.   // naming convention: correlation between original sample and restricted sample with og controls
+.   local corr_`subject'_original_restr_og : di %5.3f r(rho)
+{txt}  4{com}. 
+.   corr va_cfr_g11_`subject' va_`subject'_both
+{txt}  5{com}.   local corr_`subject'_original_restr_both : di %5.3f r(rho)
+{txt}  6{com}. 
+.   corr va_`subject'_og va_`subject'_both
+{txt}  7{com}.   local corr_`subject'_restr_og_both : di %5.3f r(rho)
+{txt}  8{com}. {c )-}
+{txt}(obs=4,704)
+
+             {c |} va_cfr~a va_ela~g
+{hline 13}{c +}{hline 18}
+va_cfr_g11~a {c |}{res}   1.0000
+   {txt}va_ela_og {c |}{res}   0.9206   1.0000
+
+{txt}(obs=4,704)
+
+             {c |} va_cfr~a va_ela~h
+{hline 13}{c +}{hline 18}
+va_cfr_g11~a {c |}{res}   1.0000
+ {txt}va_ela_both {c |}{res}   0.9180   1.0000
+
+{txt}(obs=4,704)
+
+             {c |} va_ela~g va_ela~h
+{hline 13}{c +}{hline 18}
+   va_ela_og {c |}{res}   1.0000
+ {txt}va_ela_both {c |}{res}   0.9965   1.0000
+
+{txt}(obs=4,693)
+
+             {c |} va_cfr~h va_mat~g
+{hline 13}{c +}{hline 18}
+va_cfr_g11~h {c |}{res}   1.0000
+  {txt}va_math_og {c |}{res}   0.9013   1.0000
+
+{txt}(obs=4,693)
+
+             {c |} va_cfr~h va_mat~h
+{hline 13}{c +}{hline 18}
+va_cfr_g11~h {c |}{res}   1.0000
+{txt}va_math_both {c |}{res}   0.8870   1.0000
+
+{txt}(obs=4,693)
+
+             {c |} va_mat~g va_mat~h
+{hline 13}{c +}{hline 18}
+  va_math_og {c |}{res}   1.0000
+{txt}va_math_both {c |}{res}   0.9866   1.0000
+
+{txt}
+{com}. 
+. 
+. ********** 1) Original sample, og controls vs. Restricted sample, og controls
+. 
+. foreach subject in ela math {c -(}
+{txt}  2{com}.   ***** correlation plot
+.   twoway ///
+>     (scatter va_cfr_g11_`subject' va_`subject'_og) ///
+>     (lfit va_cfr_g11_`subject' va_`subject'_og ) ///
+>     (function y = x, range(va_cfr_g11_`subject')) ///
+>     ytitle("``subject'_str' VA from Original Sample", size(small)) ///
+>     xtitle("``subject'_str' VA from Restricted Sample with `og_str' Controls", size(small)) ///
+>     title("Comparison Scatter Plot of ``subject'_str' VA", size(small)) ///
+>     legend(label(1 "``subject'_str' VA") label(3 "45 degree line") ) ///
+>     note("Correlation Coefficient = `corr_`subject'_original_restr_og' ")
+{txt}  3{com}. 
+.   graph export $vaprojdir/figures/va_sib_acs/va_compare_sib_acs_restr_smp/corr_va_`subject'_original_restr_og.pdf, replace
+{txt}  4{com}.   graph export $projdir/out/graph/siblingvaregs/va_compare_sib_acs_restr_smp/corr_va_`subject'_original_restr_og.pdf, replace
+{txt}  5{com}. 
+.   ***** difference density plot
+.   gen va_`subject'_original_restr_og_diff = va_`subject'_og - va_cfr_g11_`subject'
+{txt}  6{com}. 
+.   twoway ///
+>     (hist va_`subject'_original_restr_og_diff, frequency color(navy)) ///
+>     , ytitle("Frequency") xtitle("Difference") ///
+>     title("``subject'_str' VA Difference between Original Sample and Restricted Sample with `og_str' Controls", size(small))
+{txt}  7{com}. 
+.   graph export $vaprojdir/figures/va_sib_acs/va_compare_sib_acs_restr_smp/hist_diff_va_`subject'_original_restr_og.pdf, replace
+{txt}  8{com}.   graph export $projdir/out/graph/siblingvaregs/va_compare_sib_acs_restr_smp/hist_diff_va_`subject'_original_restr_og.pdf, replace
+{txt}  9{com}. {c )-}
+{err}) required
+{txt}{search r(100), local:r(100);}
+
+end of do-file
+
+{search r(100), local:r(100);}
+
+{com}. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sib_acs_est_sumstats.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}18 May 2022, 18:34:15
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

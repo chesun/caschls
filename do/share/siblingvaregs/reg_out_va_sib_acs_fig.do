@@ -24,8 +24,8 @@ set scheme s1color
 //capture log close: Stata should not complain if there is no log open to close
 cap log close _all
 
-/* set trace on
-set tracedepth 2 */
+/* set trace on */
+
 
 //starting log file
 log using $projdir/log/share/siblingvaregs/reg_out_va_sib_acs_fig.smcl, replace
@@ -124,11 +124,23 @@ foreach outcome in enr enr_2year enr_4year {
           legend(off) ///
           ytitle("Coefficient Estimate") ///
           xtitle("Prior ``prior_subject'_str' Score Decile") ///
-          title("LHS = ``outcome'_str'; RHS = ``subject'_str' VA w/ `va_sib_acs_restr_smp_`control'_str' Controls # Prior ``prior_subject'_str' Decile" ///
+          title("LHS = ``outcome'_str'; RHS = ``subject'_str' VA w/ ``control'_str' Controls # Prior ``prior_subject'_str' Decile" ///
           , size(vsmall))
+
 
         graph export $vaprojdir/figures/va_sib_acs/het_reg_prior_score/het_reg_`outcome'_va_`subject'_`control'_x_prior_`prior_subject'.pdf, replace
         graph export $projdir/out/graph//siblingvaregs/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_`outcome'_va_`subject'_`control'_x_prior_`prior_subject'.pdf, replace
+
+        // redraw the graph to be used for combining into panels
+        twoway ///
+          (bar estimate xtile) ///
+          (rcap min95 max95 xtile) ///
+          , yline(`=``outcome'_va_`subject'_`control''') ///
+          legend(off) ///
+          ytitle("Coefficient Estimate") ///
+          xtitle("Prior ``prior_subject'_str' Score Decile") ///
+          title("Restricted Sample, ``control'_str' Controls", size(vsmall)) ///
+          saving($vaprojdir/gph_files/va_sib_acs/het_reg_prior_score/het_reg_`outcome'_va_`subject'_`control'_x_prior_`prior_subject', replace)
       }
     }
   }
@@ -164,7 +176,7 @@ foreach outcome in enr enr_2year enr_4year {
         legend(off) ///
         ytitle(Coefficient Estimate) ///
         xtitle("Prior ``prior_subject'_str' Score Decile") ///
-        title("LHS = ``outcome'_str'; RHS = Both VA w/ `va_sib_acs_restr_smp_`control'_str' Controls # Prior ``prior_subject'_str' Decile" ///
+        title("LHS = ``outcome'_str'; RHS = Both VA w/ ``control'_str' Controls # Prior ``prior_subject'_str' Decile" ///
         , size(vsmall))
 
       graph export $vaprojdir/figures/va_sib_acs/het_reg_prior_score/het_reg_`outcome'_va_both_`control'_x_prior_`prior_subject'.pdf, replace
@@ -177,8 +189,39 @@ foreach outcome in enr enr_2year enr_4year {
 
 
 
+********** combine figures into panels
+/* Original sample,
+restricted sample with original controls,
+restricted sample with sibling controls,
+restricted sample with both sibling and census controls: 4 graphs in one panel */
+
+// 3 outcomes, 2 VA subjects, 2 prior subjects = 12 panels
+foreach outcome in enr enr_2year enr_4year {
+  di "LHS outcome = `outcome'"
+
+  foreach subject in ela math {
+    di "VA Subject = `subject'"
+
+    foreach prior_subject in ela math {
+      di "interaction with prior `prior_subject' score deciles"
+
+      graph combine ///
+        $vaprojdir/gph_files/sbac/reg_`outcome'_va_`subject'_hetero_prior_`prior_subject'.gph ///
+        $vaprojdir/gph_files/va_sib_acs/het_reg_prior_score/het_reg_`outcome'_va_`subject'_og_x_prior_`prior_subject'.gph ///
+        $vaprojdir/gph_files/va_sib_acs/het_reg_prior_score/het_reg_`outcome'_va_`subject'_sib_x_prior_`prior_subject'.gph ///
+        $vaprojdir/gph_files/va_sib_acs/het_reg_prior_score/het_reg_`outcome'_va_`subject'_both_x_prior_`prior_subject'.gph ///
+        , xcommon ycommon ///
+        title("Regression of ``outcome'_str' on ``subject'_str' VA Interacted with Prior ``prior_subject'_str' Decile", size(small))
+
+      graph export $vaprojdir/figures/va_sib_acs/combined_panels/het_reg_prior_score/het_reg_`outcome'_va_`subject'_x_prior_`prior_subject'.pdf, replace
+      graph export $projdir/out/graph//siblingvaregs/persistence/sib_acs_restr_smp/combined_panels/het_reg_prior_score/het_reg_`outcome'_va_`subject'_x_prior_`prior_subject'.pdf, replace
 
 
+
+
+    }
+  }
+}
 
 
 

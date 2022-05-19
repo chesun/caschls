@@ -580,6 +580,28 @@ if `do_sibling_va_regs' == 1 {
      do $projdir/do/share/siblingvaregs/reg_out_va_sib_acs_fig
      pause
 
+     /* Creates figures for regressions of enrollment outcomes on deep knowledge VA
+     interacted with prior score deciles from the restricted sibling census sample */
+     do $projdir/do/share/siblingvaregs/reg_out_va_sib_acs_fig
+     pause
+
+     /* Creates correlation figures and difference density plots for test score VA
+     1) VA from original sample with og controls, VA with og controls in restricted sample
+     2) VA from Original Sample with og controls, VA with sib and acs controls in restricted sample
+     3) VA with og controls, VA estimates with sib and acs controls in restricted sample
+      */
+    do $projdir/do/share/siblingvaregs/va_sib_acs_est_sumstats
+    pause
+
+    /* Creates correlation figures and difference density plots for outcome VA
+    1) VA from original sample with og controls, VA with og controls in restricted sample
+    2) VA from Original Sample with og controls, VA with sib and acs controls in restricted sample
+    3) VA with og controls, VA estimates with sib and acs controls in restricted sample
+     */
+     do $projdir/do/share/siblingvaregs/va_sib_acs_out_est_sumstats
+     pause
+
+
 }
 
 

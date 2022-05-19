@@ -1,0 +1,1073 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
+> gvaregs/reg_out_va_sib_acs_dk_fig.smcl
+  log type:  smcl
+ opened on:  18 May 2022, 12:10:12
+
+. 
+. /* change directory to common_core_va project directory for all value added
+> do files because some called subroutines written by Matt may use relative fil
+> e paths  */
+. cd $vaprojdir
+/home/research/ca_ed_lab/projects/common_core_va
+
+. 
+. /* file path macros for datasets */
+. include $projdir/do/share/siblingvaregs/vafilemacros.doh
+
+. *****************************************************************************
+> ***
+. /* Macros for common core VA project folder file paths, and relevant datasets
+>  to make it possible
+> to use Matt's doh files  */
+. *****************************************************************************
+> ***
+. *****************************************************************************
+> ***
+. /* First written by Che Sun, 12/13/2021
+> 1/27/2022: changed mattdofiles path to the do files folder in project folder
+> after Matt updated the do files to reconcile file paths. Now direct run these
+> do files from the $vaprojdir/do_files_sbac folder*/
+. 
+. /* to include this in do files:
+> include $projdir/do/share/siblingvaregs/vafilemacros.doh
+>  */
+. 
+.  local vaprojdofiles "$vaprojdir/do_files"
+
+. 
+. *** macros for my own datasets
+. local va_dataset "$projdir/dta/common_core_va/va_dataset"
+
+. local va_g11_dataset "$projdir/dta/common_core_va/va_g11_dataset"
+
+. local va_g11_out_dataset "$projdir/dta/common_core_va/va_g11_out_dataset"
+
+. local siblingxwalk "$projdir/dta/siblingxwalk/siblingpairxwalk"
+
+. local ufamilyxwalk "$projdir/dta/siblingxwalk/ufamilyxwalk"
+
+. local k12_postsecondary_out_merge "$projdir/dta/common_core_va/k12_postsecond
+> ary_out_merge"
+
+. local sibling_out_xwalk "$projdir/dta/siblingxwalk/sibling_out_xwalk"
+
+. 
+. 
+. //run Matt's do helper file to set the local macros for VA project
+. include $vaprojdir/do_files/sbac/macros_va.doh
+
+. /* CHANGE LOG
+> 4/28/2022: Added macro for sibling controls  */
+. 
+. #delimit ;
+delimiter now ;
+. *** file paths
+> local home $vaprojdir ;
+. local vaprojdofiles "$vaprojdir/do_files"
+> local ca_ed_lab "/home/research/ca_ed_lab" ;
+
+. local k12_test_scores "$vaprojdir/data/restricted_access/clean/k12_test_score
+> s" ;
+
+. local public_access "$vaprojdir/data/public_access" ;
+
+. local k12_public_schools "$vaprojdir/data/public_access/clean/k12_public_scho
+> ols" ;
+
+. local k12_test_scores_public "$vaprojdir/data/public_access/clean/k12_test_sc
+> ores" ;
+
+. **** Dates ;
+. local test_score_min_year
+>         2015
+>         ;
+
+. local test_score_max_year
+>         2018
+>         ;
+
+. local star_min_year
+>         2003
+>         ;
+
+. local star_max_year
+>         2013
+>         ;
+
+. local caaspp_min_year
+>         2015
+>         ;
+
+. local caaspp_max_year
+>         2019
+>         ;
+
+. local outcome_min_year
+>         2015
+>         ;
+
+. local outcome_max_year
+>         2018
+>         ;
+
+. **** Outcome Strings ;
+. local ela_str
+>         "ELA"
+>         ;
+
+. local math_str
+>         "Math"
+>         ;
+
+. local enr_str
+>         "Enrolled On Time"
+>         ;
+
+. local enr_2year_str
+>         "Enrolled On Time 2-Year"
+>         ;
+
+. local enr_4year_str
+>         "Enrolled On Time 4-Year"
+>         ;
+
+. **** Sibling Census Restricted Sample Controls Strings ;
+. local og_str
+>         "Original Specification"
+>         ;
+
+. local acs_str
+>         "Original + Census"
+>         ;
+
+. local sib_str
+>         "Original + Sibling"
+>         ;
+
+. local both_str
+>         "Original + Census + Sibling"
+>         ;
+
+. **** Value Added ;
+. local school_controls
+>         /*cohort_size*/
+>         ;
+
+. local demographic_controls
+>         age
+>         i.male
+>         i.eth_asian i.eth_hispanic i.eth_black i.eth_other
+>         i.econ_disadvantage
+>         i.limited_eng_prof
+>         i.disabled
+>         ;
+
+. local peer_demographic_controls
+>         peer_age
+>         peer_male
+>         peer_eth_asian peer_eth_hispanic peer_eth_black peer_eth_other
+>         peer_econ_disadvantage
+>         peer_limited_eng_prof
+>         peer_disabled
+>         ;
+
+. local ela_score_controls
+>         i.year#(c.prior_ela_z_score##c.prior_ela_z_score##c.prior_ela_z_score
+> )
+>         ;
+
+. local peer_ela_score_controls
+>         i.year#(c.peer_prior_ela_z_score##c.peer_prior_ela_z_score##c.peer_pr
+> ior_ela_z_score)
+>         ;
+
+. local math_score_controls
+>         i.year#(c.prior_math_z_score##c.prior_math_z_score##c.prior_math_z_sc
+> ore)
+>         ;
+
+. local peer_math_score_controls
+>         i.year#(c.peer_prior_math_z_score##c.peer_prior_math_z_score##c.peer_
+> prior_math_z_score)
+>         ;
+
+. local va_control_vars "`school_controls' `demographic_controls'" ;
+
+. local va_control_vars : subinstr local va_control_vars "i." "", all ;
+
+. local va_control_vars : list uniq va_control_vars ;
+
+. local census_grade
+>         6
+>         ;
+
+. local census_controls
+>         /*eth_white_pct*/ eth_asian_pct eth_hispanic_pct eth_black_pct /*eth_
+> other_pct*/
+>         educ_hs_dropout_prop /*educ_deg_2year_prop*/ educ_deg_4year_plus_prop
+>         pov_fam_child_lt18_pct
+>         inc_median_hh
+>         ;
+
+. local sibling_controls
+>         i.has_older_sibling_enr_2year
+>         i.has_older_sibling_enr_4year
+>         ;
+
+. **** School Characteristics ;
+. local sch_chars
+>         fte_teach_pc fte_pupil_pc /*fte_admin_pc*/
+>         /*eng_learner_staff_pc*/
+>         new_teacher_prop
+>         /*educ_grad_sch_prop educ_associate_prop*/
+>         /*status_tenured_prop*/
+>         credential_full_prop
+>         /*authorization_stem_prop authorization_ela_prop*/
+>         c.male_prop##c.enr_male_prop
+>         c.eth_minority_prop##c.enr_minority_prop
+>         enr_total
+>         ;
+
+. local sch_char_vars "`sch_chars'" ;
+
+. local sch_char_vars : subinstr local sch_char_vars "i." "", all ;
+
+. local sch_char_vars : subinstr local sch_char_vars "c." "", all ;
+
+. local sch_char_vars : subinstr local sch_char_vars "##" " ", all ;
+
+. local sch_char_vars : subinstr local sch_char_vars "#" " ", all ;
+
+. local sch_char_vars : list uniq sch_char_vars ;
+
+. local dem_chars
+>         enr_male_prop
+>         enr_minority_prop
+>         frpm_prop el_prop
+>         enr_total
+>         ;
+
+. local dem_char_vars "`dem_chars'" ;
+
+. local dem_char_vars : list uniq dem_char_vars ;
+
+. local expenditures
+>         expenditures_instr_pc
+>         expenditures3000_pc
+>         expenditures4000_pc
+>         expenditures_other_pc
+>         expenditures7000_pc
+>         ;
+
+. local expenditure_vars "`expenditures'" ;
+
+. local expenditure_vars : list uniq expenditure_vars ;
+
+. local sch_char_control_vars : list sch_char_vars | dem_char_vars ;
+
+. local sch_char_control_vars : list sch_char_control_vars | expenditure_vars ;
+
+. #delimit cr
+delimiter now cr
+. 
+. 
+. macro list
+T_gm_fix_span:  0
+vaprojxwalks:   /home/research/ca_ed_lab/projects/common_core_va/data/restricte
+                > d_access/clean/crosswalks
+mattxwalks:     /home/research/ca_ed_lab/users/msnaven/data/restricted_access/c
+                > lean/crosswalks
+nscdtadir_oldformat:
+                /home/research/ca_ed_lab/data/restricted_access/clean/cde_nsc/o
+                > ldformat
+nscdtadir:      /home/research/ca_ed_lab/data/restricted_access/clean/cde_nsc
+cstdtadir:      /home/research/ca_ed_lab/data/restricted_access/clean//cde/cst
+vadtadir:       /home/research/ca_ed_lab/projects/common_core_va/data/sbac
+vaprojdir:      /home/research/ca_ed_lab/projects/common_core_va
+projdir:        /home/research/ca_ed_lab/users/chesun/gsr/caschls
+clndtadir:      /home/research/ca_ed_lab/data/restricted_access/clean/calschls
+rawdtadir:      /home/research/ca_ed_lab/data/restricted_access/raw/calschls/st
+                > ata
+rawcsvdir:      /home/research/ca_ed_lab/data/restricted_access/raw/calschls/cs
+                > v
+S_level:        95
+F1:             help advice;
+F2:             describe;
+F7:             save
+F8:             use
+S_ADO:          BASE;SITE;.;PERSONAL;PLUS;OLDPLACE
+S_StataMP:      MP
+S_StataSE:      SE
+S_CONSOLE:      console
+S_OS:           Unix
+S_MACH:         PC (64-bit x86-64)
+_sch_char_control_vars:
+                fte_teach_pc fte_pupil_pc new_teacher_prop credential_full_prop
+                male_prop enr_male_prop eth_minority_prop enr_minority_prop
+                enr_total frpm_prop el_prop expenditures_instr_pc
+                expenditures3000_pc expenditures4000_pc expenditures_other_pc
+                expenditures7000_pc
+_expenditure_vars:
+                expenditures_instr_pc expenditures3000_pc expenditures4000_pc
+                expenditures_other_pc expenditures7000_pc
+_expenditures:  expenditures_instr_pc expenditures3000_pc expenditures4000_pc
+                expenditures_other_pc expenditures7000_pc
+_dem_char_vars: enr_male_prop enr_minority_prop frpm_prop el_prop enr_total
+_dem_chars:     enr_male_prop enr_minority_prop frpm_prop el_prop enr_total
+_sch_char_vars: fte_teach_pc fte_pupil_pc new_teacher_prop credential_full_prop
+                male_prop enr_male_prop eth_minority_prop enr_minority_prop
+                enr_total
+_sch_chars:     fte_teach_pc fte_pupil_pc new_teacher_prop credential_full_prop
+                c.male_prop##c.enr_male_prop
+                c.eth_minority_prop##c.enr_minority_prop enr_total
+_sibling_controls:
+                i.has_older_sibling_enr_2year i.has_older_sibling_enr_4year
+_census_controls:
+                eth_asian_pct eth_hispanic_pct eth_black_pct
+                educ_hs_dropout_prop educ_deg_4year_plus_prop
+                pov_fam_child_lt18_pct inc_median_hh
+_census_grade:  6
+_va_control_vars:
+                age male eth_asian eth_hispanic eth_black eth_other
+                econ_disadvantage limited_eng_prof disabled
+_peer_math_score_controls:
+                i.year#(c.peer_prior_math_z_score##c.peer_prior_math_z_score##c
+                > .peer_prior_math_z_score)
+_math_score_controls:
+                i.year#(c.prior_math_z_score##c.prior_math_z_score##c.prior_mat
+                > h_z_score)
+_peer_ela_score_controls:
+                i.year#(c.peer_prior_ela_z_score##c.peer_prior_ela_z_score##c.p
+                > eer_prior_ela_z_score)
+_ela_score_controls:
+                i.year#(c.prior_ela_z_score##c.prior_ela_z_score##c.prior_ela_z
+                > _score)
+_peer_demographic_controls:
+                peer_age peer_male peer_eth_asian peer_eth_hispanic
+                peer_eth_black peer_eth_other peer_econ_disadvantage
+                peer_limited_eng_prof peer_disabled
+_demographic_controls:
+                age i.male i.eth_asian i.eth_hispanic i.eth_black i.eth_other
+                i.econ_disadvantage i.limited_eng_prof i.disabled
+_both_str:      Original + Census + Sibling
+_sib_str:       Original + Sibling
+_acs_str:       Original + Census
+_og_str:        Original Specification
+_enr_4year_str: Enrolled On Time 4-Year
+_enr_2year_str: Enrolled On Time 2-Year
+_enr_str:       Enrolled On Time
+_math_str:      Math
+_ela_str:       ELA
+_outcome_max_year:
+                2018
+_outcome_min_year:
+                2015
+_caaspp_max_year:
+                2019
+_caaspp_min_year:
+                2015
+_star_max_year: 2013
+_star_min_year: 2003
+_test_score_max_year:
+                2018
+_test_score_min_year:
+                2015
+_k12_test_scores_public:
+                /home/research/ca_ed_lab/projects/common_core_va/data/public_ac
+                > cess/clean/k12_test_scores
+_k12_public_schools:
+                /home/research/ca_ed_lab/projects/common_core_va/data/public_ac
+                > cess/clean/k12_public_schools
+_public_access: /home/research/ca_ed_lab/projects/common_core_va/data/public_ac
+                > cess
+_k12_test_scores:
+                /home/research/ca_ed_lab/projects/common_core_va/data/restricte
+                > d_access/clean/k12_test_scores
+_vaprojdofiles: /home/research/ca_ed_lab/projects/common_core_va/do_files"
+                local ca_ed_lab "/home/research/ca_ed_lab
+_sibling_out_xwalk:
+                /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/siblingxw
+                > alk/sibling_out_xwalk
+_k12_postsecondary_out_merge:
+                /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_co
+                > re_va/k12_postsecondary_out_merge
+_ufamilyxwalk:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/siblingxw
+                > alk/ufamilyxwalk
+_siblingxwalk:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/siblingxw
+                > alk/siblingpairxwalk
+_va_g11_out_dataset:
+                /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_co
+                > re_va/va_g11_out_dataset
+_va_g11_dataset:
+                /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_co
+                > re_va/va_g11_dataset
+_va_dataset:    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_co
+                > re_va/va_dataset
+
+. 
+. //startomg timer
+. timer on 1
+
+. 
+. 
+. *****************************************************************************
+> ***
+. * begin main code
+. 
+. ********** assign non-het outcome on dk va regression coefficients to scalars
+. foreach outcome in enr enr_2year enr_4year {
+  2.   di "LHS outcome = RHS DK outcome = `outcome'"
+  3. 
+.   foreach control in og acs sib both {
+  4.     di "RHS VA control = `control'"
+  5. 
+.     //pull the regreession estimates from outcome on only dk VA, matching out
+> comes
+.     estimates use $vaprojdir/estimates/sib_acs_restr_smp/persistence/reg_`out
+> come'_va_`outcome'_`control'_dk.ster
+  6. 
+.     // assign a tempname to a local macro name
+.     tempname `outcome'_va_`outcome'_dk_`control'
+  7.     // assign the coefficient value from the regression to a scalar
+.     scalar ``outcome'_va_`outcome'_dk_`control'' = _b[va_`outcome'_`control'_
+> dk]
+  8.   }
+  9. }
+LHS outcome = RHS DK outcome = enr
+RHS VA control = og
+RHS VA control = acs
+RHS VA control = sib
+RHS VA control = both
+LHS outcome = RHS DK outcome = enr_2year
+RHS VA control = og
+RHS VA control = acs
+RHS VA control = sib
+RHS VA control = both
+LHS outcome = RHS DK outcome = enr_4year
+RHS VA control = og
+RHS VA control = acs
+RHS VA control = sib
+RHS VA control = both
+
+. 
+. 
+. ********** make individual figures for outcome on dk VA by prior score decile
+>  heterogeneity
+. foreach outcome in enr enr_2year enr_4year {
+  2.   di "LHS outcome = RHS DK outcome = `outcome'"
+  3. 
+.   foreach control in og acs sib both {
+  4.     di "RHS DK VA: Deep Knowledge VA with `control' controls"
+  5. 
+.     foreach prior_subject in ela math {
+  6.       di "interaction with prior `prior_subject' score deciles "
+  7. 
+.       estimates use $vaprojdir/estimates/sib_acs_restr_smp/persistence/het_re
+> g_`outcome'_va_`outcome'_`control'_dk_x_prior_`prior_subject'.ster
+  8.       // convert estimation results into a dataset
+.       parmest, norestore
+  9.       // keep only the interaction parameters
+.       keep if strpos(parm, "prior_`prior_subject'_z_score_xtile#c.va_`outcome
+> '_`control'_dk") != 0
+ 10.       // generate a var that is the decile number of the prior score, from
+>  1 to 10
+.       gen xtile = subinstr(substr(parm, 1, strpos(parm, ".")), "b", "", .)
+ 11.       // convert xtile var into a numeric var
+.       destring xtile, replace
+ 12. 
+.       twoway ///
+>         (bar estimate xtile) ///
+>         (rcap min95 max95 xtile) ///
+>         , yline(`=``outcome'_va_`outcome'_dk_`control''') ///
+>         legend(off) ///
+>         ytitle("Coefficient Estimate") ///
+>         xtitle("Prior ``prior_subject'_str' Score Decile") ///
+>         title("LHS = ``outcome'_str'; RHS = ``outcome'_str' DK VA w/ ``contro
+> l'_str' Controls # Prior ``prior_subject'_str' Decile" ///
+>         , size(vsmall))
+ 13. 
+.       graph export $vaprojdir/figures/va_sib_acs/het_reg_dk_prior_score/het_r
+> eg_`outcome'_va_`outcome'_`control'_dk_x_prior_`prior_subject'.pdf, replace
+ 14.       graph export $projdir/out/graph//siblingvaregs/persistence/sib_acs_r
+> estr_smp/het_reg_dk_prior_score/het_reg_`outcome'_va_`outcome'_`control'_dk_x
+> _prior_`prior_subject'.pdf, replace
+ 15. 
+.       // redraw the graph to be used for combining into panels
+.       twoway ///
+>         (bar estimate xtile) ///
+>         (rcap min95 max95 xtile) ///
+>         , yline(`=``outcome'_va_`outcome'_dk_`control''') ///
+>         legend(off) ///
+>         ytitle("Coefficient Estimate") ///
+>         xtitle("Prior ``prior_subject'_str' Score Decile") ///
+>         title("Restricted Sample, ``control'_str' Controls", size(vsmall)) //
+> /
+>         saving($vaprojdir/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg
+> _`outcome'_va_`outcome'_`control'_dk_x_prior_`prior_subject', replace)
+ 16.     }
+ 17.   }
+ 18. }
+LHS outcome = RHS DK outcome = enr
+RHS DK VA: Deep Knowledge VA with og controls
+interaction with prior ela score deciles 
+(46 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_dk_prior_score/het_reg_enr_va_enr_og_dk_x_prior_ela.pdf saved as PDF
+    format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_va_e
+    > nr_og_dk_x_prior_ela.pdf saved as PDF format
+(file
+    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
+    > _reg_dk_prior_score/het_reg_enr_va_enr_og_dk_x_prior_ela.gph not found)
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_dk_prior_score/het_reg_enr_va_enr_og_dk_x_prior_ela.gph saved
+interaction with prior math score deciles 
+(46 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_dk_prior_score/het_reg_enr_va_enr_og_dk_x_prior_math.pdf saved as
+    PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_va_e
+    > nr_og_dk_x_prior_math.pdf saved as PDF format
+(file
+    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
+    > _reg_dk_prior_score/het_reg_enr_va_enr_og_dk_x_prior_math.gph not
+    found)
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_dk_prior_score/het_reg_enr_va_enr_og_dk_x_prior_math.gph saved
+RHS DK VA: Deep Knowledge VA with acs controls
+interaction with prior ela score deciles 
+(46 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_dk_prior_score/het_reg_enr_va_enr_acs_dk_x_prior_ela.pdf saved as
+    PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_va_e
+    > nr_acs_dk_x_prior_ela.pdf saved as PDF format
+(file
+    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
+    > _reg_dk_prior_score/het_reg_enr_va_enr_acs_dk_x_prior_ela.gph not
+    found)
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_dk_prior_score/het_reg_enr_va_enr_acs_dk_x_prior_ela.gph saved
+interaction with prior math score deciles 
+(46 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_dk_prior_score/het_reg_enr_va_enr_acs_dk_x_prior_math.pdf saved as
+    PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_va_e
+    > nr_acs_dk_x_prior_math.pdf saved as PDF format
+(file
+    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
+    > _reg_dk_prior_score/het_reg_enr_va_enr_acs_dk_x_prior_math.gph not
+    found)
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_dk_prior_score/het_reg_enr_va_enr_acs_dk_x_prior_math.gph saved
+RHS DK VA: Deep Knowledge VA with sib controls
+interaction with prior ela score deciles 
+(46 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_dk_prior_score/het_reg_enr_va_enr_sib_dk_x_prior_ela.pdf saved as
+    PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_va_e
+    > nr_sib_dk_x_prior_ela.pdf saved as PDF format
+(file
+    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
+    > _reg_dk_prior_score/het_reg_enr_va_enr_sib_dk_x_prior_ela.gph not
+    found)
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_dk_prior_score/het_reg_enr_va_enr_sib_dk_x_prior_ela.gph saved
+interaction with prior math score deciles 
+(46 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_dk_prior_score/het_reg_enr_va_enr_sib_dk_x_prior_math.pdf saved as
+    PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_va_e
+    > nr_sib_dk_x_prior_math.pdf saved as PDF format
+(file
+    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
+    > _reg_dk_prior_score/het_reg_enr_va_enr_sib_dk_x_prior_math.gph not
+    found)
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_dk_prior_score/het_reg_enr_va_enr_sib_dk_x_prior_math.gph saved
+RHS DK VA: Deep Knowledge VA with both controls
+interaction with prior ela score deciles 
+(46 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_dk_prior_score/het_reg_enr_va_enr_both_dk_x_prior_ela.pdf saved as
+    PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_va_e
+    > nr_both_dk_x_prior_ela.pdf saved as PDF format
+(file
+    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
+    > _reg_dk_prior_score/het_reg_enr_va_enr_both_dk_x_prior_ela.gph not
+    found)
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_dk_prior_score/het_reg_enr_va_enr_both_dk_x_prior_ela.gph saved
+interaction with prior math score deciles 
+(46 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_dk_prior_score/het_reg_enr_va_enr_both_dk_x_prior_math.pdf saved as
+    PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_va_e
+    > nr_both_dk_x_prior_math.pdf saved as PDF format
+(file
+    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
+    > _reg_dk_prior_score/het_reg_enr_va_enr_both_dk_x_prior_math.gph not
+    found)
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_dk_prior_score/het_reg_enr_va_enr_both_dk_x_prior_math.gph saved
+LHS outcome = RHS DK outcome = enr_2year
+RHS DK VA: Deep Knowledge VA with og controls
+interaction with prior ela score deciles 
+(46 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_dk_prior_score/het_reg_enr_2year_va_enr_2year_og_dk_x_prior_ela.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_2yea
+    > r_va_enr_2year_og_dk_x_prior_ela.pdf saved as PDF format
+(file
+    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
+    > _reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_og_dk_x_prior_ela.gp
+    > h not found)
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_og_dk_x_prior_ela.gph saved
+interaction with prior math score deciles 
+(46 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_dk_prior_score/het_reg_enr_2year_va_enr_2year_og_dk_x_prior_math.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_2yea
+    > r_va_enr_2year_og_dk_x_prior_math.pdf saved as PDF format
+(file
+    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
+    > _reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_og_dk_x_prior_math.g
+    > ph not found)
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_og_dk_x_prior_math.gph save
+> d
+RHS DK VA: Deep Knowledge VA with acs controls
+interaction with prior ela score deciles 
+(46 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_dk_prior_score/het_reg_enr_2year_va_enr_2year_acs_dk_x_prior_ela.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_2yea
+    > r_va_enr_2year_acs_dk_x_prior_ela.pdf saved as PDF format
+(file
+    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
+    > _reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_acs_dk_x_prior_ela.g
+    > ph not found)
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_acs_dk_x_prior_ela.gph save
+> d
+interaction with prior math score deciles 
+(46 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_dk_prior_score/het_reg_enr_2year_va_enr_2year_acs_dk_x_prior_math.pd
+    > f saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_2yea
+    > r_va_enr_2year_acs_dk_x_prior_math.pdf saved as PDF format
+(file
+    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
+    > _reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_acs_dk_x_prior_math.
+    > gph not found)
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_acs_dk_x_prior_math.gph sav
+> ed
+RHS DK VA: Deep Knowledge VA with sib controls
+interaction with prior ela score deciles 
+(46 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_dk_prior_score/het_reg_enr_2year_va_enr_2year_sib_dk_x_prior_ela.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_2yea
+    > r_va_enr_2year_sib_dk_x_prior_ela.pdf saved as PDF format
+(file
+    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
+    > _reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_sib_dk_x_prior_ela.g
+    > ph not found)
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_sib_dk_x_prior_ela.gph save
+> d
+interaction with prior math score deciles 
+(46 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_dk_prior_score/het_reg_enr_2year_va_enr_2year_sib_dk_x_prior_math.pd
+    > f saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_2yea
+    > r_va_enr_2year_sib_dk_x_prior_math.pdf saved as PDF format
+(file
+    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
+    > _reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_sib_dk_x_prior_math.
+    > gph not found)
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_sib_dk_x_prior_math.gph sav
+> ed
+RHS DK VA: Deep Knowledge VA with both controls
+interaction with prior ela score deciles 
+(46 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_dk_prior_score/het_reg_enr_2year_va_enr_2year_both_dk_x_prior_ela.pd
+    > f saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_2yea
+    > r_va_enr_2year_both_dk_x_prior_ela.pdf saved as PDF format
+(file
+    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
+    > _reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_both_dk_x_prior_ela.
+    > gph not found)
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_both_dk_x_prior_ela.gph sav
+> ed
+interaction with prior math score deciles 
+(46 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_dk_prior_score/het_reg_enr_2year_va_enr_2year_both_dk_x_prior_math.p
+    > df saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_2yea
+    > r_va_enr_2year_both_dk_x_prior_math.pdf saved as PDF format
+(file
+    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
+    > _reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_both_dk_x_prior_math
+    > .gph not found)
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_both_dk_x_prior_math.gph sa
+> ved
+LHS outcome = RHS DK outcome = enr_4year
+RHS DK VA: Deep Knowledge VA with og controls
+interaction with prior ela score deciles 
+(46 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_dk_prior_score/het_reg_enr_4year_va_enr_4year_og_dk_x_prior_ela.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_4yea
+    > r_va_enr_4year_og_dk_x_prior_ela.pdf saved as PDF format
+(file
+    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
+    > _reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_og_dk_x_prior_ela.gp
+    > h not found)
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_og_dk_x_prior_ela.gph saved
+interaction with prior math score deciles 
+(46 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_dk_prior_score/het_reg_enr_4year_va_enr_4year_og_dk_x_prior_math.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_4yea
+    > r_va_enr_4year_og_dk_x_prior_math.pdf saved as PDF format
+(file
+    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
+    > _reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_og_dk_x_prior_math.g
+    > ph not found)
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_og_dk_x_prior_math.gph save
+> d
+RHS DK VA: Deep Knowledge VA with acs controls
+interaction with prior ela score deciles 
+(46 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_dk_prior_score/het_reg_enr_4year_va_enr_4year_acs_dk_x_prior_ela.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_4yea
+    > r_va_enr_4year_acs_dk_x_prior_ela.pdf saved as PDF format
+(file
+    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
+    > _reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_acs_dk_x_prior_ela.g
+    > ph not found)
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_acs_dk_x_prior_ela.gph save
+> d
+interaction with prior math score deciles 
+(46 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_dk_prior_score/het_reg_enr_4year_va_enr_4year_acs_dk_x_prior_math.pd
+    > f saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_4yea
+    > r_va_enr_4year_acs_dk_x_prior_math.pdf saved as PDF format
+(file
+    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
+    > _reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_acs_dk_x_prior_math.
+    > gph not found)
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_acs_dk_x_prior_math.gph sav
+> ed
+RHS DK VA: Deep Knowledge VA with sib controls
+interaction with prior ela score deciles 
+(46 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_dk_prior_score/het_reg_enr_4year_va_enr_4year_sib_dk_x_prior_ela.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_4yea
+    > r_va_enr_4year_sib_dk_x_prior_ela.pdf saved as PDF format
+(file
+    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
+    > _reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_sib_dk_x_prior_ela.g
+    > ph not found)
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_sib_dk_x_prior_ela.gph save
+> d
+interaction with prior math score deciles 
+(46 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_dk_prior_score/het_reg_enr_4year_va_enr_4year_sib_dk_x_prior_math.pd
+    > f saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_4yea
+    > r_va_enr_4year_sib_dk_x_prior_math.pdf saved as PDF format
+(file
+    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
+    > _reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_sib_dk_x_prior_math.
+    > gph not found)
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_sib_dk_x_prior_math.gph sav
+> ed
+RHS DK VA: Deep Knowledge VA with both controls
+interaction with prior ela score deciles 
+(46 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_dk_prior_score/het_reg_enr_4year_va_enr_4year_both_dk_x_prior_ela.pd
+    > f saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_4yea
+    > r_va_enr_4year_both_dk_x_prior_ela.pdf saved as PDF format
+(file
+    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
+    > _reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_both_dk_x_prior_ela.
+    > gph not found)
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_both_dk_x_prior_ela.gph sav
+> ed
+interaction with prior math score deciles 
+(46 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_dk_prior_score/het_reg_enr_4year_va_enr_4year_both_dk_x_prior_math.p
+    > df saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_4yea
+    > r_va_enr_4year_both_dk_x_prior_math.pdf saved as PDF format
+(file
+    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
+    > _reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_both_dk_x_prior_math
+    > .gph not found)
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_both_dk_x_prior_math.gph sa
+> ved
+
+. 
+. 
+. ********** combine figures into panels
+. /* Original sample,
+> restricted sample with original controls,
+> restricted sample with sibling controls,
+> restricted sample with both sibling and census controls: 4 graphs in one pane
+> l */
+. 
+. // 3 outcomes, 2 prior subjects = 6 graphs
+. foreach outcome in enr enr_2year enr_4year {
+  2.   di "LHS outcome = RHS DK outcome = `outcome'"
+  3. 
+.   foreach prior_subject in ela math {
+  4.     di "interaction with prior `prior_subject' score deciles "
+  5. 
+.     graph combine ///
+>       $vaprojdir/gph_files/sbac/reg_`outcome'_va_cfr_g11_`outcome'_dk_hetero_
+> prior_`prior_subject'.gph ///
+>       $vaprojdir/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_`outcome
+> '_va_`outcome'_og_dk_x_prior_`prior_subject'.gph ///
+>       $vaprojdir/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_`outcome
+> '_va_`outcome'_sib_dk_x_prior_`prior_subject'.gph ///
+>       $vaprojdir/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_`outcome
+> '_va_`outcome'_both_dk_x_prior_`prior_subject'.gph ///
+>       , xcommon ycommon ///
+>       title("Regression of ``outcome'_str' on ``outcome'_str' DK VA Interacte
+> d with Prior ``prior_subject'_str' Decile", size(small))
+  6. 
+.     graph export $vaprojdir/figures/va_sib_acs/combined_panels/het_reg_dk_pri
+> or_score/het_reg_`outcome'_va_`outcome'_dk_x_prior_`prior_subject'.pdf, repla
+> ce
+  7.     graph export $projdir/out/graph//siblingvaregs/persistence/sib_acs_res
+> tr_smp/combined_panels/het_reg_dk_prior_score/het_reg_`outcome'_va_`outcome'_
+> dk_x_prior_`prior_subject'.pdf, replace
+  8. 
+. 
+. 
+. 
+.   }
+  9. }
+LHS outcome = RHS DK outcome = enr
+interaction with prior ela score deciles 
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/combi
+    > ned_panels/het_reg_dk_prior_score/het_reg_enr_va_enr_dk_x_prior_ela.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/combined_panels/het_reg_dk_prior_score/
+    > het_reg_enr_va_enr_dk_x_prior_ela.pdf saved as PDF format
+interaction with prior math score deciles 
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/combi
+    > ned_panels/het_reg_dk_prior_score/het_reg_enr_va_enr_dk_x_prior_math.pd
+    > f saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/combined_panels/het_reg_dk_prior_score/
+    > het_reg_enr_va_enr_dk_x_prior_math.pdf saved as PDF format
+LHS outcome = RHS DK outcome = enr_2year
+interaction with prior ela score deciles 
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/combi
+    > ned_panels/het_reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_dk_x_p
+    > rior_ela.pdf saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/combined_panels/het_reg_dk_prior_score/
+    > het_reg_enr_2year_va_enr_2year_dk_x_prior_ela.pdf saved as PDF format
+interaction with prior math score deciles 
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/combi
+    > ned_panels/het_reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_dk_x_p
+    > rior_math.pdf saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/combined_panels/het_reg_dk_prior_score/
+    > het_reg_enr_2year_va_enr_2year_dk_x_prior_math.pdf saved as PDF format
+LHS outcome = RHS DK outcome = enr_4year
+interaction with prior ela score deciles 
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/combi
+    > ned_panels/het_reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_dk_x_p
+    > rior_ela.pdf saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/combined_panels/het_reg_dk_prior_score/
+    > het_reg_enr_4year_va_enr_4year_dk_x_prior_ela.pdf saved as PDF format
+interaction with prior math score deciles 
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/combi
+    > ned_panels/het_reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_dk_x_p
+    > rior_math.pdf saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/combined_panels/het_reg_dk_prior_score/
+    > het_reg_enr_4year_va_enr_4year_dk_x_prior_math.pdf saved as PDF format
+
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. timer off 1
+
+. timer list
+   1:     17.50 /        1 =      17.4980
+
+. 
+. set trace off
+
+. cd $projdir
+/home/research/ca_ed_lab/users/chesun/gsr/caschls
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
+> gvaregs/reg_out_va_sib_acs_dk_fig.smcl
+  log type:  smcl
+ closed on:  18 May 2022, 12:10:29
+-------------------------------------------------------------------------------
