@@ -15,6 +15,7 @@ do $projdir/do/share/siblingvaregs/reg_out_va_sib_acs
  /* CHANGE LOG
 5/10/2022: Added code for regressing outcome on test score VA interactedsf with
 prior score deciles
+5/22/2022: Added code fo regressions by SED status
   */
 
 
@@ -179,6 +180,56 @@ foreach outcome in enr enr_2year enr_4year {
   }
 }
 
+
+
+
+********** Regress outcome on test score VA: heterogeneity by priro score by socioeconomic disadvantage status
+/* no peer effectsm no tfx */
+foreach outcome in enr enr_2year enr_4year {
+  di "Dependent Var = `outcome'"
+
+  // regress outcomes on single test score VA interacted with prior score decile by subject by SED status
+  // 3 outcomes, 2 subject VAs, 2 prior scores, 2 SED status, 4 VA specifications = 96 regressions
+  foreach subject in ela math {
+    di "VA Subject = `subject'"
+
+    foreach control in og acs sib both {
+      di "`subject' test score VA with `control' controls"
+
+        foreach prior_subject in ela math {
+          di "interaction with prior `prior_subject' score deciles"
+
+          // SED = 1
+          reg `outcome' c.va_`subject'_`control'#i.prior_`prior_subject'_z_score_xtile ///
+            i.year ///
+            `school_controls' ///
+            `demographic_controls' ///
+            `ela_score_controls' ///
+            `math_score_controls' ///
+            if touse_g11_`subject'==1 & econ_disadvantage==1 ///
+            , cluster(cdscode)
+          estadd ysumm, mean
+
+          estimates save $vaprojdir/estimates/sib_acs_restr_smp/persistence/het_reg_`outcome'_va_`subject'_`control'_x_prior_`prior_subject'_sed1.ster, replace
+
+
+          // SED = 0
+          reg `outcome' c.va_`subject'_`control'#i.prior_`prior_subject'_z_score_xtile ///
+            i.year ///
+            `school_controls' ///
+            `demographic_controls' ///
+            `ela_score_controls' ///
+            `math_score_controls' ///
+            if touse_g11_`subject'==1 & econ_disadvantage==0 ///
+            , cluster(cdscode)
+          estadd ysumm, mean
+
+          estimates save $vaprojdir/estimates/sib_acs_restr_smp/persistence/het_reg_`outcome'_va_`subject'_`control'_x_prior_`prior_subject'_sed0.ster, replace
+
+      }
+    }
+  }
+}
 
 
 

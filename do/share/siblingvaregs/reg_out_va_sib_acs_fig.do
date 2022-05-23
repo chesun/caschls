@@ -13,7 +13,8 @@ do $projdir/do/share/siblingvaregs/reg_out_va_sib_acs_fig
  */
 
 /* CHANGE LOG
-
+5/22/2022: Added code to create individual figures and combined panels for regressions
+by prior score by SED status heterogeneity
 */
 
 clear all
