@@ -13,7 +13,7 @@ do $projdir/do/share/siblingvaregs/reg_out_va_sib_acs_fig
  */
 
 /* CHANGE LOG
-5/22/2022: Added code to create individual figures and combined panels for regressions
+5/23/2022: Added code to create individual figures and combined panels for regressions
 by prior score by SED status heterogeneity
 */
 
@@ -190,7 +190,7 @@ foreach outcome in enr enr_2year enr_4year {
 
 
 
-********** combine figures into panels
+********** combine het by prior score decile figures into panels
 /* Original sample,
 restricted sample with original controls,
 restricted sample with sibling controls,
@@ -225,8 +225,105 @@ foreach outcome in enr enr_2year enr_4year {
 }
 
 
+********** make individual figures for heterogeneity by prior score decile by SED status
+foreach outcome in enr enr_2year enr_4year {
+  di "Dependent Var = `outcome'"
+
+  foreach subject in ela math {
+    di "VA Subject = `subject'"
+
+    foreach control in og acs sib both {
+      di "`subject' test score VA with `control' controls"
+
+      foreach prior_subject in ela math {
+        di "interaction with prior `prior_subject' score deciles"
+
+        foreach sed_status in 0 1 {
+          di "SED status = `sed_status'"
+
+          estimates use $vaprojdir/estimates/sib_acs_restr_smp/persistence/het_reg_`outcome'_va_`subject'_`control'_x_prior_`prior_subject'_sed`sed_status'.ster
+
+          // convert estimation results into a dataset
+          parmest, norestore
+          // keep only the interaction parameters
+          keep if strpos(parm, "prior_`prior_subject'_z_score_xtile#c.va_`subject'_`control'") != 0
+          // generate a var that is the decile number of the prior score, from 1 to 10
+          gen xtile = subinstr(substr(parm, 1, strpos(parm, ".")), "b", "", .)
+          // convert xtile var into a numeric var
+          destring xtile, replace
+
+          twoway ///
+            (bar estimate xtile) ///
+            (rcap min95 max95 xtile) ///
+            , yline(`=``outcome'_va_`subject'_`control''') ///
+            legend(off) ///
+            ytitle("Coefficient Estimate") ///
+            xtitle("Prior ``prior_subject'_str' Score Decile") ///
+            title("LHS = ``outcome'_str'; RHS = ``subject'_str' VA w/ ``control'_str' Controls # Prior ``prior_subject'_str' Decile, SED Status = `sed_status'" ///
+            , size(vsmall))
 
 
+          graph export $vaprojdir/figures/va_sib_acs/het_reg_prior_score/het_reg_`outcome'_va_`subject'_`control'_x_prior_`prior_subject'_sed`sed_status'.pdf, replace
+          graph export $projdir/out/graph//siblingvaregs/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_`outcome'_va_`subject'_`control'_x_prior_`prior_subject'_sed`sed_status'.pdf, replace
+
+          // redraw the graph to be used for combining into panels
+          twoway ///
+            (bar estimate xtile) ///
+            (rcap min95 max95 xtile) ///
+            , yline(`=``outcome'_va_`subject'_`control''') ///
+            legend(off) ///
+            xtitle("Prior ``prior_subject'_str' Score Decile, SED = `sed_status'") ///
+            title("Restricted Sample, ``control'_str' Controls", size(vsmall)) ///
+            saving($vaprojdir/gph_files/va_sib_acs/het_reg_prior_score/het_reg_`outcome'_va_`subject'_`control'_x_prior_`prior_subject'_sed`sed_status', replace)
+
+
+        }
+
+      }
+    }
+  }
+}
+
+
+
+********** combine het by prior score decile by SED Status figures into panels
+/* Original sample,
+restricted sample with original controls,
+restricted sample with sibling controls,
+restricted sample with both sibling and census controls,
+each by SED == 1 and SED == 1: 8 graphs in one panel */
+
+// 3 outcomes, 2 VA subjects, 2 prior subjects = 12 panels
+foreach outcome in enr enr_2year enr_4year {
+  di "LHS outcome = `outcome'"
+
+  foreach subject in ela math {
+    di "VA Subject = `subject'"
+
+    foreach prior_subject in ela math {
+      di "interaction with prior `prior_subject' score deciles"
+
+      graph combine ///
+        $vaprojdir/gph_files/sbac/reg_`outcome'_va_cfr_g11_`subject'_hetero_prior_`prior_subject'_sed0.gph ///
+        $vaprojdir/gph_files/sbac/reg_`outcome'_va_cfr_g11_`subject'_hetero_prior_`prior_subject'_sed1.gph ///
+        $vaprojdir/gph_files/va_sib_acs/het_reg_prior_score/het_reg_`outcome'_va_`subject'_og_x_prior_`prior_subject'_sed0.gph ///
+        $vaprojdir/gph_files/va_sib_acs/het_reg_prior_score/het_reg_`outcome'_va_`subject'_og_x_prior_`prior_subject'_sed1.gph ///
+        $vaprojdir/gph_files/va_sib_acs/het_reg_prior_score/het_reg_`outcome'_va_`subject'_sib_x_prior_`prior_subject'_sed0.gph ///
+        $vaprojdir/gph_files/va_sib_acs/het_reg_prior_score/het_reg_`outcome'_va_`subject'_sib_x_prior_`prior_subject'_sed1.gph ///
+        $vaprojdir/gph_files/va_sib_acs/het_reg_prior_score/het_reg_`outcome'_va_`subject'_both_x_prior_`prior_subject'_sed0.gph ///
+        $vaprojdir/gph_files/va_sib_acs/het_reg_prior_score/het_reg_`outcome'_va_`subject'_both_x_prior_`prior_subject'_sed1.gph ///
+        , xcommon ycommon ///
+        title("Regression of ``outcome'_str' on ``subject'_str' VA Interacted with Prior ``prior_subject'_str' Decile by SED Status", size(small))
+
+      graph export $vaprojdir/figures/va_sib_acs/combined_panels/het_reg_prior_score/het_reg_`outcome'_va_`subject'_x_prior_`prior_subject'_sed.pdf, replace
+      graph export $projdir/out/graph//siblingvaregs/persistence/sib_acs_restr_smp/combined_panels/het_reg_prior_score/het_reg_`outcome'_va_`subject'_x_prior_`prior_subject'_sed.pdf, replace
+
+
+
+
+    }
+  }
+}
 
 
 
