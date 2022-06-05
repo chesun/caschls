@@ -16,6 +16,7 @@ do $projdir/do/share/siblingvaregs/reg_out_va_sib_acs
 5/10/2022: Added code for regressing outcome on test score VA interactedsf with
 prior score deciles
 5/22/2022: Added code fo regressions by SED status
+6/2/2022: Updated code to use prior score deciles from original sample
   */
 
 
@@ -121,9 +122,9 @@ foreach outcome in enr enr_2year enr_4year {
 ********** Regress outcome on test score VA: heterogeneity by prior score deciles
 /* no peer effectsm no tfx */
 
-//create prior score quantiles
-xtile prior_ela_z_score_xtile = prior_ela_z_score, n(10)
-xtile prior_math_z_score_xtile = prior_math_z_score, n(10)
+//merge on prior score quantiles
+merge m:1 state_student_id using ///
+  $vaprojdir/data/sbac/prior_decile_original_sample.dta, keep(1 3)
 
 
 foreach outcome in enr enr_2year enr_4year {

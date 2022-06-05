@@ -15,6 +15,8 @@ do $projdir/do/share/siblingvaregs/reg_out_va_sib_acs_dk
 /* CHANGE LOG
 5/10/2022: Added code for regressing outcome on dk VA interactedsf with
 prior score deciles
+6/2/2022: Updated code to use prior score deciles from original sample
+
 */
 
 clear all
@@ -120,9 +122,9 @@ foreach outcome in enr enr_2year enr_4year {
 ********** regress enrollment outcomes on dk va interacted with prior score deciles
 /* no tfx, no peer effects, matching outcome on LHS and RHS */
 
-//create prior score quantiles
-xtile prior_ela_z_score_xtile = prior_ela_z_score, n(10)
-xtile prior_math_z_score_xtile = prior_math_z_score, n(10)
+//merge on prior score quantiles
+merge m:1 state_student_id using ///
+  $vaprojdir/data/sbac/prior_decile_original_sample.dta, keep(1 3)
 
 // 3 outcomes, 4 DK VA specifications, 2 prior subjects = 24 regressions
 foreach outcome in enr enr_2year enr_4year {

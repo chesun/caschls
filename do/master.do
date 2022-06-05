@@ -582,7 +582,7 @@ if `do_sibling_va_regs' == 1 {
 
      /* Creates figures for regressions of enrollment outcomes on deep knowledge VA
      interacted with prior score deciles from the restricted sibling census sample */
-     do $projdir/do/share/siblingvaregs/reg_out_va_sib_acs_fig
+     do $projdir/do/share/siblingvaregs/reg_out_va_sib_acs_dk_fig
      pause
 
      /* Creates correlation figures and difference density plots for test score VA
