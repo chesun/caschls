@@ -1,5 +1,5 @@
 ********************************************************************************
-/* lienar regressions of VA vars on all 4 index vars in a "horse race" type regression
+/* Linear regressions of VA vars on all 3 index vars in a "horse race" type regression
 for both complete case and imputed data  */
 ********************************************************************************
 ********************************************************************************
@@ -65,4 +65,4 @@ eststo clear
 
 
 log close
-translate $projdir/log/share/factoranalysis/indexhorserace.smcl $projdir/log/share/factoranalysis/indexhorserace.log, replace 
+translate $projdir/log/share/factoranalysis/indexhorserace.smcl $projdir/log/share/factoranalysis/indexhorserace.log, replace

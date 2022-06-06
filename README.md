@@ -1,6 +1,12 @@
 # caschls
  Stata code for Common Core VA project and calschls survey data work for CA Ed Lab GSR. ./dta directory contains only publicly available data from California Department of Education.
 
+## Useful Guides
 
-## Notes
+### file_dict.md
+Contains descriptions and naming conventions for the files in this project.
+
+
+
+## Notes to self
 - Need to phase out local macros for where VA project directories are called such as `vaprojdofiles', use global macro $vaprojdir instead
