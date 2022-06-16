@@ -303,7 +303,7 @@ if `do_pool_merge_va' == 1 {
 local do_va_regs = 0
 if `do_va_regs' == 1 {
   //run VA regressions for all analysis datasets
-  do $projdir/do/share/varegs/allvaregs
+  do $projdir/do/share/svyvaregs/allvaregs
   pause
 
 }

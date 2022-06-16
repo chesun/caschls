@@ -9,7 +9,7 @@ cap log close _all
 clear all
 set more off
 
-log using $projdir/log/share/varegs/allvaregs.smcl, replace
+log using $projdir/log/share/svyvaregs/allvaregs.smcl, replace
 
 
 /* create a local macro for secondary qoi numbers  */
@@ -176,4 +176,4 @@ foreach svyname of local surveynames {
 
 
 log close
-translate $projdir/log/share/varegs/allvaregs.smcl $projdir/log/share/varegs/allvaregs.log, replace 
+translate $projdir/log/share/svyvaregs/allvaregs.smcl $projdir/log/share/svyvaregs/allvaregs.log, replace

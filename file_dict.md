@@ -51,5 +51,5 @@ Output tables of sibling VA analysis.
   - ```het_reg_outcome_va_[subject]_x_prior_[prior_subject].csv```: regressing enrollment on ```subject``` VA interacted with prior ```prior_subject``` test score deciles
 - #### ./vam: Coefficients from the VAM commands
 
-#### ./varegs
-Output tables of regressing the original sample VA estimates on the survey questions.
+#### ./svyvaregs
+Create tables of regressing the original sample VA estimates on the survey questions.
