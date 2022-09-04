@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/builda
 > nalysisdata/poolingva/combineva.smcl
   log type:  smcl
- opened on:   7 Apr 2022, 14:57:25
+ opened on:  25 Jul 2022, 18:10:38
 
 . 
 . use $projdir/dta/buildanalysisdata/va/ela, clear
@@ -17,7 +17,7 @@
         from master                         3  (_merge==1)
         from using                          1  (_merge==2)
 
-    Matched                             1,367  (_merge==3)
+    Matched                             1,366  (_merge==3)
     -----------------------------------------
 
 . drop _merge
@@ -30,7 +30,7 @@
         from master                         4  (_merge==1)
         from using                         10  (_merge==2)
 
-    Matched                             1,367  (_merge==3)
+    Matched                             1,366  (_merge==3)
     -----------------------------------------
 
 . drop _merge
@@ -43,7 +43,7 @@
         from master                         4  (_merge==1)
         from using                          0  (_merge==2)
 
-    Matched                             1,377  (_merge==3)
+    Matched                             1,376  (_merge==3)
     -----------------------------------------
 
 . drop _merge
@@ -56,7 +56,7 @@
         from master                         4  (_merge==1)
         from using                          0  (_merge==2)
 
-    Matched                             1,377  (_merge==3)
+    Matched                             1,376  (_merge==3)
     -----------------------------------------
 
 . drop _merge
@@ -78,5 +78,5 @@ file
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/builda
 > nalysisdata/poolingva/combineva.smcl
   log type:  smcl
- closed on:   7 Apr 2022, 14:57:25
+ closed on:  25 Jul 2022, 18:10:38
 -------------------------------------------------------------------------------

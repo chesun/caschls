@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sibling_spec_test_tab.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 3 May 2022, 22:32:41
+ {txt}opened on:  {res}25 Jul 2022, 22:18:12
 {txt}
 {com}. 
 .  //run the do helper file to set the local macros
@@ -79,6 +79,23 @@
 {txt}
 {com}. local enr_4year_str
 >         "Enrolled On Time 4-Year"
+>         ;
+{txt}
+{com}. **** Sibling Census Restricted Sample Controls Strings ;
+. local og_str
+>         "Original Specification"
+>         ;
+{txt}
+{com}. local acs_str
+>         "Original + Census"
+>         ;
+{txt}
+{com}. local sib_str
+>         "Original + Sibling"
+>         ;
+{txt}
+{com}. local both_str
+>         "Original + Census + Sibling"
 >         ;
 {txt}
 {com}. **** Value Added ;
@@ -214,16 +231,40 @@ eststo_counter:{space 1}{res}{res}3
 eststo:{space 9}{res}{res}spec_g11_enr spec_g11_enr_2year spec_g11_enr_4year
 {p_end}
 {txt}{p 0 16}
-S_4:{space 12}{res}{res}.0020423965494575
+S_4:{space 12}{res}{res}.0020413479904597
 {p_end}
 {txt}{p 0 16}
 S_2:{space 12}{res}{res}300
 {p_end}
 {txt}{p 0 16}
-S_3:{space 12}{res}{res}.0135669174878782
+S_3:{space 12}{res}{res}.0136102212476191
 {p_end}
 {txt}{p 0 16}
 S_1:{space 12}{res}{res}epanechnikov
+{p_end}
+{txt}{p 0 16}
+S_6:{space 12}{res}{res}.7098361624622439
+{p_end}
+{txt}{p 0 16}
+S_5:{space 12}{res}{res}4
+{p_end}
+{txt}{p 0 16}
+ReS_jv2:{space 8}{res}{res}__000006 __000007 __000008 __000009 __00000A __00000B __00000C __00000D __00000E __00000F __00000G __00000H __00000I __00000J __00000K
+{p_end}
+{txt}{p 0 16}
+dropv:{space 10}{res}{res}_cdscode_x
+{p_end}
+{txt}{p 0 16}
+n_offset:{space 7}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+sort:{space 11}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+dots:{space 11}{res}{res}nois _dots 5 0
+{p_end}
+{txt}{p 0 16}
+dotss:{space 10}{res}{res}nois _dots 0, title(Survey results being calculated)
 {p_end}
 {txt}{p 0 16}
 vaprojxwalks:{space 3}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/restricted_access/clean/crosswalks
@@ -353,6 +394,18 @@ _peer_demographic_controls:{break}
 {txt}{p 0 16}
 _demographic_controls:{break}
 {res}age         i.male         i.eth_asian i.eth_hispanic i.eth_black i.eth_other         i.econ_disadvantage         i.limited_eng_prof         i.disabled
+{p_end}
+{txt}{p 0 16}
+_both_str:{space 6}{res}{res}Original + Census + Sibling
+{p_end}
+{txt}{p 0 16}
+_sib_str:{space 7}{res}{res}Original + Sibling
+{p_end}
+{txt}{p 0 16}
+_acs_str:{space 7}{res}{res}Original + Census
+{p_end}
+{txt}{p 0 16}
+_og_str:{space 8}{res}{res}Original Specification
 {p_end}
 {txt}{p 0 16}
 _enr_4year_str:{space 1}{res}{res}Enrolled On Time 4-Year
@@ -881,8 +934,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_ela = 1{p_end}
 
-{txt}       F(  1,  1280) ={res}    2.04
-{txt}{col 13}Prob > F ={res}    0.1537
+{txt}       F(  1,  1279) ={res}    2.02
+{txt}{col 13}Prob > F ={res}    0.1559
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -890,8 +943,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_ela = 1{p_end}
 
-{txt}       F(  1,  1248) ={res}    0.00
-{txt}{col 13}Prob > F ={res}    0.9864
+{txt}       F(  1,  1247) ={res}    0.00
+{txt}{col 13}Prob > F ={res}    0.9906
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -899,8 +952,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_ela = 1{p_end}
 
-{txt}       F(  1,  1265) ={res}    0.20
-{txt}{col 13}Prob > F ={res}    0.6580
+{txt}       F(  1,  1264) ={res}    0.19
+{txt}{col 13}Prob > F ={res}    0.6603
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -908,8 +961,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_ela = 1{p_end}
 
-{txt}       F(  1,  1275) ={res}    0.71
-{txt}{col 13}Prob > F ={res}    0.4006
+{txt}       F(  1,  1274) ={res}    0.70
+{txt}{col 13}Prob > F ={res}    0.4023
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -917,8 +970,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_ela = 1{p_end}
 
-{txt}       F(  1,  1275) ={res}    0.71
-{txt}{col 13}Prob > F ={res}    0.3982
+{txt}       F(  1,  1274) ={res}    0.71
+{txt}{col 13}Prob > F ={res}    0.3998
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -927,7 +980,7 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_math = 1{p_end}
 
-{txt}       F(  1,  1279) ={res}   17.07
+{txt}       F(  1,  1278) ={res}   17.13
 {txt}{col 13}Prob > F ={res}    0.0000
 
 {txt}added matrix:
@@ -936,7 +989,7 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_math = 1{p_end}
 
-{txt}       F(  1,  1245) ={res}   21.09
+{txt}       F(  1,  1244) ={res}   20.94
 {txt}{col 13}Prob > F ={res}    0.0000
 
 {txt}added matrix:
@@ -945,8 +998,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_math = 1{p_end}
 
-{txt}       F(  1,  1263) ={res}    3.22
-{txt}{col 13}Prob > F ={res}    0.0730
+{txt}       F(  1,  1262) ={res}    3.29
+{txt}{col 13}Prob > F ={res}    0.0700
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -954,8 +1007,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_math = 1{p_end}
 
-{txt}       F(  1,  1273) ={res}    4.33
-{txt}{col 13}Prob > F ={res}    0.0376
+{txt}       F(  1,  1272) ={res}    4.36
+{txt}{col 13}Prob > F ={res}    0.0370
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -963,8 +1016,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_math = 1{p_end}
 
-{txt}       F(  1,  1273) ={res}    4.44
-{txt}{col 13}Prob > F ={res}    0.0354
+{txt}       F(  1,  1272) ={res}    4.47
+{txt}{col 13}Prob > F ={res}    0.0346
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -1056,8 +1109,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_enr = 1{p_end}
 
-{txt}       F(  1,  1281) ={res}    9.08
-{txt}{col 13}Prob > F ={res}    0.0026
+{txt}       F(  1,  1280) ={res}    7.49
+{txt}{col 13}Prob > F ={res}    0.0063
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -1065,7 +1118,7 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_enr = 1{p_end}
 
-{txt}       F(  1,  1267) ={res}   36.96
+{txt}       F(  1,  1266) ={res}   34.15
 {txt}{col 13}Prob > F ={res}    0.0000
 
 {txt}added matrix:
@@ -1074,8 +1127,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_enr = 1{p_end}
 
-{txt}       F(  1,  1286) ={res}    7.28
-{txt}{col 13}Prob > F ={res}    0.0071
+{txt}       F(  1,  1265) ={res}    6.82
+{txt}{col 13}Prob > F ={res}    0.0091
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -1083,7 +1136,7 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_enr = 1{p_end}
 
-{txt}       F(  1,  1277) ={res}   23.54
+{txt}       F(  1,  1276) ={res}   21.07
 {txt}{col 13}Prob > F ={res}    0.0000
 
 {txt}added matrix:
@@ -1092,7 +1145,7 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_enr = 1{p_end}
 
-{txt}       F(  1,  1277) ={res}   23.15
+{txt}       F(  1,  1276) ={res}   20.72
 {txt}{col 13}Prob > F ={res}    0.0000
 
 {txt}added matrix:
@@ -1101,8 +1154,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_nosib_noacs = 1{p_end}
 
-{txt}       F(  1,  1249) ={res}   13.62
-{txt}{col 13}Prob > F ={res}    0.0002
+{txt}       F(  1,  1248) ={res}   12.63
+{txt}{col 13}Prob > F ={res}    0.0004
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -1110,8 +1163,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_noacs = 1{p_end}
 
-{txt}       F(  1,  1249) ={res}   13.37
-{txt}{col 13}Prob > F ={res}    0.0003
+{txt}       F(  1,  1248) ={res}   12.39
+{txt}{col 13}Prob > F ={res}    0.0004
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -1120,8 +1173,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_enr_2year = 1{p_end}
 
-{txt}       F(  1,  1281) ={res}    6.81
-{txt}{col 13}Prob > F ={res}    0.0092
+{txt}       F(  1,  1280) ={res}    6.87
+{txt}{col 13}Prob > F ={res}    0.0088
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -1129,7 +1182,7 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_enr_2year = 1{p_end}
 
-{txt}       F(  1,  1267) ={res}   36.62
+{txt}       F(  1,  1266) ={res}   36.69
 {txt}{col 13}Prob > F ={res}    0.0000
 
 {txt}added matrix:
@@ -1138,8 +1191,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_enr_2year = 1{p_end}
 
-{txt}       F(  1,  1286) ={res}    6.11
-{txt}{col 13}Prob > F ={res}    0.0136
+{txt}       F(  1,  1265) ={res}    6.14
+{txt}{col 13}Prob > F ={res}    0.0134
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -1147,8 +1200,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_enr_2year = 1{p_end}
 
-{txt}       F(  1,  1277) ={res}    0.39
-{txt}{col 13}Prob > F ={res}    0.5308
+{txt}       F(  1,  1276) ={res}    0.36
+{txt}{col 13}Prob > F ={res}    0.5493
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -1156,8 +1209,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_enr_2year = 1{p_end}
 
-{txt}       F(  1,  1277) ={res}    0.58
-{txt}{col 13}Prob > F ={res}    0.4459
+{txt}       F(  1,  1276) ={res}    0.50
+{txt}{col 13}Prob > F ={res}    0.4792
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -1165,8 +1218,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_2year_nosib_noacs = 1{p_end}
 
-{txt}       F(  1,  1249) ={res}    2.14
-{txt}{col 13}Prob > F ={res}    0.1437
+{txt}       F(  1,  1248) ={res}    2.17
+{txt}{col 13}Prob > F ={res}    0.1410
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -1174,8 +1227,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_2year_noacs = 1{p_end}
 
-{txt}       F(  1,  1249) ={res}    1.77
-{txt}{col 13}Prob > F ={res}    0.1837
+{txt}       F(  1,  1248) ={res}    1.87
+{txt}{col 13}Prob > F ={res}    0.1713
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -1184,8 +1237,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_enr_4year = 1{p_end}
 
-{txt}       F(  1,  1281) ={res}    1.07
-{txt}{col 13}Prob > F ={res}    0.3008
+{txt}       F(  1,  1280) ={res}    0.76
+{txt}{col 13}Prob > F ={res}    0.3828
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -1193,8 +1246,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_enr_4year = 1{p_end}
 
-{txt}       F(  1,  1267) ={res}    1.52
-{txt}{col 13}Prob > F ={res}    0.2175
+{txt}       F(  1,  1266) ={res}    1.10
+{txt}{col 13}Prob > F ={res}    0.2939
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -1202,8 +1255,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_enr_4year = 1{p_end}
 
-{txt}       F(  1,  1286) ={res}   10.38
-{txt}{col 13}Prob > F ={res}    0.0013
+{txt}       F(  1,  1265) ={res}   10.00
+{txt}{col 13}Prob > F ={res}    0.0016
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -1211,8 +1264,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_enr_4year = 1{p_end}
 
-{txt}       F(  1,  1277) ={res}    9.54
-{txt}{col 13}Prob > F ={res}    0.0021
+{txt}       F(  1,  1276) ={res}    8.84
+{txt}{col 13}Prob > F ={res}    0.0030
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -1220,8 +1273,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_cfr_g11_enr_4year = 1{p_end}
 
-{txt}       F(  1,  1277) ={res}    9.53
-{txt}{col 13}Prob > F ={res}    0.0021
+{txt}       F(  1,  1276) ={res}    8.69
+{txt}{col 13}Prob > F ={res}    0.0033
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -1229,8 +1282,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_4year_nosib_noacs = 1{p_end}
 
-{txt}       F(  1,  1249) ={res}   11.43
-{txt}{col 13}Prob > F ={res}    0.0007
+{txt}       F(  1,  1248) ={res}   10.94
+{txt}{col 13}Prob > F ={res}    0.0010
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -1238,8 +1291,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_4year_noacs = 1{p_end}
 
-{txt}       F(  1,  1249) ={res}   10.84
-{txt}{col 13}Prob > F ={res}    0.0010
+{txt}       F(  1,  1248) ={res}   10.23
+{txt}{col 13}Prob > F ={res}    0.0014
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -1252,13 +1305,13 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 .  timer off 1
 {txt}
 {com}.  timer list
-{res}   1:      0.32 /        1 =       0.3170
+{res}   1:      1.15 /        1 =       1.1540
 {txt}
 {com}.  log close
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sibling_spec_test_tab.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 3 May 2022, 22:32:42
+ {txt}closed on:  {res}25 Jul 2022, 22:18:13
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

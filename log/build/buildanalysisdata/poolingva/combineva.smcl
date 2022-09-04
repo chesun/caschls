@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/poolingva/combineva.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 7 Apr 2022, 14:57:25
+ {txt}opened on:  {res}25 Jul 2022, 18:10:38
 {txt}
 {com}. 
 . use $projdir/dta/buildanalysisdata/va/ela, clear
@@ -17,7 +17,7 @@
 {txt}{col 9}from master{col 30}{res}               3{txt}  (_merge==1)
 {col 9}from using{col 30}{res}               1{txt}  (_merge==2)
 
-{col 5}Matched{col 30}{res}           1,367{txt}  (_merge==3)
+{col 5}Matched{col 30}{res}           1,366{txt}  (_merge==3)
 {col 5}{hline 41}
 
 {com}. drop _merge
@@ -30,7 +30,7 @@
 {txt}{col 9}from master{col 30}{res}               4{txt}  (_merge==1)
 {col 9}from using{col 30}{res}              10{txt}  (_merge==2)
 
-{col 5}Matched{col 30}{res}           1,367{txt}  (_merge==3)
+{col 5}Matched{col 30}{res}           1,366{txt}  (_merge==3)
 {col 5}{hline 41}
 
 {com}. drop _merge
@@ -43,7 +43,7 @@
 {txt}{col 9}from master{col 30}{res}               4{txt}  (_merge==1)
 {col 9}from using{col 30}{res}               0{txt}  (_merge==2)
 
-{col 5}Matched{col 30}{res}           1,377{txt}  (_merge==3)
+{col 5}Matched{col 30}{res}           1,376{txt}  (_merge==3)
 {col 5}{hline 41}
 
 {com}. drop _merge
@@ -56,7 +56,7 @@
 {txt}{col 9}from master{col 30}{res}               4{txt}  (_merge==1)
 {col 9}from using{col 30}{res}               0{txt}  (_merge==2)
 
-{col 5}Matched{col 30}{res}           1,377{txt}  (_merge==3)
+{col 5}Matched{col 30}{res}           1,376{txt}  (_merge==3)
 {col 5}{hline 41}
 
 {com}. drop _merge
@@ -79,7 +79,7 @@ saved
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/poolingva/combineva.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 7 Apr 2022, 14:57:25
+ {txt}closed on:  {res}25 Jul 2022, 18:10:38
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

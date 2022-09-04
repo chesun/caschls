@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sib_acs_vam_tab.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 3 May 2022, 22:32:36
+ {txt}opened on:  {res}25 Jul 2022, 22:18:05
 {txt}
 {com}. 
 . /* change directory to common_core_va project directory for all value added
@@ -122,6 +122,23 @@
 {txt}
 {com}. local enr_4year_str
 >         "Enrolled On Time 4-Year"
+>         ;
+{txt}
+{com}. **** Sibling Census Restricted Sample Controls Strings ;
+. local og_str
+>         "Original Specification"
+>         ;
+{txt}
+{com}. local acs_str
+>         "Original + Census"
+>         ;
+{txt}
+{com}. local sib_str
+>         "Original + Sibling"
+>         ;
+{txt}
+{com}. local both_str
+>         "Original + Census + Sibling"
 >         ;
 {txt}
 {com}. **** Value Added ;
@@ -247,16 +264,40 @@
 T_gm_fix_span:{space 2}{res}{res}0
 {p_end}
 {txt}{p 0 16}
-S_4:{space 12}{res}{res}.003900032715465
+S_4:{space 12}{res}{res}.0039002308063216
 {p_end}
 {txt}{p 0 16}
 S_2:{space 12}{res}{res}300
 {p_end}
 {txt}{p 0 16}
-S_3:{space 12}{res}{res}.020595561559967
+S_3:{space 12}{res}{res}.0206002574343117
 {p_end}
 {txt}{p 0 16}
 S_1:{space 12}{res}{res}epanechnikov
+{p_end}
+{txt}{p 0 16}
+S_6:{space 12}{res}{res}.7098361624622439
+{p_end}
+{txt}{p 0 16}
+S_5:{space 12}{res}{res}4
+{p_end}
+{txt}{p 0 16}
+ReS_jv2:{space 8}{res}{res}__000006 __000007 __000008 __000009 __00000A __00000B __00000C __00000D __00000E __00000F __00000G __00000H __00000I __00000J __00000K
+{p_end}
+{txt}{p 0 16}
+dropv:{space 10}{res}{res}_cdscode_x
+{p_end}
+{txt}{p 0 16}
+n_offset:{space 7}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+sort:{space 11}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+dots:{space 11}{res}{res}nois _dots 5 0
+{p_end}
+{txt}{p 0 16}
+dotss:{space 10}{res}{res}nois _dots 0, title(Survey results being calculated)
 {p_end}
 {txt}{p 0 16}
 vaprojxwalks:{space 3}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/restricted_access/clean/crosswalks
@@ -386,6 +427,18 @@ _peer_demographic_controls:{break}
 {txt}{p 0 16}
 _demographic_controls:{break}
 {res}age         i.male         i.eth_asian i.eth_hispanic i.eth_black i.eth_other         i.econ_disadvantage         i.limited_eng_prof         i.disabled
+{p_end}
+{txt}{p 0 16}
+_both_str:{space 6}{res}{res}Original + Census + Sibling
+{p_end}
+{txt}{p 0 16}
+_sib_str:{space 7}{res}{res}Original + Sibling
+{p_end}
+{txt}{p 0 16}
+_acs_str:{space 7}{res}{res}Original + Census
+{p_end}
+{txt}{p 0 16}
+_og_str:{space 8}{res}{res}Original Specification
 {p_end}
 {txt}{p 0 16}
 _enr_4year_str:{space 1}{res}{res}Enrolled On Time 4-Year
@@ -649,7 +702,7 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 . timer off 1
 {txt}
 {com}. timer list
-{res}   1:      1.03 /        1 =       1.0320
+{res}   1:      1.03 /        1 =       1.0310
 {txt}
 {com}. 
 . set trace off
@@ -664,7 +717,7 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sib_acs_vam_tab.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 3 May 2022, 22:32:37
+ {txt}closed on:  {res}25 Jul 2022, 22:18:06
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

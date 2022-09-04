@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/demogr
 > aphics/seccoverageanalysis.smcl
   log type:  smcl
- opened on:   7 Apr 2022, 14:54:49
+ opened on:  25 Jul 2022, 18:08:15
 
 . 
 . local years `" "1415" "1516" "1617" "1718" "1819" "' //local macro for elemen
@@ -1135,5 +1135,5 @@ file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/svycoverage/se
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/demogr
 > aphics/seccoverageanalysis.smcl
   log type:  smcl
- closed on:   7 Apr 2022, 14:55:58
+ closed on:  25 Jul 2022, 18:09:25
 -------------------------------------------------------------------------------

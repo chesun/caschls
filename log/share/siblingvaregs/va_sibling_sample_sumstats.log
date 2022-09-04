@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/va_sibling_sample_sumstats.smcl
   log type:  smcl
- opened on:   3 May 2022, 22:02:05
+ opened on:  25 Jul 2022, 21:46:37
 
 . 
 . //run the do helper file to set the local macros
@@ -82,6 +82,23 @@ delimiter now ;
 
 . local enr_4year_str
 >         "Enrolled On Time 4-Year"
+>         ;
+
+. **** Sibling Census Restricted Sample Controls Strings ;
+. local og_str
+>         "Original Specification"
+>         ;
+
+. local acs_str
+>         "Original + Census"
+>         ;
+
+. local sib_str
+>         "Original + Sibling"
+>         ;
+
+. local both_str
+>         "Original + Census + Sibling"
 >         ;
 
 . **** Value Added ;
@@ -212,6 +229,18 @@ delimiter now ;
 . #delimit cr
 delimiter now cr
 . macro list
+T_gm_fix_span:  0
+S_6:            .7098361624622439
+S_5:            4
+S_4:            .3794917847397928
+ReS_jv2:        __000006 __000007 __000008 __000009 __00000A __00000B __00000C
+                __00000D __00000E __00000F __00000G __00000H __00000I __00000J
+                __00000K
+dropv:          _cdscode_x
+n_offset:       0
+sort:           0
+dots:           nois _dots 5 0
+dotss:          nois _dots 0, title(Survey results being calculated)
 vaprojxwalks:   /home/research/ca_ed_lab/projects/common_core_va/data/restricte
                 > d_access/clean/crosswalks
 mattxwalks:     /home/research/ca_ed_lab/users/msnaven/data/restricted_access/c
@@ -288,6 +317,10 @@ _peer_demographic_controls:
 _demographic_controls:
                 age i.male i.eth_asian i.eth_hispanic i.eth_black i.eth_other
                 i.econ_disadvantage i.limited_eng_prof i.disabled
+_both_str:      Original + Census + Sibling
+_sib_str:       Original + Sibling
+_acs_str:       Original + Census
+_og_str:        Original Specification
 _enr_4year_str: Enrolled On Time 4-Year
 _enr_2year_str: Enrolled On Time 2-Year
 _enr_str:       Enrolled On Time
@@ -359,11 +392,11 @@ _va_dataset:    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_co
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                     4,157,551
-        from master                   884,570  (_merge==1)
-        from using                  3,272,981  (_merge==2)
+    Not matched                     4,157,374
+        from master                   884,312  (_merge==1)
+        from using                  3,273,062  (_merge==2)
 
-    Matched                           900,294  (_merge==3)
+    Matched                           900,133  (_merge==3)
     -----------------------------------------
 
 . drop _merge
@@ -376,7 +409,7 @@ _va_dataset:    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_co
 . tempfile va_g11_sibling_dataset
 
 . save `va_g11_sibling_dataset'
-file /home/tmp/St16505.000001 saved as .dta format
+file /home/tmp/St35924.000001 saved as .dta format
 
 . 
 . 
@@ -397,7 +430,7 @@ file /home/tmp/St16505.000001 saved as .dta format
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
-avg_birth_~y |  1,715,345    3.114058    1.738753          0   14.90137
+avg_birth_~y |  1,715,326    3.114076    1.738717          0   14.50137
 
 . 
 . //in the sibling test score VA sample
@@ -408,11 +441,11 @@ avg_birth_~y |  1,715,345    3.114058    1.738753          0   14.90137
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                       885,444
+    Not matched                       885,186
         from master                       874  (_merge==1)
-        from using                    884,570  (_merge==2)
+        from using                    884,312  (_merge==2)
 
-    Matched                         4,173,275  (_merge==3)
+    Matched                         4,173,195  (_merge==3)
     -----------------------------------------
 
 . 
@@ -421,7 +454,7 @@ avg_birth_~y |  1,715,345    3.114058    1.738753          0   14.90137
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
-avg_birth_~y |    685,772    3.349951    1.637888          0   14.50137
+avg_birth_~y |    685,724    3.350016    1.637937          0   14.50137
 
 . 
 . sum avg_birth_date_distance_family ///
@@ -429,7 +462,7 @@ avg_birth_~y |    685,772    3.349951    1.637888          0   14.50137
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
-avg_birth_~y |    682,836    3.350443    1.638021          0   14.50137
+avg_birth_~y |    682,791    3.350505    1.638076          0   14.50137
 
 . 
 . 
@@ -449,13 +482,13 @@ ELA
 
 . egen family_temp = group(ufamilyid) ///
 > if grade == 11 & touse_g11_ela==1 & sibling_full_sample == 1
-(4,372,019 missing values generated)
+(4,371,722 missing values generated)
 
 . sum family_temp
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
- family_temp |    685,826    280120.2    158804.8          1     570129
+ family_temp |    685,785      280107    158797.6          1     570101
 
 . drop family_temp
 
@@ -465,13 +498,13 @@ Math
 
 . egen family_temp = group(ufamilyid) ///
 > if grade == 11 & touse_g11_math==1 & sibling_full_sample == 1
-(4,374,954 missing values generated)
+(4,374,655 missing values generated)
 
 . sum family_temp
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
- family_temp |    682,891    279138.3    158262.3          1     568115
+ family_temp |    682,852    279125.2    158255.5          1     568088
 
 . drop family_temp
 
@@ -489,13 +522,13 @@ ELA
 
 . egen family_temp = group(ufamilyid) ///
 > if grade == 11 & touse_g11_ela==1 & sibling_out_sample == 1
-(4,380,591 missing values generated)
+(4,380,291 missing values generated)
 
 . sum family_temp
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
- family_temp |    677,254    277124.7    157088.9          1     563849
+ family_temp |    677,216      277113    157082.1          1     563823
 
 . drop family_temp
 
@@ -505,13 +538,13 @@ Math
 
 . egen family_temp = group(ufamilyid) ///
 > if grade == 11 & touse_g11_math==1 & sibling_out_sample == 1
-(4,383,383 missing values generated)
+(4,383,081 missing values generated)
 
 . sum family_temp
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
- family_temp |    674,462    276196.2    156576.4          1     561945
+ family_temp |    674,426    276184.7      156570          1     561920
 
 . drop family_temp
 
@@ -524,12 +557,12 @@ Math
      Spring |
    Semester |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-       2015 |    174,785       25.49       25.49
-       2016 |    171,579       25.02       50.50
-       2017 |    172,007       25.08       75.58
-       2018 |    167,455       24.42      100.00
+       2015 |    174,786       25.49       25.49
+       2016 |    171,579       25.02       50.51
+       2017 |    171,971       25.08       75.58
+       2018 |    167,449       24.42      100.00
 ------------+-----------------------------------
-      Total |    685,826      100.00
+      Total |    685,785      100.00
 
 . 
 . tab year if grade == 11 & touse_g11_math==1 & sibling_full_sample == 1
@@ -538,12 +571,12 @@ Math
      Spring |
    Semester |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-       2015 |    173,908       25.47       25.47
+       2015 |    173,910       25.47       25.47
        2016 |    170,850       25.02       50.49
-       2017 |    171,207       25.07       75.56
-       2018 |    166,926       24.44      100.00
+       2017 |    171,172       25.07       75.56
+       2018 |    166,920       24.44      100.00
 ------------+-----------------------------------
-      Total |    682,891      100.00
+      Total |    682,852      100.00
 
 . 
 . 
@@ -556,12 +589,12 @@ Math
 . timer off 1
 
 . timer list 
-   1:     63.17 /        1 =      63.1680
+   1:     67.97 /        1 =      67.9670
 
 . log close
       name:  <unnamed>
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/va_sibling_sample_sumstats.smcl
   log type:  smcl
- closed on:   3 May 2022, 22:03:08
+ closed on:  25 Jul 2022, 21:47:45
 -------------------------------------------------------------------------------

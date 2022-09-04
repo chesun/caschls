@@ -1,9 +1,9 @@
 {smcl}
-{txt}{sf}{ul off}{.-}
+{com}{sf}{ul off}{txt}{.-}
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingxwalk/uniquefamily.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 7 Apr 2022, 16:14:32
+ {txt}opened on:  {res}25 Jul 2022, 18:27:17
 {txt}
 {com}. 
 . use $projdir/dta/siblingxwalk/k12_xwalk_name_address_year, clear
@@ -37,55 +37,55 @@
 (12,220,119 real changes made)
 (24,440,238 real changes made)
 (14,776,071 real changes made)
-(10,319,276 real changes made)
+(10,319,295 real changes made)
 0
-(9,153,383 real changes made)
-(1,793,933 real changes made)
+(9,152,397 real changes made)
+(1,793,950 real changes made)
 1
-(690,571 real changes made)
-(385,035 real changes made)
+(690,540 real changes made)
+(385,252 real changes made)
 2
-(117,178 real changes made)
-(103,704 real changes made)
+(117,430 real changes made)
+(103,646 real changes made)
 3
-(34,369 real changes made)
-(33,757 real changes made)
+(34,453 real changes made)
+(33,904 real changes made)
 4
-(11,159 real changes made)
-(11,120 real changes made)
+(11,545 real changes made)
+(11,513 real changes made)
 5
-(4,327 real changes made)
-(4,327 real changes made)
+(4,341 real changes made)
+(4,340 real changes made)
 6
-(1,906 real changes made)
-(1,906 real changes made)
+(1,857 real changes made)
+(1,857 real changes made)
 7
-(913 real changes made)
-(913 real changes made)
+(855 real changes made)
+(855 real changes made)
 8
-(584 real changes made)
-(584 real changes made)
+(535 real changes made)
+(535 real changes made)
 9
-(448 real changes made)
-(448 real changes made)
+(416 real changes made)
+(416 real changes made)
 10
-(329 real changes made)
-(329 real changes made)
+(246 real changes made)
+(246 real changes made)
 11
-(207 real changes made)
-(207 real changes made)
+(181 real changes made)
+(181 real changes made)
 12
-(95 real changes made)
-(95 real changes made)
+(69 real changes made)
+(69 real changes made)
 13
-(50 real changes made)
-(50 real changes made)
+(43 real changes made)
+(43 real changes made)
 14
-(29 real changes made)
-(29 real changes made)
+(11 real changes made)
+(11 real changes made)
 15
-(8 real changes made)
-(8 real changes made)
+(2 real changes made)
+(2 real changes made)
 16
 (0 real changes made)
 (0 real changes made)
@@ -96,7 +96,7 @@
 {txt}(14,776,071 observations deleted)
 {res}{txt}{p 0 4 2}
 file {bf}
-/home/tmp/St192370.000001{rm}
+/home/tmp/St35924.000001{rm}
 saved
 as .dta format
 {p_end}
@@ -233,7 +233,7 @@ saved
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingxwalk/uniquefamily.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 7 Apr 2022, 16:33:21
+ {txt}closed on:  {res}25 Jul 2022, 18:43:43
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

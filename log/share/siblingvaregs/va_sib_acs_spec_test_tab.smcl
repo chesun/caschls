@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sib_acs_spec_test_tab.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 4 May 2022, 18:28:26
+ {txt}opened on:  {res}25 Jul 2022, 22:18:13
 {txt}
 {com}. 
 . /* change directory to common_core_va project directory for all value added
@@ -122,6 +122,23 @@
 {txt}
 {com}. local enr_4year_str
 >         "Enrolled On Time 4-Year"
+>         ;
+{txt}
+{com}. **** Sibling Census Restricted Sample Controls Strings ;
+. local og_str
+>         "Original Specification"
+>         ;
+{txt}
+{com}. local acs_str
+>         "Original + Census"
+>         ;
+{txt}
+{com}. local sib_str
+>         "Original + Sibling"
+>         ;
+{txt}
+{com}. local both_str
+>         "Original + Census + Sibling"
 >         ;
 {txt}
 {com}. **** Value Added ;
@@ -247,16 +264,40 @@
 T_gm_fix_span:{space 2}{res}{res}0
 {p_end}
 {txt}{p 0 16}
-S_4:{space 12}{res}{res}.0020423965494575
+S_4:{space 12}{res}{res}.0020413479904597
 {p_end}
 {txt}{p 0 16}
 S_2:{space 12}{res}{res}300
 {p_end}
 {txt}{p 0 16}
-S_3:{space 12}{res}{res}.0135669174878782
+S_3:{space 12}{res}{res}.0136102212476191
 {p_end}
 {txt}{p 0 16}
 S_1:{space 12}{res}{res}epanechnikov
+{p_end}
+{txt}{p 0 16}
+S_6:{space 12}{res}{res}.7098361624622439
+{p_end}
+{txt}{p 0 16}
+S_5:{space 12}{res}{res}4
+{p_end}
+{txt}{p 0 16}
+ReS_jv2:{space 8}{res}{res}__000006 __000007 __000008 __000009 __00000A __00000B __00000C __00000D __00000E __00000F __00000G __00000H __00000I __00000J __00000K
+{p_end}
+{txt}{p 0 16}
+dropv:{space 10}{res}{res}_cdscode_x
+{p_end}
+{txt}{p 0 16}
+n_offset:{space 7}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+sort:{space 11}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+dots:{space 11}{res}{res}nois _dots 5 0
+{p_end}
+{txt}{p 0 16}
+dotss:{space 10}{res}{res}nois _dots 0, title(Survey results being calculated)
 {p_end}
 {txt}{p 0 16}
 vaprojxwalks:{space 3}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/restricted_access/clean/crosswalks
@@ -386,6 +427,18 @@ _peer_demographic_controls:{break}
 {txt}{p 0 16}
 _demographic_controls:{break}
 {res}age         i.male         i.eth_asian i.eth_hispanic i.eth_black i.eth_other         i.econ_disadvantage         i.limited_eng_prof         i.disabled
+{p_end}
+{txt}{p 0 16}
+_both_str:{space 6}{res}{res}Original + Census + Sibling
+{p_end}
+{txt}{p 0 16}
+_sib_str:{space 7}{res}{res}Original + Sibling
+{p_end}
+{txt}{p 0 16}
+_acs_str:{space 7}{res}{res}Original + Census
+{p_end}
+{txt}{p 0 16}
+_og_str:{space 8}{res}{res}Original Specification
 {p_end}
 {txt}{p 0 16}
 _enr_4year_str:{space 1}{res}{res}Enrolled On Time 4-Year
@@ -533,8 +586,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_ela_og = 1{p_end}
 
-{txt}       F(  1,  1245) ={res}    0.00
-{txt}{col 13}Prob > F ={res}    0.9555
+{txt}       F(  1,  1244) ={res}    0.00
+{txt}{col 13}Prob > F ={res}    0.9458
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -542,8 +595,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_ela_acs = 1{p_end}
 
-{txt}       F(  1,  1245) ={res}    0.01
-{txt}{col 13}Prob > F ={res}    0.9365
+{txt}       F(  1,  1244) ={res}    0.01
+{txt}{col 13}Prob > F ={res}    0.9269
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -551,8 +604,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_ela_sib = 1{p_end}
 
-{txt}       F(  1,  1245) ={res}    0.00
-{txt}{col 13}Prob > F ={res}    0.9560
+{txt}       F(  1,  1244) ={res}    0.00
+{txt}{col 13}Prob > F ={res}    0.9461
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -560,8 +613,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_ela_both = 1{p_end}
 
-{txt}       F(  1,  1245) ={res}    0.01
-{txt}{col 13}Prob > F ={res}    0.9361
+{txt}       F(  1,  1244) ={res}    0.01
+{txt}{col 13}Prob > F ={res}    0.9262
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -569,8 +622,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_math_og = 1{p_end}
 
-{txt}       F(  1,  1242) ={res}    0.58
-{txt}{col 13}Prob > F ={res}    0.4474
+{txt}       F(  1,  1241) ={res}    0.59
+{txt}{col 13}Prob > F ={res}    0.4425
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -578,8 +631,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_math_acs = 1{p_end}
 
-{txt}       F(  1,  1242) ={res}    0.01
-{txt}{col 13}Prob > F ={res}    0.9268
+{txt}       F(  1,  1241) ={res}    0.01
+{txt}{col 13}Prob > F ={res}    0.9180
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -587,8 +640,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_math_sib = 1{p_end}
 
-{txt}       F(  1,  1242) ={res}    0.60
-{txt}{col 13}Prob > F ={res}    0.4393
+{txt}       F(  1,  1241) ={res}    0.61
+{txt}{col 13}Prob > F ={res}    0.4333
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -596,8 +649,8 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_math_both = 1{p_end}
 
-{txt}       F(  1,  1242) ={res}    0.01
-{txt}{col 13}Prob > F ={res}    0.9219
+{txt}       F(  1,  1241) ={res}    0.01
+{txt}{col 13}Prob > F ={res}    0.9115
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -608,18 +661,13 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 >     $projdir/out/csv/siblingvaregs/spec_test/sib_acs_restr_smp/spec_test_sib_acs_restr_smp_score.csv ///
 >     , replace nonumbers  ///
 >     cells(b(fmt(%5.3f) pvalue(test_p) star) se(fmt(%4.3f) par)) ///
->     title("Specification Tests for ``subject'_str' VA on Sibling Census Restricted Sample") ///
+>     title("Specification Tests for Test Score VA on Sibling Census Restricted Sample") ///
 >     mtitles("Original Specification" "Census Controls" ///
 >       "Sibling Controls" "Sibling and Census Controls" ///
 >       "Original Specification" "Census Controls" ///
 >       "Sibling Controls" "Sibling and Census Controls") ///
 >     mgroups("ELA" "Math", pattern(1 0 0 0 1 0 0 0) )
-{res}{txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/spec_test/sib_acs_restr_smp/spec_test_sib_acs_restr_smp_score.csv{rm}
-not found)
-{p_end}
-(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/spec_test/sib_acs_restr_smp/spec_test_sib_acs_restr_smp_score.csv"'})
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/spec_test/sib_acs_restr_smp/spec_test_sib_acs_restr_smp_score.csv"'})
 
 {com}. 
 .   eststo clear
@@ -673,8 +721,8 @@ not found)
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_og = 1{p_end}
 
-{txt}       F(  1,  1249) ={res}   13.62
-{txt}{col 13}Prob > F ={res}    0.0002
+{txt}       F(  1,  1248) ={res}   12.63
+{txt}{col 13}Prob > F ={res}    0.0004
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -682,7 +730,7 @@ not found)
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_acs = 1{p_end}
 
-{txt}       F(  1,  1249) ={res}   16.11
+{txt}       F(  1,  1248) ={res}   15.08
 {txt}{col 13}Prob > F ={res}    0.0001
 
 {txt}added matrix:
@@ -691,8 +739,8 @@ not found)
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_sib = 1{p_end}
 
-{txt}       F(  1,  1249) ={res}   13.37
-{txt}{col 13}Prob > F ={res}    0.0003
+{txt}       F(  1,  1248) ={res}   12.39
+{txt}{col 13}Prob > F ={res}    0.0004
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -700,7 +748,7 @@ not found)
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_both = 1{p_end}
 
-{txt}       F(  1,  1249) ={res}   15.89
+{txt}       F(  1,  1248) ={res}   14.86
 {txt}{col 13}Prob > F ={res}    0.0001
 
 {txt}added matrix:
@@ -709,8 +757,8 @@ not found)
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_2year_og = 1{p_end}
 
-{txt}       F(  1,  1249) ={res}    2.14
-{txt}{col 13}Prob > F ={res}    0.1437
+{txt}       F(  1,  1248) ={res}    2.17
+{txt}{col 13}Prob > F ={res}    0.1410
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -718,8 +766,8 @@ not found)
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_2year_acs = 1{p_end}
 
-{txt}       F(  1,  1249) ={res}    0.50
-{txt}{col 13}Prob > F ={res}    0.4792
+{txt}       F(  1,  1248) ={res}    0.51
+{txt}{col 13}Prob > F ={res}    0.4758
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -727,8 +775,8 @@ not found)
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_2year_sib = 1{p_end}
 
-{txt}       F(  1,  1249) ={res}    1.77
-{txt}{col 13}Prob > F ={res}    0.1837
+{txt}       F(  1,  1248) ={res}    1.87
+{txt}{col 13}Prob > F ={res}    0.1713
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -736,8 +784,8 @@ not found)
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_2year_both = 1{p_end}
 
-{txt}       F(  1,  1249) ={res}    0.36
-{txt}{col 13}Prob > F ={res}    0.5481
+{txt}       F(  1,  1248) ={res}    0.40
+{txt}{col 13}Prob > F ={res}    0.5264
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -745,8 +793,8 @@ not found)
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_4year_og = 1{p_end}
 
-{txt}       F(  1,  1249) ={res}   11.43
-{txt}{col 13}Prob > F ={res}    0.0007
+{txt}       F(  1,  1248) ={res}   10.94
+{txt}{col 13}Prob > F ={res}    0.0010
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -754,8 +802,8 @@ not found)
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_4year_acs = 1{p_end}
 
-{txt}       F(  1,  1249) ={res}   11.78
-{txt}{col 13}Prob > F ={res}    0.0006
+{txt}       F(  1,  1248) ={res}   11.34
+{txt}{col 13}Prob > F ={res}    0.0008
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -763,8 +811,8 @@ not found)
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_4year_sib = 1{p_end}
 
-{txt}       F(  1,  1249) ={res}   10.84
-{txt}{col 13}Prob > F ={res}    0.0010
+{txt}       F(  1,  1248) ={res}   10.23
+{txt}{col 13}Prob > F ={res}    0.0014
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -772,8 +820,8 @@ not found)
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_4year_both = 1{p_end}
 
-{txt}       F(  1,  1249) ={res}   11.48
-{txt}{col 13}Prob > F ={res}    0.0007
+{txt}       F(  1,  1248) ={res}   10.90
+{txt}{col 13}Prob > F ={res}    0.0010
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -783,7 +831,7 @@ not found)
 >   $projdir/out/csv/siblingvaregs/spec_test/sib_acs_restr_smp/spec_test_sib_acs_restr_smp_outcome.csv ///
 >   , replace nonumbers  ///
 >   cells(b(fmt(%5.3f) pvalue(test_p) star) se(fmt(%4.3f) par)) ///
->   title("Specification Tests for ``outcome'_str' VA on Sibling Census Restricted Sample") ///
+>   title("Specification Tests for outcome VA on Sibling Census Restricted Sample") ///
 >   mtitles("Original Specification" "Census Controls" ///
 >     "Sibling Controls" "Sibling and Census Controls" ///
 >     "Original Specification" "Census Controls" ///
@@ -791,12 +839,7 @@ not found)
 >     "Original Specification" "Census Controls" ///
 >     "Sibling Controls" "Sibling and Census Controls" ) ///
 >   mgroups("Overall Enrollment" "2 Year Enrollment" "4 Year Enrollment", pattern(1 0 0 0 1 0 0 0 1 0 0 0) )
-{res}{txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/spec_test/sib_acs_restr_smp/spec_test_sib_acs_restr_smp_outcome.csv{rm}
-not found)
-{p_end}
-(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/spec_test/sib_acs_restr_smp/spec_test_sib_acs_restr_smp_outcome.csv"'})
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/spec_test/sib_acs_restr_smp/spec_test_sib_acs_restr_smp_outcome.csv"'})
 
 {com}. 
 . eststo clear
@@ -851,8 +894,8 @@ not found)
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_og_dk = 1{p_end}
 
-{txt}       F(  1,  1237) ={res}    6.84
-{txt}{col 13}Prob > F ={res}    0.0090
+{txt}       F(  1,  1236) ={res}    6.31
+{txt}{col 13}Prob > F ={res}    0.0122
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -860,8 +903,8 @@ not found)
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_acs_dk = 1{p_end}
 
-{txt}       F(  1,  1237) ={res}    8.88
-{txt}{col 13}Prob > F ={res}    0.0029
+{txt}       F(  1,  1236) ={res}    8.26
+{txt}{col 13}Prob > F ={res}    0.0041
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -869,8 +912,8 @@ not found)
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_sib_dk = 1{p_end}
 
-{txt}       F(  1,  1237) ={res}    6.68
-{txt}{col 13}Prob > F ={res}    0.0099
+{txt}       F(  1,  1236) ={res}    6.15
+{txt}{col 13}Prob > F ={res}    0.0132
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -878,8 +921,8 @@ not found)
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_both_dk = 1{p_end}
 
-{txt}       F(  1,  1237) ={res}    8.73
-{txt}{col 13}Prob > F ={res}    0.0032
+{txt}       F(  1,  1236) ={res}    8.11
+{txt}{col 13}Prob > F ={res}    0.0045
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -887,8 +930,8 @@ not found)
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_2year_og_dk = 1{p_end}
 
-{txt}       F(  1,  1237) ={res}    0.99
-{txt}{col 13}Prob > F ={res}    0.3200
+{txt}       F(  1,  1236) ={res}    1.02
+{txt}{col 13}Prob > F ={res}    0.3133
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -896,8 +939,8 @@ not found)
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_2year_acs_dk = 1{p_end}
 
-{txt}       F(  1,  1237) ={res}    0.20
-{txt}{col 13}Prob > F ={res}    0.6569
+{txt}       F(  1,  1236) ={res}    0.21
+{txt}{col 13}Prob > F ={res}    0.6499
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -905,8 +948,8 @@ not found)
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_2year_sib_dk = 1{p_end}
 
-{txt}       F(  1,  1237) ={res}    0.81
-{txt}{col 13}Prob > F ={res}    0.3691
+{txt}       F(  1,  1236) ={res}    0.87
+{txt}{col 13}Prob > F ={res}    0.3498
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -914,8 +957,8 @@ not found)
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_2year_both_dk = 1{p_end}
 
-{txt}       F(  1,  1237) ={res}    0.13
-{txt}{col 13}Prob > F ={res}    0.7190
+{txt}       F(  1,  1236) ={res}    0.15
+{txt}{col 13}Prob > F ={res}    0.6945
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -923,8 +966,8 @@ not found)
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_4year_og_dk = 1{p_end}
 
-{txt}       F(  1,  1237) ={res}    7.34
-{txt}{col 13}Prob > F ={res}    0.0068
+{txt}       F(  1,  1236) ={res}    7.37
+{txt}{col 13}Prob > F ={res}    0.0067
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -932,7 +975,7 @@ not found)
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_4year_acs_dk = 1{p_end}
 
-{txt}       F(  1,  1237) ={res}    6.71
+{txt}       F(  1,  1236) ={res}    6.71
 {txt}{col 13}Prob > F ={res}    0.0097
 
 {txt}added matrix:
@@ -941,7 +984,7 @@ not found)
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_4year_sib_dk = 1{p_end}
 
-{txt}       F(  1,  1237) ={res}    7.54
+{txt}       F(  1,  1236) ={res}    7.56
 {txt}{col 13}Prob > F ={res}    0.0061
 
 {txt}added matrix:
@@ -950,8 +993,8 @@ not found)
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}va_enr_4year_both_dk = 1{p_end}
 
-{txt}       F(  1,  1237) ={res}    6.75
-{txt}{col 13}Prob > F ={res}    0.0095
+{txt}       F(  1,  1236) ={res}    6.72
+{txt}{col 13}Prob > F ={res}    0.0096
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -962,7 +1005,7 @@ not found)
 >   $projdir/out/csv/siblingvaregs/spec_test/sib_acs_restr_smp/spec_test_sib_acs_restr_smp_outcome_dk.csv ///
 >   , replace nonumbers  ///
 >   cells(b(fmt(%5.3f) pvalue(test_p) star) se(fmt(%4.3f) par)) ///
->   title("Specification Tests for ``outcome'_str' Deep Knowledge VA on Sibling Census Restricted Sample") ///
+>   title("Specification Tests for Deep Knowledge VA on Sibling Census Restricted Sample") ///
 >   mtitles("Original Specification" "Census Controls" ///
 >     "Sibling Controls" "Sibling and Census Controls" ///
 >     "Original Specification" "Census Controls" ///
@@ -970,12 +1013,7 @@ not found)
 >     "Original Specification" "Census Controls" ///
 >     "Sibling Controls" "Sibling and Census Controls" ) ///
 >   mgroups("Overall Enrollment" "2 Year Enrollment" "4 Year Enrollment", pattern(1 0 0 0 1 0 0 0 1 0 0 0) )
-{res}{txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/spec_test/sib_acs_restr_smp/spec_test_sib_acs_restr_smp_outcome_dk.csv{rm}
-not found)
-{p_end}
-(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/spec_test/sib_acs_restr_smp/spec_test_sib_acs_restr_smp_outcome_dk.csv"'})
+{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/siblingvaregs/spec_test/sib_acs_restr_smp/spec_test_sib_acs_restr_smp_outcome_dk.csv"'})
 
 {com}. 
 . eststo clear
@@ -991,7 +1029,7 @@ not found)
 . timer off 1
 {txt}
 {com}. timer list
-{res}   1:      0.37 /        1 =       0.3670
+{res}   1:      0.98 /        1 =       0.9850
 {txt}
 {com}. 
 . set trace off
@@ -1006,7 +1044,7 @@ not found)
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sib_acs_spec_test_tab.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 4 May 2022, 18:28:26
+ {txt}closed on:  {res}25 Jul 2022, 22:18:14
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

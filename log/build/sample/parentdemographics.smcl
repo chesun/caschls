@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/sample/parentdemographics.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 7 Apr 2022, 14:55:58
+ {txt}opened on:  {res}25 Jul 2022, 18:09:25
 {txt}
 {com}. 
 . /* The following block of code rename child's grade to be consistent across datasets. THis creates temp datasets to build
@@ -424,7 +424,7 @@ saved
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/sample/parentdemographics.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 7 Apr 2022, 14:55:59
+ {txt}closed on:  {res}25 Jul 2022, 18:09:26
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

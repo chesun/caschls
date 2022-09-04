@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sibling_out_est_sumstats.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 3 May 2022, 22:32:37
+ {txt}opened on:  {res}25 Jul 2022, 22:18:06
 {txt}
 {com}. 
 . //run the do helper file to set the local macros
@@ -79,6 +79,23 @@
 {txt}
 {com}. local enr_4year_str
 >         "Enrolled On Time 4-Year"
+>         ;
+{txt}
+{com}. **** Sibling Census Restricted Sample Controls Strings ;
+. local og_str
+>         "Original Specification"
+>         ;
+{txt}
+{com}. local acs_str
+>         "Original + Census"
+>         ;
+{txt}
+{com}. local sib_str
+>         "Original + Sibling"
+>         ;
+{txt}
+{com}. local both_str
+>         "Original + Census + Sibling"
 >         ;
 {txt}
 {com}. **** Value Added ;
@@ -208,16 +225,40 @@
 T_gm_fix_span:{space 2}{res}{res}0
 {p_end}
 {txt}{p 0 16}
-S_4:{space 12}{res}{res}.003900032715465
+S_4:{space 12}{res}{res}.0039002308063216
 {p_end}
 {txt}{p 0 16}
 S_2:{space 12}{res}{res}300
 {p_end}
 {txt}{p 0 16}
-S_3:{space 12}{res}{res}.020595561559967
+S_3:{space 12}{res}{res}.0206002574343117
 {p_end}
 {txt}{p 0 16}
 S_1:{space 12}{res}{res}epanechnikov
+{p_end}
+{txt}{p 0 16}
+S_6:{space 12}{res}{res}.7098361624622439
+{p_end}
+{txt}{p 0 16}
+S_5:{space 12}{res}{res}4
+{p_end}
+{txt}{p 0 16}
+ReS_jv2:{space 8}{res}{res}__000006 __000007 __000008 __000009 __00000A __00000B __00000C __00000D __00000E __00000F __00000G __00000H __00000I __00000J __00000K
+{p_end}
+{txt}{p 0 16}
+dropv:{space 10}{res}{res}_cdscode_x
+{p_end}
+{txt}{p 0 16}
+n_offset:{space 7}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+sort:{space 11}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+dots:{space 11}{res}{res}nois _dots 5 0
+{p_end}
+{txt}{p 0 16}
+dotss:{space 10}{res}{res}nois _dots 0, title(Survey results being calculated)
 {p_end}
 {txt}{p 0 16}
 vaprojxwalks:{space 3}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/restricted_access/clean/crosswalks
@@ -349,6 +390,18 @@ _demographic_controls:{break}
 {res}age         i.male         i.eth_asian i.eth_hispanic i.eth_black i.eth_other         i.econ_disadvantage         i.limited_eng_prof         i.disabled
 {p_end}
 {txt}{p 0 16}
+_both_str:{space 6}{res}{res}Original + Census + Sibling
+{p_end}
+{txt}{p 0 16}
+_sib_str:{space 7}{res}{res}Original + Sibling
+{p_end}
+{txt}{p 0 16}
+_acs_str:{space 7}{res}{res}Original + Census
+{p_end}
+{txt}{p 0 16}
+_og_str:{space 8}{res}{res}Original Specification
+{p_end}
+{txt}{p 0 16}
 _enr_4year_str:{space 1}{res}{res}Enrolled On Time 4-Year
 {p_end}
 {txt}{p 0 16}
@@ -473,15 +526,15 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 {col 1}{txt:Panel variable: }{res:school_id}{txt: (unbalanced)}
 {p 1 16 2}{txt:Time variable: }{res:year}{txt:, }{res:{bind:2015}}{txt: to }{res:{bind:2018}}{txt:, but with gaps}{p_end}
 {txt}{col 10}Delta: {res}1 year
-{txt}(4,869 real changes made)
-(4,869 real changes made)
+{txt}(4,866 real changes made)
+(4,866 real changes made)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-va_cfr_g11~r {c |}{res}      4,869    3.60e-10    .0774787  -.3547636   .2218038
+va_cfr_g11~r {c |}{res}      4,866    1.62e-10    .0774744  -.3554009   .2221293
 {txt}{p 0 4 2}
 file {bf}
-/home/tmp/St16505.000001{rm}
+/home/tmp/St35924.000001{rm}
 saved
 as .dta format
 {p_end}
@@ -490,15 +543,15 @@ as .dta format
 {col 1}{txt:Panel variable: }{res:school_id}{txt: (unbalanced)}
 {p 1 16 2}{txt:Time variable: }{res:year}{txt:, }{res:{bind:2015}}{txt: to }{res:{bind:2018}}{txt:, but with gaps}{p_end}
 {txt}{col 10}Delta: {res}1 year
-{txt}(4,869 real changes made)
-(4,869 real changes made)
+{txt}(4,866 real changes made)
+(4,866 real changes made)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-va_cfr_g11~r {c |}{res}      4,869    4.59e-10    .0911288  -.2611847   .3558423
+va_cfr_g11~r {c |}{res}      4,866    2.12e-10    .0911685  -.2613094   .3558865
 {txt}{p 0 4 2}
 file {bf}
-/home/tmp/St16505.000002{rm}
+/home/tmp/St35924.000002{rm}
 saved
 as .dta format
 {p_end}
@@ -507,15 +560,15 @@ as .dta format
 {col 1}{txt:Panel variable: }{res:school_id}{txt: (unbalanced)}
 {p 1 16 2}{txt:Time variable: }{res:year}{txt:, }{res:{bind:2015}}{txt: to }{res:{bind:2018}}{txt:, but with gaps}{p_end}
 {txt}{col 10}Delta: {res}1 year
-{txt}(4,869 real changes made)
-(4,869 real changes made)
+{txt}(4,866 real changes made)
+(4,866 real changes made)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-va_cfr_g11~r {c |}{res}      4,869   -9.38e-10    .0908704  -.2317269    .378627
+va_cfr_g11~r {c |}{res}      4,866   -4.29e-11    .0908701  -.2317225   .3783213
 {txt}{p 0 4 2}
 file {bf}
-/home/tmp/St16505.000003{rm}
+/home/tmp/St35924.000003{rm}
 saved
 as .dta format
 {p_end}
@@ -530,7 +583,7 @@ as .dta format
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
 {col 5}Not matched{col 30}{res}               0
-{txt}{col 5}Matched{col 30}{res}           4,966{txt}  
+{txt}{col 5}Matched{col 30}{res}           4,963{txt}  
 {col 5}{hline 41}
 
 {com}. merge 1:1 cdscode year using `va_enr_4year', nogen
@@ -538,7 +591,7 @@ as .dta format
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
 {col 5}Not matched{col 30}{res}               0
-{txt}{col 5}Matched{col 30}{res}           4,966{txt}  
+{txt}{col 5}Matched{col 30}{res}           4,963{txt}  
 {col 5}{hline 41}
 
 {com}. 
@@ -548,7 +601,7 @@ as .dta format
 {com}. save `va_enr_merged_sibling'
 {txt}{p 0 4 2}
 file {bf}
-/home/tmp/St16505.000004{rm}
+/home/tmp/St35924.000004{rm}
 saved
 as .dta format
 {p_end}
@@ -576,7 +629,7 @@ as .dta format
 {txt}  6{com}. 
 . 
 . {c )-}
-{txt}(obs=4,869)
+{txt}(obs=4,866)
 
              {c |} va_cf~nr va_cfr..
 {hline 13}{c +}{hline 18}
@@ -590,7 +643,7 @@ saved as
 PDF
 format
 {p_end}
-(obs=4,869)
+(obs=4,866)
 
              {c |} va~2year va_cfr..
 {hline 13}{c +}{hline 18}
@@ -604,7 +657,7 @@ saved as
 PDF
 format
 {p_end}
-(obs=4,869)
+(obs=4,866)
 
              {c |} va~4year va_cfr..
 {hline 13}{c +}{hline 18}
@@ -636,21 +689,21 @@ format
 {txt}(CST/SBAC Student Test Score Samples)
 {p 0 4 2}
 file {bf}
-/home/tmp/St16505.000005{rm}
+/home/tmp/St35924.000005{rm}
 saved
 as .dta format
 {p_end}
 (CST/SBAC Student Test Score Samples)
 {p 0 4 2}
 file {bf}
-/home/tmp/St16505.000006{rm}
+/home/tmp/St35924.000006{rm}
 saved
 as .dta format
 {p_end}
 (CST/SBAC Student Test Score Samples)
 {p 0 4 2}
 file {bf}
-/home/tmp/St16505.000007{rm}
+/home/tmp/St35924.000007{rm}
 saved
 as .dta format
 {p_end}
@@ -665,7 +718,7 @@ as .dta format
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
 {col 5}Not matched{col 30}{res}               0
-{txt}{col 5}Matched{col 30}{res}           4,993{txt}  
+{txt}{col 5}Matched{col 30}{res}           4,990{txt}  
 {col 5}{hline 41}
 
 {com}. merge 1:1 cdscode year using `va_enr_4year_original', nogen
@@ -673,7 +726,7 @@ as .dta format
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
 {col 5}Not matched{col 30}{res}               0
-{txt}{col 5}Matched{col 30}{res}           4,993{txt}  
+{txt}{col 5}Matched{col 30}{res}           4,990{txt}  
 {col 5}{hline 41}
 
 {com}. 
@@ -694,7 +747,7 @@ as .dta format
 {txt}{col 9}from master{col 30}{res}              27{txt}  
 {col 9}from using{col 30}{res}               0{txt}  
 
-{col 5}Matched{col 30}{res}           4,966{txt}  
+{col 5}Matched{col 30}{res}           4,963{txt}  
 {col 5}{hline 41}
 
 {com}. 
@@ -717,7 +770,7 @@ as .dta format
 .   graph export $projdir/out/graph/siblingvaregs/outcome_va/scatter_va_cfr_g11_`outcome'_original.pdf, replace
 {txt}  6{com}. 
 . {c )-}
-{txt}(obs=4,869)
+{txt}(obs=4,866)
 
              {c |} va_cf~nr va_cfr..
 {hline 13}{c +}{hline 18}
@@ -731,12 +784,12 @@ saved as
 PDF
 format
 {p_end}
-(obs=4,869)
+(obs=4,866)
 
              {c |} va~2year va_cfr..
 {hline 13}{c +}{hline 18}
 va_cfr~2year {c |}{res}   1.0000
-{txt}va_cfr_g11.. {c |}{res}   0.9508   1.0000
+{txt}va_cfr_g11.. {c |}{res}   0.9509   1.0000
 
 {txt}{p 0 4 2}
 file {bf}
@@ -745,7 +798,7 @@ saved as
 PDF
 format
 {p_end}
-(obs=4,869)
+(obs=4,866)
 
              {c |} va~4year va_cfr..
 {hline 13}{c +}{hline 18}
@@ -871,7 +924,7 @@ format
 {res}
 {p 0 7}{space 1}{text:( 1)}{space 1} va_cfr_g11_enr = 1{p_end}
 
-{txt}       F(  1,  1277) ={res}   23.15
+{txt}       F(  1,  1276) ={res}   20.72
 {txt}{col 13}Prob > F ={res}    0.0000
 
 {txt}added matrix:
@@ -886,8 +939,8 @@ format
 {res}
 {p 0 7}{space 1}{text:( 1)}{space 1} va_cfr_g11_enr_2year = 1{p_end}
 
-{txt}       F(  1,  1277) ={res}    0.58
-{txt}{col 13}Prob > F ={res}    0.4459
+{txt}       F(  1,  1276) ={res}    0.50
+{txt}{col 13}Prob > F ={res}    0.4792
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -901,8 +954,8 @@ format
 {res}
 {p 0 7}{space 1}{text:( 1)}{space 1} va_cfr_g11_enr_4year = 1{p_end}
 
-{txt}       F(  1,  1277) ={res}    9.53
-{txt}{col 13}Prob > F ={res}    0.0021
+{txt}       F(  1,  1276) ={res}    8.69
+{txt}{col 13}Prob > F ={res}    0.0033
 
 {txt}added matrix:
              e(test_p) :  {res}1 x 1
@@ -927,13 +980,13 @@ format
 . timer off 1
 {txt}
 {com}. timer list
-{res}   1:      4.64 /        1 =       4.6360
+{res}   1:      5.38 /        1 =       5.3780
 {txt}
 {com}. log close
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sibling_out_est_sumstats.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 3 May 2022, 22:32:41
+ {txt}closed on:  {res}25 Jul 2022, 22:18:12
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

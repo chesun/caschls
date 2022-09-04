@@ -13,7 +13,7 @@ cd "/home/research/ca_ed_lab/users/chesun/gsr/caschls"
 
 
 /* to run this master do file, run the following line of code
-do "./do/master.do"
+do "/home/research/ca_ed_lab/users/chesun/gsr/caschls/do/master.do"
  */
 
 
@@ -37,6 +37,7 @@ you type end or q, at which time execution of the program resumes. Typing BREAK 
 to the calling program. */
 pause off
 
+cd "/home/research/ca_ed_lab/users/chesun/gsr/caschls"
 do "./do/settings.do" //set global project settings
 
 timer on 1
@@ -80,7 +81,7 @@ if `do_build_data'==1 {
 
 
 ***************** This block are do files that check data **********************
-local do_check_data = 0
+local do_check_data = 1
 if `do_check_data' == 1 {
   do $projdir/do/check/sameschools
   pause
@@ -101,7 +102,7 @@ if `do_check_data' == 1 {
 
 
 *********************representativeness diagnostics******************************
-local do_diagnostics = 0
+local do_diagnostics = 1
 if `do_diagnostics' == 1 {
 
   do $projdir/do/build/sample/elemdemographics
@@ -157,7 +158,7 @@ if `do_diagnostics' == 1 {
 
 ************************* create response rates datasets ***********************
 ////////////////////////////////////////////////////////////////////////////////
-local do_response_rate = 0
+local do_response_rate = 1
 if `do_response_rate' == 1 {
 
   /* trim demographics data in secondary survey and rename vars to prepare for
@@ -181,7 +182,7 @@ if `do_response_rate' == 1 {
 
 ********************** clean secondary questions of interest *******************
 ////////////////////////////////////////////////////////////////////////////////
-local do_clean_sec_qoi = 0
+local do_clean_sec_qoi = 1
 if `do_clean_sec_qoi' == 1 {
 
   do $projdir/do/build/buildanalysisdata/qoiclean/secondary/secqoiclean1819_1718_1516
@@ -199,7 +200,7 @@ if `do_clean_sec_qoi' == 1 {
 
 ********************** clean parent questions of interest **********************
 ////////////////////////////////////////////////////////////////////////////////
-local do_clean_parent_qoi = 0
+local do_clean_parent_qoi = 1
 if `do_clean_parent_qoi' == 1 {
 
   do $projdir/do/build/buildanalysisdata/qoiclean/parent/parentqoiclean1819_1718
@@ -222,7 +223,7 @@ if `do_clean_parent_qoi' == 1 {
 ********************** clean staff questions of interest **********************
 ////////////////////////////////////////////////////////////////////////////////
 //clean staff qoi 1718 and 1819
-local do_clean_staff_qoi = 0
+local do_clean_staff_qoi = 1
 if `do_clean_staff_qoi' == 1 {
 
   do $projdir/do/build/buildanalysisdata/qoiclean/staff/staffqoiclean1819_1718
@@ -241,7 +242,7 @@ if `do_clean_staff_qoi' == 1 {
 
 ***************** pool qoi datasets and merge with response rate****************
 ////////////////////////////////////////////////////////////////////////////////
-local do_pool_qoi_merge = 0
+local do_pool_qoi_merge = 1
 if `do_pool_qoi_merge' == 1 {
 
   do $projdir/do/build/buildanalysisdata/poolingdata/secpooling
@@ -262,7 +263,7 @@ if `do_pool_qoi_merge' == 1 {
 ////////////////////////////////////////////////////////////////////////////////
 
 //created pooled average grade 11 enrollment over years to merge with analysis data as weights
-local do_pool_gr11_enr = 0
+local do_pool_gr11_enr = 1
 if `do_pool_gr11_enr' == 1 {
 
   do $projdir/do/build/prepare/poolgr11enr
@@ -280,7 +281,7 @@ if `do_pool_gr11_enr' == 1 {
 
 ***************** clean the VA datasets and merge with analysis data ****************
 ////////////////////////////////////////////////////////////////////////////////
-local do_pool_merge_va = 0
+local do_pool_merge_va = 1
 if `do_pool_merge_va' == 1 {
   //create pooled average value added estimates over years
   do $projdir/do/build/buildanalysisdata/poolingva/poolva
@@ -300,7 +301,7 @@ if `do_pool_merge_va' == 1 {
 
 ***************** run VA regressions for analysis datasets  ****************
 ////////////////////////////////////////////////////////////////////////////////
-local do_va_regs = 0
+local do_va_regs = 1
 if `do_va_regs' == 1 {
   //run VA regressions for all analysis datasets
   do $projdir/do/share/svyvaregs/allvaregs
@@ -311,7 +312,7 @@ if `do_va_regs' == 1 {
 
 ***************** factor analysis for qoi pooled means  ****************
 ////////////////////////////////////////////////////////////////////////////////
-local dofactor = 0
+local dofactor = 1
 if `dofactor' == 1 {
   //running factor analysis and export factor laoding tables and screeplots for all analysis datasets
   do $projdir/do/share/factoranalysis/factor
@@ -336,7 +337,7 @@ if `dofactor' == 1 {
 
 ***************** imputation and cateogry index for qoi pooled means  ****************
 ////////////////////////////////////////////////////////////////////////////////
-local do_index = 0
+local do_index = 1
 if `do_index' == 1 {
 
   // imputations for missing values in allsvyqoimeans.dta
@@ -364,7 +365,7 @@ if `do_index' == 1 {
 
 /* VA regs with index vars and school characteristics controls */
 ////////////////////////////////////////////////////////////////////////////////
-local do_index_va_reg = 0
+local do_index_va_reg = 1
 if `do_index_va_reg' == 1 {
 
   /* clean and pull school characteristics from the dataset created by Matt Naven, for use in
@@ -398,7 +399,7 @@ if `do_index_va_reg' == 1 {
 
 /* matching siblings using CST data */
 ////////////////////////////////////////////////////////////////////////////////
-local do_match_siblings = 0
+local do_match_siblings = 1
 if `do_match_siblings' == 1 {
 
   /* Use CST data to match students with their siblings. Code taken mostly from

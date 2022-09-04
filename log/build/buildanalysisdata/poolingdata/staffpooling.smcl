@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/poolingdata/staffpooling.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 7 Apr 2022, 14:57:24
+ {txt}opened on:  {res}25 Jul 2022, 18:10:37
 {txt}
 {com}. 
 . /* first append all years to make a pnael dataset to calculate pooled stats */
@@ -240,7 +240,7 @@ saved
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/poolingdata/staffpooling.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 7 Apr 2022, 14:57:25
+ {txt}closed on:  {res}25 Jul 2022, 18:10:37
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

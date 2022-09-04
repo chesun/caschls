@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sib_acs_est_sumstats.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}18 May 2022, 18:31:59
+ {txt}opened on:  {res}25 Jul 2022, 22:33:52
 {txt}
 {com}. 
 . /* change directory to common_core_va project directory for all value added
@@ -264,6 +264,42 @@
 T_gm_fix_span:{space 2}{res}{res}0
 {p_end}
 {txt}{p 0 16}
+S_4:{space 12}{res}{res}.0020413479904597
+{p_end}
+{txt}{p 0 16}
+S_2:{space 12}{res}{res}300
+{p_end}
+{txt}{p 0 16}
+S_3:{space 12}{res}{res}.0136102212476191
+{p_end}
+{txt}{p 0 16}
+S_1:{space 12}{res}{res}epanechnikov
+{p_end}
+{txt}{p 0 16}
+S_6:{space 12}{res}{res}.7098361624622439
+{p_end}
+{txt}{p 0 16}
+S_5:{space 12}{res}{res}4
+{p_end}
+{txt}{p 0 16}
+ReS_jv2:{space 8}{res}{res}__000006 __000007 __000008 __000009 __00000A __00000B __00000C __00000D __00000E __00000F __00000G __00000H __00000I __00000J __00000K
+{p_end}
+{txt}{p 0 16}
+dropv:{space 10}{res}{res}_cdscode_x
+{p_end}
+{txt}{p 0 16}
+n_offset:{space 7}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+sort:{space 11}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+dots:{space 11}{res}{res}nois _dots 5 0
+{p_end}
+{txt}{p 0 16}
+dotss:{space 10}{res}{res}nois _dots 0, title(Survey results being calculated)
+{p_end}
+{txt}{p 0 16}
 vaprojxwalks:{space 3}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/restricted_access/clean/crosswalks
 {p_end}
 {txt}{p 0 16}
@@ -515,14 +551,14 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 {txt}(CST/SBAC Student Test Score Samples)
 {p 0 4 2}
 file {bf}
-/home/tmp/St20090.000001{rm}
+/home/tmp/St35924.000001{rm}
 saved
 as .dta format
 {p_end}
 (CST/SBAC Student Test Score Samples)
 {p 0 4 2}
 file {bf}
-/home/tmp/St20090.000002{rm}
+/home/tmp/St35924.000002{rm}
 saved
 as .dta format
 {p_end}
@@ -540,7 +576,7 @@ as .dta format
 {txt}{col 9}from master{col 30}{res}               9{txt}  
 {col 9}from using{col 30}{res}               5{txt}  
 
-{col 5}Matched{col 30}{res}           4,957{txt}  
+{col 5}Matched{col 30}{res}           4,954{txt}  
 {col 5}{hline 41}
 
 {com}. 
@@ -563,7 +599,7 @@ as .dta format
 {txt}{col 9}from master{col 30}{res}             166{txt}  
 {col 9}from using{col 30}{res}               0{txt}  
 
-{col 5}Matched{col 30}{res}           4,805{txt}  
+{col 5}Matched{col 30}{res}           4,802{txt}  
 {col 5}{hline 41}
 {res}
 {txt}{col 5}Result{col 33}Number of obs
@@ -572,7 +608,7 @@ as .dta format
 {txt}{col 9}from master{col 30}{res}             177{txt}  
 {col 9}from using{col 30}{res}               0{txt}  
 
-{col 5}Matched{col 30}{res}           4,794{txt}  
+{col 5}Matched{col 30}{res}           4,791{txt}  
 {col 5}{hline 41}
 
 {com}. 
@@ -588,47 +624,47 @@ as .dta format
 .   corr va_`subject'_og va_`subject'_both
 {txt}  7{com}.   local corr_`subject'_restr_og_both : di %5.3f r(rho)
 {txt}  8{com}. {c )-}
-{txt}(obs=4,704)
+{txt}(obs=4,701)
 
              {c |} va_cfr~a va_ela~g
 {hline 13}{c +}{hline 18}
 va_cfr_g11~a {c |}{res}   1.0000
-   {txt}va_ela_og {c |}{res}   0.9206   1.0000
+   {txt}va_ela_og {c |}{res}   0.9207   1.0000
 
-{txt}(obs=4,704)
+{txt}(obs=4,701)
 
              {c |} va_cfr~a va_ela~h
 {hline 13}{c +}{hline 18}
 va_cfr_g11~a {c |}{res}   1.0000
- {txt}va_ela_both {c |}{res}   0.9180   1.0000
+ {txt}va_ela_both {c |}{res}   0.9181   1.0000
 
-{txt}(obs=4,704)
+{txt}(obs=4,701)
 
              {c |} va_ela~g va_ela~h
 {hline 13}{c +}{hline 18}
    va_ela_og {c |}{res}   1.0000
  {txt}va_ela_both {c |}{res}   0.9965   1.0000
 
-{txt}(obs=4,693)
+{txt}(obs=4,690)
 
              {c |} va_cfr~h va_mat~g
 {hline 13}{c +}{hline 18}
 va_cfr_g11~h {c |}{res}   1.0000
   {txt}va_math_og {c |}{res}   0.9013   1.0000
 
-{txt}(obs=4,693)
+{txt}(obs=4,690)
 
              {c |} va_cfr~h va_mat~h
 {hline 13}{c +}{hline 18}
 va_cfr_g11~h {c |}{res}   1.0000
-{txt}va_math_both {c |}{res}   0.8870   1.0000
+{txt}va_math_both {c |}{res}   0.8871   1.0000
 
-{txt}(obs=4,693)
+{txt}(obs=4,690)
 
              {c |} va_mat~g va_mat~h
 {hline 13}{c +}{hline 18}
   va_math_og {c |}{res}   1.0000
-{txt}va_math_both {c |}{res}   0.9866   1.0000
+{txt}va_math_both {c |}{res}   0.9867   1.0000
 
 {txt}
 {com}. 
@@ -641,14 +677,14 @@ va_cfr_g11~h {c |}{res}   1.0000
 >     (scatter va_cfr_g11_`subject' va_`subject'_og) ///
 >     (lfit va_cfr_g11_`subject' va_`subject'_og ) ///
 >     (function y = x, range(va_cfr_g11_`subject')) ///
->     ytitle("``subject'_str' VA from Original Sample", size(small)) ///
+>     , ytitle("``subject'_str' VA from Original Sample", size(small)) ///
 >     xtitle("``subject'_str' VA from Restricted Sample with `og_str' Controls", size(small)) ///
 >     title("Comparison Scatter Plot of ``subject'_str' VA", size(small)) ///
 >     legend(label(1 "``subject'_str' VA") label(3 "45 degree line") ) ///
 >     note("Correlation Coefficient = `corr_`subject'_original_restr_og' ")
 {txt}  3{com}. 
 .   graph export $vaprojdir/figures/va_sib_acs/va_compare_sib_acs_restr_smp/corr_va_`subject'_original_restr_og.pdf, replace
-{txt}  4{com}.   graph export $projdir/out/graph/siblingvaregs/va_compare_sib_acs_restr_smp/corr_va_`subject'_original_restr_og.pdf, replace
+{txt}  4{com}.   graph export $projdir/out/graph/siblingvaregs/test_score_va/va_compare_sib_acs_restr_smp/corr_va_`subject'_original_restr_og.pdf, replace
 {txt}  5{com}. 
 .   ***** difference density plot
 .   gen va_`subject'_original_restr_og_diff = va_`subject'_og - va_cfr_g11_`subject'
@@ -656,23 +692,280 @@ va_cfr_g11~h {c |}{res}   1.0000
 .   twoway ///
 >     (hist va_`subject'_original_restr_og_diff, frequency color(navy)) ///
 >     , ytitle("Frequency") xtitle("Difference") ///
->     title("``subject'_str' VA Difference between Original Sample and Restricted Sample with `og_str' Controls", size(small))
+>     title("``subject'_str' VA Difference between Original Sample and Restricted Sample with `og_str' Controls", size(vsmall))
 {txt}  7{com}. 
 .   graph export $vaprojdir/figures/va_sib_acs/va_compare_sib_acs_restr_smp/hist_diff_va_`subject'_original_restr_og.pdf, replace
-{txt}  8{com}.   graph export $projdir/out/graph/siblingvaregs/va_compare_sib_acs_restr_smp/hist_diff_va_`subject'_original_restr_og.pdf, replace
+{txt}  8{com}.   graph export $projdir/out/graph/siblingvaregs/test_score_va/va_compare_sib_acs_restr_smp/hist_diff_va_`subject'_original_restr_og.pdf, replace
 {txt}  9{com}. {c )-}
-{err}) required
-{txt}{search r(100), local:r(100);}
+{res}{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/va_compare_sib_acs_restr_smp/corr_va_ela_original_restr_og.pdf{rm}
+saved as
+PDF
+format
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/siblingvaregs/test_score_va/va_compare_sib_acs_restr_smp/corr_va_ela_original_restr_og.pdf{rm}
+saved as
+PDF
+format
+{p_end}
+(267 missing values generated)
+{res}{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/va_compare_sib_acs_restr_smp/hist_diff_va_ela_original_restr_og.pdf{rm}
+saved as
+PDF
+format
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/siblingvaregs/test_score_va/va_compare_sib_acs_restr_smp/hist_diff_va_ela_original_restr_og.pdf{rm}
+saved as
+PDF
+format
+{p_end}
+{res}{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/va_compare_sib_acs_restr_smp/corr_va_math_original_restr_og.pdf{rm}
+saved as
+PDF
+format
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/siblingvaregs/test_score_va/va_compare_sib_acs_restr_smp/corr_va_math_original_restr_og.pdf{rm}
+saved as
+PDF
+format
+{p_end}
+(278 missing values generated)
+{res}{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/va_compare_sib_acs_restr_smp/hist_diff_va_math_original_restr_og.pdf{rm}
+saved as
+PDF
+format
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/siblingvaregs/test_score_va/va_compare_sib_acs_restr_smp/hist_diff_va_math_original_restr_og.pdf{rm}
+saved as
+PDF
+format
+{p_end}
 
-end of do-file
+{com}. 
+. 
+. ********** 2) Original sample, og controls vs. Restricted sample, both sib and census controls
+. 
+. foreach subject in ela math {c -(}
+{txt}  2{com}.   ***** correlation plot
+.   twoway ///
+>     (scatter va_cfr_g11_`subject' va_`subject'_both) ///
+>     (lfit va_cfr_g11_`subject' va_`subject'_both ) ///
+>     (function y = x, range(va_cfr_g11_`subject')) ///
+>     , ytitle("``subject'_str' VA from Original Sample", size(small)) ///
+>     xtitle("``subject'_str' VA from Restricted Sample with `both_str' Controls", size(small)) ///
+>     title("Comparison Scatter Plot of ``subject'_str' VA", size(small)) ///
+>     legend(label(1 "``subject'_str' VA") label(3 "45 degree line") ) ///
+>     note("Correlation Coefficient = `corr_`subject'_original_restr_both' ")
+{txt}  3{com}. 
+.   graph export $vaprojdir/figures/va_sib_acs/va_compare_sib_acs_restr_smp/corr_va_`subject'_original_restr_both.pdf, replace
+{txt}  4{com}.   graph export $projdir/out/graph/siblingvaregs/test_score_va/va_compare_sib_acs_restr_smp/corr_va_`subject'_original_restr_both.pdf, replace
+{txt}  5{com}. 
+.   ***** difference density plot
+.   gen va_`subject'_original_restr_both_diff = va_`subject'_both - va_cfr_g11_`subject'
+{txt}  6{com}. 
+.   twoway ///
+>     (hist va_`subject'_original_restr_both_diff, frequency color(navy)) ///
+>     , ytitle("Frequency") xtitle("Difference") ///
+>     title("``subject'_str' VA Difference between Original Sample and Restricted Sample with `both_str' Controls", size(vsmall))
+{txt}  7{com}. 
+.   graph export $vaprojdir/figures/va_sib_acs/va_compare_sib_acs_restr_smp/hist_diff_va_`subject'_original_restr_both.pdf, replace
+{txt}  8{com}.   graph export $projdir/out/graph/siblingvaregs/test_score_va/va_compare_sib_acs_restr_smp/hist_diff_va_`subject'_original_restr_both.pdf, replace
+{txt}  9{com}. {c )-}
+{res}{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/va_compare_sib_acs_restr_smp/corr_va_ela_original_restr_both.pdf{rm}
+saved as
+PDF
+format
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/siblingvaregs/test_score_va/va_compare_sib_acs_restr_smp/corr_va_ela_original_restr_both.pdf{rm}
+saved as
+PDF
+format
+{p_end}
+(267 missing values generated)
+{res}{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/va_compare_sib_acs_restr_smp/hist_diff_va_ela_original_restr_both.pdf{rm}
+saved as
+PDF
+format
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/siblingvaregs/test_score_va/va_compare_sib_acs_restr_smp/hist_diff_va_ela_original_restr_both.pdf{rm}
+saved as
+PDF
+format
+{p_end}
+{res}{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/va_compare_sib_acs_restr_smp/corr_va_math_original_restr_both.pdf{rm}
+saved as
+PDF
+format
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/siblingvaregs/test_score_va/va_compare_sib_acs_restr_smp/corr_va_math_original_restr_both.pdf{rm}
+saved as
+PDF
+format
+{p_end}
+(278 missing values generated)
+{res}{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/va_compare_sib_acs_restr_smp/hist_diff_va_math_original_restr_both.pdf{rm}
+saved as
+PDF
+format
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/siblingvaregs/test_score_va/va_compare_sib_acs_restr_smp/hist_diff_va_math_original_restr_both.pdf{rm}
+saved as
+PDF
+format
+{p_end}
 
-{search r(100), local:r(100);}
+{com}. 
+. 
+. 
+. 
+. ********** 3) Restricted sample, og controls vs. Restricted sample, both sib and census controls
+. foreach subject in ela math {c -(}
+{txt}  2{com}.   ***** correlation plot
+.   twoway ///
+>     (scatter va_`subject'_og va_`subject'_both) ///
+>     (lfit va_`subject'_og va_`subject'_both ) ///
+>     (function y = x, range(va_`subject'_og)) ///
+>     , ytitle("``subject'_str' VA from Restricted Sample with `og_str' Controls", size(small)) ///
+>     xtitle("``subject'_str' VA from Restricted Sample with `both_str' Controls", size(small)) ///
+>     title("Comparison Scatter Plot of ``subject'_str' VA", size(small)) ///
+>     legend(label(1 "``subject'_str' VA") label(3 "45 degree line") ) ///
+>     note("Correlation Coefficient = `corr_`subject'_restr_og_both' ")
+{txt}  3{com}. 
+.   graph export $vaprojdir/figures/va_sib_acs/va_compare_sib_acs_restr_smp/corr_va_`subject'_restr_og_both.pdf, replace
+{txt}  4{com}.   graph export $projdir/out/graph/siblingvaregs/test_score_va/va_compare_sib_acs_restr_smp/corr_va_`subject'_restr_og_both.pdf, replace
+{txt}  5{com}. 
+.   ***** difference density plot
+.   gen va_`subject'_restr_og_both_diff = va_`subject'_both - va_`subject'_og
+{txt}  6{com}. 
+.   twoway ///
+>     (hist va_`subject'_restr_og_both_diff, frequency color(navy)) ///
+>     , ytitle("Frequency") xtitle("Difference") ///
+>     title("``subject'_str' VA Difference between Restricted Sample with `og_str' Controls and with `both_str' Controls", size(vsmall))
+{txt}  7{com}. 
+.   graph export $vaprojdir/figures/va_sib_acs/va_compare_sib_acs_restr_smp/hist_diff_va_`subject'_restr_og_both.pdf, replace
+{txt}  8{com}.   graph export $projdir/out/graph/siblingvaregs/test_score_va/va_compare_sib_acs_restr_smp/hist_diff_va_`subject'_restr_og_both.pdf, replace
+{txt}  9{com}. {c )-}
+{res}{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/va_compare_sib_acs_restr_smp/corr_va_ela_restr_og_both.pdf{rm}
+saved as
+PDF
+format
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/siblingvaregs/test_score_va/va_compare_sib_acs_restr_smp/corr_va_ela_restr_og_both.pdf{rm}
+saved as
+PDF
+format
+{p_end}
+(267 missing values generated)
+{res}{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/va_compare_sib_acs_restr_smp/hist_diff_va_ela_restr_og_both.pdf{rm}
+saved as
+PDF
+format
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/siblingvaregs/test_score_va/va_compare_sib_acs_restr_smp/hist_diff_va_ela_restr_og_both.pdf{rm}
+saved as
+PDF
+format
+{p_end}
+{res}{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/va_compare_sib_acs_restr_smp/corr_va_math_restr_og_both.pdf{rm}
+saved as
+PDF
+format
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/siblingvaregs/test_score_va/va_compare_sib_acs_restr_smp/corr_va_math_restr_og_both.pdf{rm}
+saved as
+PDF
+format
+{p_end}
+(278 missing values generated)
+{res}{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/va_compare_sib_acs_restr_smp/hist_diff_va_math_restr_og_both.pdf{rm}
+saved as
+PDF
+format
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/siblingvaregs/test_score_va/va_compare_sib_acs_restr_smp/hist_diff_va_math_restr_og_both.pdf{rm}
+saved as
+PDF
+format
+{p_end}
 
-{com}. log close
+{com}. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. 
+. timer off 1
+{txt}
+{com}. timer list
+{res}   1:      6.13 /        1 =       6.1340
+{txt}
+{com}. 
+. set trace off
+{txt}
+{com}. cd $vaprojdir
+{res}/home/research/ca_ed_lab/projects/common_core_va
+{txt}
+{com}. 
+. log close
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sib_acs_est_sumstats.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}18 May 2022, 18:34:15
+ {txt}closed on:  {res}25 Jul 2022, 22:33:58
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

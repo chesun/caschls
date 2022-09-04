@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/builda
 > nalysisdata/qoiclean/secondary/secqoiclean1415.smcl
   log type:  smcl
- opened on:   7 Apr 2022, 14:57:05
+ opened on:  25 Jul 2022, 18:10:16
 
 . 
 . use $clndtadir/secondary/sec1415, clear
@@ -501,5 +501,5 @@ file
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/builda
 > nalysisdata/qoiclean/secondary/secqoiclean1415.smcl
   log type:  smcl
- closed on:   7 Apr 2022, 14:57:11
+ closed on:  25 Jul 2022, 18:10:22
 -------------------------------------------------------------------------------

@@ -1,9 +1,9 @@
 {smcl}
-{txt}{sf}{ul off}{.-}
+{com}{sf}{ul off}{txt}{.-}
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/indexalpha.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 7 Apr 2022, 15:49:36
+ {txt}opened on:  {res}25 Jul 2022, 18:13:29
 {txt}
 {com}. 
 . use $projdir/dta/allsvyfactor/categoryindex/compcasecategoryindex, clear
@@ -26,17 +26,17 @@
                              Item-test     Item-rest       interitem
 Item         {c |}  Obs  Sign   correlation   correlation     correlation     alpha
 {hline 13}{c +}{hline 65}
-p~6mean_po~d{col 14}{c |}{res}{col 16} 414{col 24}+{col 31} 0.6868{col 45} 0.5968{col 59}   0.5705{col 73} 0.9140
-{txt}parentqoi17~{col 14}{c |}{res}{col 16} 414{col 24}+{col 31} 0.5993{col 45} 0.4925{col 59}   0.5834{col 73} 0.9181
-{txt}parentqoi2~d{col 14}{c |}{res}{col 16} 414{col 24}+{col 31} 0.6490{col 45} 0.5517{col 59}   0.5760{col 73} 0.9158
-{txt}secqoi22me~d{col 14}{c |}{res}{col 16} 932{col 24}+{col 31} 0.6601{col 45} 0.5373{col 59}   0.6008{col 73} 0.9233
-{txt}secqoi23me~d{col 14}{c |}{res}{col 16} 932{col 24}+{col 31} 0.8690{col 45} 0.8134{col 59}   0.5251{col 73} 0.8984
-{txt}secqoi24me~d{col 14}{c |}{res}{col 16} 932{col 24}+{col 31} 0.9041{col 45} 0.8662{col 59}   0.5145{col 73} 0.8945
-{txt}secqoi26me~d{col 14}{c |}{res}{col 16} 932{col 24}+{col 31} 0.8761{col 45} 0.8205{col 59}   0.5210{col 73} 0.8969
-{txt}secqoi27me~d{col 14}{c |}{res}{col 16} 911{col 24}+{col 31} 0.7964{col 45} 0.7136{col 59}   0.5452{col 73} 0.9056
-{txt}secqoi29me~d{col 14}{c |}{res}{col 16} 911{col 24}+{col 31} 0.8274{col 45} 0.7516{col 59}   0.5334{col 73} 0.9014
+p~6mean_po~d{col 14}{c |}{res}{col 16} 413{col 24}+{col 31} 0.6834{col 45} 0.5925{col 59}   0.5713{col 73} 0.9142
+{txt}parentqoi17~{col 14}{c |}{res}{col 16} 413{col 24}+{col 31} 0.5954{col 45} 0.4878{col 59}   0.5843{col 73} 0.9183
+{txt}parentqoi2~d{col 14}{c |}{res}{col 16} 413{col 24}+{col 31} 0.6459{col 45} 0.5478{col 59}   0.5769{col 73} 0.9160
+{txt}secqoi22me~d{col 14}{c |}{res}{col 16} 931{col 24}+{col 31} 0.6687{col 45} 0.5473{col 59}   0.5978{col 73} 0.9224
+{txt}secqoi23me~d{col 14}{c |}{res}{col 16} 931{col 24}+{col 31} 0.8689{col 45} 0.8133{col 59}   0.5254{col 73} 0.8986
+{txt}secqoi24me~d{col 14}{c |}{res}{col 16} 931{col 24}+{col 31} 0.9037{col 45} 0.8657{col 59}   0.5150{col 73} 0.8947
+{txt}secqoi26me~d{col 14}{c |}{res}{col 16} 931{col 24}+{col 31} 0.8755{col 45} 0.8196{col 59}   0.5217{col 73} 0.8972
+{txt}secqoi27me~d{col 14}{c |}{res}{col 16} 910{col 24}+{col 31} 0.7954{col 45} 0.7123{col 59}   0.5459{col 73} 0.9058
+{txt}secqoi29me~d{col 14}{c |}{res}{col 16} 910{col 24}+{col 31} 0.8265{col 45} 0.7504{col 59}   0.5341{col 73} 0.9017
 {txt}{hline 13}{c +}{hline 65}
-Test scale{col 14}{c |}{res}{col 59}   0.5534{col 73} 0.9177
+Test scale{col 14}{c |}{res}{col 59}   0.5537{col 73} 0.9178
 {txt}{hline 13}{c BT}{hline 65}
 
 {com}. 
@@ -49,23 +49,23 @@ Test scale{col 14}{c |}{res}{col 59}   0.5534{col 73} 0.9177
                              Item-test     Item-rest       interitem
 Item         {c |}  Obs  Sign   correlation   correlation     correlation     alpha
 {hline 13}{c +}{hline 65}
-p~0mean_po~d{col 14}{c |}{res}{col 16} 369{col 24}+{col 31} 0.6869{col 45} 0.6330{col 59}   0.5386{col 73} 0.9423
-{txt}p~1mean_po~d{col 14}{c |}{res}{col 16} 414{col 24}+{col 31} 0.6299{col 45} 0.5648{col 59}   0.5443{col 73} 0.9436
-{txt}p~2mean_po~d{col 14}{c |}{res}{col 16} 333{col 24}+{col 31} 0.7388{col 45} 0.6912{col 59}   0.5340{col 73} 0.9413
-{txt}p~3mean_po~d{col 14}{c |}{res}{col 16} 414{col 24}+{col 31} 0.6875{col 45} 0.6262{col 59}   0.5388{col 73} 0.9424
-{txt}parentqoi34~{col 14}{c |}{res}{col 16} 369{col 24}+{col 31} 0.7015{col 45} 0.6479{col 59}   0.5374{col 73} 0.9421
-{txt}secqoi28me~d{col 14}{c |}{res}{col 16} 911{col 24}+{col 31} 0.7029{col 45} 0.6159{col 59}   0.5347{col 73} 0.9415
-{txt}secqoi35me~d{col 14}{c |}{res}{col 16} 932{col 24}+{col 31} 0.8714{col 45} 0.8368{col 59}   0.5115{col 73} 0.9361
-{txt}secqoi36me~d{col 14}{c |}{res}{col 16} 932{col 24}+{col 31} 0.8910{col 45} 0.8612{col 59}   0.5083{col 73} 0.9354
-{txt}secqoi37me~d{col 14}{c |}{res}{col 16} 932{col 24}+{col 31} 0.8326{col 45} 0.7869{col 59}   0.5180{col 73} 0.9377
-{txt}secqoi38me~d{col 14}{c |}{res}{col 16} 932{col 24}+{col 31} 0.8967{col 45} 0.8683{col 59}   0.5076{col 73} 0.9352
-{txt}secqoi39me~d{col 14}{c |}{res}{col 16} 932{col 24}+{col 31} 0.8814{col 45} 0.8476{col 59}   0.5100{col 73} 0.9358
-{txt}secqoi40me~d{col 14}{c |}{res}{col 16} 932{col 24}+{col 31} 0.8716{col 45} 0.8364{col 59}   0.5124{col 73} 0.9364
-{txt}staffqoi20~d{col 14}{c |}{res}{col 16} 593{col 24}+{col 31} 0.3869{col 45} 0.2801{col 59}   0.5798{col 73} 0.9508
-{txt}staffqoi24~d{col 14}{c |}{res}{col 16} 438{col 24}+{col 31} 0.5879{col 45} 0.5069{col 59}   0.5491{col 73} 0.9446
-{txt}staffqoi87~d{col 14}{c |}{res}{col 16} 546{col 24}+{col 31} 0.6233{col 45} 0.5418{col 59}   0.5487{col 73} 0.9445
+p~0mean_po~d{col 14}{c |}{res}{col 16} 368{col 24}+{col 31} 0.6832{col 45} 0.6283{col 59}   0.5366{col 73} 0.9419
+{txt}p~1mean_po~d{col 14}{c |}{res}{col 16} 413{col 24}+{col 31} 0.6255{col 45} 0.5595{col 59}   0.5423{col 73} 0.9431
+{txt}p~2mean_po~d{col 14}{c |}{res}{col 16} 333{col 24}+{col 31} 0.7385{col 45} 0.6911{col 59}   0.5315{col 73} 0.9408
+{txt}p~3mean_po~d{col 14}{c |}{res}{col 16} 413{col 24}+{col 31} 0.6843{col 45} 0.6222{col 59}   0.5367{col 73} 0.9419
+{txt}parentqoi34~{col 14}{c |}{res}{col 16} 368{col 24}+{col 31} 0.7072{col 45} 0.6540{col 59}   0.5346{col 73} 0.9415
+{txt}secqoi28me~d{col 14}{c |}{res}{col 16} 910{col 24}+{col 31} 0.7004{col 45} 0.6128{col 59}   0.5326{col 73} 0.9410
+{txt}secqoi35me~d{col 14}{c |}{res}{col 16} 931{col 24}+{col 31} 0.8706{col 45} 0.8357{col 59}   0.5092{col 73} 0.9356
+{txt}secqoi36me~d{col 14}{c |}{res}{col 16} 931{col 24}+{col 31} 0.8902{col 45} 0.8602{col 59}   0.5060{col 73} 0.9348
+{txt}secqoi37me~d{col 14}{c |}{res}{col 16} 931{col 24}+{col 31} 0.8313{col 45} 0.7853{col 59}   0.5158{col 73} 0.9372
+{txt}secqoi38me~d{col 14}{c |}{res}{col 16} 931{col 24}+{col 31} 0.8959{col 45} 0.8673{col 59}   0.5053{col 73} 0.9346
+{txt}secqoi39me~d{col 14}{c |}{res}{col 16} 931{col 24}+{col 31} 0.8807{col 45} 0.8467{col 59}   0.5077{col 73} 0.9352
+{txt}secqoi40me~d{col 14}{c |}{res}{col 16} 931{col 24}+{col 31} 0.8707{col 45} 0.8351{col 59}   0.5101{col 73} 0.9358
+{txt}staffqoi20~d{col 14}{c |}{res}{col 16} 592{col 24}+{col 31} 0.3891{col 45} 0.2822{col 59}   0.5769{col 73} 0.9502
+{txt}staffqoi24~d{col 14}{c |}{res}{col 16} 438{col 24}+{col 31} 0.5876{col 45} 0.5067{col 59}   0.5466{col 73} 0.9441
+{txt}staffqoi87~d{col 14}{c |}{res}{col 16} 545{col 24}+{col 31} 0.6181{col 45} 0.5355{col 59}   0.5469{col 73} 0.9441
 {txt}{hline 13}{c +}{hline 65}
-Test scale{col 14}{c |}{res}{col 59}   0.5320{col 73} 0.9446
+Test scale{col 14}{c |}{res}{col 59}   0.5297{col 73} 0.9441
 {txt}{hline 13}{c BT}{hline 65}
 
 {com}. 
@@ -78,12 +78,12 @@ Test scale{col 14}{c |}{res}{col 59}   0.5320{col 73} 0.9446
                              Item-test     Item-rest       interitem
 Item         {c |}  Obs  Sign   correlation   correlation     correlation     alpha
 {hline 13}{c +}{hline 65}
-p~5mean_po~d{col 14}{c |}{res}{col 16} 414{col 24}+{col 31} 0.7753{col 45} 0.5316{col 59}   0.3678{col 73} 0.6357
-{txt}parentqoi6~d{col 14}{c |}{res}{col 16} 411{col 24}+{col 31} 0.7366{col 45} 0.4709{col 59}   0.4057{col 73} 0.6719
-{txt}staffqoi10m~{col 14}{c |}{res}{col 16} 593{col 24}+{col 31} 0.8167{col 45} 0.5028{col 59}   0.3732{col 73} 0.6411
-{txt}staffqoi12~d{col 14}{c |}{res}{col 16} 587{col 24}+{col 31} 0.7867{col 45} 0.4976{col 59}   0.3684{col 73} 0.6364
+p~5mean_po~d{col 14}{c |}{res}{col 16} 413{col 24}+{col 31} 0.7746{col 45} 0.5306{col 59}   0.3685{col 73} 0.6365
+{txt}parentqoi6~d{col 14}{c |}{res}{col 16} 410{col 24}+{col 31} 0.7359{col 45} 0.4699{col 59}   0.4066{col 73} 0.6727
+{txt}staffqoi10m~{col 14}{c |}{res}{col 16} 592{col 24}+{col 31} 0.8164{col 45} 0.5021{col 59}   0.3744{col 73} 0.6423
+{txt}staffqoi12~d{col 14}{c |}{res}{col 16} 586{col 24}+{col 31} 0.7884{col 45} 0.5000{col 59}   0.3660{col 73} 0.6340
 {txt}{hline 13}{c +}{hline 65}
-Test scale{col 14}{c |}{res}{col 59}   0.3793{col 73} 0.7097
+Test scale{col 14}{c |}{res}{col 59}   0.3795{col 73} 0.7098
 {txt}{hline 13}{c BT}{hline 65}
 
 {com}. 
@@ -92,7 +92,7 @@ Test scale{col 14}{c |}{res}{col 59}   0.3793{col 73} 0.7097
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/indexalpha.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 7 Apr 2022, 15:49:36
+ {txt}closed on:  {res}25 Jul 2022, 18:13:29
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

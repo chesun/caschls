@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/sibling_out_xwalk.smcl
   log type:  smcl
- opened on:   3 May 2022, 20:47:22
+ opened on:  25 Jul 2022, 20:36:20
 
 . 
 . 
@@ -28,7 +28,7 @@
 
 . replace k12_postsec_match = 1 if k12_nsc_match == 1 | k12_ccc_match == 1 | k1
 > 2_csu_match == 1
-(44,788,259 real changes made)
+(44,451,783 real changes made)
 
 . label var k12_postsec_match "Indicator for k12 observation matched to postsec
 > ondary data (NSC, CCC, or CSU)"
@@ -150,7 +150,7 @@
 
 . replace has_older_sibling_postsec_match = 1 if !missing(num_older_sibling_pos
 > tsec_match) & num_older_sibling_postsec_match > 0
-(1,902,221 real changes made)
+(1,902,217 real changes made)
 
 . label var has_older_sibling_postsec_match "Has at least one older sibling mat
 > ched to postsecondary outcomes"
@@ -170,9 +170,9 @@
   7.   label var has_older_sibling_`i' "Has at least 1 older sibling matched to
 >  postsec outcome and with `i' = 1"
   8. }
-(271,304 real changes made)
-(165,151 real changes made)
-(122,290 real changes made)
+(271,207 real changes made)
+(165,033 real changes made)
+(122,320 real changes made)
 
 . 
 . drop lower_bound
@@ -220,12 +220,12 @@ file
 .  timer off 1
 
 .  timer list
-   1:    165.37 /        1 =     165.3730
+   1:    170.25 /        1 =     170.2480
 
 .  log close
       name:  <unnamed>
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/sibling_out_xwalk.smcl
   log type:  smcl
- closed on:   3 May 2022, 20:50:07
+ closed on:  25 Jul 2022, 20:39:10
 -------------------------------------------------------------------------------

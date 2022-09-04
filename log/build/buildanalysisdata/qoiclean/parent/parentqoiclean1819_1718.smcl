@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/qoiclean/parent/parentqoiclean1819_1718.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 7 Apr 2022, 14:57:11
+ {txt}opened on:  {res}25 Jul 2022, 18:10:22
 {txt}
 {com}. 
 . /* the code for cleaning 1819 and 1718 is exactly the same, so use loop */
@@ -760,7 +760,7 @@ saved
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/qoiclean/parent/parentqoiclean1819_1718.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 7 Apr 2022, 14:57:16
+ {txt}closed on:  {res}25 Jul 2022, 18:10:29
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

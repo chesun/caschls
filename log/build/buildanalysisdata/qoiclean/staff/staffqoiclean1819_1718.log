@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/builda
 > nalysisdata/qoiclean/staff/staffqoiclean1819_1718.smcl
   log type:  smcl
- opened on:   7 Apr 2022, 14:57:20
+ opened on:  25 Jul 2022, 18:10:32
 
 . 
 . /* the code for cleaning 1819 and 1718 is exactly the same, so use loop */
@@ -685,5 +685,5 @@ file
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/builda
 > nalysisdata/qoiclean/staff/staffqoiclean1819_1718.smcl
   log type:  smcl
- closed on:   7 Apr 2022, 14:57:21
+ closed on:  25 Jul 2022, 18:10:34
 -------------------------------------------------------------------------------

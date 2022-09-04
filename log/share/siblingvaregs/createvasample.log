@@ -3,209 +3,9 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/createvasample.smcl
   log type:  smcl
- opened on:   3 May 2022, 18:40:04
+ opened on:  25 Jul 2022, 18:44:34
 
 . 
-. 
-. //run the do helper file to set the local macros
-. include $vaprojdir/do_files/sbac/macros_va.doh
-
-. /* CHANGE LOG
-> 4/28/2022: Added macro for sibling controls  */
-. 
-. #delimit ;
-delimiter now ;
-. *** file paths
-> local home $vaprojdir ;
-. local vaprojdofiles "$vaprojdir/do_files"
-> local ca_ed_lab "/home/research/ca_ed_lab" ;
-
-. local k12_test_scores "$vaprojdir/data/restricted_access/clean/k12_test_score
-> s" ;
-
-. local public_access "$vaprojdir/data/public_access" ;
-
-. local k12_public_schools "$vaprojdir/data/public_access/clean/k12_public_scho
-> ols" ;
-
-. local k12_test_scores_public "$vaprojdir/data/public_access/clean/k12_test_sc
-> ores" ;
-
-. **** Dates ;
-. local test_score_min_year
->         2015
->         ;
-
-. local test_score_max_year
->         2018
->         ;
-
-. local star_min_year
->         2003
->         ;
-
-. local star_max_year
->         2013
->         ;
-
-. local caaspp_min_year
->         2015
->         ;
-
-. local caaspp_max_year
->         2019
->         ;
-
-. local outcome_min_year
->         2015
->         ;
-
-. local outcome_max_year
->         2018
->         ;
-
-. **** Outcome Strings ;
-. local ela_str
->         "ELA"
->         ;
-
-. local math_str
->         "Math"
->         ;
-
-. local enr_str
->         "Enrolled On Time"
->         ;
-
-. local enr_2year_str
->         "Enrolled On Time 2-Year"
->         ;
-
-. local enr_4year_str
->         "Enrolled On Time 4-Year"
->         ;
-
-. **** Value Added ;
-. local school_controls
->         /*cohort_size*/
->         ;
-
-. local demographic_controls
->         age
->         i.male
->         i.eth_asian i.eth_hispanic i.eth_black i.eth_other
->         i.econ_disadvantage
->         i.limited_eng_prof
->         i.disabled
->         ;
-
-. local peer_demographic_controls
->         peer_age
->         peer_male
->         peer_eth_asian peer_eth_hispanic peer_eth_black peer_eth_other
->         peer_econ_disadvantage
->         peer_limited_eng_prof
->         peer_disabled
->         ;
-
-. local ela_score_controls
->         i.year#(c.prior_ela_z_score##c.prior_ela_z_score##c.prior_ela_z_score
-> )
->         ;
-
-. local peer_ela_score_controls
->         i.year#(c.peer_prior_ela_z_score##c.peer_prior_ela_z_score##c.peer_pr
-> ior_ela_z_score)
->         ;
-
-. local math_score_controls
->         i.year#(c.prior_math_z_score##c.prior_math_z_score##c.prior_math_z_sc
-> ore)
->         ;
-
-. local peer_math_score_controls
->         i.year#(c.peer_prior_math_z_score##c.peer_prior_math_z_score##c.peer_
-> prior_math_z_score)
->         ;
-
-. local va_control_vars "`school_controls' `demographic_controls'" ;
-
-. local va_control_vars : subinstr local va_control_vars "i." "", all ;
-
-. local va_control_vars : list uniq va_control_vars ;
-
-. local census_grade
->         6
->         ;
-
-. local census_controls
->         /*eth_white_pct*/ eth_asian_pct eth_hispanic_pct eth_black_pct /*eth_
-> other_pct*/
->         educ_hs_dropout_prop /*educ_deg_2year_prop*/ educ_deg_4year_plus_prop
->         pov_fam_child_lt18_pct
->         inc_median_hh
->         ;
-
-. local sibling_controls
->         i.has_older_sibling_enr_2year
->         i.has_older_sibling_enr_4year
->         ;
-
-. **** School Characteristics ;
-. local sch_chars
->         fte_teach_pc fte_pupil_pc /*fte_admin_pc*/
->         /*eng_learner_staff_pc*/
->         new_teacher_prop
->         /*educ_grad_sch_prop educ_associate_prop*/
->         /*status_tenured_prop*/
->         credential_full_prop
->         /*authorization_stem_prop authorization_ela_prop*/
->         c.male_prop##c.enr_male_prop
->         c.eth_minority_prop##c.enr_minority_prop
->         enr_total
->         ;
-
-. local sch_char_vars "`sch_chars'" ;
-
-. local sch_char_vars : subinstr local sch_char_vars "i." "", all ;
-
-. local sch_char_vars : subinstr local sch_char_vars "c." "", all ;
-
-. local sch_char_vars : subinstr local sch_char_vars "##" " ", all ;
-
-. local sch_char_vars : subinstr local sch_char_vars "#" " ", all ;
-
-. local sch_char_vars : list uniq sch_char_vars ;
-
-. local dem_chars
->         enr_male_prop
->         enr_minority_prop
->         frpm_prop el_prop
->         enr_total
->         ;
-
-. local dem_char_vars "`dem_chars'" ;
-
-. local dem_char_vars : list uniq dem_char_vars ;
-
-. local expenditures
->         expenditures_instr_pc
->         expenditures3000_pc
->         expenditures4000_pc
->         expenditures_other_pc
->         expenditures7000_pc
->         ;
-
-. local expenditure_vars "`expenditures'" ;
-
-. local expenditure_vars : list uniq expenditure_vars ;
-
-. local sch_char_control_vars : list sch_char_vars | dem_char_vars ;
-
-. local sch_char_control_vars : list sch_char_control_vars | expenditure_vars ;
-
-. #delimit cr
-delimiter now cr
 . 
 . 
 . //set a timer for this do file to see how long it runs
@@ -238,7 +38,7 @@ delimiter now cr
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                        78,622,143  
+    Matched                        78,211,091  
     -----------------------------------------
 
 . 
@@ -258,7 +58,7 @@ delimiter now cr
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                        78,622,143  
+    Matched                        78,211,091  
     -----------------------------------------
 
 . 
@@ -279,7 +79,7 @@ delimiter now cr
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                        78,622,143  
+    Matched                        78,211,091  
     -----------------------------------------
 
 . 
@@ -290,11 +90,11 @@ delimiter now cr
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                       445,910
-        from master                   445,910  (merge_grade_span==1)
+    Not matched                        37,787
+        from master                    37,787  (merge_grade_span==1)
         from using                          0  (merge_grade_span==2)
 
-    Matched                        78,176,233  (merge_grade_span==3)
+    Matched                        78,173,304  (merge_grade_span==3)
     -----------------------------------------
 
 . 
@@ -306,7 +106,7 @@ delimiter now cr
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                        78,622,143  (merge_cohort_size==3)
+    Matched                        78,211,091  (merge_cohort_size==3)
     -----------------------------------------
 
 . 
@@ -316,15 +116,15 @@ delimiter now cr
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                     1,432,257
-        from master                 1,432,257  (merge_public_schools==1)
+    Not matched                     1,446,627
+        from master                 1,446,627  (merge_public_schools==1)
         from using                          0  (merge_public_schools==2)
 
-    Matched                        77,189,886  (merge_public_schools==3)
+    Matched                        76,764,464  (merge_public_schools==3)
     -----------------------------------------
 
 . keep if conventional_school==1
-(3,908,486 observations deleted)
+(3,826,068 observations deleted)
 
 . 
 . * Exclude schools where more than 25 percent of students are receiving specia
@@ -335,19 +135,19 @@ delimiter now cr
 . 
 . * Drop if 10 or fewer students per school
 . drop if cohort_size<=10
-(474,064 observations deleted)
+(530,274 observations deleted)
 
 . 
 . 
 .    //Save it as a temporary dataset
 .    compress
   variable cohort_size was float now int
-  (148,479,186 bytes saved)
+  (147,709,498 bytes saved)
 
 .    tempfile va_dataset
 
 .    save `va_dataset'
-file /home/tmp/St16505.000001 saved as .dta format
+file /home/tmp/St35924.000001 saved as .dta format
 
 . 
 . 
@@ -385,36 +185,47 @@ file
 
 . 
 . keep if diff_school_prop>=0.95
-(97,358 observations deleted)
+(97,777 observations deleted)
 
 . 
 . include do_files/sbac/create_prior_scores.doh
 
 . **************** Prior Scores
+. /*
+> VA Test Score Controls
+> Spring 2015 cohort use 8th grade ELA (spring 2012) and 6th grade math (spring
+>  2010)
+> Spring 2016 cohort use 8th grade ELA  (spring 2013) and 6th grade math (sprin
+> g 2011)
+> Spring 2017 cohort use 7th grade ELA  (spring 2013) and 6th grade math (sprin
+> g 2012)
+> Spring 2018 cohort use 8th grade ELA  (spring 2015) and 8th grade math (sprin
+> g 2015)
+>  */
 . ******** ELA
 . gen prior_ela_z_score = L3_cst_ela_z_score if inrange(year, `star_min_year' +
 >  3, `star_max_year' + 3) & year!=2017
-(1,113,021 missing values generated)
+(1,112,603 missing values generated)
 
 . replace prior_ela_z_score = L3_sbac_ela_z_score if inrange(year, `caaspp_min_
 > year' + 3, `caaspp_max_year' + 3) & year!=2017
-(344,053 real changes made)
+(344,023 real changes made)
 
 . replace prior_ela_z_score = L4_cst_ela_z_score if year==2017
-(333,419 real changes made)
+(333,291 real changes made)
 
 . label var prior_ela_z_score "Prior ELA Z-Score"
 
 . gen peer_prior_ela_z_score = peer_L3_cst_ela_z_score if inrange(year, `star_m
 > in_year' + 3, `star_max_year' + 3) & year!=2017
-(976,464 missing values generated)
+(976,045 missing values generated)
 
 . replace peer_prior_ela_z_score = peer_L3_sbac_ela_z_score if inrange(year, `c
 > aaspp_min_year' + 3, `caaspp_max_year' + 3) & year!=2017
-(525,703 real changes made)
+(525,644 real changes made)
 
 . replace peer_prior_ela_z_score = peer_L4_cst_ela_z_score if year==2017
-(450,528 real changes made)
+(450,168 real changes made)
 
 . label var peer_prior_ela_z_score "Peer Avg. Prior ELA Z-Score"
 
@@ -423,22 +234,22 @@ file
 . gen prior_math_z_score = L5_cst_math_z_score if inrange(year, `star_min_year'
 >  + 5, `star_max_year' + 5) & !inrange(year, `caaspp_min_year' + 3, `caaspp_ma
 > x_year' + 3)
-(798,623 missing values generated)
+(798,328 missing values generated)
 
 . replace prior_math_z_score = L3_sbac_math_z_score if inrange(year, `caaspp_mi
 > n_year' + 3, `caaspp_max_year' + 3)
-(344,849 real changes made)
+(344,819 real changes made)
 
 . label var prior_math_z_score "Prior Math Z-Score"
 
 . gen peer_prior_math_z_score = peer_L5_cst_math_z_score if inrange(year, `star
 > _min_year' + 5, `star_max_year' + 5) & !inrange(year, `caaspp_min_year' + 3, 
 > `caaspp_max_year' + 3)
-(525,936 missing values generated)
+(525,877 missing values generated)
 
 . replace peer_prior_math_z_score = peer_L3_sbac_math_z_score if inrange(year, 
 > `caaspp_min_year' + 3, `caaspp_max_year' + 3)
-(525,703 real changes made)
+(525,644 real changes made)
 
 . label var peer_prior_math_z_score "Peer Avg. Prior Math Z-Score"
 
@@ -452,7 +263,7 @@ file
 . tempfile va_g11_dataset
 
 . save `va_g11_dataset'
-file /home/tmp/St16505.000002 saved as .dta format
+file /home/tmp/St35924.000002 saved as .dta format
 
 . 
 . 
@@ -561,10 +372,10 @@ file
 . *****************
 . **** K-12 Variables
 . gen year_grad_hs = year + (12 - grade)
-(446,511 missing values generated)
+(35,459 missing values generated)
 
 . gen year_college = year + (13 - grade)
-(446,511 missing values generated)
+(35,459 missing values generated)
 
 . 
 . 
@@ -587,7 +398,7 @@ file
   variable k12_nsc_2010_2017_match was float now byte
   variable k12_nsc_2018cde_match was float now byte
   variable k12_nsc_2019cde_match was float now byte
-  (1,257,954,288 bytes saved)
+  (1,251,377,456 bytes saved)
 
 . 
 . 
@@ -597,12 +408,12 @@ file
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                    40,618,118
-        from master                40,618,118  (merge_k12_nsc_ssid==1)
+    Not matched                    40,512,783
+        from master                40,512,783  (merge_k12_nsc_ssid==1)
         from using                          0  (merge_k12_nsc_ssid==2)
 
-    Matched                        38,004,025
-        not updated                38,004,025  (merge_k12_nsc_ssid==3)
+    Matched                        37,698,308
+        not updated                37,698,308  (merge_k12_nsc_ssid==3)
         missing updated                     0  (merge_k12_nsc_ssid==4)
         nonmissing conflict                 0  (merge_k12_nsc_ssid==5)
     -----------------------------------------
@@ -691,7 +502,7 @@ file
      Total | 4,930,431 |78,175,632 
 
 . replace k12_nsc_match = 1 if inlist(merge_k12_nsc_ssid, 3, 4, 5)
-(38,004,025 real changes made)
+(37,698,308 real changes made)
 
 . drop merge_k12_nsc_ssid
 
@@ -964,7 +775,7 @@ file
 
 . compress
   variable k12_ccc_match was float now byte
-  (235,866,429 bytes saved)
+  (234,633,273 bytes saved)
 
 . 
 . merge m:1 state_student_id ///
@@ -973,11 +784,11 @@ file
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                    58,447,747
-        from master                58,447,747  (merge_k12_ccc==1)
+    Not matched                    58,166,990
+        from master                58,166,990  (merge_k12_ccc==1)
         from using                          0  (merge_k12_ccc==2)
 
-    Matched                        20,174,396  (merge_k12_ccc==3)
+    Matched                        20,044,101  (merge_k12_ccc==3)
     -----------------------------------------
 
 . tab grade year
@@ -1064,7 +875,7 @@ file
      Total | 4,930,431 |78,175,632 
 
 . replace k12_ccc_match = 1 if merge_k12_ccc==3
-(20,174,396 real changes made)
+(20,044,101 real changes made)
 
 . drop merge_k12_ccc
 
@@ -1072,7 +883,7 @@ file
 . 
 . **** Merge to CCC data
 . count if !mi(student_id)
-  20,174,396
+  20,044,101
 
 . 
 . merge m:1 student_id ///
@@ -1081,11 +892,11 @@ file
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                    63,124,201
-        from master                63,124,201  (merge_k12_ccc==1)
+    Not matched                    62,806,493
+        from master                62,806,493  (merge_k12_ccc==1)
         from using                          0  (merge_k12_ccc==2)
 
-    Matched                        15,497,942  (merge_k12_ccc==3)
+    Matched                        15,404,598  (merge_k12_ccc==3)
     -----------------------------------------
 
 . tab grade year
@@ -1185,7 +996,7 @@ file
 > ear', `max_ccc_enr_year')
   4. }
 (34,923,079 real changes made)
-(5,008,197 real changes made, 5,008,197 to missing)
+(4,914,853 real changes made, 4,914,853 to missing)
 
 . tab grade year
 
@@ -1277,7 +1088,7 @@ file
 > , 7, 8)) ///
 >         | (ccc_enr_start_year==year_grad_hs + 1 & inlist(ccc_enr_start_term, 
 > 1, 2, 3, 4))
-(73,900,307 missing values generated)
+(73,489,255 missing values generated)
 
 . 
 . if "`enr_only'"!="enr_only" {
@@ -1412,7 +1223,7 @@ file
   variable ccc_enr_year was int now byte
   variable ccc_enr_ontime was float now byte
   variable k12_csu_match was float now byte
-  (550,355,001 bytes saved)
+  (547,477,637 bytes saved)
 
 . 
 . merge m:1 state_student_id ///
@@ -1422,11 +1233,11 @@ file
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                    70,021,720
-        from master                70,021,720  (merge_k12_csu==1)
+    Not matched                    69,663,712
+        from master                69,663,712  (merge_k12_csu==1)
         from using                          0  (merge_k12_csu==2)
 
-    Matched                         8,600,423  (merge_k12_csu==3)
+    Matched                         8,547,379  (merge_k12_csu==3)
     -----------------------------------------
 
 . tab grade year
@@ -1513,7 +1324,7 @@ file
      Total | 4,930,431 |78,175,632 
 
 . replace k12_csu_match = 1 if merge_k12_csu==3
-(8,600,423 real changes made)
+(8,547,379 real changes made)
 
 . drop merge_k12_csu
 
@@ -1521,7 +1332,7 @@ file
 . 
 . **** Merge to CSU data
 . count if !mi(idunique)
-  8,600,423
+  8,547,379
 
 . 
 . merge m:1 idunique ///
@@ -1530,11 +1341,11 @@ file
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                    70,021,720
-        from master                70,021,720  (merge_k12_csu==1)
+    Not matched                    69,663,712
+        from master                69,663,712  (merge_k12_csu==1)
         from using                          0  (merge_k12_csu==2)
 
-    Matched                         8,600,423  (merge_k12_csu==3)
+    Matched                         8,547,379  (merge_k12_csu==3)
     -----------------------------------------
 
 . tab grade year
@@ -1633,7 +1444,7 @@ file
 > ear', `max_csu_enr_year')
   4. }
 (36,886,821 real changes made)
-(74,420 real changes made, 74,420 to missing)
+(21,376 real changes made, 21,376 to missing)
 
 . tab grade year
 
@@ -1725,7 +1536,7 @@ file
 > )) ///
 >         | (csu_enr_start_year==year_grad_hs + 1 & inlist(csu_enr_start_term, 
 > 1, 2))
-(75,940,909 missing values generated)
+(75,529,857 missing values generated)
 
 . 
 . if "`enr_only'"!="enr_only" {
@@ -1804,7 +1615,7 @@ file
 . **** Drop observations that had no chance of matching to CCC/CSU data
 . compress
   variable csu_enr_ontime was float now byte
-  (235,866,429 bytes saved)
+  (234,633,273 bytes saved)
 
 . merge m:1 state_student_id ///
 >         using `crosswalks'/k12_unique_crosswalk.dta ///
@@ -1812,11 +1623,11 @@ file
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                     9,212,150
-        from master                 9,212,150  (merge_k12_unique==1)
+    Not matched                     9,212,283
+        from master                 9,212,283  (merge_k12_unique==1)
         from using                          0  (merge_k12_unique==2)
 
-    Matched                        69,409,993  (merge_k12_unique==3)
+    Matched                        68,998,808  (merge_k12_unique==3)
     -----------------------------------------
 
 . tab grade year
@@ -2121,161 +1932,161 @@ file
 . **** All college outcomes
 . * Enrollment
 . gen enr = 1 if nsc_enr==1 /*| ccc_enr==1 | csu_enr==1*/
-(52,966,330 missing values generated)
+(52,734,086 missing values generated)
 
 . replace enr = 0 if nsc_enr==0 & ccc_enr!=1 & csu_enr!=1
-(11,147,887 real changes made)
+(11,020,978 real changes made)
 
 . label var enr "Enrolled at a Postsecondary Institution"
 
 . 
 . gen enr_ontime = 1 if nsc_enr_ontime==1 | ccc_enr_ontime==1 | csu_enr_ontime=
 > =1
-(53,621,620 missing values generated)
+(53,353,133 missing values generated)
 
 . replace enr_ontime = 0 if nsc_enr_ontime==0 & ccc_enr_ontime!=1 & csu_enr_ont
 > ime!=1
-(14,587,596 real changes made)
+(14,424,444 real changes made)
 
 . label var enr_ontime "Enrolled at a Postsecondary Institution"
 
 . 
 . gen enr_2year = 1 if nsc_enr_2year==1 | nsc_enr_lt2year==1 | ccc_enr==1
-(55,710,846 missing values generated)
+(55,438,077 missing values generated)
 
 . replace enr_2year = 0 if nsc_enr_2year==0 & nsc_enr_lt2year==0 & ccc_enr!=1
-(17,886,521 real changes made)
+(17,719,087 real changes made)
 
 . label var enr_2year "Enrolled at a 2-Year College"
 
 . 
 . gen enr_ontime_2year = 1 if nsc_enr_ontime_2year==1 | nsc_enr_ontime_lt2year=
 > =1 | ccc_enr_ontime==1
-(63,628,812 missing values generated)
+(63,306,973 missing values generated)
 
 . replace enr_ontime_2year = 0 if nsc_enr_ontime_2year==0 & nsc_enr_ontime_lt2y
 > ear==0 & ccc_enr_ontime!=1
-(24,146,974 real changes made)
+(23,930,470 real changes made)
 
 . label var enr_ontime_2year "Enrolled at a 2-Year College"
 
 . 
 . gen enr_4year = 1 if nsc_enr_4year==1 | csu_enr==1
-(65,379,218 missing values generated)
+(65,039,762 missing values generated)
 
 . replace enr_4year = 0 if nsc_enr_4year==0 & csu_enr!=1
-(25,711,651 real changes made)
+(25,477,530 real changes made)
 
 . label var enr_4year "Enrolled at a 4-Year University"
 
 . 
 . replace enr_2year = 0 if enr_4year==1
-(6,504,291 real changes made)
+(6,473,220 real changes made)
 
 . 
 . gen enr_ontime_4year = 1 if nsc_enr_ontime_4year==1 | csu_enr_ontime==1
-(67,984,757 missing values generated)
+(67,630,466 missing values generated)
 
 . replace enr_ontime_4year = 0 if nsc_enr_ontime_4year==0 & csu_enr_ontime!=1
-(27,828,790 real changes made)
+(27,579,834 real changes made)
 
 . label var enr_ontime_4year "Enrolled at a 4-Year University"
 
 . 
 . replace enr_ontime_2year = 0 if enr_ontime_4year==1
-(1,078,008 real changes made)
+(1,074,599 real changes made)
 
 . 
 . gen enr_pub = 1 if nsc_enr_pub==1 | ccc_enr==1 | csu_enr==1
-(50,040,850 missing values generated)
+(49,795,537 missing values generated)
 
 . replace enr_pub = 0 if nsc_enr_pub==0 & ccc_enr!=1 & csu_enr!=1
-(12,766,044 real changes made)
+(12,626,066 real changes made)
 
 . label var enr_pub "Enrolled at a Public Institution"
 
 . 
 . gen enr_ontime_pub = 1 if nsc_enr_ontime_pub==1 | ccc_enr_ontime==1 | csu_enr
 > _ontime==1
-(55,653,540 missing values generated)
+(55,371,294 missing values generated)
 
 . replace enr_ontime_pub = 0 if nsc_enr_ontime_pub==0 & ccc_enr_ontime!=1 & csu
 > _enr_ontime!=1
-(16,619,516 real changes made)
+(16,442,605 real changes made)
 
 . label var enr_ontime_pub "Enrolled at a Public Institution"
 
 . 
 . gen enr_priv = 1 if nsc_enr_priv==1
-(75,436,815 missing values generated)
+(75,048,837 missing values generated)
 
 . replace enr_priv = 0 if nsc_enr_priv==0
-(34,818,697 real changes made)
+(34,536,054 real changes made)
 
 . label var enr_priv "Enrolled at a Private Institution"
 
 . 
 . replace enr_pub = 0 if enr_priv==1
-(1,567,171 real changes made)
+(1,557,166 real changes made)
 
 . 
 . gen enr_ontime_priv = 1 if nsc_enr_ontime_priv==1
-(76,432,094 missing values generated)
+(76,035,765 missing values generated)
 
 . replace enr_ontime_priv = 0 if nsc_enr_ontime_priv==0
-(35,813,976 real changes made)
+(35,522,982 real changes made)
 
 . label var enr_ontime_priv "Enrolled at a Private Institution"
 
 . 
 . replace enr_ontime_pub = 0 if enr_ontime_priv==1
-(158,129 real changes made)
+(157,165 real changes made)
 
 . 
 . gen enr_instate = 1 if nsc_enr_instate==1 | ccc_enr==1 | csu_enr==1
-(50,301,200 missing values generated)
+(50,052,148 missing values generated)
 
 . replace enr_instate = 0 if nsc_enr_instate==0 & ccc_enr!=1 & csu_enr!=1
-(13,026,394 real changes made)
+(12,882,677 real changes made)
 
 . label var enr_instate "Enrolled at a CA Institution"
 
 . 
 . gen enr_ontime_instate = 1 if nsc_enr_ontime_instate==1 | ccc_enr_ontime==1 |
 >  csu_enr_ontime==1
-(55,816,352 missing values generated)
+(55,531,064 missing values generated)
 
 . replace enr_ontime_instate = 0 if nsc_enr_ontime_instate==0 & ccc_enr_ontime!
 > =1 & csu_enr_ontime!=1
-(16,782,328 real changes made)
+(16,602,375 real changes made)
 
 . label var enr_ontime_instate "Enrolled at a CA Institution"
 
 . 
 . gen enr_outstate = 1 if nsc_enr_outstate==1
-(75,323,148 missing values generated)
+(74,938,537 missing values generated)
 
 . replace enr_outstate = 0 if nsc_enr_outstate==0
-(34,705,030 real changes made)
+(34,425,754 real changes made)
 
 . label var enr_outstate "Enrolled at an Out-of-State Institution"
 
 . 
 . replace enr_instate = 0 if enr_outstate==1
-(1,420,630 real changes made)
+(1,410,997 real changes made)
 
 . 
 . gen enr_ontime_outstate = 1 if nsc_enr_ontime_outstate==1
-(76,276,937 missing values generated)
+(75,883,630 missing values generated)
 
 . replace enr_ontime_outstate = 0 if nsc_enr_ontime_outstate==0
-(35,658,819 real changes made)
+(35,370,847 real changes made)
 
 . label var enr_ontime_outstate "Enrolled at an Out-of-State Institution"
 
 . 
 . replace enr_ontime_instate = 0 if enr_ontime_outstate==1
-(150,584 real changes made)
+(149,640 real changes made)
 
 . 
 . tab grade year
@@ -2911,7 +2722,7 @@ end of do-file
 .   rename enr_ontime_4year enr_4year
 
 .   drop if missing(state_student_id)
-(7,559,373 observations deleted)
+(7,559,506 observations deleted)
 
 . 
 .   //save the merged k12 to postsecondary outcome dataset that has the largest
@@ -2928,7 +2739,7 @@ end of do-file
   variable enr_ontime_instate was float now byte
   variable enr_outstate was float now byte
   variable enr_ontime_outstate was float now byte
-  (2,345,071,410 bytes saved)
+  (2,331,502,305 bytes saved)
 
 .   label data "Full K-12 test scores merged to postsecondary outcomes"
 
@@ -3048,7 +2859,7 @@ file
   variable k12_nsc_2010_2017_match was float now byte
   variable k12_nsc_2018cde_match was float now byte
   variable k12_nsc_2019cde_match was float now byte
-  (1,187,833,488 bytes saved)
+  (1,181,675,984 bytes saved)
 
 . 
 . 
@@ -3058,12 +2869,12 @@ file
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                    38,120,615
-        from master                38,120,615  (merge_k12_nsc_ssid==1)
+    Not matched                    38,105,491
+        from master                38,105,491  (merge_k12_nsc_ssid==1)
         from using                          0  (merge_k12_nsc_ssid==2)
 
-    Matched                        36,118,978
-        not updated                36,118,978  (merge_k12_nsc_ssid==3)
+    Matched                        35,749,258
+        not updated                35,749,258  (merge_k12_nsc_ssid==3)
         missing updated                     0  (merge_k12_nsc_ssid==4)
         nonmissing conflict                 0  (merge_k12_nsc_ssid==5)
     -----------------------------------------
@@ -3073,55 +2884,55 @@ file
            |                Year of Spring Semester
      Grade |      2003       2004       2005       2006       2007 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   478,811    471,413    462,414    458,891    472,732 | 5,200,710 
-         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,816 
-         4 |   491,017    491,940    489,081    477,065    474,474 | 7,576,356 
-         5 |   476,564    478,626    479,604    475,784    465,856 | 9,840,908 
+         2 |   478,811    471,413    462,414    458,891    472,721 | 5,200,710 
+         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,861 
+         4 |   491,017    491,921    489,092    477,011    474,474 | 7,576,296 
+         5 |   476,564    478,626    479,604    475,784    465,867 | 9,840,941 
          6 |   482,380    475,638    477,581    478,350    472,029 | 7,519,383 
-         7 |   497,365    495,511    489,644    485,881    484,293 | 7,630,297 
-         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,443 
-         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,329 
-        10 |   404,320    421,641    431,787    454,633    455,470 | 6,221,855 
+         7 |   497,365    495,511    489,644    485,881    484,305 | 7,630,193 
+         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,411 
+         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,340 
+        10 |   404,320    421,641    431,787    454,633    455,459 | 5,837,118 
         11 |   344,921    357,598    374,400    381,867    407,531 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,578,082  4,620,748  4,647,038  4,641,990  4,661,638 |74,239,278 
+     Total | 4,578,082  4,620,729  4,647,049  4,641,936  4,661,639 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2008       2009       2010       2011       2012 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   477,138    471,803    468,225    474,331    477,197 | 5,200,710 
-         3 |   465,335    470,950    464,136    462,446    468,679 | 7,491,816 
-         4 |   469,522    468,175    464,429    467,777    465,428 | 7,576,356 
-         5 |   463,911    461,713    458,422    464,569    459,999 | 9,840,908 
+         2 |   477,138    471,803    468,225    474,342    477,197 | 5,200,710 
+         3 |   465,346    470,962    464,147    462,446    468,679 | 7,491,861 
+         4 |   469,533    468,161    464,429    467,776    465,456 | 7,576,296 
+         5 |   463,911    461,724    458,422    464,569    459,999 | 9,840,941 
          6 |   467,563    461,410    457,935    456,870    462,429 | 7,519,383 
-         7 |   481,488    476,277    468,446    464,799    462,900 | 7,630,297 
-         8 |   471,279    470,585    463,630    458,037    456,362 | 9,748,443 
-         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,329 
-        10 |   452,290    456,653    458,680    457,268    451,871 | 6,221,855 
-        11 |   409,660    413,852    416,821    420,677    419,140 | 6,922,503 
+         7 |   481,458    476,252    468,393    464,768    462,911 | 7,630,193 
+         8 |   471,290    470,585    463,630    458,037    456,362 | 9,748,411 
+         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,340 
+        10 |   452,279    456,653    458,669    457,268    451,871 | 5,837,118 
+        11 |   409,660    413,852    416,821    420,688    419,140 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,645,169  4,645,231  4,607,578  4,607,946  4,596,803 |74,239,278 
+     Total | 4,645,161  4,645,215  4,607,525  4,607,936  4,596,842 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2013       2015       2016       2017       2018 |     Total
 -----------+-------------------------------------------------------+----------
          2 |   481,090      1,799      2,079      1,649      1,138 | 5,200,710 
-         3 |   472,196    484,890    473,760    465,059    440,204 | 7,491,816 
-         4 |   471,815    472,830    488,694    469,686    464,003 | 7,576,356 
-         5 |   458,379    930,800    953,631    963,455    925,930 | 9,840,908 
+         3 |   472,207    484,890    473,760    465,059    440,204 | 7,491,861 
+         4 |   471,793    472,830    488,694    469,686    464,003 | 7,576,296 
+         5 |   458,379    930,811    953,631    963,455    925,930 | 9,840,941 
          6 |   457,254    465,708    472,998    472,987    488,487 | 7,519,383 
-         7 |   468,092    459,829    470,667    469,722    472,367 | 7,630,297 
-         8 |   454,971    912,429    921,699    927,937    925,351 | 9,748,443 
-         9 |   470,427        927      6,027      2,231     12,167 | 5,335,329 
-        10 |   447,194    428,898    463,043    389,735     16,548 | 6,221,855 
-        11 |   420,513    424,011    428,138    472,994    557,079 | 6,922,503 
+         7 |   468,104    459,829    470,667    469,722    472,367 | 7,630,193 
+         8 |   454,971    912,422    921,663    927,937    925,351 | 9,748,411 
+         9 |   470,438        927      6,027      2,231     12,167 | 5,335,340 
+        10 |   447,194     44,194    463,043    389,735     16,548 | 5,837,118 
+        11 |   420,502    424,011    428,138    472,994    557,079 | 6,922,503 
         12 |         0          0      1,847     35,091    426,103 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,601,931  4,582,121  4,682,583  4,670,546  4,729,377 |74,239,278 
+     Total | 4,601,932  4,197,421  4,682,547  4,670,546  4,729,377 |73,854,434 
 
 
            |  Year of
@@ -3130,21 +2941,21 @@ file
      Grade |      2019 |     Total
 -----------+-----------+----------
          2 |         0 | 5,200,710 
-         3 |   459,647 | 7,491,816 
-         4 |   450,420 | 7,576,356 
-         5 |   923,665 | 9,840,908 
+         3 |   459,647 | 7,491,861 
+         4 |   450,420 | 7,576,296 
+         5 |   923,665 | 9,840,941 
          6 |   469,764 | 7,519,383 
-         7 |   483,016 | 7,630,297 
-         8 |   934,176 | 9,748,443 
-         9 |     6,047 | 5,335,329 
-        10 |    31,824 | 6,221,855 
+         7 |   483,016 | 7,630,193 
+         8 |   934,176 | 9,748,411 
+         9 |     6,047 | 5,335,340 
+        10 |    31,824 | 5,837,118 
         11 |   673,301 | 6,922,503 
         12 |   288,637 |   751,678 
 -----------+-----------+----------
-     Total | 4,720,497 |74,239,278 
+     Total | 4,720,497 |73,854,434 
 
 . replace k12_nsc_match = 1 if inlist(merge_k12_nsc_ssid, 3, 4, 5)
-(36,118,978 real changes made)
+(35,749,258 real changes made)
 
 . drop merge_k12_nsc_ssid
 
@@ -3182,55 +2993,55 @@ file
            |                Year of Spring Semester
      Grade |      2003       2004       2005       2006       2007 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   478,811    471,413    462,414    458,891    472,732 | 5,200,710 
-         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,816 
-         4 |   491,017    491,940    489,081    477,065    474,474 | 7,576,356 
-         5 |   476,564    478,626    479,604    475,784    465,856 | 9,840,908 
+         2 |   478,811    471,413    462,414    458,891    472,721 | 5,200,710 
+         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,861 
+         4 |   491,017    491,921    489,092    477,011    474,474 | 7,576,296 
+         5 |   476,564    478,626    479,604    475,784    465,867 | 9,840,941 
          6 |   482,380    475,638    477,581    478,350    472,029 | 7,519,383 
-         7 |   497,365    495,511    489,644    485,881    484,293 | 7,630,297 
-         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,443 
-         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,329 
-        10 |   404,320    421,641    431,787    454,633    455,470 | 6,221,855 
+         7 |   497,365    495,511    489,644    485,881    484,305 | 7,630,193 
+         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,411 
+         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,340 
+        10 |   404,320    421,641    431,787    454,633    455,459 | 5,837,118 
         11 |   344,921    357,598    374,400    381,867    407,531 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,578,082  4,620,748  4,647,038  4,641,990  4,661,638 |74,239,278 
+     Total | 4,578,082  4,620,729  4,647,049  4,641,936  4,661,639 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2008       2009       2010       2011       2012 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   477,138    471,803    468,225    474,331    477,197 | 5,200,710 
-         3 |   465,335    470,950    464,136    462,446    468,679 | 7,491,816 
-         4 |   469,522    468,175    464,429    467,777    465,428 | 7,576,356 
-         5 |   463,911    461,713    458,422    464,569    459,999 | 9,840,908 
+         2 |   477,138    471,803    468,225    474,342    477,197 | 5,200,710 
+         3 |   465,346    470,962    464,147    462,446    468,679 | 7,491,861 
+         4 |   469,533    468,161    464,429    467,776    465,456 | 7,576,296 
+         5 |   463,911    461,724    458,422    464,569    459,999 | 9,840,941 
          6 |   467,563    461,410    457,935    456,870    462,429 | 7,519,383 
-         7 |   481,488    476,277    468,446    464,799    462,900 | 7,630,297 
-         8 |   471,279    470,585    463,630    458,037    456,362 | 9,748,443 
-         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,329 
-        10 |   452,290    456,653    458,680    457,268    451,871 | 6,221,855 
-        11 |   409,660    413,852    416,821    420,677    419,140 | 6,922,503 
+         7 |   481,458    476,252    468,393    464,768    462,911 | 7,630,193 
+         8 |   471,290    470,585    463,630    458,037    456,362 | 9,748,411 
+         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,340 
+        10 |   452,279    456,653    458,669    457,268    451,871 | 5,837,118 
+        11 |   409,660    413,852    416,821    420,688    419,140 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,645,169  4,645,231  4,607,578  4,607,946  4,596,803 |74,239,278 
+     Total | 4,645,161  4,645,215  4,607,525  4,607,936  4,596,842 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2013       2015       2016       2017       2018 |     Total
 -----------+-------------------------------------------------------+----------
          2 |   481,090      1,799      2,079      1,649      1,138 | 5,200,710 
-         3 |   472,196    484,890    473,760    465,059    440,204 | 7,491,816 
-         4 |   471,815    472,830    488,694    469,686    464,003 | 7,576,356 
-         5 |   458,379    930,800    953,631    963,455    925,930 | 9,840,908 
+         3 |   472,207    484,890    473,760    465,059    440,204 | 7,491,861 
+         4 |   471,793    472,830    488,694    469,686    464,003 | 7,576,296 
+         5 |   458,379    930,811    953,631    963,455    925,930 | 9,840,941 
          6 |   457,254    465,708    472,998    472,987    488,487 | 7,519,383 
-         7 |   468,092    459,829    470,667    469,722    472,367 | 7,630,297 
-         8 |   454,971    912,429    921,699    927,937    925,351 | 9,748,443 
-         9 |   470,427        927      6,027      2,231     12,167 | 5,335,329 
-        10 |   447,194    428,898    463,043    389,735     16,548 | 6,221,855 
-        11 |   420,513    424,011    428,138    472,994    557,079 | 6,922,503 
+         7 |   468,104    459,829    470,667    469,722    472,367 | 7,630,193 
+         8 |   454,971    912,422    921,663    927,937    925,351 | 9,748,411 
+         9 |   470,438        927      6,027      2,231     12,167 | 5,335,340 
+        10 |   447,194     44,194    463,043    389,735     16,548 | 5,837,118 
+        11 |   420,502    424,011    428,138    472,994    557,079 | 6,922,503 
         12 |         0          0      1,847     35,091    426,103 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,601,931  4,582,121  4,682,583  4,670,546  4,729,377 |74,239,278 
+     Total | 4,601,932  4,197,421  4,682,547  4,670,546  4,729,377 |73,854,434 
 
 
            |  Year of
@@ -3239,18 +3050,18 @@ file
      Grade |      2019 |     Total
 -----------+-----------+----------
          2 |         0 | 5,200,710 
-         3 |   459,647 | 7,491,816 
-         4 |   450,420 | 7,576,356 
-         5 |   923,665 | 9,840,908 
+         3 |   459,647 | 7,491,861 
+         4 |   450,420 | 7,576,296 
+         5 |   923,665 | 9,840,941 
          6 |   469,764 | 7,519,383 
-         7 |   483,016 | 7,630,297 
-         8 |   934,176 | 9,748,443 
-         9 |     6,047 | 5,335,329 
-        10 |    31,824 | 6,221,855 
+         7 |   483,016 | 7,630,193 
+         8 |   934,176 | 9,748,411 
+         9 |     6,047 | 5,335,340 
+        10 |    31,824 | 5,837,118 
         11 |   673,301 | 6,922,503 
         12 |   288,637 |   751,678 
 -----------+-----------+----------
-     Total | 4,720,497 |74,239,278 
+     Total | 4,720,497 |73,854,434 
 
 . 
 . if "`enr_only'"!="enr_only" {
@@ -3322,55 +3133,55 @@ file
            |                Year of Spring Semester
      Grade |      2003       2004       2005       2006       2007 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   478,811    471,413    462,414    458,891    472,732 | 5,200,710 
-         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,816 
-         4 |   491,017    491,940    489,081    477,065    474,474 | 7,576,356 
-         5 |   476,564    478,626    479,604    475,784    465,856 | 9,840,908 
+         2 |   478,811    471,413    462,414    458,891    472,721 | 5,200,710 
+         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,861 
+         4 |   491,017    491,921    489,092    477,011    474,474 | 7,576,296 
+         5 |   476,564    478,626    479,604    475,784    465,867 | 9,840,941 
          6 |   482,380    475,638    477,581    478,350    472,029 | 7,519,383 
-         7 |   497,365    495,511    489,644    485,881    484,293 | 7,630,297 
-         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,443 
-         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,329 
-        10 |   404,320    421,641    431,787    454,633    455,470 | 6,221,855 
+         7 |   497,365    495,511    489,644    485,881    484,305 | 7,630,193 
+         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,411 
+         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,340 
+        10 |   404,320    421,641    431,787    454,633    455,459 | 5,837,118 
         11 |   344,921    357,598    374,400    381,867    407,531 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,578,082  4,620,748  4,647,038  4,641,990  4,661,638 |74,239,278 
+     Total | 4,578,082  4,620,729  4,647,049  4,641,936  4,661,639 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2008       2009       2010       2011       2012 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   477,138    471,803    468,225    474,331    477,197 | 5,200,710 
-         3 |   465,335    470,950    464,136    462,446    468,679 | 7,491,816 
-         4 |   469,522    468,175    464,429    467,777    465,428 | 7,576,356 
-         5 |   463,911    461,713    458,422    464,569    459,999 | 9,840,908 
+         2 |   477,138    471,803    468,225    474,342    477,197 | 5,200,710 
+         3 |   465,346    470,962    464,147    462,446    468,679 | 7,491,861 
+         4 |   469,533    468,161    464,429    467,776    465,456 | 7,576,296 
+         5 |   463,911    461,724    458,422    464,569    459,999 | 9,840,941 
          6 |   467,563    461,410    457,935    456,870    462,429 | 7,519,383 
-         7 |   481,488    476,277    468,446    464,799    462,900 | 7,630,297 
-         8 |   471,279    470,585    463,630    458,037    456,362 | 9,748,443 
-         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,329 
-        10 |   452,290    456,653    458,680    457,268    451,871 | 6,221,855 
-        11 |   409,660    413,852    416,821    420,677    419,140 | 6,922,503 
+         7 |   481,458    476,252    468,393    464,768    462,911 | 7,630,193 
+         8 |   471,290    470,585    463,630    458,037    456,362 | 9,748,411 
+         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,340 
+        10 |   452,279    456,653    458,669    457,268    451,871 | 5,837,118 
+        11 |   409,660    413,852    416,821    420,688    419,140 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,645,169  4,645,231  4,607,578  4,607,946  4,596,803 |74,239,278 
+     Total | 4,645,161  4,645,215  4,607,525  4,607,936  4,596,842 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2013       2015       2016       2017       2018 |     Total
 -----------+-------------------------------------------------------+----------
          2 |   481,090      1,799      2,079      1,649      1,138 | 5,200,710 
-         3 |   472,196    484,890    473,760    465,059    440,204 | 7,491,816 
-         4 |   471,815    472,830    488,694    469,686    464,003 | 7,576,356 
-         5 |   458,379    930,800    953,631    963,455    925,930 | 9,840,908 
+         3 |   472,207    484,890    473,760    465,059    440,204 | 7,491,861 
+         4 |   471,793    472,830    488,694    469,686    464,003 | 7,576,296 
+         5 |   458,379    930,811    953,631    963,455    925,930 | 9,840,941 
          6 |   457,254    465,708    472,998    472,987    488,487 | 7,519,383 
-         7 |   468,092    459,829    470,667    469,722    472,367 | 7,630,297 
-         8 |   454,971    912,429    921,699    927,937    925,351 | 9,748,443 
-         9 |   470,427        927      6,027      2,231     12,167 | 5,335,329 
-        10 |   447,194    428,898    463,043    389,735     16,548 | 6,221,855 
-        11 |   420,513    424,011    428,138    472,994    557,079 | 6,922,503 
+         7 |   468,104    459,829    470,667    469,722    472,367 | 7,630,193 
+         8 |   454,971    912,422    921,663    927,937    925,351 | 9,748,411 
+         9 |   470,438        927      6,027      2,231     12,167 | 5,335,340 
+        10 |   447,194     44,194    463,043    389,735     16,548 | 5,837,118 
+        11 |   420,502    424,011    428,138    472,994    557,079 | 6,922,503 
         12 |         0          0      1,847     35,091    426,103 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,601,931  4,582,121  4,682,583  4,670,546  4,729,377 |74,239,278 
+     Total | 4,601,932  4,197,421  4,682,547  4,670,546  4,729,377 |73,854,434 
 
 
            |  Year of
@@ -3379,18 +3190,18 @@ file
      Grade |      2019 |     Total
 -----------+-----------+----------
          2 |         0 | 5,200,710 
-         3 |   459,647 | 7,491,816 
-         4 |   450,420 | 7,576,356 
-         5 |   923,665 | 9,840,908 
+         3 |   459,647 | 7,491,861 
+         4 |   450,420 | 7,576,296 
+         5 |   923,665 | 9,840,941 
          6 |   469,764 | 7,519,383 
-         7 |   483,016 | 7,630,297 
-         8 |   934,176 | 9,748,443 
-         9 |     6,047 | 5,335,329 
-        10 |    31,824 | 6,221,855 
+         7 |   483,016 | 7,630,193 
+         8 |   934,176 | 9,748,411 
+         9 |     6,047 | 5,335,340 
+        10 |    31,824 | 5,837,118 
         11 |   673,301 | 6,922,503 
         12 |   288,637 |   751,678 
 -----------+-----------+----------
-     Total | 4,720,497 |74,239,278 
+     Total | 4,720,497 |73,854,434 
 
 . 
 . 
@@ -3401,7 +3212,7 @@ file
 
 . compress
   variable k12_ccc_match was float now byte
-  (222,718,779 bytes saved)
+  (221,564,247 bytes saved)
 
 . 
 . merge m:1 state_student_id ///
@@ -3411,11 +3222,11 @@ file
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                    55,226,385
-        from master                55,226,385  (merge_k12_ccc==1)
+    Not matched                    54,979,253
+        from master                54,979,253  (merge_k12_ccc==1)
         from using                          0  (merge_k12_ccc==2)
 
-    Matched                        19,013,208  (merge_k12_ccc==3)
+    Matched                        18,875,496  (merge_k12_ccc==3)
     -----------------------------------------
 
 . tab grade year
@@ -3423,55 +3234,55 @@ file
            |                Year of Spring Semester
      Grade |      2003       2004       2005       2006       2007 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   478,811    471,413    462,414    458,891    472,732 | 5,200,710 
-         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,816 
-         4 |   491,017    491,940    489,081    477,065    474,474 | 7,576,356 
-         5 |   476,564    478,626    479,604    475,784    465,856 | 9,840,908 
+         2 |   478,811    471,413    462,414    458,891    472,721 | 5,200,710 
+         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,861 
+         4 |   491,017    491,921    489,092    477,011    474,474 | 7,576,296 
+         5 |   476,564    478,626    479,604    475,784    465,867 | 9,840,941 
          6 |   482,380    475,638    477,581    478,350    472,029 | 7,519,383 
-         7 |   497,365    495,511    489,644    485,881    484,293 | 7,630,297 
-         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,443 
-         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,329 
-        10 |   404,320    421,641    431,787    454,633    455,470 | 6,221,855 
+         7 |   497,365    495,511    489,644    485,881    484,305 | 7,630,193 
+         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,411 
+         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,340 
+        10 |   404,320    421,641    431,787    454,633    455,459 | 5,837,118 
         11 |   344,921    357,598    374,400    381,867    407,531 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,578,082  4,620,748  4,647,038  4,641,990  4,661,638 |74,239,278 
+     Total | 4,578,082  4,620,729  4,647,049  4,641,936  4,661,639 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2008       2009       2010       2011       2012 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   477,138    471,803    468,225    474,331    477,197 | 5,200,710 
-         3 |   465,335    470,950    464,136    462,446    468,679 | 7,491,816 
-         4 |   469,522    468,175    464,429    467,777    465,428 | 7,576,356 
-         5 |   463,911    461,713    458,422    464,569    459,999 | 9,840,908 
+         2 |   477,138    471,803    468,225    474,342    477,197 | 5,200,710 
+         3 |   465,346    470,962    464,147    462,446    468,679 | 7,491,861 
+         4 |   469,533    468,161    464,429    467,776    465,456 | 7,576,296 
+         5 |   463,911    461,724    458,422    464,569    459,999 | 9,840,941 
          6 |   467,563    461,410    457,935    456,870    462,429 | 7,519,383 
-         7 |   481,488    476,277    468,446    464,799    462,900 | 7,630,297 
-         8 |   471,279    470,585    463,630    458,037    456,362 | 9,748,443 
-         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,329 
-        10 |   452,290    456,653    458,680    457,268    451,871 | 6,221,855 
-        11 |   409,660    413,852    416,821    420,677    419,140 | 6,922,503 
+         7 |   481,458    476,252    468,393    464,768    462,911 | 7,630,193 
+         8 |   471,290    470,585    463,630    458,037    456,362 | 9,748,411 
+         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,340 
+        10 |   452,279    456,653    458,669    457,268    451,871 | 5,837,118 
+        11 |   409,660    413,852    416,821    420,688    419,140 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,645,169  4,645,231  4,607,578  4,607,946  4,596,803 |74,239,278 
+     Total | 4,645,161  4,645,215  4,607,525  4,607,936  4,596,842 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2013       2015       2016       2017       2018 |     Total
 -----------+-------------------------------------------------------+----------
          2 |   481,090      1,799      2,079      1,649      1,138 | 5,200,710 
-         3 |   472,196    484,890    473,760    465,059    440,204 | 7,491,816 
-         4 |   471,815    472,830    488,694    469,686    464,003 | 7,576,356 
-         5 |   458,379    930,800    953,631    963,455    925,930 | 9,840,908 
+         3 |   472,207    484,890    473,760    465,059    440,204 | 7,491,861 
+         4 |   471,793    472,830    488,694    469,686    464,003 | 7,576,296 
+         5 |   458,379    930,811    953,631    963,455    925,930 | 9,840,941 
          6 |   457,254    465,708    472,998    472,987    488,487 | 7,519,383 
-         7 |   468,092    459,829    470,667    469,722    472,367 | 7,630,297 
-         8 |   454,971    912,429    921,699    927,937    925,351 | 9,748,443 
-         9 |   470,427        927      6,027      2,231     12,167 | 5,335,329 
-        10 |   447,194    428,898    463,043    389,735     16,548 | 6,221,855 
-        11 |   420,513    424,011    428,138    472,994    557,079 | 6,922,503 
+         7 |   468,104    459,829    470,667    469,722    472,367 | 7,630,193 
+         8 |   454,971    912,422    921,663    927,937    925,351 | 9,748,411 
+         9 |   470,438        927      6,027      2,231     12,167 | 5,335,340 
+        10 |   447,194     44,194    463,043    389,735     16,548 | 5,837,118 
+        11 |   420,502    424,011    428,138    472,994    557,079 | 6,922,503 
         12 |         0          0      1,847     35,091    426,103 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,601,931  4,582,121  4,682,583  4,670,546  4,729,377 |74,239,278 
+     Total | 4,601,932  4,197,421  4,682,547  4,670,546  4,729,377 |73,854,434 
 
 
            |  Year of
@@ -3480,21 +3291,21 @@ file
      Grade |      2019 |     Total
 -----------+-----------+----------
          2 |         0 | 5,200,710 
-         3 |   459,647 | 7,491,816 
-         4 |   450,420 | 7,576,356 
-         5 |   923,665 | 9,840,908 
+         3 |   459,647 | 7,491,861 
+         4 |   450,420 | 7,576,296 
+         5 |   923,665 | 9,840,941 
          6 |   469,764 | 7,519,383 
-         7 |   483,016 | 7,630,297 
-         8 |   934,176 | 9,748,443 
-         9 |     6,047 | 5,335,329 
-        10 |    31,824 | 6,221,855 
+         7 |   483,016 | 7,630,193 
+         8 |   934,176 | 9,748,411 
+         9 |     6,047 | 5,335,340 
+        10 |    31,824 | 5,837,118 
         11 |   673,301 | 6,922,503 
         12 |   288,637 |   751,678 
 -----------+-----------+----------
-     Total | 4,720,497 |74,239,278 
+     Total | 4,720,497 |73,854,434 
 
 . replace k12_ccc_match = 1 if merge_k12_ccc==3
-(19,013,208 real changes made)
+(18,875,496 real changes made)
 
 . drop merge_k12_ccc
 
@@ -3502,7 +3313,7 @@ file
 . 
 . **** Merge to CCC data
 . count if !mi(student_id)
-  19,013,208
+  18,875,496
 
 . 
 . merge m:1 student_id ///
@@ -3511,11 +3322,11 @@ file
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                    59,602,683
-        from master                59,602,683  (merge_k12_ccc==1)
+    Not matched                    59,322,182
+        from master                59,322,182  (merge_k12_ccc==1)
         from using                          0  (merge_k12_ccc==2)
 
-    Matched                        14,636,910  (merge_k12_ccc==3)
+    Matched                        14,532,567  (merge_k12_ccc==3)
     -----------------------------------------
 
 . tab grade year
@@ -3523,55 +3334,55 @@ file
            |                Year of Spring Semester
      Grade |      2003       2004       2005       2006       2007 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   478,811    471,413    462,414    458,891    472,732 | 5,200,710 
-         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,816 
-         4 |   491,017    491,940    489,081    477,065    474,474 | 7,576,356 
-         5 |   476,564    478,626    479,604    475,784    465,856 | 9,840,908 
+         2 |   478,811    471,413    462,414    458,891    472,721 | 5,200,710 
+         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,861 
+         4 |   491,017    491,921    489,092    477,011    474,474 | 7,576,296 
+         5 |   476,564    478,626    479,604    475,784    465,867 | 9,840,941 
          6 |   482,380    475,638    477,581    478,350    472,029 | 7,519,383 
-         7 |   497,365    495,511    489,644    485,881    484,293 | 7,630,297 
-         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,443 
-         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,329 
-        10 |   404,320    421,641    431,787    454,633    455,470 | 6,221,855 
+         7 |   497,365    495,511    489,644    485,881    484,305 | 7,630,193 
+         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,411 
+         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,340 
+        10 |   404,320    421,641    431,787    454,633    455,459 | 5,837,118 
         11 |   344,921    357,598    374,400    381,867    407,531 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,578,082  4,620,748  4,647,038  4,641,990  4,661,638 |74,239,278 
+     Total | 4,578,082  4,620,729  4,647,049  4,641,936  4,661,639 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2008       2009       2010       2011       2012 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   477,138    471,803    468,225    474,331    477,197 | 5,200,710 
-         3 |   465,335    470,950    464,136    462,446    468,679 | 7,491,816 
-         4 |   469,522    468,175    464,429    467,777    465,428 | 7,576,356 
-         5 |   463,911    461,713    458,422    464,569    459,999 | 9,840,908 
+         2 |   477,138    471,803    468,225    474,342    477,197 | 5,200,710 
+         3 |   465,346    470,962    464,147    462,446    468,679 | 7,491,861 
+         4 |   469,533    468,161    464,429    467,776    465,456 | 7,576,296 
+         5 |   463,911    461,724    458,422    464,569    459,999 | 9,840,941 
          6 |   467,563    461,410    457,935    456,870    462,429 | 7,519,383 
-         7 |   481,488    476,277    468,446    464,799    462,900 | 7,630,297 
-         8 |   471,279    470,585    463,630    458,037    456,362 | 9,748,443 
-         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,329 
-        10 |   452,290    456,653    458,680    457,268    451,871 | 6,221,855 
-        11 |   409,660    413,852    416,821    420,677    419,140 | 6,922,503 
+         7 |   481,458    476,252    468,393    464,768    462,911 | 7,630,193 
+         8 |   471,290    470,585    463,630    458,037    456,362 | 9,748,411 
+         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,340 
+        10 |   452,279    456,653    458,669    457,268    451,871 | 5,837,118 
+        11 |   409,660    413,852    416,821    420,688    419,140 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,645,169  4,645,231  4,607,578  4,607,946  4,596,803 |74,239,278 
+     Total | 4,645,161  4,645,215  4,607,525  4,607,936  4,596,842 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2013       2015       2016       2017       2018 |     Total
 -----------+-------------------------------------------------------+----------
          2 |   481,090      1,799      2,079      1,649      1,138 | 5,200,710 
-         3 |   472,196    484,890    473,760    465,059    440,204 | 7,491,816 
-         4 |   471,815    472,830    488,694    469,686    464,003 | 7,576,356 
-         5 |   458,379    930,800    953,631    963,455    925,930 | 9,840,908 
+         3 |   472,207    484,890    473,760    465,059    440,204 | 7,491,861 
+         4 |   471,793    472,830    488,694    469,686    464,003 | 7,576,296 
+         5 |   458,379    930,811    953,631    963,455    925,930 | 9,840,941 
          6 |   457,254    465,708    472,998    472,987    488,487 | 7,519,383 
-         7 |   468,092    459,829    470,667    469,722    472,367 | 7,630,297 
-         8 |   454,971    912,429    921,699    927,937    925,351 | 9,748,443 
-         9 |   470,427        927      6,027      2,231     12,167 | 5,335,329 
-        10 |   447,194    428,898    463,043    389,735     16,548 | 6,221,855 
-        11 |   420,513    424,011    428,138    472,994    557,079 | 6,922,503 
+         7 |   468,104    459,829    470,667    469,722    472,367 | 7,630,193 
+         8 |   454,971    912,422    921,663    927,937    925,351 | 9,748,411 
+         9 |   470,438        927      6,027      2,231     12,167 | 5,335,340 
+        10 |   447,194     44,194    463,043    389,735     16,548 | 5,837,118 
+        11 |   420,502    424,011    428,138    472,994    557,079 | 6,922,503 
         12 |         0          0      1,847     35,091    426,103 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,601,931  4,582,121  4,682,583  4,670,546  4,729,377 |74,239,278 
+     Total | 4,601,932  4,197,421  4,682,547  4,670,546  4,729,377 |73,854,434 
 
 
            |  Year of
@@ -3580,18 +3391,18 @@ file
      Grade |      2019 |     Total
 -----------+-----------+----------
          2 |         0 | 5,200,710 
-         3 |   459,647 | 7,491,816 
-         4 |   450,420 | 7,576,356 
-         5 |   923,665 | 9,840,908 
+         3 |   459,647 | 7,491,861 
+         4 |   450,420 | 7,576,296 
+         5 |   923,665 | 9,840,941 
          6 |   469,764 | 7,519,383 
-         7 |   483,016 | 7,630,297 
-         8 |   934,176 | 9,748,443 
-         9 |     6,047 | 5,335,329 
-        10 |    31,824 | 6,221,855 
+         7 |   483,016 | 7,630,193 
+         8 |   934,176 | 9,748,411 
+         9 |     6,047 | 5,335,340 
+        10 |    31,824 | 5,837,118 
         11 |   673,301 | 6,922,503 
         12 |   288,637 |   751,678 
 -----------+-----------+----------
-     Total | 4,720,497 |74,239,278 
+     Total | 4,720,497 |73,854,434 
 
 . 
 . 
@@ -3606,63 +3417,63 @@ file
 .         replace `v' = . if /*`v'!=1 &*/ !inrange(year_grad_hs, `min_ccc_enr_y
 > ear', `max_ccc_enr_year')
   4. }
-(32,480,670 real changes made)
-(4,773,803 real changes made, 4,773,803 to missing)
+(32,200,133 real changes made)
+(4,773,797 real changes made, 4,773,797 to missing)
 
 . tab grade year
 
            |                Year of Spring Semester
      Grade |      2003       2004       2005       2006       2007 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   478,811    471,413    462,414    458,891    472,732 | 5,200,710 
-         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,816 
-         4 |   491,017    491,940    489,081    477,065    474,474 | 7,576,356 
-         5 |   476,564    478,626    479,604    475,784    465,856 | 9,840,908 
+         2 |   478,811    471,413    462,414    458,891    472,721 | 5,200,710 
+         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,861 
+         4 |   491,017    491,921    489,092    477,011    474,474 | 7,576,296 
+         5 |   476,564    478,626    479,604    475,784    465,867 | 9,840,941 
          6 |   482,380    475,638    477,581    478,350    472,029 | 7,519,383 
-         7 |   497,365    495,511    489,644    485,881    484,293 | 7,630,297 
-         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,443 
-         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,329 
-        10 |   404,320    421,641    431,787    454,633    455,470 | 6,221,855 
+         7 |   497,365    495,511    489,644    485,881    484,305 | 7,630,193 
+         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,411 
+         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,340 
+        10 |   404,320    421,641    431,787    454,633    455,459 | 5,837,118 
         11 |   344,921    357,598    374,400    381,867    407,531 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,578,082  4,620,748  4,647,038  4,641,990  4,661,638 |74,239,278 
+     Total | 4,578,082  4,620,729  4,647,049  4,641,936  4,661,639 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2008       2009       2010       2011       2012 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   477,138    471,803    468,225    474,331    477,197 | 5,200,710 
-         3 |   465,335    470,950    464,136    462,446    468,679 | 7,491,816 
-         4 |   469,522    468,175    464,429    467,777    465,428 | 7,576,356 
-         5 |   463,911    461,713    458,422    464,569    459,999 | 9,840,908 
+         2 |   477,138    471,803    468,225    474,342    477,197 | 5,200,710 
+         3 |   465,346    470,962    464,147    462,446    468,679 | 7,491,861 
+         4 |   469,533    468,161    464,429    467,776    465,456 | 7,576,296 
+         5 |   463,911    461,724    458,422    464,569    459,999 | 9,840,941 
          6 |   467,563    461,410    457,935    456,870    462,429 | 7,519,383 
-         7 |   481,488    476,277    468,446    464,799    462,900 | 7,630,297 
-         8 |   471,279    470,585    463,630    458,037    456,362 | 9,748,443 
-         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,329 
-        10 |   452,290    456,653    458,680    457,268    451,871 | 6,221,855 
-        11 |   409,660    413,852    416,821    420,677    419,140 | 6,922,503 
+         7 |   481,458    476,252    468,393    464,768    462,911 | 7,630,193 
+         8 |   471,290    470,585    463,630    458,037    456,362 | 9,748,411 
+         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,340 
+        10 |   452,279    456,653    458,669    457,268    451,871 | 5,837,118 
+        11 |   409,660    413,852    416,821    420,688    419,140 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,645,169  4,645,231  4,607,578  4,607,946  4,596,803 |74,239,278 
+     Total | 4,645,161  4,645,215  4,607,525  4,607,936  4,596,842 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2013       2015       2016       2017       2018 |     Total
 -----------+-------------------------------------------------------+----------
          2 |   481,090      1,799      2,079      1,649      1,138 | 5,200,710 
-         3 |   472,196    484,890    473,760    465,059    440,204 | 7,491,816 
-         4 |   471,815    472,830    488,694    469,686    464,003 | 7,576,356 
-         5 |   458,379    930,800    953,631    963,455    925,930 | 9,840,908 
+         3 |   472,207    484,890    473,760    465,059    440,204 | 7,491,861 
+         4 |   471,793    472,830    488,694    469,686    464,003 | 7,576,296 
+         5 |   458,379    930,811    953,631    963,455    925,930 | 9,840,941 
          6 |   457,254    465,708    472,998    472,987    488,487 | 7,519,383 
-         7 |   468,092    459,829    470,667    469,722    472,367 | 7,630,297 
-         8 |   454,971    912,429    921,699    927,937    925,351 | 9,748,443 
-         9 |   470,427        927      6,027      2,231     12,167 | 5,335,329 
-        10 |   447,194    428,898    463,043    389,735     16,548 | 6,221,855 
-        11 |   420,513    424,011    428,138    472,994    557,079 | 6,922,503 
+         7 |   468,104    459,829    470,667    469,722    472,367 | 7,630,193 
+         8 |   454,971    912,422    921,663    927,937    925,351 | 9,748,411 
+         9 |   470,438        927      6,027      2,231     12,167 | 5,335,340 
+        10 |   447,194     44,194    463,043    389,735     16,548 | 5,837,118 
+        11 |   420,502    424,011    428,138    472,994    557,079 | 6,922,503 
         12 |         0          0      1,847     35,091    426,103 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,601,931  4,582,121  4,682,583  4,670,546  4,729,377 |74,239,278 
+     Total | 4,601,932  4,197,421  4,682,547  4,670,546  4,729,377 |73,854,434 
 
 
            |  Year of
@@ -3671,18 +3482,18 @@ file
      Grade |      2019 |     Total
 -----------+-----------+----------
          2 |         0 | 5,200,710 
-         3 |   459,647 | 7,491,816 
-         4 |   450,420 | 7,576,356 
-         5 |   923,665 | 9,840,908 
+         3 |   459,647 | 7,491,861 
+         4 |   450,420 | 7,576,296 
+         5 |   923,665 | 9,840,941 
          6 |   469,764 | 7,519,383 
-         7 |   483,016 | 7,630,297 
-         8 |   934,176 | 9,748,443 
-         9 |     6,047 | 5,335,329 
-        10 |    31,824 | 6,221,855 
+         7 |   483,016 | 7,630,193 
+         8 |   934,176 | 9,748,411 
+         9 |     6,047 | 5,335,340 
+        10 |    31,824 | 5,837,118 
         11 |   673,301 | 6,922,503 
         12 |   288,637 |   751,678 
 -----------+-----------+----------
-     Total | 4,720,497 |74,239,278 
+     Total | 4,720,497 |73,854,434 
 
 . 
 . * CCC on-time enrollment
@@ -3691,7 +3502,7 @@ file
 > , 7, 8)) ///
 >         | (ccc_enr_start_year==year_grad_hs + 1 & inlist(ccc_enr_start_term, 
 > 1, 2, 3, 4))
-(69,729,820 missing values generated)
+(69,396,173 missing values generated)
 
 . 
 . if "`enr_only'"!="enr_only" {
@@ -3737,55 +3548,55 @@ file
            |                Year of Spring Semester
      Grade |      2003       2004       2005       2006       2007 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   478,811    471,413    462,414    458,891    472,732 | 5,200,710 
-         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,816 
-         4 |   491,017    491,940    489,081    477,065    474,474 | 7,576,356 
-         5 |   476,564    478,626    479,604    475,784    465,856 | 9,840,908 
+         2 |   478,811    471,413    462,414    458,891    472,721 | 5,200,710 
+         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,861 
+         4 |   491,017    491,921    489,092    477,011    474,474 | 7,576,296 
+         5 |   476,564    478,626    479,604    475,784    465,867 | 9,840,941 
          6 |   482,380    475,638    477,581    478,350    472,029 | 7,519,383 
-         7 |   497,365    495,511    489,644    485,881    484,293 | 7,630,297 
-         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,443 
-         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,329 
-        10 |   404,320    421,641    431,787    454,633    455,470 | 6,221,855 
+         7 |   497,365    495,511    489,644    485,881    484,305 | 7,630,193 
+         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,411 
+         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,340 
+        10 |   404,320    421,641    431,787    454,633    455,459 | 5,837,118 
         11 |   344,921    357,598    374,400    381,867    407,531 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,578,082  4,620,748  4,647,038  4,641,990  4,661,638 |74,239,278 
+     Total | 4,578,082  4,620,729  4,647,049  4,641,936  4,661,639 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2008       2009       2010       2011       2012 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   477,138    471,803    468,225    474,331    477,197 | 5,200,710 
-         3 |   465,335    470,950    464,136    462,446    468,679 | 7,491,816 
-         4 |   469,522    468,175    464,429    467,777    465,428 | 7,576,356 
-         5 |   463,911    461,713    458,422    464,569    459,999 | 9,840,908 
+         2 |   477,138    471,803    468,225    474,342    477,197 | 5,200,710 
+         3 |   465,346    470,962    464,147    462,446    468,679 | 7,491,861 
+         4 |   469,533    468,161    464,429    467,776    465,456 | 7,576,296 
+         5 |   463,911    461,724    458,422    464,569    459,999 | 9,840,941 
          6 |   467,563    461,410    457,935    456,870    462,429 | 7,519,383 
-         7 |   481,488    476,277    468,446    464,799    462,900 | 7,630,297 
-         8 |   471,279    470,585    463,630    458,037    456,362 | 9,748,443 
-         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,329 
-        10 |   452,290    456,653    458,680    457,268    451,871 | 6,221,855 
-        11 |   409,660    413,852    416,821    420,677    419,140 | 6,922,503 
+         7 |   481,458    476,252    468,393    464,768    462,911 | 7,630,193 
+         8 |   471,290    470,585    463,630    458,037    456,362 | 9,748,411 
+         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,340 
+        10 |   452,279    456,653    458,669    457,268    451,871 | 5,837,118 
+        11 |   409,660    413,852    416,821    420,688    419,140 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,645,169  4,645,231  4,607,578  4,607,946  4,596,803 |74,239,278 
+     Total | 4,645,161  4,645,215  4,607,525  4,607,936  4,596,842 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2013       2015       2016       2017       2018 |     Total
 -----------+-------------------------------------------------------+----------
          2 |   481,090      1,799      2,079      1,649      1,138 | 5,200,710 
-         3 |   472,196    484,890    473,760    465,059    440,204 | 7,491,816 
-         4 |   471,815    472,830    488,694    469,686    464,003 | 7,576,356 
-         5 |   458,379    930,800    953,631    963,455    925,930 | 9,840,908 
+         3 |   472,207    484,890    473,760    465,059    440,204 | 7,491,861 
+         4 |   471,793    472,830    488,694    469,686    464,003 | 7,576,296 
+         5 |   458,379    930,811    953,631    963,455    925,930 | 9,840,941 
          6 |   457,254    465,708    472,998    472,987    488,487 | 7,519,383 
-         7 |   468,092    459,829    470,667    469,722    472,367 | 7,630,297 
-         8 |   454,971    912,429    921,699    927,937    925,351 | 9,748,443 
-         9 |   470,427        927      6,027      2,231     12,167 | 5,335,329 
-        10 |   447,194    428,898    463,043    389,735     16,548 | 6,221,855 
-        11 |   420,513    424,011    428,138    472,994    557,079 | 6,922,503 
+         7 |   468,104    459,829    470,667    469,722    472,367 | 7,630,193 
+         8 |   454,971    912,422    921,663    927,937    925,351 | 9,748,411 
+         9 |   470,438        927      6,027      2,231     12,167 | 5,335,340 
+        10 |   447,194     44,194    463,043    389,735     16,548 | 5,837,118 
+        11 |   420,502    424,011    428,138    472,994    557,079 | 6,922,503 
         12 |         0          0      1,847     35,091    426,103 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,601,931  4,582,121  4,682,583  4,670,546  4,729,377 |74,239,278 
+     Total | 4,601,932  4,197,421  4,682,547  4,670,546  4,729,377 |73,854,434 
 
 
            |  Year of
@@ -3794,18 +3605,18 @@ file
      Grade |      2019 |     Total
 -----------+-----------+----------
          2 |         0 | 5,200,710 
-         3 |   459,647 | 7,491,816 
-         4 |   450,420 | 7,576,356 
-         5 |   923,665 | 9,840,908 
+         3 |   459,647 | 7,491,861 
+         4 |   450,420 | 7,576,296 
+         5 |   923,665 | 9,840,941 
          6 |   469,764 | 7,519,383 
-         7 |   483,016 | 7,630,297 
-         8 |   934,176 | 9,748,443 
-         9 |     6,047 | 5,335,329 
-        10 |    31,824 | 6,221,855 
+         7 |   483,016 | 7,630,193 
+         8 |   934,176 | 9,748,411 
+         9 |     6,047 | 5,335,340 
+        10 |    31,824 | 5,837,118 
         11 |   673,301 | 6,922,503 
         12 |   288,637 |   751,678 
 -----------+-----------+----------
-     Total | 4,720,497 |74,239,278 
+     Total | 4,720,497 |73,854,434 
 
 . 
 . 
@@ -3818,7 +3629,7 @@ file
   variable ccc_enr_year was int now byte
   variable ccc_enr_ontime was float now byte
   variable k12_csu_match was float now byte
-  (519,677,151 bytes saved)
+  (516,983,243 bytes saved)
 
 . 
 . merge m:1 state_student_id ///
@@ -3828,11 +3639,11 @@ file
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                    65,945,290
-        from master                65,945,290  (merge_k12_csu==1)
+    Not matched                    65,617,927
+        from master                65,617,927  (merge_k12_csu==1)
         from using                          0  (merge_k12_csu==2)
 
-    Matched                         8,294,303  (merge_k12_csu==3)
+    Matched                         8,236,822  (merge_k12_csu==3)
     -----------------------------------------
 
 . tab grade year
@@ -3840,55 +3651,55 @@ file
            |                Year of Spring Semester
      Grade |      2003       2004       2005       2006       2007 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   478,811    471,413    462,414    458,891    472,732 | 5,200,710 
-         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,816 
-         4 |   491,017    491,940    489,081    477,065    474,474 | 7,576,356 
-         5 |   476,564    478,626    479,604    475,784    465,856 | 9,840,908 
+         2 |   478,811    471,413    462,414    458,891    472,721 | 5,200,710 
+         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,861 
+         4 |   491,017    491,921    489,092    477,011    474,474 | 7,576,296 
+         5 |   476,564    478,626    479,604    475,784    465,867 | 9,840,941 
          6 |   482,380    475,638    477,581    478,350    472,029 | 7,519,383 
-         7 |   497,365    495,511    489,644    485,881    484,293 | 7,630,297 
-         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,443 
-         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,329 
-        10 |   404,320    421,641    431,787    454,633    455,470 | 6,221,855 
+         7 |   497,365    495,511    489,644    485,881    484,305 | 7,630,193 
+         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,411 
+         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,340 
+        10 |   404,320    421,641    431,787    454,633    455,459 | 5,837,118 
         11 |   344,921    357,598    374,400    381,867    407,531 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,578,082  4,620,748  4,647,038  4,641,990  4,661,638 |74,239,278 
+     Total | 4,578,082  4,620,729  4,647,049  4,641,936  4,661,639 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2008       2009       2010       2011       2012 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   477,138    471,803    468,225    474,331    477,197 | 5,200,710 
-         3 |   465,335    470,950    464,136    462,446    468,679 | 7,491,816 
-         4 |   469,522    468,175    464,429    467,777    465,428 | 7,576,356 
-         5 |   463,911    461,713    458,422    464,569    459,999 | 9,840,908 
+         2 |   477,138    471,803    468,225    474,342    477,197 | 5,200,710 
+         3 |   465,346    470,962    464,147    462,446    468,679 | 7,491,861 
+         4 |   469,533    468,161    464,429    467,776    465,456 | 7,576,296 
+         5 |   463,911    461,724    458,422    464,569    459,999 | 9,840,941 
          6 |   467,563    461,410    457,935    456,870    462,429 | 7,519,383 
-         7 |   481,488    476,277    468,446    464,799    462,900 | 7,630,297 
-         8 |   471,279    470,585    463,630    458,037    456,362 | 9,748,443 
-         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,329 
-        10 |   452,290    456,653    458,680    457,268    451,871 | 6,221,855 
-        11 |   409,660    413,852    416,821    420,677    419,140 | 6,922,503 
+         7 |   481,458    476,252    468,393    464,768    462,911 | 7,630,193 
+         8 |   471,290    470,585    463,630    458,037    456,362 | 9,748,411 
+         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,340 
+        10 |   452,279    456,653    458,669    457,268    451,871 | 5,837,118 
+        11 |   409,660    413,852    416,821    420,688    419,140 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,645,169  4,645,231  4,607,578  4,607,946  4,596,803 |74,239,278 
+     Total | 4,645,161  4,645,215  4,607,525  4,607,936  4,596,842 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2013       2015       2016       2017       2018 |     Total
 -----------+-------------------------------------------------------+----------
          2 |   481,090      1,799      2,079      1,649      1,138 | 5,200,710 
-         3 |   472,196    484,890    473,760    465,059    440,204 | 7,491,816 
-         4 |   471,815    472,830    488,694    469,686    464,003 | 7,576,356 
-         5 |   458,379    930,800    953,631    963,455    925,930 | 9,840,908 
+         3 |   472,207    484,890    473,760    465,059    440,204 | 7,491,861 
+         4 |   471,793    472,830    488,694    469,686    464,003 | 7,576,296 
+         5 |   458,379    930,811    953,631    963,455    925,930 | 9,840,941 
          6 |   457,254    465,708    472,998    472,987    488,487 | 7,519,383 
-         7 |   468,092    459,829    470,667    469,722    472,367 | 7,630,297 
-         8 |   454,971    912,429    921,699    927,937    925,351 | 9,748,443 
-         9 |   470,427        927      6,027      2,231     12,167 | 5,335,329 
-        10 |   447,194    428,898    463,043    389,735     16,548 | 6,221,855 
-        11 |   420,513    424,011    428,138    472,994    557,079 | 6,922,503 
+         7 |   468,104    459,829    470,667    469,722    472,367 | 7,630,193 
+         8 |   454,971    912,422    921,663    927,937    925,351 | 9,748,411 
+         9 |   470,438        927      6,027      2,231     12,167 | 5,335,340 
+        10 |   447,194     44,194    463,043    389,735     16,548 | 5,837,118 
+        11 |   420,502    424,011    428,138    472,994    557,079 | 6,922,503 
         12 |         0          0      1,847     35,091    426,103 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,601,931  4,582,121  4,682,583  4,670,546  4,729,377 |74,239,278 
+     Total | 4,601,932  4,197,421  4,682,547  4,670,546  4,729,377 |73,854,434 
 
 
            |  Year of
@@ -3897,21 +3708,21 @@ file
      Grade |      2019 |     Total
 -----------+-----------+----------
          2 |         0 | 5,200,710 
-         3 |   459,647 | 7,491,816 
-         4 |   450,420 | 7,576,356 
-         5 |   923,665 | 9,840,908 
+         3 |   459,647 | 7,491,861 
+         4 |   450,420 | 7,576,296 
+         5 |   923,665 | 9,840,941 
          6 |   469,764 | 7,519,383 
-         7 |   483,016 | 7,630,297 
-         8 |   934,176 | 9,748,443 
-         9 |     6,047 | 5,335,329 
-        10 |    31,824 | 6,221,855 
+         7 |   483,016 | 7,630,193 
+         8 |   934,176 | 9,748,411 
+         9 |     6,047 | 5,335,340 
+        10 |    31,824 | 5,837,118 
         11 |   673,301 | 6,922,503 
         12 |   288,637 |   751,678 
 -----------+-----------+----------
-     Total | 4,720,497 |74,239,278 
+     Total | 4,720,497 |73,854,434 
 
 . replace k12_csu_match = 1 if merge_k12_csu==3
-(8,294,303 real changes made)
+(8,236,822 real changes made)
 
 . drop merge_k12_csu
 
@@ -3919,7 +3730,7 @@ file
 . 
 . **** Merge to CSU data
 . count if !mi(idunique)
-  8,294,303
+  8,236,822
 
 . 
 . merge m:1 idunique ///
@@ -3928,11 +3739,11 @@ file
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                    65,945,290
-        from master                65,945,290  (merge_k12_csu==1)
+    Not matched                    65,617,927
+        from master                65,617,927  (merge_k12_csu==1)
         from using                          0  (merge_k12_csu==2)
 
-    Matched                         8,294,303  (merge_k12_csu==3)
+    Matched                         8,236,822  (merge_k12_csu==3)
     -----------------------------------------
 
 . tab grade year
@@ -3940,55 +3751,55 @@ file
            |                Year of Spring Semester
      Grade |      2003       2004       2005       2006       2007 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   478,811    471,413    462,414    458,891    472,732 | 5,200,710 
-         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,816 
-         4 |   491,017    491,940    489,081    477,065    474,474 | 7,576,356 
-         5 |   476,564    478,626    479,604    475,784    465,856 | 9,840,908 
+         2 |   478,811    471,413    462,414    458,891    472,721 | 5,200,710 
+         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,861 
+         4 |   491,017    491,921    489,092    477,011    474,474 | 7,576,296 
+         5 |   476,564    478,626    479,604    475,784    465,867 | 9,840,941 
          6 |   482,380    475,638    477,581    478,350    472,029 | 7,519,383 
-         7 |   497,365    495,511    489,644    485,881    484,293 | 7,630,297 
-         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,443 
-         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,329 
-        10 |   404,320    421,641    431,787    454,633    455,470 | 6,221,855 
+         7 |   497,365    495,511    489,644    485,881    484,305 | 7,630,193 
+         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,411 
+         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,340 
+        10 |   404,320    421,641    431,787    454,633    455,459 | 5,837,118 
         11 |   344,921    357,598    374,400    381,867    407,531 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,578,082  4,620,748  4,647,038  4,641,990  4,661,638 |74,239,278 
+     Total | 4,578,082  4,620,729  4,647,049  4,641,936  4,661,639 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2008       2009       2010       2011       2012 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   477,138    471,803    468,225    474,331    477,197 | 5,200,710 
-         3 |   465,335    470,950    464,136    462,446    468,679 | 7,491,816 
-         4 |   469,522    468,175    464,429    467,777    465,428 | 7,576,356 
-         5 |   463,911    461,713    458,422    464,569    459,999 | 9,840,908 
+         2 |   477,138    471,803    468,225    474,342    477,197 | 5,200,710 
+         3 |   465,346    470,962    464,147    462,446    468,679 | 7,491,861 
+         4 |   469,533    468,161    464,429    467,776    465,456 | 7,576,296 
+         5 |   463,911    461,724    458,422    464,569    459,999 | 9,840,941 
          6 |   467,563    461,410    457,935    456,870    462,429 | 7,519,383 
-         7 |   481,488    476,277    468,446    464,799    462,900 | 7,630,297 
-         8 |   471,279    470,585    463,630    458,037    456,362 | 9,748,443 
-         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,329 
-        10 |   452,290    456,653    458,680    457,268    451,871 | 6,221,855 
-        11 |   409,660    413,852    416,821    420,677    419,140 | 6,922,503 
+         7 |   481,458    476,252    468,393    464,768    462,911 | 7,630,193 
+         8 |   471,290    470,585    463,630    458,037    456,362 | 9,748,411 
+         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,340 
+        10 |   452,279    456,653    458,669    457,268    451,871 | 5,837,118 
+        11 |   409,660    413,852    416,821    420,688    419,140 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,645,169  4,645,231  4,607,578  4,607,946  4,596,803 |74,239,278 
+     Total | 4,645,161  4,645,215  4,607,525  4,607,936  4,596,842 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2013       2015       2016       2017       2018 |     Total
 -----------+-------------------------------------------------------+----------
          2 |   481,090      1,799      2,079      1,649      1,138 | 5,200,710 
-         3 |   472,196    484,890    473,760    465,059    440,204 | 7,491,816 
-         4 |   471,815    472,830    488,694    469,686    464,003 | 7,576,356 
-         5 |   458,379    930,800    953,631    963,455    925,930 | 9,840,908 
+         3 |   472,207    484,890    473,760    465,059    440,204 | 7,491,861 
+         4 |   471,793    472,830    488,694    469,686    464,003 | 7,576,296 
+         5 |   458,379    930,811    953,631    963,455    925,930 | 9,840,941 
          6 |   457,254    465,708    472,998    472,987    488,487 | 7,519,383 
-         7 |   468,092    459,829    470,667    469,722    472,367 | 7,630,297 
-         8 |   454,971    912,429    921,699    927,937    925,351 | 9,748,443 
-         9 |   470,427        927      6,027      2,231     12,167 | 5,335,329 
-        10 |   447,194    428,898    463,043    389,735     16,548 | 6,221,855 
-        11 |   420,513    424,011    428,138    472,994    557,079 | 6,922,503 
+         7 |   468,104    459,829    470,667    469,722    472,367 | 7,630,193 
+         8 |   454,971    912,422    921,663    927,937    925,351 | 9,748,411 
+         9 |   470,438        927      6,027      2,231     12,167 | 5,335,340 
+        10 |   447,194     44,194    463,043    389,735     16,548 | 5,837,118 
+        11 |   420,502    424,011    428,138    472,994    557,079 | 6,922,503 
         12 |         0          0      1,847     35,091    426,103 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,601,931  4,582,121  4,682,583  4,670,546  4,729,377 |74,239,278 
+     Total | 4,601,932  4,197,421  4,682,547  4,670,546  4,729,377 |73,854,434 
 
 
            |  Year of
@@ -3997,18 +3808,18 @@ file
      Grade |      2019 |     Total
 -----------+-----------+----------
          2 |         0 | 5,200,710 
-         3 |   459,647 | 7,491,816 
-         4 |   450,420 | 7,576,356 
-         5 |   923,665 | 9,840,908 
+         3 |   459,647 | 7,491,861 
+         4 |   450,420 | 7,576,296 
+         5 |   923,665 | 9,840,941 
          6 |   469,764 | 7,519,383 
-         7 |   483,016 | 7,630,297 
-         8 |   934,176 | 9,748,443 
-         9 |     6,047 | 5,335,329 
-        10 |    31,824 | 6,221,855 
+         7 |   483,016 | 7,630,193 
+         8 |   934,176 | 9,748,411 
+         9 |     6,047 | 5,335,340 
+        10 |    31,824 | 5,837,118 
         11 |   673,301 | 6,922,503 
         12 |   288,637 |   751,678 
 -----------+-----------+----------
-     Total | 4,720,497 |74,239,278 
+     Total | 4,720,497 |73,854,434 
 
 . 
 . ** Edit CSU Variables
@@ -4022,63 +3833,63 @@ file
 .         replace `v' = . if /*`v'!=1 &*/ !inrange(year_grad_hs, `min_csu_enr_y
 > ear', `max_csu_enr_year')
   4. }
-(34,066,226 real changes made)
-(16,752 real changes made, 16,752 to missing)
+(33,738,834 real changes made)
+(16,753 real changes made, 16,753 to missing)
 
 . tab grade year
 
            |                Year of Spring Semester
      Grade |      2003       2004       2005       2006       2007 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   478,811    471,413    462,414    458,891    472,732 | 5,200,710 
-         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,816 
-         4 |   491,017    491,940    489,081    477,065    474,474 | 7,576,356 
-         5 |   476,564    478,626    479,604    475,784    465,856 | 9,840,908 
+         2 |   478,811    471,413    462,414    458,891    472,721 | 5,200,710 
+         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,861 
+         4 |   491,017    491,921    489,092    477,011    474,474 | 7,576,296 
+         5 |   476,564    478,626    479,604    475,784    465,867 | 9,840,941 
          6 |   482,380    475,638    477,581    478,350    472,029 | 7,519,383 
-         7 |   497,365    495,511    489,644    485,881    484,293 | 7,630,297 
-         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,443 
-         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,329 
-        10 |   404,320    421,641    431,787    454,633    455,470 | 6,221,855 
+         7 |   497,365    495,511    489,644    485,881    484,305 | 7,630,193 
+         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,411 
+         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,340 
+        10 |   404,320    421,641    431,787    454,633    455,459 | 5,837,118 
         11 |   344,921    357,598    374,400    381,867    407,531 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,578,082  4,620,748  4,647,038  4,641,990  4,661,638 |74,239,278 
+     Total | 4,578,082  4,620,729  4,647,049  4,641,936  4,661,639 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2008       2009       2010       2011       2012 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   477,138    471,803    468,225    474,331    477,197 | 5,200,710 
-         3 |   465,335    470,950    464,136    462,446    468,679 | 7,491,816 
-         4 |   469,522    468,175    464,429    467,777    465,428 | 7,576,356 
-         5 |   463,911    461,713    458,422    464,569    459,999 | 9,840,908 
+         2 |   477,138    471,803    468,225    474,342    477,197 | 5,200,710 
+         3 |   465,346    470,962    464,147    462,446    468,679 | 7,491,861 
+         4 |   469,533    468,161    464,429    467,776    465,456 | 7,576,296 
+         5 |   463,911    461,724    458,422    464,569    459,999 | 9,840,941 
          6 |   467,563    461,410    457,935    456,870    462,429 | 7,519,383 
-         7 |   481,488    476,277    468,446    464,799    462,900 | 7,630,297 
-         8 |   471,279    470,585    463,630    458,037    456,362 | 9,748,443 
-         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,329 
-        10 |   452,290    456,653    458,680    457,268    451,871 | 6,221,855 
-        11 |   409,660    413,852    416,821    420,677    419,140 | 6,922,503 
+         7 |   481,458    476,252    468,393    464,768    462,911 | 7,630,193 
+         8 |   471,290    470,585    463,630    458,037    456,362 | 9,748,411 
+         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,340 
+        10 |   452,279    456,653    458,669    457,268    451,871 | 5,837,118 
+        11 |   409,660    413,852    416,821    420,688    419,140 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,645,169  4,645,231  4,607,578  4,607,946  4,596,803 |74,239,278 
+     Total | 4,645,161  4,645,215  4,607,525  4,607,936  4,596,842 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2013       2015       2016       2017       2018 |     Total
 -----------+-------------------------------------------------------+----------
          2 |   481,090      1,799      2,079      1,649      1,138 | 5,200,710 
-         3 |   472,196    484,890    473,760    465,059    440,204 | 7,491,816 
-         4 |   471,815    472,830    488,694    469,686    464,003 | 7,576,356 
-         5 |   458,379    930,800    953,631    963,455    925,930 | 9,840,908 
+         3 |   472,207    484,890    473,760    465,059    440,204 | 7,491,861 
+         4 |   471,793    472,830    488,694    469,686    464,003 | 7,576,296 
+         5 |   458,379    930,811    953,631    963,455    925,930 | 9,840,941 
          6 |   457,254    465,708    472,998    472,987    488,487 | 7,519,383 
-         7 |   468,092    459,829    470,667    469,722    472,367 | 7,630,297 
-         8 |   454,971    912,429    921,699    927,937    925,351 | 9,748,443 
-         9 |   470,427        927      6,027      2,231     12,167 | 5,335,329 
-        10 |   447,194    428,898    463,043    389,735     16,548 | 6,221,855 
-        11 |   420,513    424,011    428,138    472,994    557,079 | 6,922,503 
+         7 |   468,104    459,829    470,667    469,722    472,367 | 7,630,193 
+         8 |   454,971    912,422    921,663    927,937    925,351 | 9,748,411 
+         9 |   470,438        927      6,027      2,231     12,167 | 5,335,340 
+        10 |   447,194     44,194    463,043    389,735     16,548 | 5,837,118 
+        11 |   420,502    424,011    428,138    472,994    557,079 | 6,922,503 
         12 |         0          0      1,847     35,091    426,103 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,601,931  4,582,121  4,682,583  4,670,546  4,729,377 |74,239,278 
+     Total | 4,601,932  4,197,421  4,682,547  4,670,546  4,729,377 |73,854,434 
 
 
            |  Year of
@@ -4087,18 +3898,18 @@ file
      Grade |      2019 |     Total
 -----------+-----------+----------
          2 |         0 | 5,200,710 
-         3 |   459,647 | 7,491,816 
-         4 |   450,420 | 7,576,356 
-         5 |   923,665 | 9,840,908 
+         3 |   459,647 | 7,491,861 
+         4 |   450,420 | 7,576,296 
+         5 |   923,665 | 9,840,941 
          6 |   469,764 | 7,519,383 
-         7 |   483,016 | 7,630,297 
-         8 |   934,176 | 9,748,443 
-         9 |     6,047 | 5,335,329 
-        10 |    31,824 | 6,221,855 
+         7 |   483,016 | 7,630,193 
+         8 |   934,176 | 9,748,411 
+         9 |     6,047 | 5,335,340 
+        10 |    31,824 | 5,837,118 
         11 |   673,301 | 6,922,503 
         12 |   288,637 |   751,678 
 -----------+-----------+----------
-     Total | 4,720,497 |74,239,278 
+     Total | 4,720,497 |73,854,434 
 
 . 
 . * CSU on-time enrollment
@@ -4107,7 +3918,7 @@ file
 > )) ///
 >         | (csu_enr_start_year==year_grad_hs + 1 & inlist(csu_enr_start_term, 
 > 1, 2))
-(71,630,260 missing values generated)
+(71,265,450 missing values generated)
 
 . 
 . if "`enr_only'"!="enr_only" {
@@ -4186,7 +3997,7 @@ file
 . **** Drop observations that had no chance of matching to CCC/CSU data
 . compress
   variable csu_enr_ontime was float now byte
-  (222,718,779 bytes saved)
+  (221,564,247 bytes saved)
 
 . merge m:1 state_student_id ///
 >         using `crosswalks'/k12_unique_crosswalk.dta ///
@@ -4194,11 +4005,11 @@ file
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                     8,542,396
-        from master                 8,542,396  (merge_k12_unique==1)
+    Not matched                     8,542,395
+        from master                 8,542,395  (merge_k12_unique==1)
         from using                          0  (merge_k12_unique==2)
 
-    Matched                        65,697,197  (merge_k12_unique==3)
+    Matched                        65,312,354  (merge_k12_unique==3)
     -----------------------------------------
 
 . tab grade year
@@ -4206,55 +4017,55 @@ file
            |                Year of Spring Semester
      Grade |      2003       2004       2005       2006       2007 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   478,811    471,413    462,414    458,891    472,732 | 5,200,710 
-         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,816 
-         4 |   491,017    491,940    489,081    477,065    474,474 | 7,576,356 
-         5 |   476,564    478,626    479,604    475,784    465,856 | 9,840,908 
+         2 |   478,811    471,413    462,414    458,891    472,721 | 5,200,710 
+         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,861 
+         4 |   491,017    491,921    489,092    477,011    474,474 | 7,576,296 
+         5 |   476,564    478,626    479,604    475,784    465,867 | 9,840,941 
          6 |   482,380    475,638    477,581    478,350    472,029 | 7,519,383 
-         7 |   497,365    495,511    489,644    485,881    484,293 | 7,630,297 
-         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,443 
-         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,329 
-        10 |   404,320    421,641    431,787    454,633    455,470 | 6,221,855 
+         7 |   497,365    495,511    489,644    485,881    484,305 | 7,630,193 
+         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,411 
+         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,340 
+        10 |   404,320    421,641    431,787    454,633    455,459 | 5,837,118 
         11 |   344,921    357,598    374,400    381,867    407,531 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,578,082  4,620,748  4,647,038  4,641,990  4,661,638 |74,239,278 
+     Total | 4,578,082  4,620,729  4,647,049  4,641,936  4,661,639 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2008       2009       2010       2011       2012 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   477,138    471,803    468,225    474,331    477,197 | 5,200,710 
-         3 |   465,335    470,950    464,136    462,446    468,679 | 7,491,816 
-         4 |   469,522    468,175    464,429    467,777    465,428 | 7,576,356 
-         5 |   463,911    461,713    458,422    464,569    459,999 | 9,840,908 
+         2 |   477,138    471,803    468,225    474,342    477,197 | 5,200,710 
+         3 |   465,346    470,962    464,147    462,446    468,679 | 7,491,861 
+         4 |   469,533    468,161    464,429    467,776    465,456 | 7,576,296 
+         5 |   463,911    461,724    458,422    464,569    459,999 | 9,840,941 
          6 |   467,563    461,410    457,935    456,870    462,429 | 7,519,383 
-         7 |   481,488    476,277    468,446    464,799    462,900 | 7,630,297 
-         8 |   471,279    470,585    463,630    458,037    456,362 | 9,748,443 
-         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,329 
-        10 |   452,290    456,653    458,680    457,268    451,871 | 6,221,855 
-        11 |   409,660    413,852    416,821    420,677    419,140 | 6,922,503 
+         7 |   481,458    476,252    468,393    464,768    462,911 | 7,630,193 
+         8 |   471,290    470,585    463,630    458,037    456,362 | 9,748,411 
+         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,340 
+        10 |   452,279    456,653    458,669    457,268    451,871 | 5,837,118 
+        11 |   409,660    413,852    416,821    420,688    419,140 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,645,169  4,645,231  4,607,578  4,607,946  4,596,803 |74,239,278 
+     Total | 4,645,161  4,645,215  4,607,525  4,607,936  4,596,842 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2013       2015       2016       2017       2018 |     Total
 -----------+-------------------------------------------------------+----------
          2 |   481,090      1,799      2,079      1,649      1,138 | 5,200,710 
-         3 |   472,196    484,890    473,760    465,059    440,204 | 7,491,816 
-         4 |   471,815    472,830    488,694    469,686    464,003 | 7,576,356 
-         5 |   458,379    930,800    953,631    963,455    925,930 | 9,840,908 
+         3 |   472,207    484,890    473,760    465,059    440,204 | 7,491,861 
+         4 |   471,793    472,830    488,694    469,686    464,003 | 7,576,296 
+         5 |   458,379    930,811    953,631    963,455    925,930 | 9,840,941 
          6 |   457,254    465,708    472,998    472,987    488,487 | 7,519,383 
-         7 |   468,092    459,829    470,667    469,722    472,367 | 7,630,297 
-         8 |   454,971    912,429    921,699    927,937    925,351 | 9,748,443 
-         9 |   470,427        927      6,027      2,231     12,167 | 5,335,329 
-        10 |   447,194    428,898    463,043    389,735     16,548 | 6,221,855 
-        11 |   420,513    424,011    428,138    472,994    557,079 | 6,922,503 
+         7 |   468,104    459,829    470,667    469,722    472,367 | 7,630,193 
+         8 |   454,971    912,422    921,663    927,937    925,351 | 9,748,411 
+         9 |   470,438        927      6,027      2,231     12,167 | 5,335,340 
+        10 |   447,194     44,194    463,043    389,735     16,548 | 5,837,118 
+        11 |   420,502    424,011    428,138    472,994    557,079 | 6,922,503 
         12 |         0          0      1,847     35,091    426,103 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,601,931  4,582,121  4,682,583  4,670,546  4,729,377 |74,239,278 
+     Total | 4,601,932  4,197,421  4,682,547  4,670,546  4,729,377 |73,854,434 
 
 
            |  Year of
@@ -4263,18 +4074,18 @@ file
      Grade |      2019 |     Total
 -----------+-----------+----------
          2 |         0 | 5,200,710 
-         3 |   459,647 | 7,491,816 
-         4 |   450,420 | 7,576,356 
-         5 |   923,665 | 9,840,908 
+         3 |   459,647 | 7,491,861 
+         4 |   450,420 | 7,576,296 
+         5 |   923,665 | 9,840,941 
          6 |   469,764 | 7,519,383 
-         7 |   483,016 | 7,630,297 
-         8 |   934,176 | 9,748,443 
-         9 |     6,047 | 5,335,329 
-        10 |    31,824 | 6,221,855 
+         7 |   483,016 | 7,630,193 
+         8 |   934,176 | 9,748,411 
+         9 |     6,047 | 5,335,340 
+        10 |    31,824 | 5,837,118 
         11 |   673,301 | 6,922,503 
         12 |   288,637 |   751,678 
 -----------+-----------+----------
-     Total | 4,720,497 |74,239,278 
+     Total | 4,720,497 |73,854,434 
 
 . 
 . if "`enr_only'"=="enr_only" {
@@ -4312,55 +4123,55 @@ file
            |                Year of Spring Semester
      Grade |      2003       2004       2005       2006       2007 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   478,811    471,413    462,414    458,891    472,732 | 5,200,710 
-         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,816 
-         4 |   491,017    491,940    489,081    477,065    474,474 | 7,576,356 
-         5 |   476,564    478,626    479,604    475,784    465,856 | 9,840,908 
+         2 |   478,811    471,413    462,414    458,891    472,721 | 5,200,710 
+         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,861 
+         4 |   491,017    491,921    489,092    477,011    474,474 | 7,576,296 
+         5 |   476,564    478,626    479,604    475,784    465,867 | 9,840,941 
          6 |   482,380    475,638    477,581    478,350    472,029 | 7,519,383 
-         7 |   497,365    495,511    489,644    485,881    484,293 | 7,630,297 
-         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,443 
-         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,329 
-        10 |   404,320    421,641    431,787    454,633    455,470 | 6,221,855 
+         7 |   497,365    495,511    489,644    485,881    484,305 | 7,630,193 
+         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,411 
+         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,340 
+        10 |   404,320    421,641    431,787    454,633    455,459 | 5,837,118 
         11 |   344,921    357,598    374,400    381,867    407,531 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,578,082  4,620,748  4,647,038  4,641,990  4,661,638 |74,239,278 
+     Total | 4,578,082  4,620,729  4,647,049  4,641,936  4,661,639 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2008       2009       2010       2011       2012 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   477,138    471,803    468,225    474,331    477,197 | 5,200,710 
-         3 |   465,335    470,950    464,136    462,446    468,679 | 7,491,816 
-         4 |   469,522    468,175    464,429    467,777    465,428 | 7,576,356 
-         5 |   463,911    461,713    458,422    464,569    459,999 | 9,840,908 
+         2 |   477,138    471,803    468,225    474,342    477,197 | 5,200,710 
+         3 |   465,346    470,962    464,147    462,446    468,679 | 7,491,861 
+         4 |   469,533    468,161    464,429    467,776    465,456 | 7,576,296 
+         5 |   463,911    461,724    458,422    464,569    459,999 | 9,840,941 
          6 |   467,563    461,410    457,935    456,870    462,429 | 7,519,383 
-         7 |   481,488    476,277    468,446    464,799    462,900 | 7,630,297 
-         8 |   471,279    470,585    463,630    458,037    456,362 | 9,748,443 
-         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,329 
-        10 |   452,290    456,653    458,680    457,268    451,871 | 6,221,855 
-        11 |   409,660    413,852    416,821    420,677    419,140 | 6,922,503 
+         7 |   481,458    476,252    468,393    464,768    462,911 | 7,630,193 
+         8 |   471,290    470,585    463,630    458,037    456,362 | 9,748,411 
+         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,340 
+        10 |   452,279    456,653    458,669    457,268    451,871 | 5,837,118 
+        11 |   409,660    413,852    416,821    420,688    419,140 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,645,169  4,645,231  4,607,578  4,607,946  4,596,803 |74,239,278 
+     Total | 4,645,161  4,645,215  4,607,525  4,607,936  4,596,842 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2013       2015       2016       2017       2018 |     Total
 -----------+-------------------------------------------------------+----------
          2 |   481,090      1,799      2,079      1,649      1,138 | 5,200,710 
-         3 |   472,196    484,890    473,760    465,059    440,204 | 7,491,816 
-         4 |   471,815    472,830    488,694    469,686    464,003 | 7,576,356 
-         5 |   458,379    930,800    953,631    963,455    925,930 | 9,840,908 
+         3 |   472,207    484,890    473,760    465,059    440,204 | 7,491,861 
+         4 |   471,793    472,830    488,694    469,686    464,003 | 7,576,296 
+         5 |   458,379    930,811    953,631    963,455    925,930 | 9,840,941 
          6 |   457,254    465,708    472,998    472,987    488,487 | 7,519,383 
-         7 |   468,092    459,829    470,667    469,722    472,367 | 7,630,297 
-         8 |   454,971    912,429    921,699    927,937    925,351 | 9,748,443 
-         9 |   470,427        927      6,027      2,231     12,167 | 5,335,329 
-        10 |   447,194    428,898    463,043    389,735     16,548 | 6,221,855 
-        11 |   420,513    424,011    428,138    472,994    557,079 | 6,922,503 
+         7 |   468,104    459,829    470,667    469,722    472,367 | 7,630,193 
+         8 |   454,971    912,422    921,663    927,937    925,351 | 9,748,411 
+         9 |   470,438        927      6,027      2,231     12,167 | 5,335,340 
+        10 |   447,194     44,194    463,043    389,735     16,548 | 5,837,118 
+        11 |   420,502    424,011    428,138    472,994    557,079 | 6,922,503 
         12 |         0          0      1,847     35,091    426,103 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,601,931  4,582,121  4,682,583  4,670,546  4,729,377 |74,239,278 
+     Total | 4,601,932  4,197,421  4,682,547  4,670,546  4,729,377 |73,854,434 
 
 
            |  Year of
@@ -4369,18 +4180,18 @@ file
      Grade |      2019 |     Total
 -----------+-----------+----------
          2 |         0 | 5,200,710 
-         3 |   459,647 | 7,491,816 
-         4 |   450,420 | 7,576,356 
-         5 |   923,665 | 9,840,908 
+         3 |   459,647 | 7,491,861 
+         4 |   450,420 | 7,576,296 
+         5 |   923,665 | 9,840,941 
          6 |   469,764 | 7,519,383 
-         7 |   483,016 | 7,630,297 
-         8 |   934,176 | 9,748,443 
-         9 |     6,047 | 5,335,329 
-        10 |    31,824 | 6,221,855 
+         7 |   483,016 | 7,630,193 
+         8 |   934,176 | 9,748,411 
+         9 |     6,047 | 5,335,340 
+        10 |    31,824 | 5,837,118 
         11 |   673,301 | 6,922,503 
         12 |   288,637 |   751,678 
 -----------+-----------+----------
-     Total | 4,720,497 |74,239,278 
+     Total | 4,720,497 |73,854,434 
 
 . 
 . * Replace CSU variables with missing if could not have matched to the CSU dat
@@ -4402,55 +4213,55 @@ file
            |                Year of Spring Semester
      Grade |      2003       2004       2005       2006       2007 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   478,811    471,413    462,414    458,891    472,732 | 5,200,710 
-         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,816 
-         4 |   491,017    491,940    489,081    477,065    474,474 | 7,576,356 
-         5 |   476,564    478,626    479,604    475,784    465,856 | 9,840,908 
+         2 |   478,811    471,413    462,414    458,891    472,721 | 5,200,710 
+         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,861 
+         4 |   491,017    491,921    489,092    477,011    474,474 | 7,576,296 
+         5 |   476,564    478,626    479,604    475,784    465,867 | 9,840,941 
          6 |   482,380    475,638    477,581    478,350    472,029 | 7,519,383 
-         7 |   497,365    495,511    489,644    485,881    484,293 | 7,630,297 
-         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,443 
-         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,329 
-        10 |   404,320    421,641    431,787    454,633    455,470 | 6,221,855 
+         7 |   497,365    495,511    489,644    485,881    484,305 | 7,630,193 
+         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,411 
+         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,340 
+        10 |   404,320    421,641    431,787    454,633    455,459 | 5,837,118 
         11 |   344,921    357,598    374,400    381,867    407,531 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,578,082  4,620,748  4,647,038  4,641,990  4,661,638 |74,239,278 
+     Total | 4,578,082  4,620,729  4,647,049  4,641,936  4,661,639 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2008       2009       2010       2011       2012 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   477,138    471,803    468,225    474,331    477,197 | 5,200,710 
-         3 |   465,335    470,950    464,136    462,446    468,679 | 7,491,816 
-         4 |   469,522    468,175    464,429    467,777    465,428 | 7,576,356 
-         5 |   463,911    461,713    458,422    464,569    459,999 | 9,840,908 
+         2 |   477,138    471,803    468,225    474,342    477,197 | 5,200,710 
+         3 |   465,346    470,962    464,147    462,446    468,679 | 7,491,861 
+         4 |   469,533    468,161    464,429    467,776    465,456 | 7,576,296 
+         5 |   463,911    461,724    458,422    464,569    459,999 | 9,840,941 
          6 |   467,563    461,410    457,935    456,870    462,429 | 7,519,383 
-         7 |   481,488    476,277    468,446    464,799    462,900 | 7,630,297 
-         8 |   471,279    470,585    463,630    458,037    456,362 | 9,748,443 
-         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,329 
-        10 |   452,290    456,653    458,680    457,268    451,871 | 6,221,855 
-        11 |   409,660    413,852    416,821    420,677    419,140 | 6,922,503 
+         7 |   481,458    476,252    468,393    464,768    462,911 | 7,630,193 
+         8 |   471,290    470,585    463,630    458,037    456,362 | 9,748,411 
+         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,340 
+        10 |   452,279    456,653    458,669    457,268    451,871 | 5,837,118 
+        11 |   409,660    413,852    416,821    420,688    419,140 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,645,169  4,645,231  4,607,578  4,607,946  4,596,803 |74,239,278 
+     Total | 4,645,161  4,645,215  4,607,525  4,607,936  4,596,842 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2013       2015       2016       2017       2018 |     Total
 -----------+-------------------------------------------------------+----------
          2 |   481,090      1,799      2,079      1,649      1,138 | 5,200,710 
-         3 |   472,196    484,890    473,760    465,059    440,204 | 7,491,816 
-         4 |   471,815    472,830    488,694    469,686    464,003 | 7,576,356 
-         5 |   458,379    930,800    953,631    963,455    925,930 | 9,840,908 
+         3 |   472,207    484,890    473,760    465,059    440,204 | 7,491,861 
+         4 |   471,793    472,830    488,694    469,686    464,003 | 7,576,296 
+         5 |   458,379    930,811    953,631    963,455    925,930 | 9,840,941 
          6 |   457,254    465,708    472,998    472,987    488,487 | 7,519,383 
-         7 |   468,092    459,829    470,667    469,722    472,367 | 7,630,297 
-         8 |   454,971    912,429    921,699    927,937    925,351 | 9,748,443 
-         9 |   470,427        927      6,027      2,231     12,167 | 5,335,329 
-        10 |   447,194    428,898    463,043    389,735     16,548 | 6,221,855 
-        11 |   420,513    424,011    428,138    472,994    557,079 | 6,922,503 
+         7 |   468,104    459,829    470,667    469,722    472,367 | 7,630,193 
+         8 |   454,971    912,422    921,663    927,937    925,351 | 9,748,411 
+         9 |   470,438        927      6,027      2,231     12,167 | 5,335,340 
+        10 |   447,194     44,194    463,043    389,735     16,548 | 5,837,118 
+        11 |   420,502    424,011    428,138    472,994    557,079 | 6,922,503 
         12 |         0          0      1,847     35,091    426,103 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,601,931  4,582,121  4,682,583  4,670,546  4,729,377 |74,239,278 
+     Total | 4,601,932  4,197,421  4,682,547  4,670,546  4,729,377 |73,854,434 
 
 
            |  Year of
@@ -4459,18 +4270,18 @@ file
      Grade |      2019 |     Total
 -----------+-----------+----------
          2 |         0 | 5,200,710 
-         3 |   459,647 | 7,491,816 
-         4 |   450,420 | 7,576,356 
-         5 |   923,665 | 9,840,908 
+         3 |   459,647 | 7,491,861 
+         4 |   450,420 | 7,576,296 
+         5 |   923,665 | 9,840,941 
          6 |   469,764 | 7,519,383 
-         7 |   483,016 | 7,630,297 
-         8 |   934,176 | 9,748,443 
-         9 |     6,047 | 5,335,329 
-        10 |    31,824 | 6,221,855 
+         7 |   483,016 | 7,630,193 
+         8 |   934,176 | 9,748,411 
+         9 |     6,047 | 5,335,340 
+        10 |    31,824 | 5,837,118 
         11 |   673,301 | 6,922,503 
         12 |   288,637 |   751,678 
 -----------+-----------+----------
-     Total | 4,720,497 |74,239,278 
+     Total | 4,720,497 |73,854,434 
 
 . 
 . 
@@ -4479,161 +4290,161 @@ file
 . **** All college outcomes
 . * Enrollment
 . gen enr = 1 if nsc_enr==1 /*| ccc_enr==1 | csu_enr==1*/
-(49,586,845 missing values generated)
+(49,458,260 missing values generated)
 
 . replace enr = 0 if nsc_enr==0 & ccc_enr!=1 & csu_enr!=1
-(10,323,530 real changes made)
+(10,225,210 real changes made)
 
 . label var enr "Enrolled at a Postsecondary Institution"
 
 . 
 . gen enr_ontime = 1 if nsc_enr_ontime==1 | ccc_enr_ontime==1 | csu_enr_ontime=
 > =1
-(50,213,163 missing values generated)
+(50,075,839 missing values generated)
 
 . replace enr_ontime = 0 if nsc_enr_ontime==0 & ccc_enr_ontime!=1 & csu_enr_ont
 > ime!=1
-(13,577,960 real changes made)
+(13,454,600 real changes made)
 
 . label var enr_ontime "Enrolled at a Postsecondary Institution"
 
 . 
 . gen enr_2year = 1 if nsc_enr_2year==1 | nsc_enr_lt2year==1 | ccc_enr==1
-(52,461,856 missing values generated)
+(52,282,264 missing values generated)
 
 . replace enr_2year = 0 if nsc_enr_2year==0 & nsc_enr_lt2year==0 & ccc_enr!=1
-(16,849,793 real changes made)
+(16,682,722 real changes made)
 
 . label var enr_2year "Enrolled at a 2-Year College"
 
 . 
 . gen enr_ontime_2year = 1 if nsc_enr_ontime_2year==1 | nsc_enr_ontime_lt2year=
 > =1 | ccc_enr_ontime==1
-(59,890,552 missing values generated)
+(59,648,431 missing values generated)
 
 . replace enr_ontime_2year = 0 if nsc_enr_ontime_2year==0 & nsc_enr_ontime_lt2y
 > ear==0 & ccc_enr_ontime!=1
-(22,827,114 real changes made)
+(22,599,123 real changes made)
 
 . label var enr_ontime_2year "Enrolled at a 2-Year College"
 
 . 
 . gen enr_4year = 1 if nsc_enr_4year==1 | csu_enr==1
-(61,425,712 missing values generated)
+(61,157,061 missing values generated)
 
 . replace enr_4year = 0 if nsc_enr_4year==0 & csu_enr!=1
-(24,208,513 real changes made)
+(23,954,772 real changes made)
 
 . label var enr_4year "Enrolled at a 4-Year University"
 
 . 
 . replace enr_2year = 0 if enr_4year==1
-(6,287,618 real changes made)
+(6,240,176 real changes made)
 
 . 
 . gen enr_ontime_4year = 1 if nsc_enr_ontime_4year==1 | csu_enr_ontime==1
-(63,952,798 missing values generated)
+(63,679,230 missing values generated)
 
 . replace enr_ontime_4year = 0 if nsc_enr_ontime_4year==0 & csu_enr_ontime!=1
-(26,274,474 real changes made)
+(26,015,864 real changes made)
 
 . label var enr_ontime_4year "Enrolled at a 4-Year University"
 
 . 
 . replace enr_ontime_2year = 0 if enr_ontime_4year==1
-(1,037,641 real changes made)
+(1,030,996 real changes made)
 
 . 
 . gen enr_pub = 1 if nsc_enr_pub==1 | ccc_enr==1 | csu_enr==1
-(46,968,587 missing values generated)
+(46,842,451 missing values generated)
 
 . replace enr_pub = 0 if nsc_enr_pub==0 & ccc_enr!=1 & csu_enr!=1
-(11,880,923 real changes made)
+(11,767,138 real changes made)
 
 . label var enr_pub "Enrolled at a Public Institution"
 
 . 
 . gen enr_ontime_pub = 1 if nsc_enr_ontime_pub==1 | ccc_enr_ontime==1 | csu_enr
 > _ontime==1
-(52,171,772 missing values generated)
+(52,012,982 missing values generated)
 
 . replace enr_ontime_pub = 0 if nsc_enr_ontime_pub==0 & ccc_enr_ontime!=1 & csu
 > _enr_ontime!=1
-(15,536,569 real changes made)
+(15,391,743 real changes made)
 
 . label var enr_ontime_pub "Enrolled at a Public Institution"
 
 . 
 . gen enr_priv = 1 if nsc_enr_priv==1
-(71,163,366 missing values generated)
+(70,804,497 missing values generated)
 
 . replace enr_priv = 0 if nsc_enr_priv==0
-(33,042,751 real changes made)
+(32,699,006 real changes made)
 
 . label var enr_priv "Enrolled at a Private Institution"
 
 . 
 . replace enr_pub = 0 if enr_priv==1
-(1,518,834 real changes made)
+(1,508,324 real changes made)
 
 . 
 . gen enr_ontime_priv = 1 if nsc_enr_ontime_priv==1
-(72,128,792 missing values generated)
+(71,767,013 missing values generated)
 
 . replace enr_ontime_priv = 0 if nsc_enr_ontime_priv==0
-(34,008,177 real changes made)
+(33,661,522 real changes made)
 
 . label var enr_ontime_priv "Enrolled at a Private Institution"
 
 . 
 . replace enr_ontime_pub = 0 if enr_ontime_priv==1
-(152,192 real changes made)
+(150,593 real changes made)
 
 . 
 . gen enr_instate = 1 if nsc_enr_instate==1 | ccc_enr==1 | csu_enr==1
-(47,217,334 missing values generated)
+(47,088,049 missing values generated)
 
 . replace enr_instate = 0 if nsc_enr_instate==0 & ccc_enr!=1 & csu_enr!=1
-(12,129,670 real changes made)
+(12,012,736 real changes made)
 
 . label var enr_instate "Enrolled at a CA Institution"
 
 . 
 . gen enr_ontime_instate = 1 if nsc_enr_ontime_instate==1 | ccc_enr_ontime==1 |
 >  csu_enr_ontime==1
-(52,325,033 missing values generated)
+(52,163,253 missing values generated)
 
 . replace enr_ontime_instate = 0 if nsc_enr_ontime_instate==0 & ccc_enr_ontime!
 > =1 & csu_enr_ontime!=1
-(15,689,830 real changes made)
+(15,542,014 real changes made)
 
 . label var enr_ontime_instate "Enrolled at a CA Institution"
 
 . 
 . gen enr_outstate = 1 if nsc_enr_outstate==1
-(71,059,100 missing values generated)
+(70,703,388 missing values generated)
 
 . replace enr_outstate = 0 if nsc_enr_outstate==0
-(32,938,485 real changes made)
+(32,597,897 real changes made)
 
 . label var enr_outstate "Enrolled at an Out-of-State Institution"
 
 . 
 . replace enr_instate = 0 if enr_outstate==1
-(1,374,491 real changes made)
+(1,363,973 real changes made)
 
 . 
 . gen enr_ontime_outstate = 1 if nsc_enr_ontime_outstate==1
-(71,982,845 missing values generated)
+(71,624,051 missing values generated)
 
 . replace enr_ontime_outstate = 0 if nsc_enr_ontime_outstate==0
-(33,862,230 real changes made)
+(33,518,560 real changes made)
 
 . label var enr_ontime_outstate "Enrolled at an Out-of-State Institution"
 
 . 
 . replace enr_ontime_instate = 0 if enr_ontime_outstate==1
-(144,984 real changes made)
+(143,390 real changes made)
 
 . 
 . tab grade year
@@ -4641,55 +4452,55 @@ file
            |                Year of Spring Semester
      Grade |      2003       2004       2005       2006       2007 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   478,811    471,413    462,414    458,891    472,732 | 5,200,710 
-         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,816 
-         4 |   491,017    491,940    489,081    477,065    474,474 | 7,576,356 
-         5 |   476,564    478,626    479,604    475,784    465,856 | 9,840,908 
+         2 |   478,811    471,413    462,414    458,891    472,721 | 5,200,710 
+         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,861 
+         4 |   491,017    491,921    489,092    477,011    474,474 | 7,576,296 
+         5 |   476,564    478,626    479,604    475,784    465,867 | 9,840,941 
          6 |   482,380    475,638    477,581    478,350    472,029 | 7,519,383 
-         7 |   497,365    495,511    489,644    485,881    484,293 | 7,630,297 
-         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,443 
-         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,329 
-        10 |   404,320    421,641    431,787    454,633    455,470 | 6,221,855 
+         7 |   497,365    495,511    489,644    485,881    484,305 | 7,630,193 
+         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,411 
+         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,340 
+        10 |   404,320    421,641    431,787    454,633    455,459 | 5,837,118 
         11 |   344,921    357,598    374,400    381,867    407,531 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,578,082  4,620,748  4,647,038  4,641,990  4,661,638 |74,239,278 
+     Total | 4,578,082  4,620,729  4,647,049  4,641,936  4,661,639 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2008       2009       2010       2011       2012 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   477,138    471,803    468,225    474,331    477,197 | 5,200,710 
-         3 |   465,335    470,950    464,136    462,446    468,679 | 7,491,816 
-         4 |   469,522    468,175    464,429    467,777    465,428 | 7,576,356 
-         5 |   463,911    461,713    458,422    464,569    459,999 | 9,840,908 
+         2 |   477,138    471,803    468,225    474,342    477,197 | 5,200,710 
+         3 |   465,346    470,962    464,147    462,446    468,679 | 7,491,861 
+         4 |   469,533    468,161    464,429    467,776    465,456 | 7,576,296 
+         5 |   463,911    461,724    458,422    464,569    459,999 | 9,840,941 
          6 |   467,563    461,410    457,935    456,870    462,429 | 7,519,383 
-         7 |   481,488    476,277    468,446    464,799    462,900 | 7,630,297 
-         8 |   471,279    470,585    463,630    458,037    456,362 | 9,748,443 
-         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,329 
-        10 |   452,290    456,653    458,680    457,268    451,871 | 6,221,855 
-        11 |   409,660    413,852    416,821    420,677    419,140 | 6,922,503 
+         7 |   481,458    476,252    468,393    464,768    462,911 | 7,630,193 
+         8 |   471,290    470,585    463,630    458,037    456,362 | 9,748,411 
+         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,340 
+        10 |   452,279    456,653    458,669    457,268    451,871 | 5,837,118 
+        11 |   409,660    413,852    416,821    420,688    419,140 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,645,169  4,645,231  4,607,578  4,607,946  4,596,803 |74,239,278 
+     Total | 4,645,161  4,645,215  4,607,525  4,607,936  4,596,842 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2013       2015       2016       2017       2018 |     Total
 -----------+-------------------------------------------------------+----------
          2 |   481,090      1,799      2,079      1,649      1,138 | 5,200,710 
-         3 |   472,196    484,890    473,760    465,059    440,204 | 7,491,816 
-         4 |   471,815    472,830    488,694    469,686    464,003 | 7,576,356 
-         5 |   458,379    930,800    953,631    963,455    925,930 | 9,840,908 
+         3 |   472,207    484,890    473,760    465,059    440,204 | 7,491,861 
+         4 |   471,793    472,830    488,694    469,686    464,003 | 7,576,296 
+         5 |   458,379    930,811    953,631    963,455    925,930 | 9,840,941 
          6 |   457,254    465,708    472,998    472,987    488,487 | 7,519,383 
-         7 |   468,092    459,829    470,667    469,722    472,367 | 7,630,297 
-         8 |   454,971    912,429    921,699    927,937    925,351 | 9,748,443 
-         9 |   470,427        927      6,027      2,231     12,167 | 5,335,329 
-        10 |   447,194    428,898    463,043    389,735     16,548 | 6,221,855 
-        11 |   420,513    424,011    428,138    472,994    557,079 | 6,922,503 
+         7 |   468,104    459,829    470,667    469,722    472,367 | 7,630,193 
+         8 |   454,971    912,422    921,663    927,937    925,351 | 9,748,411 
+         9 |   470,438        927      6,027      2,231     12,167 | 5,335,340 
+        10 |   447,194     44,194    463,043    389,735     16,548 | 5,837,118 
+        11 |   420,502    424,011    428,138    472,994    557,079 | 6,922,503 
         12 |         0          0      1,847     35,091    426,103 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,601,931  4,582,121  4,682,583  4,670,546  4,729,377 |74,239,278 
+     Total | 4,601,932  4,197,421  4,682,547  4,670,546  4,729,377 |73,854,434 
 
 
            |  Year of
@@ -4698,18 +4509,18 @@ file
      Grade |      2019 |     Total
 -----------+-----------+----------
          2 |         0 | 5,200,710 
-         3 |   459,647 | 7,491,816 
-         4 |   450,420 | 7,576,356 
-         5 |   923,665 | 9,840,908 
+         3 |   459,647 | 7,491,861 
+         4 |   450,420 | 7,576,296 
+         5 |   923,665 | 9,840,941 
          6 |   469,764 | 7,519,383 
-         7 |   483,016 | 7,630,297 
-         8 |   934,176 | 9,748,443 
-         9 |     6,047 | 5,335,329 
-        10 |    31,824 | 6,221,855 
+         7 |   483,016 | 7,630,193 
+         8 |   934,176 | 9,748,411 
+         9 |     6,047 | 5,335,340 
+        10 |    31,824 | 5,837,118 
         11 |   673,301 | 6,922,503 
         12 |   288,637 |   751,678 
 -----------+-----------+----------
-     Total | 4,720,497 |74,239,278 
+     Total | 4,720,497 |73,854,434 
 
 . 
 . * Persistence
@@ -4738,55 +4549,55 @@ file
            |                Year of Spring Semester
      Grade |      2003       2004       2005       2006       2007 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   478,811    471,413    462,414    458,891    472,732 | 5,200,710 
-         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,816 
-         4 |   491,017    491,940    489,081    477,065    474,474 | 7,576,356 
-         5 |   476,564    478,626    479,604    475,784    465,856 | 9,840,908 
+         2 |   478,811    471,413    462,414    458,891    472,721 | 5,200,710 
+         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,861 
+         4 |   491,017    491,921    489,092    477,011    474,474 | 7,576,296 
+         5 |   476,564    478,626    479,604    475,784    465,867 | 9,840,941 
          6 |   482,380    475,638    477,581    478,350    472,029 | 7,519,383 
-         7 |   497,365    495,511    489,644    485,881    484,293 | 7,630,297 
-         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,443 
-         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,329 
-        10 |   404,320    421,641    431,787    454,633    455,470 | 6,221,855 
+         7 |   497,365    495,511    489,644    485,881    484,305 | 7,630,193 
+         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,411 
+         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,340 
+        10 |   404,320    421,641    431,787    454,633    455,459 | 5,837,118 
         11 |   344,921    357,598    374,400    381,867    407,531 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,578,082  4,620,748  4,647,038  4,641,990  4,661,638 |74,239,278 
+     Total | 4,578,082  4,620,729  4,647,049  4,641,936  4,661,639 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2008       2009       2010       2011       2012 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   477,138    471,803    468,225    474,331    477,197 | 5,200,710 
-         3 |   465,335    470,950    464,136    462,446    468,679 | 7,491,816 
-         4 |   469,522    468,175    464,429    467,777    465,428 | 7,576,356 
-         5 |   463,911    461,713    458,422    464,569    459,999 | 9,840,908 
+         2 |   477,138    471,803    468,225    474,342    477,197 | 5,200,710 
+         3 |   465,346    470,962    464,147    462,446    468,679 | 7,491,861 
+         4 |   469,533    468,161    464,429    467,776    465,456 | 7,576,296 
+         5 |   463,911    461,724    458,422    464,569    459,999 | 9,840,941 
          6 |   467,563    461,410    457,935    456,870    462,429 | 7,519,383 
-         7 |   481,488    476,277    468,446    464,799    462,900 | 7,630,297 
-         8 |   471,279    470,585    463,630    458,037    456,362 | 9,748,443 
-         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,329 
-        10 |   452,290    456,653    458,680    457,268    451,871 | 6,221,855 
-        11 |   409,660    413,852    416,821    420,677    419,140 | 6,922,503 
+         7 |   481,458    476,252    468,393    464,768    462,911 | 7,630,193 
+         8 |   471,290    470,585    463,630    458,037    456,362 | 9,748,411 
+         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,340 
+        10 |   452,279    456,653    458,669    457,268    451,871 | 5,837,118 
+        11 |   409,660    413,852    416,821    420,688    419,140 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,645,169  4,645,231  4,607,578  4,607,946  4,596,803 |74,239,278 
+     Total | 4,645,161  4,645,215  4,607,525  4,607,936  4,596,842 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2013       2015       2016       2017       2018 |     Total
 -----------+-------------------------------------------------------+----------
          2 |   481,090      1,799      2,079      1,649      1,138 | 5,200,710 
-         3 |   472,196    484,890    473,760    465,059    440,204 | 7,491,816 
-         4 |   471,815    472,830    488,694    469,686    464,003 | 7,576,356 
-         5 |   458,379    930,800    953,631    963,455    925,930 | 9,840,908 
+         3 |   472,207    484,890    473,760    465,059    440,204 | 7,491,861 
+         4 |   471,793    472,830    488,694    469,686    464,003 | 7,576,296 
+         5 |   458,379    930,811    953,631    963,455    925,930 | 9,840,941 
          6 |   457,254    465,708    472,998    472,987    488,487 | 7,519,383 
-         7 |   468,092    459,829    470,667    469,722    472,367 | 7,630,297 
-         8 |   454,971    912,429    921,699    927,937    925,351 | 9,748,443 
-         9 |   470,427        927      6,027      2,231     12,167 | 5,335,329 
-        10 |   447,194    428,898    463,043    389,735     16,548 | 6,221,855 
-        11 |   420,513    424,011    428,138    472,994    557,079 | 6,922,503 
+         7 |   468,104    459,829    470,667    469,722    472,367 | 7,630,193 
+         8 |   454,971    912,422    921,663    927,937    925,351 | 9,748,411 
+         9 |   470,438        927      6,027      2,231     12,167 | 5,335,340 
+        10 |   447,194     44,194    463,043    389,735     16,548 | 5,837,118 
+        11 |   420,502    424,011    428,138    472,994    557,079 | 6,922,503 
         12 |         0          0      1,847     35,091    426,103 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,601,931  4,582,121  4,682,583  4,670,546  4,729,377 |74,239,278 
+     Total | 4,601,932  4,197,421  4,682,547  4,670,546  4,729,377 |73,854,434 
 
 
            |  Year of
@@ -4795,18 +4606,18 @@ file
      Grade |      2019 |     Total
 -----------+-----------+----------
          2 |         0 | 5,200,710 
-         3 |   459,647 | 7,491,816 
-         4 |   450,420 | 7,576,356 
-         5 |   923,665 | 9,840,908 
+         3 |   459,647 | 7,491,861 
+         4 |   450,420 | 7,576,296 
+         5 |   923,665 | 9,840,941 
          6 |   469,764 | 7,519,383 
-         7 |   483,016 | 7,630,297 
-         8 |   934,176 | 9,748,443 
-         9 |     6,047 | 5,335,329 
-        10 |    31,824 | 6,221,855 
+         7 |   483,016 | 7,630,193 
+         8 |   934,176 | 9,748,411 
+         9 |     6,047 | 5,335,340 
+        10 |    31,824 | 5,837,118 
         11 |   673,301 | 6,922,503 
         12 |   288,637 |   751,678 
 -----------+-----------+----------
-     Total | 4,720,497 |74,239,278 
+     Total | 4,720,497 |73,854,434 
 
 . 
 . * Degree
@@ -4829,55 +4640,55 @@ file
            |                Year of Spring Semester
      Grade |      2003       2004       2005       2006       2007 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   478,811    471,413    462,414    458,891    472,732 | 5,200,710 
-         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,816 
-         4 |   491,017    491,940    489,081    477,065    474,474 | 7,576,356 
-         5 |   476,564    478,626    479,604    475,784    465,856 | 9,840,908 
+         2 |   478,811    471,413    462,414    458,891    472,721 | 5,200,710 
+         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,861 
+         4 |   491,017    491,921    489,092    477,011    474,474 | 7,576,296 
+         5 |   476,564    478,626    479,604    475,784    465,867 | 9,840,941 
          6 |   482,380    475,638    477,581    478,350    472,029 | 7,519,383 
-         7 |   497,365    495,511    489,644    485,881    484,293 | 7,630,297 
-         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,443 
-         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,329 
-        10 |   404,320    421,641    431,787    454,633    455,470 | 6,221,855 
+         7 |   497,365    495,511    489,644    485,881    484,305 | 7,630,193 
+         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,411 
+         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,340 
+        10 |   404,320    421,641    431,787    454,633    455,459 | 5,837,118 
         11 |   344,921    357,598    374,400    381,867    407,531 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,578,082  4,620,748  4,647,038  4,641,990  4,661,638 |74,239,278 
+     Total | 4,578,082  4,620,729  4,647,049  4,641,936  4,661,639 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2008       2009       2010       2011       2012 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   477,138    471,803    468,225    474,331    477,197 | 5,200,710 
-         3 |   465,335    470,950    464,136    462,446    468,679 | 7,491,816 
-         4 |   469,522    468,175    464,429    467,777    465,428 | 7,576,356 
-         5 |   463,911    461,713    458,422    464,569    459,999 | 9,840,908 
+         2 |   477,138    471,803    468,225    474,342    477,197 | 5,200,710 
+         3 |   465,346    470,962    464,147    462,446    468,679 | 7,491,861 
+         4 |   469,533    468,161    464,429    467,776    465,456 | 7,576,296 
+         5 |   463,911    461,724    458,422    464,569    459,999 | 9,840,941 
          6 |   467,563    461,410    457,935    456,870    462,429 | 7,519,383 
-         7 |   481,488    476,277    468,446    464,799    462,900 | 7,630,297 
-         8 |   471,279    470,585    463,630    458,037    456,362 | 9,748,443 
-         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,329 
-        10 |   452,290    456,653    458,680    457,268    451,871 | 6,221,855 
-        11 |   409,660    413,852    416,821    420,677    419,140 | 6,922,503 
+         7 |   481,458    476,252    468,393    464,768    462,911 | 7,630,193 
+         8 |   471,290    470,585    463,630    458,037    456,362 | 9,748,411 
+         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,340 
+        10 |   452,279    456,653    458,669    457,268    451,871 | 5,837,118 
+        11 |   409,660    413,852    416,821    420,688    419,140 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,645,169  4,645,231  4,607,578  4,607,946  4,596,803 |74,239,278 
+     Total | 4,645,161  4,645,215  4,607,525  4,607,936  4,596,842 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2013       2015       2016       2017       2018 |     Total
 -----------+-------------------------------------------------------+----------
          2 |   481,090      1,799      2,079      1,649      1,138 | 5,200,710 
-         3 |   472,196    484,890    473,760    465,059    440,204 | 7,491,816 
-         4 |   471,815    472,830    488,694    469,686    464,003 | 7,576,356 
-         5 |   458,379    930,800    953,631    963,455    925,930 | 9,840,908 
+         3 |   472,207    484,890    473,760    465,059    440,204 | 7,491,861 
+         4 |   471,793    472,830    488,694    469,686    464,003 | 7,576,296 
+         5 |   458,379    930,811    953,631    963,455    925,930 | 9,840,941 
          6 |   457,254    465,708    472,998    472,987    488,487 | 7,519,383 
-         7 |   468,092    459,829    470,667    469,722    472,367 | 7,630,297 
-         8 |   454,971    912,429    921,699    927,937    925,351 | 9,748,443 
-         9 |   470,427        927      6,027      2,231     12,167 | 5,335,329 
-        10 |   447,194    428,898    463,043    389,735     16,548 | 6,221,855 
-        11 |   420,513    424,011    428,138    472,994    557,079 | 6,922,503 
+         7 |   468,104    459,829    470,667    469,722    472,367 | 7,630,193 
+         8 |   454,971    912,422    921,663    927,937    925,351 | 9,748,411 
+         9 |   470,438        927      6,027      2,231     12,167 | 5,335,340 
+        10 |   447,194     44,194    463,043    389,735     16,548 | 5,837,118 
+        11 |   420,502    424,011    428,138    472,994    557,079 | 6,922,503 
         12 |         0          0      1,847     35,091    426,103 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,601,931  4,582,121  4,682,583  4,670,546  4,729,377 |74,239,278 
+     Total | 4,601,932  4,197,421  4,682,547  4,670,546  4,729,377 |73,854,434 
 
 
            |  Year of
@@ -4886,18 +4697,18 @@ file
      Grade |      2019 |     Total
 -----------+-----------+----------
          2 |         0 | 5,200,710 
-         3 |   459,647 | 7,491,816 
-         4 |   450,420 | 7,576,356 
-         5 |   923,665 | 9,840,908 
+         3 |   459,647 | 7,491,861 
+         4 |   450,420 | 7,576,296 
+         5 |   923,665 | 9,840,941 
          6 |   469,764 | 7,519,383 
-         7 |   483,016 | 7,630,297 
-         8 |   934,176 | 9,748,443 
-         9 |     6,047 | 5,335,329 
-        10 |    31,824 | 6,221,855 
+         7 |   483,016 | 7,630,193 
+         8 |   934,176 | 9,748,411 
+         9 |     6,047 | 5,335,340 
+        10 |    31,824 | 5,837,118 
         11 |   673,301 | 6,922,503 
         12 |   288,637 |   751,678 
 -----------+-----------+----------
-     Total | 4,720,497 |74,239,278 
+     Total | 4,720,497 |73,854,434 
 
 . 
 . 
@@ -4918,18 +4729,18 @@ file
   2.         replace `v' = . if /*`v'==0 &*/ k12_nsc_match==0
   3. }
 (0 real changes made)
-(3,032,951 real changes made, 3,032,951 to missing)
-(903,416 real changes made, 903,416 to missing)
-(3,032,951 real changes made, 3,032,951 to missing)
+(3,030,178 real changes made, 3,030,178 to missing)
+(903,202 real changes made, 903,202 to missing)
+(3,030,178 real changes made, 3,030,178 to missing)
 (0 real changes made)
-(3,032,951 real changes made, 3,032,951 to missing)
+(3,030,178 real changes made, 3,030,178 to missing)
 (0 real changes made)
-(1,485,412 real changes made, 1,485,412 to missing)
-(1,485,412 real changes made, 1,485,412 to missing)
-(442,291 real changes made, 442,291 to missing)
-(1,485,412 real changes made, 1,485,412 to missing)
+(1,484,252 real changes made, 1,484,252 to missing)
+(1,484,252 real changes made, 1,484,252 to missing)
+(442,125 real changes made, 442,125 to missing)
+(1,484,252 real changes made, 1,484,252 to missing)
 (0 real changes made)
-(1,485,412 real changes made, 1,485,412 to missing)
+(1,484,252 real changes made, 1,484,252 to missing)
 (0 real changes made)
 
 . macro drop _varlist
@@ -4939,55 +4750,55 @@ file
            |                Year of Spring Semester
      Grade |      2003       2004       2005       2006       2007 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   478,811    471,413    462,414    458,891    472,732 | 5,200,710 
-         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,816 
-         4 |   491,017    491,940    489,081    477,065    474,474 | 7,576,356 
-         5 |   476,564    478,626    479,604    475,784    465,856 | 9,840,908 
+         2 |   478,811    471,413    462,414    458,891    472,721 | 5,200,710 
+         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,861 
+         4 |   491,017    491,921    489,092    477,011    474,474 | 7,576,296 
+         5 |   476,564    478,626    479,604    475,784    465,867 | 9,840,941 
          6 |   482,380    475,638    477,581    478,350    472,029 | 7,519,383 
-         7 |   497,365    495,511    489,644    485,881    484,293 | 7,630,297 
-         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,443 
-         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,329 
-        10 |   404,320    421,641    431,787    454,633    455,470 | 6,221,855 
+         7 |   497,365    495,511    489,644    485,881    484,305 | 7,630,193 
+         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,411 
+         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,340 
+        10 |   404,320    421,641    431,787    454,633    455,459 | 5,837,118 
         11 |   344,921    357,598    374,400    381,867    407,531 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,578,082  4,620,748  4,647,038  4,641,990  4,661,638 |74,239,278 
+     Total | 4,578,082  4,620,729  4,647,049  4,641,936  4,661,639 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2008       2009       2010       2011       2012 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   477,138    471,803    468,225    474,331    477,197 | 5,200,710 
-         3 |   465,335    470,950    464,136    462,446    468,679 | 7,491,816 
-         4 |   469,522    468,175    464,429    467,777    465,428 | 7,576,356 
-         5 |   463,911    461,713    458,422    464,569    459,999 | 9,840,908 
+         2 |   477,138    471,803    468,225    474,342    477,197 | 5,200,710 
+         3 |   465,346    470,962    464,147    462,446    468,679 | 7,491,861 
+         4 |   469,533    468,161    464,429    467,776    465,456 | 7,576,296 
+         5 |   463,911    461,724    458,422    464,569    459,999 | 9,840,941 
          6 |   467,563    461,410    457,935    456,870    462,429 | 7,519,383 
-         7 |   481,488    476,277    468,446    464,799    462,900 | 7,630,297 
-         8 |   471,279    470,585    463,630    458,037    456,362 | 9,748,443 
-         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,329 
-        10 |   452,290    456,653    458,680    457,268    451,871 | 6,221,855 
-        11 |   409,660    413,852    416,821    420,677    419,140 | 6,922,503 
+         7 |   481,458    476,252    468,393    464,768    462,911 | 7,630,193 
+         8 |   471,290    470,585    463,630    458,037    456,362 | 9,748,411 
+         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,340 
+        10 |   452,279    456,653    458,669    457,268    451,871 | 5,837,118 
+        11 |   409,660    413,852    416,821    420,688    419,140 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,645,169  4,645,231  4,607,578  4,607,946  4,596,803 |74,239,278 
+     Total | 4,645,161  4,645,215  4,607,525  4,607,936  4,596,842 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2013       2015       2016       2017       2018 |     Total
 -----------+-------------------------------------------------------+----------
          2 |   481,090      1,799      2,079      1,649      1,138 | 5,200,710 
-         3 |   472,196    484,890    473,760    465,059    440,204 | 7,491,816 
-         4 |   471,815    472,830    488,694    469,686    464,003 | 7,576,356 
-         5 |   458,379    930,800    953,631    963,455    925,930 | 9,840,908 
+         3 |   472,207    484,890    473,760    465,059    440,204 | 7,491,861 
+         4 |   471,793    472,830    488,694    469,686    464,003 | 7,576,296 
+         5 |   458,379    930,811    953,631    963,455    925,930 | 9,840,941 
          6 |   457,254    465,708    472,998    472,987    488,487 | 7,519,383 
-         7 |   468,092    459,829    470,667    469,722    472,367 | 7,630,297 
-         8 |   454,971    912,429    921,699    927,937    925,351 | 9,748,443 
-         9 |   470,427        927      6,027      2,231     12,167 | 5,335,329 
-        10 |   447,194    428,898    463,043    389,735     16,548 | 6,221,855 
-        11 |   420,513    424,011    428,138    472,994    557,079 | 6,922,503 
+         7 |   468,104    459,829    470,667    469,722    472,367 | 7,630,193 
+         8 |   454,971    912,422    921,663    927,937    925,351 | 9,748,411 
+         9 |   470,438        927      6,027      2,231     12,167 | 5,335,340 
+        10 |   447,194     44,194    463,043    389,735     16,548 | 5,837,118 
+        11 |   420,502    424,011    428,138    472,994    557,079 | 6,922,503 
         12 |         0          0      1,847     35,091    426,103 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,601,931  4,582,121  4,682,583  4,670,546  4,729,377 |74,239,278 
+     Total | 4,601,932  4,197,421  4,682,547  4,670,546  4,729,377 |73,854,434 
 
 
            |  Year of
@@ -4996,18 +4807,18 @@ file
      Grade |      2019 |     Total
 -----------+-----------+----------
          2 |         0 | 5,200,710 
-         3 |   459,647 | 7,491,816 
-         4 |   450,420 | 7,576,356 
-         5 |   923,665 | 9,840,908 
+         3 |   459,647 | 7,491,861 
+         4 |   450,420 | 7,576,296 
+         5 |   923,665 | 9,840,941 
          6 |   469,764 | 7,519,383 
-         7 |   483,016 | 7,630,297 
-         8 |   934,176 | 9,748,443 
-         9 |     6,047 | 5,335,329 
-        10 |    31,824 | 6,221,855 
+         7 |   483,016 | 7,630,193 
+         8 |   934,176 | 9,748,411 
+         9 |     6,047 | 5,335,340 
+        10 |    31,824 | 5,837,118 
         11 |   673,301 | 6,922,503 
         12 |   288,637 |   751,678 
 -----------+-----------+----------
-     Total | 4,720,497 |74,239,278 
+     Total | 4,720,497 |73,854,434 
 
 . 
 . 
@@ -5035,55 +4846,55 @@ file
            |                Year of Spring Semester
      Grade |      2003       2004       2005       2006       2007 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   478,811    471,413    462,414    458,891    472,732 | 5,200,710 
-         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,816 
-         4 |   491,017    491,940    489,081    477,065    474,474 | 7,576,356 
-         5 |   476,564    478,626    479,604    475,784    465,856 | 9,840,908 
+         2 |   478,811    471,413    462,414    458,891    472,721 | 5,200,710 
+         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,861 
+         4 |   491,017    491,921    489,092    477,011    474,474 | 7,576,296 
+         5 |   476,564    478,626    479,604    475,784    465,867 | 9,840,941 
          6 |   482,380    475,638    477,581    478,350    472,029 | 7,519,383 
-         7 |   497,365    495,511    489,644    485,881    484,293 | 7,630,297 
-         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,443 
-         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,329 
-        10 |   404,320    421,641    431,787    454,633    455,470 | 6,221,855 
+         7 |   497,365    495,511    489,644    485,881    484,305 | 7,630,193 
+         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,411 
+         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,340 
+        10 |   404,320    421,641    431,787    454,633    455,459 | 5,837,118 
         11 |   344,921    357,598    374,400    381,867    407,531 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,578,082  4,620,748  4,647,038  4,641,990  4,661,638 |74,239,278 
+     Total | 4,578,082  4,620,729  4,647,049  4,641,936  4,661,639 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2008       2009       2010       2011       2012 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   477,138    471,803    468,225    474,331    477,197 | 5,200,710 
-         3 |   465,335    470,950    464,136    462,446    468,679 | 7,491,816 
-         4 |   469,522    468,175    464,429    467,777    465,428 | 7,576,356 
-         5 |   463,911    461,713    458,422    464,569    459,999 | 9,840,908 
+         2 |   477,138    471,803    468,225    474,342    477,197 | 5,200,710 
+         3 |   465,346    470,962    464,147    462,446    468,679 | 7,491,861 
+         4 |   469,533    468,161    464,429    467,776    465,456 | 7,576,296 
+         5 |   463,911    461,724    458,422    464,569    459,999 | 9,840,941 
          6 |   467,563    461,410    457,935    456,870    462,429 | 7,519,383 
-         7 |   481,488    476,277    468,446    464,799    462,900 | 7,630,297 
-         8 |   471,279    470,585    463,630    458,037    456,362 | 9,748,443 
-         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,329 
-        10 |   452,290    456,653    458,680    457,268    451,871 | 6,221,855 
-        11 |   409,660    413,852    416,821    420,677    419,140 | 6,922,503 
+         7 |   481,458    476,252    468,393    464,768    462,911 | 7,630,193 
+         8 |   471,290    470,585    463,630    458,037    456,362 | 9,748,411 
+         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,340 
+        10 |   452,279    456,653    458,669    457,268    451,871 | 5,837,118 
+        11 |   409,660    413,852    416,821    420,688    419,140 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,645,169  4,645,231  4,607,578  4,607,946  4,596,803 |74,239,278 
+     Total | 4,645,161  4,645,215  4,607,525  4,607,936  4,596,842 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2013       2015       2016       2017       2018 |     Total
 -----------+-------------------------------------------------------+----------
          2 |   481,090      1,799      2,079      1,649      1,138 | 5,200,710 
-         3 |   472,196    484,890    473,760    465,059    440,204 | 7,491,816 
-         4 |   471,815    472,830    488,694    469,686    464,003 | 7,576,356 
-         5 |   458,379    930,800    953,631    963,455    925,930 | 9,840,908 
+         3 |   472,207    484,890    473,760    465,059    440,204 | 7,491,861 
+         4 |   471,793    472,830    488,694    469,686    464,003 | 7,576,296 
+         5 |   458,379    930,811    953,631    963,455    925,930 | 9,840,941 
          6 |   457,254    465,708    472,998    472,987    488,487 | 7,519,383 
-         7 |   468,092    459,829    470,667    469,722    472,367 | 7,630,297 
-         8 |   454,971    912,429    921,699    927,937    925,351 | 9,748,443 
-         9 |   470,427        927      6,027      2,231     12,167 | 5,335,329 
-        10 |   447,194    428,898    463,043    389,735     16,548 | 6,221,855 
-        11 |   420,513    424,011    428,138    472,994    557,079 | 6,922,503 
+         7 |   468,104    459,829    470,667    469,722    472,367 | 7,630,193 
+         8 |   454,971    912,422    921,663    927,937    925,351 | 9,748,411 
+         9 |   470,438        927      6,027      2,231     12,167 | 5,335,340 
+        10 |   447,194     44,194    463,043    389,735     16,548 | 5,837,118 
+        11 |   420,502    424,011    428,138    472,994    557,079 | 6,922,503 
         12 |         0          0      1,847     35,091    426,103 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,601,931  4,582,121  4,682,583  4,670,546  4,729,377 |74,239,278 
+     Total | 4,601,932  4,197,421  4,682,547  4,670,546  4,729,377 |73,854,434 
 
 
            |  Year of
@@ -5092,18 +4903,18 @@ file
      Grade |      2019 |     Total
 -----------+-----------+----------
          2 |         0 | 5,200,710 
-         3 |   459,647 | 7,491,816 
-         4 |   450,420 | 7,576,356 
-         5 |   923,665 | 9,840,908 
+         3 |   459,647 | 7,491,861 
+         4 |   450,420 | 7,576,296 
+         5 |   923,665 | 9,840,941 
          6 |   469,764 | 7,519,383 
-         7 |   483,016 | 7,630,297 
-         8 |   934,176 | 9,748,443 
-         9 |     6,047 | 5,335,329 
-        10 |    31,824 | 6,221,855 
+         7 |   483,016 | 7,630,193 
+         8 |   934,176 | 9,748,411 
+         9 |     6,047 | 5,335,340 
+        10 |    31,824 | 5,837,118 
         11 |   673,301 | 6,922,503 
         12 |   288,637 |   751,678 
 -----------+-----------+----------
-     Total | 4,720,497 |74,239,278 
+     Total | 4,720,497 |73,854,434 
 
 . 
 . 
@@ -5139,55 +4950,55 @@ file
            |                Year of Spring Semester
      Grade |      2003       2004       2005       2006       2007 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   478,811    471,413    462,414    458,891    472,732 | 5,200,710 
-         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,816 
-         4 |   491,017    491,940    489,081    477,065    474,474 | 7,576,356 
-         5 |   476,564    478,626    479,604    475,784    465,856 | 9,840,908 
+         2 |   478,811    471,413    462,414    458,891    472,721 | 5,200,710 
+         3 |   483,906    478,736    469,984    462,182    469,706 | 7,491,861 
+         4 |   491,017    491,921    489,092    477,011    474,474 | 7,576,296 
+         5 |   476,564    478,626    479,604    475,784    465,867 | 9,840,941 
          6 |   482,380    475,638    477,581    478,350    472,029 | 7,519,383 
-         7 |   497,365    495,511    489,644    485,881    484,293 | 7,630,297 
-         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,443 
-         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,329 
-        10 |   404,320    421,641    431,787    454,633    455,470 | 6,221,855 
+         7 |   497,365    495,511    489,644    485,881    484,305 | 7,630,193 
+         8 |   453,618    477,686    478,126    471,695    470,862 | 9,748,411 
+         9 |   465,180    471,959    494,417    495,642    488,685 | 5,335,340 
+        10 |   404,320    421,641    431,787    454,633    455,459 | 5,837,118 
         11 |   344,921    357,598    374,400    381,867    407,531 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,578,082  4,620,748  4,647,038  4,641,990  4,661,638 |74,239,278 
+     Total | 4,578,082  4,620,729  4,647,049  4,641,936  4,661,639 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2008       2009       2010       2011       2012 |     Total
 -----------+-------------------------------------------------------+----------
-         2 |   477,138    471,803    468,225    474,331    477,197 | 5,200,710 
-         3 |   465,335    470,950    464,136    462,446    468,679 | 7,491,816 
-         4 |   469,522    468,175    464,429    467,777    465,428 | 7,576,356 
-         5 |   463,911    461,713    458,422    464,569    459,999 | 9,840,908 
+         2 |   477,138    471,803    468,225    474,342    477,197 | 5,200,710 
+         3 |   465,346    470,962    464,147    462,446    468,679 | 7,491,861 
+         4 |   469,533    468,161    464,429    467,776    465,456 | 7,576,296 
+         5 |   463,911    461,724    458,422    464,569    459,999 | 9,840,941 
          6 |   467,563    461,410    457,935    456,870    462,429 | 7,519,383 
-         7 |   481,488    476,277    468,446    464,799    462,900 | 7,630,297 
-         8 |   471,279    470,585    463,630    458,037    456,362 | 9,748,443 
-         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,329 
-        10 |   452,290    456,653    458,680    457,268    451,871 | 6,221,855 
-        11 |   409,660    413,852    416,821    420,677    419,140 | 6,922,503 
+         7 |   481,458    476,252    468,393    464,768    462,911 | 7,630,193 
+         8 |   471,290    470,585    463,630    458,037    456,362 | 9,748,411 
+         9 |   486,983    493,813    486,854    481,172    472,798 | 5,335,340 
+        10 |   452,279    456,653    458,669    457,268    451,871 | 5,837,118 
+        11 |   409,660    413,852    416,821    420,688    419,140 | 6,922,503 
         12 |         0          0          0          0          0 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,645,169  4,645,231  4,607,578  4,607,946  4,596,803 |74,239,278 
+     Total | 4,645,161  4,645,215  4,607,525  4,607,936  4,596,842 |73,854,434 
 
 
            |                Year of Spring Semester
      Grade |      2013       2015       2016       2017       2018 |     Total
 -----------+-------------------------------------------------------+----------
          2 |   481,090      1,799      2,079      1,649      1,138 | 5,200,710 
-         3 |   472,196    484,890    473,760    465,059    440,204 | 7,491,816 
-         4 |   471,815    472,830    488,694    469,686    464,003 | 7,576,356 
-         5 |   458,379    930,800    953,631    963,455    925,930 | 9,840,908 
+         3 |   472,207    484,890    473,760    465,059    440,204 | 7,491,861 
+         4 |   471,793    472,830    488,694    469,686    464,003 | 7,576,296 
+         5 |   458,379    930,811    953,631    963,455    925,930 | 9,840,941 
          6 |   457,254    465,708    472,998    472,987    488,487 | 7,519,383 
-         7 |   468,092    459,829    470,667    469,722    472,367 | 7,630,297 
-         8 |   454,971    912,429    921,699    927,937    925,351 | 9,748,443 
-         9 |   470,427        927      6,027      2,231     12,167 | 5,335,329 
-        10 |   447,194    428,898    463,043    389,735     16,548 | 6,221,855 
-        11 |   420,513    424,011    428,138    472,994    557,079 | 6,922,503 
+         7 |   468,104    459,829    470,667    469,722    472,367 | 7,630,193 
+         8 |   454,971    912,422    921,663    927,937    925,351 | 9,748,411 
+         9 |   470,438        927      6,027      2,231     12,167 | 5,335,340 
+        10 |   447,194     44,194    463,043    389,735     16,548 | 5,837,118 
+        11 |   420,502    424,011    428,138    472,994    557,079 | 6,922,503 
         12 |         0          0      1,847     35,091    426,103 |   751,678 
 -----------+-------------------------------------------------------+----------
-     Total | 4,601,931  4,582,121  4,682,583  4,670,546  4,729,377 |74,239,278 
+     Total | 4,601,932  4,197,421  4,682,547  4,670,546  4,729,377 |73,854,434 
 
 
            |  Year of
@@ -5196,18 +5007,18 @@ file
      Grade |      2019 |     Total
 -----------+-----------+----------
          2 |         0 | 5,200,710 
-         3 |   459,647 | 7,491,816 
-         4 |   450,420 | 7,576,356 
-         5 |   923,665 | 9,840,908 
+         3 |   459,647 | 7,491,861 
+         4 |   450,420 | 7,576,296 
+         5 |   923,665 | 9,840,941 
          6 |   469,764 | 7,519,383 
-         7 |   483,016 | 7,630,297 
-         8 |   934,176 | 9,748,443 
-         9 |     6,047 | 5,335,329 
-        10 |    31,824 | 6,221,855 
+         7 |   483,016 | 7,630,193 
+         8 |   934,176 | 9,748,411 
+         9 |     6,047 | 5,335,340 
+        10 |    31,824 | 5,837,118 
         11 |   673,301 | 6,922,503 
         12 |   288,637 |   751,678 
 -----------+-----------+----------
-     Total | 4,720,497 |74,239,278 
+     Total | 4,720,497 |73,854,434 
 
 . 
 end of do-file
@@ -5236,12 +5047,12 @@ end of do-file
   variable enr_ontime_instate was float now byte
   variable enr_outstate was float now byte
   variable enr_ontime_outstate was float now byte
-  (2,449,906,569 bytes saved)
+  (2,437,206,717 bytes saved)
 
 .   tempfile va_dataset
 
 .   save `va_dataset'
-file /home/tmp/St16505.000003 saved as .dta format
+file /home/tmp/St35924.000003 saved as .dta format
 
 . 
 . 
@@ -5269,36 +5080,47 @@ file /home/tmp/St16505.000003 saved as .dta format
 
 . 
 . keep if diff_school_prop>=0.95
-(97,358 observations deleted)
+(97,777 observations deleted)
 
 . 
 . include do_files/sbac/create_prior_scores.doh
 
 . **************** Prior Scores
+. /*
+> VA Test Score Controls
+> Spring 2015 cohort use 8th grade ELA (spring 2012) and 6th grade math (spring
+>  2010)
+> Spring 2016 cohort use 8th grade ELA  (spring 2013) and 6th grade math (sprin
+> g 2011)
+> Spring 2017 cohort use 7th grade ELA  (spring 2013) and 6th grade math (sprin
+> g 2012)
+> Spring 2018 cohort use 8th grade ELA  (spring 2015) and 8th grade math (sprin
+> g 2015)
+>  */
 . ******** ELA
 . gen prior_ela_z_score = L3_cst_ela_z_score if inrange(year, `star_min_year' +
 >  3, `star_max_year' + 3) & year!=2017
-(1,113,021 missing values generated)
+(1,112,603 missing values generated)
 
 . replace prior_ela_z_score = L3_sbac_ela_z_score if inrange(year, `caaspp_min_
 > year' + 3, `caaspp_max_year' + 3) & year!=2017
-(344,053 real changes made)
+(344,023 real changes made)
 
 . replace prior_ela_z_score = L4_cst_ela_z_score if year==2017
-(333,419 real changes made)
+(333,291 real changes made)
 
 . label var prior_ela_z_score "Prior ELA Z-Score"
 
 . gen peer_prior_ela_z_score = peer_L3_cst_ela_z_score if inrange(year, `star_m
 > in_year' + 3, `star_max_year' + 3) & year!=2017
-(976,464 missing values generated)
+(976,045 missing values generated)
 
 . replace peer_prior_ela_z_score = peer_L3_sbac_ela_z_score if inrange(year, `c
 > aaspp_min_year' + 3, `caaspp_max_year' + 3) & year!=2017
-(525,703 real changes made)
+(525,644 real changes made)
 
 . replace peer_prior_ela_z_score = peer_L4_cst_ela_z_score if year==2017
-(450,528 real changes made)
+(450,168 real changes made)
 
 . label var peer_prior_ela_z_score "Peer Avg. Prior ELA Z-Score"
 
@@ -5307,22 +5129,22 @@ file /home/tmp/St16505.000003 saved as .dta format
 . gen prior_math_z_score = L5_cst_math_z_score if inrange(year, `star_min_year'
 >  + 5, `star_max_year' + 5) & !inrange(year, `caaspp_min_year' + 3, `caaspp_ma
 > x_year' + 3)
-(798,623 missing values generated)
+(798,328 missing values generated)
 
 . replace prior_math_z_score = L3_sbac_math_z_score if inrange(year, `caaspp_mi
 > n_year' + 3, `caaspp_max_year' + 3)
-(344,849 real changes made)
+(344,819 real changes made)
 
 . label var prior_math_z_score "Prior Math Z-Score"
 
 . gen peer_prior_math_z_score = peer_L5_cst_math_z_score if inrange(year, `star
 > _min_year' + 5, `star_max_year' + 5) & !inrange(year, `caaspp_min_year' + 3, 
 > `caaspp_max_year' + 3)
-(525,936 missing values generated)
+(525,877 missing values generated)
 
 . replace peer_prior_math_z_score = peer_L3_sbac_math_z_score if inrange(year, 
 > `caaspp_min_year' + 3, `caaspp_max_year' + 3)
-(525,703 real changes made)
+(525,644 real changes made)
 
 . label var peer_prior_math_z_score "Peer Avg. Prior Math Z-Score"
 
@@ -5336,7 +5158,7 @@ file /home/tmp/St16505.000003 saved as .dta format
 . tempfile va_g11_dataset
 
 . save `va_g11_dataset'
-file /home/tmp/St16505.000004 saved as .dta format
+file /home/tmp/St35924.000004 saved as .dta format
 
 . 
 . 
@@ -5367,12 +5189,12 @@ file
 . timer off 1
 
 . timer list
-   1:   7631.47 /        1 =    7631.4680
+   1:   6699.80 /        1 =    6699.8020
 
 . log close
       name:  <unnamed>
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/createvasample.smcl
   log type:  smcl
- closed on:   3 May 2022, 20:47:16
+ closed on:  25 Jul 2022, 20:36:14
 -------------------------------------------------------------------------------

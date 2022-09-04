@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/demographics/parentcoverageanalysis.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 7 Apr 2022, 14:55:59
+ {txt}opened on:  {res}25 Jul 2022, 18:09:26
 {txt}
 {com}. 
 . grstyle init  //initializes the grstyle package
@@ -162,7 +162,7 @@
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/demographics/parentcoverageanalysis.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 7 Apr 2022, 14:56:12
+ {txt}closed on:  {res}25 Jul 2022, 18:09:39
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/va_sibling_spec_test_tab.smcl
   log type:  smcl
- opened on:   3 May 2022, 22:32:41
+ opened on:  25 Jul 2022, 22:18:12
 
 . 
 .  //run the do helper file to set the local macros
@@ -82,6 +82,23 @@ delimiter now ;
 
 . local enr_4year_str
 >         "Enrolled On Time 4-Year"
+>         ;
+
+. **** Sibling Census Restricted Sample Controls Strings ;
+. local og_str
+>         "Original Specification"
+>         ;
+
+. local acs_str
+>         "Original + Census"
+>         ;
+
+. local sib_str
+>         "Original + Sibling"
+>         ;
+
+. local both_str
+>         "Original + Census + Sibling"
 >         ;
 
 . **** Value Added ;
@@ -215,10 +232,20 @@ delimiter now cr
 T_gm_fix_span:  0
 eststo_counter: 3
 eststo:         spec_g11_enr spec_g11_enr_2year spec_g11_enr_4year
-S_4:            .0020423965494575
+S_4:            .0020413479904597
 S_2:            300
-S_3:            .0135669174878782
+S_3:            .0136102212476191
 S_1:            epanechnikov
+S_6:            .7098361624622439
+S_5:            4
+ReS_jv2:        __000006 __000007 __000008 __000009 __00000A __00000B __00000C
+                __00000D __00000E __00000F __00000G __00000H __00000I __00000J
+                __00000K
+dropv:          _cdscode_x
+n_offset:       0
+sort:           0
+dots:           nois _dots 5 0
+dotss:          nois _dots 0, title(Survey results being calculated)
 vaprojxwalks:   /home/research/ca_ed_lab/projects/common_core_va/data/restricte
                 > d_access/clean/crosswalks
 mattxwalks:     /home/research/ca_ed_lab/users/msnaven/data/restricted_access/c
@@ -295,6 +322,10 @@ _peer_demographic_controls:
 _demographic_controls:
                 age i.male i.eth_asian i.eth_hispanic i.eth_black i.eth_other
                 i.econ_disadvantage i.limited_eng_prof i.disabled
+_both_str:      Original + Census + Sibling
+_sib_str:       Original + Sibling
+_acs_str:       Original + Census
+_og_str:        Original Specification
 _enr_4year_str: Enrolled On Time 4-Year
 _enr_2year_str: Enrolled On Time 2-Year
 _enr_str:       Enrolled On Time
@@ -702,8 +733,8 @@ _va_dataset:    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_co
 
  ( 1)  va_cfr_g11_ela = 1
 
-       F(  1,  1280) =    2.04
-            Prob > F =    0.1537
+       F(  1,  1279) =    2.02
+            Prob > F =    0.1559
 
 added matrix:
              e(test_p) :  1 x 1
@@ -711,8 +742,8 @@ added matrix:
 
  ( 1)  va_cfr_g11_ela = 1
 
-       F(  1,  1248) =    0.00
-            Prob > F =    0.9864
+       F(  1,  1247) =    0.00
+            Prob > F =    0.9906
 
 added matrix:
              e(test_p) :  1 x 1
@@ -720,8 +751,8 @@ added matrix:
 
  ( 1)  va_cfr_g11_ela = 1
 
-       F(  1,  1265) =    0.20
-            Prob > F =    0.6580
+       F(  1,  1264) =    0.19
+            Prob > F =    0.6603
 
 added matrix:
              e(test_p) :  1 x 1
@@ -729,8 +760,8 @@ added matrix:
 
  ( 1)  va_cfr_g11_ela = 1
 
-       F(  1,  1275) =    0.71
-            Prob > F =    0.4006
+       F(  1,  1274) =    0.70
+            Prob > F =    0.4023
 
 added matrix:
              e(test_p) :  1 x 1
@@ -738,8 +769,8 @@ added matrix:
 
  ( 1)  va_cfr_g11_ela = 1
 
-       F(  1,  1275) =    0.71
-            Prob > F =    0.3982
+       F(  1,  1274) =    0.71
+            Prob > F =    0.3998
 
 added matrix:
              e(test_p) :  1 x 1
@@ -749,7 +780,7 @@ added matrix:
 
  ( 1)  va_cfr_g11_math = 1
 
-       F(  1,  1279) =   17.07
+       F(  1,  1278) =   17.13
             Prob > F =    0.0000
 
 added matrix:
@@ -758,7 +789,7 @@ added matrix:
 
  ( 1)  va_cfr_g11_math = 1
 
-       F(  1,  1245) =   21.09
+       F(  1,  1244) =   20.94
             Prob > F =    0.0000
 
 added matrix:
@@ -767,8 +798,8 @@ added matrix:
 
  ( 1)  va_cfr_g11_math = 1
 
-       F(  1,  1263) =    3.22
-            Prob > F =    0.0730
+       F(  1,  1262) =    3.29
+            Prob > F =    0.0700
 
 added matrix:
              e(test_p) :  1 x 1
@@ -776,8 +807,8 @@ added matrix:
 
  ( 1)  va_cfr_g11_math = 1
 
-       F(  1,  1273) =    4.33
-            Prob > F =    0.0376
+       F(  1,  1272) =    4.36
+            Prob > F =    0.0370
 
 added matrix:
              e(test_p) :  1 x 1
@@ -785,8 +816,8 @@ added matrix:
 
  ( 1)  va_cfr_g11_math = 1
 
-       F(  1,  1273) =    4.44
-            Prob > F =    0.0354
+       F(  1,  1272) =    4.47
+            Prob > F =    0.0346
 
 added matrix:
              e(test_p) :  1 x 1
@@ -884,8 +915,8 @@ added matrix:
 
  ( 1)  va_cfr_g11_enr = 1
 
-       F(  1,  1281) =    9.08
-            Prob > F =    0.0026
+       F(  1,  1280) =    7.49
+            Prob > F =    0.0063
 
 added matrix:
              e(test_p) :  1 x 1
@@ -893,7 +924,7 @@ added matrix:
 
  ( 1)  va_cfr_g11_enr = 1
 
-       F(  1,  1267) =   36.96
+       F(  1,  1266) =   34.15
             Prob > F =    0.0000
 
 added matrix:
@@ -902,8 +933,8 @@ added matrix:
 
  ( 1)  va_cfr_g11_enr = 1
 
-       F(  1,  1286) =    7.28
-            Prob > F =    0.0071
+       F(  1,  1265) =    6.82
+            Prob > F =    0.0091
 
 added matrix:
              e(test_p) :  1 x 1
@@ -911,7 +942,7 @@ added matrix:
 
  ( 1)  va_cfr_g11_enr = 1
 
-       F(  1,  1277) =   23.54
+       F(  1,  1276) =   21.07
             Prob > F =    0.0000
 
 added matrix:
@@ -920,7 +951,7 @@ added matrix:
 
  ( 1)  va_cfr_g11_enr = 1
 
-       F(  1,  1277) =   23.15
+       F(  1,  1276) =   20.72
             Prob > F =    0.0000
 
 added matrix:
@@ -929,8 +960,8 @@ added matrix:
 
  ( 1)  va_enr_nosib_noacs = 1
 
-       F(  1,  1249) =   13.62
-            Prob > F =    0.0002
+       F(  1,  1248) =   12.63
+            Prob > F =    0.0004
 
 added matrix:
              e(test_p) :  1 x 1
@@ -938,8 +969,8 @@ added matrix:
 
  ( 1)  va_enr_noacs = 1
 
-       F(  1,  1249) =   13.37
-            Prob > F =    0.0003
+       F(  1,  1248) =   12.39
+            Prob > F =    0.0004
 
 added matrix:
              e(test_p) :  1 x 1
@@ -949,8 +980,8 @@ added matrix:
 
  ( 1)  va_cfr_g11_enr_2year = 1
 
-       F(  1,  1281) =    6.81
-            Prob > F =    0.0092
+       F(  1,  1280) =    6.87
+            Prob > F =    0.0088
 
 added matrix:
              e(test_p) :  1 x 1
@@ -958,7 +989,7 @@ added matrix:
 
  ( 1)  va_cfr_g11_enr_2year = 1
 
-       F(  1,  1267) =   36.62
+       F(  1,  1266) =   36.69
             Prob > F =    0.0000
 
 added matrix:
@@ -967,8 +998,8 @@ added matrix:
 
  ( 1)  va_cfr_g11_enr_2year = 1
 
-       F(  1,  1286) =    6.11
-            Prob > F =    0.0136
+       F(  1,  1265) =    6.14
+            Prob > F =    0.0134
 
 added matrix:
              e(test_p) :  1 x 1
@@ -976,8 +1007,8 @@ added matrix:
 
  ( 1)  va_cfr_g11_enr_2year = 1
 
-       F(  1,  1277) =    0.39
-            Prob > F =    0.5308
+       F(  1,  1276) =    0.36
+            Prob > F =    0.5493
 
 added matrix:
              e(test_p) :  1 x 1
@@ -985,8 +1016,8 @@ added matrix:
 
  ( 1)  va_cfr_g11_enr_2year = 1
 
-       F(  1,  1277) =    0.58
-            Prob > F =    0.4459
+       F(  1,  1276) =    0.50
+            Prob > F =    0.4792
 
 added matrix:
              e(test_p) :  1 x 1
@@ -994,8 +1025,8 @@ added matrix:
 
  ( 1)  va_enr_2year_nosib_noacs = 1
 
-       F(  1,  1249) =    2.14
-            Prob > F =    0.1437
+       F(  1,  1248) =    2.17
+            Prob > F =    0.1410
 
 added matrix:
              e(test_p) :  1 x 1
@@ -1003,8 +1034,8 @@ added matrix:
 
  ( 1)  va_enr_2year_noacs = 1
 
-       F(  1,  1249) =    1.77
-            Prob > F =    0.1837
+       F(  1,  1248) =    1.87
+            Prob > F =    0.1713
 
 added matrix:
              e(test_p) :  1 x 1
@@ -1014,8 +1045,8 @@ added matrix:
 
  ( 1)  va_cfr_g11_enr_4year = 1
 
-       F(  1,  1281) =    1.07
-            Prob > F =    0.3008
+       F(  1,  1280) =    0.76
+            Prob > F =    0.3828
 
 added matrix:
              e(test_p) :  1 x 1
@@ -1023,8 +1054,8 @@ added matrix:
 
  ( 1)  va_cfr_g11_enr_4year = 1
 
-       F(  1,  1267) =    1.52
-            Prob > F =    0.2175
+       F(  1,  1266) =    1.10
+            Prob > F =    0.2939
 
 added matrix:
              e(test_p) :  1 x 1
@@ -1032,8 +1063,8 @@ added matrix:
 
  ( 1)  va_cfr_g11_enr_4year = 1
 
-       F(  1,  1286) =   10.38
-            Prob > F =    0.0013
+       F(  1,  1265) =   10.00
+            Prob > F =    0.0016
 
 added matrix:
              e(test_p) :  1 x 1
@@ -1041,8 +1072,8 @@ added matrix:
 
  ( 1)  va_cfr_g11_enr_4year = 1
 
-       F(  1,  1277) =    9.54
-            Prob > F =    0.0021
+       F(  1,  1276) =    8.84
+            Prob > F =    0.0030
 
 added matrix:
              e(test_p) :  1 x 1
@@ -1050,8 +1081,8 @@ added matrix:
 
  ( 1)  va_cfr_g11_enr_4year = 1
 
-       F(  1,  1277) =    9.53
-            Prob > F =    0.0021
+       F(  1,  1276) =    8.69
+            Prob > F =    0.0033
 
 added matrix:
              e(test_p) :  1 x 1
@@ -1059,8 +1090,8 @@ added matrix:
 
  ( 1)  va_enr_4year_nosib_noacs = 1
 
-       F(  1,  1249) =   11.43
-            Prob > F =    0.0007
+       F(  1,  1248) =   10.94
+            Prob > F =    0.0010
 
 added matrix:
              e(test_p) :  1 x 1
@@ -1068,8 +1099,8 @@ added matrix:
 
  ( 1)  va_enr_4year_noacs = 1
 
-       F(  1,  1249) =   10.84
-            Prob > F =    0.0010
+       F(  1,  1248) =   10.23
+            Prob > F =    0.0014
 
 added matrix:
              e(test_p) :  1 x 1
@@ -1083,12 +1114,12 @@ added matrix:
 .  timer off 1
 
 .  timer list
-   1:      0.32 /        1 =       0.3170
+   1:      1.15 /        1 =       1.1540
 
 .  log close
       name:  <unnamed>
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/va_sibling_spec_test_tab.smcl
   log type:  smcl
- closed on:   3 May 2022, 22:32:42
+ closed on:  25 Jul 2022, 22:18:13
 -------------------------------------------------------------------------------

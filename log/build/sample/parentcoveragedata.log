@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/sample
 > /parentcoveragedata.smcl
   log type:  smcl
- opened on:   7 Apr 2022, 14:55:59
+ opened on:  25 Jul 2022, 18:09:26
 
 . 
 . local years `" "1415" "1516" "1617" "1718" "1819" "' //local macro for elemen
@@ -195,5 +195,5 @@ file
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/sample
 > /parentcoveragedata.smcl
   log type:  smcl
- closed on:   7 Apr 2022, 14:55:59
+ closed on:  25 Jul 2022, 18:09:26
 -------------------------------------------------------------------------------

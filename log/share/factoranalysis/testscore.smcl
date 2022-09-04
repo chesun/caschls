@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/testscore.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 7 Apr 2022, 15:47:37
+ {txt}opened on:  {res}25 Jul 2022, 18:11:27
 {txt}
 {com}. 
 . 
@@ -19,26 +19,26 @@
 {res}
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
-{col 5}Not matched{col 30}{res}      77,190,720
+{col 5}Not matched{col 30}{res}      76,779,668
 {txt}{col 9}from master{col 30}{res}               0{txt}  (_merge==1)
-{col 9}from using{col 30}{res}      77,190,720{txt}  (_merge==2)
+{col 9}from using{col 30}{res}      76,779,668{txt}  (_merge==2)
 
 {col 5}Matched{col 30}{res}       1,431,423{txt}  (_merge==3)
 {col 5}{hline 41}
 
 {com}. //only keep merged observations
 . keep if _merge == 3
-{txt}(77,190,720 observations deleted)
+{txt}(76,779,668 observations deleted)
 
 {com}. drop _merge
 {txt}
 {com}. 
 . /* use grade 7 ELA score for grade 8 in year 2017 due to missing data */
 . gen prior_gr8_zscore = L3_cst_ela_z_score if inrange(year, 2015, 2016)
-{txt}(639,778 missing values generated)
+{txt}(639,784 missing values generated)
 
 {com}. replace prior_gr8_zscore = L4_cst_ela_z_score if year==2017
-{txt}(386,846 real changes made)
+{txt}(386,845 real changes made)
 
 {com}. 
 . //keep only the 6th grade math score (L5) and 8th grade (L3) ELA score
@@ -78,7 +78,7 @@ saved
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/testscore.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 7 Apr 2022, 15:49:32
+ {txt}closed on:  {res}25 Jul 2022, 18:13:17
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

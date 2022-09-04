@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/allsvyfactor.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 7 Apr 2022, 14:57:48
+ {txt}opened on:  {res}25 Jul 2022, 18:11:06
 {txt}
 {com}. 
 . /* use principal factoring method because data is not multinormal */
@@ -501,7 +501,7 @@ Factor analysis/correlation{col 50}Number of obs    = {res}       299
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/allsvyfactor.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 7 Apr 2022, 14:57:50
+ {txt}closed on:  {res}25 Jul 2022, 18:11:07
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

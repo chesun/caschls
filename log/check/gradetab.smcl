@@ -3,7 +3,7 @@
       name:  {res}gradetab
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/check/gradetab.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 7 Apr 2022, 14:51:49
+ {txt}opened on:  {res}25 Jul 2022, 18:05:37
 {txt}
 {com}. 
 . ******************** Tabulate elementary datasets *******************************
@@ -567,7 +567,7 @@
       {txt}name:  {res}gradetab
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/check/gradetab.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 7 Apr 2022, 14:51:53
+ {txt}closed on:  {res}25 Jul 2022, 18:05:41
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

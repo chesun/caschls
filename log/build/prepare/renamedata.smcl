@@ -1,0 +1,61 @@
+{smcl}
+{txt}{sf}{ul off}{.-}
+      name:  {res}renamedata
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/prepare/renamedata.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}25 Jul 2022, 18:04:17
+{txt}
+{com}. 
+. ************************** elementary CHKS surveys *****************************
+. 
+. //14-15
+. use "$rawdtadir/elementary/CHKS_1415_ElemData_AllDistricts_012916.dta", clear
+{err}{p 0 4 2}
+file {bf:{err}/home/research/ca_ed_lab/data/restricted_access/raw/calschls/stata/elementary/CHKS_1415_ElemData_AllDistricts_012916.dta}
+not found
+{p_end}
+{txt}{search r(601), local:r(601);}
+
+end of do-file
+{search r(601), local:r(601);}
+{com}.   pause
+. 
+.   //running splitstaff0414.do
+.   do $projdir/do/build/prepare/splitstaff0414
+.   pause
+. {c )-}
+{txt}{search r(601), local:r(601);}
+
+end of do-file
+
+{search r(601), local:r(601);}
+
+{com}. do "/home/research/ca_ed_lab/users/chesun/gsr/caschls/do/master.do"
+{txt}
+{com}. ********************************************************************************
+. ******* master do file for common core va project do files ****************
+. ***this master file executes all do files for the project in correct order *****
+. ********************************************************************************
+. ********************************************************************************
+. *************** written by Che Sun. Email: ucsun@ucdavis.edu ********************
+. ********************************************************************************
+. 
+. /* IMPORTAMT: before running this master do file, make sure the directories global macros
+> are set correctly in the settings.do file according to your current file structure
+> cd "/home/research/ca_ed_lab/users/chesun/gsr/caschls"
+>  */
+. 
+. 
+. /* to run this master do file, run the following line of code
+> do "/home/research/ca_ed_lab/users/chesun/gsr/caschls/do/master.do"
+>  */
+. 
+. 
+. /* For convenience of copy pasting:
+> cd "/home/research/ca_ed_lab/users/chesun/gsr/caschls"
+> do "./do/settings.do"
+> */
+. 
+. cap log close _all
+{smcl}
+{com}{sf}{ul off}

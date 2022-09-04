@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/va_sibling_est_sumstats.smcl
   log type:  smcl
- opened on:   3 May 2022, 22:03:09
+ opened on:  25 Jul 2022, 21:47:46
 
 . 
 . //run the do helper file to set the local macros
@@ -82,6 +82,23 @@ delimiter now ;
 
 . local enr_4year_str
 >         "Enrolled On Time 4-Year"
+>         ;
+
+. **** Sibling Census Restricted Sample Controls Strings ;
+. local og_str
+>         "Original Specification"
+>         ;
+
+. local acs_str
+>         "Original + Census"
+>         ;
+
+. local sib_str
+>         "Original + Sibling"
+>         ;
+
+. local both_str
+>         "Original + Census + Sibling"
 >         ;
 
 . **** Value Added ;
@@ -212,6 +229,18 @@ delimiter now ;
 . #delimit cr
 delimiter now cr
 . macro list
+T_gm_fix_span:  0
+S_6:            .7098361624622439
+S_5:            4
+S_4:            .3794917847397928
+ReS_jv2:        __000006 __000007 __000008 __000009 __00000A __00000B __00000C
+                __00000D __00000E __00000F __00000G __00000H __00000I __00000J
+                __00000K
+dropv:          _cdscode_x
+n_offset:       0
+sort:           0
+dots:           nois _dots 5 0
+dotss:          nois _dots 0, title(Survey results being calculated)
 vaprojxwalks:   /home/research/ca_ed_lab/projects/common_core_va/data/restricte
                 > d_access/clean/crosswalks
 mattxwalks:     /home/research/ca_ed_lab/users/msnaven/data/restricted_access/c
@@ -288,6 +317,10 @@ _peer_demographic_controls:
 _demographic_controls:
                 age i.male i.eth_asian i.eth_hispanic i.eth_black i.eth_other
                 i.econ_disadvantage i.limited_eng_prof i.disabled
+_both_str:      Original + Census + Sibling
+_sib_str:       Original + Sibling
+_acs_str:       Original + Census
+_og_str:        Original Specification
 _enr_4year_str: Enrolled On Time 4-Year
 _enr_2year_str: Enrolled On Time 2-Year
 _enr_str:       Enrolled On Time
@@ -376,25 +409,25 @@ _va_dataset:    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_co
 Panel variable: school_id (unbalanced)
  Time variable: year, 2015 to 2018, but with gaps
          Delta: 1 year
-(4,841 real changes made)
-(4,841 real changes made)
+(4,838 real changes made)
+(4,838 real changes made)
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
-va_cfr_g11~a |      4,841    9.72e-10    .1338945  -.6005455   .5052347
-file /home/tmp/St16505.000001 saved as .dta format
+va_cfr_g11~a |      4,838   -1.33e-09    .1339145  -.6003526   .5051838
+file /home/tmp/St35924.000001 saved as .dta format
 (Test Score Grade 11 VA Sample)
 
 Panel variable: school_id (unbalanced)
  Time variable: year, 2015 to 2018, but with gaps
          Delta: 1 year
-(4,834 real changes made)
-(4,834 real changes made)
+(4,831 real changes made)
+(4,831 real changes made)
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
-va_cfr_g11~h |      4,834   -6.66e-10    .1373837  -.5025851   .6632896
-file /home/tmp/St16505.000002 saved as .dta format
+va_cfr_g11~h |      4,831   -1.46e-09     .137426  -.5026313   .6633043
+file /home/tmp/St35924.000002 saved as .dta format
 
 . 
 . 
@@ -409,12 +442,12 @@ file /home/tmp/St16505.000002 saved as .dta format
         from master                        12  
         from using                          5  
 
-    Matched                             4,919  
+    Matched                             4,916  
     -----------------------------------------
 
 . 
 .   corr va_cfr_g11_ela va_cfr_g11_ela_nosibctrl
-(obs=4,841)
+(obs=4,838)
 
              | va_cfr~a va_cfr..
 -------------+------------------
@@ -426,7 +459,7 @@ va_cfr_g11~a |   1.0000
 
 . 
 .   corr va_cfr_g11_math va_cfr_g11_math_nosibctrl
-(obs=4,834)
+(obs=4,831)
 
              | va_cfr~h va_cfr..
 -------------+------------------
@@ -440,7 +473,7 @@ va_cfr_g11~h |   1.0000
 .   tempfile va_ela_math_sibling
 
 .   save `va_ela_math_sibling'
-file /home/tmp/St16505.000003 saved as .dta format
+file /home/tmp/St35924.000003 saved as .dta format
 
 . 
 . 
@@ -536,9 +569,9 @@ file
   5.         save `va_`subject'_original'
   6. }
 (CST/SBAC Student Test Score Samples)
-file /home/tmp/St16505.000004 saved as .dta format
+file /home/tmp/St35924.000004 saved as .dta format
 (CST/SBAC Student Test Score Samples)
-file /home/tmp/St16505.000005 saved as .dta format
+file /home/tmp/St35924.000005 saved as .dta format
 
 . 
 . use `va_ela_original'
@@ -552,7 +585,7 @@ file /home/tmp/St16505.000005 saved as .dta format
         from master                         9  
         from using                          5  
 
-    Matched                             4,957  
+    Matched                             4,954  
     -----------------------------------------
 
 . 
@@ -569,29 +602,29 @@ file /home/tmp/St16505.000005 saved as .dta format
         from master                        35  
         from using                          0  
 
-    Matched                             4,936  
+    Matched                             4,933  
     -----------------------------------------
 
 . 
 . corr va_cfr_g11_ela va_cfr_g11_ela_original
-(obs=4,841)
+(obs=4,838)
 
              | va_cfr~a va_cfr..
 -------------+------------------
 va_cfr_g11~a |   1.0000
-v~a_original |   0.9626   1.0000
+v~a_original |   0.9628   1.0000
 
 
 . local corr_coef_ela_original : di %5.3f r(rho)
 
 . 
 . corr va_cfr_g11_math va_cfr_g11_math_original
-(obs=4,834)
+(obs=4,831)
 
              | va_cfr~h va_cfr..
 -------------+------------------
 va_cfr_g11~h |   1.0000
-v~h_original |   0.9537   1.0000
+v~h_original |   0.9540   1.0000
 
 
 . local corr_coef_math_original : di %5.3f r(rho)
@@ -706,8 +739,8 @@ file
 
  ( 1)  va_cfr_g11_ela = 1
 
-       F(  1,  1275) =    0.71
-            Prob > F =    0.3982
+       F(  1,  1274) =    0.71
+            Prob > F =    0.3998
 
 added matrix:
              e(test_p) :  1 x 1
@@ -717,8 +750,8 @@ file
 
  ( 1)  va_cfr_g11_math = 1
 
-       F(  1,  1273) =    4.44
-            Prob > F =    0.0354
+       F(  1,  1272) =    4.47
+            Prob > F =    0.0346
 
 added matrix:
              e(test_p) :  1 x 1
@@ -739,12 +772,12 @@ file
 . timer off 1
 
 . timer list
-   1:      3.30 /        1 =       3.3010
+   1:      3.10 /        1 =       3.1020
 
 . log close
       name:  <unnamed>
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/va_sibling_est_sumstats.smcl
   log type:  smcl
- closed on:   3 May 2022, 22:03:12
+ closed on:  25 Jul 2022, 21:47:49
 -------------------------------------------------------------------------------

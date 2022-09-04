@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/mattschlchar.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 7 Apr 2022, 15:47:20
+ {txt}opened on:  {res}25 Jul 2022, 18:11:10
 {txt}
 {com}. 
 . // a macro toggle for cleaning the raw data from Matt's folder
@@ -114,16 +114,16 @@ saved
 {res}
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           4,976
-{txt}{col 9}from master{col 30}{res}           1,588{txt}  (_merge==1)
-{col 9}from using{col 30}{res}           3,388{txt}  (_merge==2)
+{col 5}Not matched{col 30}{res}           4,913
+{txt}{col 9}from master{col 30}{res}           1,592{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           3,321{txt}  (_merge==2)
 
-{col 5}Matched{col 30}{res}          10,137{txt}  (_merge==3)
+{col 5}Matched{col 30}{res}          10,133{txt}  (_merge==3)
 {col 5}{hline 41}
 
 {com}. //keep only merged obs
 . keep if _merge==3
-{txt}(4,976 observations deleted)
+{txt}(4,913 observations deleted)
 
 {com}. drop _merge
 {txt}
@@ -146,7 +146,7 @@ saved
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/mattschlchar.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 7 Apr 2022, 15:47:37
+ {txt}closed on:  {res}25 Jul 2022, 18:11:27
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

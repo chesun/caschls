@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/siblingvasamples.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 3 May 2022, 20:50:07
+ {txt}opened on:  {res}25 Jul 2022, 20:39:11
 {txt}
 {com}. 
 . /* file path macros  */
@@ -129,6 +129,23 @@
 >         "Enrolled On Time 4-Year"
 >         ;
 {txt}
+{com}. **** Sibling Census Restricted Sample Controls Strings ;
+. local og_str
+>         "Original Specification"
+>         ;
+{txt}
+{com}. local acs_str
+>         "Original + Census"
+>         ;
+{txt}
+{com}. local sib_str
+>         "Original + Sibling"
+>         ;
+{txt}
+{com}. local both_str
+>         "Original + Census + Sibling"
+>         ;
+{txt}
 {com}. **** Value Added ;
 . local school_controls
 >         /*cohort_size*/
@@ -252,6 +269,36 @@
 {com}. #delimit cr
 {txt}delimiter now cr
 {com}. macro list
+{txt}{p 0 16}
+T_gm_fix_span:{space 2}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+S_6:{space 12}{res}{res}.7098361624622439
+{p_end}
+{txt}{p 0 16}
+S_5:{space 12}{res}{res}4
+{p_end}
+{txt}{p 0 16}
+S_4:{space 12}{res}{res}.3794917847397928
+{p_end}
+{txt}{p 0 16}
+ReS_jv2:{space 8}{res}{res}__000006 __000007 __000008 __000009 __00000A __00000B __00000C __00000D __00000E __00000F __00000G __00000H __00000I __00000J __00000K
+{p_end}
+{txt}{p 0 16}
+dropv:{space 10}{res}{res}_cdscode_x
+{p_end}
+{txt}{p 0 16}
+n_offset:{space 7}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+sort:{space 11}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+dots:{space 11}{res}{res}nois _dots 5 0
+{p_end}
+{txt}{p 0 16}
+dotss:{space 10}{res}{res}nois _dots 0, title(Survey results being calculated)
+{p_end}
 {txt}{p 0 16}
 vaprojxwalks:{space 3}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/restricted_access/clean/crosswalks
 {p_end}
@@ -382,6 +429,18 @@ _demographic_controls:{break}
 {res}age         i.male         i.eth_asian i.eth_hispanic i.eth_black i.eth_other         i.econ_disadvantage         i.limited_eng_prof         i.disabled
 {p_end}
 {txt}{p 0 16}
+_both_str:{space 6}{res}{res}Original + Census + Sibling
+{p_end}
+{txt}{p 0 16}
+_sib_str:{space 7}{res}{res}Original + Sibling
+{p_end}
+{txt}{p 0 16}
+_acs_str:{space 7}{res}{res}Original + Census
+{p_end}
+{txt}{p 0 16}
+_og_str:{space 8}{res}{res}Original Specification
+{p_end}
+{txt}{p 0 16}
 _enr_4year_str:{space 1}{res}{res}Enrolled On Time 4-Year
 {p_end}
 {txt}{p 0 16}
@@ -504,7 +563,7 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
 {col 5}Not matched{col 30}{res}               0
-{txt}{col 5}Matched{col 30}{res}      78,622,143{txt}  
+{txt}{col 5}Matched{col 30}{res}      78,211,091{txt}  
 {col 5}{hline 41}
 
 {com}. 
@@ -524,7 +583,7 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
 {col 5}Not matched{col 30}{res}               0
-{txt}{col 5}Matched{col 30}{res}      78,622,143{txt}  
+{txt}{col 5}Matched{col 30}{res}      78,211,091{txt}  
 {col 5}{hline 41}
 
 {com}. 
@@ -534,11 +593,11 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 {res}
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
-{col 5}Not matched{col 30}{res}         445,910
-{txt}{col 9}from master{col 30}{res}         445,910{txt}  (merge_grade_span==1)
+{col 5}Not matched{col 30}{res}          37,787
+{txt}{col 9}from master{col 30}{res}          37,787{txt}  (merge_grade_span==1)
 {col 9}from using{col 30}{res}               0{txt}  (merge_grade_span==2)
 
-{col 5}Matched{col 30}{res}      78,176,233{txt}  (merge_grade_span==3)
+{col 5}Matched{col 30}{res}      78,173,304{txt}  (merge_grade_span==3)
 {col 5}{hline 41}
 
 {com}. 
@@ -549,7 +608,7 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
 {col 5}Not matched{col 30}{res}               0
-{txt}{col 5}Matched{col 30}{res}      78,622,143{txt}  (merge_cohort_size==3)
+{txt}{col 5}Matched{col 30}{res}      78,211,091{txt}  (merge_cohort_size==3)
 {col 5}{hline 41}
 
 {com}. 
@@ -559,15 +618,15 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 {res}
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
-{col 5}Not matched{col 30}{res}       1,432,257
-{txt}{col 9}from master{col 30}{res}       1,432,257{txt}  (merge_public_schools==1)
+{col 5}Not matched{col 30}{res}       1,446,627
+{txt}{col 9}from master{col 30}{res}       1,446,627{txt}  (merge_public_schools==1)
 {col 9}from using{col 30}{res}               0{txt}  (merge_public_schools==2)
 
-{col 5}Matched{col 30}{res}      77,189,886{txt}  (merge_public_schools==3)
+{col 5}Matched{col 30}{res}      76,764,464{txt}  (merge_public_schools==3)
 {col 5}{hline 41}
 
 {com}. replace touse = 0 if conventional_school!=1
-{txt}(3,908,486 real changes made)
+{txt}(3,826,068 real changes made)
 
 {com}. 
 . * Exclude schools where more than 25 percent of students are receiving special education services
@@ -576,7 +635,7 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 . 
 . * Drop if 10 or fewer students per school
 . replace touse = 0 if cohort_size<=10
-{txt}(474,064 real changes made)
+{txt}(530,274 real changes made)
 
 {com}. 
 . 
@@ -655,10 +714,10 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 . *****************
 . **** K-12 Variables
 . gen year_grad_hs = year + (12 - grade)
-{txt}(446,511 missing values generated)
+{txt}(35,459 missing values generated)
 
 {com}. gen year_college = year + (13 - grade)
-{txt}(446,511 missing values generated)
+{txt}(35,459 missing values generated)
 
 {com}. 
 . 
@@ -681,7 +740,7 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
   {txt}variable {bf}{res}k12_nsc_2010_2017_match{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
   {txt}variable {bf}{res}k12_nsc_2018cde_match{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
   {txt}variable {bf}{res}k12_nsc_2019cde_match{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
-{txt}  (1,257,954,288 bytes saved)
+{txt}  (1,251,377,456 bytes saved)
 
 {com}. 
 . 
@@ -690,12 +749,12 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 {res}
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
-{col 5}Not matched{col 30}{res}      40,618,118
-{txt}{col 9}from master{col 30}{res}      40,618,118{txt}  (merge_k12_nsc_ssid==1)
+{col 5}Not matched{col 30}{res}      40,512,783
+{txt}{col 9}from master{col 30}{res}      40,512,783{txt}  (merge_k12_nsc_ssid==1)
 {col 9}from using{col 30}{res}               0{txt}  (merge_k12_nsc_ssid==2)
 
-{col 5}Matched{col 30}{res}      38,004,025
-{txt}{col 9}not updated{col 30}{res}      38,004,025{txt}  (merge_k12_nsc_ssid==3)
+{col 5}Matched{col 30}{res}      37,698,308
+{txt}{col 9}not updated{col 30}{res}      37,698,308{txt}  (merge_k12_nsc_ssid==3)
 {col 9}missing updated{col 30}{res}               0{txt}  (merge_k12_nsc_ssid==4)
 {col 9}nonmissing conflict{col 30}{res}               0{txt}  (merge_k12_nsc_ssid==5)
 {col 5}{hline 41}
@@ -784,7 +843,7 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
      Total {c |}{res} 4,930,431 {txt}{c |}{res}78,175,632 
 {txt}
 {com}. replace k12_nsc_match = 1 if inlist(merge_k12_nsc_ssid, 3, 4, 5)
-{txt}(38,004,025 real changes made)
+{txt}(37,698,308 real changes made)
 
 {com}. drop merge_k12_nsc_ssid
 {txt}
@@ -1036,7 +1095,7 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 {txt}
 {com}. compress
   {txt}variable {bf}{res}k12_ccc_match{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
-{txt}  (235,866,429 bytes saved)
+{txt}  (234,633,273 bytes saved)
 
 {com}. 
 . merge m:1 state_student_id ///
@@ -1046,11 +1105,11 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
-{col 5}Not matched{col 30}{res}      58,447,747
-{txt}{col 9}from master{col 30}{res}      58,447,747{txt}  (merge_k12_ccc==1)
+{col 5}Not matched{col 30}{res}      58,166,990
+{txt}{col 9}from master{col 30}{res}      58,166,990{txt}  (merge_k12_ccc==1)
 {col 9}from using{col 30}{res}               0{txt}  (merge_k12_ccc==2)
 
-{col 5}Matched{col 30}{res}      20,174,396{txt}  (merge_k12_ccc==3)
+{col 5}Matched{col 30}{res}      20,044,101{txt}  (merge_k12_ccc==3)
 {col 5}{hline 41}
 
 {com}. tab grade year
@@ -1137,7 +1196,7 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
      Total {c |}{res} 4,930,431 {txt}{c |}{res}78,175,632 
 {txt}
 {com}. replace k12_ccc_match = 1 if merge_k12_ccc==3
-{txt}(20,174,396 real changes made)
+{txt}(20,044,101 real changes made)
 
 {com}. drop merge_k12_ccc
 {txt}
@@ -1145,7 +1204,7 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 . 
 . **** Merge to CCC data
 . count if !mi(student_id)
-  {res}20,174,396
+  {res}20,044,101
 {txt}
 {com}. 
 . merge m:1 student_id ///
@@ -1154,11 +1213,11 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 {res}
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
-{col 5}Not matched{col 30}{res}      63,124,201
-{txt}{col 9}from master{col 30}{res}      63,124,201{txt}  (merge_k12_ccc==1)
+{col 5}Not matched{col 30}{res}      62,806,493
+{txt}{col 9}from master{col 30}{res}      62,806,493{txt}  (merge_k12_ccc==1)
 {col 9}from using{col 30}{res}               0{txt}  (merge_k12_ccc==2)
 
-{col 5}Matched{col 30}{res}      15,497,942{txt}  (merge_k12_ccc==3)
+{col 5}Matched{col 30}{res}      15,404,598{txt}  (merge_k12_ccc==3)
 {col 5}{hline 41}
 
 {com}. tab grade year
@@ -1254,7 +1313,7 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 .         replace `v' = . if /*`v'!=1 &*/ !inrange(year_grad_hs, `min_ccc_enr_year', `max_ccc_enr_year')
 {txt}  4{com}. {c )-}
 {txt}(34,923,079 real changes made)
-(5,008,197 real changes made, 5,008,197 to missing)
+(4,914,853 real changes made, 4,914,853 to missing)
 
 {com}. tab grade year
 
@@ -1344,7 +1403,7 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 . gen ccc_enr_ontime = 1 if ccc_enr==1 ///
 >         & (ccc_enr_start_year==year_grad_hs & inlist(ccc_enr_start_term, 5, 6, 7, 8)) ///
 >         | (ccc_enr_start_year==year_grad_hs + 1 & inlist(ccc_enr_start_term, 1, 2, 3, 4))
-{txt}(73,900,307 missing values generated)
+{txt}(73,489,255 missing values generated)
 
 {com}. 
 . if "`enr_only'"!="enr_only" {c -(}
@@ -1467,7 +1526,7 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
   {txt}variable {bf}{res}ccc_enr_year{sf}{txt} was {bf}{res}int{sf}{txt} now {bf}{res}byte{sf}
   {txt}variable {bf}{res}ccc_enr_ontime{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
   {txt}variable {bf}{res}k12_csu_match{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
-{txt}  (550,355,001 bytes saved)
+{txt}  (547,477,637 bytes saved)
 
 {com}. 
 . merge m:1 state_student_id ///
@@ -1477,11 +1536,11 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 
 {col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
-{col 5}Not matched{col 30}{res}      70,021,720
-{txt}{col 9}from master{col 30}{res}      70,021,720{txt}  (merge_k12_csu==1)
+{col 5}Not matched{col 30}{res}      69,663,712
+{txt}{col 9}from master{col 30}{res}      69,663,712{txt}  (merge_k12_csu==1)
 {col 9}from using{col 30}{res}               0{txt}  (merge_k12_csu==2)
 
-{col 5}Matched{col 30}{res}       8,600,423{txt}  (merge_k12_csu==3)
+{col 5}Matched{col 30}{res}       8,547,379{txt}  (merge_k12_csu==3)
 {col 5}{hline 41}
 
 {com}. tab grade year
@@ -1568,7 +1627,7 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
      Total {c |}{res} 4,930,431 {txt}{c |}{res}78,175,632 
 {txt}
 {com}. replace k12_csu_match = 1 if merge_k12_csu==3
-{txt}(8,600,423 real changes made)
+{txt}(8,547,379 real changes made)
 
 {com}. drop merge_k12_csu
 {txt}
@@ -1576,7 +1635,7 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 . 
 . **** Merge to CSU data
 . count if !mi(idunique)
-  {res}8,600,423
+  {res}8,547,379
 {txt}
 {com}. 
 . merge m:1 idunique ///
@@ -1585,11 +1644,11 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 {res}
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
-{col 5}Not matched{col 30}{res}      70,021,720
-{txt}{col 9}from master{col 30}{res}      70,021,720{txt}  (merge_k12_csu==1)
+{col 5}Not matched{col 30}{res}      69,663,712
+{txt}{col 9}from master{col 30}{res}      69,663,712{txt}  (merge_k12_csu==1)
 {col 9}from using{col 30}{res}               0{txt}  (merge_k12_csu==2)
 
-{col 5}Matched{col 30}{res}       8,600,423{txt}  (merge_k12_csu==3)
+{col 5}Matched{col 30}{res}       8,547,379{txt}  (merge_k12_csu==3)
 {col 5}{hline 41}
 
 {com}. tab grade year
@@ -1684,7 +1743,7 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 .         replace `v' = . if /*`v'!=1 &*/ !inrange(year_grad_hs, `min_csu_enr_year', `max_csu_enr_year')
 {txt}  4{com}. {c )-}
 {txt}(36,886,821 real changes made)
-(74,420 real changes made, 74,420 to missing)
+(21,376 real changes made, 21,376 to missing)
 
 {com}. tab grade year
 
@@ -1774,7 +1833,7 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 . gen csu_enr_ontime = 1 if csu_enr==1 ///
 >         & (csu_enr_start_year==year_grad_hs & inlist(csu_enr_start_term, 3, 4)) ///
 >         | (csu_enr_start_year==year_grad_hs + 1 & inlist(csu_enr_start_term, 1, 2))
-{txt}(75,940,909 missing values generated)
+{txt}(75,529,857 missing values generated)
 
 {com}. 
 . if "`enr_only'"!="enr_only" {c -(}
@@ -1836,7 +1895,7 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 . **** Drop observations that had no chance of matching to CCC/CSU data
 . compress
   {txt}variable {bf}{res}csu_enr_ontime{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}byte{sf}
-{txt}  (235,866,429 bytes saved)
+{txt}  (234,633,273 bytes saved)
 
 {com}. merge m:1 state_student_id ///
 >         using `crosswalks'/k12_unique_crosswalk.dta ///
@@ -1844,11 +1903,11 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 {res}
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
-{col 5}Not matched{col 30}{res}       9,212,150
-{txt}{col 9}from master{col 30}{res}       9,212,150{txt}  (merge_k12_unique==1)
+{col 5}Not matched{col 30}{res}       9,212,283
+{txt}{col 9}from master{col 30}{res}       9,212,283{txt}  (merge_k12_unique==1)
 {col 9}from using{col 30}{res}               0{txt}  (merge_k12_unique==2)
 
-{col 5}Matched{col 30}{res}      69,409,993{txt}  (merge_k12_unique==3)
+{col 5}Matched{col 30}{res}      68,998,808{txt}  (merge_k12_unique==3)
 {col 5}{hline 41}
 
 {com}. tab grade year
@@ -2149,153 +2208,153 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 . **** All college outcomes
 . * Enrollment
 . gen enr = 1 if nsc_enr==1 /*| ccc_enr==1 | csu_enr==1*/
-{txt}(52,966,330 missing values generated)
+{txt}(52,734,086 missing values generated)
 
 {com}. replace enr = 0 if nsc_enr==0 & ccc_enr!=1 & csu_enr!=1
-{txt}(11,147,887 real changes made)
+{txt}(11,020,978 real changes made)
 
 {com}. label var enr "Enrolled at a Postsecondary Institution"
 {txt}
 {com}. 
 . gen enr_ontime = 1 if nsc_enr_ontime==1 | ccc_enr_ontime==1 | csu_enr_ontime==1
-{txt}(53,621,620 missing values generated)
+{txt}(53,353,133 missing values generated)
 
 {com}. replace enr_ontime = 0 if nsc_enr_ontime==0 & ccc_enr_ontime!=1 & csu_enr_ontime!=1
-{txt}(14,587,596 real changes made)
+{txt}(14,424,444 real changes made)
 
 {com}. label var enr_ontime "Enrolled at a Postsecondary Institution"
 {txt}
 {com}. 
 . gen enr_2year = 1 if nsc_enr_2year==1 | nsc_enr_lt2year==1 | ccc_enr==1
-{txt}(55,710,846 missing values generated)
+{txt}(55,438,077 missing values generated)
 
 {com}. replace enr_2year = 0 if nsc_enr_2year==0 & nsc_enr_lt2year==0 & ccc_enr!=1
-{txt}(17,886,521 real changes made)
+{txt}(17,719,087 real changes made)
 
 {com}. label var enr_2year "Enrolled at a 2-Year College"
 {txt}
 {com}. 
 . gen enr_ontime_2year = 1 if nsc_enr_ontime_2year==1 | nsc_enr_ontime_lt2year==1 | ccc_enr_ontime==1
-{txt}(63,628,812 missing values generated)
+{txt}(63,306,973 missing values generated)
 
 {com}. replace enr_ontime_2year = 0 if nsc_enr_ontime_2year==0 & nsc_enr_ontime_lt2year==0 & ccc_enr_ontime!=1
-{txt}(24,146,974 real changes made)
+{txt}(23,930,470 real changes made)
 
 {com}. label var enr_ontime_2year "Enrolled at a 2-Year College"
 {txt}
 {com}. 
 . gen enr_4year = 1 if nsc_enr_4year==1 | csu_enr==1
-{txt}(65,379,218 missing values generated)
+{txt}(65,039,762 missing values generated)
 
 {com}. replace enr_4year = 0 if nsc_enr_4year==0 & csu_enr!=1
-{txt}(25,711,651 real changes made)
+{txt}(25,477,530 real changes made)
 
 {com}. label var enr_4year "Enrolled at a 4-Year University"
 {txt}
 {com}. 
 . replace enr_2year = 0 if enr_4year==1
-{txt}(6,504,291 real changes made)
+{txt}(6,473,220 real changes made)
 
 {com}. 
 . gen enr_ontime_4year = 1 if nsc_enr_ontime_4year==1 | csu_enr_ontime==1
-{txt}(67,984,757 missing values generated)
+{txt}(67,630,466 missing values generated)
 
 {com}. replace enr_ontime_4year = 0 if nsc_enr_ontime_4year==0 & csu_enr_ontime!=1
-{txt}(27,828,790 real changes made)
+{txt}(27,579,834 real changes made)
 
 {com}. label var enr_ontime_4year "Enrolled at a 4-Year University"
 {txt}
 {com}. 
 . replace enr_ontime_2year = 0 if enr_ontime_4year==1
-{txt}(1,078,008 real changes made)
+{txt}(1,074,599 real changes made)
 
 {com}. 
 . gen enr_pub = 1 if nsc_enr_pub==1 | ccc_enr==1 | csu_enr==1
-{txt}(50,040,850 missing values generated)
+{txt}(49,795,537 missing values generated)
 
 {com}. replace enr_pub = 0 if nsc_enr_pub==0 & ccc_enr!=1 & csu_enr!=1
-{txt}(12,766,044 real changes made)
+{txt}(12,626,066 real changes made)
 
 {com}. label var enr_pub "Enrolled at a Public Institution"
 {txt}
 {com}. 
 . gen enr_ontime_pub = 1 if nsc_enr_ontime_pub==1 | ccc_enr_ontime==1 | csu_enr_ontime==1
-{txt}(55,653,540 missing values generated)
+{txt}(55,371,294 missing values generated)
 
 {com}. replace enr_ontime_pub = 0 if nsc_enr_ontime_pub==0 & ccc_enr_ontime!=1 & csu_enr_ontime!=1
-{txt}(16,619,516 real changes made)
+{txt}(16,442,605 real changes made)
 
 {com}. label var enr_ontime_pub "Enrolled at a Public Institution"
 {txt}
 {com}. 
 . gen enr_priv = 1 if nsc_enr_priv==1
-{txt}(75,436,815 missing values generated)
+{txt}(75,048,837 missing values generated)
 
 {com}. replace enr_priv = 0 if nsc_enr_priv==0
-{txt}(34,818,697 real changes made)
+{txt}(34,536,054 real changes made)
 
 {com}. label var enr_priv "Enrolled at a Private Institution"
 {txt}
 {com}. 
 . replace enr_pub = 0 if enr_priv==1
-{txt}(1,567,171 real changes made)
+{txt}(1,557,166 real changes made)
 
 {com}. 
 . gen enr_ontime_priv = 1 if nsc_enr_ontime_priv==1
-{txt}(76,432,094 missing values generated)
+{txt}(76,035,765 missing values generated)
 
 {com}. replace enr_ontime_priv = 0 if nsc_enr_ontime_priv==0
-{txt}(35,813,976 real changes made)
+{txt}(35,522,982 real changes made)
 
 {com}. label var enr_ontime_priv "Enrolled at a Private Institution"
 {txt}
 {com}. 
 . replace enr_ontime_pub = 0 if enr_ontime_priv==1
-{txt}(158,129 real changes made)
+{txt}(157,165 real changes made)
 
 {com}. 
 . gen enr_instate = 1 if nsc_enr_instate==1 | ccc_enr==1 | csu_enr==1
-{txt}(50,301,200 missing values generated)
+{txt}(50,052,148 missing values generated)
 
 {com}. replace enr_instate = 0 if nsc_enr_instate==0 & ccc_enr!=1 & csu_enr!=1
-{txt}(13,026,394 real changes made)
+{txt}(12,882,677 real changes made)
 
 {com}. label var enr_instate "Enrolled at a CA Institution"
 {txt}
 {com}. 
 . gen enr_ontime_instate = 1 if nsc_enr_ontime_instate==1 | ccc_enr_ontime==1 | csu_enr_ontime==1
-{txt}(55,816,352 missing values generated)
+{txt}(55,531,064 missing values generated)
 
 {com}. replace enr_ontime_instate = 0 if nsc_enr_ontime_instate==0 & ccc_enr_ontime!=1 & csu_enr_ontime!=1
-{txt}(16,782,328 real changes made)
+{txt}(16,602,375 real changes made)
 
 {com}. label var enr_ontime_instate "Enrolled at a CA Institution"
 {txt}
 {com}. 
 . gen enr_outstate = 1 if nsc_enr_outstate==1
-{txt}(75,323,148 missing values generated)
+{txt}(74,938,537 missing values generated)
 
 {com}. replace enr_outstate = 0 if nsc_enr_outstate==0
-{txt}(34,705,030 real changes made)
+{txt}(34,425,754 real changes made)
 
 {com}. label var enr_outstate "Enrolled at an Out-of-State Institution"
 {txt}
 {com}. 
 . replace enr_instate = 0 if enr_outstate==1
-{txt}(1,420,630 real changes made)
+{txt}(1,410,997 real changes made)
 
 {com}. 
 . gen enr_ontime_outstate = 1 if nsc_enr_ontime_outstate==1
-{txt}(76,276,937 missing values generated)
+{txt}(75,883,630 missing values generated)
 
 {com}. replace enr_ontime_outstate = 0 if nsc_enr_ontime_outstate==0
-{txt}(35,658,819 real changes made)
+{txt}(35,370,847 real changes made)
 
 {com}. label var enr_ontime_outstate "Enrolled at an Out-of-State Institution"
 {txt}
 {com}. 
 . replace enr_ontime_instate = 0 if enr_ontime_outstate==1
-{txt}(150,584 real changes made)
+{txt}(149,640 real changes made)
 
 {com}. 
 . tab grade year
@@ -2922,27 +2981,27 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 . 
 . ******************************** 11th Grade (8th Grade ELA Controls, 6th Grade Math Controls)
 . gen diff_school_prop = gr11_L3_diff_school_prop if year!=2017
-{txt}(61,559,451 missing values generated)
+{txt}(61,144,652 missing values generated)
 
 {com}. replace diff_school_prop = gr11_L4_diff_school_prop if year==2017
-{txt}(1,161,483 real changes made)
+{txt}(1,162,157 real changes made)
 
 {com}. 
 . **************** Prior Scores
 . ******** ELA
 . gen prior_ela_z_score = L3_cst_ela_z_score if inrange(year, `star_min_year' + 3, `star_max_year' + 3) & year!=2017
-{txt}(55,815,950 missing values generated)
+{txt}(55,405,139 missing values generated)
 
 {com}. replace prior_ela_z_score = L3_sbac_ela_z_score if inrange(year, `caaspp_min_year' + 3, `caaspp_max_year' + 3) & year!=2017
 {txt}(3,393,213 real changes made)
 
 {com}. replace prior_ela_z_score = L4_cst_ela_z_score if year==2017
-{txt}(1,607,819 real changes made)
+{txt}(1,607,809 real changes made)
 
 {com}. label var prior_ela_z_score "Prior ELA Z-Score"
 {txt}
 {com}. gen peer_prior_ela_z_score = peer_L3_cst_ela_z_score if inrange(year, `star_min_year' + 3, `star_max_year' + 3) & year!=2017
-{txt}(44,592,802 missing values generated)
+{txt}(44,182,423 missing values generated)
 
 {com}. replace peer_prior_ela_z_score = peer_L3_sbac_ela_z_score if inrange(year, `caaspp_min_year' + 3, `caaspp_max_year' + 3) & year!=2017
 {txt}(5,229,934 real changes made)
@@ -2955,7 +3014,7 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 {com}. 
 . ******** Math
 . gen prior_math_z_score = L5_cst_math_z_score if inrange(year, `star_min_year' + 5, `star_max_year' + 5) & !inrange(year, `caaspp_min_year' + 3, `caaspp_max_year' + 3)
-{txt}(65,671,085 missing values generated)
+{txt}(65,260,130 missing values generated)
 
 {com}. replace prior_math_z_score = L3_sbac_math_z_score if inrange(year, `caaspp_min_year' + 3, `caaspp_max_year' + 3)
 {txt}(3,402,278 real changes made)
@@ -2963,7 +3022,7 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 {com}. label var prior_math_z_score "Prior Math Z-Score"
 {txt}
 {com}. gen peer_prior_math_z_score = peer_L5_cst_math_z_score if inrange(year, `star_min_year' + 5, `star_max_year' + 5) & !inrange(year, `caaspp_min_year' + 3, `caaspp_max_year' + 3)
-{txt}(57,785,234 missing values generated)
+{txt}(57,374,093 missing values generated)
 
 {com}. replace peer_prior_math_z_score = peer_L3_sbac_math_z_score if inrange(year, `caaspp_min_year' + 3, `caaspp_max_year' + 3)
 {txt}(5,229,954 real changes made)
@@ -2994,11 +3053,11 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 >                 , by(cdscode year)
 {txt}  6{com}.         replace touse_g11_`subject' = 0 if n_g11_`subject'<7
 {txt}  7{com}. {c )-}
-{txt}(106,943 real changes made)
-(77,389,513 missing values generated)
+{txt}(106,757 real changes made)
+(76,978,577 missing values generated)
 (252 real changes made)
-(105,663 real changes made)
-(77,394,853 missing values generated)
+(105,482 real changes made)
+(76,983,917 missing values generated)
 (259 real changes made)
 
 {com}. 
@@ -3025,14 +3084,14 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 >                 , by(cdscode year)
 {txt}  6{com}.         replace touse_g11_`outcome' = 0 if n_g11_`outcome'<7
 {txt}  7{com}. {c )-}
-{txt}(110,186 real changes made)
-(77,366,365 missing values generated)
+{txt}(110,013 real changes made)
+(76,955,432 missing values generated)
 (234 real changes made)
-(110,186 real changes made)
-(77,366,365 missing values generated)
+(110,013 real changes made)
+(76,955,432 missing values generated)
 (234 real changes made)
-(110,186 real changes made)
-(77,366,365 missing values generated)
+(110,013 real changes made)
+(76,955,432 missing values generated)
 (234 real changes made)
 
 {com}. 
@@ -3044,11 +3103,11 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 {res}
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
-{col 5}Not matched{col 30}{res}      49,674,635
-{txt}{col 9}from master{col 30}{res}      49,674,635{txt}  (_merge==1)
+{col 5}Not matched{col 30}{res}      49,455,469
+{txt}{col 9}from master{col 30}{res}      49,455,469{txt}  (_merge==1)
 {col 9}from using{col 30}{res}               0{txt}  (_merge==2)
 
-{col 5}Matched{col 30}{res}      28,947,508{txt}  (_merge==3)
+{col 5}Matched{col 30}{res}      28,755,622{txt}  (_merge==3)
 {col 5}{hline 41}
 
 {com}. 
@@ -3073,13 +3132,13 @@ saved
 . timer off 1
 {txt}
 {com}. timer list
-{res}   1:   4286.60 /        1 =    4286.5950
+{res}   1:   4008.97 /        1 =    4008.9650
 {txt}
 {com}. log close
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/siblingvasamples.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 3 May 2022, 22:01:34
+ {txt}closed on:  {res}25 Jul 2022, 21:45:59
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gxwalk/siblingpairxwalk.smcl
   log type:  smcl
- opened on:   7 Apr 2022, 16:33:21
+ opened on:  25 Jul 2022, 18:43:43
 
 . 
 . use $projdir/dta/siblingxwalk/uniquelinkedfamilyclean, clear
@@ -39,7 +39,7 @@
 . tempfile formerge
 
 . save `formerge'
-file /home/tmp/St192370.000001 saved as .dta format
+file /home/tmp/St35924.000001 saved as .dta format
 
 . 
 . use $projdir/dta/siblingxwalk/uniquelinkedfamilyclean, clear
@@ -98,16 +98,16 @@ file
 . 
 . //distance between birth dates for sibling pairs
 . gen birth_date_distance = abs(birth_date - sibling_birth_date)
-(224 missing values generated)
+(232 missing values generated)
 
 . 
 . bysort ufamilyid: egen avg_birth_date_distance_family = mean(birth_date_dista
 > nce)
-(85 missing values generated)
+(104 missing values generated)
 
 . 
 . replace avg_birth_date_distance_family = avg_birth_date_distance_family/365
-(3,319,952 real changes made)
+(3,319,916 real changes made)
 
 . label var avg_birth_date_distance_family "Average distance of birth dates in 
 > family in years"
@@ -129,5 +129,5 @@ file
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gxwalk/siblingpairxwalk.smcl
   log type:  smcl
- closed on:   7 Apr 2022, 16:34:08
+ closed on:  25 Jul 2022, 18:44:34
 -------------------------------------------------------------------------------

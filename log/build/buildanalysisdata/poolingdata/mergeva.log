@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/builda
 > nalysisdata/poolingdata/mergeva.smcl
   log type:  smcl
- opened on:   7 Apr 2022, 14:57:25
+ opened on:  25 Jul 2022, 18:10:38
 
 . 
 . local dtaname `" "sec" "parent" "staff" "' //local macro for looping over dif
@@ -24,11 +24,11 @@
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                         2,902
-        from master                     2,453  (_merge==1)
+    Not matched                         2,903
+        from master                     2,454  (_merge==1)
         from using                        449  (_merge==2)
 
-    Matched                               932  (_merge==3)
+    Matched                               931  (_merge==3)
     -----------------------------------------
 file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/a
@@ -38,11 +38,11 @@ file
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                         3,521
-        from master                     2,568  (_merge==1)
+    Not matched                         3,522
+        from master                     2,569  (_merge==1)
         from using                        953  (_merge==2)
 
-    Matched                               428  (_merge==3)
+    Matched                               427  (_merge==3)
     -----------------------------------------
 file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/a
@@ -51,11 +51,11 @@ file
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                         4,405
-        from master                     3,618  (_merge==1)
+    Not matched                         4,406
+        from master                     3,619  (_merge==1)
         from using                        787  (_merge==2)
 
-    Matched                               594  (_merge==3)
+    Matched                               593  (_merge==3)
     -----------------------------------------
 file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/a
@@ -75,5 +75,5 @@ file
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/builda
 > nalysisdata/poolingdata/mergeva.smcl
   log type:  smcl
- closed on:   7 Apr 2022, 14:57:25
+ closed on:  25 Jul 2022, 18:10:38
 -------------------------------------------------------------------------------

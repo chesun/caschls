@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/poolingdata/mergeva.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 7 Apr 2022, 14:57:25
+ {txt}opened on:  {res}25 Jul 2022, 18:10:38
 {txt}
 {com}. 
 . local dtaname `" "sec" "parent" "staff" "' //local macro for looping over different survey analysis datasets
@@ -22,11 +22,11 @@
 {res}
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           2,902
-{txt}{col 9}from master{col 30}{res}           2,453{txt}  (_merge==1)
+{col 5}Not matched{col 30}{res}           2,903
+{txt}{col 9}from master{col 30}{res}           2,454{txt}  (_merge==1)
 {col 9}from using{col 30}{res}             449{txt}  (_merge==2)
 
-{col 5}Matched{col 30}{res}             932{txt}  (_merge==3)
+{col 5}Matched{col 30}{res}             931{txt}  (_merge==3)
 {col 5}{hline 41}
 {p 0 4 2}
 file {bf}
@@ -37,11 +37,11 @@ saved
 {res}
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           3,521
-{txt}{col 9}from master{col 30}{res}           2,568{txt}  (_merge==1)
+{col 5}Not matched{col 30}{res}           3,522
+{txt}{col 9}from master{col 30}{res}           2,569{txt}  (_merge==1)
 {col 9}from using{col 30}{res}             953{txt}  (_merge==2)
 
-{col 5}Matched{col 30}{res}             428{txt}  (_merge==3)
+{col 5}Matched{col 30}{res}             427{txt}  (_merge==3)
 {col 5}{hline 41}
 {p 0 4 2}
 file {bf}
@@ -52,11 +52,11 @@ saved
 {res}
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           4,405
-{txt}{col 9}from master{col 30}{res}           3,618{txt}  (_merge==1)
+{col 5}Not matched{col 30}{res}           4,406
+{txt}{col 9}from master{col 30}{res}           3,619{txt}  (_merge==1)
 {col 9}from using{col 30}{res}             787{txt}  (_merge==2)
 
-{col 5}Matched{col 30}{res}             594{txt}  (_merge==3)
+{col 5}Matched{col 30}{res}             593{txt}  (_merge==3)
 {col 5}{hline 41}
 {p 0 4 2}
 file {bf}
@@ -76,7 +76,7 @@ saved
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/poolingdata/mergeva.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 7 Apr 2022, 14:57:25
+ {txt}closed on:  {res}25 Jul 2022, 18:10:38
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

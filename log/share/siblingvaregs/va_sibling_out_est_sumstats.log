@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/va_sibling_out_est_sumstats.smcl
   log type:  smcl
- opened on:   3 May 2022, 22:32:37
+ opened on:  25 Jul 2022, 22:18:06
 
 . 
 . //run the do helper file to set the local macros
@@ -82,6 +82,23 @@ delimiter now ;
 
 . local enr_4year_str
 >         "Enrolled On Time 4-Year"
+>         ;
+
+. **** Sibling Census Restricted Sample Controls Strings ;
+. local og_str
+>         "Original Specification"
+>         ;
+
+. local acs_str
+>         "Original + Census"
+>         ;
+
+. local sib_str
+>         "Original + Sibling"
+>         ;
+
+. local both_str
+>         "Original + Census + Sibling"
 >         ;
 
 . **** Value Added ;
@@ -213,10 +230,20 @@ delimiter now ;
 delimiter now cr
 . macro list
 T_gm_fix_span:  0
-S_4:            .003900032715465
+S_4:            .0039002308063216
 S_2:            300
-S_3:            .020595561559967
+S_3:            .0206002574343117
 S_1:            epanechnikov
+S_6:            .7098361624622439
+S_5:            4
+ReS_jv2:        __000006 __000007 __000008 __000009 __00000A __00000B __00000C
+                __00000D __00000E __00000F __00000G __00000H __00000I __00000J
+                __00000K
+dropv:          _cdscode_x
+n_offset:       0
+sort:           0
+dots:           nois _dots 5 0
+dotss:          nois _dots 0, title(Survey results being calculated)
 vaprojxwalks:   /home/research/ca_ed_lab/projects/common_core_va/data/restricte
                 > d_access/clean/crosswalks
 mattxwalks:     /home/research/ca_ed_lab/users/msnaven/data/restricted_access/c
@@ -293,6 +320,10 @@ _peer_demographic_controls:
 _demographic_controls:
                 age i.male i.eth_asian i.eth_hispanic i.eth_black i.eth_other
                 i.econ_disadvantage i.limited_eng_prof i.disabled
+_both_str:      Original + Census + Sibling
+_sib_str:       Original + Sibling
+_acs_str:       Original + Census
+_og_str:        Original Specification
 _enr_4year_str: Enrolled On Time 4-Year
 _enr_2year_str: Enrolled On Time 2-Year
 _enr_str:       Enrolled On Time
@@ -381,37 +412,37 @@ _va_dataset:    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_co
 Panel variable: school_id (unbalanced)
  Time variable: year, 2015 to 2018, but with gaps
          Delta: 1 year
-(4,869 real changes made)
-(4,869 real changes made)
+(4,866 real changes made)
+(4,866 real changes made)
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
-va_cfr_g11~r |      4,869    3.60e-10    .0774787  -.3547636   .2218038
-file /home/tmp/St16505.000001 saved as .dta format
+va_cfr_g11~r |      4,866    1.62e-10    .0774744  -.3554009   .2221293
+file /home/tmp/St35924.000001 saved as .dta format
 (Enrollment Outcome Grade 11 VA Sample)
 
 Panel variable: school_id (unbalanced)
  Time variable: year, 2015 to 2018, but with gaps
          Delta: 1 year
-(4,869 real changes made)
-(4,869 real changes made)
+(4,866 real changes made)
+(4,866 real changes made)
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
-va_cfr_g11~r |      4,869    4.59e-10    .0911288  -.2611847   .3558423
-file /home/tmp/St16505.000002 saved as .dta format
+va_cfr_g11~r |      4,866    2.12e-10    .0911685  -.2613094   .3558865
+file /home/tmp/St35924.000002 saved as .dta format
 (Enrollment Outcome Grade 11 VA Sample)
 
 Panel variable: school_id (unbalanced)
  Time variable: year, 2015 to 2018, but with gaps
          Delta: 1 year
-(4,869 real changes made)
-(4,869 real changes made)
+(4,866 real changes made)
+(4,866 real changes made)
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
-va_cfr_g11~r |      4,869   -9.38e-10    .0908704  -.2317269    .378627
-file /home/tmp/St16505.000003 saved as .dta format
+va_cfr_g11~r |      4,866   -4.29e-11    .0908701  -.2317225   .3783213
+file /home/tmp/St35924.000003 saved as .dta format
 
 . 
 . 
@@ -423,7 +454,7 @@ file /home/tmp/St16505.000003 saved as .dta format
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                             4,966  
+    Matched                             4,963  
     -----------------------------------------
 
 . merge 1:1 cdscode year using `va_enr_4year', nogen
@@ -431,7 +462,7 @@ file /home/tmp/St16505.000003 saved as .dta format
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                             4,966  
+    Matched                             4,963  
     -----------------------------------------
 
 . 
@@ -439,7 +470,7 @@ file /home/tmp/St16505.000003 saved as .dta format
 . tempfile va_enr_merged_sibling
 
 . save `va_enr_merged_sibling'
-file /home/tmp/St16505.000004 saved as .dta format
+file /home/tmp/St35924.000004 saved as .dta format
 
 . 
 . 
@@ -467,7 +498,7 @@ file /home/tmp/St16505.000004 saved as .dta format
   6. 
 . 
 . }
-(obs=4,869)
+(obs=4,866)
 
              | va_cf~nr va_cfr..
 -------------+------------------
@@ -477,7 +508,7 @@ va_cfr_g11.. |   0.9998   1.0000
 file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/siblingvaregs
     > /outcome_va/scatter_va_cfr_g11_enr_sibling.pdf saved as PDF format
-(obs=4,869)
+(obs=4,866)
 
              | va~2year va_cfr..
 -------------+------------------
@@ -488,7 +519,7 @@ file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/siblingvaregs
     > /outcome_va/scatter_va_cfr_g11_enr_2year_sibling.pdf saved as PDF
     format
-(obs=4,869)
+(obs=4,866)
 
              | va~4year va_cfr..
 -------------+------------------
@@ -515,11 +546,11 @@ file
   5.         save `va_`outcome'_original'
   6. }
 (CST/SBAC Student Test Score Samples)
-file /home/tmp/St16505.000005 saved as .dta format
+file /home/tmp/St35924.000005 saved as .dta format
 (CST/SBAC Student Test Score Samples)
-file /home/tmp/St16505.000006 saved as .dta format
+file /home/tmp/St35924.000006 saved as .dta format
 (CST/SBAC Student Test Score Samples)
-file /home/tmp/St16505.000007 saved as .dta format
+file /home/tmp/St35924.000007 saved as .dta format
 
 . 
 . 
@@ -531,7 +562,7 @@ file /home/tmp/St16505.000007 saved as .dta format
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                             4,993  
+    Matched                             4,990  
     -----------------------------------------
 
 . merge 1:1 cdscode year using `va_enr_4year_original', nogen
@@ -539,7 +570,7 @@ file /home/tmp/St16505.000007 saved as .dta format
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                             4,993  
+    Matched                             4,990  
     -----------------------------------------
 
 . 
@@ -560,7 +591,7 @@ file /home/tmp/St16505.000007 saved as .dta format
         from master                        27  
         from using                          0  
 
-    Matched                             4,966  
+    Matched                             4,963  
     -----------------------------------------
 
 . 
@@ -585,7 +616,7 @@ file /home/tmp/St16505.000007 saved as .dta format
 > _`outcome'_original.pdf, replace
   6. 
 . }
-(obs=4,869)
+(obs=4,866)
 
              | va_cf~nr va_cfr..
 -------------+------------------
@@ -595,18 +626,18 @@ va_cfr_g1~nr |   1.0000
 file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/siblingvaregs
     > /outcome_va/scatter_va_cfr_g11_enr_original.pdf saved as PDF format
-(obs=4,869)
+(obs=4,866)
 
              | va~2year va_cfr..
 -------------+------------------
 va_cfr~2year |   1.0000
-va_cfr_g11.. |   0.9508   1.0000
+va_cfr_g11.. |   0.9509   1.0000
 
 file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/siblingvaregs
     > /outcome_va/scatter_va_cfr_g11_enr_2year_original.pdf saved as PDF
     format
-(obs=4,869)
+(obs=4,866)
 
              | va~4year va_cfr..
 -------------+------------------
@@ -743,7 +774,7 @@ file
 
  ( 1)  va_cfr_g11_enr = 1
 
-       F(  1,  1277) =   23.15
+       F(  1,  1276) =   20.72
             Prob > F =    0.0000
 
 added matrix:
@@ -754,8 +785,8 @@ file
 
  ( 1)  va_cfr_g11_enr_2year = 1
 
-       F(  1,  1277) =    0.58
-            Prob > F =    0.4459
+       F(  1,  1276) =    0.50
+            Prob > F =    0.4792
 
 added matrix:
              e(test_p) :  1 x 1
@@ -766,8 +797,8 @@ file
 
  ( 1)  va_cfr_g11_enr_4year = 1
 
-       F(  1,  1277) =    9.53
-            Prob > F =    0.0021
+       F(  1,  1276) =    8.69
+            Prob > F =    0.0033
 
 added matrix:
              e(test_p) :  1 x 1
@@ -789,12 +820,12 @@ file
 . timer off 1
 
 . timer list
-   1:      4.64 /        1 =       4.6360
+   1:      5.38 /        1 =       5.3780
 
 . log close
       name:  <unnamed>
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/va_sibling_out_est_sumstats.smcl
   log type:  smcl
- closed on:   3 May 2022, 22:32:41
+ closed on:  25 Jul 2022, 22:18:12
 -------------------------------------------------------------------------------

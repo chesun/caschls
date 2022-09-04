@@ -1,9 +1,9 @@
 {smcl}
-{txt}{sf}{ul off}{.-}
+{com}{sf}{ul off}{txt}{.-}
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/reg_out_va_sib_acs_dk_fig.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}18 May 2022, 12:10:12
+ {txt}opened on:  {res}25 Jul 2022, 22:33:33
 {txt}
 {com}. 
 . /* change directory to common_core_va project directory for all value added
@@ -262,6 +262,42 @@
 . macro list
 {txt}{p 0 16}
 T_gm_fix_span:{space 2}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+S_4:{space 12}{res}{res}.0020413479904597
+{p_end}
+{txt}{p 0 16}
+S_2:{space 12}{res}{res}300
+{p_end}
+{txt}{p 0 16}
+S_3:{space 12}{res}{res}.0136102212476191
+{p_end}
+{txt}{p 0 16}
+S_1:{space 12}{res}{res}epanechnikov
+{p_end}
+{txt}{p 0 16}
+S_6:{space 12}{res}{res}.7098361624622439
+{p_end}
+{txt}{p 0 16}
+S_5:{space 12}{res}{res}4
+{p_end}
+{txt}{p 0 16}
+ReS_jv2:{space 8}{res}{res}__000006 __000007 __000008 __000009 __00000A __00000B __00000C __00000D __00000E __00000F __00000G __00000H __00000I __00000J __00000K
+{p_end}
+{txt}{p 0 16}
+dropv:{space 10}{res}{res}_cdscode_x
+{p_end}
+{txt}{p 0 16}
+n_offset:{space 7}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+sort:{space 11}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+dots:{space 11}{res}{res}nois _dots 5 0
+{p_end}
+{txt}{p 0 16}
+dotss:{space 10}{res}{res}nois _dots 0, title(Survey results being calculated)
 {p_end}
 {txt}{p 0 16}
 vaprojxwalks:{space 3}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/restricted_access/clean/crosswalks
@@ -601,11 +637,6 @@ saved as
 PDF
 format
 {p_end}
-{res}{txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_va_enr_og_dk_x_prior_ela.gph{rm}
-not found)
-{p_end}
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_va_enr_og_dk_x_prior_ela.gph} saved
 interaction with prior math score deciles 
 {res}{txt}(46 observations deleted)
@@ -623,11 +654,6 @@ file {bf}
 saved as
 PDF
 format
-{p_end}
-{res}{txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_va_enr_og_dk_x_prior_math.gph{rm}
-not found)
 {p_end}
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_va_enr_og_dk_x_prior_math.gph} saved
 RHS DK VA: Deep Knowledge VA with acs controls
@@ -648,11 +674,6 @@ saved as
 PDF
 format
 {p_end}
-{res}{txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_va_enr_acs_dk_x_prior_ela.gph{rm}
-not found)
-{p_end}
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_va_enr_acs_dk_x_prior_ela.gph} saved
 interaction with prior math score deciles 
 {res}{txt}(46 observations deleted)
@@ -670,11 +691,6 @@ file {bf}
 saved as
 PDF
 format
-{p_end}
-{res}{txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_va_enr_acs_dk_x_prior_math.gph{rm}
-not found)
 {p_end}
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_va_enr_acs_dk_x_prior_math.gph} saved
 RHS DK VA: Deep Knowledge VA with sib controls
@@ -695,11 +711,6 @@ saved as
 PDF
 format
 {p_end}
-{res}{txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_va_enr_sib_dk_x_prior_ela.gph{rm}
-not found)
-{p_end}
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_va_enr_sib_dk_x_prior_ela.gph} saved
 interaction with prior math score deciles 
 {res}{txt}(46 observations deleted)
@@ -717,11 +728,6 @@ file {bf}
 saved as
 PDF
 format
-{p_end}
-{res}{txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_va_enr_sib_dk_x_prior_math.gph{rm}
-not found)
 {p_end}
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_va_enr_sib_dk_x_prior_math.gph} saved
 RHS DK VA: Deep Knowledge VA with both controls
@@ -742,11 +748,6 @@ saved as
 PDF
 format
 {p_end}
-{res}{txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_va_enr_both_dk_x_prior_ela.gph{rm}
-not found)
-{p_end}
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_va_enr_both_dk_x_prior_ela.gph} saved
 interaction with prior math score deciles 
 {res}{txt}(46 observations deleted)
@@ -764,11 +765,6 @@ file {bf}
 saved as
 PDF
 format
-{p_end}
-{res}{txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_va_enr_both_dk_x_prior_math.gph{rm}
-not found)
 {p_end}
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_va_enr_both_dk_x_prior_math.gph} saved
 LHS outcome = RHS DK outcome = enr_2year
@@ -790,11 +786,6 @@ saved as
 PDF
 format
 {p_end}
-{res}{txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_og_dk_x_prior_ela.gph{rm}
-not found)
-{p_end}
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_og_dk_x_prior_ela.gph} saved
 interaction with prior math score deciles 
 {res}{txt}(46 observations deleted)
@@ -812,11 +803,6 @@ file {bf}
 saved as
 PDF
 format
-{p_end}
-{res}{txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_og_dk_x_prior_math.gph{rm}
-not found)
 {p_end}
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_og_dk_x_prior_math.gph} saved
 RHS DK VA: Deep Knowledge VA with acs controls
@@ -837,11 +823,6 @@ saved as
 PDF
 format
 {p_end}
-{res}{txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_acs_dk_x_prior_ela.gph{rm}
-not found)
-{p_end}
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_acs_dk_x_prior_ela.gph} saved
 interaction with prior math score deciles 
 {res}{txt}(46 observations deleted)
@@ -859,11 +840,6 @@ file {bf}
 saved as
 PDF
 format
-{p_end}
-{res}{txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_acs_dk_x_prior_math.gph{rm}
-not found)
 {p_end}
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_acs_dk_x_prior_math.gph} saved
 RHS DK VA: Deep Knowledge VA with sib controls
@@ -884,11 +860,6 @@ saved as
 PDF
 format
 {p_end}
-{res}{txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_sib_dk_x_prior_ela.gph{rm}
-not found)
-{p_end}
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_sib_dk_x_prior_ela.gph} saved
 interaction with prior math score deciles 
 {res}{txt}(46 observations deleted)
@@ -906,11 +877,6 @@ file {bf}
 saved as
 PDF
 format
-{p_end}
-{res}{txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_sib_dk_x_prior_math.gph{rm}
-not found)
 {p_end}
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_sib_dk_x_prior_math.gph} saved
 RHS DK VA: Deep Knowledge VA with both controls
@@ -931,11 +897,6 @@ saved as
 PDF
 format
 {p_end}
-{res}{txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_both_dk_x_prior_ela.gph{rm}
-not found)
-{p_end}
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_both_dk_x_prior_ela.gph} saved
 interaction with prior math score deciles 
 {res}{txt}(46 observations deleted)
@@ -953,11 +914,6 @@ file {bf}
 saved as
 PDF
 format
-{p_end}
-{res}{txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_both_dk_x_prior_math.gph{rm}
-not found)
 {p_end}
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_both_dk_x_prior_math.gph} saved
 LHS outcome = RHS DK outcome = enr_4year
@@ -979,11 +935,6 @@ saved as
 PDF
 format
 {p_end}
-{res}{txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_og_dk_x_prior_ela.gph{rm}
-not found)
-{p_end}
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_og_dk_x_prior_ela.gph} saved
 interaction with prior math score deciles 
 {res}{txt}(46 observations deleted)
@@ -1001,11 +952,6 @@ file {bf}
 saved as
 PDF
 format
-{p_end}
-{res}{txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_og_dk_x_prior_math.gph{rm}
-not found)
 {p_end}
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_og_dk_x_prior_math.gph} saved
 RHS DK VA: Deep Knowledge VA with acs controls
@@ -1026,11 +972,6 @@ saved as
 PDF
 format
 {p_end}
-{res}{txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_acs_dk_x_prior_ela.gph{rm}
-not found)
-{p_end}
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_acs_dk_x_prior_ela.gph} saved
 interaction with prior math score deciles 
 {res}{txt}(46 observations deleted)
@@ -1048,11 +989,6 @@ file {bf}
 saved as
 PDF
 format
-{p_end}
-{res}{txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_acs_dk_x_prior_math.gph{rm}
-not found)
 {p_end}
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_acs_dk_x_prior_math.gph} saved
 RHS DK VA: Deep Knowledge VA with sib controls
@@ -1073,11 +1009,6 @@ saved as
 PDF
 format
 {p_end}
-{res}{txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_sib_dk_x_prior_ela.gph{rm}
-not found)
-{p_end}
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_sib_dk_x_prior_ela.gph} saved
 interaction with prior math score deciles 
 {res}{txt}(46 observations deleted)
@@ -1095,11 +1026,6 @@ file {bf}
 saved as
 PDF
 format
-{p_end}
-{res}{txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_sib_dk_x_prior_math.gph{rm}
-not found)
 {p_end}
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_sib_dk_x_prior_math.gph} saved
 RHS DK VA: Deep Knowledge VA with both controls
@@ -1120,11 +1046,6 @@ saved as
 PDF
 format
 {p_end}
-{res}{txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_both_dk_x_prior_ela.gph{rm}
-not found)
-{p_end}
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_both_dk_x_prior_ela.gph} saved
 interaction with prior math score deciles 
 {res}{txt}(46 observations deleted)
@@ -1142,11 +1063,6 @@ file {bf}
 saved as
 PDF
 format
-{p_end}
-{res}{txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_both_dk_x_prior_math.gph{rm}
-not found)
 {p_end}
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_both_dk_x_prior_math.gph} saved
 
@@ -1285,7 +1201,7 @@ format
 . timer off 1
 {txt}
 {com}. timer list
-{res}   1:     17.50 /        1 =      17.4980
+{res}   1:     18.41 /        1 =      18.4110
 {txt}
 {com}. 
 . set trace off
@@ -1298,7 +1214,7 @@ format
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/reg_out_va_sib_acs_dk_fig.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}18 May 2022, 12:10:29
+ {txt}closed on:  {res}25 Jul 2022, 22:33:52
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

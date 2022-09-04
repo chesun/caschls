@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/check/allsvy
 > missing.smcl
   log type:  smcl
- opened on:   7 Apr 2022, 14:57:50
+ opened on:  25 Jul 2022, 18:11:07
 
 . 
 . use $projdir/dta/allsvyfactor/allsvyqoimeans, clear
@@ -19,31 +19,31 @@
 
    nmissall |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |        299       31.94       31.94
-          1 |          6        0.64       32.59
-          2 |         14        1.50       34.08
-          3 |         48        5.13       39.21
-          4 |          1        0.11       39.32
-          5 |         20        2.14       41.45
-          6 |          4        0.43       41.88
-          8 |          1        0.11       41.99
-         10 |          1        0.11       42.09
-         11 |        115       12.29       54.38
-         12 |          2        0.21       54.59
-         13 |         43        4.59       59.19
-         14 |         30        3.21       62.39
-         15 |         13        1.39       63.78
-         16 |          1        0.11       63.89
-         18 |          9        0.96       64.85
-         19 |          3        0.32       65.17
-         26 |        309       33.01       98.18
+          0 |        299       31.98       31.98
+          1 |          6        0.64       32.62
+          2 |         14        1.50       34.12
+          3 |         47        5.03       39.14
+          4 |          1        0.11       39.25
+          5 |         20        2.14       41.39
+          6 |          4        0.43       41.82
+          8 |          1        0.11       41.93
+         10 |          1        0.11       42.03
+         11 |        115       12.30       54.33
+         12 |          2        0.21       54.55
+         13 |         43        4.60       59.14
+         14 |         30        3.21       62.35
+         15 |         13        1.39       63.74
+         16 |          1        0.11       63.85
+         18 |          9        0.96       64.81
+         19 |          3        0.32       65.13
+         26 |        309       33.05       98.18
          30 |         13        1.39       99.57
          32 |          1        0.11       99.68
          34 |          1        0.11       99.79
          35 |          1        0.11       99.89
          37 |          1        0.11      100.00
 ------------+-----------------------------------
-      Total |        936      100.00
+      Total |        935      100.00
 
 . 
 . local climatevars parentqoi9mean_pooled parentqoi16mean_pooled parentqoi17mea
@@ -74,17 +74,17 @@
 nmissclimat |
           e |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |        320       34.19       34.19
-          2 |         61        6.52       40.71
-          3 |         11        1.18       41.88
-          4 |        118       12.61       54.49
-          6 |         46        4.91       59.40
-          7 |         47        5.02       64.42
-         11 |        316       33.76       98.18
+          0 |        320       34.22       34.22
+          2 |         60        6.42       40.64
+          3 |         11        1.18       41.82
+          4 |        118       12.62       54.44
+          6 |         46        4.92       59.36
+          7 |         47        5.03       64.39
+         11 |        316       33.80       98.18
          15 |         14        1.50       99.68
          16 |          3        0.32      100.00
 ------------+-----------------------------------
-      Total |        936      100.00
+      Total |        935      100.00
 
 . 
 . egen nmissquality = rmiss(`qualityvars')
@@ -94,20 +94,20 @@ nmissclimat |
 nmissqualit |
           y |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |        319       34.08       34.08
-          1 |         35        3.74       37.82
-          3 |         39        4.17       41.99
-          4 |          1        0.11       42.09
-          5 |        198       21.15       63.25
-          6 |         12        1.28       64.53
-          7 |          1        0.11       64.64
-          9 |          5        0.53       65.17
-         11 |        323       34.51       99.68
+          0 |        319       34.12       34.12
+          1 |         34        3.64       37.75
+          3 |         39        4.17       41.93
+          4 |          1        0.11       42.03
+          5 |        198       21.18       63.21
+          6 |         12        1.28       64.49
+          7 |          1        0.11       64.60
+          9 |          5        0.53       65.13
+         11 |        323       34.55       99.68
          12 |          1        0.11       99.79
          13 |          1        0.11       99.89
          15 |          1        0.11      100.00
 ------------+-----------------------------------
-      Total |        936      100.00
+      Total |        935      100.00
 
 . 
 . egen nmisssupport = rmiss(`supportvars')
@@ -117,12 +117,12 @@ nmissqualit |
 nmisssuppor |
           t |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |        393       41.99       41.99
-          2 |        212       22.65       64.64
-          3 |          9        0.96       65.60
-          4 |        322       34.40      100.00
+          0 |        392       41.93       41.93
+          2 |        212       22.67       64.60
+          3 |          9        0.96       65.56
+          4 |        322       34.44      100.00
 ------------+-----------------------------------
-      Total |        936      100.00
+      Total |        935      100.00
 
 . 
 . egen nmissmotivation = rmiss(`motivationvars')
@@ -132,64 +132,64 @@ nmisssuppor |
 nmissmotiva |
        tion |      Freq.     Percent        Cum.
 ------------+-----------------------------------
-          0 |        932       99.57       99.57
+          0 |        931       99.57       99.57
           4 |          4        0.43      100.00
 ------------+-----------------------------------
-      Total |        936      100.00
+      Total |        935      100.00
 
 . 
 . /* missing value patterns for schol climate questions */
 . mvpatterns `climatevars'
 Variable     | type     obs   mv   variable label
 -------------+-----------------------------------------------------------------
-parentqoi9mean_pooled|float  414  522weighted mean of qoi9 responses over years
+parentqoi9mean_pooled|float  413  522weighted mean of qoi9 responses over years
              |                     for a given school
-parentqoi16mean_pooled|float  414  522weighted mean of qoi16 responses over yea
+parentqoi16mean_pooled|float  413  522weighted mean of qoi16 responses over yea
 > rs
              |                     for a given school
-parentqoi17mean_pooled|float  414  522weighted mean of qoi17 responses over yea
+parentqoi17mean_pooled|float  413  522weighted mean of qoi17 responses over yea
 > rs
              |                     for a given school
-parentqoi27mean_pooled|float  414  522weighted mean of qoi27 responses over yea
+parentqoi27mean_pooled|float  413  522weighted mean of qoi27 responses over yea
 > rs
              |                     for a given school
-secqoi22mean_pooled|float  932    4weighted mean of qoi22 responses over years
+secqoi22mean_pooled|float  931    4weighted mean of qoi22 responses over years
              |                     for a given school
-secqoi23mean_pooled|float  932    4weighted mean of qoi23 responses over years
+secqoi23mean_pooled|float  931    4weighted mean of qoi23 responses over years
              |                     for a given school
-secqoi24mean_pooled|float  932    4weighted mean of qoi24 responses over years
+secqoi24mean_pooled|float  931    4weighted mean of qoi24 responses over years
              |                     for a given school
-secqoi25mean_pooled|float  932    4weighted mean of qoi25 responses over years
+secqoi25mean_pooled|float  931    4weighted mean of qoi25 responses over years
              |                     for a given school
-secqoi26mean_pooled|float  932    4weighted mean of qoi26 responses over years
+secqoi26mean_pooled|float  931    4weighted mean of qoi26 responses over years
              |                     for a given school
-secqoi27mean_pooled|float  911   25weighted mean of qoi27 responses over years
+secqoi27mean_pooled|float  910   25weighted mean of qoi27 responses over years
              |                     for a given school
-secqoi28mean_pooled|float  911   25weighted mean of qoi28 responses over years
+secqoi28mean_pooled|float  910   25weighted mean of qoi28 responses over years
              |                     for a given school
-secqoi29mean_pooled|float  911   25weighted mean of qoi29 responses over years
+secqoi29mean_pooled|float  910   25weighted mean of qoi29 responses over years
              |                     for a given school
-secqoi30mean_pooled|float  911   25weighted mean of qoi30 responses over years
+secqoi30mean_pooled|float  910   25weighted mean of qoi30 responses over years
              |                     for a given school
-staffqoi20mean_pooled|float  593  343weighted mean of qoi20 responses over year
+staffqoi20mean_pooled|float  592  343weighted mean of qoi20 responses over year
 > s
              |                     for a given school
-staffqoi24mean_pooled|float  438  498weighted mean of qoi24 responses over year
+staffqoi24mean_pooled|float  438  497weighted mean of qoi24 responses over year
 > s
              |                     for a given school
-staffqoi41mean_pooled|float  593  343weighted mean of qoi41 responses over year
+staffqoi41mean_pooled|float  592  343weighted mean of qoi41 responses over year
 > s
              |                     for a given school
-staffqoi44mean_pooled|float  593  343weighted mean of qoi44 responses over year
+staffqoi44mean_pooled|float  592  343weighted mean of qoi44 responses over year
 > s
              |                     for a given school
-staffqoi64mean_pooled|float  438  498weighted mean of qoi64 responses over year
+staffqoi64mean_pooled|float  438  497weighted mean of qoi64 responses over year
 > s
              |                     for a given school
-staffqoi87mean_pooled|float  546  390weighted mean of qoi87 responses over year
+staffqoi87mean_pooled|float  545  390weighted mean of qoi87 responses over year
 > s
              |                     for a given school
-staffqoi98mean_pooled|float  593  343weighted mean of qoi98 responses over year
+staffqoi98mean_pooled|float  592  343weighted mean of qoi98 responses over year
 > s
              |                     for a given school
 -------------------------------------------------------------------------------
@@ -202,7 +202,7 @@ Patterns of missing values
   | ++++++++++++++++++++     0     320 |
   | ....+++++++++.......    11     309 |
   | ....++++++++++++++++     4     118 |
-  | ++++++++++++++.++.++     2      61 |
+  | ++++++++++++++.++.++     2      60 |
   | ....++++++++++.++.++     6      46 |
   |------------------------------------|
   | ....++++++++++.++..+     7      28 |
@@ -220,49 +220,49 @@ Patterns of missing values
 . mvpatterns `qualityvars'
 Variable     | type     obs   mv   variable label
 -------------+-----------------------------------------------------------------
-parentqoi30mean_pooled|float  369  567weighted mean of qoi30 responses over yea
+parentqoi30mean_pooled|float  368  567weighted mean of qoi30 responses over yea
 > rs
              |                     for a given school
-parentqoi31mean_pooled|float  414  522weighted mean of qoi31 responses over yea
+parentqoi31mean_pooled|float  413  522weighted mean of qoi31 responses over yea
 > rs
              |                     for a given school
-parentqoi32mean_pooled|float  333  603weighted mean of qoi32 responses over yea
+parentqoi32mean_pooled|float  333  602weighted mean of qoi32 responses over yea
 > rs
              |                     for a given school
-parentqoi33mean_pooled|float  414  522weighted mean of qoi33 responses over yea
+parentqoi33mean_pooled|float  413  522weighted mean of qoi33 responses over yea
 > rs
              |                     for a given school
-parentqoi34mean_pooled|float  369  567weighted mean of qoi34 responses over yea
+parentqoi34mean_pooled|float  368  567weighted mean of qoi34 responses over yea
 > rs
              |                     for a given school
-secqoi35mean_pooled|float  932    4weighted mean of qoi35 responses over years
+secqoi35mean_pooled|float  931    4weighted mean of qoi35 responses over years
              |                     for a given school
-secqoi36mean_pooled|float  932    4weighted mean of qoi36 responses over years
+secqoi36mean_pooled|float  931    4weighted mean of qoi36 responses over years
              |                     for a given school
-secqoi37mean_pooled|float  932    4weighted mean of qoi37 responses over years
+secqoi37mean_pooled|float  931    4weighted mean of qoi37 responses over years
              |                     for a given school
-secqoi38mean_pooled|float  932    4weighted mean of qoi38 responses over years
+secqoi38mean_pooled|float  931    4weighted mean of qoi38 responses over years
              |                     for a given school
-secqoi39mean_pooled|float  932    4weighted mean of qoi39 responses over years
+secqoi39mean_pooled|float  931    4weighted mean of qoi39 responses over years
              |                     for a given school
-secqoi40mean_pooled|float  932    4weighted mean of qoi40 responses over years
+secqoi40mean_pooled|float  931    4weighted mean of qoi40 responses over years
              |                     for a given school
-staffqoi103mean_pooled|float  593  343weighted mean of qoi103 responses over ye
+staffqoi103mean_pooled|float  592  343weighted mean of qoi103 responses over ye
 > ars
              |                     for a given school
-staffqoi104mean_pooled|float  593  343weighted mean of qoi104 responses over ye
+staffqoi104mean_pooled|float  592  343weighted mean of qoi104 responses over ye
 > ars
              |                     for a given school
-staffqoi105mean_pooled|float  593  343weighted mean of qoi105 responses over ye
+staffqoi105mean_pooled|float  592  343weighted mean of qoi105 responses over ye
 > ars
              |                     for a given school
-staffqoi109mean_pooled|float  593  343weighted mean of qoi109 responses over ye
+staffqoi109mean_pooled|float  592  343weighted mean of qoi109 responses over ye
 > ars
              |                     for a given school
-staffqoi111mean_pooled|float  593  343weighted mean of qoi111 responses over ye
+staffqoi111mean_pooled|float  592  343weighted mean of qoi111 responses over ye
 > ars
              |                     for a given school
-staffqoi112mean_pooled|float  593  343weighted mean of qoi112 responses over ye
+staffqoi112mean_pooled|float  592  343weighted mean of qoi112 responses over ye
 > ars
              |                     for a given school
 -------------------------------------------------------------------------------
@@ -276,7 +276,7 @@ Patterns of missing values
   | +++++++++++++++++     0     319 |
   | .....++++++++++++     5     198 |
   | .+.+.++++++++++++     3      39 |
-  | ++.++++++++++++++     1      35 |
+  | ++.++++++++++++++     1      34 |
   |---------------------------------|
   | +++++++++++......     6      12 |
   | .+.+.++++++......     9       5 |
@@ -293,16 +293,16 @@ Patterns of missing values
 . mvpatterns `supportvars'
 Variable     | type     obs   mv   variable label
 -------------+-----------------------------------------------------------------
-parentqoi15mean_pooled|float  414  522weighted mean of qoi15 responses over yea
+parentqoi15mean_pooled|float  413  522weighted mean of qoi15 responses over yea
 > rs
              |                     for a given school
-parentqoi64mean_pooled|float  411  525weighted mean of qoi64 responses over yea
+parentqoi64mean_pooled|float  410  525weighted mean of qoi64 responses over yea
 > rs
              |                     for a given school
-staffqoi10mean_pooled|float  593  343weighted mean of qoi10 responses over year
+staffqoi10mean_pooled|float  592  343weighted mean of qoi10 responses over year
 > s
              |                     for a given school
-staffqoi128mean_pooled|float  587  349weighted mean of qoi128 responses over ye
+staffqoi128mean_pooled|float  586  349weighted mean of qoi128 responses over ye
 > ars
              |                     for a given school
 -------------------------------------------------------------------------------
@@ -312,7 +312,7 @@ Patterns of missing values
   +------------------------+
   | _pattern   _mv   _freq |
   |------------------------|
-  |     ++++     0     393 |
+  |     ++++     0     392 |
   |     ....     4     322 |
   |     ..++     2     194 |
   |     ++..     2      18 |
@@ -325,13 +325,13 @@ Patterns of missing values
 . mvpatterns `motivationvars'
 Variable     | type     obs   mv   variable label
 -------------+-----------------------------------------------------------------
-secqoi31mean_pooled|float  932    4weighted mean of qoi31 responses over years
+secqoi31mean_pooled|float  931    4weighted mean of qoi31 responses over years
              |                     for a given school
-secqoi32mean_pooled|float  932    4weighted mean of qoi32 responses over years
+secqoi32mean_pooled|float  931    4weighted mean of qoi32 responses over years
              |                     for a given school
-secqoi33mean_pooled|float  932    4weighted mean of qoi33 responses over years
+secqoi33mean_pooled|float  931    4weighted mean of qoi33 responses over years
              |                     for a given school
-secqoi34mean_pooled|float  932    4weighted mean of qoi34 responses over years
+secqoi34mean_pooled|float  931    4weighted mean of qoi34 responses over years
              |                     for a given school
 -------------------------------------------------------------------------------
 
@@ -340,7 +340,7 @@ Patterns of missing values
   +------------------------+
   | _pattern   _mv   _freq |
   |------------------------|
-  |     ++++     0     932 |
+  |     ++++     0     931 |
   |     ....     4       4 |
   +------------------------+
 
@@ -352,5 +352,5 @@ Patterns of missing values
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/check/allsvy
 > missing.smcl
   log type:  smcl
- closed on:   7 Apr 2022, 14:57:50
+ closed on:  25 Jul 2022, 18:11:07
 -------------------------------------------------------------------------------

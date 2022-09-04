@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/sibling_out_xwalk.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 3 May 2022, 20:47:22
+ {txt}opened on:  {res}25 Jul 2022, 20:36:20
 {txt}
 {com}. 
 . 
@@ -25,7 +25,7 @@
 . gen k12_postsec_match = 0
 {txt}
 {com}. replace k12_postsec_match = 1 if k12_nsc_match == 1 | k12_ccc_match == 1 | k12_csu_match == 1
-{txt}(44,788,259 real changes made)
+{txt}(44,451,783 real changes made)
 
 {com}. label var k12_postsec_match "Indicator for k12 observation matched to postsecondary data (NSC, CCC, or CSU)"
 {txt}
@@ -133,7 +133,7 @@
 . gen has_older_sibling_postsec_match = 0
 {txt}
 {com}. replace has_older_sibling_postsec_match = 1 if !missing(num_older_sibling_postsec_match) & num_older_sibling_postsec_match > 0
-{txt}(1,902,221 real changes made)
+{txt}(1,902,217 real changes made)
 
 {com}. label var has_older_sibling_postsec_match "Has at least one older sibling matched to postsecondary outcomes"
 {txt}
@@ -148,9 +148,9 @@
 {txt}  6{com}.   replace has_older_sibling_`i' = 1 if numsiblings_older_`i' > 0 & !missing(numsiblings_older_`i')
 {txt}  7{com}.   label var has_older_sibling_`i' "Has at least 1 older sibling matched to postsec outcome and with `i' = 1"
 {txt}  8{com}. {c )-}
-{res}{txt}(271,304 real changes made)
-{res}{txt}(165,151 real changes made)
-{res}{txt}(122,290 real changes made)
+{res}{txt}(271,207 real changes made)
+{res}{txt}(165,033 real changes made)
+{res}{txt}(122,320 real changes made)
 
 {com}. 
 . drop lower_bound
@@ -196,13 +196,13 @@ saved
 .  timer off 1
 {txt}
 {com}.  timer list
-{res}   1:    165.37 /        1 =     165.3730
+{res}   1:    170.25 /        1 =     170.2480
 {txt}
 {com}.  log close
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/sibling_out_xwalk.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 3 May 2022, 20:50:07
+ {txt}closed on:  {res}25 Jul 2022, 20:39:10
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

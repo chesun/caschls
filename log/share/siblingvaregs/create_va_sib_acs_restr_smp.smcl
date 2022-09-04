@@ -1,9 +1,9 @@
 {smcl}
-{txt}{sf}{ul off}{.-}
+{com}{sf}{ul off}{txt}{.-}
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/create_va_sib_acs_restr_smp.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 3 May 2022, 22:18:47
+ {txt}opened on:  {res}25 Jul 2022, 22:03:34
 {txt}
 {com}. 
 . /* change directory to common_core_va project directory for all value added
@@ -122,6 +122,23 @@
 {txt}
 {com}. local enr_4year_str
 >         "Enrolled On Time 4-Year"
+>         ;
+{txt}
+{com}. **** Sibling Census Restricted Sample Controls Strings ;
+. local og_str
+>         "Original Specification"
+>         ;
+{txt}
+{com}. local acs_str
+>         "Original + Census"
+>         ;
+{txt}
+{com}. local sib_str
+>         "Original + Sibling"
+>         ;
+{txt}
+{com}. local both_str
+>         "Original + Census + Sibling"
 >         ;
 {txt}
 {com}. **** Value Added ;
@@ -247,16 +264,40 @@
 T_gm_fix_span:{space 2}{res}{res}0
 {p_end}
 {txt}{p 0 16}
-S_4:{space 12}{res}{res}.003900032715465
+S_4:{space 12}{res}{res}.0039002308063216
 {p_end}
 {txt}{p 0 16}
 S_2:{space 12}{res}{res}300
 {p_end}
 {txt}{p 0 16}
-S_3:{space 12}{res}{res}.020595561559967
+S_3:{space 12}{res}{res}.0206002574343117
 {p_end}
 {txt}{p 0 16}
 S_1:{space 12}{res}{res}epanechnikov
+{p_end}
+{txt}{p 0 16}
+S_6:{space 12}{res}{res}.7098361624622439
+{p_end}
+{txt}{p 0 16}
+S_5:{space 12}{res}{res}4
+{p_end}
+{txt}{p 0 16}
+ReS_jv2:{space 8}{res}{res}__000006 __000007 __000008 __000009 __00000A __00000B __00000C __00000D __00000E __00000F __00000G __00000H __00000I __00000J __00000K
+{p_end}
+{txt}{p 0 16}
+dropv:{space 10}{res}{res}_cdscode_x
+{p_end}
+{txt}{p 0 16}
+n_offset:{space 7}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+sort:{space 11}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+dots:{space 11}{res}{res}nois _dots 5 0
+{p_end}
+{txt}{p 0 16}
+dotss:{space 10}{res}{res}nois _dots 0, title(Survey results being calculated)
 {p_end}
 {txt}{p 0 16}
 vaprojxwalks:{space 3}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/restricted_access/clean/crosswalks
@@ -388,6 +429,18 @@ _demographic_controls:{break}
 {res}age         i.male         i.eth_asian i.eth_hispanic i.eth_black i.eth_other         i.econ_disadvantage         i.limited_eng_prof         i.disabled
 {p_end}
 {txt}{p 0 16}
+_both_str:{space 6}{res}{res}Original + Census + Sibling
+{p_end}
+{txt}{p 0 16}
+_sib_str:{space 7}{res}{res}Original + Sibling
+{p_end}
+{txt}{p 0 16}
+_acs_str:{space 7}{res}{res}Original + Census
+{p_end}
+{txt}{p 0 16}
+_og_str:{space 8}{res}{res}Original Specification
+{p_end}
+{txt}{p 0 16}
 _enr_4year_str:{space 1}{res}{res}Enrolled On Time 4-Year
 {p_end}
 {txt}{p 0 16}
@@ -494,24 +547,24 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 {res}
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
-{col 5}Not matched{col 30}{res}         884,570
-{txt}{col 9}from master{col 30}{res}         884,570{txt}  
+{col 5}Not matched{col 30}{res}         884,312
+{txt}{col 9}from master{col 30}{res}         884,312{txt}  
 {col 9}from using{col 30}{res}               0{txt}  
 
-{col 5}Matched{col 30}{res}         900,294{txt}  
+{col 5}Matched{col 30}{res}         900,133{txt}  
 {col 5}{hline 41}
 
 {com}. 
 . 
 . // keep the sibling controls sample for 2yr and 4yr sibling enrollment controls
 . keep if sibling_2y_4y_controls_sample==1
-{txt}(902,429 observations deleted)
+{txt}(902,143 observations deleted)
 
 {com}. 
 . 
 . compress
   {txt}variable {bf}{res}age{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
-{txt}  (1,764,870 bytes saved)
+{txt}  (1,764,604 bytes saved)
 
 {com}. label data "Test Score VA with Sibling Control Sample"
 {txt}
@@ -520,7 +573,7 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 {com}. save `va_g11_sibling_dataset'
 {txt}{p 0 4 2}
 file {bf}
-/home/tmp/St16505.000001{rm}
+/home/tmp/St35924.000001{rm}
 saved
 as .dta format
 {p_end}
@@ -646,6 +699,23 @@ as .dta format
 {txt}
 {com}. local enr_4year_str
 >         "Enrolled On Time 4-Year"
+>         ;
+{txt}
+{com}. **** Sibling Census Restricted Sample Controls Strings ;
+. local og_str
+>         "Original Specification"
+>         ;
+{txt}
+{com}. local acs_str
+>         "Original + Census"
+>         ;
+{txt}
+{com}. local sib_str
+>         "Original + Sibling"
+>         ;
+{txt}
+{com}. local both_str
+>         "Original + Census + Sibling"
 >         ;
 {txt}
 {com}. **** Value Added ;
@@ -786,7 +856,7 @@ as .dta format
 {com}. save `census_geocode'
 {txt}{p 0 4 2}
 file {bf}
-/home/tmp/St16505.000002{rm}
+/home/tmp/St35924.000002{rm}
 saved
 as .dta format
 {p_end}
@@ -799,7 +869,7 @@ as .dta format
 
 {com}. //keep students in grade 6 in years 2010-2013 to match with census. the census_grade macro is set to 6
 . keep if grade==`census_grade' & inrange(year, ``va_type'_min_year'-(11-`census_grade'), ``va_type'_max_year'-(11-`census_grade'))
-{txt}(76,749,069 observations deleted)
+{txt}(76,338,017 observations deleted)
 
 {com}. drop if mi(state_student_id)
 {txt}(2,272 observations deleted)
@@ -832,7 +902,7 @@ as .dta format
 {com}. save `lagged_address'
 {txt}{p 0 4 2}
 file {bf}
-/home/tmp/St16505.000003{rm}
+/home/tmp/St35924.000003{rm}
 saved
 as .dta format
 {p_end}
@@ -856,7 +926,7 @@ as .dta format
 {com}. save `address_id'
 {txt}{p 0 4 2}
 file {bf}
-/home/tmp/St16505.000004{rm}
+/home/tmp/St35924.000004{rm}
 saved
 as .dta format
 {p_end}
@@ -874,7 +944,7 @@ as .dta format
 {com}. save `lagged_acs'
 {txt}{p 0 4 2}
 file {bf}
-/home/tmp/St16505.000005{rm}
+/home/tmp/St35924.000005{rm}
 saved
 as .dta format
 {p_end}
@@ -890,7 +960,7 @@ as .dta format
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
 {col 5}Not matched{col 30}{res}               0
-{txt}{col 5}Matched{col 30}{res}         849,448{txt}  (merge_lagged_address==3)
+{txt}{col 5}Matched{col 30}{res}         849,331{txt}  (merge_lagged_address==3)
 {col 5}{hline 41}
 
 {com}. merge m:1 street_address_line_one city state zip_code using `address_id' ///
@@ -899,7 +969,7 @@ as .dta format
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
 {col 5}Not matched{col 30}{res}               0
-{txt}{col 5}Matched{col 30}{res}         849,448{txt}  (merge_address_id==3)
+{txt}{col 5}Matched{col 30}{res}         849,331{txt}  (merge_address_id==3)
 {col 5}{hline 41}
 
 {com}. merge m:1 address_id using `census_geocode' ///
@@ -908,7 +978,7 @@ as .dta format
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
 {col 5}Not matched{col 30}{res}               0
-{txt}{col 5}Matched{col 30}{res}         849,092{txt}  (merge_census_geocode==3)
+{txt}{col 5}Matched{col 30}{res}         848,975{txt}  (merge_census_geocode==3)
 {col 5}{hline 41}
 
 {com}. rename census_sct geoid2
@@ -920,7 +990,7 @@ as .dta format
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
 {col 5}Not matched{col 30}{res}               0
-{txt}{col 5}Matched{col 30}{res}         526,691{txt}  (merge_acs==3)
+{txt}{col 5}Matched{col 30}{res}         526,647{txt}  (merge_acs==3)
 {col 5}{hline 41}
 
 {com}. rename geoid2 census_sct
@@ -963,7 +1033,7 @@ as .dta format
 . // saving the restricted sample dataset
 . compress
   {txt}variable {bf}{res}geodisplaylabel{sf}{txt} was {bf}{res}str94{sf}{txt} now {bf}{res}str55{sf}
-{txt}  (20,538,726 bytes saved)
+{txt}  (20,537,010 bytes saved)
 
 {com}. label data "Test Score VA Restrcited Sample with Sibling Controls and Census Controls"
 {txt}
@@ -988,7 +1058,7 @@ saved
 . timer off 1
 {txt}
 {com}. timer list
-{res}   1:    294.12 /        1 =     294.1170
+{res}   1:    325.86 /        1 =     325.8560
 {txt}
 {com}. 
 . set trace off
@@ -1002,11 +1072,6 @@ saved
 . //translate log file into txt file
 . translate $projdir/log/share/siblingvaregs/create_va_sib_acs_restr_smp.smcl $projdir/log/share/siblingvaregs/create_va_sib_acs_restr_smp.log, replace
 {txt}{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/create_va_sib_acs_restr_smp.log{rm}
-not found)
-{p_end}
-{p 0 4 2}
 file {bf}
 /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/create_va_sib_acs_restr_smp.log{rm}
 saved as

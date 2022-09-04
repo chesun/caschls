@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingxwalk/siblingmatch.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 7 Apr 2022, 15:54:07
+ {txt}opened on:  {res}25 Jul 2022, 18:13:31
 {txt}
 {com}. 
 . //append all years of CST datasets, from 2004 to 2013
@@ -391,7 +391,7 @@
 {com}. save `master'
 {txt}{p 0 4 2}
 file {bf}
-/home/tmp/St192370.000001{rm}
+/home/tmp/St35924.000001{rm}
 saved
 as .dta format
 {p_end}
@@ -544,7 +544,7 @@ saved
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingxwalk/siblingmatch.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 7 Apr 2022, 16:14:31
+ {txt}closed on:  {res}25 Jul 2022, 18:27:16
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

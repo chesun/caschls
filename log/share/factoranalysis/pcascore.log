@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factor
 > analysis/pcascore.smcl
   log type:  smcl
- opened on:   7 Apr 2022, 15:49:36
+ opened on:  25 Jul 2022, 18:13:29
 
 . 
 . /* creating pca compiste score for secondary survey */
@@ -562,5 +562,5 @@ file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/factoranalysis
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factor
 > analysis/pcascore.smcl
   log type:  smcl
- closed on:   7 Apr 2022, 15:49:37
+ closed on:  25 Jul 2022, 18:13:31
 -------------------------------------------------------------------------------

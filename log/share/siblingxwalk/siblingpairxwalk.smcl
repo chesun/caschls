@@ -1,9 +1,9 @@
 {smcl}
-{txt}{sf}{ul off}{.-}
+{com}{sf}{ul off}{txt}{.-}
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingxwalk/siblingpairxwalk.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 7 Apr 2022, 16:33:21
+ {txt}opened on:  {res}25 Jul 2022, 18:43:43
 {txt}
 {com}. 
 . use $projdir/dta/siblingxwalk/uniquelinkedfamilyclean, clear
@@ -40,7 +40,7 @@
 {com}. save `formerge'
 {txt}{p 0 4 2}
 file {bf}
-/home/tmp/St192370.000001{rm}
+/home/tmp/St35924.000001{rm}
 saved
 as .dta format
 {p_end}
@@ -102,15 +102,15 @@ saved
 . 
 . //distance between birth dates for sibling pairs
 . gen birth_date_distance = abs(birth_date - sibling_birth_date)
-{txt}(224 missing values generated)
+{txt}(232 missing values generated)
 
 {com}. 
 . bysort ufamilyid: egen avg_birth_date_distance_family = mean(birth_date_distance)
-{txt}(85 missing values generated)
+{txt}(104 missing values generated)
 
 {com}. 
 . replace avg_birth_date_distance_family = avg_birth_date_distance_family/365
-{txt}(3,319,952 real changes made)
+{txt}(3,319,916 real changes made)
 
 {com}. label var avg_birth_date_distance_family "Average distance of birth dates in family in years"
 {txt}
@@ -132,7 +132,7 @@ saved
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingxwalk/siblingpairxwalk.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 7 Apr 2022, 16:34:08
+ {txt}closed on:  {res}25 Jul 2022, 18:44:34
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

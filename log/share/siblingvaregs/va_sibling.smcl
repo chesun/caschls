@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sibling.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 3 May 2022, 22:01:34
+ {txt}opened on:  {res}25 Jul 2022, 21:46:00
 {txt}
 {com}. 
 . //run the do helper file to set the local macros
@@ -79,6 +79,23 @@
 {txt}
 {com}. local enr_4year_str
 >         "Enrolled On Time 4-Year"
+>         ;
+{txt}
+{com}. **** Sibling Census Restricted Sample Controls Strings ;
+. local og_str
+>         "Original Specification"
+>         ;
+{txt}
+{com}. local acs_str
+>         "Original + Census"
+>         ;
+{txt}
+{com}. local sib_str
+>         "Original + Sibling"
+>         ;
+{txt}
+{com}. local both_str
+>         "Original + Census + Sibling"
 >         ;
 {txt}
 {com}. **** Value Added ;
@@ -204,6 +221,36 @@
 {com}. #delimit cr
 {txt}delimiter now cr
 {com}. macro list
+{txt}{p 0 16}
+T_gm_fix_span:{space 2}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+S_6:{space 12}{res}{res}.7098361624622439
+{p_end}
+{txt}{p 0 16}
+S_5:{space 12}{res}{res}4
+{p_end}
+{txt}{p 0 16}
+S_4:{space 12}{res}{res}.3794917847397928
+{p_end}
+{txt}{p 0 16}
+ReS_jv2:{space 8}{res}{res}__000006 __000007 __000008 __000009 __00000A __00000B __00000C __00000D __00000E __00000F __00000G __00000H __00000I __00000J __00000K
+{p_end}
+{txt}{p 0 16}
+dropv:{space 10}{res}{res}_cdscode_x
+{p_end}
+{txt}{p 0 16}
+n_offset:{space 7}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+sort:{space 11}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+dots:{space 11}{res}{res}nois _dots 5 0
+{p_end}
+{txt}{p 0 16}
+dotss:{space 10}{res}{res}nois _dots 0, title(Survey results being calculated)
+{p_end}
 {txt}{p 0 16}
 vaprojxwalks:{space 3}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/restricted_access/clean/crosswalks
 {p_end}
@@ -334,6 +381,18 @@ _demographic_controls:{break}
 {res}age         i.male         i.eth_asian i.eth_hispanic i.eth_black i.eth_other         i.econ_disadvantage         i.limited_eng_prof         i.disabled
 {p_end}
 {txt}{p 0 16}
+_both_str:{space 6}{res}{res}Original + Census + Sibling
+{p_end}
+{txt}{p 0 16}
+_sib_str:{space 7}{res}{res}Original + Sibling
+{p_end}
+{txt}{p 0 16}
+_acs_str:{space 7}{res}{res}Original + Census
+{p_end}
+{txt}{p 0 16}
+_og_str:{space 8}{res}{res}Original Specification
+{p_end}
+{txt}{p 0 16}
 _enr_4year_str:{space 1}{res}{res}Enrolled On Time 4-Year
 {p_end}
 {txt}{p 0 16}
@@ -449,16 +508,16 @@ _0:{space 13}{res}{res}0
 {res}
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
-{col 5}Not matched{col 30}{res}         884,570
-{txt}{col 9}from master{col 30}{res}         884,570{txt}  
+{col 5}Not matched{col 30}{res}         884,312
+{txt}{col 9}from master{col 30}{res}         884,312{txt}  
 {col 9}from using{col 30}{res}               0{txt}  
 
-{col 5}Matched{col 30}{res}         900,294{txt}  
+{col 5}Matched{col 30}{res}         900,133{txt}  
 {col 5}{hline 41}
 
 {com}. 
 . drop if mi(has_older_sibling_enr_2year)
-{txt}(884,570 observations deleted)
+{txt}(884,312 observations deleted)
 
 {com}. drop if mi(has_older_sibling_enr_4year)
 {txt}(0 observations deleted)
@@ -466,14 +525,14 @@ _0:{space 13}{res}{res}0
 {com}. 
 . compress
   {txt}variable {bf}{res}age{sf}{txt} was {bf}{res}float{sf}{txt} now {bf}{res}int{sf}
-{txt}  (1,800,588 bytes saved)
+{txt}  (1,800,266 bytes saved)
 
 {com}. tempfile va_g11_sibling_dataset
 {txt}
 {com}. save `va_g11_sibling_dataset'
 {txt}{p 0 4 2}
 file {bf}
-/home/tmp/St16505.000001{rm}
+/home/tmp/St35924.000001{rm}
 saved
 as .dta format
 {p_end}
@@ -696,56 +755,56 @@ as .dta format
 {txt}(Test Score Grade 11 VA Sample)
 {txt}{hline}
 
-      Source {c |}       SS           df       MS      Number of obs   ={res}   677,254
-{txt}{hline 13}{c +}{hline 34}   F(36, 677217)   = {res} 28471.16
-{txt}       Model {c |} {res} 329901.804        36  9163.93899   {txt}Prob > F        ={res}    0.0000
-{txt}    Residual {c |} {res} 217974.086   677,217  .321867416   {txt}R-squared       ={res}    0.6021
+      Source {c |}       SS           df       MS      Number of obs   ={res}   677,216
+{txt}{hline 13}{c +}{hline 34}   F(36, 677179)   = {res} 28469.80
+{txt}       Model {c |} {res} 329882.534        36  9163.40374   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res}  217959.52   677,179  .321863968   {txt}R-squared       ={res}    0.6021
 {txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.6021
-{txt}       Total {c |} {res} 547875.889   677,253  .808967829   {txt}Root MSE        =   {res} .56733
+{txt}       Total {c |} {res} 547842.055   677,215  .808963261   {txt}Root MSE        =   {res} .56733
 
 {txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 1}sbac_ela_z~e{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {space 8}year {c |}
-{space 7}2016  {c |}{col 14}{res}{space 2} .0499644{col 26}{space 2} .0027484{col 37}{space 1}   18.18{col 46}{space 3}0.000{col 54}{space 4} .0445776{col 67}{space 3} .0553512
-{txt}{space 7}2017  {c |}{col 14}{res}{space 2} .0676601{col 26}{space 2} .0027356{col 37}{space 1}   24.73{col 46}{space 3}0.000{col 54}{space 4} .0622985{col 67}{space 3} .0730217
-{txt}{space 7}2018  {c |}{col 14}{res}{space 2}-.0710576{col 26}{space 2} .0027417{col 37}{space 1}  -25.92{col 46}{space 3}0.000{col 54}{space 4}-.0764313{col 67}{space 3} -.065684
+{space 7}2016  {c |}{col 14}{res}{space 2}  .049952{col 26}{space 2} .0027484{col 37}{space 1}   18.17{col 46}{space 3}0.000{col 54}{space 4} .0445651{col 67}{space 3} .0553388
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2} .0676661{col 26}{space 2} .0027358{col 37}{space 1}   24.73{col 46}{space 3}0.000{col 54}{space 4}  .062304{col 67}{space 3} .0730282
+{txt}{space 7}2018  {c |}{col 14}{res}{space 2}-.0710663{col 26}{space 2} .0027417{col 37}{space 1}  -25.92{col 46}{space 3}0.000{col 54}{space 4}-.0764399{col 67}{space 3}-.0656926
 {txt}{space 12} {c |}
-{space 9}age {c |}{col 14}{res}{space 2}-.0003426{col 26}{space 2} 4.88e-06{col 37}{space 1}  -70.14{col 46}{space 3}0.000{col 54}{space 4}-.0003522{col 67}{space 3} -.000333
+{space 9}age {c |}{col 14}{res}{space 2}-.0003427{col 26}{space 2} 4.88e-06{col 37}{space 1}  -70.16{col 46}{space 3}0.000{col 54}{space 4}-.0003523{col 67}{space 3}-.0003331
 {txt}{space 12} {c |}
 {space 8}male {c |}
-{space 7}Male  {c |}{col 14}{res}{space 2}-.0902902{col 26}{space 2} .0014094{col 37}{space 1}  -64.06{col 46}{space 3}0.000{col 54}{space 4}-.0930527{col 67}{space 3}-.0875278
-{txt}{space 1}1.eth_asian {c |}{col 14}{res}{space 2} .1036863{col 26}{space 2}  .002264{col 37}{space 1}   45.80{col 46}{space 3}0.000{col 54}{space 4} .0992489{col 67}{space 3} .1081236
-{txt}1.eth_hisp~c {c |}{col 14}{res}{space 2}-.0050762{col 26}{space 2} .0019297{col 37}{space 1}   -2.63{col 46}{space 3}0.009{col 54}{space 4}-.0088584{col 67}{space 3} -.001294
-{txt}{space 1}1.eth_black {c |}{col 14}{res}{space 2}-.1444525{col 26}{space 2} .0037981{col 37}{space 1}  -38.03{col 46}{space 3}0.000{col 54}{space 4}-.1518967{col 67}{space 3}-.1370083
-{txt}{space 1}1.eth_other {c |}{col 14}{res}{space 2} .0043308{col 26}{space 2} .0042032{col 37}{space 1}    1.03{col 46}{space 3}0.303{col 54}{space 4}-.0039074{col 67}{space 3} .0125689
+{space 7}Male  {c |}{col 14}{res}{space 2}-.0902762{col 26}{space 2} .0014095{col 37}{space 1}  -64.05{col 46}{space 3}0.000{col 54}{space 4}-.0930386{col 67}{space 3}-.0875137
+{txt}{space 1}1.eth_asian {c |}{col 14}{res}{space 2} .1037072{col 26}{space 2}  .002264{col 37}{space 1}   45.81{col 46}{space 3}0.000{col 54}{space 4} .0992697{col 67}{space 3} .1081446
+{txt}1.eth_hisp~c {c |}{col 14}{res}{space 2}-.0050483{col 26}{space 2} .0019298{col 37}{space 1}   -2.62{col 46}{space 3}0.009{col 54}{space 4}-.0088306{col 67}{space 3} -.001266
+{txt}{space 1}1.eth_black {c |}{col 14}{res}{space 2}-.1444415{col 26}{space 2} .0037983{col 37}{space 1}  -38.03{col 46}{space 3}0.000{col 54}{space 4}-.1518861{col 67}{space 3} -.136997
+{txt}{space 1}1.eth_other {c |}{col 14}{res}{space 2} .0042174{col 26}{space 2} .0042036{col 37}{space 1}    1.00{col 46}{space 3}0.316{col 54}{space 4}-.0040216{col 67}{space 3} .0124564
 {txt}{space 12} {c |}
 econ_disad~e {c |}
-Economic ..  {c |}{col 14}{res}{space 2}-.0366117{col 26}{space 2} .0016359{col 37}{space 1}  -22.38{col 46}{space 3}0.000{col 54}{space 4} -.039818{col 67}{space 3}-.0334053
+Economic ..  {c |}{col 14}{res}{space 2}-.0366379{col 26}{space 2}  .001636{col 37}{space 1}  -22.39{col 46}{space 3}0.000{col 54}{space 4}-.0398444{col 67}{space 3}-.0334314
 {txt}{space 12} {c |}
 limited_en~f {c |}
-Limited E..  {c |}{col 14}{res}{space 2}-.2115924{col 26}{space 2} .0036819{col 37}{space 1}  -57.47{col 46}{space 3}0.000{col 54}{space 4}-.2188087{col 67}{space 3} -.204376
+Limited E..  {c |}{col 14}{res}{space 2}-.2115791{col 26}{space 2} .0036822{col 37}{space 1}  -57.46{col 46}{space 3}0.000{col 54}{space 4} -.218796{col 67}{space 3}-.2043622
 {txt}{space 12} {c |}
 {space 4}disabled {c |}
-{space 3}Disabled  {c |}{col 14}{res}{space 2}-.1861937{col 26}{space 2} .0037187{col 37}{space 1}  -50.07{col 46}{space 3}0.000{col 54}{space 4}-.1934822{col 67}{space 3}-.1789052
+{space 3}Disabled  {c |}{col 14}{res}{space 2}-.1861578{col 26}{space 2}  .003719{col 37}{space 1}  -50.06{col 46}{space 3}0.000{col 54}{space 4}-.1934468{col 67}{space 3}-.1788687
 {txt}{space 12} {c |}
 {space 8}year#{c |}
 {space 10}c. {c |}
 prior_ela_~e {c |}
-{space 7}2015  {c |}{col 14}{res}{space 2} .6117768{col 26}{space 2} .0027977{col 37}{space 1}  218.67{col 46}{space 3}0.000{col 54}{space 4} .6062934{col 67}{space 3} .6172602
-{txt}{space 7}2016  {c |}{col 14}{res}{space 2}  .593261{col 26}{space 2} .0027254{col 37}{space 1}  217.68{col 46}{space 3}0.000{col 54}{space 4} .5879193{col 67}{space 3} .5986027
-{txt}{space 7}2017  {c |}{col 14}{res}{space 2} .5819387{col 26}{space 2} .0028658{col 37}{space 1}  203.07{col 46}{space 3}0.000{col 54}{space 4} .5763219{col 67}{space 3} .5875555
-{txt}{space 7}2018  {c |}{col 14}{res}{space 2} .5727827{col 26}{space 2} .0034906{col 37}{space 1}  164.09{col 46}{space 3}0.000{col 54}{space 4} .5659413{col 67}{space 3} .5796241
+{space 7}2015  {c |}{col 14}{res}{space 2} .6117589{col 26}{space 2} .0027975{col 37}{space 1}  218.68{col 46}{space 3}0.000{col 54}{space 4} .6062758{col 67}{space 3}  .617242
+{txt}{space 7}2016  {c |}{col 14}{res}{space 2} .5932779{col 26}{space 2} .0027254{col 37}{space 1}  217.69{col 46}{space 3}0.000{col 54}{space 4} .5879363{col 67}{space 3} .5986195
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2} .5819199{col 26}{space 2} .0028658{col 37}{space 1}  203.06{col 46}{space 3}0.000{col 54}{space 4}  .576303{col 67}{space 3} .5875368
+{txt}{space 7}2018  {c |}{col 14}{res}{space 2} .5727928{col 26}{space 2} .0034906{col 37}{space 1}  164.09{col 46}{space 3}0.000{col 54}{space 4} .5659513{col 67}{space 3} .5796343
 {txt}{space 12} {c |}
 {space 8}year#{c |}
 {space 10}c. {c |}
 prior_ela_~e#{c |}
 {space 10}c. {c |}
 prior_ela_~e {c |}
-{space 7}2015  {c |}{col 14}{res}{space 2} .0002419{col 26}{space 2} .0014746{col 37}{space 1}    0.16{col 46}{space 3}0.870{col 54}{space 4}-.0026483{col 67}{space 3} .0031321
-{txt}{space 7}2016  {c |}{col 14}{res}{space 2}-.0138144{col 26}{space 2} .0014878{col 37}{space 1}   -9.29{col 46}{space 3}0.000{col 54}{space 4}-.0167304{col 67}{space 3}-.0108984
-{txt}{space 7}2017  {c |}{col 14}{res}{space 2}-.0132171{col 26}{space 2} .0014998{col 37}{space 1}   -8.81{col 46}{space 3}0.000{col 54}{space 4}-.0161566{col 67}{space 3}-.0102775
-{txt}{space 7}2018  {c |}{col 14}{res}{space 2} .0110561{col 26}{space 2} .0015063{col 37}{space 1}    7.34{col 46}{space 3}0.000{col 54}{space 4} .0081038{col 67}{space 3} .0140084
+{space 7}2015  {c |}{col 14}{res}{space 2} .0002492{col 26}{space 2} .0014745{col 37}{space 1}    0.17{col 46}{space 3}0.866{col 54}{space 4}-.0026408{col 67}{space 3} .0031391
+{txt}{space 7}2016  {c |}{col 14}{res}{space 2}-.0138123{col 26}{space 2} .0014878{col 37}{space 1}   -9.28{col 46}{space 3}0.000{col 54}{space 4}-.0167283{col 67}{space 3}-.0108963
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2}-.0132221{col 26}{space 2} .0015001{col 37}{space 1}   -8.81{col 46}{space 3}0.000{col 54}{space 4}-.0161622{col 67}{space 3}-.0102821
+{txt}{space 7}2018  {c |}{col 14}{res}{space 2} .0110503{col 26}{space 2} .0015063{col 37}{space 1}    7.34{col 46}{space 3}0.000{col 54}{space 4} .0080979{col 67}{space 3} .0140027
 {txt}{space 12} {c |}
 {space 8}year#{c |}
 {space 10}c. {c |}
@@ -754,134 +813,134 @@ prior_ela_~e#{c |}
 prior_ela_~e#{c |}
 {space 10}c. {c |}
 prior_ela_~e {c |}
-{space 7}2015  {c |}{col 14}{res}{space 2}-.0275553{col 26}{space 2} .0006825{col 37}{space 1}  -40.37{col 46}{space 3}0.000{col 54}{space 4}-.0288931{col 67}{space 3}-.0262176
-{txt}{space 7}2016  {c |}{col 14}{res}{space 2}-.0226716{col 26}{space 2} .0006239{col 37}{space 1}  -36.34{col 46}{space 3}0.000{col 54}{space 4}-.0238944{col 67}{space 3}-.0214489
-{txt}{space 7}2017  {c |}{col 14}{res}{space 2}-.0236694{col 26}{space 2} .0006071{col 37}{space 1}  -38.99{col 46}{space 3}0.000{col 54}{space 4}-.0248592{col 67}{space 3}-.0224796
-{txt}{space 7}2018  {c |}{col 14}{res}{space 2}-.0294713{col 26}{space 2} .0009879{col 37}{space 1}  -29.83{col 46}{space 3}0.000{col 54}{space 4}-.0314076{col 67}{space 3} -.027535
+{space 7}2015  {c |}{col 14}{res}{space 2}-.0275497{col 26}{space 2} .0006825{col 37}{space 1}  -40.37{col 46}{space 3}0.000{col 54}{space 4}-.0288874{col 67}{space 3} -.026212
+{txt}{space 7}2016  {c |}{col 14}{res}{space 2} -.022671{col 26}{space 2} .0006239{col 37}{space 1}  -36.34{col 46}{space 3}0.000{col 54}{space 4}-.0238938{col 67}{space 3}-.0214483
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2} -.023669{col 26}{space 2} .0006071{col 37}{space 1}  -38.99{col 46}{space 3}0.000{col 54}{space 4}-.0248589{col 67}{space 3}-.0224791
+{txt}{space 7}2018  {c |}{col 14}{res}{space 2} -.029471{col 26}{space 2} .0009879{col 37}{space 1}  -29.83{col 46}{space 3}0.000{col 54}{space 4}-.0314073{col 67}{space 3}-.0275347
 {txt}{space 12} {c |}
 {space 8}year#{c |}
 {space 10}c. {c |}
 prior_math~e {c |}
-{space 7}2015  {c |}{col 14}{res}{space 2} .1695626{col 26}{space 2}  .002779{col 37}{space 1}   61.01{col 46}{space 3}0.000{col 54}{space 4} .1641157{col 67}{space 3} .1750094
-{txt}{space 7}2016  {c |}{col 14}{res}{space 2} .1896512{col 26}{space 2} .0028265{col 37}{space 1}   67.10{col 46}{space 3}0.000{col 54}{space 4} .1841112{col 67}{space 3} .1951911
-{txt}{space 7}2017  {c |}{col 14}{res}{space 2} .1889889{col 26}{space 2} .0029484{col 37}{space 1}   64.10{col 46}{space 3}0.000{col 54}{space 4} .1832101{col 67}{space 3} .1947678
-{txt}{space 7}2018  {c |}{col 14}{res}{space 2} .2478465{col 26}{space 2} .0035318{col 37}{space 1}   70.18{col 46}{space 3}0.000{col 54}{space 4} .2409242{col 67}{space 3} .2547687
-{txt}{space 12} {c |}
-{space 8}year#{c |}
-{space 10}c. {c |}
-prior_math~e#{c |}
-{space 10}c. {c |}
-prior_math~e {c |}
-{space 7}2015  {c |}{col 14}{res}{space 2}-.0045974{col 26}{space 2} .0018502{col 37}{space 1}   -2.48{col 46}{space 3}0.013{col 54}{space 4}-.0082238{col 67}{space 3}-.0009711
-{txt}{space 7}2016  {c |}{col 14}{res}{space 2}-.0127122{col 26}{space 2} .0018014{col 37}{space 1}   -7.06{col 46}{space 3}0.000{col 54}{space 4}-.0162428{col 67}{space 3}-.0091815
-{txt}{space 7}2017  {c |}{col 14}{res}{space 2}-.0071678{col 26}{space 2} .0018429{col 37}{space 1}   -3.89{col 46}{space 3}0.000{col 54}{space 4}-.0107798{col 67}{space 3}-.0035559
-{txt}{space 7}2018  {c |}{col 14}{res}{space 2} .0042888{col 26}{space 2} .0014656{col 37}{space 1}    2.93{col 46}{space 3}0.003{col 54}{space 4} .0014163{col 67}{space 3} .0071613
+{space 7}2015  {c |}{col 14}{res}{space 2} .1695979{col 26}{space 2} .0027789{col 37}{space 1}   61.03{col 46}{space 3}0.000{col 54}{space 4} .1641514{col 67}{space 3} .1750444
+{txt}{space 7}2016  {c |}{col 14}{res}{space 2} .1896205{col 26}{space 2} .0028265{col 37}{space 1}   67.09{col 46}{space 3}0.000{col 54}{space 4} .1840806{col 67}{space 3} .1951604
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2} .1890129{col 26}{space 2} .0029485{col 37}{space 1}   64.10{col 46}{space 3}0.000{col 54}{space 4} .1832339{col 67}{space 3} .1947919
+{txt}{space 7}2018  {c |}{col 14}{res}{space 2} .2478752{col 26}{space 2} .0035319{col 37}{space 1}   70.18{col 46}{space 3}0.000{col 54}{space 4} .2409528{col 67}{space 3} .2547975
 {txt}{space 12} {c |}
 {space 8}year#{c |}
 {space 10}c. {c |}
 prior_math~e#{c |}
 {space 10}c. {c |}
+prior_math~e {c |}
+{space 7}2015  {c |}{col 14}{res}{space 2}-.0045602{col 26}{space 2}   .00185{col 37}{space 1}   -2.46{col 46}{space 3}0.014{col 54}{space 4}-.0081861{col 67}{space 3}-.0009343
+{txt}{space 7}2016  {c |}{col 14}{res}{space 2}-.0127178{col 26}{space 2} .0018013{col 37}{space 1}   -7.06{col 46}{space 3}0.000{col 54}{space 4}-.0162483{col 67}{space 3}-.0091872
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2}-.0071474{col 26}{space 2} .0018435{col 37}{space 1}   -3.88{col 46}{space 3}0.000{col 54}{space 4}-.0107606{col 67}{space 3}-.0035341
+{txt}{space 7}2018  {c |}{col 14}{res}{space 2} .0042926{col 26}{space 2} .0014656{col 37}{space 1}    2.93{col 46}{space 3}0.003{col 54}{space 4} .0014201{col 67}{space 3} .0071652
+{txt}{space 12} {c |}
+{space 8}year#{c |}
+{space 10}c. {c |}
+prior_math~e#{c |}
+{space 10}c. {c |}
 prior_math~e#{c |}
 {space 10}c. {c |}
 prior_math~e {c |}
-{space 7}2015  {c |}{col 14}{res}{space 2}-.0031236{col 26}{space 2} .0007616{col 37}{space 1}   -4.10{col 46}{space 3}0.000{col 54}{space 4}-.0046164{col 67}{space 3}-.0016309
-{txt}{space 7}2016  {c |}{col 14}{res}{space 2}-.0035752{col 26}{space 2} .0008052{col 37}{space 1}   -4.44{col 46}{space 3}0.000{col 54}{space 4}-.0051535{col 67}{space 3} -.001997
-{txt}{space 7}2017  {c |}{col 14}{res}{space 2}-.0066743{col 26}{space 2} .0007956{col 37}{space 1}   -8.39{col 46}{space 3}0.000{col 54}{space 4}-.0082336{col 67}{space 3}-.0051149
-{txt}{space 7}2018  {c |}{col 14}{res}{space 2} -.005854{col 26}{space 2} .0009793{col 37}{space 1}   -5.98{col 46}{space 3}0.000{col 54}{space 4}-.0077734{col 67}{space 3}-.0039346
+{space 7}2015  {c |}{col 14}{res}{space 2}-.0031363{col 26}{space 2} .0007616{col 37}{space 1}   -4.12{col 46}{space 3}0.000{col 54}{space 4}-.0046289{col 67}{space 3}-.0016436
+{txt}{space 7}2016  {c |}{col 14}{res}{space 2}-.0035725{col 26}{space 2} .0008053{col 37}{space 1}   -4.44{col 46}{space 3}0.000{col 54}{space 4}-.0051508{col 67}{space 3}-.0019942
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2}-.0066826{col 26}{space 2} .0007958{col 37}{space 1}   -8.40{col 46}{space 3}0.000{col 54}{space 4}-.0082422{col 67}{space 3}-.0051229
+{txt}{space 7}2018  {c |}{col 14}{res}{space 2}-.0058624{col 26}{space 2} .0009793{col 37}{space 1}   -5.99{col 46}{space 3}0.000{col 54}{space 4}-.0077818{col 67}{space 3}-.0039429
 {txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2} 2.270121{col 26}{space 2} .0299192{col 37}{space 1}   75.88{col 46}{space 3}0.000{col 54}{space 4}  2.21148{col 67}{space 3} 2.328761
+{space 7}_cons {c |}{col 14}{res}{space 2} 2.270805{col 26}{space 2} .0299199{col 37}{space 1}   75.90{col 46}{space 3}0.000{col 54}{space 4} 2.212163{col 67}{space 3} 2.329447
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/test_score_va/vam_cfr_g11_ela_nosibctrl.ster} saved
 {res}Standard deviations: total, classes, students, teachers same year
-.5673336 .18211037 .53731111 .
+.56733056 .18211111 .53730765 .
 Covariances (left), correlations (middle), observations (right).  Row i indicates the relation between year t and t+i:
        {txt}          1             2             3
     {c TLC}{hline 43}{c TRC}
-  1 {c |}  {res}.0199303169   .5743741184          3541{txt}  {c |}
-  2 {c |}  {res}.0151232796   .4358772714          2299{txt}  {c |}
-  3 {c |}  {res}.0085328264   .2388976851          1105{txt}  {c |}
+  1 {c |}  {res}.0199278225   .5743594084          3540{txt}  {c |}
+  2 {c |}  {res}.0151241222   .4358937078          2298{txt}  {c |}
+  3 {c |}  {res}.0085309078   .2388253579          1104{txt}  {c |}
     {c BLC}{hline 43}{c BRC}
 Drift limit specified:
 2
 Covariances used for VA computations:
 {res}       {txt}          1
     {c TLC}{hline 15}{c TRC}
-  1 {c |}  {res}.0199303169{txt}  {c |}
-  2 {c |}  {res}.0151232796{txt}  {c |}
-  3 {c |}  {res}.0151232796{txt}  {c |}
+  1 {c |}  {res}.0199278225{txt}  {c |}
+  2 {c |}  {res}.0151241222{txt}  {c |}
+  3 {c |}  {res}.0151241222{txt}  {c |}
     {c BLC}{hline 15}{c BRC}
 {res}{txt}{hline}
 {res}
-{txt}Linear regression                               Number of obs     = {res}   675,586
-                                                {txt}F(1, 1275)        =  {res}  2114.68
+{txt}Linear regression                               Number of obs     = {res}   675,524
+                                                {txt}F(1, 1274)        =  {res}  2114.55
                                                 {txt}Prob > F          = {res}    0.0000
                                                 {txt}R-squared         = {res}    0.0410
                                                 {txt}Root MSE          =    {res} .55544
 
-{txt}{ralign 78:(Std. err. adjusted for {res:1,276} clusters in {res:school_id})}
+{txt}{ralign 78:(Std. err. adjusted for {res:1,275} clusters in {res:school_id})}
 {hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 14}{c |}{col 26}    Robust
 {col 1}sbac_g11_e~r{col 14}{c |} Coefficient{col 26}  std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-va_cfr_g11~a {c |}{col 14}{res}{space 2} .9820442{col 26}{space 2} .0213554{col 37}{space 1}   45.99{col 46}{space 3}0.000{col 54}{space 4} .9401486{col 67}{space 3}  1.02394
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0002073{col 26}{space 2} .0012526{col 37}{space 1}   -0.17{col 46}{space 3}0.869{col 54}{space 4}-.0026646{col 67}{space 3} .0022501
+va_cfr_g11~a {c |}{col 14}{res}{space 2}  .982105{col 26}{space 2} .0213574{col 37}{space 1}   45.98{col 46}{space 3}0.000{col 54}{space 4} .9402053{col 67}{space 3} 1.024005
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0002089{col 26}{space 2} .0012526{col 37}{space 1}   -0.17{col 46}{space 3}0.868{col 54}{space 4}-.0026663{col 67}{space 3} .0022485
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/est/siblingvaregs/test_score_va/spec_test_va_cfr_g11_ela_sibling_nocontrol.ster} saved
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/test_score_va/spec_test_va_cfr_g11_ela_sibling_nocontrol.ster} saved
 {res}{txt}{hline}
 
-      Source {c |}       SS           df       MS      Number of obs   ={res}   677,254
-{txt}{hline 13}{c +}{hline 34}   F(38, 677215)   = {res} 26986.67
-{txt}       Model {c |} {res} 329970.233        38  8683.42718   {txt}Prob > F        ={res}    0.0000
-{txt}    Residual {c |} {res} 217905.656   677,215  .321767321   {txt}R-squared       ={res}    0.6023
-{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.6022
-{txt}       Total {c |} {res} 547875.889   677,253  .808967829   {txt}Root MSE        =   {res} .56725
+      Source {c |}       SS           df       MS      Number of obs   ={res}   677,216
+{txt}{hline 13}{c +}{hline 34}   F(38, 677177)   = {res} 26985.55
+{txt}       Model {c |} {res} 329951.783        38  8682.94165   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 217890.272   677,177  .321762659   {txt}R-squared       ={res}    0.6023
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.6023
+{txt}       Total {c |} {res} 547842.055   677,215  .808963261   {txt}Root MSE        =   {res} .56724
 
 {txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 1}sbac_ela_z~e{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {space 8}year {c |}
-{space 7}2016  {c |}{col 14}{res}{space 2} .0498498{col 26}{space 2} .0027482{col 37}{space 1}   18.14{col 46}{space 3}0.000{col 54}{space 4} .0444634{col 67}{space 3} .0552361
-{txt}{space 7}2017  {c |}{col 14}{res}{space 2} .0673758{col 26}{space 2} .0027359{col 37}{space 1}   24.63{col 46}{space 3}0.000{col 54}{space 4} .0620135{col 67}{space 3} .0727382
-{txt}{space 7}2018  {c |}{col 14}{res}{space 2} -.071269{col 26}{space 2} .0027432{col 37}{space 1}  -25.98{col 46}{space 3}0.000{col 54}{space 4}-.0766456{col 67}{space 3}-.0658924
+{space 7}2016  {c |}{col 14}{res}{space 2} .0498408{col 26}{space 2} .0027482{col 37}{space 1}   18.14{col 46}{space 3}0.000{col 54}{space 4} .0444544{col 67}{space 3} .0552272
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2} .0674022{col 26}{space 2} .0027362{col 37}{space 1}   24.63{col 46}{space 3}0.000{col 54}{space 4} .0620393{col 67}{space 3} .0727651
+{txt}{space 7}2018  {c |}{col 14}{res}{space 2}-.0712742{col 26}{space 2} .0027432{col 37}{space 1}  -25.98{col 46}{space 3}0.000{col 54}{space 4}-.0766509{col 67}{space 3}-.0658976
 {txt}{space 12} {c |}
-1.has_~2year {c |}{col 14}{res}{space 2}-.0175035{col 26}{space 2} .0026999{col 37}{space 1}   -6.48{col 46}{space 3}0.000{col 54}{space 4}-.0227952{col 67}{space 3}-.0122119
-{txt}1.has_~4year {c |}{col 14}{res}{space 2}  .039867{col 26}{space 2} .0029653{col 37}{space 1}   13.44{col 46}{space 3}0.000{col 54}{space 4}  .034055{col 67}{space 3} .0456789
-{txt}{space 9}age {c |}{col 14}{res}{space 2}-.0003419{col 26}{space 2} 4.89e-06{col 37}{space 1}  -69.98{col 46}{space 3}0.000{col 54}{space 4}-.0003514{col 67}{space 3}-.0003323
+1.has_~2year {c |}{col 14}{res}{space 2}-.0178002{col 26}{space 2} .0027014{col 37}{space 1}   -6.59{col 46}{space 3}0.000{col 54}{space 4}-.0230949{col 67}{space 3}-.0125056
+{txt}1.has_~4year {c |}{col 14}{res}{space 2} .0400088{col 26}{space 2} .0029644{col 37}{space 1}   13.50{col 46}{space 3}0.000{col 54}{space 4} .0341987{col 67}{space 3} .0458189
+{txt}{space 9}age {c |}{col 14}{res}{space 2} -.000342{col 26}{space 2} 4.89e-06{col 37}{space 1}  -70.00{col 46}{space 3}0.000{col 54}{space 4}-.0003515{col 67}{space 3}-.0003324
 {txt}{space 12} {c |}
 {space 8}male {c |}
-{space 7}Male  {c |}{col 14}{res}{space 2}-.0903183{col 26}{space 2} .0014092{col 37}{space 1}  -64.09{col 46}{space 3}0.000{col 54}{space 4}-.0930803{col 67}{space 3}-.0875563
-{txt}{space 1}1.eth_asian {c |}{col 14}{res}{space 2} .1032116{col 26}{space 2} .0022649{col 37}{space 1}   45.57{col 46}{space 3}0.000{col 54}{space 4} .0987725{col 67}{space 3} .1076507
-{txt}1.eth_hisp~c {c |}{col 14}{res}{space 2} -.004525{col 26}{space 2} .0019299{col 37}{space 1}   -2.34{col 46}{space 3}0.019{col 54}{space 4}-.0083076{col 67}{space 3}-.0007424
-{txt}{space 1}1.eth_black {c |}{col 14}{res}{space 2} -.144409{col 26}{space 2} .0037975{col 37}{space 1}  -38.03{col 46}{space 3}0.000{col 54}{space 4} -.151852{col 67}{space 3}-.1369659
-{txt}{space 1}1.eth_other {c |}{col 14}{res}{space 2} .0046592{col 26}{space 2} .0042026{col 37}{space 1}    1.11{col 46}{space 3}0.268{col 54}{space 4}-.0035778{col 67}{space 3} .0128962
+{space 7}Male  {c |}{col 14}{res}{space 2}-.0903037{col 26}{space 2} .0014092{col 37}{space 1}  -64.08{col 46}{space 3}0.000{col 54}{space 4}-.0930657{col 67}{space 3}-.0875416
+{txt}{space 1}1.eth_asian {c |}{col 14}{res}{space 2} .1032379{col 26}{space 2} .0022649{col 37}{space 1}   45.58{col 46}{space 3}0.000{col 54}{space 4} .0987987{col 67}{space 3}  .107677
+{txt}1.eth_hisp~c {c |}{col 14}{res}{space 2}-.0044891{col 26}{space 2}   .00193{col 37}{space 1}   -2.33{col 46}{space 3}0.020{col 54}{space 4}-.0082718{col 67}{space 3}-.0007064
+{txt}{space 1}1.eth_black {c |}{col 14}{res}{space 2}-.1444057{col 26}{space 2} .0037977{col 37}{space 1}  -38.02{col 46}{space 3}0.000{col 54}{space 4}-.1518491{col 67}{space 3}-.1369623
+{txt}{space 1}1.eth_other {c |}{col 14}{res}{space 2} .0045368{col 26}{space 2} .0042031{col 37}{space 1}    1.08{col 46}{space 3}0.280{col 54}{space 4} -.003701{col 67}{space 3} .0127747
 {txt}{space 12} {c |}
 econ_disad~e {c |}
-Economic ..  {c |}{col 14}{res}{space 2}-.0366289{col 26}{space 2}  .001636{col 37}{space 1}  -22.39{col 46}{space 3}0.000{col 54}{space 4}-.0398356{col 67}{space 3}-.0334223
+Economic ..  {c |}{col 14}{res}{space 2}-.0366641{col 26}{space 2} .0016361{col 37}{space 1}  -22.41{col 46}{space 3}0.000{col 54}{space 4}-.0398708{col 67}{space 3}-.0334574
 {txt}{space 12} {c |}
 limited_en~f {c |}
-Limited E..  {c |}{col 14}{res}{space 2}-.2114748{col 26}{space 2} .0036813{col 37}{space 1}  -57.45{col 46}{space 3}0.000{col 54}{space 4}-.2186901{col 67}{space 3}-.2042595
+Limited E..  {c |}{col 14}{res}{space 2} -.211465{col 26}{space 2} .0036816{col 37}{space 1}  -57.44{col 46}{space 3}0.000{col 54}{space 4}-.2186808{col 67}{space 3}-.2042492
 {txt}{space 12} {c |}
 {space 4}disabled {c |}
-{space 3}Disabled  {c |}{col 14}{res}{space 2}-.1860965{col 26}{space 2} .0037182{col 37}{space 1}  -50.05{col 46}{space 3}0.000{col 54}{space 4}-.1933841{col 67}{space 3}-.1788088
+{space 3}Disabled  {c |}{col 14}{res}{space 2}-.1860572{col 26}{space 2} .0037185{col 37}{space 1}  -50.04{col 46}{space 3}0.000{col 54}{space 4}-.1933453{col 67}{space 3}-.1787691
 {txt}{space 12} {c |}
 {space 8}year#{c |}
 {space 10}c. {c |}
 prior_ela_~e {c |}
-{space 7}2015  {c |}{col 14}{res}{space 2} .6114396{col 26}{space 2} .0027974{col 37}{space 1}  218.57{col 46}{space 3}0.000{col 54}{space 4} .6059567{col 67}{space 3} .6169225
-{txt}{space 7}2016  {c |}{col 14}{res}{space 2} .5929491{col 26}{space 2} .0027252{col 37}{space 1}  217.58{col 46}{space 3}0.000{col 54}{space 4} .5876078{col 67}{space 3} .5982904
-{txt}{space 7}2017  {c |}{col 14}{res}{space 2} .5815692{col 26}{space 2} .0028657{col 37}{space 1}  202.94{col 46}{space 3}0.000{col 54}{space 4} .5759525{col 67}{space 3} .5871858
-{txt}{space 7}2018  {c |}{col 14}{res}{space 2} .5722926{col 26}{space 2} .0034902{col 37}{space 1}  163.97{col 46}{space 3}0.000{col 54}{space 4} .5654519{col 67}{space 3} .5791333
+{space 7}2015  {c |}{col 14}{res}{space 2} .6114281{col 26}{space 2} .0027973{col 37}{space 1}  218.58{col 46}{space 3}0.000{col 54}{space 4} .6059456{col 67}{space 3} .6169107
+{txt}{space 7}2016  {c |}{col 14}{res}{space 2} .5929625{col 26}{space 2} .0027252{col 37}{space 1}  217.59{col 46}{space 3}0.000{col 54}{space 4} .5876212{col 67}{space 3} .5983037
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2} .5815574{col 26}{space 2} .0028657{col 37}{space 1}  202.93{col 46}{space 3}0.000{col 54}{space 4} .5759406{col 67}{space 3} .5871741
+{txt}{space 7}2018  {c |}{col 14}{res}{space 2} .5723095{col 26}{space 2} .0034903{col 37}{space 1}  163.97{col 46}{space 3}0.000{col 54}{space 4} .5654687{col 67}{space 3} .5791503
 {txt}{space 12} {c |}
 {space 8}year#{c |}
 {space 10}c. {c |}
 prior_ela_~e#{c |}
 {space 10}c. {c |}
 prior_ela_~e {c |}
-{space 7}2015  {c |}{col 14}{res}{space 2}   .00022{col 26}{space 2} .0014744{col 37}{space 1}    0.15{col 46}{space 3}0.881{col 54}{space 4}-.0026698{col 67}{space 3} .0031099
-{txt}{space 7}2016  {c |}{col 14}{res}{space 2} -.013837{col 26}{space 2} .0014876{col 37}{space 1}   -9.30{col 46}{space 3}0.000{col 54}{space 4}-.0167526{col 67}{space 3}-.0109213
-{txt}{space 7}2017  {c |}{col 14}{res}{space 2}-.0132133{col 26}{space 2} .0014996{col 37}{space 1}   -8.81{col 46}{space 3}0.000{col 54}{space 4}-.0161525{col 67}{space 3}-.0102741
-{txt}{space 7}2018  {c |}{col 14}{res}{space 2} .0110797{col 26}{space 2} .0015061{col 37}{space 1}    7.36{col 46}{space 3}0.000{col 54}{space 4} .0081278{col 67}{space 3} .0140316
+{space 7}2015  {c |}{col 14}{res}{space 2} .0002213{col 26}{space 2} .0014743{col 37}{space 1}    0.15{col 46}{space 3}0.881{col 54}{space 4}-.0026682{col 67}{space 3} .0031109
+{txt}{space 7}2016  {c |}{col 14}{res}{space 2}-.0138438{col 26}{space 2} .0014876{col 37}{space 1}   -9.31{col 46}{space 3}0.000{col 54}{space 4}-.0167594{col 67}{space 3}-.0109281
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2}-.0132139{col 26}{space 2} .0014999{col 37}{space 1}   -8.81{col 46}{space 3}0.000{col 54}{space 4}-.0161536{col 67}{space 3}-.0102742
+{txt}{space 7}2018  {c |}{col 14}{res}{space 2} .0110746{col 26}{space 2} .0015061{col 37}{space 1}    7.35{col 46}{space 3}0.000{col 54}{space 4} .0081226{col 67}{space 3} .0140265
 {txt}{space 12} {c |}
 {space 8}year#{c |}
 {space 10}c. {c |}
@@ -890,94 +949,94 @@ prior_ela_~e#{c |}
 prior_ela_~e#{c |}
 {space 10}c. {c |}
 prior_ela_~e {c |}
-{space 7}2015  {c |}{col 14}{res}{space 2}-.0275112{col 26}{space 2} .0006824{col 37}{space 1}  -40.31{col 46}{space 3}0.000{col 54}{space 4}-.0288488{col 67}{space 3}-.0261737
-{txt}{space 7}2016  {c |}{col 14}{res}{space 2}-.0226352{col 26}{space 2} .0006238{col 37}{space 1}  -36.29{col 46}{space 3}0.000{col 54}{space 4}-.0238577{col 67}{space 3}-.0214126
-{txt}{space 7}2017  {c |}{col 14}{res}{space 2}-.0236356{col 26}{space 2}  .000607{col 37}{space 1}  -38.94{col 46}{space 3}0.000{col 54}{space 4}-.0248252{col 67}{space 3}-.0224459
-{txt}{space 7}2018  {c |}{col 14}{res}{space 2}-.0293958{col 26}{space 2} .0009878{col 37}{space 1}  -29.76{col 46}{space 3}0.000{col 54}{space 4}-.0313318{col 67}{space 3}-.0274597
+{space 7}2015  {c |}{col 14}{res}{space 2}-.0275084{col 26}{space 2} .0006824{col 37}{space 1}  -40.31{col 46}{space 3}0.000{col 54}{space 4}-.0288459{col 67}{space 3}-.0261709
+{txt}{space 7}2016  {c |}{col 14}{res}{space 2}-.0226359{col 26}{space 2} .0006238{col 37}{space 1}  -36.29{col 46}{space 3}0.000{col 54}{space 4}-.0238585{col 67}{space 3}-.0214134
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2}-.0236347{col 26}{space 2}  .000607{col 37}{space 1}  -38.93{col 46}{space 3}0.000{col 54}{space 4}-.0248244{col 67}{space 3}-.0224449
+{txt}{space 7}2018  {c |}{col 14}{res}{space 2}-.0294001{col 26}{space 2} .0009878{col 37}{space 1}  -29.76{col 46}{space 3}0.000{col 54}{space 4}-.0313361{col 67}{space 3} -.027464
 {txt}{space 12} {c |}
 {space 8}year#{c |}
 {space 10}c. {c |}
 prior_math~e {c |}
-{space 7}2015  {c |}{col 14}{res}{space 2} .1690369{col 26}{space 2} .0027789{col 37}{space 1}   60.83{col 46}{space 3}0.000{col 54}{space 4} .1635904{col 67}{space 3} .1744833
-{txt}{space 7}2016  {c |}{col 14}{res}{space 2}  .188978{col 26}{space 2} .0028265{col 37}{space 1}   66.86{col 46}{space 3}0.000{col 54}{space 4} .1834381{col 67}{space 3} .1945179
-{txt}{space 7}2017  {c |}{col 14}{res}{space 2} .1883251{col 26}{space 2} .0029483{col 37}{space 1}   63.87{col 46}{space 3}0.000{col 54}{space 4} .1825465{col 67}{space 3} .1941038
-{txt}{space 7}2018  {c |}{col 14}{res}{space 2} .2470745{col 26}{space 2} .0035317{col 37}{space 1}   69.96{col 46}{space 3}0.000{col 54}{space 4} .2401525{col 67}{space 3} .2539964
-{txt}{space 12} {c |}
-{space 8}year#{c |}
-{space 10}c. {c |}
-prior_math~e#{c |}
-{space 10}c. {c |}
-prior_math~e {c |}
-{space 7}2015  {c |}{col 14}{res}{space 2}-.0046344{col 26}{space 2} .0018499{col 37}{space 1}   -2.51{col 46}{space 3}0.012{col 54}{space 4}-.0082602{col 67}{space 3}-.0010085
-{txt}{space 7}2016  {c |}{col 14}{res}{space 2}-.0127756{col 26}{space 2} .0018011{col 37}{space 1}   -7.09{col 46}{space 3}0.000{col 54}{space 4}-.0163057{col 67}{space 3}-.0092454
-{txt}{space 7}2017  {c |}{col 14}{res}{space 2}-.0071923{col 26}{space 2} .0018426{col 37}{space 1}   -3.90{col 46}{space 3}0.000{col 54}{space 4}-.0108037{col 67}{space 3}-.0035809
-{txt}{space 7}2018  {c |}{col 14}{res}{space 2} .0041748{col 26}{space 2} .0014655{col 37}{space 1}    2.85{col 46}{space 3}0.004{col 54}{space 4} .0013025{col 67}{space 3} .0070471
+{space 7}2015  {c |}{col 14}{res}{space 2} .1690658{col 26}{space 2} .0027787{col 37}{space 1}   60.84{col 46}{space 3}0.000{col 54}{space 4} .1636196{col 67}{space 3} .1745119
+{txt}{space 7}2016  {c |}{col 14}{res}{space 2} .1889454{col 26}{space 2} .0028265{col 37}{space 1}   66.85{col 46}{space 3}0.000{col 54}{space 4} .1834056{col 67}{space 3} .1944853
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2} .1883338{col 26}{space 2} .0029484{col 37}{space 1}   63.88{col 46}{space 3}0.000{col 54}{space 4} .1825549{col 67}{space 3} .1941126
+{txt}{space 7}2018  {c |}{col 14}{res}{space 2} .2470778{col 26}{space 2} .0035317{col 37}{space 1}   69.96{col 46}{space 3}0.000{col 54}{space 4} .2401558{col 67}{space 3} .2539999
 {txt}{space 12} {c |}
 {space 8}year#{c |}
 {space 10}c. {c |}
 prior_math~e#{c |}
 {space 10}c. {c |}
+prior_math~e {c |}
+{space 7}2015  {c |}{col 14}{res}{space 2}-.0045907{col 26}{space 2} .0018497{col 37}{space 1}   -2.48{col 46}{space 3}0.013{col 54}{space 4}-.0082161{col 67}{space 3}-.0009654
+{txt}{space 7}2016  {c |}{col 14}{res}{space 2}-.0127765{col 26}{space 2} .0018011{col 37}{space 1}   -7.09{col 46}{space 3}0.000{col 54}{space 4}-.0163066{col 67}{space 3}-.0092465
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2}-.0071828{col 26}{space 2} .0018433{col 37}{space 1}   -3.90{col 46}{space 3}0.000{col 54}{space 4}-.0107956{col 67}{space 3}-.0035701
+{txt}{space 7}2018  {c |}{col 14}{res}{space 2}   .00418{col 26}{space 2} .0014655{col 37}{space 1}    2.85{col 46}{space 3}0.004{col 54}{space 4} .0013077{col 67}{space 3} .0070523
+{txt}{space 12} {c |}
+{space 8}year#{c |}
+{space 10}c. {c |}
+prior_math~e#{c |}
+{space 10}c. {c |}
 prior_math~e#{c |}
 {space 10}c. {c |}
 prior_math~e {c |}
-{space 7}2015  {c |}{col 14}{res}{space 2}-.0030776{col 26}{space 2} .0007615{col 37}{space 1}   -4.04{col 46}{space 3}0.000{col 54}{space 4}-.0045702{col 67}{space 3}-.0015851
-{txt}{space 7}2016  {c |}{col 14}{res}{space 2}-.0035084{col 26}{space 2} .0008051{col 37}{space 1}   -4.36{col 46}{space 3}0.000{col 54}{space 4}-.0050865{col 67}{space 3}-.0019304
-{txt}{space 7}2017  {c |}{col 14}{res}{space 2}-.0066265{col 26}{space 2} .0007955{col 37}{space 1}   -8.33{col 46}{space 3}0.000{col 54}{space 4}-.0081856{col 67}{space 3}-.0050673
-{txt}{space 7}2018  {c |}{col 14}{res}{space 2}-.0057665{col 26}{space 2} .0009792{col 37}{space 1}   -5.89{col 46}{space 3}0.000{col 54}{space 4}-.0076857{col 67}{space 3}-.0038473
+{space 7}2015  {c |}{col 14}{res}{space 2}-.0030898{col 26}{space 2} .0007614{col 37}{space 1}   -4.06{col 46}{space 3}0.000{col 54}{space 4}-.0045822{col 67}{space 3}-.0015974
+{txt}{space 7}2016  {c |}{col 14}{res}{space 2}-.0035057{col 26}{space 2} .0008052{col 37}{space 1}   -4.35{col 46}{space 3}0.000{col 54}{space 4}-.0050838{col 67}{space 3}-.0019276
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2}-.0066325{col 26}{space 2} .0007956{col 37}{space 1}   -8.34{col 46}{space 3}0.000{col 54}{space 4}-.0081919{col 67}{space 3} -.005073
+{txt}{space 7}2018  {c |}{col 14}{res}{space 2}-.0057689{col 26}{space 2} .0009792{col 37}{space 1}   -5.89{col 46}{space 3}0.000{col 54}{space 4}-.0076881{col 67}{space 3}-.0038497
 {txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2}  2.26474{col 26}{space 2} .0299302{col 37}{space 1}   75.67{col 46}{space 3}0.000{col 54}{space 4} 2.206078{col 67}{space 3} 2.323403
+{space 7}_cons {c |}{col 14}{res}{space 2} 2.265456{col 26}{space 2} .0299306{col 37}{space 1}   75.69{col 46}{space 3}0.000{col 54}{space 4} 2.206793{col 67}{space 3} 2.324119
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/test_score_va/vam_cfr_g11_ela.ster} saved
 {res}Standard deviations: total, classes, students, teachers same year
-.56724538 .18200216 .53725463 .
+.56724127 .18200275 .53725009 .
 Covariances (left), correlations (middle), observations (right).  Row i indicates the relation between year t and t+i:
        {txt}          1             2             3
     {c TLC}{hline 43}{c TRC}
-  1 {c |}  {res}.0198934192   .5739685075          3541{txt}  {c |}
-  2 {c |}  {res} .015092812   .4354752096          2299{txt}  {c |}
-  3 {c |}  {res}.0084986285   .2381615671          1105{txt}  {c |}
+  1 {c |}  {res}.0198912767   .5739682018          3540{txt}  {c |}
+  2 {c |}  {res}.0150935022   .4354864531          2298{txt}  {c |}
+  3 {c |}  {res}.0084951172   .2380391636          1104{txt}  {c |}
     {c BLC}{hline 43}{c BRC}
 Drift limit specified:
 2
 Covariances used for VA computations:
 {res}       {txt}          1
     {c TLC}{hline 15}{c TRC}
-  1 {c |}  {res}.0198934192{txt}  {c |}
-  2 {c |}  {res} .015092812{txt}  {c |}
-  3 {c |}  {res} .015092812{txt}  {c |}
+  1 {c |}  {res}.0198912767{txt}  {c |}
+  2 {c |}  {res}.0150935022{txt}  {c |}
+  3 {c |}  {res}.0150935022{txt}  {c |}
     {c BLC}{hline 15}{c BRC}
 {res}{txt}{hline}
 {res}
-{txt}Linear regression                               Number of obs     = {res}   675,586
-                                                {txt}F(1, 1275)        =  {res}  2110.09
+{txt}Linear regression                               Number of obs     = {res}   675,524
+                                                {txt}F(1, 1274)        =  {res}  2109.79
                                                 {txt}Prob > F          = {res}    0.0000
                                                 {txt}R-squared         = {res}    0.0409
                                                 {txt}Root MSE          =    {res} .55538
 
-{txt}{ralign 78:(Std. err. adjusted for {res:1,276} clusters in {res:school_id})}
+{txt}{ralign 78:(Std. err. adjusted for {res:1,275} clusters in {res:school_id})}
 {hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 14}{c |}{col 26}    Robust
 {col 1}sbac_g11_e~r{col 14}{c |} Coefficient{col 26}  std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-va_cfr_g11~a {c |}{col 14}{res}{space 2} .9819345{col 26}{space 2} .0213763{col 37}{space 1}   45.94{col 46}{space 3}0.000{col 54}{space 4}  .939998{col 67}{space 3} 1.023871
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0002035{col 26}{space 2} .0012535{col 37}{space 1}   -0.16{col 46}{space 3}0.871{col 54}{space 4}-.0026626{col 67}{space 3} .0022555
+va_cfr_g11~a {c |}{col 14}{res}{space 2} .9819917{col 26}{space 2} .0213791{col 37}{space 1}   45.93{col 46}{space 3}0.000{col 54}{space 4} .9400497{col 67}{space 3} 1.023934
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0002055{col 26}{space 2} .0012535{col 37}{space 1}   -0.16{col 46}{space 3}0.870{col 54}{space 4}-.0026646{col 67}{space 3} .0022536
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/est/siblingvaregs/test_score_va/spec_test_va_cfr_g11_ela_sibling.ster} saved
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/test_score_va/spec_test_va_cfr_g11_ela_sibling.ster} saved
 {res}
-{txt}Linear regression                               Number of obs     = {res}   675,586
-                                                {txt}F(1, 1275)        =  {res}    20.94
+{txt}Linear regression                               Number of obs     = {res}   675,524
+                                                {txt}F(1, 1274)        =  {res}    20.69
                                                 {txt}Prob > F          = {res}    0.0000
                                                 {txt}R-squared         = {res}    0.0001
-                                                {txt}Root MSE          =    {res} .01005
+                                                {txt}Root MSE          =    {res} .01011
 
-{txt}{ralign 78:(Std. err. adjusted for {res:1,276} clusters in {res:school_id})}
+{txt}{ralign 78:(Std. err. adjusted for {res:1,275} clusters in {res:school_id})}
 {hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 14}{c |}{col 26}    Robust
 {col 1}sbac_g11_e~d{col 14}{c |} Coefficient{col 26}  std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-va_cfr_g11~a {c |}{col 14}{res}{space 2} .0010195{col 26}{space 2} .0002228{col 37}{space 1}    4.58{col 46}{space 3}0.000{col 54}{space 4} .0005824{col 67}{space 3} .0014566
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-7.85e-07{col 26}{space 2} .0000279{col 37}{space 1}   -0.03{col 46}{space 3}0.978{col 54}{space 4}-.0000556{col 67}{space 3}  .000054
+va_cfr_g11~a {c |}{col 14}{res}{space 2} .0010172{col 26}{space 2} .0002236{col 37}{space 1}    4.55{col 46}{space 3}0.000{col 54}{space 4} .0005785{col 67}{space 3} .0014558
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-8.40e-07{col 26}{space 2}  .000028{col 37}{space 1}   -0.03{col 46}{space 3}0.976{col 54}{space 4}-.0000558{col 67}{space 3} .0000541
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/est/siblingvaregs/test_score_va/fb_test_va_cfr_g11_ela_sibling.ster} saved
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/test_score_va/fb_test_va_cfr_g11_ela_sibling.ster} saved
@@ -994,56 +1053,56 @@ saved
 (Test Score Grade 11 VA Sample)
 {txt}{hline}
 
-      Source {c |}       SS           df       MS      Number of obs   ={res}   674,462
-{txt}{hline 13}{c +}{hline 34}   F(36, 674425)   = {res} 37012.66
-{txt}       Model {c |} {res} 400184.449        36  11116.2347   {txt}Prob > F        ={res}    0.0000
-{txt}    Residual {c |} {res} 202554.093   674,425  .300335979   {txt}R-squared       ={res}    0.6639
+      Source {c |}       SS           df       MS      Number of obs   ={res}   674,426
+{txt}{hline 13}{c +}{hline 34}   F(36, 674389)   = {res} 37011.24
+{txt}       Model {c |} {res} 400154.962        36  11115.4156   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 202536.153   674,389   .30032541   {txt}R-squared       ={res}    0.6639
 {txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.6639
-{txt}       Total {c |} {res} 602738.541   674,461  .893659591   {txt}Root MSE        =   {res} .54803
+{txt}       Total {c |} {res} 602691.115   674,425  .893636972   {txt}Root MSE        =   {res} .54802
 
 {txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 1}sbac_math_~e{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {space 8}year {c |}
-{space 7}2016  {c |}{col 14}{res}{space 2}   .05854{col 26}{space 2} .0026615{col 37}{space 1}   22.00{col 46}{space 3}0.000{col 54}{space 4} .0533236{col 67}{space 3} .0637563
-{txt}{space 7}2017  {c |}{col 14}{res}{space 2} .0686921{col 26}{space 2} .0026501{col 37}{space 1}   25.92{col 46}{space 3}0.000{col 54}{space 4}  .063498{col 67}{space 3} .0738862
-{txt}{space 7}2018  {c |}{col 14}{res}{space 2}-.0883919{col 26}{space 2} .0026544{col 37}{space 1}  -33.30{col 46}{space 3}0.000{col 54}{space 4}-.0935944{col 67}{space 3}-.0831894
+{space 7}2016  {c |}{col 14}{res}{space 2} .0585371{col 26}{space 2} .0026614{col 37}{space 1}   21.99{col 46}{space 3}0.000{col 54}{space 4} .0533207{col 67}{space 3} .0637534
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2} .0687273{col 26}{space 2} .0026503{col 37}{space 1}   25.93{col 46}{space 3}0.000{col 54}{space 4} .0635328{col 67}{space 3} .0739218
+{txt}{space 7}2018  {c |}{col 14}{res}{space 2}-.0883836{col 26}{space 2} .0026544{col 37}{space 1}  -33.30{col 46}{space 3}0.000{col 54}{space 4}-.0935861{col 67}{space 3}-.0831812
 {txt}{space 12} {c |}
-{space 9}age {c |}{col 14}{res}{space 2}-.0003538{col 26}{space 2} 4.73e-06{col 37}{space 1}  -74.82{col 46}{space 3}0.000{col 54}{space 4}-.0003631{col 67}{space 3}-.0003445
+{space 9}age {c |}{col 14}{res}{space 2}-.0003539{col 26}{space 2} 4.73e-06{col 37}{space 1}  -74.85{col 46}{space 3}0.000{col 54}{space 4}-.0003632{col 67}{space 3}-.0003447
 {txt}{space 12} {c |}
 {space 8}male {c |}
-{space 7}Male  {c |}{col 14}{res}{space 2}  .052894{col 26}{space 2} .0013642{col 37}{space 1}   38.77{col 46}{space 3}0.000{col 54}{space 4} .0502202{col 67}{space 3} .0555679
-{txt}{space 1}1.eth_asian {c |}{col 14}{res}{space 2} .1902327{col 26}{space 2} .0021907{col 37}{space 1}   86.83{col 46}{space 3}0.000{col 54}{space 4}  .185939{col 67}{space 3} .1945265
-{txt}1.eth_hisp~c {c |}{col 14}{res}{space 2}-.0668171{col 26}{space 2} .0018686{col 37}{space 1}  -35.76{col 46}{space 3}0.000{col 54}{space 4}-.0704794{col 67}{space 3}-.0631548
-{txt}{space 1}1.eth_black {c |}{col 14}{res}{space 2}-.1697084{col 26}{space 2} .0036767{col 37}{space 1}  -46.16{col 46}{space 3}0.000{col 54}{space 4}-.1769147{col 67}{space 3}-.1625022
-{txt}{space 1}1.eth_other {c |}{col 14}{res}{space 2} .0057796{col 26}{space 2}  .004072{col 37}{space 1}    1.42{col 46}{space 3}0.156{col 54}{space 4}-.0022015{col 67}{space 3} .0137606
+{space 7}Male  {c |}{col 14}{res}{space 2} .0528948{col 26}{space 2} .0013643{col 37}{space 1}   38.77{col 46}{space 3}0.000{col 54}{space 4} .0502209{col 67}{space 3} .0555687
+{txt}{space 1}1.eth_asian {c |}{col 14}{res}{space 2} .1902215{col 26}{space 2} .0021907{col 37}{space 1}   86.83{col 46}{space 3}0.000{col 54}{space 4} .1859277{col 67}{space 3} .1945153
+{txt}1.eth_hisp~c {c |}{col 14}{res}{space 2}-.0668278{col 26}{space 2} .0018686{col 37}{space 1}  -35.76{col 46}{space 3}0.000{col 54}{space 4}-.0704902{col 67}{space 3}-.0631655
+{txt}{space 1}1.eth_black {c |}{col 14}{res}{space 2}-.1696988{col 26}{space 2} .0036768{col 37}{space 1}  -46.15{col 46}{space 3}0.000{col 54}{space 4}-.1769053{col 67}{space 3}-.1624923
+{txt}{space 1}1.eth_other {c |}{col 14}{res}{space 2} .0057668{col 26}{space 2} .0040724{col 37}{space 1}    1.42{col 46}{space 3}0.157{col 54}{space 4} -.002215{col 67}{space 3} .0137486
 {txt}{space 12} {c |}
 econ_disad~e {c |}
-Economic ..  {c |}{col 14}{res}{space 2}-.0650642{col 26}{space 2} .0015838{col 37}{space 1}  -41.08{col 46}{space 3}0.000{col 54}{space 4}-.0681685{col 67}{space 3}-.0619599
+Economic ..  {c |}{col 14}{res}{space 2}-.0650876{col 26}{space 2} .0015839{col 37}{space 1}  -41.09{col 46}{space 3}0.000{col 54}{space 4} -.068192{col 67}{space 3}-.0619833
 {txt}{space 12} {c |}
 limited_en~f {c |}
-Limited E..  {c |}{col 14}{res}{space 2}-.0853626{col 26}{space 2} .0035675{col 37}{space 1}  -23.93{col 46}{space 3}0.000{col 54}{space 4}-.0923547{col 67}{space 3}-.0783705
+Limited E..  {c |}{col 14}{res}{space 2}-.0853586{col 26}{space 2} .0035677{col 37}{space 1}  -23.93{col 46}{space 3}0.000{col 54}{space 4}-.0923512{col 67}{space 3}-.0783661
 {txt}{space 12} {c |}
 {space 4}disabled {c |}
-{space 3}Disabled  {c |}{col 14}{res}{space 2}-.1559783{col 26}{space 2} .0036066{col 37}{space 1}  -43.25{col 46}{space 3}0.000{col 54}{space 4}-.1630471{col 67}{space 3}-.1489095
+{space 3}Disabled  {c |}{col 14}{res}{space 2}-.1559516{col 26}{space 2} .0036068{col 37}{space 1}  -43.24{col 46}{space 3}0.000{col 54}{space 4}-.1630208{col 67}{space 3}-.1488823
 {txt}{space 12} {c |}
 {space 8}year#{c |}
 {space 10}c. {c |}
 prior_ela_~e {c |}
-{space 7}2015  {c |}{col 14}{res}{space 2} .3460793{col 26}{space 2} .0027089{col 37}{space 1}  127.76{col 46}{space 3}0.000{col 54}{space 4} .3407699{col 67}{space 3} .3513887
-{txt}{space 7}2016  {c |}{col 14}{res}{space 2} .3328641{col 26}{space 2}  .002639{col 37}{space 1}  126.13{col 46}{space 3}0.000{col 54}{space 4} .3276918{col 67}{space 3} .3380365
-{txt}{space 7}2017  {c |}{col 14}{res}{space 2} .3021307{col 26}{space 2} .0027744{col 37}{space 1}  108.90{col 46}{space 3}0.000{col 54}{space 4} .2966929{col 67}{space 3} .3075685
-{txt}{space 7}2018  {c |}{col 14}{res}{space 2} .1877411{col 26}{space 2} .0033763{col 37}{space 1}   55.61{col 46}{space 3}0.000{col 54}{space 4} .1811236{col 67}{space 3} .1943586
+{space 7}2015  {c |}{col 14}{res}{space 2} .3460561{col 26}{space 2} .0027087{col 37}{space 1}  127.76{col 46}{space 3}0.000{col 54}{space 4} .3407471{col 67}{space 3} .3513651
+{txt}{space 7}2016  {c |}{col 14}{res}{space 2} .3328509{col 26}{space 2} .0026389{col 37}{space 1}  126.13{col 46}{space 3}0.000{col 54}{space 4} .3276786{col 67}{space 3} .3380231
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2} .3021774{col 26}{space 2} .0027745{col 37}{space 1}  108.91{col 46}{space 3}0.000{col 54}{space 4} .2967395{col 67}{space 3} .3076153
+{txt}{space 7}2018  {c |}{col 14}{res}{space 2} .1877728{col 26}{space 2} .0033763{col 37}{space 1}   55.61{col 46}{space 3}0.000{col 54}{space 4} .1811553{col 67}{space 3} .1943903
 {txt}{space 12} {c |}
 {space 8}year#{c |}
 {space 10}c. {c |}
 prior_ela_~e#{c |}
 {space 10}c. {c |}
 prior_ela_~e {c |}
-{space 7}2015  {c |}{col 14}{res}{space 2} .0241664{col 26}{space 2} .0014326{col 37}{space 1}   16.87{col 46}{space 3}0.000{col 54}{space 4} .0213586{col 67}{space 3} .0269742
-{txt}{space 7}2016  {c |}{col 14}{res}{space 2} .0056111{col 26}{space 2}  .001441{col 37}{space 1}    3.89{col 46}{space 3}0.000{col 54}{space 4} .0027867{col 67}{space 3} .0084354
-{txt}{space 7}2017  {c |}{col 14}{res}{space 2} .0197895{col 26}{space 2} .0014526{col 37}{space 1}   13.62{col 46}{space 3}0.000{col 54}{space 4} .0169424{col 67}{space 3} .0226366
-{txt}{space 7}2018  {c |}{col 14}{res}{space 2}-.0001293{col 26}{space 2}  .001457{col 37}{space 1}   -0.09{col 46}{space 3}0.929{col 54}{space 4} -.002985{col 67}{space 3} .0027264
+{space 7}2015  {c |}{col 14}{res}{space 2} .0241553{col 26}{space 2} .0014324{col 37}{space 1}   16.86{col 46}{space 3}0.000{col 54}{space 4} .0213477{col 67}{space 3} .0269628
+{txt}{space 7}2016  {c |}{col 14}{res}{space 2} .0055992{col 26}{space 2}  .001441{col 37}{space 1}    3.89{col 46}{space 3}0.000{col 54}{space 4} .0027748{col 67}{space 3} .0084235
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2} .0197738{col 26}{space 2} .0014529{col 37}{space 1}   13.61{col 46}{space 3}0.000{col 54}{space 4} .0169262{col 67}{space 3} .0226214
+{txt}{space 7}2018  {c |}{col 14}{res}{space 2}-.0001263{col 26}{space 2}  .001457{col 37}{space 1}   -0.09{col 46}{space 3}0.931{col 54}{space 4} -.002982{col 67}{space 3} .0027294
 {txt}{space 12} {c |}
 {space 8}year#{c |}
 {space 10}c. {c |}
@@ -1052,134 +1111,134 @@ prior_ela_~e#{c |}
 prior_ela_~e#{c |}
 {space 10}c. {c |}
 prior_ela_~e {c |}
-{space 7}2015  {c |}{col 14}{res}{space 2}-.0156205{col 26}{space 2} .0006613{col 37}{space 1}  -23.62{col 46}{space 3}0.000{col 54}{space 4}-.0169166{col 67}{space 3}-.0143244
-{txt}{space 7}2016  {c |}{col 14}{res}{space 2}-.0104033{col 26}{space 2} .0006037{col 37}{space 1}  -17.23{col 46}{space 3}0.000{col 54}{space 4}-.0115865{col 67}{space 3}-.0092201
-{txt}{space 7}2017  {c |}{col 14}{res}{space 2}-.0133383{col 26}{space 2} .0005876{col 37}{space 1}  -22.70{col 46}{space 3}0.000{col 54}{space 4}  -.01449{col 67}{space 3}-.0121866
-{txt}{space 7}2018  {c |}{col 14}{res}{space 2}-.0065435{col 26}{space 2} .0009548{col 37}{space 1}   -6.85{col 46}{space 3}0.000{col 54}{space 4}-.0084149{col 67}{space 3}-.0046721
+{space 7}2015  {c |}{col 14}{res}{space 2}-.0156138{col 26}{space 2} .0006612{col 37}{space 1}  -23.61{col 46}{space 3}0.000{col 54}{space 4}-.0169098{col 67}{space 3}-.0143178
+{txt}{space 7}2016  {c |}{col 14}{res}{space 2}-.0103964{col 26}{space 2} .0006037{col 37}{space 1}  -17.22{col 46}{space 3}0.000{col 54}{space 4}-.0115796{col 67}{space 3}-.0092133
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2}-.0133398{col 26}{space 2} .0005877{col 37}{space 1}  -22.70{col 46}{space 3}0.000{col 54}{space 4}-.0144916{col 67}{space 3} -.012188
+{txt}{space 7}2018  {c |}{col 14}{res}{space 2}-.0065488{col 26}{space 2} .0009548{col 37}{space 1}   -6.86{col 46}{space 3}0.000{col 54}{space 4}-.0084202{col 67}{space 3}-.0046774
 {txt}{space 12} {c |}
 {space 8}year#{c |}
 {space 10}c. {c |}
 prior_math~e {c |}
-{space 7}2015  {c |}{col 14}{res}{space 2} .4873828{col 26}{space 2} .0026899{col 37}{space 1}  181.19{col 46}{space 3}0.000{col 54}{space 4} .4821107{col 67}{space 3} .4926549
-{txt}{space 7}2016  {c |}{col 14}{res}{space 2}  .509296{col 26}{space 2} .0027366{col 37}{space 1}  186.10{col 46}{space 3}0.000{col 54}{space 4} .5039323{col 67}{space 3} .5146596
-{txt}{space 7}2017  {c |}{col 14}{res}{space 2}  .532375{col 26}{space 2} .0028544{col 37}{space 1}  186.51{col 46}{space 3}0.000{col 54}{space 4} .5267805{col 67}{space 3} .5379695
-{txt}{space 7}2018  {c |}{col 14}{res}{space 2} .6711163{col 26}{space 2} .0034189{col 37}{space 1}  196.29{col 46}{space 3}0.000{col 54}{space 4} .6644153{col 67}{space 3} .6778174
-{txt}{space 12} {c |}
-{space 8}year#{c |}
-{space 10}c. {c |}
-prior_math~e#{c |}
-{space 10}c. {c |}
-prior_math~e {c |}
-{space 7}2015  {c |}{col 14}{res}{space 2} .0240714{col 26}{space 2}  .001793{col 37}{space 1}   13.43{col 46}{space 3}0.000{col 54}{space 4} .0205572{col 67}{space 3} .0275857
-{txt}{space 7}2016  {c |}{col 14}{res}{space 2} .0046303{col 26}{space 2} .0017438{col 37}{space 1}    2.66{col 46}{space 3}0.008{col 54}{space 4} .0012126{col 67}{space 3}  .008048
-{txt}{space 7}2017  {c |}{col 14}{res}{space 2}-.0006828{col 26}{space 2} .0017864{col 37}{space 1}   -0.38{col 46}{space 3}0.702{col 54}{space 4}-.0041841{col 67}{space 3} .0028184
-{txt}{space 7}2018  {c |}{col 14}{res}{space 2} .0777338{col 26}{space 2} .0014196{col 37}{space 1}   54.76{col 46}{space 3}0.000{col 54}{space 4} .0749514{col 67}{space 3} .0805163
+{space 7}2015  {c |}{col 14}{res}{space 2} .4874256{col 26}{space 2} .0026897{col 37}{space 1}  181.22{col 46}{space 3}0.000{col 54}{space 4} .4821539{col 67}{space 3} .4926973
+{txt}{space 7}2016  {c |}{col 14}{res}{space 2} .5093071{col 26}{space 2} .0027366{col 37}{space 1}  186.11{col 46}{space 3}0.000{col 54}{space 4} .5039435{col 67}{space 3} .5146706
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2} .5323158{col 26}{space 2} .0028544{col 37}{space 1}  186.49{col 46}{space 3}0.000{col 54}{space 4} .5267212{col 67}{space 3} .5379104
+{txt}{space 7}2018  {c |}{col 14}{res}{space 2} .6711123{col 26}{space 2}  .003419{col 37}{space 1}  196.29{col 46}{space 3}0.000{col 54}{space 4} .6644113{col 67}{space 3} .6778134
 {txt}{space 12} {c |}
 {space 8}year#{c |}
 {space 10}c. {c |}
 prior_math~e#{c |}
 {space 10}c. {c |}
+prior_math~e {c |}
+{space 7}2015  {c |}{col 14}{res}{space 2} .0241346{col 26}{space 2} .0017928{col 37}{space 1}   13.46{col 46}{space 3}0.000{col 54}{space 4} .0206208{col 67}{space 3} .0276483
+{txt}{space 7}2016  {c |}{col 14}{res}{space 2} .0046484{col 26}{space 2} .0017437{col 37}{space 1}    2.67{col 46}{space 3}0.008{col 54}{space 4} .0012309{col 67}{space 3}  .008066
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2}-.0006538{col 26}{space 2}  .001787{col 37}{space 1}   -0.37{col 46}{space 3}0.714{col 54}{space 4}-.0041563{col 67}{space 3} .0028487
+{txt}{space 7}2018  {c |}{col 14}{res}{space 2} .0777257{col 26}{space 2} .0014196{col 37}{space 1}   54.75{col 46}{space 3}0.000{col 54}{space 4} .0749432{col 67}{space 3} .0805081
+{txt}{space 12} {c |}
+{space 8}year#{c |}
+{space 10}c. {c |}
+prior_math~e#{c |}
+{space 10}c. {c |}
 prior_math~e#{c |}
 {space 10}c. {c |}
 prior_math~e {c |}
-{space 7}2015  {c |}{col 14}{res}{space 2}-.0227705{col 26}{space 2} .0007368{col 37}{space 1}  -30.90{col 46}{space 3}0.000{col 54}{space 4}-.0242147{col 67}{space 3}-.0213264
-{txt}{space 7}2016  {c |}{col 14}{res}{space 2}-.0202824{col 26}{space 2} .0007792{col 37}{space 1}  -26.03{col 46}{space 3}0.000{col 54}{space 4}-.0218095{col 67}{space 3}-.0187552
-{txt}{space 7}2017  {c |}{col 14}{res}{space 2}-.0213844{col 26}{space 2} .0007705{col 37}{space 1}  -27.76{col 46}{space 3}0.000{col 54}{space 4}-.0228945{col 67}{space 3}-.0198743
-{txt}{space 7}2018  {c |}{col 14}{res}{space 2}-.0265723{col 26}{space 2} .0009485{col 37}{space 1}  -28.01{col 46}{space 3}0.000{col 54}{space 4}-.0284315{col 67}{space 3}-.0247132
+{space 7}2015  {c |}{col 14}{res}{space 2}-.0227954{col 26}{space 2} .0007368{col 37}{space 1}  -30.94{col 46}{space 3}0.000{col 54}{space 4}-.0242395{col 67}{space 3}-.0213514
+{txt}{space 7}2016  {c |}{col 14}{res}{space 2}-.0202957{col 26}{space 2} .0007792{col 37}{space 1}  -26.05{col 46}{space 3}0.000{col 54}{space 4}-.0218229{col 67}{space 3}-.0187684
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2}-.0213882{col 26}{space 2} .0007706{col 37}{space 1}  -27.75{col 46}{space 3}0.000{col 54}{space 4}-.0228986{col 67}{space 3}-.0198778
+{txt}{space 7}2018  {c |}{col 14}{res}{space 2}-.0265735{col 26}{space 2} .0009485{col 37}{space 1}  -28.02{col 46}{space 3}0.000{col 54}{space 4}-.0284326{col 67}{space 3}-.0247144
 {txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2} 2.248523{col 26}{space 2} .0289643{col 37}{space 1}   77.63{col 46}{space 3}0.000{col 54}{space 4} 2.191754{col 67}{space 3} 2.305292
+{space 7}_cons {c |}{col 14}{res}{space 2} 2.249231{col 26}{space 2} .0289646{col 37}{space 1}   77.65{col 46}{space 3}0.000{col 54}{space 4} 2.192461{col 67}{space 3}    2.306
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/test_score_va/vam_cfr_g11_math_nosibctrl.ster} saved
 {res}Standard deviations: total, classes, students, teachers same year
-.54802918 .16390201 .52294561 .
+.54801953 .16389467 .5229378 .
 Covariances (left), correlations (middle), observations (right).  Row i indicates the relation between year t and t+i:
        {txt}          1             2             3
     {c TLC}{hline 43}{c TRC}
-  1 {c |}  {res}.0194658737   .6783396224          3534{txt}  {c |}
-  2 {c |}  {res}.0154052278   .5463185172          2296{txt}  {c |}
-  3 {c |}  {res}.0098236127   .3639788075          1105{txt}  {c |}
+  1 {c |}  {res}.0194655457   .6783718957          3533{txt}  {c |}
+  2 {c |}  {res}.0154051059   .5463654546          2295{txt}  {c |}
+  3 {c |}  {res}.0098230485   .3639729819          1104{txt}  {c |}
     {c BLC}{hline 43}{c BRC}
 Drift limit specified:
 2
 Covariances used for VA computations:
 {res}       {txt}          1
     {c TLC}{hline 15}{c TRC}
-  1 {c |}  {res}.0194658737{txt}  {c |}
-  2 {c |}  {res}.0154052278{txt}  {c |}
-  3 {c |}  {res}.0154052278{txt}  {c |}
+  1 {c |}  {res}.0194655457{txt}  {c |}
+  2 {c |}  {res}.0154051059{txt}  {c |}
+  3 {c |}  {res}.0154051059{txt}  {c |}
     {c BLC}{hline 15}{c BRC}
 {res}{txt}{hline}
 {res}
-{txt}Linear regression                               Number of obs     = {res}   672,870
-                                                {txt}F(1, 1273)        =  {res}  4237.24
+{txt}Linear regression                               Number of obs     = {res}   672,810
+                                                {txt}F(1, 1272)        =  {res}  4233.56
                                                 {txt}Prob > F          = {res}    0.0000
                                                 {txt}R-squared         = {res}    0.0479
                                                 {txt}Root MSE          =    {res} .53469
 
-{txt}{ralign 78:(Std. err. adjusted for {res:1,274} clusters in {res:school_id})}
+{txt}{ralign 78:(Std. err. adjusted for {res:1,273} clusters in {res:school_id})}
 {hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 14}{c |}{col 26}    Robust
 {col 1}sbac_g11_m~r{col 14}{c |} Coefficient{col 26}  std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-va_cfr_g11~h {c |}{col 14}{res}{space 2} .9690228{col 26}{space 2} .0148865{col 37}{space 1}   65.09{col 46}{space 3}0.000{col 54}{space 4}  .939818{col 67}{space 3} .9982275
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2} -.000864{col 26}{space 2} .0008938{col 37}{space 1}   -0.97{col 46}{space 3}0.334{col 54}{space 4}-.0026175{col 67}{space 3} .0008894
+va_cfr_g11~h {c |}{col 14}{res}{space 2} .9689093{col 26}{space 2} .0148912{col 37}{space 1}   65.07{col 46}{space 3}0.000{col 54}{space 4} .9396952{col 67}{space 3} .9981233
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0008554{col 26}{space 2}  .000894{col 37}{space 1}   -0.96{col 46}{space 3}0.339{col 54}{space 4}-.0026094{col 67}{space 3} .0008985
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/est/siblingvaregs/test_score_va/spec_test_va_cfr_g11_math_sibling_nocontrol.ster} saved
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/test_score_va/spec_test_va_cfr_g11_math_sibling_nocontrol.ster} saved
 {res}{txt}{hline}
 
-      Source {c |}       SS           df       MS      Number of obs   ={res}   674,462
-{txt}{hline 13}{c +}{hline 34}   F(38, 674423)   = {res} 35112.12
-{txt}       Model {c |} {res}  400366.82        38   10535.969   {txt}Prob > F        ={res}    0.0000
-{txt}    Residual {c |} {res} 202371.721   674,423  .300066459   {txt}R-squared       ={res}    0.6642
+      Source {c |}       SS           df       MS      Number of obs   ={res}   674,426
+{txt}{hline 13}{c +}{hline 34}   F(38, 674387)   = {res} 35111.74
+{txt}       Model {c |} {res} 400341.058        38   10535.291   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 202350.056   674,387  .300050351   {txt}R-squared       ={res}    0.6643
 {txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.6642
-{txt}       Total {c |} {res} 602738.541   674,461  .893659591   {txt}Root MSE        =   {res} .54778
+{txt}       Total {c |} {res} 602691.115   674,425  .893636972   {txt}Root MSE        =   {res} .54777
 
 {txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 1}sbac_math_~e{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {space 8}year {c |}
-{space 7}2016  {c |}{col 14}{res}{space 2} .0583161{col 26}{space 2} .0026605{col 37}{space 1}   21.92{col 46}{space 3}0.000{col 54}{space 4} .0531017{col 67}{space 3} .0635305
-{txt}{space 7}2017  {c |}{col 14}{res}{space 2}   .06815{col 26}{space 2} .0026497{col 37}{space 1}   25.72{col 46}{space 3}0.000{col 54}{space 4} .0629567{col 67}{space 3} .0733433
-{txt}{space 7}2018  {c |}{col 14}{res}{space 2}-.0888705{col 26}{space 2} .0026551{col 37}{space 1}  -33.47{col 46}{space 3}0.000{col 54}{space 4}-.0940743{col 67}{space 3}-.0836666
+{space 7}2016  {c |}{col 14}{res}{space 2} .0583165{col 26}{space 2} .0026604{col 37}{space 1}   21.92{col 46}{space 3}0.000{col 54}{space 4} .0531021{col 67}{space 3} .0635308
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2} .0682077{col 26}{space 2} .0026499{col 37}{space 1}   25.74{col 46}{space 3}0.000{col 54}{space 4}  .063014{col 67}{space 3} .0734014
+{txt}{space 7}2018  {c |}{col 14}{res}{space 2}-.0888678{col 26}{space 2}  .002655{col 37}{space 1}  -33.47{col 46}{space 3}0.000{col 54}{space 4}-.0940716{col 67}{space 3}-.0836641
 {txt}{space 12} {c |}
-1.has_~2year {c |}{col 14}{res}{space 2}-.0257658{col 26}{space 2}  .002612{col 37}{space 1}   -9.86{col 46}{space 3}0.000{col 54}{space 4}-.0308854{col 67}{space 3}-.0206463
-{txt}1.has_~4year {c |}{col 14}{res}{space 2} .0664619{col 26}{space 2} .0028684{col 37}{space 1}   23.17{col 46}{space 3}0.000{col 54}{space 4}   .06084{col 67}{space 3} .0720837
-{txt}{space 9}age {c |}{col 14}{res}{space 2}-.0003525{col 26}{space 2} 4.73e-06{col 37}{space 1}  -74.55{col 46}{space 3}0.000{col 54}{space 4}-.0003617{col 67}{space 3}-.0003432
+1.has_~2year {c |}{col 14}{res}{space 2}-.0261661{col 26}{space 2} .0026133{col 37}{space 1}  -10.01{col 46}{space 3}0.000{col 54}{space 4}-.0312881{col 67}{space 3}-.0210441
+{txt}1.has_~4year {c |}{col 14}{res}{space 2} .0670659{col 26}{space 2} .0028672{col 37}{space 1}   23.39{col 46}{space 3}0.000{col 54}{space 4} .0614462{col 67}{space 3} .0726857
+{txt}{space 9}age {c |}{col 14}{res}{space 2}-.0003526{col 26}{space 2} 4.73e-06{col 37}{space 1}  -74.57{col 46}{space 3}0.000{col 54}{space 4}-.0003619{col 67}{space 3}-.0003433
 {txt}{space 12} {c |}
 {space 8}male {c |}
-{space 7}Male  {c |}{col 14}{res}{space 2} .0528537{col 26}{space 2} .0013636{col 37}{space 1}   38.76{col 46}{space 3}0.000{col 54}{space 4}  .050181{col 67}{space 3} .0555263
-{txt}{space 1}1.eth_asian {c |}{col 14}{res}{space 2}  .189382{col 26}{space 2}  .002191{col 37}{space 1}   86.44{col 46}{space 3}0.000{col 54}{space 4} .1850878{col 67}{space 3} .1936762
-{txt}1.eth_hisp~c {c |}{col 14}{res}{space 2}-.0659531{col 26}{space 2} .0018682{col 37}{space 1}  -35.30{col 46}{space 3}0.000{col 54}{space 4}-.0696147{col 67}{space 3}-.0622915
-{txt}{space 1}1.eth_black {c |}{col 14}{res}{space 2}-.1696506{col 26}{space 2} .0036751{col 37}{space 1}  -46.16{col 46}{space 3}0.000{col 54}{space 4}-.1768536{col 67}{space 3}-.1624476
-{txt}{space 1}1.eth_other {c |}{col 14}{res}{space 2} .0063197{col 26}{space 2} .0040703{col 37}{space 1}    1.55{col 46}{space 3}0.121{col 54}{space 4} -.001658{col 67}{space 3} .0142973
+{space 7}Male  {c |}{col 14}{res}{space 2} .0528551{col 26}{space 2} .0013636{col 37}{space 1}   38.76{col 46}{space 3}0.000{col 54}{space 4} .0501824{col 67}{space 3} .0555278
+{txt}{space 1}1.eth_asian {c |}{col 14}{res}{space 2} .1893682{col 26}{space 2}  .002191{col 37}{space 1}   86.43{col 46}{space 3}0.000{col 54}{space 4}  .185074{col 67}{space 3} .1936624
+{txt}1.eth_hisp~c {c |}{col 14}{res}{space 2}-.0659517{col 26}{space 2} .0018682{col 37}{space 1}  -35.30{col 46}{space 3}0.000{col 54}{space 4}-.0696133{col 67}{space 3}  -.06229
+{txt}{space 1}1.eth_black {c |}{col 14}{res}{space 2}-.1696526{col 26}{space 2} .0036752{col 37}{space 1}  -46.16{col 46}{space 3}0.000{col 54}{space 4}-.1768558{col 67}{space 3}-.1624494
+{txt}{space 1}1.eth_other {c |}{col 14}{res}{space 2} .0062942{col 26}{space 2} .0040706{col 37}{space 1}    1.55{col 46}{space 3}0.122{col 54}{space 4}-.0016841{col 67}{space 3} .0142726
 {txt}{space 12} {c |}
 econ_disad~e {c |}
-Economic ..  {c |}{col 14}{res}{space 2}-.0651353{col 26}{space 2} .0015835{col 37}{space 1}  -41.13{col 46}{space 3}0.000{col 54}{space 4}-.0682389{col 67}{space 3}-.0620317
+Economic ..  {c |}{col 14}{res}{space 2} -.065175{col 26}{space 2} .0015835{col 37}{space 1}  -41.16{col 46}{space 3}0.000{col 54}{space 4}-.0682786{col 67}{space 3}-.0620714
 {txt}{space 12} {c |}
 limited_en~f {c |}
-Limited E..  {c |}{col 14}{res}{space 2}-.0851729{col 26}{space 2} .0035659{col 37}{space 1}  -23.89{col 46}{space 3}0.000{col 54}{space 4} -.092162{col 67}{space 3}-.0781839
+Limited E..  {c |}{col 14}{res}{space 2}-.0851761{col 26}{space 2} .0035661{col 37}{space 1}  -23.89{col 46}{space 3}0.000{col 54}{space 4}-.0921655{col 67}{space 3}-.0781866
 {txt}{space 12} {c |}
 {space 4}disabled {c |}
-{space 3}Disabled  {c |}{col 14}{res}{space 2} -.155758{col 26}{space 2} .0036051{col 37}{space 1}  -43.21{col 46}{space 3}0.000{col 54}{space 4}-.1628239{col 67}{space 3}-.1486922
+{space 3}Disabled  {c |}{col 14}{res}{space 2}-.1557237{col 26}{space 2} .0036053{col 37}{space 1}  -43.19{col 46}{space 3}0.000{col 54}{space 4}-.1627899{col 67}{space 3}-.1486574
 {txt}{space 12} {c |}
 {space 8}year#{c |}
 {space 10}c. {c |}
 prior_ela_~e {c |}
-{space 7}2015  {c |}{col 14}{res}{space 2} .3455483{col 26}{space 2} .0027079{col 37}{space 1}  127.61{col 46}{space 3}0.000{col 54}{space 4}  .340241{col 67}{space 3} .3508557
-{txt}{space 7}2016  {c |}{col 14}{res}{space 2} .3323749{col 26}{space 2} .0026381{col 37}{space 1}  125.99{col 46}{space 3}0.000{col 54}{space 4} .3272044{col 67}{space 3} .3375454
-{txt}{space 7}2017  {c |}{col 14}{res}{space 2} .3015533{col 26}{space 2} .0027736{col 37}{space 1}  108.72{col 46}{space 3}0.000{col 54}{space 4} .2961173{col 67}{space 3} .3069894
-{txt}{space 7}2018  {c |}{col 14}{res}{space 2} .1869776{col 26}{space 2}  .003375{col 37}{space 1}   55.40{col 46}{space 3}0.000{col 54}{space 4} .1803628{col 67}{space 3} .1935925
+{space 7}2015  {c |}{col 14}{res}{space 2} .3455319{col 26}{space 2} .0027076{col 37}{space 1}  127.61{col 46}{space 3}0.000{col 54}{space 4}  .340225{col 67}{space 3} .3508388
+{txt}{space 7}2016  {c |}{col 14}{res}{space 2} .3323551{col 26}{space 2}  .002638{col 37}{space 1}  125.99{col 46}{space 3}0.000{col 54}{space 4} .3271848{col 67}{space 3} .3375255
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2} .3016123{col 26}{space 2} .0027736{col 37}{space 1}  108.75{col 46}{space 3}0.000{col 54}{space 4} .2961762{col 67}{space 3} .3070484
+{txt}{space 7}2018  {c |}{col 14}{res}{space 2} .1870211{col 26}{space 2} .0033749{col 37}{space 1}   55.41{col 46}{space 3}0.000{col 54}{space 4} .1804063{col 67}{space 3} .1936358
 {txt}{space 12} {c |}
 {space 8}year#{c |}
 {space 10}c. {c |}
 prior_ela_~e#{c |}
 {space 10}c. {c |}
 prior_ela_~e {c |}
-{space 7}2015  {c |}{col 14}{res}{space 2} .0241348{col 26}{space 2}  .001432{col 37}{space 1}   16.85{col 46}{space 3}0.000{col 54}{space 4} .0213282{col 67}{space 3} .0269415
-{txt}{space 7}2016  {c |}{col 14}{res}{space 2}  .005581{col 26}{space 2} .0014404{col 37}{space 1}    3.87{col 46}{space 3}0.000{col 54}{space 4} .0027578{col 67}{space 3} .0084042
-{txt}{space 7}2017  {c |}{col 14}{res}{space 2} .0198104{col 26}{space 2}  .001452{col 37}{space 1}   13.64{col 46}{space 3}0.000{col 54}{space 4} .0169645{col 67}{space 3} .0226563
-{txt}{space 7}2018  {c |}{col 14}{res}{space 2}-.0000811{col 26}{space 2} .0014564{col 37}{space 1}   -0.06{col 46}{space 3}0.956{col 54}{space 4}-.0029356{col 67}{space 3} .0027734
+{space 7}2015  {c |}{col 14}{res}{space 2} .0241136{col 26}{space 2} .0014318{col 37}{space 1}   16.84{col 46}{space 3}0.000{col 54}{space 4} .0213073{col 67}{space 3} .0269199
+{txt}{space 7}2016  {c |}{col 14}{res}{space 2} .0055542{col 26}{space 2} .0014404{col 37}{space 1}    3.86{col 46}{space 3}0.000{col 54}{space 4} .0027311{col 67}{space 3} .0083773
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2}  .019802{col 26}{space 2} .0014522{col 37}{space 1}   13.64{col 46}{space 3}0.000{col 54}{space 4} .0169557{col 67}{space 3} .0226484
+{txt}{space 7}2018  {c |}{col 14}{res}{space 2}-.0000757{col 26}{space 2} .0014564{col 37}{space 1}   -0.05{col 46}{space 3}0.959{col 54}{space 4}-.0029302{col 67}{space 3} .0027788
 {txt}{space 12} {c |}
 {space 8}year#{c |}
 {space 10}c. {c |}
@@ -1188,94 +1247,94 @@ prior_ela_~e#{c |}
 prior_ela_~e#{c |}
 {space 10}c. {c |}
 prior_ela_~e {c |}
-{space 7}2015  {c |}{col 14}{res}{space 2}-.0155503{col 26}{space 2}  .000661{col 37}{space 1}  -23.53{col 46}{space 3}0.000{col 54}{space 4}-.0168458{col 67}{space 3}-.0142548
-{txt}{space 7}2016  {c |}{col 14}{res}{space 2} -.010345{col 26}{space 2} .0006034{col 37}{space 1}  -17.14{col 46}{space 3}0.000{col 54}{space 4}-.0115277{col 67}{space 3}-.0091623
-{txt}{space 7}2017  {c |}{col 14}{res}{space 2}-.0132864{col 26}{space 2} .0005874{col 37}{space 1}  -22.62{col 46}{space 3}0.000{col 54}{space 4}-.0144376{col 67}{space 3}-.0121352
-{txt}{space 7}2018  {c |}{col 14}{res}{space 2}-.0064213{col 26}{space 2} .0009544{col 37}{space 1}   -6.73{col 46}{space 3}0.000{col 54}{space 4}-.0082918{col 67}{space 3}-.0045507
+{space 7}2015  {c |}{col 14}{res}{space 2}-.0155478{col 26}{space 2} .0006609{col 37}{space 1}  -23.52{col 46}{space 3}0.000{col 54}{space 4}-.0168433{col 67}{space 3}-.0142524
+{txt}{space 7}2016  {c |}{col 14}{res}{space 2}-.0103402{col 26}{space 2} .0006034{col 37}{space 1}  -17.14{col 46}{space 3}0.000{col 54}{space 4}-.0115229{col 67}{space 3}-.0091576
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2} -.013287{col 26}{space 2} .0005874{col 37}{space 1}  -22.62{col 46}{space 3}0.000{col 54}{space 4}-.0144383{col 67}{space 3}-.0121357
+{txt}{space 7}2018  {c |}{col 14}{res}{space 2}-.0064334{col 26}{space 2} .0009544{col 37}{space 1}   -6.74{col 46}{space 3}0.000{col 54}{space 4} -.008304{col 67}{space 3}-.0045629
 {txt}{space 12} {c |}
 {space 8}year#{c |}
 {space 10}c. {c |}
 prior_math~e {c |}
-{space 7}2015  {c |}{col 14}{res}{space 2} .4865136{col 26}{space 2} .0026889{col 37}{space 1}  180.93{col 46}{space 3}0.000{col 54}{space 4} .4812434{col 67}{space 3} .4917838
-{txt}{space 7}2016  {c |}{col 14}{res}{space 2} .5081895{col 26}{space 2} .0027358{col 37}{space 1}  185.76{col 46}{space 3}0.000{col 54}{space 4} .5028275{col 67}{space 3} .5135516
-{txt}{space 7}2017  {c |}{col 14}{res}{space 2} .5312935{col 26}{space 2} .0028535{col 37}{space 1}  186.19{col 46}{space 3}0.000{col 54}{space 4} .5257007{col 67}{space 3} .5368862
-{txt}{space 7}2018  {c |}{col 14}{res}{space 2} .6698344{col 26}{space 2} .0034178{col 37}{space 1}  195.98{col 46}{space 3}0.000{col 54}{space 4} .6631356{col 67}{space 3} .6765332
-{txt}{space 12} {c |}
-{space 8}year#{c |}
-{space 10}c. {c |}
-prior_math~e#{c |}
-{space 10}c. {c |}
-prior_math~e {c |}
-{space 7}2015  {c |}{col 14}{res}{space 2} .0240231{col 26}{space 2} .0017922{col 37}{space 1}   13.40{col 46}{space 3}0.000{col 54}{space 4} .0205104{col 67}{space 3} .0275359
-{txt}{space 7}2016  {c |}{col 14}{res}{space 2} .0045412{col 26}{space 2}  .001743{col 37}{space 1}    2.61{col 46}{space 3}0.009{col 54}{space 4}  .001125{col 67}{space 3} .0079574
-{txt}{space 7}2017  {c |}{col 14}{res}{space 2}-.0007193{col 26}{space 2} .0017856{col 37}{space 1}   -0.40{col 46}{space 3}0.687{col 54}{space 4}-.0042191{col 67}{space 3} .0027804
-{txt}{space 7}2018  {c |}{col 14}{res}{space 2} .0775742{col 26}{space 2} .0014191{col 37}{space 1}   54.66{col 46}{space 3}0.000{col 54}{space 4} .0747928{col 67}{space 3} .0803556
+{space 7}2015  {c |}{col 14}{res}{space 2} .4865422{col 26}{space 2} .0026887{col 37}{space 1}  180.96{col 46}{space 3}0.000{col 54}{space 4} .4812724{col 67}{space 3}  .491812
+{txt}{space 7}2016  {c |}{col 14}{res}{space 2} .5081904{col 26}{space 2} .0027357{col 37}{space 1}  185.76{col 46}{space 3}0.000{col 54}{space 4} .5028285{col 67}{space 3} .5135523
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2} .5312035{col 26}{space 2} .0028535{col 37}{space 1}  186.16{col 46}{space 3}0.000{col 54}{space 4} .5256108{col 67}{space 3} .5367963
+{txt}{space 7}2018  {c |}{col 14}{res}{space 2} .6697783{col 26}{space 2} .0034178{col 37}{space 1}  195.97{col 46}{space 3}0.000{col 54}{space 4} .6630795{col 67}{space 3} .6764771
 {txt}{space 12} {c |}
 {space 8}year#{c |}
 {space 10}c. {c |}
 prior_math~e#{c |}
 {space 10}c. {c |}
+prior_math~e {c |}
+{space 7}2015  {c |}{col 14}{res}{space 2} .0240978{col 26}{space 2}  .001792{col 37}{space 1}   13.45{col 46}{space 3}0.000{col 54}{space 4} .0205857{col 67}{space 3}   .02761
+{txt}{space 7}2016  {c |}{col 14}{res}{space 2} .0045671{col 26}{space 2} .0017429{col 37}{space 1}    2.62{col 46}{space 3}0.009{col 54}{space 4} .0011511{col 67}{space 3} .0079831
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2}-.0007047{col 26}{space 2} .0017862{col 37}{space 1}   -0.39{col 46}{space 3}0.693{col 54}{space 4}-.0042056{col 67}{space 3} .0027963
+{txt}{space 7}2018  {c |}{col 14}{res}{space 2} .0775677{col 26}{space 2} .0014191{col 37}{space 1}   54.66{col 46}{space 3}0.000{col 54}{space 4} .0747863{col 67}{space 3} .0803491
+{txt}{space 12} {c |}
+{space 8}year#{c |}
+{space 10}c. {c |}
+prior_math~e#{c |}
+{space 10}c. {c |}
 prior_math~e#{c |}
 {space 10}c. {c |}
 prior_math~e {c |}
-{space 7}2015  {c |}{col 14}{res}{space 2}-.0226939{col 26}{space 2} .0007365{col 37}{space 1}  -30.81{col 46}{space 3}0.000{col 54}{space 4}-.0241375{col 67}{space 3}-.0212504
-{txt}{space 7}2016  {c |}{col 14}{res}{space 2}-.0201758{col 26}{space 2} .0007788{col 37}{space 1}  -25.90{col 46}{space 3}0.000{col 54}{space 4}-.0217023{col 67}{space 3}-.0186493
-{txt}{space 7}2017  {c |}{col 14}{res}{space 2}-.0213052{col 26}{space 2} .0007701{col 37}{space 1}  -27.66{col 46}{space 3}0.000{col 54}{space 4}-.0228146{col 67}{space 3}-.0197957
-{txt}{space 7}2018  {c |}{col 14}{res}{space 2}-.0264218{col 26}{space 2} .0009481{col 37}{space 1}  -27.87{col 46}{space 3}0.000{col 54}{space 4}-.0282801{col 67}{space 3}-.0245634
+{space 7}2015  {c |}{col 14}{res}{space 2}-.0227176{col 26}{space 2} .0007364{col 37}{space 1}  -30.85{col 46}{space 3}0.000{col 54}{space 4} -.024161{col 67}{space 3}-.0212742
+{txt}{space 7}2016  {c |}{col 14}{res}{space 2}-.0201881{col 26}{space 2} .0007789{col 37}{space 1}  -25.92{col 46}{space 3}0.000{col 54}{space 4}-.0217147{col 67}{space 3}-.0186616
+{txt}{space 7}2017  {c |}{col 14}{res}{space 2}-.0213057{col 26}{space 2} .0007703{col 37}{space 1}  -27.66{col 46}{space 3}0.000{col 54}{space 4}-.0228154{col 67}{space 3} -.019796
+{txt}{space 7}2018  {c |}{col 14}{res}{space 2} -.026412{col 26}{space 2} .0009481{col 37}{space 1}  -27.86{col 46}{space 3}0.000{col 54}{space 4}-.0282703{col 67}{space 3}-.0245537
 {txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2} 2.238644{col 26}{space 2} .0289663{col 37}{space 1}   77.28{col 46}{space 3}0.000{col 54}{space 4} 2.181871{col 67}{space 3} 2.295417
+{space 7}_cons {c |}{col 14}{res}{space 2} 2.239301{col 26}{space 2} .0289661{col 37}{space 1}   77.31{col 46}{space 3}0.000{col 54}{space 4} 2.182529{col 67}{space 3} 2.296074
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/test_score_va/vam_cfr_g11_math.ster} saved
 {res}Standard deviations: total, classes, students, teachers same year
-.54778322 .16371553 .52274629 .
+.54776852 .16370998 .52273262 .
 Covariances (left), correlations (middle), observations (right).  Row i indicates the relation between year t and t+i:
        {txt}          1             2             3
     {c TLC}{hline 43}{c TRC}
-  1 {c |}  {res}.0194140802   .6779384445          3534{txt}  {c |}
-  2 {c |}  {res} .015356176   .5457502346          2296{txt}  {c |}
-  3 {c |}  {res}.0097630068   .3626400715          1105{txt}  {c |}
+  1 {c |}  {res}.0194144452   .6779754953          3533{txt}  {c |}
+  2 {c |}  {res}.0153565768   .5458004638          2295{txt}  {c |}
+  3 {c |}  {res}.0097590142   .3625035724          1104{txt}  {c |}
     {c BLC}{hline 43}{c BRC}
 Drift limit specified:
 2
 Covariances used for VA computations:
 {res}       {txt}          1
     {c TLC}{hline 15}{c TRC}
-  1 {c |}  {res}.0194140802{txt}  {c |}
-  2 {c |}  {res} .015356176{txt}  {c |}
-  3 {c |}  {res} .015356176{txt}  {c |}
+  1 {c |}  {res}.0194144452{txt}  {c |}
+  2 {c |}  {res}.0153565768{txt}  {c |}
+  3 {c |}  {res}.0153565768{txt}  {c |}
     {c BLC}{hline 15}{c BRC}
 {res}{txt}{hline}
 {res}
-{txt}Linear regression                               Number of obs     = {res}   672,870
-                                                {txt}F(1, 1273)        =  {res}  4234.93
+{txt}Linear regression                               Number of obs     = {res}   672,810
+                                                {txt}F(1, 1272)        =  {res}  4230.99
                                                 {txt}Prob > F          = {res}    0.0000
                                                 {txt}R-squared         = {res}    0.0477
-                                                {txt}Root MSE          =    {res} .53449
+                                                {txt}Root MSE          =    {res} .53448
 
-{txt}{ralign 78:(Std. err. adjusted for {res:1,274} clusters in {res:school_id})}
+{txt}{ralign 78:(Std. err. adjusted for {res:1,273} clusters in {res:school_id})}
 {hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 14}{c |}{col 26}    Robust
 {col 1}sbac_g11_m~r{col 14}{c |} Coefficient{col 26}  std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-va_cfr_g11~h {c |}{col 14}{res}{space 2} .9686532{col 26}{space 2} .0148849{col 37}{space 1}   65.08{col 46}{space 3}0.000{col 54}{space 4} .9394516{col 67}{space 3} .9978548
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0008575{col 26}{space 2} .0008948{col 37}{space 1}   -0.96{col 46}{space 3}0.338{col 54}{space 4}-.0026129{col 67}{space 3}  .000898
+va_cfr_g11~h {c |}{col 14}{res}{space 2} .9685101{col 26}{space 2} .0148896{col 37}{space 1}   65.05{col 46}{space 3}0.000{col 54}{space 4} .9392992{col 67}{space 3}  .997721
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0008494{col 26}{space 2} .0008951{col 37}{space 1}   -0.95{col 46}{space 3}0.343{col 54}{space 4}-.0026053{col 67}{space 3} .0009066
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/est/siblingvaregs/test_score_va/spec_test_va_cfr_g11_math_sibling.ster} saved
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/test_score_va/spec_test_va_cfr_g11_math_sibling.ster} saved
 {res}
-{txt}Linear regression                               Number of obs     = {res}   672,870
-                                                {txt}F(1, 1273)        =  {res}    16.31
+{txt}Linear regression                               Number of obs     = {res}   672,810
+                                                {txt}F(1, 1272)        =  {res}    15.98
                                                 {txt}Prob > F          = {res}    0.0001
                                                 {txt}R-squared         = {res}    0.0001
-                                                {txt}Root MSE          =    {res} .01644
+                                                {txt}Root MSE          =    {res} .01661
 
-{txt}{ralign 78:(Std. err. adjusted for {res:1,274} clusters in {res:school_id})}
+{txt}{ralign 78:(Std. err. adjusted for {res:1,273} clusters in {res:school_id})}
 {hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 14}{c |}{col 26}    Robust
 {col 1}sbac_g11_m~d{col 14}{c |} Coefficient{col 26}  std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-va_cfr_g11~h {c |}{col 14}{res}{space 2} .0014631{col 26}{space 2} .0003623{col 37}{space 1}    4.04{col 46}{space 3}0.000{col 54}{space 4} .0007523{col 67}{space 3} .0021739
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-1.99e-06{col 26}{space 2}  .000046{col 37}{space 1}   -0.04{col 46}{space 3}0.965{col 54}{space 4}-.0000922{col 67}{space 3} .0000882
+va_cfr_g11~h {c |}{col 14}{res}{space 2} .0014613{col 26}{space 2} .0003655{col 37}{space 1}    4.00{col 46}{space 3}0.000{col 54}{space 4} .0007442{col 67}{space 3} .0021783
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-2.06e-06{col 26}{space 2} .0000463{col 37}{space 1}   -0.04{col 46}{space 3}0.965{col 54}{space 4}-.0000929{col 67}{space 3} .0000888
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/est/siblingvaregs/test_score_va/fb_test_va_cfr_g11_math_sibling.ster} saved
 {res}{txt}file {bf:/home/research/ca_ed_lab/projects/common_core_va/estimates/sibling_va/test_score_va/fb_test_va_cfr_g11_math_sibling.ster} saved
@@ -1302,13 +1361,13 @@ saved
 . timer off 1
 {txt}
 {com}. timer list
-{res}   1:     31.23 /        1 =      31.2300
+{res}   1:     37.46 /        1 =      37.4600
 {txt}
 {com}. log close
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sibling.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 3 May 2022, 22:02:05
+ {txt}closed on:  {res}25 Jul 2022, 21:46:37
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/create_va_sib_acs_out_restr_smp.smcl
   log type:  smcl
- opened on:   3 May 2022, 22:23:41
+ opened on:  25 Jul 2022, 22:09:00
 
 . 
 . /* change directory to common_core_va project directory for all value added
@@ -133,6 +133,23 @@ delimiter now ;
 >         "Enrolled On Time 4-Year"
 >         ;
 
+. **** Sibling Census Restricted Sample Controls Strings ;
+. local og_str
+>         "Original Specification"
+>         ;
+
+. local acs_str
+>         "Original + Census"
+>         ;
+
+. local sib_str
+>         "Original + Sibling"
+>         ;
+
+. local both_str
+>         "Original + Census + Sibling"
+>         ;
+
 . **** Value Added ;
 . local school_controls
 >         /*cohort_size*/
@@ -258,10 +275,20 @@ delimiter now cr
 . 
 . macro list
 T_gm_fix_span:  0
-S_4:            .003900032715465
+S_4:            .0039002308063216
 S_2:            300
-S_3:            .020595561559967
+S_3:            .0206002574343117
 S_1:            epanechnikov
+S_6:            .7098361624622439
+S_5:            4
+ReS_jv2:        __000006 __000007 __000008 __000009 __00000A __00000B __00000C
+                __00000D __00000E __00000F __00000G __00000H __00000I __00000J
+                __00000K
+dropv:          _cdscode_x
+n_offset:       0
+sort:           0
+dots:           nois _dots 5 0
+dotss:          nois _dots 0, title(Survey results being calculated)
 vaprojxwalks:   /home/research/ca_ed_lab/projects/common_core_va/data/restricte
                 > d_access/clean/crosswalks
 mattxwalks:     /home/research/ca_ed_lab/users/msnaven/data/restricted_access/c
@@ -338,6 +365,10 @@ _peer_demographic_controls:
 _demographic_controls:
                 age i.male i.eth_asian i.eth_hispanic i.eth_black i.eth_other
                 i.econ_disadvantage i.limited_eng_prof i.disabled
+_both_str:      Original + Census + Sibling
+_sib_str:       Original + Sibling
+_acs_str:       Original + Census
+_og_str:        Original Specification
 _enr_4year_str: Enrolled On Time 4-Year
 _enr_2year_str: Enrolled On Time 2-Year
 _enr_str:       Enrolled On Time
@@ -410,11 +441,11 @@ _va_dataset:    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_co
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                       884,570
-        from master                   884,570  
+    Not matched                       884,312
+        from master                   884,312  
         from using                          0  
 
-    Matched                           900,294  
+    Matched                           900,133  
     -----------------------------------------
 
 . 
@@ -422,20 +453,20 @@ _va_dataset:    /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_co
 . // keep the sibling controls sample for 2yr and 4yr sibling enrollment contro
 > ls
 . keep if sibling_2y_4y_controls_sample==1
-(902,429 observations deleted)
+(902,143 observations deleted)
 
 . 
 . compress
   variable age was float now int
   variable major was long now int
-  (3,529,740 bytes saved)
+  (3,529,208 bytes saved)
 
 . label data "Outcome VA with Sibling Control Sample"
 
 . tempfile va_g11_out_sibling_dataset
 
 . save `va_g11_out_sibling_dataset'
-file /home/tmp/St16505.000001 saved as .dta format
+file /home/tmp/St35924.000001 saved as .dta format
 
 . 
 . // call do helper file to merge onto ACS controls. Be sure to specify correct
@@ -574,6 +605,23 @@ delimiter now ;
 
 . local enr_4year_str
 >         "Enrolled On Time 4-Year"
+>         ;
+
+. **** Sibling Census Restricted Sample Controls Strings ;
+. local og_str
+>         "Original Specification"
+>         ;
+
+. local acs_str
+>         "Original + Census"
+>         ;
+
+. local sib_str
+>         "Original + Sibling"
+>         ;
+
+. local both_str
+>         "Original + Census + Sibling"
 >         ;
 
 . **** Value Added ;
@@ -718,7 +766,7 @@ delimiter now cr
 . tempfile census_geocode
 
 . save `census_geocode'
-file /home/tmp/St16505.000002 saved as .dta format
+file /home/tmp/St35924.000002 saved as .dta format
 
 . 
 . use merge_id_k12_test_scores state_student_id student_id cdscode year grade /
@@ -732,7 +780,7 @@ file /home/tmp/St16505.000002 saved as .dta format
 > s_grade macro is set to 6
 . keep if grade==`census_grade' & inrange(year, ``va_type'_min_year'-(11-`censu
 > s_grade'), ``va_type'_max_year'-(11-`census_grade'))
-(76,749,069 observations deleted)
+(76,338,017 observations deleted)
 
 . drop if mi(state_student_id)
 (2,272 observations deleted)
@@ -764,7 +812,7 @@ Duplicates in terms of state_student_id
 . tempfile lagged_address
 
 . save `lagged_address'
-file /home/tmp/St16505.000003 saved as .dta format
+file /home/tmp/St35924.000003 saved as .dta format
 
 . 
 . use $vaprojdir/data/restricted_access/clean/crosswalks/address_list.dta, clea
@@ -784,7 +832,7 @@ Duplicates in terms of all variables
 . tempfile address_id
 
 . save `address_id'
-file /home/tmp/St16505.000004 saved as .dta format
+file /home/tmp/St35924.000004 saved as .dta format
 
 . 
 . use $vaprojdir/data/public_access/clean/acs/acs_ca_census_tract_clean.dta, cl
@@ -798,7 +846,7 @@ file /home/tmp/St16505.000004 saved as .dta format
 . tempfile lagged_acs
 
 . save `lagged_acs'
-file /home/tmp/St16505.000005 saved as .dta format
+file /home/tmp/St35924.000005 saved as .dta format
 
 . 
 . 
@@ -812,7 +860,7 @@ file /home/tmp/St16505.000005 saved as .dta format
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                           849,448  (merge_lagged_address==3)
+    Matched                           849,331  (merge_lagged_address==3)
     -----------------------------------------
 
 . merge m:1 street_address_line_one city state zip_code using `address_id' ///
@@ -821,7 +869,7 @@ file /home/tmp/St16505.000005 saved as .dta format
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                           849,448  (merge_address_id==3)
+    Matched                           849,331  (merge_address_id==3)
     -----------------------------------------
 
 . merge m:1 address_id using `census_geocode' ///
@@ -830,7 +878,7 @@ file /home/tmp/St16505.000005 saved as .dta format
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                           849,092  (merge_census_geocode==3)
+    Matched                           848,975  (merge_census_geocode==3)
     -----------------------------------------
 
 . rename census_sct geoid2
@@ -842,7 +890,7 @@ file /home/tmp/St16505.000005 saved as .dta format
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                           526,691  (merge_acs==3)
+    Matched                           526,647  (merge_acs==3)
     -----------------------------------------
 
 . rename geoid2 census_sct
@@ -912,9 +960,9 @@ end of do-file
         from master                       739  
         from using                          0  
 
-    Matched                           525,895  
+    Matched                           525,851  
     -----------------------------------------
-(1,363 real changes made)
+(1,360 real changes made)
 
     Result                      Number of obs
     -----------------------------------------
@@ -922,10 +970,10 @@ end of do-file
         from master                       763  
         from using                          0  
 
-    Matched                           525,871  
+    Matched                           525,827  
     -----------------------------------------
-(1,383 real changes made)
-(431,901 real changes made)
+(1,380 real changes made)
+(431,896 real changes made)
 
     Result                      Number of obs
     -----------------------------------------
@@ -933,9 +981,9 @@ end of do-file
         from master                       739  
         from using                          0  
 
-    Matched                           525,895  
+    Matched                           525,851  
     -----------------------------------------
-(1,363 real changes made)
+(1,360 real changes made)
 
     Result                      Number of obs
     -----------------------------------------
@@ -943,10 +991,10 @@ end of do-file
         from master                       763  
         from using                          0  
 
-    Matched                           525,871  
+    Matched                           525,827  
     -----------------------------------------
-(1,383 real changes made)
-(431,901 real changes made)
+(1,380 real changes made)
+(431,896 real changes made)
 
     Result                      Number of obs
     -----------------------------------------
@@ -954,9 +1002,9 @@ end of do-file
         from master                       739  
         from using                          0  
 
-    Matched                           525,895  
+    Matched                           525,851  
     -----------------------------------------
-(1,363 real changes made)
+(1,360 real changes made)
 
     Result                      Number of obs
     -----------------------------------------
@@ -964,10 +1012,10 @@ end of do-file
         from master                       763  
         from using                          0  
 
-    Matched                           525,871  
+    Matched                           525,827  
     -----------------------------------------
-(1,383 real changes made)
-(431,901 real changes made)
+(1,380 real changes made)
+(431,896 real changes made)
 
 . 
 . 
@@ -987,7 +1035,7 @@ end of do-file
   variable touse_enr_4year_math_og was float now byte
   variable touse_enr_4year_dk was float now byte
   variable geodisplaylabel was str94 now str55
-  (34,757,844 bytes saved)
+  (34,754,940 bytes saved)
 
 . label data "Outcome VA Restrcited Sample with Sibling Controls and Census Con
 > trols"
@@ -1007,7 +1055,7 @@ file
 . timer off 1
 
 . timer list
-   1:    314.79 /        1 =     314.7900
+   1:    324.16 /        1 =     324.1610
 
 . 
 . set trace off
@@ -1023,5 +1071,5 @@ file
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/create_va_sib_acs_out_restr_smp.smcl
   log type:  smcl
- closed on:   3 May 2022, 22:28:56
+ closed on:  25 Jul 2022, 22:14:24
 -------------------------------------------------------------------------------

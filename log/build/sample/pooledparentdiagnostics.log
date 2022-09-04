@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/sample
 > /pooledparentdiagnostics.smcl
   log type:  smcl
- opened on:   7 Apr 2022, 14:56:13
+ opened on:  25 Jul 2022, 18:09:40
 
 . 
 . use $projdir/dta/demographics/pooled/paneldata/parentdemopanel, replace
@@ -96,5 +96,5 @@ file
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/sample
 > /pooledparentdiagnostics.smcl
   log type:  smcl
- closed on:   7 Apr 2022, 14:56:13
+ closed on:  25 Jul 2022, 18:09:40
 -------------------------------------------------------------------------------

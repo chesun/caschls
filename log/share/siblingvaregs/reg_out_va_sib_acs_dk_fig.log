@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/reg_out_va_sib_acs_dk_fig.smcl
   log type:  smcl
- opened on:  18 May 2022, 12:10:12
+ opened on:  25 Jul 2022, 22:33:33
 
 . 
 . /* change directory to common_core_va project directory for all value added
@@ -275,6 +275,20 @@ delimiter now cr
 . 
 . macro list
 T_gm_fix_span:  0
+S_4:            .0020413479904597
+S_2:            300
+S_3:            .0136102212476191
+S_1:            epanechnikov
+S_6:            .7098361624622439
+S_5:            4
+ReS_jv2:        __000006 __000007 __000008 __000009 __00000A __00000B __00000C
+                __00000D __00000E __00000F __00000G __00000H __00000I __00000J
+                __00000K
+dropv:          _cdscode_x
+n_offset:       0
+sort:           0
+dots:           nois _dots 5 0
+dotss:          nois _dots 0, title(Survey results being calculated)
 vaprojxwalks:   /home/research/ca_ed_lab/projects/common_core_va/data/restricte
                 > d_access/clean/crosswalks
 mattxwalks:     /home/research/ca_ed_lab/users/msnaven/data/restricted_access/c
@@ -522,9 +536,6 @@ file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
     > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_va_e
     > nr_og_dk_x_prior_ela.pdf saved as PDF format
-(file
-    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
-    > _reg_dk_prior_score/het_reg_enr_va_enr_og_dk_x_prior_ela.gph not found)
 file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
 > reg_dk_prior_score/het_reg_enr_va_enr_og_dk_x_prior_ela.gph saved
 interaction with prior math score deciles 
@@ -538,10 +549,6 @@ file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
     > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_va_e
     > nr_og_dk_x_prior_math.pdf saved as PDF format
-(file
-    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
-    > _reg_dk_prior_score/het_reg_enr_va_enr_og_dk_x_prior_math.gph not
-    found)
 file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
 > reg_dk_prior_score/het_reg_enr_va_enr_og_dk_x_prior_math.gph saved
 RHS DK VA: Deep Knowledge VA with acs controls
@@ -556,10 +563,6 @@ file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
     > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_va_e
     > nr_acs_dk_x_prior_ela.pdf saved as PDF format
-(file
-    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
-    > _reg_dk_prior_score/het_reg_enr_va_enr_acs_dk_x_prior_ela.gph not
-    found)
 file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
 > reg_dk_prior_score/het_reg_enr_va_enr_acs_dk_x_prior_ela.gph saved
 interaction with prior math score deciles 
@@ -573,10 +576,6 @@ file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
     > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_va_e
     > nr_acs_dk_x_prior_math.pdf saved as PDF format
-(file
-    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
-    > _reg_dk_prior_score/het_reg_enr_va_enr_acs_dk_x_prior_math.gph not
-    found)
 file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
 > reg_dk_prior_score/het_reg_enr_va_enr_acs_dk_x_prior_math.gph saved
 RHS DK VA: Deep Knowledge VA with sib controls
@@ -591,10 +590,6 @@ file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
     > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_va_e
     > nr_sib_dk_x_prior_ela.pdf saved as PDF format
-(file
-    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
-    > _reg_dk_prior_score/het_reg_enr_va_enr_sib_dk_x_prior_ela.gph not
-    found)
 file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
 > reg_dk_prior_score/het_reg_enr_va_enr_sib_dk_x_prior_ela.gph saved
 interaction with prior math score deciles 
@@ -608,10 +603,6 @@ file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
     > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_va_e
     > nr_sib_dk_x_prior_math.pdf saved as PDF format
-(file
-    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
-    > _reg_dk_prior_score/het_reg_enr_va_enr_sib_dk_x_prior_math.gph not
-    found)
 file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
 > reg_dk_prior_score/het_reg_enr_va_enr_sib_dk_x_prior_math.gph saved
 RHS DK VA: Deep Knowledge VA with both controls
@@ -626,10 +617,6 @@ file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
     > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_va_e
     > nr_both_dk_x_prior_ela.pdf saved as PDF format
-(file
-    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
-    > _reg_dk_prior_score/het_reg_enr_va_enr_both_dk_x_prior_ela.gph not
-    found)
 file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
 > reg_dk_prior_score/het_reg_enr_va_enr_both_dk_x_prior_ela.gph saved
 interaction with prior math score deciles 
@@ -643,10 +630,6 @@ file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
     > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_va_e
     > nr_both_dk_x_prior_math.pdf saved as PDF format
-(file
-    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
-    > _reg_dk_prior_score/het_reg_enr_va_enr_both_dk_x_prior_math.gph not
-    found)
 file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
 > reg_dk_prior_score/het_reg_enr_va_enr_both_dk_x_prior_math.gph saved
 LHS outcome = RHS DK outcome = enr_2year
@@ -662,10 +645,6 @@ file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
     > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_2yea
     > r_va_enr_2year_og_dk_x_prior_ela.pdf saved as PDF format
-(file
-    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
-    > _reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_og_dk_x_prior_ela.gp
-    > h not found)
 file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
 > reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_og_dk_x_prior_ela.gph saved
 interaction with prior math score deciles 
@@ -679,10 +658,6 @@ file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
     > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_2yea
     > r_va_enr_2year_og_dk_x_prior_math.pdf saved as PDF format
-(file
-    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
-    > _reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_og_dk_x_prior_math.g
-    > ph not found)
 file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
 > reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_og_dk_x_prior_math.gph save
 > d
@@ -698,10 +673,6 @@ file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
     > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_2yea
     > r_va_enr_2year_acs_dk_x_prior_ela.pdf saved as PDF format
-(file
-    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
-    > _reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_acs_dk_x_prior_ela.g
-    > ph not found)
 file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
 > reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_acs_dk_x_prior_ela.gph save
 > d
@@ -716,10 +687,6 @@ file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
     > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_2yea
     > r_va_enr_2year_acs_dk_x_prior_math.pdf saved as PDF format
-(file
-    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
-    > _reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_acs_dk_x_prior_math.
-    > gph not found)
 file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
 > reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_acs_dk_x_prior_math.gph sav
 > ed
@@ -735,10 +702,6 @@ file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
     > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_2yea
     > r_va_enr_2year_sib_dk_x_prior_ela.pdf saved as PDF format
-(file
-    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
-    > _reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_sib_dk_x_prior_ela.g
-    > ph not found)
 file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
 > reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_sib_dk_x_prior_ela.gph save
 > d
@@ -753,10 +716,6 @@ file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
     > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_2yea
     > r_va_enr_2year_sib_dk_x_prior_math.pdf saved as PDF format
-(file
-    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
-    > _reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_sib_dk_x_prior_math.
-    > gph not found)
 file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
 > reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_sib_dk_x_prior_math.gph sav
 > ed
@@ -772,10 +731,6 @@ file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
     > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_2yea
     > r_va_enr_2year_both_dk_x_prior_ela.pdf saved as PDF format
-(file
-    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
-    > _reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_both_dk_x_prior_ela.
-    > gph not found)
 file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
 > reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_both_dk_x_prior_ela.gph sav
 > ed
@@ -790,10 +745,6 @@ file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
     > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_2yea
     > r_va_enr_2year_both_dk_x_prior_math.pdf saved as PDF format
-(file
-    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
-    > _reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_both_dk_x_prior_math
-    > .gph not found)
 file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
 > reg_dk_prior_score/het_reg_enr_2year_va_enr_2year_both_dk_x_prior_math.gph sa
 > ved
@@ -810,10 +761,6 @@ file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
     > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_4yea
     > r_va_enr_4year_og_dk_x_prior_ela.pdf saved as PDF format
-(file
-    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
-    > _reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_og_dk_x_prior_ela.gp
-    > h not found)
 file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
 > reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_og_dk_x_prior_ela.gph saved
 interaction with prior math score deciles 
@@ -827,10 +774,6 @@ file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
     > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_4yea
     > r_va_enr_4year_og_dk_x_prior_math.pdf saved as PDF format
-(file
-    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
-    > _reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_og_dk_x_prior_math.g
-    > ph not found)
 file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
 > reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_og_dk_x_prior_math.gph save
 > d
@@ -846,10 +789,6 @@ file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
     > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_4yea
     > r_va_enr_4year_acs_dk_x_prior_ela.pdf saved as PDF format
-(file
-    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
-    > _reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_acs_dk_x_prior_ela.g
-    > ph not found)
 file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
 > reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_acs_dk_x_prior_ela.gph save
 > d
@@ -864,10 +803,6 @@ file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
     > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_4yea
     > r_va_enr_4year_acs_dk_x_prior_math.pdf saved as PDF format
-(file
-    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
-    > _reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_acs_dk_x_prior_math.
-    > gph not found)
 file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
 > reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_acs_dk_x_prior_math.gph sav
 > ed
@@ -883,10 +818,6 @@ file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
     > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_4yea
     > r_va_enr_4year_sib_dk_x_prior_ela.pdf saved as PDF format
-(file
-    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
-    > _reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_sib_dk_x_prior_ela.g
-    > ph not found)
 file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
 > reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_sib_dk_x_prior_ela.gph save
 > d
@@ -901,10 +832,6 @@ file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
     > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_4yea
     > r_va_enr_4year_sib_dk_x_prior_math.pdf saved as PDF format
-(file
-    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
-    > _reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_sib_dk_x_prior_math.
-    > gph not found)
 file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
 > reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_sib_dk_x_prior_math.gph sav
 > ed
@@ -920,10 +847,6 @@ file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
     > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_4yea
     > r_va_enr_4year_both_dk_x_prior_ela.pdf saved as PDF format
-(file
-    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
-    > _reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_both_dk_x_prior_ela.
-    > gph not found)
 file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
 > reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_both_dk_x_prior_ela.gph sav
 > ed
@@ -938,10 +861,6 @@ file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
     > s/persistence/sib_acs_restr_smp/het_reg_dk_prior_score/het_reg_enr_4yea
     > r_va_enr_4year_both_dk_x_prior_math.pdf saved as PDF format
-(file
-    /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het
-    > _reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_both_dk_x_prior_math
-    > .gph not found)
 file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
 > reg_dk_prior_score/het_reg_enr_4year_va_enr_4year_both_dk_x_prior_math.gph sa
 > ved
@@ -1055,7 +974,7 @@ file
 . timer off 1
 
 . timer list
-   1:     17.50 /        1 =      17.4980
+   1:     18.41 /        1 =      18.4110
 
 . 
 . set trace off
@@ -1069,5 +988,5 @@ file
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/reg_out_va_sib_acs_dk_fig.smcl
   log type:  smcl
- closed on:  18 May 2022, 12:10:29
+ closed on:  25 Jul 2022, 22:33:52
 -------------------------------------------------------------------------------

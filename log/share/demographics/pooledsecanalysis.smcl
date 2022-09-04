@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/demographics/pooledsecanalysis.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 7 Apr 2022, 14:56:12
+ {txt}opened on:  {res}25 Jul 2022, 18:09:39
 {txt}
 {com}. 
 . use $projdir/dta/demographics/pooled/pooledsecdiagnostics, replace
@@ -111,7 +111,7 @@
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/demographics/pooledsecanalysis.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 7 Apr 2022, 14:56:13
+ {txt}closed on:  {res}25 Jul 2022, 18:09:40
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

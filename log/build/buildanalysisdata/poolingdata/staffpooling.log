@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/builda
 > nalysisdata/poolingdata/staffpooling.smcl
   log type:  smcl
- opened on:   7 Apr 2022, 14:57:24
+ opened on:  25 Jul 2022, 18:10:37
 
 . 
 . /* first append all years to make a pnael dataset to calculate pooled stats *
@@ -222,5 +222,5 @@ file
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/builda
 > nalysisdata/poolingdata/staffpooling.smcl
   log type:  smcl
- closed on:   7 Apr 2022, 14:57:25
+ closed on:  25 Jul 2022, 18:10:37
 -------------------------------------------------------------------------------

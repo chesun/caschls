@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/reg_out_va_sib_acs_fig.smcl
   log type:  smcl
- opened on:  14 May 2022, 18:41:24
+ opened on:  25 Jul 2022, 22:31:38
 
 . 
 . /* change directory to common_core_va project directory for all value added
@@ -275,6 +275,20 @@ delimiter now cr
 . 
 . macro list
 T_gm_fix_span:  0
+S_4:            .0020413479904597
+S_2:            300
+S_3:            .0136102212476191
+S_1:            epanechnikov
+S_6:            .7098361624622439
+S_5:            4
+ReS_jv2:        __000006 __000007 __000008 __000009 __00000A __00000B __00000C
+                __00000D __00000E __00000F __00000G __00000H __00000I __00000J
+                __00000K
+dropv:          _cdscode_x
+n_offset:       0
+sort:           0
+dots:           nois _dots 5 0
+dotss:          nois _dots 0, title(Survey results being calculated)
 vaprojxwalks:   /home/research/ca_ed_lab/projects/common_core_va/data/restricte
                 > d_access/clean/crosswalks
 mattxwalks:     /home/research/ca_ed_lab/users/msnaven/data/restricted_access/c
@@ -1554,7 +1568,7 @@ file
 . 
 . 
 . 
-. ********** combine figures into panels
+. ********** combine het by prior score decile figures into panels
 . /* Original sample,
 > restricted sample with original controls,
 > restricted sample with sibling controls,
@@ -1716,8 +1730,1583 @@ file
 
 . 
 . 
+. ********** make individual figures for heterogeneity by prior score decile by
+>  SED status
+. foreach outcome in enr enr_2year enr_4year {
+  2.   di "Dependent Var = `outcome'"
+  3. 
+.   foreach subject in ela math {
+  4.     di "VA Subject = `subject'"
+  5. 
+.     foreach control in og acs sib both {
+  6.       di "`subject' test score VA with `control' controls"
+  7. 
+.       foreach prior_subject in ela math {
+  8.         di "interaction with prior `prior_subject' score deciles"
+  9. 
+.         foreach sed_status in 0 1 {
+ 10.           di "SED status = `sed_status'"
+ 11. 
+.           estimates use $vaprojdir/estimates/sib_acs_restr_smp/persistence/he
+> t_reg_`outcome'_va_`subject'_`control'_x_prior_`prior_subject'_sed`sed_status
+> '.ster
+ 12. 
+.           // convert estimation results into a dataset
+.           parmest, norestore
+ 13.           // keep only the interaction parameters
+.           keep if strpos(parm, "prior_`prior_subject'_z_score_xtile#c.va_`sub
+> ject'_`control'") != 0
+ 14.           // generate a var that is the decile number of the prior score, 
+> from 1 to 10
+.           gen xtile = subinstr(substr(parm, 1, strpos(parm, ".")), "b", "", .
+> )
+ 15.           // convert xtile var into a numeric var
+.           destring xtile, replace
+ 16. 
+.           twoway ///
+>             (bar estimate xtile) ///
+>             (rcap min95 max95 xtile) ///
+>             , yline(`=``outcome'_va_`subject'_`control''') ///
+>             legend(off) ///
+>             ytitle("Coefficient Estimate") ///
+>             xtitle("Prior ``prior_subject'_str' Score Decile") ///
+>             title("LHS = ``outcome'_str'; RHS = ``subject'_str' VA w/ ``contr
+> ol'_str' Controls # Prior ``prior_subject'_str' Decile, SED Status = `sed_sta
+> tus'" ///
+>             , size(vsmall))
+ 17. 
+. 
+.           graph export $vaprojdir/figures/va_sib_acs/het_reg_prior_score/het_
+> reg_`outcome'_va_`subject'_`control'_x_prior_`prior_subject'_sed`sed_status'.
+> pdf, replace
+ 18.           graph export $projdir/out/graph//siblingvaregs/persistence/sib_a
+> cs_restr_smp/het_reg_prior_score/het_reg_`outcome'_va_`subject'_`control'_x_p
+> rior_`prior_subject'_sed`sed_status'.pdf, replace
+ 19. 
+.           // redraw the graph to be used for combining into panels
+.           twoway ///
+>             (bar estimate xtile) ///
+>             (rcap min95 max95 xtile) ///
+>             , yline(`=``outcome'_va_`subject'_`control''') ///
+>             legend(off) ///
+>             xtitle("Prior ``prior_subject'_str' Score Decile, SED = `sed_stat
+> us'") ///
+>             title("Restricted Sample, ``control'_str' Controls", size(vsmall)
+> ) ///
+>             saving($vaprojdir/gph_files/va_sib_acs/het_reg_prior_score/het_re
+> g_`outcome'_va_`subject'_`control'_x_prior_`prior_subject'_sed`sed_status', r
+> eplace)
+ 20. 
+. 
+.         }
+ 21. 
+.       }
+ 22.     }
+ 23.   }
+ 24. }
+Dependent Var = enr
+VA Subject = ela
+ela test score VA with og controls
+interaction with prior ela score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_va_ela_og_x_prior_ela_sed0.pdf saved as PDF
+    format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_va_ela_
+    > og_x_prior_ela_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_va_ela_og_x_prior_ela_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_va_ela_og_x_prior_ela_sed1.pdf saved as PDF
+    format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_va_ela_
+    > og_x_prior_ela_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_va_ela_og_x_prior_ela_sed1.gph saved
+interaction with prior math score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_va_ela_og_x_prior_math_sed0.pdf saved as PDF
+    format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_va_ela_
+    > og_x_prior_math_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_va_ela_og_x_prior_math_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_va_ela_og_x_prior_math_sed1.pdf saved as PDF
+    format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_va_ela_
+    > og_x_prior_math_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_va_ela_og_x_prior_math_sed1.gph saved
+ela test score VA with acs controls
+interaction with prior ela score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_va_ela_acs_x_prior_ela_sed0.pdf saved as PDF
+    format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_va_ela_
+    > acs_x_prior_ela_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_va_ela_acs_x_prior_ela_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_va_ela_acs_x_prior_ela_sed1.pdf saved as PDF
+    format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_va_ela_
+    > acs_x_prior_ela_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_va_ela_acs_x_prior_ela_sed1.gph saved
+interaction with prior math score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_va_ela_acs_x_prior_math_sed0.pdf saved as
+    PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_va_ela_
+    > acs_x_prior_math_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_va_ela_acs_x_prior_math_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_va_ela_acs_x_prior_math_sed1.pdf saved as
+    PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_va_ela_
+    > acs_x_prior_math_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_va_ela_acs_x_prior_math_sed1.gph saved
+ela test score VA with sib controls
+interaction with prior ela score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_va_ela_sib_x_prior_ela_sed0.pdf saved as PDF
+    format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_va_ela_
+    > sib_x_prior_ela_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_va_ela_sib_x_prior_ela_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_va_ela_sib_x_prior_ela_sed1.pdf saved as PDF
+    format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_va_ela_
+    > sib_x_prior_ela_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_va_ela_sib_x_prior_ela_sed1.gph saved
+interaction with prior math score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_va_ela_sib_x_prior_math_sed0.pdf saved as
+    PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_va_ela_
+    > sib_x_prior_math_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_va_ela_sib_x_prior_math_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_va_ela_sib_x_prior_math_sed1.pdf saved as
+    PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_va_ela_
+    > sib_x_prior_math_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_va_ela_sib_x_prior_math_sed1.gph saved
+ela test score VA with both controls
+interaction with prior ela score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_va_ela_both_x_prior_ela_sed0.pdf saved as
+    PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_va_ela_
+    > both_x_prior_ela_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_va_ela_both_x_prior_ela_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_va_ela_both_x_prior_ela_sed1.pdf saved as
+    PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_va_ela_
+    > both_x_prior_ela_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_va_ela_both_x_prior_ela_sed1.gph saved
+interaction with prior math score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_va_ela_both_x_prior_math_sed0.pdf saved as
+    PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_va_ela_
+    > both_x_prior_math_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_va_ela_both_x_prior_math_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_va_ela_both_x_prior_math_sed1.pdf saved as
+    PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_va_ela_
+    > both_x_prior_math_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_va_ela_both_x_prior_math_sed1.gph saved
+VA Subject = math
+math test score VA with og controls
+interaction with prior ela score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_va_math_og_x_prior_ela_sed0.pdf saved as PDF
+    format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_va_math
+    > _og_x_prior_ela_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_va_math_og_x_prior_ela_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_va_math_og_x_prior_ela_sed1.pdf saved as PDF
+    format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_va_math
+    > _og_x_prior_ela_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_va_math_og_x_prior_ela_sed1.gph saved
+interaction with prior math score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_va_math_og_x_prior_math_sed0.pdf saved as
+    PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_va_math
+    > _og_x_prior_math_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_va_math_og_x_prior_math_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_va_math_og_x_prior_math_sed1.pdf saved as
+    PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_va_math
+    > _og_x_prior_math_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_va_math_og_x_prior_math_sed1.gph saved
+math test score VA with acs controls
+interaction with prior ela score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_va_math_acs_x_prior_ela_sed0.pdf saved as
+    PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_va_math
+    > _acs_x_prior_ela_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_va_math_acs_x_prior_ela_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_va_math_acs_x_prior_ela_sed1.pdf saved as
+    PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_va_math
+    > _acs_x_prior_ela_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_va_math_acs_x_prior_ela_sed1.gph saved
+interaction with prior math score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_va_math_acs_x_prior_math_sed0.pdf saved as
+    PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_va_math
+    > _acs_x_prior_math_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_va_math_acs_x_prior_math_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_va_math_acs_x_prior_math_sed1.pdf saved as
+    PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_va_math
+    > _acs_x_prior_math_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_va_math_acs_x_prior_math_sed1.gph saved
+math test score VA with sib controls
+interaction with prior ela score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_va_math_sib_x_prior_ela_sed0.pdf saved as
+    PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_va_math
+    > _sib_x_prior_ela_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_va_math_sib_x_prior_ela_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_va_math_sib_x_prior_ela_sed1.pdf saved as
+    PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_va_math
+    > _sib_x_prior_ela_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_va_math_sib_x_prior_ela_sed1.gph saved
+interaction with prior math score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_va_math_sib_x_prior_math_sed0.pdf saved as
+    PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_va_math
+    > _sib_x_prior_math_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_va_math_sib_x_prior_math_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_va_math_sib_x_prior_math_sed1.pdf saved as
+    PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_va_math
+    > _sib_x_prior_math_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_va_math_sib_x_prior_math_sed1.gph saved
+math test score VA with both controls
+interaction with prior ela score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_va_math_both_x_prior_ela_sed0.pdf saved as
+    PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_va_math
+    > _both_x_prior_ela_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_va_math_both_x_prior_ela_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_va_math_both_x_prior_ela_sed1.pdf saved as
+    PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_va_math
+    > _both_x_prior_ela_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_va_math_both_x_prior_ela_sed1.gph saved
+interaction with prior math score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_va_math_both_x_prior_math_sed0.pdf saved as
+    PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_va_math
+    > _both_x_prior_math_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_va_math_both_x_prior_math_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_va_math_both_x_prior_math_sed1.pdf saved as
+    PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_va_math
+    > _both_x_prior_math_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_va_math_both_x_prior_math_sed1.gph saved
+Dependent Var = enr_2year
+VA Subject = ela
+ela test score VA with og controls
+interaction with prior ela score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_2year_va_ela_og_x_prior_ela_sed0.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_2year_v
+    > a_ela_og_x_prior_ela_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_2year_va_ela_og_x_prior_ela_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_2year_va_ela_og_x_prior_ela_sed1.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_2year_v
+    > a_ela_og_x_prior_ela_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_2year_va_ela_og_x_prior_ela_sed1.gph saved
+interaction with prior math score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_2year_va_ela_og_x_prior_math_sed0.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_2year_v
+    > a_ela_og_x_prior_math_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_2year_va_ela_og_x_prior_math_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_2year_va_ela_og_x_prior_math_sed1.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_2year_v
+    > a_ela_og_x_prior_math_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_2year_va_ela_og_x_prior_math_sed1.gph saved
+ela test score VA with acs controls
+interaction with prior ela score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_2year_va_ela_acs_x_prior_ela_sed0.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_2year_v
+    > a_ela_acs_x_prior_ela_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_2year_va_ela_acs_x_prior_ela_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_2year_va_ela_acs_x_prior_ela_sed1.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_2year_v
+    > a_ela_acs_x_prior_ela_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_2year_va_ela_acs_x_prior_ela_sed1.gph saved
+interaction with prior math score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_2year_va_ela_acs_x_prior_math_sed0.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_2year_v
+    > a_ela_acs_x_prior_math_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_2year_va_ela_acs_x_prior_math_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_2year_va_ela_acs_x_prior_math_sed1.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_2year_v
+    > a_ela_acs_x_prior_math_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_2year_va_ela_acs_x_prior_math_sed1.gph saved
+ela test score VA with sib controls
+interaction with prior ela score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_2year_va_ela_sib_x_prior_ela_sed0.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_2year_v
+    > a_ela_sib_x_prior_ela_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_2year_va_ela_sib_x_prior_ela_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_2year_va_ela_sib_x_prior_ela_sed1.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_2year_v
+    > a_ela_sib_x_prior_ela_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_2year_va_ela_sib_x_prior_ela_sed1.gph saved
+interaction with prior math score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_2year_va_ela_sib_x_prior_math_sed0.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_2year_v
+    > a_ela_sib_x_prior_math_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_2year_va_ela_sib_x_prior_math_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_2year_va_ela_sib_x_prior_math_sed1.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_2year_v
+    > a_ela_sib_x_prior_math_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_2year_va_ela_sib_x_prior_math_sed1.gph saved
+ela test score VA with both controls
+interaction with prior ela score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_2year_va_ela_both_x_prior_ela_sed0.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_2year_v
+    > a_ela_both_x_prior_ela_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_2year_va_ela_both_x_prior_ela_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_2year_va_ela_both_x_prior_ela_sed1.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_2year_v
+    > a_ela_both_x_prior_ela_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_2year_va_ela_both_x_prior_ela_sed1.gph saved
+interaction with prior math score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_2year_va_ela_both_x_prior_math_sed0.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_2year_v
+    > a_ela_both_x_prior_math_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_2year_va_ela_both_x_prior_math_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_2year_va_ela_both_x_prior_math_sed1.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_2year_v
+    > a_ela_both_x_prior_math_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_2year_va_ela_both_x_prior_math_sed1.gph saved
+VA Subject = math
+math test score VA with og controls
+interaction with prior ela score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_2year_va_math_og_x_prior_ela_sed0.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_2year_v
+    > a_math_og_x_prior_ela_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_2year_va_math_og_x_prior_ela_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_2year_va_math_og_x_prior_ela_sed1.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_2year_v
+    > a_math_og_x_prior_ela_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_2year_va_math_og_x_prior_ela_sed1.gph saved
+interaction with prior math score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_2year_va_math_og_x_prior_math_sed0.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_2year_v
+    > a_math_og_x_prior_math_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_2year_va_math_og_x_prior_math_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_2year_va_math_og_x_prior_math_sed1.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_2year_v
+    > a_math_og_x_prior_math_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_2year_va_math_og_x_prior_math_sed1.gph saved
+math test score VA with acs controls
+interaction with prior ela score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_2year_va_math_acs_x_prior_ela_sed0.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_2year_v
+    > a_math_acs_x_prior_ela_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_2year_va_math_acs_x_prior_ela_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_2year_va_math_acs_x_prior_ela_sed1.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_2year_v
+    > a_math_acs_x_prior_ela_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_2year_va_math_acs_x_prior_ela_sed1.gph saved
+interaction with prior math score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_2year_va_math_acs_x_prior_math_sed0.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_2year_v
+    > a_math_acs_x_prior_math_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_2year_va_math_acs_x_prior_math_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_2year_va_math_acs_x_prior_math_sed1.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_2year_v
+    > a_math_acs_x_prior_math_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_2year_va_math_acs_x_prior_math_sed1.gph saved
+math test score VA with sib controls
+interaction with prior ela score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_2year_va_math_sib_x_prior_ela_sed0.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_2year_v
+    > a_math_sib_x_prior_ela_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_2year_va_math_sib_x_prior_ela_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_2year_va_math_sib_x_prior_ela_sed1.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_2year_v
+    > a_math_sib_x_prior_ela_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_2year_va_math_sib_x_prior_ela_sed1.gph saved
+interaction with prior math score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_2year_va_math_sib_x_prior_math_sed0.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_2year_v
+    > a_math_sib_x_prior_math_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_2year_va_math_sib_x_prior_math_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_2year_va_math_sib_x_prior_math_sed1.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_2year_v
+    > a_math_sib_x_prior_math_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_2year_va_math_sib_x_prior_math_sed1.gph saved
+math test score VA with both controls
+interaction with prior ela score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_2year_va_math_both_x_prior_ela_sed0.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_2year_v
+    > a_math_both_x_prior_ela_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_2year_va_math_both_x_prior_ela_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_2year_va_math_both_x_prior_ela_sed1.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_2year_v
+    > a_math_both_x_prior_ela_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_2year_va_math_both_x_prior_ela_sed1.gph saved
+interaction with prior math score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_2year_va_math_both_x_prior_math_sed0.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_2year_v
+    > a_math_both_x_prior_math_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_2year_va_math_both_x_prior_math_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_2year_va_math_both_x_prior_math_sed1.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_2year_v
+    > a_math_both_x_prior_math_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_2year_va_math_both_x_prior_math_sed1.gph saved
+Dependent Var = enr_4year
+VA Subject = ela
+ela test score VA with og controls
+interaction with prior ela score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_4year_va_ela_og_x_prior_ela_sed0.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_4year_v
+    > a_ela_og_x_prior_ela_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_4year_va_ela_og_x_prior_ela_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_4year_va_ela_og_x_prior_ela_sed1.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_4year_v
+    > a_ela_og_x_prior_ela_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_4year_va_ela_og_x_prior_ela_sed1.gph saved
+interaction with prior math score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_4year_va_ela_og_x_prior_math_sed0.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_4year_v
+    > a_ela_og_x_prior_math_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_4year_va_ela_og_x_prior_math_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_4year_va_ela_og_x_prior_math_sed1.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_4year_v
+    > a_ela_og_x_prior_math_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_4year_va_ela_og_x_prior_math_sed1.gph saved
+ela test score VA with acs controls
+interaction with prior ela score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_4year_va_ela_acs_x_prior_ela_sed0.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_4year_v
+    > a_ela_acs_x_prior_ela_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_4year_va_ela_acs_x_prior_ela_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_4year_va_ela_acs_x_prior_ela_sed1.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_4year_v
+    > a_ela_acs_x_prior_ela_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_4year_va_ela_acs_x_prior_ela_sed1.gph saved
+interaction with prior math score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_4year_va_ela_acs_x_prior_math_sed0.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_4year_v
+    > a_ela_acs_x_prior_math_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_4year_va_ela_acs_x_prior_math_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_4year_va_ela_acs_x_prior_math_sed1.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_4year_v
+    > a_ela_acs_x_prior_math_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_4year_va_ela_acs_x_prior_math_sed1.gph saved
+ela test score VA with sib controls
+interaction with prior ela score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_4year_va_ela_sib_x_prior_ela_sed0.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_4year_v
+    > a_ela_sib_x_prior_ela_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_4year_va_ela_sib_x_prior_ela_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_4year_va_ela_sib_x_prior_ela_sed1.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_4year_v
+    > a_ela_sib_x_prior_ela_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_4year_va_ela_sib_x_prior_ela_sed1.gph saved
+interaction with prior math score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_4year_va_ela_sib_x_prior_math_sed0.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_4year_v
+    > a_ela_sib_x_prior_math_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_4year_va_ela_sib_x_prior_math_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_4year_va_ela_sib_x_prior_math_sed1.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_4year_v
+    > a_ela_sib_x_prior_math_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_4year_va_ela_sib_x_prior_math_sed1.gph saved
+ela test score VA with both controls
+interaction with prior ela score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_4year_va_ela_both_x_prior_ela_sed0.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_4year_v
+    > a_ela_both_x_prior_ela_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_4year_va_ela_both_x_prior_ela_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_4year_va_ela_both_x_prior_ela_sed1.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_4year_v
+    > a_ela_both_x_prior_ela_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_4year_va_ela_both_x_prior_ela_sed1.gph saved
+interaction with prior math score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_4year_va_ela_both_x_prior_math_sed0.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_4year_v
+    > a_ela_both_x_prior_math_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_4year_va_ela_both_x_prior_math_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_4year_va_ela_both_x_prior_math_sed1.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_4year_v
+    > a_ela_both_x_prior_math_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_4year_va_ela_both_x_prior_math_sed1.gph saved
+VA Subject = math
+math test score VA with og controls
+interaction with prior ela score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_4year_va_math_og_x_prior_ela_sed0.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_4year_v
+    > a_math_og_x_prior_ela_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_4year_va_math_og_x_prior_ela_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_4year_va_math_og_x_prior_ela_sed1.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_4year_v
+    > a_math_og_x_prior_ela_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_4year_va_math_og_x_prior_ela_sed1.gph saved
+interaction with prior math score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_4year_va_math_og_x_prior_math_sed0.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_4year_v
+    > a_math_og_x_prior_math_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_4year_va_math_og_x_prior_math_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_4year_va_math_og_x_prior_math_sed1.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_4year_v
+    > a_math_og_x_prior_math_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_4year_va_math_og_x_prior_math_sed1.gph saved
+math test score VA with acs controls
+interaction with prior ela score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_4year_va_math_acs_x_prior_ela_sed0.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_4year_v
+    > a_math_acs_x_prior_ela_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_4year_va_math_acs_x_prior_ela_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_4year_va_math_acs_x_prior_ela_sed1.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_4year_v
+    > a_math_acs_x_prior_ela_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_4year_va_math_acs_x_prior_ela_sed1.gph saved
+interaction with prior math score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_4year_va_math_acs_x_prior_math_sed0.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_4year_v
+    > a_math_acs_x_prior_math_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_4year_va_math_acs_x_prior_math_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_4year_va_math_acs_x_prior_math_sed1.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_4year_v
+    > a_math_acs_x_prior_math_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_4year_va_math_acs_x_prior_math_sed1.gph saved
+math test score VA with sib controls
+interaction with prior ela score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_4year_va_math_sib_x_prior_ela_sed0.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_4year_v
+    > a_math_sib_x_prior_ela_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_4year_va_math_sib_x_prior_ela_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_4year_va_math_sib_x_prior_ela_sed1.pdf saved
+    as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_4year_v
+    > a_math_sib_x_prior_ela_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_4year_va_math_sib_x_prior_ela_sed1.gph saved
+interaction with prior math score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_4year_va_math_sib_x_prior_math_sed0.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_4year_v
+    > a_math_sib_x_prior_math_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_4year_va_math_sib_x_prior_math_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_4year_va_math_sib_x_prior_math_sed1.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_4year_v
+    > a_math_sib_x_prior_math_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_4year_va_math_sib_x_prior_math_sed1.gph saved
+math test score VA with both controls
+interaction with prior ela score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_4year_va_math_both_x_prior_ela_sed0.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_4year_v
+    > a_math_both_x_prior_ela_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_4year_va_math_both_x_prior_ela_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_4year_va_math_both_x_prior_ela_sed1.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_4year_v
+    > a_math_both_x_prior_ela_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_4year_va_math_both_x_prior_ela_sed1.gph saved
+interaction with prior math score deciles
+SED status = 0
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_4year_va_math_both_x_prior_math_sed0.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_4year_v
+    > a_math_both_x_prior_math_sed0.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_4year_va_math_both_x_prior_math_sed0.gph saved
+SED status = 1
+(45 observations deleted)
+xtile: all characters numeric; replaced as byte
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/het_r
+    > eg_prior_score/het_reg_enr_4year_va_math_both_x_prior_math_sed1.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/het_reg_prior_score/het_reg_enr_4year_v
+    > a_math_both_x_prior_math_sed1.pdf saved as PDF format
+file /home/research/ca_ed_lab/projects/common_core_va/gph_files/va_sib_acs/het_
+> reg_prior_score/het_reg_enr_4year_va_math_both_x_prior_math_sed1.gph saved
+
 . 
 . 
+. 
+. ********** combine het by prior score decile by SED Status figures into panel
+> s
+. /* Original sample,
+> restricted sample with original controls,
+> restricted sample with sibling controls,
+> restricted sample with both sibling and census controls,
+> each by SED == 1 and SED == 1: 8 graphs in one panel */
+. 
+. // 3 outcomes, 2 VA subjects, 2 prior subjects = 12 panels
+. foreach outcome in enr enr_2year enr_4year {
+  2.   di "LHS outcome = `outcome'"
+  3. 
+.   foreach subject in ela math {
+  4.     di "VA Subject = `subject'"
+  5. 
+.     foreach prior_subject in ela math {
+  6.       di "interaction with prior `prior_subject' score deciles"
+  7. 
+.       graph combine ///
+>         $vaprojdir/gph_files/sbac/reg_`outcome'_va_cfr_g11_`subject'_hetero_p
+> rior_`prior_subject'_sed0.gph ///
+>         $vaprojdir/gph_files/sbac/reg_`outcome'_va_cfr_g11_`subject'_hetero_p
+> rior_`prior_subject'_sed1.gph ///
+>         $vaprojdir/gph_files/va_sib_acs/het_reg_prior_score/het_reg_`outcome'
+> _va_`subject'_og_x_prior_`prior_subject'_sed0.gph ///
+>         $vaprojdir/gph_files/va_sib_acs/het_reg_prior_score/het_reg_`outcome'
+> _va_`subject'_og_x_prior_`prior_subject'_sed1.gph ///
+>         $vaprojdir/gph_files/va_sib_acs/het_reg_prior_score/het_reg_`outcome'
+> _va_`subject'_sib_x_prior_`prior_subject'_sed0.gph ///
+>         $vaprojdir/gph_files/va_sib_acs/het_reg_prior_score/het_reg_`outcome'
+> _va_`subject'_sib_x_prior_`prior_subject'_sed1.gph ///
+>         $vaprojdir/gph_files/va_sib_acs/het_reg_prior_score/het_reg_`outcome'
+> _va_`subject'_both_x_prior_`prior_subject'_sed0.gph ///
+>         $vaprojdir/gph_files/va_sib_acs/het_reg_prior_score/het_reg_`outcome'
+> _va_`subject'_both_x_prior_`prior_subject'_sed1.gph ///
+>         , xcommon ycommon ///
+>         title("Regression of ``outcome'_str' on ``subject'_str' VA Interacted
+>  with Prior ``prior_subject'_str' Decile by SED Status", size(small))
+  8. 
+.       graph export $vaprojdir/figures/va_sib_acs/combined_panels/het_reg_prio
+> r_score/het_reg_`outcome'_va_`subject'_x_prior_`prior_subject'_sed.pdf, repla
+> ce
+  9.       graph export $projdir/out/graph//siblingvaregs/persistence/sib_acs_r
+> estr_smp/combined_panels/het_reg_prior_score/het_reg_`outcome'_va_`subject'_x
+> _prior_`prior_subject'_sed.pdf, replace
+ 10. 
+. 
+. 
+. 
+.     }
+ 11.   }
+ 12. }
+LHS outcome = enr
+VA Subject = ela
+interaction with prior ela score deciles
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/combi
+    > ned_panels/het_reg_prior_score/het_reg_enr_va_ela_x_prior_ela_sed.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/combined_panels/het_reg_prior_score/het
+    > _reg_enr_va_ela_x_prior_ela_sed.pdf saved as PDF format
+interaction with prior math score deciles
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/combi
+    > ned_panels/het_reg_prior_score/het_reg_enr_va_ela_x_prior_math_sed.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/combined_panels/het_reg_prior_score/het
+    > _reg_enr_va_ela_x_prior_math_sed.pdf saved as PDF format
+VA Subject = math
+interaction with prior ela score deciles
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/combi
+    > ned_panels/het_reg_prior_score/het_reg_enr_va_math_x_prior_ela_sed.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/combined_panels/het_reg_prior_score/het
+    > _reg_enr_va_math_x_prior_ela_sed.pdf saved as PDF format
+interaction with prior math score deciles
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/combi
+    > ned_panels/het_reg_prior_score/het_reg_enr_va_math_x_prior_math_sed.pdf
+    saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/combined_panels/het_reg_prior_score/het
+    > _reg_enr_va_math_x_prior_math_sed.pdf saved as PDF format
+LHS outcome = enr_2year
+VA Subject = ela
+interaction with prior ela score deciles
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/combi
+    > ned_panels/het_reg_prior_score/het_reg_enr_2year_va_ela_x_prior_ela_sed
+    > .pdf saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/combined_panels/het_reg_prior_score/het
+    > _reg_enr_2year_va_ela_x_prior_ela_sed.pdf saved as PDF format
+interaction with prior math score deciles
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/combi
+    > ned_panels/het_reg_prior_score/het_reg_enr_2year_va_ela_x_prior_math_se
+    > d.pdf saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/combined_panels/het_reg_prior_score/het
+    > _reg_enr_2year_va_ela_x_prior_math_sed.pdf saved as PDF format
+VA Subject = math
+interaction with prior ela score deciles
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/combi
+    > ned_panels/het_reg_prior_score/het_reg_enr_2year_va_math_x_prior_ela_se
+    > d.pdf saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/combined_panels/het_reg_prior_score/het
+    > _reg_enr_2year_va_math_x_prior_ela_sed.pdf saved as PDF format
+interaction with prior math score deciles
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/combi
+    > ned_panels/het_reg_prior_score/het_reg_enr_2year_va_math_x_prior_math_s
+    > ed.pdf saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/combined_panels/het_reg_prior_score/het
+    > _reg_enr_2year_va_math_x_prior_math_sed.pdf saved as PDF format
+LHS outcome = enr_4year
+VA Subject = ela
+interaction with prior ela score deciles
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/combi
+    > ned_panels/het_reg_prior_score/het_reg_enr_4year_va_ela_x_prior_ela_sed
+    > .pdf saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/combined_panels/het_reg_prior_score/het
+    > _reg_enr_4year_va_ela_x_prior_ela_sed.pdf saved as PDF format
+interaction with prior math score deciles
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/combi
+    > ned_panels/het_reg_prior_score/het_reg_enr_4year_va_ela_x_prior_math_se
+    > d.pdf saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/combined_panels/het_reg_prior_score/het
+    > _reg_enr_4year_va_ela_x_prior_math_sed.pdf saved as PDF format
+VA Subject = math
+interaction with prior ela score deciles
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/combi
+    > ned_panels/het_reg_prior_score/het_reg_enr_4year_va_math_x_prior_ela_se
+    > d.pdf saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/combined_panels/het_reg_prior_score/het
+    > _reg_enr_4year_va_math_x_prior_ela_sed.pdf saved as PDF format
+interaction with prior math score deciles
+file
+    /home/research/ca_ed_lab/projects/common_core_va/figures/va_sib_acs/combi
+    > ned_panels/het_reg_prior_score/het_reg_enr_4year_va_math_x_prior_math_s
+    > ed.pdf saved as PDF format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph//siblingvareg
+    > s/persistence/sib_acs_restr_smp/combined_panels/het_reg_prior_score/het
+    > _reg_enr_4year_va_math_x_prior_math_sed.pdf saved as PDF format
+
 . 
 . 
 . 
@@ -1725,7 +3314,7 @@ file
 . timer off 1
 
 . timer list
-   1:     38.31 /        1 =      38.3150
+   1:    114.81 /        1 =     114.8100
 
 . 
 . cd $projdir
@@ -1739,5 +3328,5 @@ file
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/reg_out_va_sib_acs_fig.smcl
   log type:  smcl
- closed on:  14 May 2022, 18:42:03
+ closed on:  25 Jul 2022, 22:33:33
 -------------------------------------------------------------------------------

@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/reg_out_va_sib_acs_tab.smcl
   log type:  smcl
- opened on:  10 May 2022, 19:05:42
+ opened on:  25 Jul 2022, 22:31:34
 
 . 
 . /* change directory to common_core_va project directory for all value added
@@ -133,6 +133,23 @@ delimiter now ;
 >         "Enrolled On Time 4-Year"
 >         ;
 
+. **** Sibling Census Restricted Sample Controls Strings ;
+. local og_str
+>         "Original Specification"
+>         ;
+
+. local acs_str
+>         "Original + Census"
+>         ;
+
+. local sib_str
+>         "Original + Sibling"
+>         ;
+
+. local both_str
+>         "Original + Census + Sibling"
+>         ;
+
 . **** Value Added ;
 . local school_controls
 >         /*cohort_size*/
@@ -257,8 +274,21 @@ delimiter now cr
 . 
 . 
 . macro list
-eststo_counter: 12
-eststo:         est1 est2 est3 est4 est5 est6 est7 est8 est9 est10 est11 est12
+T_gm_fix_span:  0
+S_4:            .0020413479904597
+S_2:            300
+S_3:            .0136102212476191
+S_1:            epanechnikov
+S_6:            .7098361624622439
+S_5:            4
+ReS_jv2:        __000006 __000007 __000008 __000009 __00000A __00000B __00000C
+                __00000D __00000E __00000F __00000G __00000H __00000I __00000J
+                __00000K
+dropv:          _cdscode_x
+n_offset:       0
+sort:           0
+dots:           nois _dots 5 0
+dotss:          nois _dots 0, title(Survey results being calculated)
 vaprojxwalks:   /home/research/ca_ed_lab/projects/common_core_va/data/restricte
                 > d_access/clean/crosswalks
 mattxwalks:     /home/research/ca_ed_lab/users/msnaven/data/restricted_access/c
@@ -335,6 +365,10 @@ _peer_demographic_controls:
 _demographic_controls:
                 age i.male i.eth_asian i.eth_hispanic i.eth_black i.eth_other
                 i.econ_disadvantage i.limited_eng_prof i.disabled
+_both_str:      Original + Census + Sibling
+_sib_str:       Original + Sibling
+_acs_str:       Original + Census
+_og_str:        Original Specification
 _enr_4year_str: Enrolled On Time 4-Year
 _enr_2year_str: Enrolled On Time 2-Year
 _enr_str:       Enrolled On Time
@@ -887,7 +921,7 @@ VA with both controls
 . timer off 1
 
 . timer list
-   1:      4.28 /        1 =       4.2840
+   1:      4.61 /        1 =       4.6130
 
 . 
 . cd $projdir
@@ -901,5 +935,5 @@ VA with both controls
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/reg_out_va_sib_acs_tab.smcl
   log type:  smcl
- closed on:  10 May 2022, 19:05:46
+ closed on:  25 Jul 2022, 22:31:38
 -------------------------------------------------------------------------------

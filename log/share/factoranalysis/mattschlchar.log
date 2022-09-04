@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factor
 > analysis/mattschlchar.smcl
   log type:  smcl
- opened on:   7 Apr 2022, 15:47:20
+ opened on:  25 Jul 2022, 18:11:10
 
 . 
 . // a macro toggle for cleaning the raw data from Matt's folder
@@ -118,16 +118,16 @@ file
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                         4,976
-        from master                     1,588  (_merge==1)
-        from using                      3,388  (_merge==2)
+    Not matched                         4,913
+        from master                     1,592  (_merge==1)
+        from using                      3,321  (_merge==2)
 
-    Matched                            10,137  (_merge==3)
+    Matched                            10,133  (_merge==3)
     -----------------------------------------
 
 . //keep only merged obs
 . keep if _merge==3
-(4,976 observations deleted)
+(4,913 observations deleted)
 
 . drop _merge
 
@@ -149,5 +149,5 @@ file
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factor
 > analysis/mattschlchar.smcl
   log type:  smcl
- closed on:   7 Apr 2022, 15:47:37
+ closed on:  25 Jul 2022, 18:11:27
 -------------------------------------------------------------------------------

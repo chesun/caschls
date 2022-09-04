@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sibling_sample_sumstats.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 3 May 2022, 22:02:05
+ {txt}opened on:  {res}25 Jul 2022, 21:46:37
 {txt}
 {com}. 
 . //run the do helper file to set the local macros
@@ -79,6 +79,23 @@
 {txt}
 {com}. local enr_4year_str
 >         "Enrolled On Time 4-Year"
+>         ;
+{txt}
+{com}. **** Sibling Census Restricted Sample Controls Strings ;
+. local og_str
+>         "Original Specification"
+>         ;
+{txt}
+{com}. local acs_str
+>         "Original + Census"
+>         ;
+{txt}
+{com}. local sib_str
+>         "Original + Sibling"
+>         ;
+{txt}
+{com}. local both_str
+>         "Original + Census + Sibling"
 >         ;
 {txt}
 {com}. **** Value Added ;
@@ -204,6 +221,36 @@
 {com}. #delimit cr
 {txt}delimiter now cr
 {com}. macro list
+{txt}{p 0 16}
+T_gm_fix_span:{space 2}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+S_6:{space 12}{res}{res}.7098361624622439
+{p_end}
+{txt}{p 0 16}
+S_5:{space 12}{res}{res}4
+{p_end}
+{txt}{p 0 16}
+S_4:{space 12}{res}{res}.3794917847397928
+{p_end}
+{txt}{p 0 16}
+ReS_jv2:{space 8}{res}{res}__000006 __000007 __000008 __000009 __00000A __00000B __00000C __00000D __00000E __00000F __00000G __00000H __00000I __00000J __00000K
+{p_end}
+{txt}{p 0 16}
+dropv:{space 10}{res}{res}_cdscode_x
+{p_end}
+{txt}{p 0 16}
+n_offset:{space 7}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+sort:{space 11}{res}{res}0
+{p_end}
+{txt}{p 0 16}
+dots:{space 11}{res}{res}nois _dots 5 0
+{p_end}
+{txt}{p 0 16}
+dotss:{space 10}{res}{res}nois _dots 0, title(Survey results being calculated)
+{p_end}
 {txt}{p 0 16}
 vaprojxwalks:{space 3}{res}{res}/home/research/ca_ed_lab/projects/common_core_va/data/restricted_access/clean/crosswalks
 {p_end}
@@ -334,6 +381,18 @@ _demographic_controls:{break}
 {res}age         i.male         i.eth_asian i.eth_hispanic i.eth_black i.eth_other         i.econ_disadvantage         i.limited_eng_prof         i.disabled
 {p_end}
 {txt}{p 0 16}
+_both_str:{space 6}{res}{res}Original + Census + Sibling
+{p_end}
+{txt}{p 0 16}
+_sib_str:{space 7}{res}{res}Original + Sibling
+{p_end}
+{txt}{p 0 16}
+_acs_str:{space 7}{res}{res}Original + Census
+{p_end}
+{txt}{p 0 16}
+_og_str:{space 8}{res}{res}Original Specification
+{p_end}
+{txt}{p 0 16}
 _enr_4year_str:{space 1}{res}{res}Enrolled On Time 4-Year
 {p_end}
 {txt}{p 0 16}
@@ -441,11 +500,11 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 {res}
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
-{col 5}Not matched{col 30}{res}       4,157,551
-{txt}{col 9}from master{col 30}{res}         884,570{txt}  (_merge==1)
-{col 9}from using{col 30}{res}       3,272,981{txt}  (_merge==2)
+{col 5}Not matched{col 30}{res}       4,157,374
+{txt}{col 9}from master{col 30}{res}         884,312{txt}  (_merge==1)
+{col 9}from using{col 30}{res}       3,273,062{txt}  (_merge==2)
 
-{col 5}Matched{col 30}{res}         900,294{txt}  (_merge==3)
+{col 5}Matched{col 30}{res}         900,133{txt}  (_merge==3)
 {col 5}{hline 41}
 
 {com}. drop _merge
@@ -460,7 +519,7 @@ _va_dataset:{space 4}{res}{res}/home/research/ca_ed_lab/users/chesun/gsr/caschls
 {com}. save `va_g11_sibling_dataset'
 {txt}{p 0 4 2}
 file {bf}
-/home/tmp/St16505.000001{rm}
+/home/tmp/St35924.000001{rm}
 saved
 as .dta format
 {p_end}
@@ -483,7 +542,7 @@ as .dta format
 
 {txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-avg_birth_~y {c |}{res}  1,715,345    3.114058    1.738753          0   14.90137
+avg_birth_~y {c |}{res}  1,715,326    3.114076    1.738717          0   14.50137
 {txt}
 {com}. 
 . //in the sibling test score VA sample
@@ -493,11 +552,11 @@ avg_birth_~y {c |}{res}  1,715,345    3.114058    1.738753          0   14.90137
 {res}
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
-{col 5}Not matched{col 30}{res}         885,444
+{col 5}Not matched{col 30}{res}         885,186
 {txt}{col 9}from master{col 30}{res}             874{txt}  (_merge==1)
-{col 9}from using{col 30}{res}         884,570{txt}  (_merge==2)
+{col 9}from using{col 30}{res}         884,312{txt}  (_merge==2)
 
-{col 5}Matched{col 30}{res}       4,173,275{txt}  (_merge==3)
+{col 5}Matched{col 30}{res}       4,173,195{txt}  (_merge==3)
 {col 5}{hline 41}
 
 {com}. 
@@ -506,7 +565,7 @@ avg_birth_~y {c |}{res}  1,715,345    3.114058    1.738753          0   14.90137
 
 {txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-avg_birth_~y {c |}{res}    685,772    3.349951    1.637888          0   14.50137
+avg_birth_~y {c |}{res}    685,724    3.350016    1.637937          0   14.50137
 {txt}
 {com}. 
 . sum avg_birth_date_distance_family ///
@@ -514,7 +573,7 @@ avg_birth_~y {c |}{res}    685,772    3.349951    1.637888          0   14.50137
 
 {txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-avg_birth_~y {c |}{res}    682,836    3.350443    1.638021          0   14.50137
+avg_birth_~y {c |}{res}    682,791    3.350505    1.638076          0   14.50137
 {txt}
 {com}. 
 . 
@@ -533,13 +592,13 @@ avg_birth_~y {c |}{res}    682,836    3.350443    1.638021          0   14.50137
 {txt}
 {com}. egen family_temp = group(ufamilyid) ///
 > if grade == 11 & touse_g11_ela==1 & sibling_full_sample == 1
-{res}{txt}(4,372,019 missing values generated)
+{res}{txt}(4,371,722 missing values generated)
 
 {com}. sum family_temp
 
 {txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 1}family_temp {c |}{res}    685,826    280120.2    158804.8          1     570129
+{space 1}family_temp {c |}{res}    685,785      280107    158797.6          1     570101
 {txt}
 {com}. drop family_temp
 {txt}
@@ -549,13 +608,13 @@ avg_birth_~y {c |}{res}    682,836    3.350443    1.638021          0   14.50137
 {txt}
 {com}. egen family_temp = group(ufamilyid) ///
 > if grade == 11 & touse_g11_math==1 & sibling_full_sample == 1
-{res}{txt}(4,374,954 missing values generated)
+{res}{txt}(4,374,655 missing values generated)
 
 {com}. sum family_temp
 
 {txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 1}family_temp {c |}{res}    682,891    279138.3    158262.3          1     568115
+{space 1}family_temp {c |}{res}    682,852    279125.2    158255.5          1     568088
 {txt}
 {com}. drop family_temp
 {txt}
@@ -572,13 +631,13 @@ avg_birth_~y {c |}{res}    682,836    3.350443    1.638021          0   14.50137
 {txt}
 {com}. egen family_temp = group(ufamilyid) ///
 > if grade == 11 & touse_g11_ela==1 & sibling_out_sample == 1
-{res}{txt}(4,380,591 missing values generated)
+{res}{txt}(4,380,291 missing values generated)
 
 {com}. sum family_temp
 
 {txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 1}family_temp {c |}{res}    677,254    277124.7    157088.9          1     563849
+{space 1}family_temp {c |}{res}    677,216      277113    157082.1          1     563823
 {txt}
 {com}. drop family_temp
 {txt}
@@ -588,13 +647,13 @@ avg_birth_~y {c |}{res}    682,836    3.350443    1.638021          0   14.50137
 {txt}
 {com}. egen family_temp = group(ufamilyid) ///
 > if grade == 11 & touse_g11_math==1 & sibling_out_sample == 1
-{res}{txt}(4,383,383 missing values generated)
+{res}{txt}(4,383,081 missing values generated)
 
 {com}. sum family_temp
 
 {txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 1}family_temp {c |}{res}    674,462    276196.2    156576.4          1     561945
+{space 1}family_temp {c |}{res}    674,426    276184.7      156570          1     561920
 {txt}
 {com}. drop family_temp
 {txt}
@@ -607,12 +666,12 @@ avg_birth_~y {c |}{res}    682,836    3.350443    1.638021          0   14.50137
      Spring {c |}
    Semester {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-       2015 {c |}{res}    174,785       25.49       25.49
-{txt}       2016 {c |}{res}    171,579       25.02       50.50
-{txt}       2017 {c |}{res}    172,007       25.08       75.58
-{txt}       2018 {c |}{res}    167,455       24.42      100.00
+       2015 {c |}{res}    174,786       25.49       25.49
+{txt}       2016 {c |}{res}    171,579       25.02       50.51
+{txt}       2017 {c |}{res}    171,971       25.08       75.58
+{txt}       2018 {c |}{res}    167,449       24.42      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}    685,826      100.00
+      Total {c |}{res}    685,785      100.00
 {txt}
 {com}. 
 . tab year if grade == 11 & touse_g11_math==1 & sibling_full_sample == 1
@@ -621,12 +680,12 @@ avg_birth_~y {c |}{res}    682,836    3.350443    1.638021          0   14.50137
      Spring {c |}
    Semester {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-       2015 {c |}{res}    173,908       25.47       25.47
+       2015 {c |}{res}    173,910       25.47       25.47
 {txt}       2016 {c |}{res}    170,850       25.02       50.49
-{txt}       2017 {c |}{res}    171,207       25.07       75.56
-{txt}       2018 {c |}{res}    166,926       24.44      100.00
+{txt}       2017 {c |}{res}    171,172       25.07       75.56
+{txt}       2018 {c |}{res}    166,920       24.44      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}    682,891      100.00
+      Total {c |}{res}    682,852      100.00
 {txt}
 {com}. 
 . 
@@ -639,13 +698,13 @@ avg_birth_~y {c |}{res}    682,836    3.350443    1.638021          0   14.50137
 . timer off 1
 {txt}
 {com}. timer list 
-{res}   1:     63.17 /        1 =      63.1680
+{res}   1:     67.97 /        1 =      67.9670
 {txt}
 {com}. log close
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblingvaregs/va_sibling_sample_sumstats.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 3 May 2022, 22:03:08
+ {txt}closed on:  {res}25 Jul 2022, 21:47:45
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

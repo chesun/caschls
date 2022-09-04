@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/imputedcategoryindex.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 7 Apr 2022, 14:57:51
+ {txt}opened on:  {res}25 Jul 2022, 18:11:08
 {txt}
 {com}. 
 . use $projdir/dta/allsvyfactor/imputedallsvyqoimeans, clear
@@ -25,15 +25,15 @@
 . foreach climatevar of local climatevars {c -(}
 {txt}  2{com}.   replace climateindex = climateindex + `climatevar'
 {txt}  3{com}. {c )-}
-{txt}(932 real changes made)
-(934 real changes made)
+{txt}(931 real changes made)
 (933 real changes made)
-(936 real changes made)
-(936 real changes made)
-(934 real changes made)
-(936 real changes made)
+(932 real changes made)
+(935 real changes made)
+(935 real changes made)
 (933 real changes made)
-(933 real changes made)
+(935 real changes made)
+(932 real changes made)
+(932 real changes made)
 
 {com}. 
 . gen qualityindex = 0
@@ -42,21 +42,21 @@
 . foreach qualityvar of local qualityvars {c -(}
 {txt}  2{com}.   replace qualityindex =  qualityindex + `qualityvar'
 {txt}  3{com}. {c )-}
-{txt}(933 real changes made)
-(935 real changes made)
-(930 real changes made)
-(933 real changes made)
+{txt}(932 real changes made)
+(934 real changes made)
+(929 real changes made)
+(932 real changes made)
+(931 real changes made)
+(934 real changes made)
 (932 real changes made)
 (935 real changes made)
-(933 real changes made)
-(936 real changes made)
-(931 real changes made)
-(936 real changes made)
-(936 real changes made)
-(936 real changes made)
+(930 real changes made)
 (935 real changes made)
-(936 real changes made)
-(933 real changes made)
+(935 real changes made)
+(935 real changes made)
+(934 real changes made)
+(935 real changes made)
+(932 real changes made)
 
 {com}. 
 . gen supportindex = 0
@@ -65,10 +65,10 @@
 . foreach supportvar of local supportvars {c -(}
 {txt}  2{com}.   replace supportindex = supportindex + `supportvar'
 {txt}  3{com}. {c )-}
-{txt}(928 real changes made)
-(931 real changes made)
-(933 real changes made)
-(933 real changes made)
+{txt}(927 real changes made)
+(930 real changes made)
+(932 real changes made)
+(932 real changes made)
 
 {com}. 
 . 
@@ -89,73 +89,73 @@
 
 {txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 6}va_ela {c |}{res}        918   -.0044957    .1244807  -.5117936   .4654645
+{space 6}va_ela {c |}{res}        918   -.0044903    .1244622  -.5117588   .4654247
+{txt}(17 missing values generated)
+
+    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 5}va_math {c |}{res}        918    -.009212    .1292864  -.4140076   .5335521
+{txt}(17 missing values generated)
+
+    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 6}va_enr {c |}{res}        917   -.0064488    .0699807   -.321813   .1879913
 {txt}(18 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 5}va_math {c |}{res}        918   -.0092631    .1293891  -.4140317    .533576
+{space 3}va_enrela {c |}{res}        917   -.0065559    .0666844  -.2765976    .189653
 {txt}(18 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 6}va_enr {c |}{res}        917   -.0065057     .070122  -.3218017   .1879139
-{txt}(19 missing values generated)
+{space 2}va_enrmath {c |}{res}        917   -.0055506     .063995   -.273631    .161112
+{txt}(18 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 3}va_enrela {c |}{res}        917   -.0065926    .0667884  -.2764804   .1895136
-{txt}(19 missing values generated)
+{space 4}va_enrdk {c |}{res}        917   -.0055894    .0640093  -.2718543   .1611553
+{txt}(18 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 2}va_enrmath {c |}{res}        917     -.00558    .0640854  -.2734655   .1611573
-{txt}(19 missing values generated)
+{space 6}va_2yr {c |}{res}        917    .0002606    .0878256  -.2201495   .3168567
+{txt}(18 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 4}va_enrdk {c |}{res}        917   -.0056182    .0641014  -.2717487   .1612013
-{txt}(19 missing values generated)
+{space 3}va_2yrela {c |}{res}        917    .0001001    .0879115  -.2212195   .3173681
+{txt}(18 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 6}va_2yr {c |}{res}        917     .000243    .0878421  -.2201452   .3168623
-{txt}(19 missing values generated)
+{space 2}va_2yrmath {c |}{res}        917   -.0001072    .0874784  -.2276892   .3271511
+{txt}(18 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 3}va_2yrela {c |}{res}        917    .0000878    .0879257  -.2211967   .3173668
-{txt}(19 missing values generated)
+{space 4}va_2yrdk {c |}{res}        917    -.000198    .0872326  -.2205446   .3274191
+{txt}(18 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 2}va_2yrmath {c |}{res}        917   -.0001205    .0874952  -.2276422   .3271176
-{txt}(19 missing values generated)
+{space 6}va_4yr {c |}{res}        917   -.0075471    .0822576  -.2059644   .3337602
+{txt}(18 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 4}va_2yrdk {c |}{res}        917   -.0002113    .0872508  -.2205214   .3273853
-{txt}(19 missing values generated)
+{space 3}va_4yrela {c |}{res}        917   -.0075337    .0793955  -.2147292   .2840995
+{txt}(18 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 6}va_4yr {c |}{res}        917   -.0075877    .0823293  -.2059489   .3337834
-{txt}(19 missing values generated)
+{space 2}va_4yrmath {c |}{res}        917     -.00618    .0738879   -.256377   .2776986
+{txt}(18 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 3}va_4yrela {c |}{res}        917   -.0075587    .0794496   -.214651   .2841309
-{txt}(19 missing values generated)
-
-    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
-{hline 13}{c +}{hline 57}
-{space 2}va_4yrmath {c |}{res}        917   -.0061947    .0739263  -.2563807   .2777519
-{txt}(19 missing values generated)
-
-    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
-{hline 13}{c +}{hline 57}
-{space 4}va_4yrdk {c |}{res}        917   -.0061365    .0738012  -.2564268    .275094
-{txt}(19 missing values generated)
+{space 4}va_4yrdk {c |}{res}        917   -.0061224    .0737636  -.2564202   .2750604
+{txt}(18 missing values generated)
 
 {com}. 
 . foreach i of local indexvars {c -(}
@@ -165,15 +165,15 @@
 
 {txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-climateindex {c |}{res}        936    5.416647    1.629723  -.2750432       12.1
+climateindex {c |}{res}        935    5.407748    1.622327  -.2750432       12.1
 
 {txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-qualityindex {c |}{res}        936    11.01774    2.384181   .4187376       22.8
+qualityindex {c |}{res}        935    11.00473    2.369656   .4187376       22.8
 
 {txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-supportindex {c |}{res}        936    3.405687    .8635866  -1.890909   6.784119
+supportindex {c |}{res}        935    3.401849    .8624142  -1.890909   6.784119
 {txt}
 {com}. 
 . // regress va vars on index vars, N is all the same across index because of imputed data so can append
@@ -546,7 +546,7 @@ saved
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/imputedcategoryindex.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 7 Apr 2022, 14:57:51
+ {txt}closed on:  {res}25 Jul 2022, 18:11:09
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

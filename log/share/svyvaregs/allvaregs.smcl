@@ -1,9 +1,9 @@
 {smcl}
 {com}{sf}{ul off}{txt}{.-}
       name:  {res}<unnamed>
-       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/varegs/allvaregs.smcl
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/svyvaregs/allvaregs.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 7 Apr 2022, 14:57:25
+ {txt}opened on:  {res}25 Jul 2022, 18:10:38
 {txt}
 {com}. 
 . 
@@ -235,73 +235,73 @@ qoi40mean_~d {c |}{res}      3,385    .7686844     .332185         -2          2
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 6}va_ela {c |}{res}      1,281    -.002365    .1393631  -.5117936   .4654645
-{txt}(2,553 missing values generated)
-
-    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
-{hline 13}{c +}{hline 57}
-{space 5}va_math {c |}{res}      1,280   -.0135021     .145499  -.4503953    .533576
+{space 6}va_ela {c |}{res}      1,280   -.0023551     .139394  -.5117588   .4654247
 {txt}(2,554 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 6}va_enr {c |}{res}      1,282   -.0171696    .0874976  -.3716214   .1879139
-{txt}(2,552 missing values generated)
+{space 5}va_math {c |}{res}      1,279   -.0133858    .1454597  -.4503858   .5335521
+{txt}(2,555 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 3}va_enrela {c |}{res}      1,274   -.0169334    .0808021   -.331277   .1895136
-{txt}(2,560 missing values generated)
+{space 6}va_enr {c |}{res}      1,281   -.0170154    .0873584  -.3716155   .1879913
+{txt}(2,553 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 2}va_enrmath {c |}{res}      1,272   -.0150289    .0761393   -.313777   .1624066
-{txt}(2,562 missing values generated)
+{space 3}va_enrela {c |}{res}      1,273   -.0168016    .0806893  -.3318982    .189653
+{txt}(2,561 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 4}va_enrdk {c |}{res}      1,272    -.015112    .0761186  -.3122763   .1621721
-{txt}(2,562 missing values generated)
+{space 2}va_enrmath {c |}{res}      1,271   -.0149111    .0760435  -.3139871   .1624374
+{txt}(2,563 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 6}va_2yr {c |}{res}      1,282   -.0202741    .0948492  -.2726107   .3168623
-{txt}(2,552 missing values generated)
+{space 4}va_enrdk {c |}{res}      1,271   -.0149955    .0760189    -.31243    .162194
+{txt}(2,563 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 3}va_2yrela {c |}{res}      1,274   -.0201632    .0951341   -.273782   .3173668
-{txt}(2,560 missing values generated)
+{space 6}va_2yr {c |}{res}      1,281   -.0202322    .0948741  -.2726143   .3168567
+{txt}(2,553 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 2}va_2yrmath {c |}{res}      1,272   -.0201666    .0947417   -.281932   .3271176
-{txt}(2,562 missing values generated)
+{space 3}va_2yrela {c |}{res}      1,273   -.0201267    .0951621  -.2738065   .3173681
+{txt}(2,561 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 4}va_2yrdk {c |}{res}      1,272   -.0203964    .0946397  -.2753253   .3273853
-{txt}(2,562 missing values generated)
+{space 2}va_2yrmath {c |}{res}      1,271   -.0201274    .0947674  -.2819866   .3271511
+{txt}(2,563 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 6}va_4yr {c |}{res}      1,282    .0013121     .098035  -.2059489   .3702536
-{txt}(2,552 missing values generated)
+{space 4}va_2yrdk {c |}{res}      1,271   -.0203565     .094664  -.2753581   .3274191
+{txt}(2,563 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 3}va_4yrela {c |}{res}      1,274    .0011665    .0913454   -.214651   .3205611
-{txt}(2,560 missing values generated)
+{space 6}va_4yr {c |}{res}      1,281    .0014583    .0979332  -.2059644   .3702573
+{txt}(2,553 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 2}va_4yrmath {c |}{res}      1,272    .0029832    .0835548  -.2563807    .284716
-{txt}(2,562 missing values generated)
+{space 3}va_4yrela {c |}{res}      1,273    .0012996     .091251  -.2147292   .3205857
+{txt}(2,561 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 4}va_4yrdk {c |}{res}      1,272    .0031418    .0836516  -.2564268   .2874867
-{txt}(2,562 missing values generated)
+{space 2}va_4yrmath {c |}{res}      1,271    .0030926    .0834857   -.256377   .2846832
+{txt}(2,563 missing values generated)
+
+    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 4}va_4yrdk {c |}{res}      1,271    .0032488    .0835829  -.2564202   .2874303
+{txt}(2,563 missing values generated)
 {p 0 4 2}
 file {bf}
 /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/varegs/sec/va_ela_nw.dta{rm}
@@ -3721,73 +3721,73 @@ qoi64mean_~d {c |}{res}      2,753     .493127    .6060566         -2          2
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 6}va_ela {c |}{res}      1,281    -.002365    .1393631  -.5117936   .4654645
-{txt}(2,668 missing values generated)
-
-    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
-{hline 13}{c +}{hline 57}
-{space 5}va_math {c |}{res}      1,280   -.0135021     .145499  -.4503953    .533576
+{space 6}va_ela {c |}{res}      1,280   -.0023551     .139394  -.5117588   .4654247
 {txt}(2,669 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 6}va_enr {c |}{res}      1,282   -.0171696    .0874976  -.3716214   .1879139
-{txt}(2,667 missing values generated)
+{space 5}va_math {c |}{res}      1,279   -.0133858    .1454597  -.4503858   .5335521
+{txt}(2,670 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 3}va_enrela {c |}{res}      1,274   -.0169334    .0808021   -.331277   .1895136
-{txt}(2,675 missing values generated)
+{space 6}va_enr {c |}{res}      1,281   -.0170154    .0873584  -.3716155   .1879913
+{txt}(2,668 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 2}va_enrmath {c |}{res}      1,272   -.0150289    .0761393   -.313777   .1624066
-{txt}(2,677 missing values generated)
+{space 3}va_enrela {c |}{res}      1,273   -.0168016    .0806893  -.3318982    .189653
+{txt}(2,676 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 4}va_enrdk {c |}{res}      1,272    -.015112    .0761186  -.3122763   .1621721
-{txt}(2,677 missing values generated)
+{space 2}va_enrmath {c |}{res}      1,271   -.0149111    .0760435  -.3139871   .1624374
+{txt}(2,678 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 6}va_2yr {c |}{res}      1,282   -.0202741    .0948492  -.2726107   .3168623
-{txt}(2,667 missing values generated)
+{space 4}va_enrdk {c |}{res}      1,271   -.0149955    .0760189    -.31243    .162194
+{txt}(2,678 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 3}va_2yrela {c |}{res}      1,274   -.0201632    .0951341   -.273782   .3173668
-{txt}(2,675 missing values generated)
+{space 6}va_2yr {c |}{res}      1,281   -.0202322    .0948741  -.2726143   .3168567
+{txt}(2,668 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 2}va_2yrmath {c |}{res}      1,272   -.0201666    .0947417   -.281932   .3271176
-{txt}(2,677 missing values generated)
+{space 3}va_2yrela {c |}{res}      1,273   -.0201267    .0951621  -.2738065   .3173681
+{txt}(2,676 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 4}va_2yrdk {c |}{res}      1,272   -.0203964    .0946397  -.2753253   .3273853
-{txt}(2,677 missing values generated)
+{space 2}va_2yrmath {c |}{res}      1,271   -.0201274    .0947674  -.2819866   .3271511
+{txt}(2,678 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 6}va_4yr {c |}{res}      1,282    .0013121     .098035  -.2059489   .3702536
-{txt}(2,667 missing values generated)
+{space 4}va_2yrdk {c |}{res}      1,271   -.0203565     .094664  -.2753581   .3274191
+{txt}(2,678 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 3}va_4yrela {c |}{res}      1,274    .0011665    .0913454   -.214651   .3205611
-{txt}(2,675 missing values generated)
+{space 6}va_4yr {c |}{res}      1,281    .0014583    .0979332  -.2059644   .3702573
+{txt}(2,668 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 2}va_4yrmath {c |}{res}      1,272    .0029832    .0835548  -.2563807    .284716
-{txt}(2,677 missing values generated)
+{space 3}va_4yrela {c |}{res}      1,273    .0012996     .091251  -.2147292   .3205857
+{txt}(2,676 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 4}va_4yrdk {c |}{res}      1,272    .0031418    .0836516  -.2564268   .2874867
-{txt}(2,677 missing values generated)
+{space 2}va_4yrmath {c |}{res}      1,271    .0030926    .0834857   -.256377   .2846832
+{txt}(2,678 missing values generated)
+
+    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 4}va_4yrdk {c |}{res}      1,271    .0032488    .0835829  -.2564202   .2874303
+{txt}(2,678 missing values generated)
 {p 0 4 2}
 file {bf}
 /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/varegs/parent/va_ela_nw.dta{rm}
@@ -5883,73 +5883,73 @@ qoi128mean~d {c |}{res}      4,058    1.049363    .4975508         -2          2
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 6}va_ela {c |}{res}      1,281    -.002365    .1393631  -.5117936   .4654645
-{txt}(3,718 missing values generated)
-
-    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
-{hline 13}{c +}{hline 57}
-{space 5}va_math {c |}{res}      1,280   -.0135021     .145499  -.4503953    .533576
+{space 6}va_ela {c |}{res}      1,280   -.0023551     .139394  -.5117588   .4654247
 {txt}(3,719 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 6}va_enr {c |}{res}      1,282   -.0171696    .0874976  -.3716214   .1879139
-{txt}(3,717 missing values generated)
+{space 5}va_math {c |}{res}      1,279   -.0133858    .1454597  -.4503858   .5335521
+{txt}(3,720 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 3}va_enrela {c |}{res}      1,274   -.0169334    .0808021   -.331277   .1895136
-{txt}(3,725 missing values generated)
+{space 6}va_enr {c |}{res}      1,281   -.0170154    .0873584  -.3716155   .1879913
+{txt}(3,718 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 2}va_enrmath {c |}{res}      1,272   -.0150289    .0761393   -.313777   .1624066
-{txt}(3,727 missing values generated)
+{space 3}va_enrela {c |}{res}      1,273   -.0168016    .0806893  -.3318982    .189653
+{txt}(3,726 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 4}va_enrdk {c |}{res}      1,272    -.015112    .0761186  -.3122763   .1621721
-{txt}(3,727 missing values generated)
+{space 2}va_enrmath {c |}{res}      1,271   -.0149111    .0760435  -.3139871   .1624374
+{txt}(3,728 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 6}va_2yr {c |}{res}      1,282   -.0202741    .0948492  -.2726107   .3168623
-{txt}(3,717 missing values generated)
+{space 4}va_enrdk {c |}{res}      1,271   -.0149955    .0760189    -.31243    .162194
+{txt}(3,728 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 3}va_2yrela {c |}{res}      1,274   -.0201632    .0951341   -.273782   .3173668
-{txt}(3,725 missing values generated)
+{space 6}va_2yr {c |}{res}      1,281   -.0202322    .0948741  -.2726143   .3168567
+{txt}(3,718 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 2}va_2yrmath {c |}{res}      1,272   -.0201666    .0947417   -.281932   .3271176
-{txt}(3,727 missing values generated)
+{space 3}va_2yrela {c |}{res}      1,273   -.0201267    .0951621  -.2738065   .3173681
+{txt}(3,726 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 4}va_2yrdk {c |}{res}      1,272   -.0203964    .0946397  -.2753253   .3273853
-{txt}(3,727 missing values generated)
+{space 2}va_2yrmath {c |}{res}      1,271   -.0201274    .0947674  -.2819866   .3271511
+{txt}(3,728 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 6}va_4yr {c |}{res}      1,282    .0013121     .098035  -.2059489   .3702536
-{txt}(3,717 missing values generated)
+{space 4}va_2yrdk {c |}{res}      1,271   -.0203565     .094664  -.2753581   .3274191
+{txt}(3,728 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 3}va_4yrela {c |}{res}      1,274    .0011665    .0913454   -.214651   .3205611
-{txt}(3,725 missing values generated)
+{space 6}va_4yr {c |}{res}      1,281    .0014583    .0979332  -.2059644   .3702573
+{txt}(3,718 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 2}va_4yrmath {c |}{res}      1,272    .0029832    .0835548  -.2563807    .284716
-{txt}(3,727 missing values generated)
+{space 3}va_4yrela {c |}{res}      1,273    .0012996     .091251  -.2147292   .3205857
+{txt}(3,726 missing values generated)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
 {hline 13}{c +}{hline 57}
-{space 4}va_4yrdk {c |}{res}      1,272    .0031418    .0836516  -.2564268   .2874867
-{txt}(3,727 missing values generated)
+{space 2}va_4yrmath {c |}{res}      1,271    .0030926    .0834857   -.256377   .2846832
+{txt}(3,728 missing values generated)
+
+    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 4}va_4yrdk {c |}{res}      1,271    .0032488    .0835829  -.2564202   .2874303
+{txt}(3,728 missing values generated)
 {p 0 4 2}
 file {bf}
 /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/varegs/staff/va_ela_nw.dta{rm}
@@ -8680,9 +8680,9 @@ saved
 . 
 . log close
       {txt}name:  {res}<unnamed>
-       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/varegs/allvaregs.smcl
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/svyvaregs/allvaregs.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 7 Apr 2022, 14:57:47
+ {txt}closed on:  {res}25 Jul 2022, 18:11:04
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}
