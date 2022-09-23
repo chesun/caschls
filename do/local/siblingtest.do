@@ -1,6 +1,6 @@
 /* test file using test data to find an algorithm to remove duplicate families across years */
 
-cd "D:/Programs/Dropbox/Davis/Research Projects/Ed Lab GSR/caschls"
+cd "D:/Programs/Dropbox/Davis/Research_Projects/Ed Lab GSR/caschls"
 
 insheet using ./dta/raw/siblingxwalk/siblingtest.csv
 

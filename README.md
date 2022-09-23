@@ -15,6 +15,7 @@ To do list for merging the coding workflow and project infrastructure of Matt's 
 - [ ] Merge the master do file
 - [ ] Reconcile the do file folder structure:
   - [ ]
+- [ ] Restructure the order in which do files are run - create sibling crosswalks first, then create samples 
 
 
 Tentative unified folder structure:
@@ -46,7 +47,7 @@ Tentative unified folder structure:
       - /outcomesumstats: ad hoc summary statistics for NSC outcomes
       - /siblingvaregs: sibling value added
       - /siblingxwalk: create sibling crosswalk used in constructing sibling VA sample
-      - /svyvaregs: regressions with VA estimates and survey indices 
+      - /svyvaregs: regressions with VA estimates and survey indices
   - /log: log files
   - /out: output, includes /figures and /tables from the origin repo
   - /doc: documents, includes the /notes, /paper, /presentations, and /proposal folders from origin repo
