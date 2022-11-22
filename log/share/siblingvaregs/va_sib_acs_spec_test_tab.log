@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/va_sib_acs_spec_test_tab.smcl
   log type:  smcl
- opened on:  25 Jul 2022, 22:18:13
+ opened on:  19 Sep 2022, 15:15:33
 
 . 
 . /* change directory to common_core_va project directory for all value added
@@ -78,6 +78,12 @@ delimiter now ;
 
 . local k12_test_scores_public "$vaprojdir/data/public_access/clean/k12_test_sc
 > ores" ;
+
+. local siblingxwalk "$projdir/dta/siblingxwalk/siblingpairxwalk";
+
+. local ufamilyxwalk "$projdir/dta/siblingxwalk/ufamilyxwalk";
+
+. local sibling_out_xwalk "$projdir/dta/siblingxwalk/sibling_out_xwalk";
 
 . **** Dates ;
 . local test_score_min_year
@@ -164,6 +170,26 @@ delimiter now ;
 >         i.disabled
 >         ;
 
+. local ela_score_controls
+>         i.year#(c.prior_ela_z_score##c.prior_ela_z_score##c.prior_ela_z_score
+> )
+>         ;
+
+. local math_score_controls
+>         i.year#(c.prior_math_z_score##c.prior_math_z_score##c.prior_math_z_sc
+> ore)
+>         ;
+
+. local peer_ela_score_controls
+>         i.year#(c.peer_prior_ela_z_score##c.peer_prior_ela_z_score##c.peer_pr
+> ior_ela_z_score)
+>         ;
+
+. local peer_math_score_controls
+>         i.year#(c.peer_prior_math_z_score##c.peer_prior_math_z_score##c.peer_
+> prior_math_z_score)
+>         ;
+
 . local peer_demographic_controls
 >         peer_age
 >         peer_male
@@ -173,24 +199,11 @@ delimiter now ;
 >         peer_disabled
 >         ;
 
-. local ela_score_controls
->         i.year#(c.prior_ela_z_score##c.prior_ela_z_score##c.prior_ela_z_score
-> )
->         ;
-
-. local peer_ela_score_controls
->         i.year#(c.peer_prior_ela_z_score##c.peer_prior_ela_z_score##c.peer_pr
-> ior_ela_z_score)
->         ;
-
-. local math_score_controls
->         i.year#(c.prior_math_z_score##c.prior_math_z_score##c.prior_math_z_sc
-> ore)
->         ;
-
-. local peer_math_score_controls
->         i.year#(c.peer_prior_math_z_score##c.peer_prior_math_z_score##c.peer_
-> prior_math_z_score)
+. //peer controls
+> local peer_controls
+>         `peer_ela_score_controls'
+>         `peer_math_score_controls'
+>         `peer_demographic_controls'
 >         ;
 
 . local va_control_vars "`school_controls' `demographic_controls'" ;
@@ -214,6 +227,103 @@ delimiter now ;
 . local sibling_controls
 >         i.has_older_sibling_enr_2year
 >         i.has_older_sibling_enr_4year
+>         ;
+
+. **********************************************
+> *** macros for control var COMBINATIONS for running loops over all samples an
+> d specifications
+> //base specification controls
+> local base_spec_controls
+>         `school_controls'
+>         `demographic_controls'
+>         `ela_score_controls'
+>         `math_score_controls'
+>         ;
+. // leave out prior score controls
+> local loscore_spec_controls
+>         `base_controls'
+>         loscore
+>         ;
+
+. // update the local macro name for looping in the creation of all sample VA e
+> stimates
+> local acs_spec_controls
+>         `base_controls'
+>         `census_controls'
+>         ;
+
+. local sib_spec_controls
+>         `base_controls'
+>         `sibling_controls'
+>         ;
+
+. // control var groups for looping
+> local loscore_acs_spec_controls
+>         `base_controls'
+>         `loscore_controls'
+>         `acs_controls'
+>         ;
+
+. local loscore_sib_spec_controls
+>         `base_controls'
+>         `loscore_controls'
+>         `sib_controls'
+>         ;
+
+. local acs_sib_spec_controls
+>         `base_controls'
+>         `acs_controls'
+>         `sib_controls'
+>         ;
+
+. local loscore_acs_sib_spec_controls
+>         `base_controls'
+>         `loscore_controls'
+>         `acs_controls'
+>         `sib_controls'
+>         ;
+
+. *** macros for STANDALONE control vars for running loops over all samples and
+>  specifications
+> //base specification controls
+> local base_controls
+>         `school_controls'
+>         `demographic_controls'
+>         `ela_score_controls'
+>         `math_score_controls'
+>         ;
+. local loscore_controls
+>         loscore
+>         ;
+
+. local acs_controls
+>         `census_controls'
+>         ;
+
+. local sib_controls
+>         `sibling_controls'
+>         ;
+
+. // control var groups for looping
+> local loscore_acs_controls
+>         `loscore_controls'
+>         `acs_controls'
+>         ;
+
+. local loscore_sib_controls
+>         `loscore_controls'
+>         `sib_controls'
+>         ;
+
+. local acs_sib_controls
+>         `acs_controls'
+>         `sib_controls'
+>         ;
+
+. local loscore_acs_sib_controls
+>         `loscore_controls'
+>         `acs_controls'
+>         `sib_controls'
 >         ;
 
 . **** School Characteristics ;
@@ -274,21 +384,6 @@ delimiter now cr
 . 
 . 
 . macro list
-T_gm_fix_span:  0
-S_4:            .0020413479904597
-S_2:            300
-S_3:            .0136102212476191
-S_1:            epanechnikov
-S_6:            .7098361624622439
-S_5:            4
-ReS_jv2:        __000006 __000007 __000008 __000009 __00000A __00000B __00000C
-                __00000D __00000E __00000F __00000G __00000H __00000I __00000J
-                __00000K
-dropv:          _cdscode_x
-n_offset:       0
-sort:           0
-dots:           nois _dots 5 0
-dotss:          nois _dots 0, title(Survey results being calculated)
 vaprojxwalks:   /home/research/ca_ed_lab/projects/common_core_va/data/restricte
                 > d_access/clean/crosswalks
 mattxwalks:     /home/research/ca_ed_lab/users/msnaven/data/restricted_access/c
@@ -297,7 +392,7 @@ nscdtadir_oldformat:
                 /home/research/ca_ed_lab/data/restricted_access/clean/cde_nsc/o
                 > ldformat
 nscdtadir:      /home/research/ca_ed_lab/data/restricted_access/clean/cde_nsc
-cstdtadir:      /home/research/ca_ed_lab/data/restricted_access/clean//cde/cst
+cstdtadir:      /home/research/ca_ed_lab/data/restricted_access/clean/cst
 vadtadir:       /home/research/ca_ed_lab/projects/common_core_va/data/sbac
 vaprojdir:      /home/research/ca_ed_lab/projects/common_core_va
 projdir:        /home/research/ca_ed_lab/users/chesun/gsr/caschls
@@ -314,7 +409,6 @@ F8:             use
 S_ADO:          BASE;SITE;.;PERSONAL;PLUS;OLDPLACE
 S_StataMP:      MP
 S_StataSE:      SE
-S_CONSOLE:      console
 S_OS:           Unix
 S_MACH:         PC (64-bit x86-64)
 _sch_char_control_vars:
@@ -336,6 +430,37 @@ _sch_char_vars: fte_teach_pc fte_pupil_pc new_teacher_prop credential_full_prop
 _sch_chars:     fte_teach_pc fte_pupil_pc new_teacher_prop credential_full_prop
                 c.male_prop##c.enr_male_prop
                 c.eth_minority_prop##c.enr_minority_prop enr_total
+_loscore_acs_sib_controls:
+                loscore eth_asian_pct eth_hispanic_pct eth_black_pct
+                educ_hs_dropout_prop educ_deg_4year_plus_prop
+                pov_fam_child_lt18_pct inc_median_hh
+                i.has_older_sibling_enr_2year i.has_older_sibling_enr_4year
+_acs_sib_controls:
+                eth_asian_pct eth_hispanic_pct eth_black_pct
+                educ_hs_dropout_prop educ_deg_4year_plus_prop
+                pov_fam_child_lt18_pct inc_median_hh
+                i.has_older_sibling_enr_2year i.has_older_sibling_enr_4year
+_loscore_sib_controls:
+                loscore i.has_older_sibling_enr_2year
+                i.has_older_sibling_enr_4year
+_loscore_acs_controls:
+                loscore eth_asian_pct eth_hispanic_pct eth_black_pct
+                educ_hs_dropout_prop educ_deg_4year_plus_prop
+                pov_fam_child_lt18_pct inc_median_hh
+_sib_controls:  i.has_older_sibling_enr_2year i.has_older_sibling_enr_4year
+_acs_controls:  eth_asian_pct eth_hispanic_pct eth_black_pct
+                educ_hs_dropout_prop educ_deg_4year_plus_prop
+                pov_fam_child_lt18_pct inc_median_hh
+_loscore_controls:
+                loscore
+_sib_spec_controls:
+                i.has_older_sibling_enr_2year i.has_older_sibling_enr_4year
+_acs_spec_controls:
+                eth_asian_pct eth_hispanic_pct eth_black_pct
+                educ_hs_dropout_prop educ_deg_4year_plus_prop
+                pov_fam_child_lt18_pct inc_median_hh
+_loscore_spec_controls:
+                loscore
 _sibling_controls:
                 i.has_older_sibling_enr_2year i.has_older_sibling_enr_4year
 _census_controls:
@@ -346,22 +471,28 @@ _census_grade:  6
 _va_control_vars:
                 age male eth_asian eth_hispanic eth_black eth_other
                 econ_disadvantage limited_eng_prof disabled
-_peer_math_score_controls:
-                i.year#(c.peer_prior_math_z_score##c.peer_prior_math_z_score##c
-                > .peer_prior_math_z_score)
-_math_score_controls:
-                i.year#(c.prior_math_z_score##c.prior_math_z_score##c.prior_mat
-                > h_z_score)
-_peer_ela_score_controls:
-                i.year#(c.peer_prior_ela_z_score##c.peer_prior_ela_z_score##c.p
+_peer_controls: i.year#(c.peer_prior_ela_z_score##c.peer_prior_ela_z_score##c.p
                 > eer_prior_ela_z_score)
-_ela_score_controls:
-                i.year#(c.prior_ela_z_score##c.prior_ela_z_score##c.prior_ela_z
-                > _score)
+                i.year#(c.peer_prior_math_z_score##c.peer_prior_math_z_score##c
+                > .peer_prior_math_z_score) peer_age peer_male peer_eth_asian
+                peer_eth_hispanic peer_eth_black peer_eth_other
+                peer_econ_disadvantage peer_limited_eng_prof peer_disabled
 _peer_demographic_controls:
                 peer_age peer_male peer_eth_asian peer_eth_hispanic
                 peer_eth_black peer_eth_other peer_econ_disadvantage
                 peer_limited_eng_prof peer_disabled
+_peer_math_score_controls:
+                i.year#(c.peer_prior_math_z_score##c.peer_prior_math_z_score##c
+                > .peer_prior_math_z_score)
+_peer_ela_score_controls:
+                i.year#(c.peer_prior_ela_z_score##c.peer_prior_ela_z_score##c.p
+                > eer_prior_ela_z_score)
+_math_score_controls:
+                i.year#(c.prior_math_z_score##c.prior_math_z_score##c.prior_mat
+                > h_z_score)
+_ela_score_controls:
+                i.year#(c.prior_ela_z_score##c.prior_ela_z_score##c.prior_ela_z
+                > _score)
 _demographic_controls:
                 age i.male i.eth_asian i.eth_hispanic i.eth_black i.eth_other
                 i.econ_disadvantage i.limited_eng_prof i.disabled
@@ -388,6 +519,13 @@ _test_score_max_year:
                 2018
 _test_score_min_year:
                 2015
+_sibling_out_xwalk:
+                /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/siblingxw
+                > alk/sibling_out_xwalk
+_ufamilyxwalk:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/siblingxw
+                > alk/ufamilyxwalk
+_siblingxwalk:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/siblingxw
+                > alk/siblingpairxwalk
 _k12_test_scores_public:
                 /home/research/ca_ed_lab/projects/common_core_va/data/public_ac
                 > cess/clean/k12_test_scores
@@ -401,16 +539,9 @@ _k12_test_scores:
                 > d_access/clean/k12_test_scores
 _vaprojdofiles: /home/research/ca_ed_lab/projects/common_core_va/do_files"
                 local ca_ed_lab "/home/research/ca_ed_lab
-_sibling_out_xwalk:
-                /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/siblingxw
-                > alk/sibling_out_xwalk
 _k12_postsecondary_out_merge:
                 /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_co
                 > re_va/k12_postsecondary_out_merge
-_ufamilyxwalk:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/siblingxw
-                > alk/ufamilyxwalk
-_siblingxwalk:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/siblingxw
-                > alk/siblingpairxwalk
 _va_g11_out_dataset:
                 /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/common_co
                 > re_va/va_g11_out_dataset
@@ -947,7 +1078,7 @@ added matrix:
 . timer off 1
 
 . timer list
-   1:      0.98 /        1 =       0.9850
+   1:      0.72 /        1 =       0.7200
 
 . 
 . set trace off
@@ -963,5 +1094,5 @@ added matrix:
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gvaregs/va_sib_acs_spec_test_tab.smcl
   log type:  smcl
- closed on:  25 Jul 2022, 22:18:14
+ closed on:  19 Sep 2022, 15:15:34
 -------------------------------------------------------------------------------

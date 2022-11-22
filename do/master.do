@@ -279,30 +279,18 @@ if `do_pool_gr11_enr' == 1 {
 
 
 
-***************** clean the VA datasets and merge with analysis data ****************
-////////////////////////////////////////////////////////////////////////////////
-local do_pool_merge_va = 1
-if `do_pool_merge_va' == 1 {
-  //create pooled average value added estimates over years
-  do $projdir/do/build/buildanalysisdata/poolingva/poolva
-  pause
-
-  //combine all VA datasets into one dataset
-  do $projdir/do/build/buildanalysisdata/poolingva/combineva
-  pause
-
-  //merge with analysis datasets
-  do $projdir/do/build/buildanalysisdata/poolingdata/mergeva
-  pause
-
-}
-
 
 
 ***************** run VA regressions for analysis datasets  ****************
 ////////////////////////////////////////////////////////////////////////////////
 local do_va_regs = 1
 if `do_va_regs' == 1 {
+  /* clean VA estimates to be used for survey data analysis, and merge to survey
+  analysis datasets */
+  do $projdir/do/build//buildanalysisdata/poolingdata/clean_va.do
+
+
+
   //run VA regressions for all analysis datasets
   do $projdir/do/share/svyvaregs/allvaregs
   pause
@@ -345,7 +333,7 @@ if `do_index' == 1 {
   pause
 
   /* creates a linear index for each question cateogry using imputed data: school climate, teacher staff quality,
-  student support, student motivation  */
+  student support, student motivation. Then run bivariate VA regressions on each index var */
   do $projdir/do/share/factoranalysis/imputedcategoryindex
   pause
 

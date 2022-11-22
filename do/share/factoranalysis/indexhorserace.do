@@ -12,56 +12,93 @@ set more off
 log using $projdir/log/share/factoranalysis/indexhorserace.smcl, replace
 
 ////////////////////////////////////////////////////////////////////////////////
-/* complete case analysis  */
 
 
-use $projdir/dta/allsvyfactor/categoryindex/compcasecategoryindex, clear
+foreach type in compcase imputed {
 
-//local macro for VA vars in z scores
-local vasdvars z_va_ela z_va_math z_va_enr z_va_enrela z_va_enrmath z_va_enrdk z_va_2yr z_va_2yrela z_va_2yrmath z_va_2yrdk z_va_4yr z_va_4yrela z_va_4yrmath z_va_4yrdk
+  use $projdir/dta/allsvyfactor/categoryindex/`type'categoryindex, clear
 
-//local macro for z score index vars
-local indexsdvars z_climateindex z_qualityindex z_supportindex
+  //local macro for z score index vars
+  local indexsdvars z_climateindex z_qualityindex z_supportindex
 
-// regress va vars on index vars
-foreach i of local vasdvars {
-  local append replace
 
-  eststo: reg `i' `indexsdvars'
+  // macros for different VA estimates to be used in each sample
+  local b_sample_controls b
+  local las_sample_controls las
 
-  local append append
+
+  foreach va_outcome in ela math enr enr_2year enr_4year dk_enr dk_enr_2year dk_enr_4year {
+
+        foreach sample in b las {
+          foreach control of local `sample'_sample_controls {
+            //macro for whether to use the VA estimates with peer effects
+            if "`sample'" == "b" {
+              local peer
+              local peer_yn "N"
+            }
+            if "`sample'" == "las" {
+              local peer "_p"
+              local peer_yn "Y"
+
+            }
+
+
+                qui reg va_`va_outcome'_`sample'_sp_`control'_ct`peer' `indexsdvars'
+
+                regsave using $projdir/out/csv/factoranalysis/indexhorserace/va_`va_outcome'_`sample'_sp_`control'_ct`peer'_`type' ///
+                  , replace ///
+                  table(va_`va_outcome'_`sample'_sp_`control'_ct`peer', format(%7.2f) parentheses(stderr) asterisk()) ///
+                  addlabel(va, `va_outcome', sample, `sample', control, `control', peer, `peer_yn')
+
+
+
+            }
+
+          }
+  }
+
+
+  //-----------------------------------------------------------
+  //merge the va index horse race reg datasets to produce combined table
+  //-----------------------------------------------------------
+
+
+  local merge_command use
+  local merge_options clear
+
+  foreach va_outcome in ela math enr enr_2year enr_4year dk_enr dk_enr_2year dk_enr_4year {
+    di "va: `va_outcome'"
+    foreach sample in b las {
+      di "sample: `sample'"
+      foreach control of local `sample'_sample_controls {
+        //macro for whether to use the VA estimates with peer effects
+        if "`sample'" == "b" {
+          local peer
+          local peer_yn "N"
+        }
+        if "`sample'" == "las" {
+          local peer "_p"
+          local peer_yn "Y"
+        }
+
+        di "peer controls in VA estimates (empty if no peer, _p if peer): `peer'"
+
+
+        `merge_command' $projdir/out/csv/factoranalysis/indexhorserace/va_`va_outcome'_`sample'_sp_`control'_ct`peer'_`type', `merge_options'
+
+        local merge_command "merge 1:1 var using"
+        local merge_options nogen
+      }
+    }
+  }
+
+  export excel using $projdir/out/csv/factoranalysis/indexhorserace/`type'horserace.csv, replace firstrow(variables)
+
+
 }
 
-esttab using $projdir/out/csv/factoranalysis/indexhorserace/compcasehorserace.csv, replace
-
-eststo clear
 
 
-
-////////////////////////////////////////////////////////////////////////////////
-/* imputed data analysis  */
-
-use $projdir/dta/allsvyfactor/categoryindex/imputedcategoryindex, clear
-
-//local macro for VA vars in z scores
-local vasdvars z_va_ela z_va_math z_va_enr z_va_enrela z_va_enrmath z_va_enrdk z_va_2yr z_va_2yrela z_va_2yrmath z_va_2yrdk z_va_4yr z_va_4yrela z_va_4yrmath z_va_4yrdk
-
-//local macro for z score index vars
-local indexsdvars z_climateindex z_qualityindex z_supportindex
-
-
-// regress va vars on index vars
-foreach i of local vasdvars {
-  local append replace
-
-  eststo: reg `i' `indexsdvars'
-
-  local append append
-}
-
-esttab using $projdir/out/csv/factoranalysis/indexhorserace/imputedhorserace.csv, replace
-
-eststo clear
 
 
 log close
