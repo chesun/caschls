@@ -3,559 +3,609 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/indexhorserace.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}25 Jul 2022, 18:11:10
+ {txt}opened on:  {res}21 Nov 2022, 22:13:10
 {txt}
 {com}. 
 . ////////////////////////////////////////////////////////////////////////////////
-> /* complete case analysis  */
+> 
 . 
-. 
-. use $projdir/dta/allsvyfactor/categoryindex/compcasecategoryindex, clear
-{txt}(parent pooled (over years) dataset ready for analysis with stats and response ra)
-
-{com}. 
-. //local macro for VA vars in z scores
-. local vasdvars z_va_ela z_va_math z_va_enr z_va_enrela z_va_enrmath z_va_enrdk z_va_2yr z_va_2yrela z_va_2yrmath z_va_2yrdk z_va_4yr z_va_4yrela z_va_4yrmath z_va_4yrdk
-{txt}
-{com}. 
-. //local macro for z score index vars
-. local indexsdvars z_climateindex z_qualityindex z_supportindex
-{txt}
-{com}. 
-. // regress va vars on index vars
-. foreach i of local vasdvars {c -(}
-{txt}  2{com}.   local append replace
+. foreach type in compcase imputed {c -(}
+{txt}  2{com}. 
+.   use $projdir/dta/allsvyfactor/categoryindex/`type'categoryindex, clear
 {txt}  3{com}. 
-.   eststo: reg `i' `indexsdvars'
+.   //local macro for z score index vars
+.   local indexsdvars z_climateindex z_qualityindex z_supportindex
 {txt}  4{com}. 
-.   local append append
-{txt}  5{com}. {c )-}
-
-{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       292
-{txt}{hline 13}{c +}{hline 34}   F(3, 288)       = {res}     6.59
-{txt}       Model {c |} {res} 18.0332865         3   6.0110955   {txt}Prob > F        ={res}    0.0003
-{txt}    Residual {c |} {res} 262.592039       288  .911777914   {txt}R-squared       ={res}    0.0643
-{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0545
-{txt}       Total {c |} {res} 280.625326       291  .964348199   {txt}Root MSE        =   {res} .95487
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}    z_va_ela{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-z_climatei~x {c |}{col 14}{res}{space 2} .2583513{col 26}{space 2} .1346446{col 37}{space 1}    1.92{col 46}{space 3}0.056{col 54}{space 4}-.0066608{col 67}{space 3} .5233635
-{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.0786738{col 26}{space 2} .1434941{col 37}{space 1}   -0.55{col 46}{space 3}0.584{col 54}{space 4}-.3611039{col 67}{space 3} .2037563
-{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0857073{col 26}{space 2}  .076315{col 37}{space 1}    1.12{col 46}{space 3}0.262{col 54}{space 4}-.0644986{col 67}{space 3} .2359131
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0150384{col 26}{space 2} .0561196{col 37}{space 1}   -0.27{col 46}{space 3}0.789{col 54}{space 4} -.125495{col 67}{space 3} .0954182
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est1{txt} stored)
-
-      Source {c |}       SS           df       MS      Number of obs   ={res}       292
-{txt}{hline 13}{c +}{hline 34}   F(3, 288)       = {res}    15.36
-{txt}       Model {c |} {res} 36.5264375         3  12.1754792   {txt}Prob > F        ={res}    0.0000
-{txt}    Residual {c |} {res} 228.352793       288  .792891641   {txt}R-squared       ={res}    0.1379
-{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1289
-{txt}       Total {c |} {res}  264.87923       291  .910237904   {txt}Root MSE        =   {res} .89044
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}   z_va_math{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-z_climatei~x {c |}{col 14}{res}{space 2} .4796379{col 26}{space 2}   .12556{col 37}{space 1}    3.82{col 46}{space 3}0.000{col 54}{space 4} .2325063{col 67}{space 3} .7267694
-{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.1713499{col 26}{space 2} .1338124{col 37}{space 1}   -1.28{col 46}{space 3}0.201{col 54}{space 4}-.4347241{col 67}{space 3} .0920244
-{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0382039{col 26}{space 2} .0711659{col 37}{space 1}    0.54{col 46}{space 3}0.592{col 54}{space 4}-.1018674{col 67}{space 3} .1782752
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0424154{col 26}{space 2} .0523332{col 37}{space 1}    0.81{col 46}{space 3}0.418{col 54}{space 4}-.0605887{col 67}{space 3} .1454194
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est2{txt} stored)
-
-      Source {c |}       SS           df       MS      Number of obs   ={res}       292
-{txt}{hline 13}{c +}{hline 34}   F(3, 288)       = {res}     7.93
-{txt}       Model {c |} {res}   22.49226         3     7.49742   {txt}Prob > F        ={res}    0.0000
-{txt}    Residual {c |} {res}  272.16005       288  .945000175   {txt}R-squared       ={res}    0.0763
-{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0667
-{txt}       Total {c |} {res}  294.65231       291   1.0125509   {txt}Root MSE        =   {res} .97211
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}    z_va_enr{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-z_climatei~x {c |}{col 14}{res}{space 2} .4970145{col 26}{space 2} .1370756{col 37}{space 1}    3.63{col 46}{space 3}0.000{col 54}{space 4} .2272174{col 67}{space 3} .7668116
-{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.4982336{col 26}{space 2} .1460849{col 37}{space 1}   -3.41{col 46}{space 3}0.001{col 54}{space 4}-.7857631{col 67}{space 3}-.2107041
-{txt}z_supporti~x {c |}{col 14}{res}{space 2} .1930679{col 26}{space 2} .0776929{col 37}{space 1}    2.49{col 46}{space 3}0.014{col 54}{space 4}   .04015{col 67}{space 3} .3459857
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .1431006{col 26}{space 2} .0571329{col 37}{space 1}    2.50{col 46}{space 3}0.013{col 54}{space 4} .0306496{col 67}{space 3} .2555515
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est3{txt} stored)
-
-      Source {c |}       SS           df       MS      Number of obs   ={res}       292
-{txt}{hline 13}{c +}{hline 34}   F(3, 288)       = {res}     5.50
-{txt}       Model {c |} {res}  16.986357         3  5.66211901   {txt}Prob > F        ={res}    0.0011
-{txt}    Residual {c |} {res} 296.720803       288  1.03028057   {txt}R-squared       ={res}    0.0541
-{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0443
-{txt}       Total {c |} {res}  313.70716       291  1.07803148   {txt}Root MSE        =   {res}  1.015
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1} z_va_enrela{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-z_climatei~x {c |}{col 14}{res}{space 2} .4614206{col 26}{space 2} .1431272{col 37}{space 1}    3.22{col 46}{space 3}0.001{col 54}{space 4} .1797127{col 67}{space 3} .7431285
-{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.4864769{col 26}{space 2} .1525342{col 37}{space 1}   -3.19{col 46}{space 3}0.002{col 54}{space 4}   -.7867{col 67}{space 3}-.1862537
-{txt}z_supporti~x {c |}{col 14}{res}{space 2} .1626682{col 26}{space 2} .0811228{col 37}{space 1}    2.01{col 46}{space 3}0.046{col 54}{space 4} .0029995{col 67}{space 3}  .322337
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .1579206{col 26}{space 2} .0596552{col 37}{space 1}    2.65{col 46}{space 3}0.009{col 54}{space 4} .0405052{col 67}{space 3}  .275336
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est4{txt} stored)
-
-      Source {c |}       SS           df       MS      Number of obs   ={res}       292
-{txt}{hline 13}{c +}{hline 34}   F(3, 288)       = {res}     4.31
-{txt}       Model {c |} {res}  12.702475         3  4.23415833   {txt}Prob > F        ={res}    0.0054
-{txt}    Residual {c |} {res} 283.090272       288  .982952332   {txt}R-squared       ={res}    0.0429
-{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0330
-{txt}       Total {c |} {res} 295.792747       291  1.01646992   {txt}Root MSE        =   {res} .99144
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}z_va_enrmath{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-z_climatei~x {c |}{col 14}{res}{space 2} .3801108{col 26}{space 2} .1398011{col 37}{space 1}    2.72{col 46}{space 3}0.007{col 54}{space 4} .1049494{col 67}{space 3} .6552722
-{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.4645789{col 26}{space 2} .1489895{col 37}{space 1}   -3.12{col 46}{space 3}0.002{col 54}{space 4}-.7578253{col 67}{space 3}-.1713325
-{txt}z_supporti~x {c |}{col 14}{res}{space 2} .1660855{col 26}{space 2} .0792376{col 37}{space 1}    2.10{col 46}{space 3}0.037{col 54}{space 4} .0101272{col 67}{space 3} .3220437
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .1456751{col 26}{space 2} .0582689{col 37}{space 1}    2.50{col 46}{space 3}0.013{col 54}{space 4} .0309883{col 67}{space 3} .2603619
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est5{txt} stored)
-
-      Source {c |}       SS           df       MS      Number of obs   ={res}       292
-{txt}{hline 13}{c +}{hline 34}   F(3, 288)       = {res}     4.29
-{txt}       Model {c |} {res}  12.709351         3  4.23645034   {txt}Prob > F        ={res}    0.0056
-{txt}    Residual {c |} {res} 284.611065       288  .988232865   {txt}R-squared       ={res}    0.0427
-{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0328
-{txt}       Total {c |} {res} 297.320416       291  1.02171964   {txt}Root MSE        =   {res}  .9941
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}  z_va_enrdk{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-z_climatei~x {c |}{col 14}{res}{space 2}  .380965{col 26}{space 2} .1401761{col 37}{space 1}    2.72{col 46}{space 3}0.007{col 54}{space 4} .1050655{col 67}{space 3} .6568645
-{txt}z_qualityi~x {c |}{col 14}{res}{space 2}  -.46549{col 26}{space 2} .1493892{col 37}{space 1}   -3.12{col 46}{space 3}0.002{col 54}{space 4}-.7595231{col 67}{space 3} -.171457
-{txt}z_supporti~x {c |}{col 14}{res}{space 2} .1656132{col 26}{space 2} .0794502{col 37}{space 1}    2.08{col 46}{space 3}0.038{col 54}{space 4} .0092365{col 67}{space 3} .3219898
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .1473824{col 26}{space 2} .0584252{col 37}{space 1}    2.52{col 46}{space 3}0.012{col 54}{space 4}  .032388{col 67}{space 3} .2623769
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est6{txt} stored)
-
-      Source {c |}       SS           df       MS      Number of obs   ={res}       292
-{txt}{hline 13}{c +}{hline 34}   F(3, 288)       = {res}     1.49
-{txt}       Model {c |} {res} 3.99893973         3  1.33297991   {txt}Prob > F        ={res}    0.2187
-{txt}    Residual {c |} {res} 258.469419       288  .897463261   {txt}R-squared       ={res}    0.0152
-{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0050
-{txt}       Total {c |} {res} 262.468359       291  .901953123   {txt}Root MSE        =   {res} .94735
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}    z_va_2yr{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-z_climatei~x {c |}{col 14}{res}{space 2} .1145738{col 26}{space 2} .1335835{col 37}{space 1}    0.86{col 46}{space 3}0.392{col 54}{space 4}-.1483498{col 67}{space 3} .3774975
-{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.2477597{col 26}{space 2} .1423632{col 37}{space 1}   -1.74{col 46}{space 3}0.083{col 54}{space 4} -.527964{col 67}{space 3} .0324446
-{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0623678{col 26}{space 2} .0757135{col 37}{space 1}    0.82{col 46}{space 3}0.411{col 54}{space 4}-.0866543{col 67}{space 3} .2113898
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .2399312{col 26}{space 2} .0556774{col 37}{space 1}    4.31{col 46}{space 3}0.000{col 54}{space 4} .1303451{col 67}{space 3} .3495173
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est7{txt} stored)
-
-      Source {c |}       SS           df       MS      Number of obs   ={res}       292
-{txt}{hline 13}{c +}{hline 34}   F(3, 288)       = {res}     1.40
-{txt}       Model {c |} {res} 3.76983357         3  1.25661119   {txt}Prob > F        ={res}    0.2424
-{txt}    Residual {c |} {res} 258.141463       288  .896324523   {txt}R-squared       ={res}    0.0144
-{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0041
-{txt}       Total {c |} {res} 261.911296       291  .900038819   {txt}Root MSE        =   {res} .94674
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1} z_va_2yrela{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-z_climatei~x {c |}{col 14}{res}{space 2} .1225555{col 26}{space 2} .1334987{col 37}{space 1}    0.92{col 46}{space 3}0.359{col 54}{space 4}-.1402012{col 67}{space 3} .3853123
-{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.2453972{col 26}{space 2} .1422729{col 37}{space 1}   -1.72{col 46}{space 3}0.086{col 54}{space 4}-.5254237{col 67}{space 3} .0346293
-{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0514738{col 26}{space 2} .0756655{col 37}{space 1}    0.68{col 46}{space 3}0.497{col 54}{space 4}-.0974537{col 67}{space 3} .2004013
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .2408032{col 26}{space 2}  .055642{col 37}{space 1}    4.33{col 46}{space 3}0.000{col 54}{space 4} .1312866{col 67}{space 3} .3503198
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est8{txt} stored)
-
-      Source {c |}       SS           df       MS      Number of obs   ={res}       292
-{txt}{hline 13}{c +}{hline 34}   F(3, 288)       = {res}     1.28
-{txt}       Model {c |} {res} 3.45943096         3  1.15314365   {txt}Prob > F        ={res}    0.2814
-{txt}    Residual {c |} {res}  259.42675       288  .900787325   {txt}R-squared       ={res}    0.0132
-{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0029
-{txt}       Total {c |} {res} 262.886181       291  .903388937   {txt}Root MSE        =   {res}  .9491
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}z_va_2yrmath{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-z_climatei~x {c |}{col 14}{res}{space 2} .1450104{col 26}{space 2} .1338306{col 37}{space 1}    1.08{col 46}{space 3}0.279{col 54}{space 4}-.1183997{col 67}{space 3} .4084205
-{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.2534786{col 26}{space 2} .1426266{col 37}{space 1}   -1.78{col 46}{space 3}0.077{col 54}{space 4}-.5342014{col 67}{space 3} .0272441
-{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0528226{col 26}{space 2} .0758536{col 37}{space 1}    0.70{col 46}{space 3}0.487{col 54}{space 4}-.0964752{col 67}{space 3} .2021203
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .2423336{col 26}{space 2} .0557804{col 37}{space 1}    4.34{col 46}{space 3}0.000{col 54}{space 4} .1325447{col 67}{space 3} .3521225
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est9{txt} stored)
-
-      Source {c |}       SS           df       MS      Number of obs   ={res}       292
-{txt}{hline 13}{c +}{hline 34}   F(3, 288)       = {res}     1.29
-{txt}       Model {c |} {res} 3.50853989         3   1.1695133   {txt}Prob > F        ={res}    0.2768
-{txt}    Residual {c |} {res} 260.374816       288  .904079223   {txt}R-squared       ={res}    0.0133
-{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0030
-{txt}       Total {c |} {res} 263.883356       291  .906815657   {txt}Root MSE        =   {res} .95083
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}  z_va_2yrdk{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-z_climatei~x {c |}{col 14}{res}{space 2} .1463076{col 26}{space 2} .1340749{col 37}{space 1}    1.09{col 46}{space 3}0.276{col 54}{space 4}-.1175834{col 67}{space 3} .4101986
-{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.2548805{col 26}{space 2}  .142887{col 37}{space 1}   -1.78{col 46}{space 3}0.076{col 54}{space 4}-.5361157{col 67}{space 3} .0263548
-{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0512022{col 26}{space 2} .0759921{col 37}{space 1}    0.67{col 46}{space 3}0.501{col 54}{space 4}-.0983681{col 67}{space 3} .2007726
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .2455274{col 26}{space 2} .0558822{col 37}{space 1}    4.39{col 46}{space 3}0.000{col 54}{space 4} .1355381{col 67}{space 3} .3555167
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est10{txt} stored)
-
-      Source {c |}       SS           df       MS      Number of obs   ={res}       292
-{txt}{hline 13}{c +}{hline 34}   F(3, 288)       = {res}     7.53
-{txt}       Model {c |} {res} 16.8312241         3  5.61040804   {txt}Prob > F        ={res}    0.0001
-{txt}    Residual {c |} {res} 214.586824       288  .745093141   {txt}R-squared       ={res}    0.0727
-{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0631
-{txt}       Total {c |} {res} 231.418049       291  .795251026   {txt}Root MSE        =   {res} .86319
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}    z_va_4yr{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-z_climatei~x {c |}{col 14}{res}{space 2} .3187309{col 26}{space 2} .1217165{col 37}{space 1}    2.62{col 46}{space 3}0.009{col 54}{space 4} .0791641{col 67}{space 3} .5582977
-{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.2035478{col 26}{space 2} .1297164{col 37}{space 1}   -1.57{col 46}{space 3}0.118{col 54}{space 4}  -.45886{col 67}{space 3} .0517645
-{txt}z_supporti~x {c |}{col 14}{res}{space 2} .1243307{col 26}{space 2} .0689875{col 37}{space 1}    1.80{col 46}{space 3}0.073{col 54}{space 4} -.011453{col 67}{space 3} .2601143
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.1318468{col 26}{space 2} .0507312{col 37}{space 1}   -2.60{col 46}{space 3}0.010{col 54}{space 4}-.2316978{col 67}{space 3}-.0319957
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est11{txt} stored)
-
-      Source {c |}       SS           df       MS      Number of obs   ={res}       292
-{txt}{hline 13}{c +}{hline 34}   F(3, 288)       = {res}     4.48
-{txt}       Model {c |} {res} 10.9302332         3  3.64341107   {txt}Prob > F        ={res}    0.0043
-{txt}    Residual {c |} {res} 234.376365       288  .813806822   {txt}R-squared       ={res}    0.0446
-{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0346
-{txt}       Total {c |} {res} 245.306598       291     .842978   {txt}Root MSE        =   {res} .90211
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1} z_va_4yrela{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-z_climatei~x {c |}{col 14}{res}{space 2} .2655796{col 26}{space 2} .1272052{col 37}{space 1}    2.09{col 46}{space 3}0.038{col 54}{space 4} .0152098{col 67}{space 3} .5159495
-{txt}z_qualityi~x {c |}{col 14}{res}{space 2}  -.18224{col 26}{space 2} .1355658{col 37}{space 1}   -1.34{col 46}{space 3}0.180{col 54}{space 4}-.4490654{col 67}{space 3} .0845853
-{txt}z_supporti~x {c |}{col 14}{res}{space 2} .1060358{col 26}{space 2} .0720984{col 37}{space 1}    1.47{col 46}{space 3}0.142{col 54}{space 4}-.0358709{col 67}{space 3} .2479425
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.1292668{col 26}{space 2} .0530189{col 37}{space 1}   -2.44{col 46}{space 3}0.015{col 54}{space 4}-.2336205{col 67}{space 3}-.0249131
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est12{txt} stored)
-
-      Source {c |}       SS           df       MS      Number of obs   ={res}       292
-{txt}{hline 13}{c +}{hline 34}   F(3, 288)       = {res}     2.16
-{txt}       Model {c |} {res} 5.25510508         3  1.75170169   {txt}Prob > F        ={res}    0.0925
-{txt}    Residual {c |} {res} 233.198456       288  .809716862   {txt}R-squared       ={res}    0.0220
-{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0119
-{txt}       Total {c |} {res} 238.453561       291  .819428045   {txt}Root MSE        =   {res} .89984
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}z_va_4yrmath{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-z_climatei~x {c |}{col 14}{res}{space 2} .1606068{col 26}{space 2} .1268852{col 37}{space 1}    1.27{col 46}{space 3}0.207{col 54}{space 4}-.0891331{col 67}{space 3} .4103467
-{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.1409854{col 26}{space 2} .1352247{col 37}{space 1}   -1.04{col 46}{space 3}0.298{col 54}{space 4}-.4071394{col 67}{space 3} .1251687
-{txt}z_supporti~x {c |}{col 14}{res}{space 2} .1075101{col 26}{space 2}  .071917{col 37}{space 1}    1.49{col 46}{space 3}0.136{col 54}{space 4}-.0340395{col 67}{space 3} .2490598
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.1516523{col 26}{space 2} .0528855{col 37}{space 1}   -2.87{col 46}{space 3}0.004{col 54}{space 4}-.2557434{col 67}{space 3}-.0475611
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est13{txt} stored)
-
-      Source {c |}       SS           df       MS      Number of obs   ={res}       292
-{txt}{hline 13}{c +}{hline 34}   F(3, 288)       = {res}     2.22
-{txt}       Model {c |} {res} 5.34879094         3  1.78293031   {txt}Prob > F        ={res}    0.0860
-{txt}    Residual {c |} {res} 231.304896       288  .803141999   {txt}R-squared       ={res}    0.0226
-{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0124
-{txt}       Total {c |} {res} 236.653687       291  .813242909   {txt}Root MSE        =   {res} .89618
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}  z_va_4yrdk{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-z_climatei~x {c |}{col 14}{res}{space 2} .1604394{col 26}{space 2}  .126369{col 37}{space 1}    1.27{col 46}{space 3}0.205{col 54}{space 4}-.0882844{col 67}{space 3} .4091633
-{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.1407254{col 26}{space 2} .1346746{col 37}{space 1}   -1.04{col 46}{space 3}0.297{col 54}{space 4}-.4057967{col 67}{space 3} .1243458
-{txt}z_supporti~x {c |}{col 14}{res}{space 2} .1088648{col 26}{space 2} .0716245{col 37}{space 1}    1.52{col 46}{space 3}0.130{col 54}{space 4} -.032109{col 67}{space 3} .2498386
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.1534575{col 26}{space 2} .0526704{col 37}{space 1}   -2.91{col 46}{space 3}0.004{col 54}{space 4}-.2571252{col 67}{space 3}-.0497898
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est14{txt} stored)
-
-{com}. 
-. esttab using $projdir/out/csv/factoranalysis/indexhorserace/compcasehorserace.csv, replace
-{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/compcasehorserace.csv"'})
-
-{com}. 
-. eststo clear
-{txt}
-{com}. 
+. 
+.   // macros for different VA estimates to be used in each sample
+.   local b_sample_controls b
+{txt}  5{com}.   local las_sample_controls las
+{txt}  6{com}. 
+. 
+.   foreach va_outcome in ela math enr enr_2year enr_4year dk_enr dk_enr_2year dk_enr_4year {c -(}
+{txt}  7{com}. 
+.         foreach sample in b las {c -(}
+{txt}  8{com}.           foreach control of local `sample'_sample_controls {c -(}
+{txt}  9{com}.             //macro for whether to use the VA estimates with peer effects
+.             if "`sample'" == "b" {c -(}
+{txt} 10{com}.               local peer
+{txt} 11{com}.               local peer_yn "N"
+{txt} 12{com}.             {c )-}
+{txt} 13{com}.             if "`sample'" == "las" {c -(}
+{txt} 14{com}.               local peer "_p"
+{txt} 15{com}.               local peer_yn "Y"
+{txt} 16{com}. 
+.             {c )-}
+{txt} 17{com}. 
+. 
+.                 qui reg va_`va_outcome'_`sample'_sp_`control'_ct`peer' `indexsdvars'
+{txt} 18{com}. 
+.                 regsave using $projdir/out/csv/factoranalysis/indexhorserace/va_`va_outcome'_`sample'_sp_`control'_ct`peer'_`type' ///
+>                   , replace ///
+>                   table(va_`va_outcome'_`sample'_sp_`control'_ct`peer', format(%7.2f) parentheses(stderr) asterisk()) ///
+>                   addlabel(va, `va_outcome', sample, `sample', control, `control', peer, `peer_yn')
+{txt} 19{com}. 
 . 
 . 
-. ////////////////////////////////////////////////////////////////////////////////
-> /* imputed data analysis  */
+.             {c )-}
+{txt} 20{com}. 
+.           {c )-}
+{txt} 21{com}.   {c )-}
+{txt} 22{com}. 
 . 
-. use $projdir/dta/allsvyfactor/categoryindex/imputedcategoryindex, clear
+.   //-----------------------------------------------------------
+.   //merge the va index horse race reg datasets to produce combined table
+.   //-----------------------------------------------------------
+. 
+. 
+.   local merge_command use
+{txt} 23{com}.   local merge_options clear
+{txt} 24{com}. 
+.   foreach va_outcome in ela math enr enr_2year enr_4year dk_enr dk_enr_2year dk_enr_4year {c -(}
+{txt} 25{com}.     di "va: `va_outcome'"
+{txt} 26{com}.     foreach sample in b las {c -(}
+{txt} 27{com}.       di "sample: `sample'"
+{txt} 28{com}.       foreach control of local `sample'_sample_controls {c -(}
+{txt} 29{com}.         //macro for whether to use the VA estimates with peer effects
+.         if "`sample'" == "b" {c -(}
+{txt} 30{com}.           local peer
+{txt} 31{com}.           local peer_yn "N"
+{txt} 32{com}.         {c )-}
+{txt} 33{com}.         if "`sample'" == "las" {c -(}
+{txt} 34{com}.           local peer "_p"
+{txt} 35{com}.           local peer_yn "Y"
+{txt} 36{com}.         {c )-}
+{txt} 37{com}. 
+.         di "peer controls in VA estimates (empty if no peer, _p if peer): `peer'"
+{txt} 38{com}. 
+. 
+.         `merge_command' $projdir/out/csv/factoranalysis/indexhorserace/va_`va_outcome'_`sample'_sp_`control'_ct`peer'_`type', `merge_options'
+{txt} 39{com}. 
+.         local merge_command "merge 1:1 var using"
+{txt} 40{com}.         local merge_options nogen
+{txt} 41{com}.       {c )-}
+{txt} 42{com}.     {c )-}
+{txt} 43{com}.   {c )-}
+{txt} 44{com}. 
+.   export excel using $projdir/out/csv/factoranalysis/indexhorserace/`type'horserace.csv, replace firstrow(variables)
+{txt} 45{com}. 
+. 
+. {c )-}
 {txt}(parent pooled (over years) dataset ready for analysis with stats and response ra)
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_ela_b_sp_b_ct_compcase.dta{rm}
+saved
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_ela_las_sp_las_ct_p_compcase.dta{rm}
+saved
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_math_b_sp_b_ct_compcase.dta{rm}
+saved
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_math_las_sp_las_ct_p_compcase.dta{rm}
+saved
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_enr_b_sp_b_ct_compcase.dta{rm}
+saved
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_enr_las_sp_las_ct_p_compcase.dta{rm}
+saved
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_enr_2year_b_sp_b_ct_compcase.dta{rm}
+saved
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_enr_2year_las_sp_las_ct_p_compcase.dta{rm}
+saved
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_enr_4year_b_sp_b_ct_compcase.dta{rm}
+saved
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_enr_4year_las_sp_las_ct_p_compcase.dta{rm}
+saved
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_dk_enr_b_sp_b_ct_compcase.dta{rm}
+saved
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_dk_enr_las_sp_las_ct_p_compcase.dta{rm}
+saved
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_dk_enr_2year_b_sp_b_ct_compcase.dta{rm}
+saved
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_dk_enr_2year_las_sp_las_ct_p_compcase.dta{rm}
+saved
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_dk_enr_4year_b_sp_b_ct_compcase.dta{rm}
+saved
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_dk_enr_4year_las_sp_las_ct_p_compcase.dta{rm}
+saved
+{p_end}
+va: ela
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              14{txt}  
+{col 5}{hline 41}
+va: math
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              14{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              14{txt}  
+{col 5}{hline 41}
+va: enr
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              14{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              14{txt}  
+{col 5}{hline 41}
+va: enr_2year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              14{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              14{txt}  
+{col 5}{hline 41}
+va: enr_4year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              14{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              14{txt}  
+{col 5}{hline 41}
+va: dk_enr
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              14{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              14{txt}  
+{col 5}{hline 41}
+va: dk_enr_2year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              14{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              14{txt}  
+{col 5}{hline 41}
+va: dk_enr_4year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              14{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              14{txt}  
+{col 5}{hline 41}
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/compcasehorserace.csv} saved
+(parent pooled (over years) dataset ready for analysis with stats and response ra)
+{p 0 4 2}
+(file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_ela_b_sp_b_ct_imputed.dta{rm}
+not found)
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_ela_b_sp_b_ct_imputed.dta{rm}
+saved
+{p_end}
+{p 0 4 2}
+(file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_ela_las_sp_las_ct_p_imputed.dta{rm}
+not found)
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_ela_las_sp_las_ct_p_imputed.dta{rm}
+saved
+{p_end}
+{p 0 4 2}
+(file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_math_b_sp_b_ct_imputed.dta{rm}
+not found)
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_math_b_sp_b_ct_imputed.dta{rm}
+saved
+{p_end}
+{p 0 4 2}
+(file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_math_las_sp_las_ct_p_imputed.dta{rm}
+not found)
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_math_las_sp_las_ct_p_imputed.dta{rm}
+saved
+{p_end}
+{p 0 4 2}
+(file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_enr_b_sp_b_ct_imputed.dta{rm}
+not found)
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_enr_b_sp_b_ct_imputed.dta{rm}
+saved
+{p_end}
+{p 0 4 2}
+(file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_enr_las_sp_las_ct_p_imputed.dta{rm}
+not found)
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_enr_las_sp_las_ct_p_imputed.dta{rm}
+saved
+{p_end}
+{p 0 4 2}
+(file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_enr_2year_b_sp_b_ct_imputed.dta{rm}
+not found)
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_enr_2year_b_sp_b_ct_imputed.dta{rm}
+saved
+{p_end}
+{p 0 4 2}
+(file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_enr_2year_las_sp_las_ct_p_imputed.dta{rm}
+not found)
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_enr_2year_las_sp_las_ct_p_imputed.dta{rm}
+saved
+{p_end}
+{p 0 4 2}
+(file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_enr_4year_b_sp_b_ct_imputed.dta{rm}
+not found)
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_enr_4year_b_sp_b_ct_imputed.dta{rm}
+saved
+{p_end}
+{p 0 4 2}
+(file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_enr_4year_las_sp_las_ct_p_imputed.dta{rm}
+not found)
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_enr_4year_las_sp_las_ct_p_imputed.dta{rm}
+saved
+{p_end}
+{p 0 4 2}
+(file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_dk_enr_b_sp_b_ct_imputed.dta{rm}
+not found)
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_dk_enr_b_sp_b_ct_imputed.dta{rm}
+saved
+{p_end}
+{p 0 4 2}
+(file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_dk_enr_las_sp_las_ct_p_imputed.dta{rm}
+not found)
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_dk_enr_las_sp_las_ct_p_imputed.dta{rm}
+saved
+{p_end}
+{p 0 4 2}
+(file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_dk_enr_2year_b_sp_b_ct_imputed.dta{rm}
+not found)
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_dk_enr_2year_b_sp_b_ct_imputed.dta{rm}
+saved
+{p_end}
+{p 0 4 2}
+(file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_dk_enr_2year_las_sp_las_ct_p_imputed.dta{rm}
+not found)
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_dk_enr_2year_las_sp_las_ct_p_imputed.dta{rm}
+saved
+{p_end}
+{p 0 4 2}
+(file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_dk_enr_4year_b_sp_b_ct_imputed.dta{rm}
+not found)
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_dk_enr_4year_b_sp_b_ct_imputed.dta{rm}
+saved
+{p_end}
+{p 0 4 2}
+(file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_dk_enr_4year_las_sp_las_ct_p_imputed.dta{rm}
+not found)
+{p_end}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_dk_enr_4year_las_sp_las_ct_p_imputed.dta{rm}
+saved
+{p_end}
+va: ela
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              14{txt}  
+{col 5}{hline 41}
+va: math
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              14{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              14{txt}  
+{col 5}{hline 41}
+va: enr
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              14{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              14{txt}  
+{col 5}{hline 41}
+va: enr_2year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              14{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              14{txt}  
+{col 5}{hline 41}
+va: enr_4year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              14{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              14{txt}  
+{col 5}{hline 41}
+va: dk_enr
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              14{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              14{txt}  
+{col 5}{hline 41}
+va: dk_enr_2year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              14{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              14{txt}  
+{col 5}{hline 41}
+va: dk_enr_4year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              14{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              14{txt}  
+{col 5}{hline 41}
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/imputedhorserace.csv} saved
 
-{com}. 
-. //local macro for VA vars in z scores
-. local vasdvars z_va_ela z_va_math z_va_enr z_va_enrela z_va_enrmath z_va_enrdk z_va_2yr z_va_2yrela z_va_2yrmath z_va_2yrdk z_va_4yr z_va_4yrela z_va_4yrmath z_va_4yrdk
-{txt}
-{com}. 
-. //local macro for z score index vars
-. local indexsdvars z_climateindex z_qualityindex z_supportindex
-{txt}
 {com}. 
 . 
-. // regress va vars on index vars
-. foreach i of local vasdvars {c -(}
-{txt}  2{com}.   local append replace
-{txt}  3{com}. 
-.   eststo: reg `i' `indexsdvars'
-{txt}  4{com}. 
-.   local append append
-{txt}  5{com}. {c )-}
-
-{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       918
-{txt}{hline 13}{c +}{hline 34}   F(3, 914)       = {res}    22.55
-{txt}       Model {c |} {res} 63.1888558         3  21.0629519   {txt}Prob > F        ={res}    0.0000
-{txt}    Residual {c |} {res} 853.811141       914  .934147857   {txt}R-squared       ={res}    0.0689
-{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0659
-{txt}       Total {c |} {res} 916.999997       917  .999999997   {txt}Root MSE        =   {res} .96651
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}    z_va_ela{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-z_climatei~x {c |}{col 14}{res}{space 2} .4039687{col 26}{space 2} .0605392{col 37}{space 1}    6.67{col 46}{space 3}0.000{col 54}{space 4} .2851567{col 67}{space 3} .5227806
-{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.2023733{col 26}{space 2} .0659019{col 37}{space 1}   -3.07{col 46}{space 3}0.002{col 54}{space 4}-.3317099{col 67}{space 3}-.0730367
-{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0232018{col 26}{space 2} .0408083{col 37}{space 1}    0.57{col 46}{space 3}0.570{col 54}{space 4} -.056887{col 67}{space 3} .1032907
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0030566{col 26}{space 2} .0319075{col 37}{space 1}    0.10{col 46}{space 3}0.924{col 54}{space 4}-.0595638{col 67}{space 3} .0656771
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est1{txt} stored)
-
-      Source {c |}       SS           df       MS      Number of obs   ={res}       918
-{txt}{hline 13}{c +}{hline 34}   F(3, 914)       = {res}    36.70
-{txt}       Model {c |} {res} 98.5906981         3   32.863566   {txt}Prob > F        ={res}    0.0000
-{txt}    Residual {c |} {res} 818.409302       914  .895414991   {txt}R-squared       ={res}    0.1075
-{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1046
-{txt}       Total {c |} {res}        917       917           1   {txt}Root MSE        =   {res} .94626
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}   z_va_math{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-z_climatei~x {c |}{col 14}{res}{space 2} .4545202{col 26}{space 2} .0592708{col 37}{space 1}    7.67{col 46}{space 3}0.000{col 54}{space 4} .3381975{col 67}{space 3} .5708429
-{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.1344895{col 26}{space 2} .0645212{col 37}{space 1}   -2.08{col 46}{space 3}0.037{col 54}{space 4}-.2611163{col 67}{space 3}-.0078626
-{txt}z_supporti~x {c |}{col 14}{res}{space 2}-.0343473{col 26}{space 2} .0399533{col 37}{space 1}   -0.86{col 46}{space 3}0.390{col 54}{space 4}-.1127582{col 67}{space 3} .0440636
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0046987{col 26}{space 2}  .031239{col 37}{space 1}    0.15{col 46}{space 3}0.880{col 54}{space 4}-.0566098{col 67}{space 3} .0660071
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est2{txt} stored)
-
-      Source {c |}       SS           df       MS      Number of obs   ={res}       917
-{txt}{hline 13}{c +}{hline 34}   F(3, 913)       = {res}    17.87
-{txt}       Model {c |} {res} 50.7998063         3  16.9332688   {txt}Prob > F        ={res}    0.0000
-{txt}    Residual {c |} {res} 865.200196       913  .947645341   {txt}R-squared       ={res}    0.0555
-{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0524
-{txt}       Total {c |} {res} 916.000003       916           1   {txt}Root MSE        =   {res} .97347
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}    z_va_enr{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-z_climatei~x {c |}{col 14}{res}{space 2} .4105736{col 26}{space 2} .0609832{col 37}{space 1}    6.73{col 46}{space 3}0.000{col 54}{space 4}   .29089{col 67}{space 3} .5302572
-{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.2857263{col 26}{space 2} .0663764{col 37}{space 1}   -4.30{col 46}{space 3}0.000{col 54}{space 4}-.4159945{col 67}{space 3}-.1554582
-{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0368423{col 26}{space 2} .0411022{col 37}{space 1}    0.90{col 46}{space 3}0.370{col 54}{space 4}-.0438235{col 67}{space 3}  .117508
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0017862{col 26}{space 2} .0321554{col 37}{space 1}    0.06{col 46}{space 3}0.956{col 54}{space 4} -.061321{col 67}{space 3} .0648933
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est3{txt} stored)
-
-      Source {c |}       SS           df       MS      Number of obs   ={res}       917
-{txt}{hline 13}{c +}{hline 34}   F(3, 913)       = {res}    10.90
-{txt}       Model {c |} {res} 31.6804519         3  10.5601506   {txt}Prob > F        ={res}    0.0000
-{txt}    Residual {c |} {res} 884.319544       913  .968586576   {txt}R-squared       ={res}    0.0346
-{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0314
-{txt}       Total {c |} {res} 915.999996       916  .999999995   {txt}Root MSE        =   {res} .98417
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1} z_va_enrela{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-z_climatei~x {c |}{col 14}{res}{space 2} .3341546{col 26}{space 2} .0616534{col 37}{space 1}    5.42{col 46}{space 3}0.000{col 54}{space 4} .2131558{col 67}{space 3} .4551534
-{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.2444659{col 26}{space 2} .0671058{col 37}{space 1}   -3.64{col 46}{space 3}0.000{col 54}{space 4}-.3761655{col 67}{space 3}-.1127663
-{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0236166{col 26}{space 2} .0415539{col 37}{space 1}    0.57{col 46}{space 3}0.570{col 54}{space 4}-.0579356{col 67}{space 3} .1051688
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2}  .001112{col 26}{space 2} .0325088{col 37}{space 1}    0.03{col 46}{space 3}0.973{col 54}{space 4}-.0626886{col 67}{space 3} .0649126
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est4{txt} stored)
-
-      Source {c |}       SS           df       MS      Number of obs   ={res}       917
-{txt}{hline 13}{c +}{hline 34}   F(3, 913)       = {res}     7.97
-{txt}       Model {c |} {res}  23.375433         3  7.79181101   {txt}Prob > F        ={res}    0.0000
-{txt}    Residual {c |} {res} 892.624571       913  .977682991   {txt}R-squared       ={res}    0.0255
-{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0223
-{txt}       Total {c |} {res} 916.000004       916           1   {txt}Root MSE        =   {res} .98878
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}z_va_enrmath{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-z_climatei~x {c |}{col 14}{res}{space 2} .2943457{col 26}{space 2} .0619422{col 37}{space 1}    4.75{col 46}{space 3}0.000{col 54}{space 4} .1727801{col 67}{space 3} .4159113
-{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.2584496{col 26}{space 2} .0674202{col 37}{space 1}   -3.83{col 46}{space 3}0.000{col 54}{space 4}-.3907662{col 67}{space 3}-.1261331
-{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0363297{col 26}{space 2} .0417485{col 37}{space 1}    0.87{col 46}{space 3}0.384{col 54}{space 4}-.0456045{col 67}{space 3} .1182639
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2}   .00022{col 26}{space 2} .0326611{col 37}{space 1}    0.01{col 46}{space 3}0.995{col 54}{space 4}-.0638795{col 67}{space 3} .0643195
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est5{txt} stored)
-
-      Source {c |}       SS           df       MS      Number of obs   ={res}       917
-{txt}{hline 13}{c +}{hline 34}   F(3, 913)       = {res}     7.83
-{txt}       Model {c |} {res} 22.9704993         3  7.65683309   {txt}Prob > F        ={res}    0.0000
-{txt}    Residual {c |} {res} 893.029503       913  .978126509   {txt}R-squared       ={res}    0.0251
-{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0219
-{txt}       Total {c |} {res} 916.000002       916           1   {txt}Root MSE        =   {res}   .989
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}  z_va_enrdk{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-z_climatei~x {c |}{col 14}{res}{space 2} .2919514{col 26}{space 2} .0619562{col 37}{space 1}    4.71{col 46}{space 3}0.000{col 54}{space 4} .1703582{col 67}{space 3} .4135446
-{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.2560647{col 26}{space 2} .0674355{col 37}{space 1}   -3.80{col 46}{space 3}0.000{col 54}{space 4}-.3884113{col 67}{space 3}-.1237181
-{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0355182{col 26}{space 2}  .041758{col 37}{space 1}    0.85{col 46}{space 3}0.395{col 54}{space 4}-.0464346{col 67}{space 3}  .117471
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0002181{col 26}{space 2} .0326685{col 37}{space 1}    0.01{col 46}{space 3}0.995{col 54}{space 4} -.063896{col 67}{space 3} .0643321
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est6{txt} stored)
-
-      Source {c |}       SS           df       MS      Number of obs   ={res}       917
-{txt}{hline 13}{c +}{hline 34}   F(3, 913)       = {res}     3.49
-{txt}       Model {c |} {res} 10.3744769         3  3.45815897   {txt}Prob > F        ={res}    0.0154
-{txt}    Residual {c |} {res} 905.625525       913  .991922809   {txt}R-squared       ={res}    0.0113
-{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0081
-{txt}       Total {c |} {res} 916.000002       916           1   {txt}Root MSE        =   {res} .99595
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}    z_va_2yr{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-z_climatei~x {c |}{col 14}{res}{space 2} .1230184{col 26}{space 2} .0623916{col 37}{space 1}    1.97{col 46}{space 3}0.049{col 54}{space 4} .0005707{col 67}{space 3} .2454661
-{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.2012299{col 26}{space 2} .0679094{col 37}{space 1}   -2.96{col 46}{space 3}0.003{col 54}{space 4}-.3345066{col 67}{space 3}-.0679532
-{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0148393{col 26}{space 2} .0420515{col 37}{space 1}    0.35{col 46}{space 3}0.724{col 54}{space 4}-.0676894{col 67}{space 3} .0973681
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0019693{col 26}{space 2} .0328981{col 37}{space 1}   -0.06{col 46}{space 3}0.952{col 54}{space 4}-.0665339{col 67}{space 3} .0625953
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est7{txt} stored)
-
-      Source {c |}       SS           df       MS      Number of obs   ={res}       917
-{txt}{hline 13}{c +}{hline 34}   F(3, 913)       = {res}     3.45
-{txt}       Model {c |} {res} 10.2614452         3  3.42048174   {txt}Prob > F        ={res}    0.0162
-{txt}    Residual {c |} {res} 905.738556       913  .992046611   {txt}R-squared       ={res}    0.0112
-{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0080
-{txt}       Total {c |} {res} 916.000001       916           1   {txt}Root MSE        =   {res} .99602
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1} z_va_2yrela{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-z_climatei~x {c |}{col 14}{res}{space 2} .1243766{col 26}{space 2} .0623955{col 37}{space 1}    1.99{col 46}{space 3}0.047{col 54}{space 4} .0019212{col 67}{space 3} .2468319
-{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.1991276{col 26}{space 2} .0679137{col 37}{space 1}   -2.93{col 46}{space 3}0.003{col 54}{space 4}-.3324126{col 67}{space 3}-.0658426
-{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0110729{col 26}{space 2} .0420541{col 37}{space 1}    0.26{col 46}{space 3}0.792{col 54}{space 4} -.071461{col 67}{space 3} .0936068
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0019442{col 26}{space 2} .0329001{col 37}{space 1}   -0.06{col 46}{space 3}0.953{col 54}{space 4}-.0665128{col 67}{space 3} .0626245
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est8{txt} stored)
-
-      Source {c |}       SS           df       MS      Number of obs   ={res}       917
-{txt}{hline 13}{c +}{hline 34}   F(3, 913)       = {res}     3.42
-{txt}       Model {c |} {res} 10.1730403         3  3.39101344   {txt}Prob > F        ={res}    0.0169
-{txt}    Residual {c |} {res} 905.826962       913  .992143441   {txt}R-squared       ={res}    0.0111
-{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0079
-{txt}       Total {c |} {res} 916.000002       916           1   {txt}Root MSE        =   {res} .99606
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}z_va_2yrmath{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-z_climatei~x {c |}{col 14}{res}{space 2} .1437063{col 26}{space 2} .0623986{col 37}{space 1}    2.30{col 46}{space 3}0.022{col 54}{space 4}  .021245{col 67}{space 3} .2661676
-{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.2047596{col 26}{space 2}  .067917{col 37}{space 1}   -3.01{col 46}{space 3}0.003{col 54}{space 4}-.3380511{col 67}{space 3} -.071468
-{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0101557{col 26}{space 2} .0420561{col 37}{space 1}    0.24{col 46}{space 3}0.809{col 54}{space 4}-.0723822{col 67}{space 3} .0926936
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0017203{col 26}{space 2} .0329017{col 37}{space 1}   -0.05{col 46}{space 3}0.958{col 54}{space 4} -.066292{col 67}{space 3} .0628515
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est9{txt} stored)
-
-      Source {c |}       SS           df       MS      Number of obs   ={res}       917
-{txt}{hline 13}{c +}{hline 34}   F(3, 913)       = {res}     3.28
-{txt}       Model {c |} {res} 9.76910371         3   3.2563679   {txt}Prob > F        ={res}    0.0204
-{txt}    Residual {c |} {res} 906.230897       913  .992585868   {txt}R-squared       ={res}    0.0107
-{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0074
-{txt}       Total {c |} {res} 916.000001       916           1   {txt}Root MSE        =   {res} .99629
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}  z_va_2yrdk{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-z_climatei~x {c |}{col 14}{res}{space 2} .1373519{col 26}{space 2} .0624125{col 37}{space 1}    2.20{col 46}{space 3}0.028{col 54}{space 4} .0148633{col 67}{space 3} .2598405
-{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.1986806{col 26}{space 2} .0679321{col 37}{space 1}   -2.92{col 46}{space 3}0.004{col 54}{space 4}-.3320018{col 67}{space 3}-.0653594
-{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0080887{col 26}{space 2} .0420655{col 37}{space 1}    0.19{col 46}{space 3}0.848{col 54}{space 4}-.0744676{col 67}{space 3}  .090645
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0017298{col 26}{space 2}  .032909{col 37}{space 1}   -0.05{col 46}{space 3}0.958{col 54}{space 4} -.066316{col 67}{space 3} .0628563
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est10{txt} stored)
-
-      Source {c |}       SS           df       MS      Number of obs   ={res}       917
-{txt}{hline 13}{c +}{hline 34}   F(3, 913)       = {res}    12.64
-{txt}       Model {c |} {res} 36.5347587         3  12.1782529   {txt}Prob > F        ={res}    0.0000
-{txt}    Residual {c |} {res} 879.465239       913  .963269704   {txt}R-squared       ={res}    0.0399
-{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0367
-{txt}       Total {c |} {res} 915.999998       916  .999999998   {txt}Root MSE        =   {res} .98146
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}    z_va_4yr{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-z_climatei~x {c |}{col 14}{res}{space 2} .2286195{col 26}{space 2} .0614839{col 37}{space 1}    3.72{col 46}{space 3}0.000{col 54}{space 4} .1079533{col 67}{space 3} .3492857
-{txt}z_qualityi~x {c |}{col 14}{res}{space 2} -.045277{col 26}{space 2} .0669214{col 37}{space 1}   -0.68{col 46}{space 3}0.499{col 54}{space 4}-.1766147{col 67}{space 3} .0860606
-{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0226562{col 26}{space 2} .0414397{col 37}{space 1}    0.55{col 46}{space 3}0.585{col 54}{space 4}-.0586719{col 67}{space 3} .1039842
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0035328{col 26}{space 2} .0324194{col 37}{space 1}    0.11{col 46}{space 3}0.913{col 54}{space 4}-.0600924{col 67}{space 3} .0671581
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est11{txt} stored)
-
-      Source {c |}       SS           df       MS      Number of obs   ={res}       917
-{txt}{hline 13}{c +}{hline 34}   F(3, 913)       = {res}     7.17
-{txt}       Model {c |} {res} 21.0961657         3  7.03205524   {txt}Prob > F        ={res}    0.0001
-{txt}    Residual {c |} {res} 894.903834       913  .980179446   {txt}R-squared       ={res}    0.0230
-{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0198
-{txt}       Total {c |} {res}        916       916           1   {txt}Root MSE        =   {res} .99004
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1} z_va_4yrela{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-z_climatei~x {c |}{col 14}{res}{space 2} .1490081{col 26}{space 2} .0620212{col 37}{space 1}    2.40{col 46}{space 3}0.016{col 54}{space 4} .0272874{col 67}{space 3} .2707288
-{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.0023566{col 26}{space 2} .0675062{col 37}{space 1}   -0.03{col 46}{space 3}0.972{col 54}{space 4} -.134842{col 67}{space 3} .1301288
-{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0151035{col 26}{space 2} .0418018{col 37}{space 1}    0.36{col 46}{space 3}0.718{col 54}{space 4}-.0669353{col 67}{space 3} .0971422
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2}  .002906{col 26}{space 2} .0327027{col 37}{space 1}    0.09{col 46}{space 3}0.929{col 54}{space 4}-.0612753{col 67}{space 3} .0670872
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est12{txt} stored)
-
-      Source {c |}       SS           df       MS      Number of obs   ={res}       917
-{txt}{hline 13}{c +}{hline 34}   F(3, 913)       = {res}     3.22
-{txt}       Model {c |} {res}  9.5775788         3  3.19252627   {txt}Prob > F        ={res}    0.0223
-{txt}    Residual {c |} {res} 906.422423       913  .992795644   {txt}R-squared       ={res}    0.0105
-{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0072
-{txt}       Total {c |} {res} 916.000002       916           1   {txt}Root MSE        =   {res} .99639
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}z_va_4yrmath{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-z_climatei~x {c |}{col 14}{res}{space 2}  .088192{col 26}{space 2} .0624191{col 37}{space 1}    1.41{col 46}{space 3}0.158{col 54}{space 4}-.0343096{col 67}{space 3} .2106936
-{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.0010119{col 26}{space 2} .0679393{col 37}{space 1}   -0.01{col 46}{space 3}0.988{col 54}{space 4}-.1343472{col 67}{space 3} .1323235
-{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0277024{col 26}{space 2}   .04207{col 37}{space 1}    0.66{col 46}{space 3}0.510{col 54}{space 4}-.0548626{col 67}{space 3} .1102675
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0019601{col 26}{space 2} .0329125{col 37}{space 1}    0.06{col 46}{space 3}0.953{col 54}{space 4}-.0626329{col 67}{space 3} .0665531
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est13{txt} stored)
-
-      Source {c |}       SS           df       MS      Number of obs   ={res}       917
-{txt}{hline 13}{c +}{hline 34}   F(3, 913)       = {res}     3.35
-{txt}       Model {c |} {res} 9.97972711         3   3.3265757   {txt}Prob > F        ={res}    0.0185
-{txt}    Residual {c |} {res} 906.020274       913  .992355174   {txt}R-squared       ={res}    0.0109
-{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0076
-{txt}       Total {c |} {res} 916.000001       916           1   {txt}Root MSE        =   {res} .99617
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}  z_va_4yrdk{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-z_climatei~x {c |}{col 14}{res}{space 2} .0938046{col 26}{space 2} .0624052{col 37}{space 1}    1.50{col 46}{space 3}0.133{col 54}{space 4}-.0286698{col 67}{space 3}  .216279
-{txt}z_qualityi~x {c |}{col 14}{res}{space 2}-.0063027{col 26}{space 2} .0679242{col 37}{space 1}   -0.09{col 46}{space 3}0.926{col 54}{space 4}-.1396084{col 67}{space 3}  .127003
-{txt}z_supporti~x {c |}{col 14}{res}{space 2} .0293187{col 26}{space 2} .0420606{col 37}{space 1}    0.70{col 46}{space 3}0.486{col 54}{space 4}-.0532281{col 67}{space 3} .1118654
-{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0019677{col 26}{space 2} .0329052{col 37}{space 1}    0.06{col 46}{space 3}0.952{col 54}{space 4}-.0626109{col 67}{space 3} .0665464
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est14{txt} stored)
-
-{com}. 
-. esttab using $projdir/out/csv/factoranalysis/indexhorserace/imputedhorserace.csv, replace
-{res}{txt}(output written to {browse  `"/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/imputedhorserace.csv"'})
-
-{com}. 
-. eststo clear
-{txt}
-{com}. 
+. 
+. 
 . 
 . log close
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/indexhorserace.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}25 Jul 2022, 18:11:10
+ {txt}closed on:  {res}21 Nov 2022, 22:13:10
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

@@ -86,7 +86,7 @@ if `do_index' == 1 {
 
 /* VA regs with index vars and school characteristics controls */
 ////////////////////////////////////////////////////////////////////////////////
-local do_index_va_reg = 0
+local do_index_va_reg = 1
 if `do_index_va_reg' == 1 {
 
   /* clean and pull school characteristics from the dataset created by Matt Naven, for use in

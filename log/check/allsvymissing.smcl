@@ -3,7 +3,7 @@
       name:  {res}allsvymissing
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/check/allsvymissing.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}25 Jul 2022, 18:11:07
+ {txt}opened on:  {res}21 Nov 2022, 22:12:29
 {txt}
 {com}. 
 . use $projdir/dta/allsvyfactor/allsvyqoimeans, clear
@@ -17,31 +17,34 @@
 
    {txt}nmissall {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}        299       31.98       31.98
-{txt}          1 {c |}{res}          6        0.64       32.62
-{txt}          2 {c |}{res}         14        1.50       34.12
-{txt}          3 {c |}{res}         47        5.03       39.14
-{txt}          4 {c |}{res}          1        0.11       39.25
-{txt}          5 {c |}{res}         20        2.14       41.39
-{txt}          6 {c |}{res}          4        0.43       41.82
-{txt}          8 {c |}{res}          1        0.11       41.93
-{txt}         10 {c |}{res}          1        0.11       42.03
-{txt}         11 {c |}{res}        115       12.30       54.33
-{txt}         12 {c |}{res}          2        0.21       54.55
-{txt}         13 {c |}{res}         43        4.60       59.14
-{txt}         14 {c |}{res}         30        3.21       62.35
-{txt}         15 {c |}{res}         13        1.39       63.74
-{txt}         16 {c |}{res}          1        0.11       63.85
-{txt}         18 {c |}{res}          9        0.96       64.81
-{txt}         19 {c |}{res}          3        0.32       65.13
-{txt}         26 {c |}{res}        309       33.05       98.18
-{txt}         30 {c |}{res}         13        1.39       99.57
-{txt}         32 {c |}{res}          1        0.11       99.68
-{txt}         34 {c |}{res}          1        0.11       99.79
-{txt}         35 {c |}{res}          1        0.11       99.89
-{txt}         37 {c |}{res}          1        0.11      100.00
+          0 {c |}{res}        953       50.85       50.85
+{txt}          1 {c |}{res}         28        1.49       52.35
+{txt}          2 {c |}{res}         52        2.77       55.12
+{txt}          3 {c |}{res}        137        7.31       62.43
+{txt}          4 {c |}{res}         11        0.59       63.02
+{txt}          5 {c |}{res}         55        2.93       65.96
+{txt}          6 {c |}{res}         12        0.64       66.60
+{txt}          7 {c |}{res}          5        0.27       66.86
+{txt}          8 {c |}{res}          2        0.11       66.97
+{txt}          9 {c |}{res}          1        0.05       67.02
+{txt}         10 {c |}{res}          6        0.32       67.34
+{txt}         11 {c |}{res}        135        7.20       74.55
+{txt}         12 {c |}{res}          2        0.11       74.65
+{txt}         13 {c |}{res}         54        2.88       77.53
+{txt}         14 {c |}{res}         53        2.83       80.36
+{txt}         15 {c |}{res}         17        0.91       81.27
+{txt}         16 {c |}{res}          1        0.05       81.32
+{txt}         17 {c |}{res}          1        0.05       81.38
+{txt}         18 {c |}{res}         20        1.07       82.44
+{txt}         19 {c |}{res}          3        0.16       82.60
+{txt}         26 {c |}{res}        309       16.49       99.09
+{txt}         30 {c |}{res}         13        0.69       99.79
+{txt}         32 {c |}{res}          1        0.05       99.84
+{txt}         34 {c |}{res}          1        0.05       99.89
+{txt}         35 {c |}{res}          1        0.05       99.95
+{txt}         37 {c |}{res}          1        0.05      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}        935      100.00
+      Total {c |}{res}      1,874      100.00
 {txt}
 {com}. 
 . local climatevars parentqoi9mean_pooled parentqoi16mean_pooled parentqoi17mean_pooled parentqoi27mean_pooled secqoi22mean_pooled secqoi23mean_pooled secqoi24mean_pooled secqoi25mean_pooled secqoi26mean_pooled secqoi27mean_pooled secqoi28mean_pooled secqoi29mean_pooled secqoi30mean_pooled staffqoi20mean_pooled staffqoi24mean_pooled staffqoi41mean_pooled staffqoi44mean_pooled staffqoi64mean_pooled staffqoi87mean_pooled staffqoi98mean_pooled
@@ -60,17 +63,19 @@
 {txt}nmissclimat {c |}
           e {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}        320       34.22       34.22
-{txt}          2 {c |}{res}         60        6.42       40.64
-{txt}          3 {c |}{res}         11        1.18       41.82
-{txt}          4 {c |}{res}        118       12.62       54.44
-{txt}          6 {c |}{res}         46        4.92       59.36
-{txt}          7 {c |}{res}         47        5.03       64.39
-{txt}         11 {c |}{res}        316       33.80       98.18
-{txt}         15 {c |}{res}         14        1.50       99.68
-{txt}         16 {c |}{res}          3        0.32      100.00
+          0 {c |}{res}      1,023       54.59       54.59
+{txt}          1 {c |}{res}          4        0.21       54.80
+{txt}          2 {c |}{res}        195       10.41       65.21
+{txt}          3 {c |}{res}         31        1.65       66.86
+{txt}          4 {c |}{res}        138        7.36       74.23
+{txt}          6 {c |}{res}         60        3.20       77.43
+{txt}          7 {c |}{res}         78        4.16       81.59
+{txt}         10 {c |}{res}          1        0.05       81.64
+{txt}         11 {c |}{res}        327       17.45       99.09
+{txt}         15 {c |}{res}         14        0.75       99.84
+{txt}         16 {c |}{res}          3        0.16      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}        935      100.00
+      Total {c |}{res}      1,874      100.00
 {txt}
 {com}. 
 . egen nmissquality = rmiss(`qualityvars')
@@ -80,20 +85,21 @@
 {txt}nmissqualit {c |}
           y {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}        319       34.12       34.12
-{txt}          1 {c |}{res}         34        3.64       37.75
-{txt}          3 {c |}{res}         39        4.17       41.93
-{txt}          4 {c |}{res}          1        0.11       42.03
-{txt}          5 {c |}{res}        198       21.18       63.21
-{txt}          6 {c |}{res}         12        1.28       64.49
-{txt}          7 {c |}{res}          1        0.11       64.60
-{txt}          9 {c |}{res}          5        0.53       65.13
-{txt}         11 {c |}{res}        323       34.55       99.68
-{txt}         12 {c |}{res}          1        0.11       99.79
-{txt}         13 {c |}{res}          1        0.11       99.89
-{txt}         15 {c |}{res}          1        0.11      100.00
+          0 {c |}{res}      1,029       54.91       54.91
+{txt}          1 {c |}{res}        115        6.14       61.05
+{txt}          2 {c |}{res}          1        0.05       61.10
+{txt}          3 {c |}{res}        111        5.92       67.02
+{txt}          4 {c |}{res}          1        0.05       67.08
+{txt}          5 {c |}{res}        270       14.41       81.48
+{txt}          6 {c |}{res}         15        0.80       82.28
+{txt}          7 {c |}{res}          1        0.05       82.34
+{txt}          9 {c |}{res}          5        0.27       82.60
+{txt}         11 {c |}{res}        323       17.24       99.84
+{txt}         12 {c |}{res}          1        0.05       99.89
+{txt}         13 {c |}{res}          1        0.05       99.95
+{txt}         15 {c |}{res}          1        0.05      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}        935      100.00
+      Total {c |}{res}      1,874      100.00
 {txt}
 {com}. 
 . egen nmisssupport = rmiss(`supportvars')
@@ -103,12 +109,13 @@
 {txt}nmisssuppor {c |}
           t {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}        392       41.93       41.93
-{txt}          2 {c |}{res}        212       22.67       64.60
-{txt}          3 {c |}{res}          9        0.96       65.56
-{txt}          4 {c |}{res}        322       34.44      100.00
+          0 {c |}{res}      1,239       66.12       66.12
+{txt}          1 {c |}{res}         19        1.01       67.13
+{txt}          2 {c |}{res}        281       14.99       82.12
+{txt}          3 {c |}{res}         13        0.69       82.82
+{txt}          4 {c |}{res}        322       17.18      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}        935      100.00
+      Total {c |}{res}      1,874      100.00
 {txt}
 {com}. 
 . egen nmissmotivation = rmiss(`motivationvars')
@@ -118,137 +125,146 @@
 {txt}nmissmotiva {c |}
        tion {c |}      Freq.     Percent        Cum.
 {hline 12}{c +}{hline 35}
-          0 {c |}{res}        931       99.57       99.57
-{txt}          4 {c |}{res}          4        0.43      100.00
+          0 {c |}{res}      1,869       99.73       99.73
+{txt}          1 {c |}{res}          1        0.05       99.79
+{txt}          4 {c |}{res}          4        0.21      100.00
 {txt}{hline 12}{c +}{hline 35}
-      Total {c |}{res}        935      100.00
+      Total {c |}{res}      1,874      100.00
 {txt}
 {com}. 
 . /* missing value patterns for schol climate questions */
 . mvpatterns `climatevars'
 {txt}Variable     {c |} type     obs   mv   variable label
-{hline 13}{c +}{hline 65}
-{txt}{lalign 12:parentqoi9mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  413{col 28}  522{col 36}{txt}weighted mean of qoi9 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:parentqoi16mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  413{col 28}  522{col 36}{txt}weighted mean of qoi16 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:parentqoi17mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  413{col 28}  522{col 36}{txt}weighted mean of qoi17 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:parentqoi27mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  413{col 28}  522{col 36}{txt}weighted mean of qoi27 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:secqoi22mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  931{col 28}    4{col 36}{txt}weighted mean of qoi22 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:secqoi23mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  931{col 28}    4{col 36}{txt}weighted mean of qoi23 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:secqoi24mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  931{col 28}    4{col 36}{txt}weighted mean of qoi24 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:secqoi25mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  931{col 28}    4{col 36}{txt}weighted mean of qoi25 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:secqoi26mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  931{col 28}    4{col 36}{txt}weighted mean of qoi26 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:secqoi27mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  910{col 28}   25{col 36}{txt}weighted mean of qoi27 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:secqoi28mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  910{col 28}   25{col 36}{txt}weighted mean of qoi28 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:secqoi29mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  910{col 28}   25{col 36}{txt}weighted mean of qoi29 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:secqoi30mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  910{col 28}   25{col 36}{txt}weighted mean of qoi30 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:staffqoi20mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  592{col 28}  343{col 36}{txt}weighted mean of qoi20 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:staffqoi24mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  438{col 28}  497{col 36}{txt}weighted mean of qoi24 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:staffqoi41mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  592{col 28}  343{col 36}{txt}weighted mean of qoi41 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:staffqoi44mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  592{col 28}  343{col 36}{txt}weighted mean of qoi44 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:staffqoi64mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  438{col 28}  497{col 36}{txt}weighted mean of qoi64 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:staffqoi87mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  545{col 28}  390{col 36}{txt}weighted mean of qoi87 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:staffqoi98mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  592{col 28}  343{col 36}{txt}weighted mean of qoi98 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{hline 13}{c BT}{hline 65}
+{hline 13}{c +}{hline 68}
+{txt}{lalign 12:parentqoi9mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1284{col 28}  590{col 36}{txt}weighted mean of qoi9 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:parentqoi16mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1283{col 28}  591{col 36}{txt}weighted mean of qoi16 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:parentqoi17mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1283{col 28}  591{col 36}{txt}weighted mean of qoi17 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:parentqoi27mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1283{col 28}  591{col 36}{txt}weighted mean of qoi27 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:secqoi22mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1870{col 28}    4{col 36}{txt}weighted mean of qoi22 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:secqoi23mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1870{col 28}    4{col 36}{txt}weighted mean of qoi23 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:secqoi24mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1870{col 28}    4{col 36}{txt}weighted mean of qoi24 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:secqoi25mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1870{col 28}    4{col 36}{txt}weighted mean of qoi25 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:secqoi26mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1870{col 28}    4{col 36}{txt}weighted mean of qoi26 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:secqoi27mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1830{col 28}   44{col 36}{txt}weighted mean of qoi27 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:secqoi28mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1830{col 28}   44{col 36}{txt}weighted mean of qoi28 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:secqoi29mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1830{col 28}   44{col 36}{txt}weighted mean of qoi29 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:secqoi30mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1830{col 28}   44{col 36}{txt}weighted mean of qoi30 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:staffqoi20mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1525{col 28}  349{col 36}{txt}weighted mean of qoi20 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:staffqoi24mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1166{col 28}  708{col 36}{txt}weighted mean of qoi24 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:staffqoi41mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1529{col 28}  345{col 36}{txt}weighted mean of qoi41 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:staffqoi44mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1528{col 28}  346{col 36}{txt}weighted mean of qoi44 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:staffqoi64mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1166{col 28}  708{col 36}{txt}weighted mean of qoi64 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:staffqoi87mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1424{col 28}  450{col 36}{txt}weighted mean of qoi87 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:staffqoi98mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1529{col 28}  345{col 36}{txt}weighted mean of qoi98 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{hline 13}{c BT}{hline 68}
 
 Patterns of missing values
 
   {c TLC}{hline 22}{c -}{hline 5}{c -}{hline 7}{c TRC}
   {c |} {res}            _pattern   _mv   _freq {txt}{c |}
   {c LT}{hline 22}{c -}{hline 5}{c -}{hline 7}{c RT}
-  {c |} {res}++++++++++++++++++++     0     320 {txt}{c |}
+  {c |} {res}++++++++++++++++++++     0    1023 {txt}{c |}
   {c |} {res}....+++++++++.......    11     309 {txt}{c |}
-  {c |} {res}....++++++++++++++++     4     118 {txt}{c |}
-  {c |} {res}++++++++++++++.++.++     2      60 {txt}{c |}
-  {c |} {res}....++++++++++.++.++     6      46 {txt}{c |}
+  {c |} {res}++++++++++++++.++.++     2     195 {txt}{c |}
+  {c |} {res}....++++++++++++++++     4     138 {txt}{c |}
+  {c |} {res}....++++++++++.++.++     6      59 {txt}{c |}
   {c LT}{hline 22}{c -}{hline 5}{c -}{hline 7}{c RT}
-  {c |} {res}....++++++++++.++..+     7      28 {txt}{c |}
-  {c |} {res}+++++++++++++.......     7      18 {txt}{c |}
+  {c |} {res}....++++++++++.++..+     7      51 {txt}{c |}
+  {c |} {res}++++++++++++++.++..+     3      29 {txt}{c |}
+  {c |} {res}+++++++++++++.......     7      20 {txt}{c |}
+  {c |} {res}....+++++....+.++..+    11      18 {txt}{c |}
   {c |} {res}....+++++...........    15      13 {txt}{c |}
-  {c |} {res}++++++++++++++.++..+     3      11 {txt}{c |}
-  {c |} {res}....+++++....+.++..+    11       7 {txt}{c |}
   {c LT}{hline 22}{c -}{hline 5}{c -}{hline 7}{c RT}
+  {c |} {res}+++++++++....+.++..+     7       7 {txt}{c |}
+  {c |} {res}+++++++++++++.++++++     1       3 {txt}{c |}
   {c |} {res}++++................    16       3 {txt}{c |}
-  {c |} {res}+++++++++....+.++..+     7       1 {txt}{c |}
+  {c |} {res}++++++++++++++++.+++     1       1 {txt}{c |}
+  {c |} {res}+++++++++++++..++.++     3       1 {txt}{c |}
+  {c LT}{hline 22}{c -}{hline 5}{c -}{hline 7}{c RT}
+  {c |} {res}+...++++++++++++++++     3       1 {txt}{c |}
+  {c |} {res}+++++++++....+.++.++     6       1 {txt}{c |}
+  {c |} {res}....+++++....+.++.++    10       1 {txt}{c |}
   {c |} {res}.............+.++.++    15       1 {txt}{c |}
   {c BLC}{hline 22}{c -}{hline 5}{c -}{hline 7}{c BRC}
 
 {com}. /* missing value patterns for schol teacher and staff quality questions*/
 . mvpatterns `qualityvars'
 {txt}Variable     {c |} type     obs   mv   variable label
-{hline 13}{c +}{hline 65}
-{txt}{lalign 12:parentqoi30mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  368{col 28}  567{col 36}{txt}weighted mean of qoi30 responses over years
+{hline 13}{c +}{hline 68}
+{txt}{lalign 12:parentqoi30mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1163{col 28}  711{col 36}{txt}weighted mean of qoi30 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:parentqoi31mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1279{col 28}  595{col 36}{txt}weighted mean of qoi31 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:parentqoi32mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1046{col 28}  828{col 36}{txt}weighted mean of qoi32 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:parentqoi33mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1280{col 28}  594{col 36}{txt}weighted mean of qoi33 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:parentqoi34mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1163{col 28}  711{col 36}{txt}weighted mean of qoi34 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:secqoi35mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1870{col 28}    4{col 36}{txt}weighted mean of qoi35 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:secqoi36mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1870{col 28}    4{col 36}{txt}weighted mean of qoi36 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:secqoi37mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1870{col 28}    4{col 36}{txt}weighted mean of qoi37 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:secqoi38mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1870{col 28}    4{col 36}{txt}weighted mean of qoi38 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:secqoi39mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1870{col 28}    4{col 36}{txt}weighted mean of qoi39 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:secqoi40mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1870{col 28}    4{col 36}{txt}weighted mean of qoi40 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:staffqoi103mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1528{col 28}  346{col 36}{txt}weighted mean of qoi103 responses over years
 {txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:parentqoi31mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  413{col 28}  522{col 36}{txt}weighted mean of qoi31 responses over years
+{txt}{lalign 12:staffqoi104mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1528{col 28}  346{col 36}{txt}weighted mean of qoi104 responses over years
 {txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:parentqoi32mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  333{col 28}  602{col 36}{txt}weighted mean of qoi32 responses over years
+{txt}{lalign 12:staffqoi105mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1528{col 28}  346{col 36}{txt}weighted mean of qoi105 responses over years
 {txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:parentqoi33mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  413{col 28}  522{col 36}{txt}weighted mean of qoi33 responses over years
+{txt}{lalign 12:staffqoi109mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1528{col 28}  346{col 36}{txt}weighted mean of qoi109 responses over years
 {txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:parentqoi34mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  368{col 28}  567{col 36}{txt}weighted mean of qoi34 responses over years
+{txt}{lalign 12:staffqoi111mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1528{col 28}  346{col 36}{txt}weighted mean of qoi111 responses over years
 {txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:secqoi35mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  931{col 28}    4{col 36}{txt}weighted mean of qoi35 responses over years
+{txt}{lalign 12:staffqoi112mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1528{col 28}  346{col 36}{txt}weighted mean of qoi112 responses over years
 {txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:secqoi36mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  931{col 28}    4{col 36}{txt}weighted mean of qoi36 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:secqoi37mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  931{col 28}    4{col 36}{txt}weighted mean of qoi37 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:secqoi38mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  931{col 28}    4{col 36}{txt}weighted mean of qoi38 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:secqoi39mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  931{col 28}    4{col 36}{txt}weighted mean of qoi39 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:secqoi40mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  931{col 28}    4{col 36}{txt}weighted mean of qoi40 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:staffqoi103mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  592{col 28}  343{col 36}{txt}weighted mean of qoi103 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:staffqoi104mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  592{col 28}  343{col 36}{txt}weighted mean of qoi104 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:staffqoi105mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  592{col 28}  343{col 36}{txt}weighted mean of qoi105 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:staffqoi109mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  592{col 28}  343{col 36}{txt}weighted mean of qoi109 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:staffqoi111mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  592{col 28}  343{col 36}{txt}weighted mean of qoi111 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:staffqoi112mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  592{col 28}  343{col 36}{txt}weighted mean of qoi112 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{hline 13}{c BT}{hline 65}
+{hline 13}{c BT}{hline 68}
 
 Patterns of missing values
 
   {c TLC}{hline 19}{c -}{hline 5}{c -}{hline 7}{c TRC}
   {c |} {res}         _pattern   _mv   _freq {txt}{c |}
   {c LT}{hline 19}{c -}{hline 5}{c -}{hline 7}{c RT}
+  {c |} {res}+++++++++++++++++     0    1029 {txt}{c |}
   {c |} {res}.....++++++......    11     322 {txt}{c |}
-  {c |} {res}+++++++++++++++++     0     319 {txt}{c |}
-  {c |} {res}.....++++++++++++     5     198 {txt}{c |}
-  {c |} {res}.+.+.++++++++++++     3      39 {txt}{c |}
-  {c |} {res}++.++++++++++++++     1      34 {txt}{c |}
+  {c |} {res}.....++++++++++++     5     270 {txt}{c |}
+  {c |} {res}++.++++++++++++++     1     115 {txt}{c |}
+  {c |} {res}.+.+.++++++++++++     3     111 {txt}{c |}
   {c LT}{hline 19}{c -}{hline 5}{c -}{hline 7}{c RT}
-  {c |} {res}+++++++++++......     6      12 {txt}{c |}
+  {c |} {res}+++++++++++......     6      15 {txt}{c |}
   {c |} {res}.+.+.++++++......     9       5 {txt}{c |}
+  {c |} {res}+..++++++++++++++     2       1 {txt}{c |}
   {c |} {res}..+..++++++++++++     4       1 {txt}{c |}
   {c |} {res}++.++++++++......     7       1 {txt}{c |}
-  {c |} {res}...........++++++    11       1 {txt}{c |}
   {c LT}{hline 19}{c -}{hline 5}{c -}{hline 7}{c RT}
+  {c |} {res}...........++++++    11       1 {txt}{c |}
   {c |} {res}+++++............    12       1 {txt}{c |}
   {c |} {res}++.++............    13       1 {txt}{c |}
   {c |} {res}.+.+.............    15       1 {txt}{c |}
@@ -257,52 +273,57 @@ Patterns of missing values
 {com}. /* missing value patterns for student support questions*/
 . mvpatterns `supportvars'
 {txt}Variable     {c |} type     obs   mv   variable label
-{hline 13}{c +}{hline 65}
-{txt}{lalign 12:parentqoi15mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  413{col 28}  522{col 36}{txt}weighted mean of qoi15 responses over years
+{hline 13}{c +}{hline 68}
+{txt}{lalign 12:parentqoi15mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1284{col 28}  590{col 36}{txt}weighted mean of qoi15 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:parentqoi64mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1277{col 28}  597{col 36}{txt}weighted mean of qoi64 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:staffqoi10mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1528{col 28}  346{col 36}{txt}weighted mean of qoi10 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:staffqoi128mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1499{col 28}  375{col 36}{txt}weighted mean of qoi128 responses over years
 {txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:parentqoi64mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  410{col 28}  525{col 36}{txt}weighted mean of qoi64 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:staffqoi10mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  592{col 28}  343{col 36}{txt}weighted mean of qoi10 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:staffqoi128mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  586{col 28}  349{col 36}{txt}weighted mean of qoi128 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{hline 13}{c BT}{hline 65}
+{hline 13}{c BT}{hline 68}
 
 Patterns of missing values
 
   {c TLC}{hline 10}{c -}{hline 5}{c -}{hline 7}{c TRC}
   {c |} {res}_pattern   _mv   _freq {txt}{c |}
   {c LT}{hline 10}{c -}{hline 5}{c -}{hline 7}{c RT}
-  {c |} {res}    ++++     0     392 {txt}{c |}
+  {c |} {res}    ++++     0    1239 {txt}{c |}
   {c |} {res}    ....     4     322 {txt}{c |}
-  {c |} {res}    ..++     2     194 {txt}{c |}
-  {c |} {res}    ++..     2      18 {txt}{c |}
-  {c |} {res}    ..+.     3       6 {txt}{c |}
+  {c |} {res}    ..++     2     258 {txt}{c |}
+  {c |} {res}    ++..     2      20 {txt}{c |}
+  {c |} {res}    +++.     1      17 {txt}{c |}
   {c LT}{hline 10}{c -}{hline 5}{c -}{hline 7}{c RT}
+  {c |} {res}    ..+.     3      10 {txt}{c |}
+  {c |} {res}    +.+.     2       3 {txt}{c |}
   {c |} {res}    +...     3       3 {txt}{c |}
+  {c |} {res}    ++.+     1       1 {txt}{c |}
+  {c |} {res}    +.++     1       1 {txt}{c |}
   {c BLC}{hline 10}{c -}{hline 5}{c -}{hline 7}{c BRC}
 
 {com}. /* missing value patterns for student motivation questions */
 . mvpatterns `motivationvars'
 {txt}Variable     {c |} type     obs   mv   variable label
-{hline 13}{c +}{hline 65}
-{txt}{lalign 12:secqoi31mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  931{col 28}    4{col 36}{txt}weighted mean of qoi31 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:secqoi32mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  931{col 28}    4{col 36}{txt}weighted mean of qoi32 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:secqoi33mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  931{col 28}    4{col 36}{txt}weighted mean of qoi33 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{txt}{lalign 12:secqoi34mean_pooled}{col 14}{c |}{res}{col 16}float{col 23}  931{col 28}    4{col 36}{txt}weighted mean of qoi34 responses over years
-{txt}{col 14}{c |}{col 36}for a given school
-{hline 13}{c BT}{hline 65}
+{hline 13}{c +}{hline 68}
+{txt}{lalign 12:secqoi31mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1870{col 28}    4{col 36}{txt}weighted mean of qoi31 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:secqoi32mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1870{col 28}    4{col 36}{txt}weighted mean of qoi32 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:secqoi33mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1870{col 28}    4{col 36}{txt}weighted mean of qoi33 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{txt}{lalign 12:secqoi34mean_pooled}{col 14}{c |}{res}{col 16}float{col 23} 1869{col 28}    5{col 36}{txt}weighted mean of qoi34 responses over years for
+{txt}{col 14}{c |}{col 36}a given school
+{hline 13}{c BT}{hline 68}
 
 Patterns of missing values
 
   {c TLC}{hline 10}{c -}{hline 5}{c -}{hline 7}{c TRC}
   {c |} {res}_pattern   _mv   _freq {txt}{c |}
   {c LT}{hline 10}{c -}{hline 5}{c -}{hline 7}{c RT}
-  {c |} {res}    ++++     0     931 {txt}{c |}
+  {c |} {res}    ++++     0    1869 {txt}{c |}
   {c |} {res}    ....     4       4 {txt}{c |}
+  {c |} {res}    +++.     1       1 {txt}{c |}
   {c BLC}{hline 10}{c -}{hline 5}{c -}{hline 7}{c BRC}
 
 {com}. 
@@ -312,7 +333,7 @@ Patterns of missing values
       {txt}name:  {res}allsvymissing
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/check/allsvymissing.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}25 Jul 2022, 18:11:07
+ {txt}closed on:  {res}21 Nov 2022, 22:12:29
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

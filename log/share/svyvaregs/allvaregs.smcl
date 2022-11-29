@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/svyvaregs/allvaregs.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}21 Nov 2022, 18:50:07
+ {txt}opened on:  {res}21 Nov 2022, 22:11:55
 {txt}
 {com}. 
 . 
@@ -80,7 +80,7 @@
 .             qui reg va_`va_outcome'_`sample'_sp_`control'_ct`peer' qoi`i'mean_z
 {txt} 27{com}.             regsave using $projdir/out/dta/varegs/`svyname'/va_`va_outcome'_`sample'_sp_`control'_ct`peer'_nw ///
 >               , `append' ///
->               table(va_`va_outcome', format(%7.2f) parentheses(stderr) asterisk()) ///
+>               table(va_`va_outcome'_`sample'_sp_`control'_ct`peer', format(%7.2f) parentheses(stderr) asterisk()) ///
 >               addlabel(va, `va_outcome', sample, `sample', control, `control', peer, `peer_yn', weighted, N)
 {txt} 28{com}. 
 . 
@@ -90,7 +90,7 @@
 .             qui reg va_`va_outcome'_`sample'_sp_`control'_ct`peer' qoi`i'mean_z  [aweight = gr11enr_mean]
 {txt} 29{com}.             regsave using $projdir/out/dta/varegs/`svyname'/va_`va_outcome'_`sample'_sp_`control'_ct`peer'_wt ///
 >               , `append' ///
->               table(va_`va_outcome', format(%7.2f) parentheses(stderr) asterisk()) ///
+>               table(va_`va_outcome'_`sample'_sp_`control'_ct`peer', format(%7.2f) parentheses(stderr) asterisk()) ///
 >               addlabel(va, `va_outcome', sample, `sample', control, `control', peer, `peer_yn', weighted, Y)
 {txt} 30{com}. 
 .             local append append
@@ -140,37 +140,46 @@
 {txt} 57{com}. 
 .   save $projdir/out/dta/varegs/`svyname'/`svyname'_va_all_nw, replace
 {txt} 58{com}.   export excel using $projdir/out/xls/varegs/unweighted/`svyname'/`svyname'_va_all_nw, replace firstrow(variables)
-{txt} 59{com}. /*
->   //next, merge weighted
->   use $projdir/out/dta/varegs/`svyname'/va_ela_wt, clear
->   merge 1:1 var using $projdir/out/dta/varegs/`svyname'/va_math_wt
->   drop _merge
->   merge 1:1 var using $projdir/out/dta/varegs/`svyname'/va_enr_wt
->   drop _merge
->   merge 1:1 var using $projdir/out/dta/varegs/`svyname'/va_enrela_wt
->   drop _merge
->   merge 1:1 var using $projdir/out/dta/varegs/`svyname'/va_enrmath_wt
->   drop _merge
->   merge 1:1 var using $projdir/out/dta/varegs/`svyname'/va_enrdk_wt
->   drop _merge
->   merge 1:1 var using $projdir/out/dta/varegs/`svyname'/va_2yr_wt
->   drop _merge
->   merge 1:1 var using $projdir/out/dta/varegs/`svyname'/va_2yrela_wt
->   drop _merge
->   merge 1:1 var using $projdir/out/dta/varegs/`svyname'/va_2yrmath_wt
->   drop _merge
->   merge 1:1 var using $projdir/out/dta/varegs/`svyname'/va_2yrdk_wt
->   drop _merge
->   merge 1:1 var using $projdir/out/dta/varegs/`svyname'/va_4yr_wt
->   drop _merge
->   merge 1:1 var using $projdir/out/dta/varegs/`svyname'/va_4yrela_wt
->   drop _merge
->   merge 1:1 var using $projdir/out/dta/varegs/`svyname'/va_4yrmath_wt
->   drop _merge
->   merge 1:1 var using $projdir/out/dta/varegs/`svyname'/va_4yrdk_wt
->   drop _merge
->   save $projdir/out/dta/varegs/`svyname'/`svyname'_va_all_wt, replace
->   export excel using $projdir/out/xls/varegs/weighted/`svyname'/`svyname'_va_all_wt, replace */
+{txt} 59{com}. 
+. 
+.   //-------------------------------------------
+.   // merge weighted regressions
+.   //-------------------------------------------
+.   local merge_command use
+{txt} 60{com}.   local merge_options clear
+{txt} 61{com}. 
+. 
+.   foreach va_outcome in ela math enr enr_2year enr_4year dk_enr dk_enr_2year dk_enr_4year {c -(}
+{txt} 62{com}.     di "va: `va_outcome'"
+{txt} 63{com}.     foreach sample in b las {c -(}
+{txt} 64{com}.       di "sample: `sample'"
+{txt} 65{com}.       foreach control of local `sample'_sample_controls {c -(}
+{txt} 66{com}.         //macro for whether to use the VA estimates with peer effects
+.         if "`sample'" == "b" {c -(}
+{txt} 67{com}.           local peer
+{txt} 68{com}.           local peer_yn "N"
+{txt} 69{com}.         {c )-}
+{txt} 70{com}.         if "`sample'" == "las" {c -(}
+{txt} 71{com}.           local peer "_p"
+{txt} 72{com}.           local peer_yn "Y"
+{txt} 73{com}.         {c )-}
+{txt} 74{com}. 
+.         di "peer controls in VA estimates (empty if no peer, _p if peer): `peer'"
+{txt} 75{com}. 
+. 
+.         `merge_command' $projdir/out/dta/varegs/`svyname'/va_`va_outcome'_`sample'_sp_`control'_ct`peer'_wt, `merge_options'
+{txt} 76{com}. 
+.         local merge_command "merge 1:1 var using"
+{txt} 77{com}.         local merge_options nogen
+{txt} 78{com}.       {c )-}
+{txt} 79{com}.     {c )-}
+{txt} 80{com}.   {c )-}
+{txt} 81{com}. 
+.   save $projdir/out/dta/varegs/`svyname'/`svyname'_va_all_nw, replace
+{txt} 82{com}.   export excel using $projdir/out/xls/varegs/weighted/`svyname'/`svyname'_va_all_wt, replace firstrow(variables)
+{txt} 83{com}. 
+. 
+. 
 . 
 . {c )-}
 {txt}(secondary pooled dataset ready for analysis with stats and response rate)
@@ -6261,6 +6270,142 @@ file {bf}
 saved
 {p_end}
 {res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/varegs/unweighted/sec/sec_va_all_nw.xls} saved
+va: ela
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              47{txt}  
+{col 5}{hline 41}
+va: math
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              47{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              47{txt}  
+{col 5}{hline 41}
+va: enr
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              47{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              47{txt}  
+{col 5}{hline 41}
+va: enr_2year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              47{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              47{txt}  
+{col 5}{hline 41}
+va: enr_4year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              47{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              47{txt}  
+{col 5}{hline 41}
+va: dk_enr
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              47{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              47{txt}  
+{col 5}{hline 41}
+va: dk_enr_2year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              47{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              47{txt}  
+{col 5}{hline 41}
+va: dk_enr_4year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              47{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              47{txt}  
+{col 5}{hline 41}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/varegs/sec/sec_va_all_nw.dta{rm}
+saved
+{p_end}
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/varegs/weighted/sec/sec_va_all_wt.xls} saved
 (parent pooled (over years) dataset ready for analysis with stats and response ra)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
@@ -10773,6 +10918,142 @@ file {bf}
 saved
 {p_end}
 {res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/varegs/unweighted/parent/parent_va_all_nw.xls} saved
+va: ela
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              31{txt}  
+{col 5}{hline 41}
+va: math
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              31{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              31{txt}  
+{col 5}{hline 41}
+va: enr
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              31{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              31{txt}  
+{col 5}{hline 41}
+va: enr_2year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              31{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              31{txt}  
+{col 5}{hline 41}
+va: enr_4year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              31{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              31{txt}  
+{col 5}{hline 41}
+va: dk_enr
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              31{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              31{txt}  
+{col 5}{hline 41}
+va: dk_enr_2year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              31{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              31{txt}  
+{col 5}{hline 41}
+va: dk_enr_4year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              31{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              31{txt}  
+{col 5}{hline 41}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/varegs/parent/parent_va_all_nw.dta{rm}
+saved
+{p_end}
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/varegs/weighted/parent/parent_va_all_wt.xls} saved
 (weighted average staff qoi statistics pooled over years)
 
     Variable {c |}        Obs        Mean    Std. dev.       Min        Max
@@ -16073,6 +16354,142 @@ file {bf}
 saved
 {p_end}
 {res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/varegs/unweighted/staff/staff_va_all_nw.xls} saved
+va: ela
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              39{txt}  
+{col 5}{hline 41}
+va: math
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              39{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              39{txt}  
+{col 5}{hline 41}
+va: enr
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              39{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              39{txt}  
+{col 5}{hline 41}
+va: enr_2year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              39{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              39{txt}  
+{col 5}{hline 41}
+va: enr_4year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              39{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              39{txt}  
+{col 5}{hline 41}
+va: dk_enr
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              39{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              39{txt}  
+{col 5}{hline 41}
+va: dk_enr_2year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              39{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              39{txt}  
+{col 5}{hline 41}
+va: dk_enr_4year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              39{txt}  
+{col 5}{hline 41}
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              39{txt}  
+{col 5}{hline 41}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/varegs/staff/staff_va_all_nw.dta{rm}
+saved
+{p_end}
+{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/varegs/weighted/staff/staff_va_all_wt.xls} saved
 
 {com}. 
 . 
@@ -16084,7 +16501,7 @@ saved
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/svyvaregs/allvaregs.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}21 Nov 2022, 18:50:36
+ {txt}closed on:  {res}21 Nov 2022, 22:12:26
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

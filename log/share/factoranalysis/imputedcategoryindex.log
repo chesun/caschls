@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factor
 > analysis/imputedcategoryindex.smcl
   log type:  smcl
- opened on:  25 Jul 2022, 18:11:08
+ opened on:  21 Nov 2022, 22:12:29
 
 . 
 . use $projdir/dta/allsvyfactor/imputedallsvyqoimeans, clear
@@ -34,15 +34,15 @@
 . foreach climatevar of local climatevars {
   2.   replace climateindex = climateindex + `climatevar'
   3. }
-(931 real changes made)
-(933 real changes made)
-(932 real changes made)
-(935 real changes made)
-(935 real changes made)
-(933 real changes made)
-(935 real changes made)
-(932 real changes made)
-(932 real changes made)
+(1,859 real changes made)
+(1,862 real changes made)
+(1,861 real changes made)
+(1,869 real changes made)
+(1,872 real changes made)
+(1,869 real changes made)
+(1,872 real changes made)
+(1,871 real changes made)
+(1,868 real changes made)
 
 . 
 . gen qualityindex = 0
@@ -51,21 +51,21 @@
 . foreach qualityvar of local qualityvars {
   2.   replace qualityindex =  qualityindex + `qualityvar'
   3. }
-(932 real changes made)
-(934 real changes made)
-(929 real changes made)
-(932 real changes made)
-(931 real changes made)
-(934 real changes made)
-(932 real changes made)
-(935 real changes made)
-(930 real changes made)
-(935 real changes made)
-(935 real changes made)
-(935 real changes made)
-(934 real changes made)
-(935 real changes made)
-(932 real changes made)
+(1,863 real changes made)
+(1,861 real changes made)
+(1,862 real changes made)
+(1,862 real changes made)
+(1,859 real changes made)
+(1,872 real changes made)
+(1,864 real changes made)
+(1,872 real changes made)
+(1,868 real changes made)
+(1,873 real changes made)
+(1,872 real changes made)
+(1,874 real changes made)
+(1,853 real changes made)
+(1,872 real changes made)
+(1,868 real changes made)
 
 . 
 . gen supportindex = 0
@@ -74,98 +74,2263 @@
 . foreach supportvar of local supportvars {
   2.   replace supportindex = supportindex + `supportvar'
   3. }
-(927 real changes made)
-(930 real changes made)
-(932 real changes made)
-(932 real changes made)
+(1,844 real changes made)
+(1,838 real changes made)
+(1,862 real changes made)
+(1,861 real changes made)
 
 . 
 . 
-. 
-. //creating a local macro for va variables
-. local vavars va_ela va_math va_enr va_enrela va_enrmath va_enrdk va_2yr va_2y
-> rela va_2yrmath va_2yrdk va_4yr va_4yrela va_4yrmath va_4yrdk
-
 . 
 . // local macro for index vars
 . local indexvars climateindex qualityindex supportindex
 
 . 
 . //generate standardized z scores for variables
-. foreach i of local vavars {
-  2.   sum `i'
-  3.   gen z_`i' = (`i' - r(mean))/r(sd)
+. foreach var of varlist va* {
+  2.   sum `var'
+  3.   replace `var' = (`var' - r(mean))/r(sd)
   4. }
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
       va_ela |        918   -.0044903    .1244622  -.5117588   .4654247
-(17 missing values generated)
+(918 real changes made)
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
      va_math |        918    -.009212    .1292864  -.4140076   .5335521
-(17 missing values generated)
+(918 real changes made)
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
       va_enr |        917   -.0064488    .0699807   -.321813   .1879913
-(18 missing values generated)
+(917 real changes made)
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
    va_enrela |        917   -.0065559    .0666844  -.2765976    .189653
-(18 missing values generated)
+(917 real changes made)
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
   va_enrmath |        917   -.0055506     .063995   -.273631    .161112
-(18 missing values generated)
+(917 real changes made)
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
     va_enrdk |        917   -.0055894    .0640093  -.2718543   .1611553
-(18 missing values generated)
+(917 real changes made)
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
       va_2yr |        917    .0002606    .0878256  -.2201495   .3168567
-(18 missing values generated)
+(917 real changes made)
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
    va_2yrela |        917    .0001001    .0879115  -.2212195   .3173681
-(18 missing values generated)
+(917 real changes made)
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
   va_2yrmath |        917   -.0001072    .0874784  -.2276892   .3271511
-(18 missing values generated)
+(917 real changes made)
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
     va_2yrdk |        917    -.000198    .0872326  -.2205446   .3274191
-(18 missing values generated)
+(917 real changes made)
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
       va_4yr |        917   -.0075471    .0822576  -.2059644   .3337602
-(18 missing values generated)
+(917 real changes made)
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
    va_4yrela |        917   -.0075337    .0793955  -.2147292   .2840995
-(18 missing values generated)
+(917 real changes made)
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
   va_4yrmath |        917     -.00618    .0738879   -.256377   .2776986
-(18 missing values generated)
+(917 real changes made)
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
     va_4yrdk |        917   -.0061224    .0737636  -.2564202   .2750604
-(18 missing values generated)
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_b_s~t |        918   -.0044903    .1244622  -.5117588   .4654247
+(918 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_b_s~p |        918    .0028977    .1117151  -.3768697   .4458846
+(918 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+~a_l_sp_b_ct |        918   -.0049684    .1246919  -.5101312   .4650985
+(918 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_l_s.. |        918    .0025284    .1117737  -.3939683   .4447418
+(918 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+~a_a_sp_b_ct |        905   -.0095657    .1105423  -.4927427   .3802386
+(905 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_a_s.. |        905   -.0031851    .0989722   -.352001   .3663757
+(905 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+~a_s_sp_b_ct |        915   -.0070429     .114727  -.5328895   .4247605
+(915 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_s_s.. |        915   -.0002728    .1032647  -.3544083   .4087504
+(915 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_la_.. |        904   -.0098237    .1111031  -.4997176   .3801395
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_la_.. |        904   -.0033382     .099313  -.3553016   .3651211
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_ls_.. |        914   -.0072967    .1146402  -.5365791   .4243618
+(914 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_ls_.. |        914   -.0005202    .1030389  -.3570614   .4076585
+(914 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_as_.. |        891   -.0081404     .105592  -.5283821   .3784698
+(891 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_as_.. |        891   -.0025877    .0950398  -.3814473   .3661303
+(891 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_las.. |        889   -.0081812    .1059575  -.5324355   .3814196
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_las.. |        889   -.0026076      .09532  -.3852369   .3682539
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+~a_l_sp_l_ct |        918    -.004152    .1260019  -.5136966   .4602439
+(918 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_l_s.. |        918    .0029114    .1130621  -.3941747   .4378178
+(918 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_la_.. |        904   -.0088989     .113314  -.5056274   .3844936
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_la_.. |        904   -.0029091    .1005706  -.3533561    .367247
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_ls_.. |        914   -.0063212    .1163408  -.5494022   .4262325
+(914 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_ls_.. |        914   -.0001208    .1043881  -.3551791   .4075324
+(914 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_las.. |        889   -.0072194    .1081099  -.5469387    .386489
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_las.. |        889   -.0023155    .0965651  -.3808687   .3708126
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+~a_a_sp_a_ct |        905   -.0063873    .1078154  -.4528588   .4099164
+(905 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_a_s.. |        901   -.0037683    .0965311  -.3267837   .3423598
+(901 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_la_.. |        904   -.0065903    .1083448  -.4595707   .4098664
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_la_.. |        897   -.0039288    .0969959  -.3249448   .3370257
+(897 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_as_.. |        891   -.0051763    .1029269  -.4881008   .4001496
+(891 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_as_.. |        891   -.0031117     .092769  -.3442692   .3412921
+(891 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_las.. |        889   -.0051857    .1032619    -.49127   .4033344
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_las.. |        887   -.0031144    .0931028   -.347452   .3342765
+(887 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+~a_s_sp_s_ct |        915   -.0069255    .1146115  -.5335934   .4242439
+(915 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_s_s.. |        915    .0013399    .1007006  -.3331791   .3993741
+(915 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_ls_.. |        914   -.0071796    .1145249  -.5373256   .4238418
+(914 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_ls_.. |        914    .0012664    .1003886  -.3366085   .3997083
+(914 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_as_.. |        891   -.0080448    .1054698  -.5292481   .3778883
+(891 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_as_.. |        889   -.0014654    .0932937   -.364794   .3594108
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_las.. |        889   -.0080862    .1058373  -.5333562   .3808393
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_las.. |        884   -.0013712    .0935048  -.3689874   .3610337
+(884 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_la_.. |        904   -.0060252    .1104493  -.4686069   .4113882
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_la_.. |        897   -.0035941    .0982892  -.3268522   .3446569
+(897 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_las.. |        889   -.0047302       .1053  -.5089028   .4056952
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_las.. |        887   -.0029504    .0943714   -.341683   .3381693
+(887 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_ls_.. |        914   -.0061883    .1162214   -.549927   .4257141
+(914 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_ls_.. |        914    .0016766    .1017319  -.3405161   .4000062
+(914 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_las.. |        889   -.0071101    .1079865  -.5476354   .3858347
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_las.. |        884   -.0010579    .0948446  -.3652419   .3637468
+(884 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_as_.. |        891   -.0051027    .1028061  -.4888209   .3997131
+(891 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_as_.. |        889   -.0023012     .091478  -.3360986   .3321172
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_las.. |        889   -.0051126    .1031426  -.4920382   .4028969
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_las.. |        884   -.0022231    .0916476  -.3393397   .3316996
+(884 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_el~las_ct |        889   -.0046416    .1051772   -.509465   .4051785
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ela_las.. |        884    -.002071    .0929905  -.3341627   .3357435
+(884 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_b_~t |        918    -.009212    .1292864  -.4140076   .5335521
+(918 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_b_~p |        918   -.0008045    .1095566  -.3548897   .5321864
+(918 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+~h_l_sp_b_ct |        918   -.0095192    .1293713  -.4146155    .533084
+(918 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_l_.. |        918   -.0010504    .1098389  -.3509108   .5319228
+(918 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+~h_a_sp_b_ct |        904   -.0158602    .1172156  -.4042807   .5275751
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_a_.. |        904   -.0062903    .1002773   -.349194    .476175
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+~h_s_sp_b_ct |        914   -.0119525     .118339  -.4234511    .520555
+(914 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_s_.. |        914   -.0027276    .1010429  -.3360756   .5002196
+(914 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_la.. |        904   -.0160415    .1172347  -.4037588   .5260863
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_la.. |        904   -.0063554     .100315  -.3496554   .4750711
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_ls.. |        913   -.0121151    .1184739  -.4087804   .5196635
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_ls.. |        913   -.0028827    .1012139  -.3362652   .5010434
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_as.. |        890   -.0157978     .111135  -.4388999   .4882188
+(890 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_as.. |        890   -.0061428    .0956781  -.3228609   .4512028
+(890 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_la.. |        889   -.0157637    .1110809  -.4234457   .4879041
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_la.. |        889   -.0061002    .0957187  -.3283818   .4525059
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+~h_l_sp_l_ct |        918   -.0092343    .1293526  -.4094665   .5355811
+(918 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_l_.. |        918    -.000618    .1114094  -.3509204   .5297967
+(918 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_la.. |        904   -.0157081    .1174275  -.4046225   .5291095
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_la.. |        904   -.0058492    .1017775  -.3603588   .4790974
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_ls.. |        913   -.0117289    .1185655  -.4119365   .5256356
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_ls.. |        913   -.0023895    .1028722  -.3296941   .5009796
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_la.. |        889   -.0153878    .1112978   -.425763   .4929804
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_la.. |        889   -.0056331    .0972389  -.3197629   .4537106
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+~h_a_sp_a_ct |        904   -.0103828    .1092029  -.3505678   .5208868
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_a_.. |        900   -.0062039    .0944322  -.3227088   .4013594
+(900 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_la.. |        904   -.0104767    .1093468  -.3448106   .5203139
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_la.. |        897   -.0063014    .0947135   -.320877   .3999565
+(897 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_as.. |        890   -.0099244    .1032273     -.3806    .484349
+(890 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_as.. |        890    -.005882    .0901212  -.3400903   .3757808
+(890 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_la.. |        889    -.009815     .103291    -.38862   .4855977
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_la.. |        887   -.0058551    .0903342  -.3437112   .3762263
+(887 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+~h_s_sp_s_ct |        914     -.01173    .1181631  -.4247891   .5167406
+(914 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_s_.. |        914   -.0015407    .0981303  -.3151144   .4878105
+(914 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_ls.. |        913    -.011892    .1182974  -.4101591   .5158578
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_ls.. |        913    -.001552    .0984254  -.3164317   .4915656
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_as.. |        890   -.0155886    .1108567  -.4405721   .4824112
+(890 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_as.. |        888   -.0050666    .0925182  -.3034769   .4387266
+(888 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_la.. |        889   -.0155568    .1107955  -.4251736   .4820845
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_la.. |        884   -.0050098    .0926419   -.309845    .441034
+(884 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_la.. |        904   -.0103189    .1098892  -.3500825   .5214736
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_la.. |        897   -.0060823    .0960893  -.3325275   .4029202
+(897 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_la.. |        889   -.0096832    .1038932  -.3932534   .4866007
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_la.. |        887   -.0057023    .0917042  -.3526496   .3789582
+(887 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_ls.. |        913   -.0115009    .1183924  -.4132464   .5219188
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_ls.. |        913    -.001072    .1000038  -.3110291    .492093
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_la.. |        889   -.0151775    .1110221  -.4274508   .4872819
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_la.. |        884   -.0045565    .0942129   -.302298   .4427522
+(884 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_as.. |        890   -.0097671    .1029824  -.3796101   .4834018
+(890 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_as.. |        888   -.0052938    .0885451  -.3295959   .3721257
+(888 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_la.. |        889   -.0096595    .1030408  -.3875284   .4846254
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_la.. |        884   -.0052551    .0886415  -.3319475   .3722224
+(884 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_ma~las_ct |        889    -.009523    .1036499  -.3921602   .4856335
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_math_la.. |        884    -.005104    .0900341  -.3407312   .3752063
+(884 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_b_s~t |        917   -.0064488    .0699807   -.321813   .1879913
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_b_s~p |        917    .0027086    .0550499  -.2119348   .2174548
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_cfr_g11~a |        918    -.004466    .1244425  -.5117588   .4654247
+(918 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_cfr_g11~h |        918    -.009149    .1292427  -.4140076   .5335521
+(918 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        917   -.0055894    .0640093  -.2718543   .1611553
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        917    .0018843    .0526935  -.2072969    .198085
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_l_s.. |        917   -.0065523    .0695334  -.3221554   .1876756
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_l_s.. |        917    .0026605    .0547491  -.2106553   .2145475
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        917   -.0056217    .0636611  -.2719714   .1604538
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        917    .0018724    .0524113  -.2095895   .1964943
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_a_s.. |        904   -.0064815    .0599168  -.2527745   .1460144
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_a_s.. |        904    .0009516    .0474678  -.2183559   .1619389
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        902   -.0045504    .0545761  -.2209086   .1208519
+(902 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        902    .0009106      .04467  -.2085686   .1215765
+(902 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_s_s.. |        914   -.0061093       .0634   -.290083    .194821
+(914 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_s_s.. |        914    .0017253    .0509379  -.2066492    .181982
+(914 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        913    -.004899     .058899  -.2469956   .1575575
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        913    .0012381    .0490011  -.2044212   .1687447
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_la_.. |        904    -.006548    .0594473  -.2527367   .1451737
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_la_.. |        904    .0009052    .0470628  -.2193158    .156684
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        902   -.0045847    .0542131  -.2222241   .1209479
+(902 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        902     .000887    .0443571  -.2096269    .121511
+(902 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_ls_.. |        913     -.00624    .0629072  -.2947677    .194117
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_ls_.. |        913    .0016494    .0505225  -.2090879   .1811249
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        912   -.0050001    .0585306  -.2520013   .1592276
+(912 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        912    .0011897    .0486478  -.2068425   .1685114
+(912 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_as_.. |        891   -.0051058    .0555127   -.244048   .1516542
+(891 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_as_.. |        891    .0018211    .0442973  -.2138882   .1589701
+(891 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        890   -.0034512    .0512169  -.2180384   .1085272
+(890 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        890    .0017664    .0420352  -.2041257   .1208901
+(890 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_las.. |        889   -.0051892    .0550654  -.2479285   .1506784
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_las.. |        889     .001756    .0438669  -.2143619   .1562209
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        889   -.0035525    .0508677  -.2185092   .1091226
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        889    .0016979    .0416865  -.2046347    .119212
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_l_s.. |        917   -.0064218     .069295  -.3199776   .1892914
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_l_s.. |        917    .0029255    .0551077  -.2094642   .2157855
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        917   -.0055579      .06364  -.2719555   .1601039
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        917    .0021501    .0527366  -.2077156   .1976629
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_la_.. |        904     -.00641    .0592881  -.2508893   .1455286
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_la_.. |        904    .0011703    .0473554  -.2182962   .1578883
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        902   -.0045381    .0542077  -.2229903   .1202644
+(902 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        902    .0011996    .0445671  -.2076979   .1240622
+(902 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_ls_.. |        913   -.0060792    .0627112  -.2938142   .1960413
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_ls_.. |        913    .0018896    .0508261  -.2077937   .1845089
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        912   -.0049232    .0585073  -.2521324   .1594268
+(912 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        912    .0014482    .0488911  -.2047657   .1704221
+(912 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_las.. |        889   -.0050377    .0548746  -.2447695   .1513368
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_las.. |        889    .0019576    .0441121  -.2136051   .1574006
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        889   -.0034846    .0508313  -.2190591   .1089168
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        889    .0019371    .0418864  -.2030108   .1187019
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_a_s.. |        904   -.0032955    .0552969  -.2379264   .1642974
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_a_s.. |        901    .0006633    .0456453  -.2121885   .1520929
+(901 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        902   -.0025782    .0510546  -.2130687   .1238415
+(902 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        899    .0007107    .0434556   -.203808   .1267601
+(899 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_la_.. |        904   -.0033707    .0548695  -.2342626   .1610918
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_la_.. |        898    .0006469    .0453004  -.2129425   .1505712
+(898 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        902   -.0026244    .0507088   -.214367   .1239805
+(902 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        896    .0007097    .0431927   -.204652    .124784
+(896 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_as_.. |        891   -.0018908    .0511972  -.2247161   .1704221
+(891 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_as_.. |        891    .0014985     .042577  -.2072951   .1398274
+(891 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        890   -.0013678    .0478246  -.2096204   .1157271
+(890 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        890    .0015009    .0408518   -.198369   .1273909
+(890 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_las.. |        889   -.0019967    .0508196  -.2244793   .1671054
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_las.. |        887    .0014676    .0422209  -.2077864   .1366717
+(887 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        889   -.0014815    .0475129  -.2101326   .1159413
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        887    .0014637    .0405476  -.1988245   .1246793
+(887 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_s_s.. |        914   -.0058627    .0631566  -.2879909   .1908529
+(914 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_s_s.. |        914     .003007    .0479778  -.1989149   .1743934
+(914 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        913   -.0046869    .0586659   -.245152   .1577781
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        913    .0024111    .0457573  -.1978442    .139532
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_ls_.. |        913   -.0059986    .0626806  -.2927119   .1902096
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_ls_.. |        913    .0028554    .0478154  -.2009105   .1718199
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        912   -.0047926    .0583136  -.2501889   .1585887
+(912 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        912    .0022744    .0456798   -.199751   .1398892
+(912 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_as_.. |        891   -.0049342     .055315  -.2431737   .1497664
+(891 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_as_.. |        889    .0025634    .0423945   -.203986   .1545393
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        890   -.0033087    .0510445  -.2172698   .1073531
+(890 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        888    .0023913    .0402296  -.1966108   .1285171
+(888 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_las.. |        889   -.0050242    .0548763  -.2470904    .148774
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_las.. |        884    .0024592    .0422489  -.2048372   .1536051
+(884 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        889   -.0034157    .0507033  -.2176696   .1089351
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        884    .0022798    .0401958  -.1971647   .1224256
+(884 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_la_.. |        904   -.0033149    .0548969   -.234753   .1610538
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_la_.. |        898    .0007535    .0455952  -.2118258   .1504198
+(898 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        902   -.0026035    .0507596  -.2146051    .124239
+(902 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        896    .0008403    .0434254   -.203021    .128447
+(896 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_las.. |        889   -.0019448    .0508226  -.2235418   .1673167
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_las.. |        887    .0015415    .0424616  -.2068883   .1375997
+(887 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        889   -.0014499    .0475513  -.2102408   .1160184
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        887    .0015598    .0407521   -.197378   .1254723
+(887 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_ls_.. |        913   -.0058337    .0624715  -.2917224   .1920724
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_ls_.. |        913    .0031534    .0480601  -.1993156   .1728885
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        912   -.0047118    .0582836  -.2503729   .1585077
+(912 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        912    .0025848    .0458259  -.1973976   .1424388
+(912 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_las.. |        889   -.0048695    .0546757  -.2438746   .1494631
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_las.. |        884    .0026834    .0424655  -.2038175   .1548951
+(884 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        889   -.0033449    .0506624  -.2182342   .1086923
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        884    .0025389    .0403552  -.1953041   .1260832
+(884 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_as_.. |        891   -.0017454    .0509208  -.2239704    .169706
+(891 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_as_.. |        889    .0020866    .0400966  -.1959293   .1415449
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        890   -.0012442    .0475874  -.2087189   .1153796
+(890 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        888    .0020302    .0384057  -.1889788   .1355004
+(888 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_las.. |        889    -.001856    .0505508  -.2234321   .1667758
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_las.. |        884    .0020034    .0400417  -.1965103   .1360102
+(884 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        889   -.0013621    .0472821  -.2091687   .1159359
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        884    .0019341    .0384273  -.1893081   .1293605
+(884 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_las.. |        889    -.001802    .0505479  -.2228327   .1669951
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_las.. |        884    .0020883    .0402662  -.1953772   .1386185
+(884 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        889   -.0013292    .0473206  -.2093025    .115975
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        884    .0020394    .0386089  -.1876527   .1331861
+(884 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        917    .0002606    .0878256  -.2201495   .3168567
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        917    .0033113    .0720504  -.1932571   .2712406
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        917    -.000198    .0872326  -.2205446   .3274191
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        917    .0032993    .0707736  -.1856383   .2965779
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        917    .0003134    .0880877  -.2211535    .315901
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        917    .0033683    .0722868  -.1908701   .2700984
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        917   -.0001805    .0874483  -.2228111   .3281623
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        917    .0033416    .0709702  -.1862771   .2959923
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        904    .0028827    .0811654  -.2139181   .3079576
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        904    .0059679    .0633913  -.1768735   .2382031
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        902    .0020564    .0797694  -.2117536   .3276222
+(902 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        902    .0054664    .0615602  -.1691374   .2658698
+(902 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        914    .0023495     .085334  -.2078772   .3335679
+(914 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        914    .0049228    .0690541  -.1821633   .2828984
+(914 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        913     .001729    .0844449  -.2135145   .3493075
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        913    .0047494    .0676099   -.175204   .3106837
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        904     .003022    .0815595  -.2109484   .3076719
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        904     .006104    .0636179  -.1756711   .2373645
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        902    .0021221    .0800909  -.2088336   .3288579
+(902 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        902    .0055725    .0617228  -.1682351   .2659306
+(902 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        913    .0023834    .0856699  -.2139615    .333846
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        913    .0050114     .069261   -.186347   .2827213
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        912    .0017158    .0847106  -.2201668   .3510453
+(912 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        912    .0048135    .0677487  -.1783387   .3110494
+(912 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        891    .0035974    .0811692   -.196401    .320532
+(891 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        891    .0069608    .0629048  -.1692493   .2492855
+(891 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        890    .0025779    .0789644  -.1936263   .3427895
+(890 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        890    .0063235    .0607462  -.1587595   .2796454
+(890 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        889    .0037463    .0815016  -.2006375   .3205833
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        889    .0071238    .0630416  -.1699663   .2493838
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        889    .0026217    .0791407  -.1996096   .3444876
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        889    .0064237    .0607623  -.1583336   .2804458
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        917    .0002472    .0881451   -.222335   .3151643
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        917    .0032809    .0722842  -.1896849   .2687739
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        917    -.000256    .0875242  -.2244864   .3272968
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        917    .0032198    .0709737  -.1844732   .2947617
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        904    .0029443    .0815924  -.2117114   .3069437
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        904    .0059745    .0636265  -.1738759   .2356516
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        902     .002018    .0801336  -.2099608   .3279557
+(902 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        902    .0053816    .0617429  -.1658866   .2640895
+(902 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        913    .0022984    .0856946  -.2145662     .33301
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        913    .0048424    .0692151  -.1902671    .279844
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        912    .0016259    .0847444   -.220795   .3500494
+(912 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        912    .0046026    .0676972  -.1771803   .3082219
+(912 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        889    .0036539    .0815219  -.2009168   .3196424
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        889    .0069421    .0630474  -.1672897   .2462276
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        889     .002506    .0791593  -.2024408   .3431471
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        889    .0061854    .0607534  -.1587758   .2772298
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        904    .0021054    .0693756  -.1893326   .2685589
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        901    .0052051    .0584892  -.1776978   .2529054
+(901 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        902    .0016572    .0685647  -.1882524   .2888783
+(902 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        899    .0048308    .0576943  -.1724814   .2342826
+(899 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        904    .0021737    .0696598  -.1905366   .2677598
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        898    .0053006    .0588161  -.1820533   .2516751
+(898 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        902    .0016904    .0688305  -.1860699   .2893508
+(902 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        896    .0049039    .0579859  -.1763057   .2326767
+(896 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        891    .0027881    .0686307  -.1739497   .2768461
+(891 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        891    .0057755    .0576169  -.1605904   .2217198
+(891 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        890    .0022863    .0673347  -.1754359   .2992179
+(890 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        890    .0053345    .0566195  -.1550751   .2414743
+(890 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        889    .0028575    .0688656  -.1793286   .2764342
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        887    .0059039    .0577995  -.1652034   .2221106
+(887 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        889     .002295    .0674931  -.1812741   .3002806
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        887    .0053964    .0567148  -.1594028   .2427112
+(887 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        914    .0021798    .0835509  -.2087832   .3306217
+(914 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        914    .0029185     .046731  -.1467922   .2123694
+(914 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        913      .00162    .0827814   -.212967   .3446043
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        913    .0028261    .0463726  -.1422754   .2259761
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        913    .0022018    .0838716   -.214962   .3308381
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        913    .0028965     .047436  -.1469308   .2133634
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        912    .0015985    .0830349   -.219796   .3462589
+(912 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        912    .0027702    .0470528  -.1422853   .2280104
+(912 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        891     .003409    .0792957  -.1920751   .3173964
+(891 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        889    .0046757    .0452945  -.1406804   .1948971
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        890    .0024931     .077315  -.1907495   .3375635
+(890 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        888    .0043504     .044552  -.1322266   .2129705
+(888 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        889     .003543    .0796038  -.1969149   .3173857
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        884    .0047823    .0461308  -.1373409   .1954799
+(884 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        889    .0025285     .077474  -.1966704   .3391809
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        884    .0044181    .0453575  -.1284301   .2145582
+(884 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        904    .0021301     .069679  -.1899979   .2671769
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        898    .0052513    .0588196  -.1809963   .2540647
+(898 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        902     .001632     .068839  -.1864868   .2887155
+(902 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        896    .0048312    .0579974  -.1747689   .2351039
+(896 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        889     .002817    .0688771  -.1810483   .2756668
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        887    .0058489    .0577978  -.1640685   .2199605
+(887 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        889     .002244    .0674905  -.1832754   .2993466
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        887    .0053161    .0566999   -.157707   .2405632
+(887 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        913    .0021209    .0839011  -.2155421   .3300406
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        913    .0028497    .0474377   -.147371     .21265
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        912    .0015097     .083074  -.2205074   .3453216
+(912 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        912    .0027022    .0470622  -.1426871   .2271202
+(912 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        889     .003455    .0796302  -.1988419   .3164867
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        884    .0046787    .0461679  -.1385925   .1935131
+(884 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        889    .0024143    .0775009  -.1995969   .3379128
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        884    .0042842     .045404  -.1301138   .2127082
+(884 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        891    .0026934    .0670864  -.1725399   .2747213
+(891 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        889     .004251    .0433465   -.147308    .182421
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        890    .0022358    .0659281   -.172778    .295215
+(890 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        888    .0039966    .0429004  -.1407328   .1930604
+(888 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        889    .0027517    .0672985  -.1778899   .2742544
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        884    .0043198    .0440329  -.1448987   .1824723
+(884 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        889    .0022373     .066068  -.1785433   .2962069
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        884     .004029    .0435976  -.1378485   .1940098
+(884 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        889    .0027125     .067315  -.1795396   .2735155
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_2ye.. |        884     .004287    .0440396  -.1459255   .1809745
+(884 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        889    .0021867    .0660719  -.1806154   .2953196
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        884    .0039825    .0436039  -.1391053    .192613
+(884 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        917   -.0075471    .0822576  -.2059644   .3337602
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        917   -.0005536    .0682712   -.183339   .2900319
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        917   -.0061224    .0737636  -.2564202   .2750604
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        917   -.0014221    .0616983  -.2121355   .2280119
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        917   -.0077436    .0829867  -.2016933   .3366601
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        917   -.0006601    .0689635   -.189933   .2921246
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        917   -.0062268    .0746262  -.2576372   .2890257
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        917   -.0014847     .062438  -.2133231   .2374737
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        904   -.0111988    .0798801  -.2085786   .3439089
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        904   -.0058413    .0655913  -.1714595   .2937004
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        902   -.0077578    .0706255   -.273598   .2956161
+(902 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        902   -.0050188    .0582863  -.2187241     .24345
+(902 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        914   -.0096466    .0797581  -.2213953   .3233436
+(914 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        914    -.003401    .0657332  -.2106974   .2745394
+(914 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        913   -.0075044     .071672  -.2768474    .235016
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        913   -.0036263    .0593104  -.2335821    .224156
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        904   -.0115087    .0807046  -.2120189   .3442054
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        904   -.0060753    .0663272  -.1744846   .2934596
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        902   -.0079276    .0715526   -.275036   .3054633
+(902 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        902   -.0051853    .0590777  -.2197548   .2518094
+(902 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        913   -.0098751    .0803925  -.2337875   .3298313
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        913   -.0035807    .0663015  -.2207383   .2794712
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        912   -.0076472     .072408  -.2781517   .2358418
+(912 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        912   -.0037526     .059925  -.2344033   .2249833
+(912 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        891   -.0104692    .0786089  -.2194933   .3326463
+(891 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        891   -.0057529    .0647405   -.175304   .2761737
+(891 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        890   -.0070884    .0692975  -.2870215   .2372882
+(890 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        890   -.0048303    .0576248  -.2338317   .2250539
+(890 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        889    -.010773     .079212  -.2247222   .3403777
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        889   -.0060006    .0652677  -.1782955   .2825094
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        889   -.0072796    .0699246  -.2880836   .2381466
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        889   -.0050143    .0581743  -.2348165   .2241638
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        917   -.0075475    .0828688   -.204461   .3383719
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        917     -.00028    .0693789  -.1925289    .295873
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        917   -.0060845    .0746374  -.2562634   .2898269
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        917   -.0010437    .0627691  -.2110013   .2493622
+(917 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        904   -.0112751    .0806273  -.2113447   .3452068
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        904   -.0056258    .0667328  -.1753899   .2962719
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        902   -.0077725     .071579  -.2740605   .3064379
+(902 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        902   -.0046075     .059393   -.216771   .2647368
+(902 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        913   -.0096237    .0802505  -.2333349   .3314445
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        913    -.003152    .0666284  -.2228504   .2803407
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        912   -.0074854    .0724093   -.276719   .2354641
+(912 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        912   -.0032665    .0600874  -.2303437   .2281578
+(912 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        889      -.0105    .0790584  -.2251803   .3422833
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        889   -.0055713    .0656092  -.1790611   .2848653
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        889   -.0070893    .0698767  -.2863296   .2384244
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        889   -.0044806    .0583872  -.2302984    .227806
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        904   -.0062267    .0666192  -.1583122   .3138285
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        901   -.0049369    .0551267   -.212195    .207381
+(901 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        902   -.0047783    .0600901  -.2219164   .2626328
+(902 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        899   -.0042868    .0507081  -.1769069   .1990289
+(899 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        904    -.006437    .0673251  -.1636321   .3140195
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        898   -.0050867    .0560152  -.2177148    .219911
+(898 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        902   -.0049056    .0608876  -.2227355   .2720526
+(902 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        896   -.0043849    .0515684  -.1820084   .2091393
+(896 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        891   -.0054075    .0655799  -.1730319    .299674
+(891 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        891   -.0045128    .0539784  -.1824592   .2110837
+(891 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        890   -.0041057    .0592629  -.2343639   .2087735
+(890 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        890   -.0038522     .049737   -.187091   .1912425
+(890 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        889    -.005625    .0661163  -.1730468   .3071333
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        887   -.0046817    .0546556  -.1887509   .2171284
+(887 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        889   -.0042561    .0598077  -.2350011   .2142616
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        887   -.0039523    .0503648  -.1880657   .1940532
+(887 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        914   -.0090722     .077563  -.2139025   .3164225
+(914 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        914   -.0000357    .0449581  -.1214167   .1910086
+(914 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        913   -.0070596    .0697557  -.2696892   .2269166
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        913   -.0004738    .0410039  -.1499592   .1622329
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        913   -.0092895    .0781726  -.2259607    .323381
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        913   -.0001365    .0458759  -.1372211   .2007077
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        912   -.0071956    .0704685  -.2709147   .2301909
+(912 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        912   -.0005334    .0419418  -.1526877   .1708245
+(912 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        891   -.0099098    .0763088  -.2128641   .3263938
+(891 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        889   -.0024163    .0458571  -.1175931   .2085223
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        890   -.0067166    .0673946  -.2795644   .2240978
+(890 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        888   -.0020536    .0413618  -.1604672    .159435
+(888 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        889   -.0102009     .076876  -.2176749   .3348568
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        884    -.002618    .0468285  -.1219457   .2204138
+(884 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        889   -.0069026     .067995  -.2805559   .2299376
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        884    -.002228    .0424307  -.1629455   .1686365
+(884 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        904   -.0063278    .0674123   -.163572   .3141656
+(904 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        898   -.0049246    .0564454  -.2276157   .2241303
+(898 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        902   -.0048232    .0610006   -.222739   .2731473
+(902 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        896   -.0041635    .0519482  -.1908648   .2177237
+(896 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        889   -.0055223    .0661482  -.1712861   .3078819
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        887   -.0045538    .0550023  -.1963485   .2187459
+(887 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        889   -.0041706    .0598605  -.2345132   .2146379
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        887   -.0037665    .0506218  -.1850497   .1937602
+(887 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        913   -.0090403    .0780341  -.2255834   .3250036
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        913    .0001839    .0462915  -.1399019   .2027314
+(913 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        912    -.007032    .0704673  -.2694559    .232487
+(912 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        912   -.0001873    .0422774  -.1503849   .1667132
+(912 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        889   -.0099317    .0767311  -.2156419    .336773
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        884   -.0022889    .0472428  -.1202375   .2233013
+(884 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        889    -.006712    .0679489  -.2788146   .2322591
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        884    -.001835    .0427579  -.1598983   .1623064
+(884 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        891   -.0050394    .0636457  -.1690349   .2945198
+(891 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        889   -.0022362    .0396953   -.122539   .1666654
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        890   -.0038312    .0576126  -.2283738   .2070909
+(890 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        888   -.0018942    .0368136  -.1334968   .1409495
+(888 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        889   -.0052465    .0641509  -.1689986   .3026386
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        884   -.0023753    .0405624  -.1304027   .1761143
+(884 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        889   -.0039763    .0581321   -.228951   .2132568
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        884   -.0020125    .0377677  -.1349031   .1529716
+(884 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        889    -.005144    .0641891  -.1672409   .3034241
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_enr_4ye.. |        884   -.0022758    .0409146   -.136881   .1780864
+(884 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        889   -.0038905    .0581873   -.228474   .2136132
+(889 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+va_dk_enr_.. |        884   -.0018744    .0380397  -.1326048   .1480102
+(884 real changes made)
 
 . 
 . foreach i of local indexvars {
@@ -175,213 +2340,282 @@
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
-climateindex |        935    5.407748    1.622327  -.2750432       12.1
+climateindex |      1,874    6.178431    2.081111  -5.329283   13.88095
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
-qualityindex |        935    11.00473    2.369656   .4187376       22.8
+qualityindex |      1,874    12.29125    3.110011  -2.833333   23.64488
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
-supportindex |        935    3.401849    .8624142  -1.890909   6.784119
+supportindex |      1,874    3.224413    1.278162   -3.30303   7.475926
 
 . 
-. // regress va vars on index vars, N is all the same across index because of i
-> mputed data so can append
-. foreach i of local vavars {
-  2.   local append replace
-  3. 
-.   foreach j of local indexvars {
-  4.     qui reg z_`i' z_`j'
-  5.     regsave using $projdir/out/dta/factor/imputed/`i'_index_imputedregs, `
-> append' table(`i', format(%7.2f) parentheses(stderr) asterisk())
-  6. 
-.     local append append
-  7.   }
-  8. }
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_ela_index_imputedregs.dta saved
-Warning: width of using dataset has not increased. Values may have been overwri
-> tten.
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_ela_index_imputedregs.dta saved
-Warning: width of using dataset has not increased. Values may have been overwri
-> tten.
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_ela_index_imputedregs.dta saved
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_math_index_imputedregs.dta saved
-Warning: width of using dataset has not increased. Values may have been overwri
-> tten.
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_math_index_imputedregs.dta saved
-Warning: width of using dataset has not increased. Values may have been overwri
-> tten.
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_math_index_imputedregs.dta saved
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_enr_index_imputedregs.dta saved
-Warning: width of using dataset has not increased. Values may have been overwri
-> tten.
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_enr_index_imputedregs.dta saved
-Warning: width of using dataset has not increased. Values may have been overwri
-> tten.
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_enr_index_imputedregs.dta saved
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_enrela_index_imputedregs.dta saved
-Warning: width of using dataset has not increased. Values may have been overwri
-> tten.
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_enrela_index_imputedregs.dta saved
-Warning: width of using dataset has not increased. Values may have been overwri
-> tten.
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_enrela_index_imputedregs.dta saved
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_enrmath_index_imputedregs.dta saved
-Warning: width of using dataset has not increased. Values may have been overwri
-> tten.
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_enrmath_index_imputedregs.dta saved
-Warning: width of using dataset has not increased. Values may have been overwri
-> tten.
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_enrmath_index_imputedregs.dta saved
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_enrdk_index_imputedregs.dta saved
-Warning: width of using dataset has not increased. Values may have been overwri
-> tten.
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_enrdk_index_imputedregs.dta saved
-Warning: width of using dataset has not increased. Values may have been overwri
-> tten.
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_enrdk_index_imputedregs.dta saved
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_2yr_index_imputedregs.dta saved
-Warning: width of using dataset has not increased. Values may have been overwri
-> tten.
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_2yr_index_imputedregs.dta saved
-Warning: width of using dataset has not increased. Values may have been overwri
-> tten.
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_2yr_index_imputedregs.dta saved
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_2yrela_index_imputedregs.dta saved
-Warning: width of using dataset has not increased. Values may have been overwri
-> tten.
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_2yrela_index_imputedregs.dta saved
-Warning: width of using dataset has not increased. Values may have been overwri
-> tten.
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_2yrela_index_imputedregs.dta saved
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_2yrmath_index_imputedregs.dta saved
-Warning: width of using dataset has not increased. Values may have been overwri
-> tten.
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_2yrmath_index_imputedregs.dta saved
-Warning: width of using dataset has not increased. Values may have been overwri
-> tten.
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_2yrmath_index_imputedregs.dta saved
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_2yrdk_index_imputedregs.dta saved
-Warning: width of using dataset has not increased. Values may have been overwri
-> tten.
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_2yrdk_index_imputedregs.dta saved
-Warning: width of using dataset has not increased. Values may have been overwri
-> tten.
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_2yrdk_index_imputedregs.dta saved
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_4yr_index_imputedregs.dta saved
-Warning: width of using dataset has not increased. Values may have been overwri
-> tten.
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_4yr_index_imputedregs.dta saved
-Warning: width of using dataset has not increased. Values may have been overwri
-> tten.
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_4yr_index_imputedregs.dta saved
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_4yrela_index_imputedregs.dta saved
-Warning: width of using dataset has not increased. Values may have been overwri
-> tten.
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_4yrela_index_imputedregs.dta saved
-Warning: width of using dataset has not increased. Values may have been overwri
-> tten.
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_4yrela_index_imputedregs.dta saved
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_4yrmath_index_imputedregs.dta saved
-Warning: width of using dataset has not increased. Values may have been overwri
-> tten.
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_4yrmath_index_imputedregs.dta saved
-Warning: width of using dataset has not increased. Values may have been overwri
-> tten.
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_4yrmath_index_imputedregs.dta saved
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_4yrdk_index_imputedregs.dta saved
-Warning: width of using dataset has not increased. Values may have been overwri
-> tten.
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_4yrdk_index_imputedregs.dta saved
-Warning: width of using dataset has not increased. Values may have been overwri
-> tten.
-file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
-    > va_4yrdk_index_imputedregs.dta saved
+. 
+. 
+. 
+. //-------------------------------------------------------------
+. // bivariate regression of VA z scores on index z scores
+.  /* 1. base sample base contro, no peer effects
+>  2. leave out score - sibling - acs sample, kitchen sink controls, peer effec
+> ts */
+. //-------------------------------------------------------------
+. 
+. // macros for different VA estimates to be used in each sample
+. local b_sample_controls b
 
+. local las_sample_controls las
+
+. 
+. 
+. foreach va_outcome in ela math enr enr_2year enr_4year dk_enr dk_enr_2year dk
+> _enr_4year {
+  2. 
+.       foreach sample in b las {
+  3.         foreach control of local `sample'_sample_controls {
+  4.           //macro for whether to use the VA estimates with peer effects
+.           if "`sample'" == "b" {
+  5.             local peer
+  6.             local peer_yn "N"
+  7.           }
+  8.           if "`sample'" == "las" {
+  9.             local peer "_p"
+ 10.             local peer_yn "Y"
+ 11. 
+.           }
+ 12. 
+.             local append replace
+ 13. 
+.             foreach index of local indexvars {
+ 14. 
+.               qui reg va_`va_outcome'_`sample'_sp_`control'_ct`peer' z_`index
+> '
+ 15. 
+.               regsave using $projdir/out/dta/factor/imputed/va_`va_outcome'_`
+> sample'_sp_`control'_ct`peer'_index ///
+>                 , `append' ///
+>                 table(va_`va_outcome'_`sample'_sp_`control'_ct`peer', format(
+> %7.2f) parentheses(stderr) asterisk()) ///
+>                 addlabel(va, `va_outcome', sample, `sample', control, `contro
+> l', peer, `peer_yn')
+ 16. 
+. 
+.               local append append
+ 17.             }
+ 18.           }
+ 19. 
+.         }
+ 20. }
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_ela_b_sp_b_ct_index.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_ela_b_sp_b_ct_index.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_ela_b_sp_b_ct_index.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_ela_las_sp_las_ct_p_index.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_ela_las_sp_las_ct_p_index.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_ela_las_sp_las_ct_p_index.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_math_b_sp_b_ct_index.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_math_b_sp_b_ct_index.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_math_b_sp_b_ct_index.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_math_las_sp_las_ct_p_index.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_math_las_sp_las_ct_p_index.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_math_las_sp_las_ct_p_index.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_enr_b_sp_b_ct_index.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_enr_b_sp_b_ct_index.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_enr_b_sp_b_ct_index.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_enr_las_sp_las_ct_p_index.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_enr_las_sp_las_ct_p_index.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_enr_las_sp_las_ct_p_index.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_enr_2year_b_sp_b_ct_index.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_enr_2year_b_sp_b_ct_index.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_enr_2year_b_sp_b_ct_index.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_enr_2year_las_sp_las_ct_p_index.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_enr_2year_las_sp_las_ct_p_index.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_enr_2year_las_sp_las_ct_p_index.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_enr_4year_b_sp_b_ct_index.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_enr_4year_b_sp_b_ct_index.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_enr_4year_b_sp_b_ct_index.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_enr_4year_las_sp_las_ct_p_index.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_enr_4year_las_sp_las_ct_p_index.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_enr_4year_las_sp_las_ct_p_index.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_dk_enr_b_sp_b_ct_index.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_dk_enr_b_sp_b_ct_index.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_dk_enr_b_sp_b_ct_index.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_dk_enr_las_sp_las_ct_p_index.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_dk_enr_las_sp_las_ct_p_index.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_dk_enr_las_sp_las_ct_p_index.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_dk_enr_2year_b_sp_b_ct_index.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_dk_enr_2year_b_sp_b_ct_index.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_dk_enr_2year_b_sp_b_ct_index.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_dk_enr_2year_las_sp_las_ct_p_index.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_dk_enr_2year_las_sp_las_ct_p_index.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_dk_enr_2year_las_sp_las_ct_p_index.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_dk_enr_4year_b_sp_b_ct_index.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_dk_enr_4year_b_sp_b_ct_index.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_dk_enr_4year_b_sp_b_ct_index.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_dk_enr_4year_las_sp_las_ct_p_index.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_dk_enr_4year_las_sp_las_ct_p_index.dta saved
+Warning: width of using dataset has not increased. Values may have been overwri
+> tten.
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/imputed/
+    > va_dk_enr_4year_las_sp_las_ct_p_index.dta saved
+
+. 
 . 
 . 
 . //save dataset
@@ -391,98 +2625,176 @@ file
     > ryindex/imputedcategoryindex.dta saved
 
 . 
+. //-----------------------------------------------------------
 . //merge the va index reg datasets to produce combined table
-. // local macro for all va vars except the first one (va_ela) for merging loop
-. local vaminusfirst va_math va_enr va_enrela va_enrmath va_enrdk va_2yr va_2yr
-> ela va_2yrmath va_2yrdk va_4yr va_4yrela va_4yrmath va_4yrdk
+. //-----------------------------------------------------------
+. 
+. 
+. local merge_command use
+
+. local merge_options clear
 
 . 
-. use $projdir/out/dta/factor/imputed/va_ela_index_imputedregs, clear
-
-. foreach i of local vaminusfirst {
-  2.   merge 1:1 var using $projdir/out/dta/factor/imputed/`i'_index_imputedreg
-> s
-  3.   drop _merge
-  4. }
-
-    Result                      Number of obs
-    -----------------------------------------
-    Not matched                             0
-    Matched                                10  (_merge==3)
-    -----------------------------------------
-
-    Result                      Number of obs
-    -----------------------------------------
-    Not matched                             0
-    Matched                                10  (_merge==3)
-    -----------------------------------------
-
-    Result                      Number of obs
-    -----------------------------------------
-    Not matched                             0
-    Matched                                10  (_merge==3)
-    -----------------------------------------
-
-    Result                      Number of obs
-    -----------------------------------------
-    Not matched                             0
-    Matched                                10  (_merge==3)
-    -----------------------------------------
-
-    Result                      Number of obs
-    -----------------------------------------
-    Not matched                             0
-    Matched                                10  (_merge==3)
-    -----------------------------------------
+. foreach va_outcome in ela math enr enr_2year enr_4year dk_enr dk_enr_2year dk
+> _enr_4year {
+  2.   di "va: `va_outcome'"
+  3.   foreach sample in b las {
+  4.     di "sample: `sample'"
+  5.     foreach control of local `sample'_sample_controls {
+  6.       //macro for whether to use the VA estimates with peer effects
+.       if "`sample'" == "b" {
+  7.         local peer
+  8.         local peer_yn "N"
+  9.       }
+ 10.       if "`sample'" == "las" {
+ 11.         local peer "_p"
+ 12.         local peer_yn "Y"
+ 13.       }
+ 14. 
+.       di "peer controls in VA estimates (empty if no peer, _p if peer): `peer
+> '"
+ 15. 
+. 
+.       `merge_command' $projdir/out/dta/factor/imputed/va_`va_outcome'_`sample
+> '_sp_`control'_ct`peer'_index, `merge_options'
+ 16. 
+.       local merge_command "merge 1:1 var using"
+ 17.       local merge_options nogen
+ 18.     }
+ 19.   }
+ 20. }
+va: ela
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
 
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                                10  (_merge==3)
+    Matched                                14  
     -----------------------------------------
+va: math
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
 
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                                10  (_merge==3)
+    Matched                                14  
     -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
 
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                                10  (_merge==3)
+    Matched                                14  
     -----------------------------------------
+va: enr
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
 
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                                10  (_merge==3)
+    Matched                                14  
     -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
 
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                                10  (_merge==3)
+    Matched                                14  
     -----------------------------------------
+va: enr_2year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
 
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                                10  (_merge==3)
+    Matched                                14  
     -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
 
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                                10  (_merge==3)
+    Matched                                14  
     -----------------------------------------
+va: enr_4year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
 
     Result                      Number of obs
     -----------------------------------------
     Not matched                             0
-    Matched                                10  (_merge==3)
+    Matched                                14  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+va: dk_enr
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+va: dk_enr_2year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+va: dk_enr_4year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
     -----------------------------------------
 
+. 
 . 
 . save $projdir/out/dta/factor/imputed/vaindex_imputedregs_all, replace
 file
@@ -491,10 +2803,11 @@ file
 
 . 
 . export excel using $projdir/out/xls/factor/imputed/vaindex_imputedregs_all, r
-> eplace
+> eplace firstrow(variables)
 file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/factor/imputed/v
 > aindex_imputedregs_all.xls saved
 
+. 
 . 
 . 
 . 
@@ -503,5 +2816,5 @@ file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/factor/imputed/v
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factor
 > analysis/imputedcategoryindex.smcl
   log type:  smcl
- closed on:  25 Jul 2022, 18:11:09
+ closed on:  21 Nov 2022, 22:12:30
 -------------------------------------------------------------------------------

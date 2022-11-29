@@ -120,11 +120,13 @@ foreach va_outcome in ela math enr enr_2year enr_4year dk_enr dk_enr_2year dk_en
 save $projdir/dta/allsvyfactor/categoryindex/compcasecategoryindex, replace
 
 
-//merge the va index reg datasets to produce combined table
-local merge_command use
-local merge_options clear
+
 
 foreach index of local indexvars {
+  //merge the va index reg datasets to produce combined table
+  local merge_command use
+  local merge_options clear
+  
   foreach va_outcome in ela math enr enr_2year enr_4year dk_enr dk_enr_2year dk_enr_4year {
     di "va: `va_outcome'"
     foreach sample in b las {

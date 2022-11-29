@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/svyvar
 > egs/allvaregs.smcl
   log type:  smcl
- opened on:  21 Nov 2022, 18:50:07
+ opened on:  21 Nov 2022, 22:11:55
 
 . 
 . 
@@ -85,8 +85,8 @@
  27.             regsave using $projdir/out/dta/varegs/`svyname'/va_`va_outcome
 > '_`sample'_sp_`control'_ct`peer'_nw ///
 >               , `append' ///
->               table(va_`va_outcome', format(%7.2f) parentheses(stderr) asteri
-> sk()) ///
+>               table(va_`va_outcome'_`sample'_sp_`control'_ct`peer', format(%7
+> .2f) parentheses(stderr) asterisk()) ///
 >               addlabel(va, `va_outcome', sample, `sample', control, `control'
 > , peer, `peer_yn', weighted, N)
  28. 
@@ -99,8 +99,8 @@
  29.             regsave using $projdir/out/dta/varegs/`svyname'/va_`va_outcome
 > '_`sample'_sp_`control'_ct`peer'_wt ///
 >               , `append' ///
->               table(va_`va_outcome', format(%7.2f) parentheses(stderr) asteri
-> sk()) ///
+>               table(va_`va_outcome'_`sample'_sp_`control'_ct`peer', format(%7
+> .2f) parentheses(stderr) asterisk()) ///
 >               addlabel(va, `va_outcome', sample, `sample', control, `control'
 > , peer, `peer_yn', weighted, Y)
  30. 
@@ -155,38 +155,50 @@
 .   save $projdir/out/dta/varegs/`svyname'/`svyname'_va_all_nw, replace
  58.   export excel using $projdir/out/xls/varegs/unweighted/`svyname'/`svyname
 > '_va_all_nw, replace firstrow(variables)
- 59. /*
->   //next, merge weighted
->   use $projdir/out/dta/varegs/`svyname'/va_ela_wt, clear
->   merge 1:1 var using $projdir/out/dta/varegs/`svyname'/va_math_wt
->   drop _merge
->   merge 1:1 var using $projdir/out/dta/varegs/`svyname'/va_enr_wt
->   drop _merge
->   merge 1:1 var using $projdir/out/dta/varegs/`svyname'/va_enrela_wt
->   drop _merge
->   merge 1:1 var using $projdir/out/dta/varegs/`svyname'/va_enrmath_wt
->   drop _merge
->   merge 1:1 var using $projdir/out/dta/varegs/`svyname'/va_enrdk_wt
->   drop _merge
->   merge 1:1 var using $projdir/out/dta/varegs/`svyname'/va_2yr_wt
->   drop _merge
->   merge 1:1 var using $projdir/out/dta/varegs/`svyname'/va_2yrela_wt
->   drop _merge
->   merge 1:1 var using $projdir/out/dta/varegs/`svyname'/va_2yrmath_wt
->   drop _merge
->   merge 1:1 var using $projdir/out/dta/varegs/`svyname'/va_2yrdk_wt
->   drop _merge
->   merge 1:1 var using $projdir/out/dta/varegs/`svyname'/va_4yr_wt
->   drop _merge
->   merge 1:1 var using $projdir/out/dta/varegs/`svyname'/va_4yrela_wt
->   drop _merge
->   merge 1:1 var using $projdir/out/dta/varegs/`svyname'/va_4yrmath_wt
->   drop _merge
->   merge 1:1 var using $projdir/out/dta/varegs/`svyname'/va_4yrdk_wt
->   drop _merge
->   save $projdir/out/dta/varegs/`svyname'/`svyname'_va_all_wt, replace
->   export excel using $projdir/out/xls/varegs/weighted/`svyname'/`svyname'_va_
-> all_wt, replace */
+ 59. 
+. 
+.   //-------------------------------------------
+.   // merge weighted regressions
+.   //-------------------------------------------
+.   local merge_command use
+ 60.   local merge_options clear
+ 61. 
+. 
+.   foreach va_outcome in ela math enr enr_2year enr_4year dk_enr dk_enr_2year 
+> dk_enr_4year {
+ 62.     di "va: `va_outcome'"
+ 63.     foreach sample in b las {
+ 64.       di "sample: `sample'"
+ 65.       foreach control of local `sample'_sample_controls {
+ 66.         //macro for whether to use the VA estimates with peer effects
+.         if "`sample'" == "b" {
+ 67.           local peer
+ 68.           local peer_yn "N"
+ 69.         }
+ 70.         if "`sample'" == "las" {
+ 71.           local peer "_p"
+ 72.           local peer_yn "Y"
+ 73.         }
+ 74. 
+.         di "peer controls in VA estimates (empty if no peer, _p if peer): `pe
+> er'"
+ 75. 
+. 
+.         `merge_command' $projdir/out/dta/varegs/`svyname'/va_`va_outcome'_`sa
+> mple'_sp_`control'_ct`peer'_wt, `merge_options'
+ 76. 
+.         local merge_command "merge 1:1 var using"
+ 77.         local merge_options nogen
+ 78.       }
+ 79.     }
+ 80.   }
+ 81. 
+.   save $projdir/out/dta/varegs/`svyname'/`svyname'_va_all_nw, replace
+ 82.   export excel using $projdir/out/xls/varegs/weighted/`svyname'/`svyname'_
+> va_all_wt, replace firstrow(variables)
+ 83. 
+. 
+. 
 . 
 . }
 (secondary pooled dataset ready for analysis with stats and response rate)
@@ -5636,6 +5648,141 @@ file
     > va_all_nw.dta saved
 file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/varegs/unweighte
 > d/sec/sec_va_all_nw.xls saved
+va: ela
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                47  
+    -----------------------------------------
+va: math
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                47  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                47  
+    -----------------------------------------
+va: enr
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                47  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                47  
+    -----------------------------------------
+va: enr_2year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                47  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                47  
+    -----------------------------------------
+va: enr_4year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                47  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                47  
+    -----------------------------------------
+va: dk_enr
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                47  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                47  
+    -----------------------------------------
+va: dk_enr_2year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                47  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                47  
+    -----------------------------------------
+va: dk_enr_4year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                47  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                47  
+    -----------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/varegs/sec/sec_
+    > va_all_nw.dta saved
+file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/varegs/weighted/
+> sec/sec_va_all_wt.xls saved
 (parent pooled (over years) dataset ready for analysis with stats and response 
 > ra)
 
@@ -9764,6 +9911,141 @@ file
     > arent_va_all_nw.dta saved
 file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/varegs/unweighte
 > d/parent/parent_va_all_nw.xls saved
+va: ela
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                31  
+    -----------------------------------------
+va: math
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                31  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                31  
+    -----------------------------------------
+va: enr
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                31  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                31  
+    -----------------------------------------
+va: enr_2year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                31  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                31  
+    -----------------------------------------
+va: enr_4year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                31  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                31  
+    -----------------------------------------
+va: dk_enr
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                31  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                31  
+    -----------------------------------------
+va: dk_enr_2year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                31  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                31  
+    -----------------------------------------
+va: dk_enr_4year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                31  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                31  
+    -----------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/varegs/parent/p
+    > arent_va_all_nw.dta saved
+file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/varegs/weighted/
+> parent/parent_va_all_wt.xls saved
 (weighted average staff qoi statistics pooled over years)
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
@@ -14551,6 +14833,141 @@ file
     > aff_va_all_nw.dta saved
 file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/varegs/unweighte
 > d/staff/staff_va_all_nw.xls saved
+va: ela
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                39  
+    -----------------------------------------
+va: math
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                39  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                39  
+    -----------------------------------------
+va: enr
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                39  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                39  
+    -----------------------------------------
+va: enr_2year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                39  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                39  
+    -----------------------------------------
+va: enr_4year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                39  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                39  
+    -----------------------------------------
+va: dk_enr
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                39  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                39  
+    -----------------------------------------
+va: dk_enr_2year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                39  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                39  
+    -----------------------------------------
+va: dk_enr_4year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                39  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                39  
+    -----------------------------------------
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/varegs/staff/st
+    > aff_va_all_nw.dta saved
+file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/varegs/weighted/
+> staff/staff_va_all_wt.xls saved
 
 . 
 . 
@@ -14563,5 +14980,5 @@ file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/xls/varegs/unweighte
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/svyvar
 > egs/allvaregs.smcl
   log type:  smcl
- closed on:  21 Nov 2022, 18:50:36
+ closed on:  21 Nov 2022, 22:12:26
 -------------------------------------------------------------------------------

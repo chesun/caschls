@@ -3,564 +3,520 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factor
 > analysis/indexhorserace.smcl
   log type:  smcl
- opened on:  25 Jul 2022, 18:11:10
+ opened on:  21 Nov 2022, 22:13:10
 
 . 
 . /////////////////////////////////////////////////////////////////////////////
 > ///
-> /* complete case analysis  */
+> 
+. 
+. foreach type in compcase imputed {
+  2. 
+.   use $projdir/dta/allsvyfactor/categoryindex/`type'categoryindex, clear
+  3. 
+.   //local macro for z score index vars
+.   local indexsdvars z_climateindex z_qualityindex z_supportindex
+  4. 
+. 
+.   // macros for different VA estimates to be used in each sample
+.   local b_sample_controls b
+  5.   local las_sample_controls las
+  6. 
+. 
+.   foreach va_outcome in ela math enr enr_2year enr_4year dk_enr dk_enr_2year 
+> dk_enr_4year {
+  7. 
+.         foreach sample in b las {
+  8.           foreach control of local `sample'_sample_controls {
+  9.             //macro for whether to use the VA estimates with peer effects
+.             if "`sample'" == "b" {
+ 10.               local peer
+ 11.               local peer_yn "N"
+ 12.             }
+ 13.             if "`sample'" == "las" {
+ 14.               local peer "_p"
+ 15.               local peer_yn "Y"
+ 16. 
+.             }
+ 17. 
+. 
+.                 qui reg va_`va_outcome'_`sample'_sp_`control'_ct`peer' `index
+> sdvars'
+ 18. 
+.                 regsave using $projdir/out/csv/factoranalysis/indexhorserace/
+> va_`va_outcome'_`sample'_sp_`control'_ct`peer'_`type' ///
+>                   , replace ///
+>                   table(va_`va_outcome'_`sample'_sp_`control'_ct`peer', forma
+> t(%7.2f) parentheses(stderr) asterisk()) ///
+>                   addlabel(va, `va_outcome', sample, `sample', control, `cont
+> rol', peer, `peer_yn')
+ 19. 
 . 
 . 
-. use $projdir/dta/allsvyfactor/categoryindex/compcasecategoryindex, clear
+.             }
+ 20. 
+.           }
+ 21.   }
+ 22. 
+. 
+.   //-----------------------------------------------------------
+.   //merge the va index horse race reg datasets to produce combined table
+.   //-----------------------------------------------------------
+. 
+. 
+.   local merge_command use
+ 23.   local merge_options clear
+ 24. 
+.   foreach va_outcome in ela math enr enr_2year enr_4year dk_enr dk_enr_2year 
+> dk_enr_4year {
+ 25.     di "va: `va_outcome'"
+ 26.     foreach sample in b las {
+ 27.       di "sample: `sample'"
+ 28.       foreach control of local `sample'_sample_controls {
+ 29.         //macro for whether to use the VA estimates with peer effects
+.         if "`sample'" == "b" {
+ 30.           local peer
+ 31.           local peer_yn "N"
+ 32.         }
+ 33.         if "`sample'" == "las" {
+ 34.           local peer "_p"
+ 35.           local peer_yn "Y"
+ 36.         }
+ 37. 
+.         di "peer controls in VA estimates (empty if no peer, _p if peer): `pe
+> er'"
+ 38. 
+. 
+.         `merge_command' $projdir/out/csv/factoranalysis/indexhorserace/va_`va
+> _outcome'_`sample'_sp_`control'_ct`peer'_`type', `merge_options'
+ 39. 
+.         local merge_command "merge 1:1 var using"
+ 40.         local merge_options nogen
+ 41.       }
+ 42.     }
+ 43.   }
+ 44. 
+.   export excel using $projdir/out/csv/factoranalysis/indexhorserace/`type'hor
+> serace.csv, replace firstrow(variables)
+ 45. 
+. 
+. }
 (parent pooled (over years) dataset ready for analysis with stats and response 
 > ra)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_ela_b_sp_b_ct_compcase.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_ela_las_sp_las_ct_p_compcase.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_math_b_sp_b_ct_compcase.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_math_las_sp_las_ct_p_compcase.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_enr_b_sp_b_ct_compcase.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_enr_las_sp_las_ct_p_compcase.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_enr_2year_b_sp_b_ct_compcase.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_enr_2year_las_sp_las_ct_p_compcase.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_enr_4year_b_sp_b_ct_compcase.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_enr_4year_las_sp_las_ct_p_compcase.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_dk_enr_b_sp_b_ct_compcase.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_dk_enr_las_sp_las_ct_p_compcase.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_dk_enr_2year_b_sp_b_ct_compcase.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_dk_enr_2year_las_sp_las_ct_p_compcase.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_dk_enr_4year_b_sp_b_ct_compcase.dta saved
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_dk_enr_4year_las_sp_las_ct_p_compcase.dta saved
+va: ela
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
 
-. 
-. //local macro for VA vars in z scores
-. local vasdvars z_va_ela z_va_math z_va_enr z_va_enrela z_va_enrmath z_va_enrd
-> k z_va_2yr z_va_2yrela z_va_2yrmath z_va_2yrdk z_va_4yr z_va_4yrela z_va_4yrm
-> ath z_va_4yrdk
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+va: math
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
 
-. 
-. //local macro for z score index vars
-. local indexsdvars z_climateindex z_qualityindex z_supportindex
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
 
-. 
-. // regress va vars on index vars
-. foreach i of local vasdvars {
-  2.   local append replace
-  3. 
-.   eststo: reg `i' `indexsdvars'
-  4. 
-.   local append append
-  5. }
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+va: enr
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
 
-      Source |       SS           df       MS      Number of obs   =       292
--------------+----------------------------------   F(3, 288)       =      6.59
-       Model |  18.0332865         3   6.0110955   Prob > F        =    0.0003
-    Residual |  262.592039       288  .911777914   R-squared       =    0.0643
--------------+----------------------------------   Adj R-squared   =    0.0545
-       Total |  280.625326       291  .964348199   Root MSE        =    .95487
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
 
-------------------------------------------------------------------------------
-    z_va_ela | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-z_climatei~x |   .2583513   .1346446     1.92   0.056    -.0066608    .5233635
-z_qualityi~x |  -.0786738   .1434941    -0.55   0.584    -.3611039    .2037563
-z_supporti~x |   .0857073    .076315     1.12   0.262    -.0644986    .2359131
-       _cons |  -.0150384   .0561196    -0.27   0.789     -.125495    .0954182
-------------------------------------------------------------------------------
-(est1 stored)
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+va: enr_2year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
 
-      Source |       SS           df       MS      Number of obs   =       292
--------------+----------------------------------   F(3, 288)       =     15.36
-       Model |  36.5264375         3  12.1754792   Prob > F        =    0.0000
-    Residual |  228.352793       288  .792891641   R-squared       =    0.1379
--------------+----------------------------------   Adj R-squared   =    0.1289
-       Total |   264.87923       291  .910237904   Root MSE        =    .89044
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
 
-------------------------------------------------------------------------------
-   z_va_math | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-z_climatei~x |   .4796379     .12556     3.82   0.000     .2325063    .7267694
-z_qualityi~x |  -.1713499   .1338124    -1.28   0.201    -.4347241    .0920244
-z_supporti~x |   .0382039   .0711659     0.54   0.592    -.1018674    .1782752
-       _cons |   .0424154   .0523332     0.81   0.418    -.0605887    .1454194
-------------------------------------------------------------------------------
-(est2 stored)
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+va: enr_4year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
 
-      Source |       SS           df       MS      Number of obs   =       292
--------------+----------------------------------   F(3, 288)       =      7.93
-       Model |    22.49226         3     7.49742   Prob > F        =    0.0000
-    Residual |   272.16005       288  .945000175   R-squared       =    0.0763
--------------+----------------------------------   Adj R-squared   =    0.0667
-       Total |   294.65231       291   1.0125509   Root MSE        =    .97211
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
 
-------------------------------------------------------------------------------
-    z_va_enr | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-z_climatei~x |   .4970145   .1370756     3.63   0.000     .2272174    .7668116
-z_qualityi~x |  -.4982336   .1460849    -3.41   0.001    -.7857631   -.2107041
-z_supporti~x |   .1930679   .0776929     2.49   0.014       .04015    .3459857
-       _cons |   .1431006   .0571329     2.50   0.013     .0306496    .2555515
-------------------------------------------------------------------------------
-(est3 stored)
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+va: dk_enr
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
 
-      Source |       SS           df       MS      Number of obs   =       292
--------------+----------------------------------   F(3, 288)       =      5.50
-       Model |   16.986357         3  5.66211901   Prob > F        =    0.0011
-    Residual |  296.720803       288  1.03028057   R-squared       =    0.0541
--------------+----------------------------------   Adj R-squared   =    0.0443
-       Total |   313.70716       291  1.07803148   Root MSE        =     1.015
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
 
-------------------------------------------------------------------------------
- z_va_enrela | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-z_climatei~x |   .4614206   .1431272     3.22   0.001     .1797127    .7431285
-z_qualityi~x |  -.4864769   .1525342    -3.19   0.002       -.7867   -.1862537
-z_supporti~x |   .1626682   .0811228     2.01   0.046     .0029995     .322337
-       _cons |   .1579206   .0596552     2.65   0.009     .0405052     .275336
-------------------------------------------------------------------------------
-(est4 stored)
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+va: dk_enr_2year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
 
-      Source |       SS           df       MS      Number of obs   =       292
--------------+----------------------------------   F(3, 288)       =      4.31
-       Model |   12.702475         3  4.23415833   Prob > F        =    0.0054
-    Residual |  283.090272       288  .982952332   R-squared       =    0.0429
--------------+----------------------------------   Adj R-squared   =    0.0330
-       Total |  295.792747       291  1.01646992   Root MSE        =    .99144
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
 
-------------------------------------------------------------------------------
-z_va_enrmath | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-z_climatei~x |   .3801108   .1398011     2.72   0.007     .1049494    .6552722
-z_qualityi~x |  -.4645789   .1489895    -3.12   0.002    -.7578253   -.1713325
-z_supporti~x |   .1660855   .0792376     2.10   0.037     .0101272    .3220437
-       _cons |   .1456751   .0582689     2.50   0.013     .0309883    .2603619
-------------------------------------------------------------------------------
-(est5 stored)
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+va: dk_enr_4year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
 
-      Source |       SS           df       MS      Number of obs   =       292
--------------+----------------------------------   F(3, 288)       =      4.29
-       Model |   12.709351         3  4.23645034   Prob > F        =    0.0056
-    Residual |  284.611065       288  .988232865   R-squared       =    0.0427
--------------+----------------------------------   Adj R-squared   =    0.0328
-       Total |  297.320416       291  1.02171964   Root MSE        =     .9941
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
 
-------------------------------------------------------------------------------
-  z_va_enrdk | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-z_climatei~x |    .380965   .1401761     2.72   0.007     .1050655    .6568645
-z_qualityi~x |    -.46549   .1493892    -3.12   0.002    -.7595231    -.171457
-z_supporti~x |   .1656132   .0794502     2.08   0.038     .0092365    .3219898
-       _cons |   .1473824   .0584252     2.52   0.012      .032388    .2623769
-------------------------------------------------------------------------------
-(est6 stored)
-
-      Source |       SS           df       MS      Number of obs   =       292
--------------+----------------------------------   F(3, 288)       =      1.49
-       Model |  3.99893973         3  1.33297991   Prob > F        =    0.2187
-    Residual |  258.469419       288  .897463261   R-squared       =    0.0152
--------------+----------------------------------   Adj R-squared   =    0.0050
-       Total |  262.468359       291  .901953123   Root MSE        =    .94735
-
-------------------------------------------------------------------------------
-    z_va_2yr | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-z_climatei~x |   .1145738   .1335835     0.86   0.392    -.1483498    .3774975
-z_qualityi~x |  -.2477597   .1423632    -1.74   0.083     -.527964    .0324446
-z_supporti~x |   .0623678   .0757135     0.82   0.411    -.0866543    .2113898
-       _cons |   .2399312   .0556774     4.31   0.000     .1303451    .3495173
-------------------------------------------------------------------------------
-(est7 stored)
-
-      Source |       SS           df       MS      Number of obs   =       292
--------------+----------------------------------   F(3, 288)       =      1.40
-       Model |  3.76983357         3  1.25661119   Prob > F        =    0.2424
-    Residual |  258.141463       288  .896324523   R-squared       =    0.0144
--------------+----------------------------------   Adj R-squared   =    0.0041
-       Total |  261.911296       291  .900038819   Root MSE        =    .94674
-
-------------------------------------------------------------------------------
- z_va_2yrela | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-z_climatei~x |   .1225555   .1334987     0.92   0.359    -.1402012    .3853123
-z_qualityi~x |  -.2453972   .1422729    -1.72   0.086    -.5254237    .0346293
-z_supporti~x |   .0514738   .0756655     0.68   0.497    -.0974537    .2004013
-       _cons |   .2408032    .055642     4.33   0.000     .1312866    .3503198
-------------------------------------------------------------------------------
-(est8 stored)
-
-      Source |       SS           df       MS      Number of obs   =       292
--------------+----------------------------------   F(3, 288)       =      1.28
-       Model |  3.45943096         3  1.15314365   Prob > F        =    0.2814
-    Residual |   259.42675       288  .900787325   R-squared       =    0.0132
--------------+----------------------------------   Adj R-squared   =    0.0029
-       Total |  262.886181       291  .903388937   Root MSE        =     .9491
-
-------------------------------------------------------------------------------
-z_va_2yrmath | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-z_climatei~x |   .1450104   .1338306     1.08   0.279    -.1183997    .4084205
-z_qualityi~x |  -.2534786   .1426266    -1.78   0.077    -.5342014    .0272441
-z_supporti~x |   .0528226   .0758536     0.70   0.487    -.0964752    .2021203
-       _cons |   .2423336   .0557804     4.34   0.000     .1325447    .3521225
-------------------------------------------------------------------------------
-(est9 stored)
-
-      Source |       SS           df       MS      Number of obs   =       292
--------------+----------------------------------   F(3, 288)       =      1.29
-       Model |  3.50853989         3   1.1695133   Prob > F        =    0.2768
-    Residual |  260.374816       288  .904079223   R-squared       =    0.0133
--------------+----------------------------------   Adj R-squared   =    0.0030
-       Total |  263.883356       291  .906815657   Root MSE        =    .95083
-
-------------------------------------------------------------------------------
-  z_va_2yrdk | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-z_climatei~x |   .1463076   .1340749     1.09   0.276    -.1175834    .4101986
-z_qualityi~x |  -.2548805    .142887    -1.78   0.076    -.5361157    .0263548
-z_supporti~x |   .0512022   .0759921     0.67   0.501    -.0983681    .2007726
-       _cons |   .2455274   .0558822     4.39   0.000     .1355381    .3555167
-------------------------------------------------------------------------------
-(est10 stored)
-
-      Source |       SS           df       MS      Number of obs   =       292
--------------+----------------------------------   F(3, 288)       =      7.53
-       Model |  16.8312241         3  5.61040804   Prob > F        =    0.0001
-    Residual |  214.586824       288  .745093141   R-squared       =    0.0727
--------------+----------------------------------   Adj R-squared   =    0.0631
-       Total |  231.418049       291  .795251026   Root MSE        =    .86319
-
-------------------------------------------------------------------------------
-    z_va_4yr | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-z_climatei~x |   .3187309   .1217165     2.62   0.009     .0791641    .5582977
-z_qualityi~x |  -.2035478   .1297164    -1.57   0.118      -.45886    .0517645
-z_supporti~x |   .1243307   .0689875     1.80   0.073     -.011453    .2601143
-       _cons |  -.1318468   .0507312    -2.60   0.010    -.2316978   -.0319957
-------------------------------------------------------------------------------
-(est11 stored)
-
-      Source |       SS           df       MS      Number of obs   =       292
--------------+----------------------------------   F(3, 288)       =      4.48
-       Model |  10.9302332         3  3.64341107   Prob > F        =    0.0043
-    Residual |  234.376365       288  .813806822   R-squared       =    0.0446
--------------+----------------------------------   Adj R-squared   =    0.0346
-       Total |  245.306598       291     .842978   Root MSE        =    .90211
-
-------------------------------------------------------------------------------
- z_va_4yrela | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-z_climatei~x |   .2655796   .1272052     2.09   0.038     .0152098    .5159495
-z_qualityi~x |    -.18224   .1355658    -1.34   0.180    -.4490654    .0845853
-z_supporti~x |   .1060358   .0720984     1.47   0.142    -.0358709    .2479425
-       _cons |  -.1292668   .0530189    -2.44   0.015    -.2336205   -.0249131
-------------------------------------------------------------------------------
-(est12 stored)
-
-      Source |       SS           df       MS      Number of obs   =       292
--------------+----------------------------------   F(3, 288)       =      2.16
-       Model |  5.25510508         3  1.75170169   Prob > F        =    0.0925
-    Residual |  233.198456       288  .809716862   R-squared       =    0.0220
--------------+----------------------------------   Adj R-squared   =    0.0119
-       Total |  238.453561       291  .819428045   Root MSE        =    .89984
-
-------------------------------------------------------------------------------
-z_va_4yrmath | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-z_climatei~x |   .1606068   .1268852     1.27   0.207    -.0891331    .4103467
-z_qualityi~x |  -.1409854   .1352247    -1.04   0.298    -.4071394    .1251687
-z_supporti~x |   .1075101    .071917     1.49   0.136    -.0340395    .2490598
-       _cons |  -.1516523   .0528855    -2.87   0.004    -.2557434   -.0475611
-------------------------------------------------------------------------------
-(est13 stored)
-
-      Source |       SS           df       MS      Number of obs   =       292
--------------+----------------------------------   F(3, 288)       =      2.22
-       Model |  5.34879094         3  1.78293031   Prob > F        =    0.0860
-    Residual |  231.304896       288  .803141999   R-squared       =    0.0226
--------------+----------------------------------   Adj R-squared   =    0.0124
-       Total |  236.653687       291  .813242909   Root MSE        =    .89618
-
-------------------------------------------------------------------------------
-  z_va_4yrdk | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-z_climatei~x |   .1604394    .126369     1.27   0.205    -.0882844    .4091633
-z_qualityi~x |  -.1407254   .1346746    -1.04   0.297    -.4057967    .1243458
-z_supporti~x |   .1088648   .0716245     1.52   0.130     -.032109    .2498386
-       _cons |  -.1534575   .0526704    -2.91   0.004    -.2571252   -.0497898
-------------------------------------------------------------------------------
-(est14 stored)
-
-. 
-. esttab using $projdir/out/csv/factoranalysis/indexhorserace/compcasehorserace
-> .csv, replace
-(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/fa
-> ctoranalysis/indexhorserace/compcasehorserace.csv)
-
-. 
-. eststo clear
-
-. 
-. 
-. 
-. /////////////////////////////////////////////////////////////////////////////
-> ///
-> /* imputed data analysis  */
-. 
-. use $projdir/dta/allsvyfactor/categoryindex/imputedcategoryindex, clear
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/i
+> ndexhorserace/compcasehorserace.csv saved
 (parent pooled (over years) dataset ready for analysis with stats and response 
 > ra)
+(file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_ela_b_sp_b_ct_imputed.dta not found)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_ela_b_sp_b_ct_imputed.dta saved
+(file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_ela_las_sp_las_ct_p_imputed.dta not found)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_ela_las_sp_las_ct_p_imputed.dta saved
+(file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_math_b_sp_b_ct_imputed.dta not found)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_math_b_sp_b_ct_imputed.dta saved
+(file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_math_las_sp_las_ct_p_imputed.dta not found)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_math_las_sp_las_ct_p_imputed.dta saved
+(file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_enr_b_sp_b_ct_imputed.dta not found)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_enr_b_sp_b_ct_imputed.dta saved
+(file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_enr_las_sp_las_ct_p_imputed.dta not found)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_enr_las_sp_las_ct_p_imputed.dta saved
+(file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_enr_2year_b_sp_b_ct_imputed.dta not found)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_enr_2year_b_sp_b_ct_imputed.dta saved
+(file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_enr_2year_las_sp_las_ct_p_imputed.dta not found)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_enr_2year_las_sp_las_ct_p_imputed.dta saved
+(file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_enr_4year_b_sp_b_ct_imputed.dta not found)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_enr_4year_b_sp_b_ct_imputed.dta saved
+(file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_enr_4year_las_sp_las_ct_p_imputed.dta not found)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_enr_4year_las_sp_las_ct_p_imputed.dta saved
+(file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_dk_enr_b_sp_b_ct_imputed.dta not found)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_dk_enr_b_sp_b_ct_imputed.dta saved
+(file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_dk_enr_las_sp_las_ct_p_imputed.dta not found)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_dk_enr_las_sp_las_ct_p_imputed.dta saved
+(file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_dk_enr_2year_b_sp_b_ct_imputed.dta not found)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_dk_enr_2year_b_sp_b_ct_imputed.dta saved
+(file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_dk_enr_2year_las_sp_las_ct_p_imputed.dta not found)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_dk_enr_2year_las_sp_las_ct_p_imputed.dta saved
+(file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_dk_enr_4year_b_sp_b_ct_imputed.dta not found)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_dk_enr_4year_b_sp_b_ct_imputed.dta saved
+(file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_dk_enr_4year_las_sp_las_ct_p_imputed.dta not found)
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
+    > indexhorserace/va_dk_enr_4year_las_sp_las_ct_p_imputed.dta saved
+va: ela
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+va: math
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+va: enr
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+va: enr_2year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+va: enr_4year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+va: dk_enr
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+va: dk_enr_2year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+va: dk_enr_4year
+sample: b
+peer controls in VA estimates (empty if no peer, _p if peer): 
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+sample: las
+peer controls in VA estimates (empty if no peer, _p if peer): _p
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                14  
+    -----------------------------------------
+file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/i
+> ndexhorserace/imputedhorserace.csv saved
 
 . 
-. //local macro for VA vars in z scores
-. local vasdvars z_va_ela z_va_math z_va_enr z_va_enrela z_va_enrmath z_va_enrd
-> k z_va_2yr z_va_2yrela z_va_2yrmath z_va_2yrdk z_va_4yr z_va_4yrela z_va_4yrm
-> ath z_va_4yrdk
-
-. 
-. //local macro for z score index vars
-. local indexsdvars z_climateindex z_qualityindex z_supportindex
-
 . 
 . 
-. // regress va vars on index vars
-. foreach i of local vasdvars {
-  2.   local append replace
-  3. 
-.   eststo: reg `i' `indexsdvars'
-  4. 
-.   local append append
-  5. }
-
-      Source |       SS           df       MS      Number of obs   =       918
--------------+----------------------------------   F(3, 914)       =     22.55
-       Model |  63.1888558         3  21.0629519   Prob > F        =    0.0000
-    Residual |  853.811141       914  .934147857   R-squared       =    0.0689
--------------+----------------------------------   Adj R-squared   =    0.0659
-       Total |  916.999997       917  .999999997   Root MSE        =    .96651
-
-------------------------------------------------------------------------------
-    z_va_ela | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-z_climatei~x |   .4039687   .0605392     6.67   0.000     .2851567    .5227806
-z_qualityi~x |  -.2023733   .0659019    -3.07   0.002    -.3317099   -.0730367
-z_supporti~x |   .0232018   .0408083     0.57   0.570     -.056887    .1032907
-       _cons |   .0030566   .0319075     0.10   0.924    -.0595638    .0656771
-------------------------------------------------------------------------------
-(est1 stored)
-
-      Source |       SS           df       MS      Number of obs   =       918
--------------+----------------------------------   F(3, 914)       =     36.70
-       Model |  98.5906981         3   32.863566   Prob > F        =    0.0000
-    Residual |  818.409302       914  .895414991   R-squared       =    0.1075
--------------+----------------------------------   Adj R-squared   =    0.1046
-       Total |         917       917           1   Root MSE        =    .94626
-
-------------------------------------------------------------------------------
-   z_va_math | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-z_climatei~x |   .4545202   .0592708     7.67   0.000     .3381975    .5708429
-z_qualityi~x |  -.1344895   .0645212    -2.08   0.037    -.2611163   -.0078626
-z_supporti~x |  -.0343473   .0399533    -0.86   0.390    -.1127582    .0440636
-       _cons |   .0046987    .031239     0.15   0.880    -.0566098    .0660071
-------------------------------------------------------------------------------
-(est2 stored)
-
-      Source |       SS           df       MS      Number of obs   =       917
--------------+----------------------------------   F(3, 913)       =     17.87
-       Model |  50.7998063         3  16.9332688   Prob > F        =    0.0000
-    Residual |  865.200196       913  .947645341   R-squared       =    0.0555
--------------+----------------------------------   Adj R-squared   =    0.0524
-       Total |  916.000003       916           1   Root MSE        =    .97347
-
-------------------------------------------------------------------------------
-    z_va_enr | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-z_climatei~x |   .4105736   .0609832     6.73   0.000       .29089    .5302572
-z_qualityi~x |  -.2857263   .0663764    -4.30   0.000    -.4159945   -.1554582
-z_supporti~x |   .0368423   .0411022     0.90   0.370    -.0438235     .117508
-       _cons |   .0017862   .0321554     0.06   0.956     -.061321    .0648933
-------------------------------------------------------------------------------
-(est3 stored)
-
-      Source |       SS           df       MS      Number of obs   =       917
--------------+----------------------------------   F(3, 913)       =     10.90
-       Model |  31.6804519         3  10.5601506   Prob > F        =    0.0000
-    Residual |  884.319544       913  .968586576   R-squared       =    0.0346
--------------+----------------------------------   Adj R-squared   =    0.0314
-       Total |  915.999996       916  .999999995   Root MSE        =    .98417
-
-------------------------------------------------------------------------------
- z_va_enrela | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-z_climatei~x |   .3341546   .0616534     5.42   0.000     .2131558    .4551534
-z_qualityi~x |  -.2444659   .0671058    -3.64   0.000    -.3761655   -.1127663
-z_supporti~x |   .0236166   .0415539     0.57   0.570    -.0579356    .1051688
-       _cons |    .001112   .0325088     0.03   0.973    -.0626886    .0649126
-------------------------------------------------------------------------------
-(est4 stored)
-
-      Source |       SS           df       MS      Number of obs   =       917
--------------+----------------------------------   F(3, 913)       =      7.97
-       Model |   23.375433         3  7.79181101   Prob > F        =    0.0000
-    Residual |  892.624571       913  .977682991   R-squared       =    0.0255
--------------+----------------------------------   Adj R-squared   =    0.0223
-       Total |  916.000004       916           1   Root MSE        =    .98878
-
-------------------------------------------------------------------------------
-z_va_enrmath | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-z_climatei~x |   .2943457   .0619422     4.75   0.000     .1727801    .4159113
-z_qualityi~x |  -.2584496   .0674202    -3.83   0.000    -.3907662   -.1261331
-z_supporti~x |   .0363297   .0417485     0.87   0.384    -.0456045    .1182639
-       _cons |     .00022   .0326611     0.01   0.995    -.0638795    .0643195
-------------------------------------------------------------------------------
-(est5 stored)
-
-      Source |       SS           df       MS      Number of obs   =       917
--------------+----------------------------------   F(3, 913)       =      7.83
-       Model |  22.9704993         3  7.65683309   Prob > F        =    0.0000
-    Residual |  893.029503       913  .978126509   R-squared       =    0.0251
--------------+----------------------------------   Adj R-squared   =    0.0219
-       Total |  916.000002       916           1   Root MSE        =      .989
-
-------------------------------------------------------------------------------
-  z_va_enrdk | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-z_climatei~x |   .2919514   .0619562     4.71   0.000     .1703582    .4135446
-z_qualityi~x |  -.2560647   .0674355    -3.80   0.000    -.3884113   -.1237181
-z_supporti~x |   .0355182    .041758     0.85   0.395    -.0464346     .117471
-       _cons |   .0002181   .0326685     0.01   0.995     -.063896    .0643321
-------------------------------------------------------------------------------
-(est6 stored)
-
-      Source |       SS           df       MS      Number of obs   =       917
--------------+----------------------------------   F(3, 913)       =      3.49
-       Model |  10.3744769         3  3.45815897   Prob > F        =    0.0154
-    Residual |  905.625525       913  .991922809   R-squared       =    0.0113
--------------+----------------------------------   Adj R-squared   =    0.0081
-       Total |  916.000002       916           1   Root MSE        =    .99595
-
-------------------------------------------------------------------------------
-    z_va_2yr | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-z_climatei~x |   .1230184   .0623916     1.97   0.049     .0005707    .2454661
-z_qualityi~x |  -.2012299   .0679094    -2.96   0.003    -.3345066   -.0679532
-z_supporti~x |   .0148393   .0420515     0.35   0.724    -.0676894    .0973681
-       _cons |  -.0019693   .0328981    -0.06   0.952    -.0665339    .0625953
-------------------------------------------------------------------------------
-(est7 stored)
-
-      Source |       SS           df       MS      Number of obs   =       917
--------------+----------------------------------   F(3, 913)       =      3.45
-       Model |  10.2614452         3  3.42048174   Prob > F        =    0.0162
-    Residual |  905.738556       913  .992046611   R-squared       =    0.0112
--------------+----------------------------------   Adj R-squared   =    0.0080
-       Total |  916.000001       916           1   Root MSE        =    .99602
-
-------------------------------------------------------------------------------
- z_va_2yrela | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-z_climatei~x |   .1243766   .0623955     1.99   0.047     .0019212    .2468319
-z_qualityi~x |  -.1991276   .0679137    -2.93   0.003    -.3324126   -.0658426
-z_supporti~x |   .0110729   .0420541     0.26   0.792     -.071461    .0936068
-       _cons |  -.0019442   .0329001    -0.06   0.953    -.0665128    .0626245
-------------------------------------------------------------------------------
-(est8 stored)
-
-      Source |       SS           df       MS      Number of obs   =       917
--------------+----------------------------------   F(3, 913)       =      3.42
-       Model |  10.1730403         3  3.39101344   Prob > F        =    0.0169
-    Residual |  905.826962       913  .992143441   R-squared       =    0.0111
--------------+----------------------------------   Adj R-squared   =    0.0079
-       Total |  916.000002       916           1   Root MSE        =    .99606
-
-------------------------------------------------------------------------------
-z_va_2yrmath | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-z_climatei~x |   .1437063   .0623986     2.30   0.022      .021245    .2661676
-z_qualityi~x |  -.2047596    .067917    -3.01   0.003    -.3380511    -.071468
-z_supporti~x |   .0101557   .0420561     0.24   0.809    -.0723822    .0926936
-       _cons |  -.0017203   .0329017    -0.05   0.958     -.066292    .0628515
-------------------------------------------------------------------------------
-(est9 stored)
-
-      Source |       SS           df       MS      Number of obs   =       917
--------------+----------------------------------   F(3, 913)       =      3.28
-       Model |  9.76910371         3   3.2563679   Prob > F        =    0.0204
-    Residual |  906.230897       913  .992585868   R-squared       =    0.0107
--------------+----------------------------------   Adj R-squared   =    0.0074
-       Total |  916.000001       916           1   Root MSE        =    .99629
-
-------------------------------------------------------------------------------
-  z_va_2yrdk | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-z_climatei~x |   .1373519   .0624125     2.20   0.028     .0148633    .2598405
-z_qualityi~x |  -.1986806   .0679321    -2.92   0.004    -.3320018   -.0653594
-z_supporti~x |   .0080887   .0420655     0.19   0.848    -.0744676     .090645
-       _cons |  -.0017298    .032909    -0.05   0.958     -.066316    .0628563
-------------------------------------------------------------------------------
-(est10 stored)
-
-      Source |       SS           df       MS      Number of obs   =       917
--------------+----------------------------------   F(3, 913)       =     12.64
-       Model |  36.5347587         3  12.1782529   Prob > F        =    0.0000
-    Residual |  879.465239       913  .963269704   R-squared       =    0.0399
--------------+----------------------------------   Adj R-squared   =    0.0367
-       Total |  915.999998       916  .999999998   Root MSE        =    .98146
-
-------------------------------------------------------------------------------
-    z_va_4yr | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-z_climatei~x |   .2286195   .0614839     3.72   0.000     .1079533    .3492857
-z_qualityi~x |   -.045277   .0669214    -0.68   0.499    -.1766147    .0860606
-z_supporti~x |   .0226562   .0414397     0.55   0.585    -.0586719    .1039842
-       _cons |   .0035328   .0324194     0.11   0.913    -.0600924    .0671581
-------------------------------------------------------------------------------
-(est11 stored)
-
-      Source |       SS           df       MS      Number of obs   =       917
--------------+----------------------------------   F(3, 913)       =      7.17
-       Model |  21.0961657         3  7.03205524   Prob > F        =    0.0001
-    Residual |  894.903834       913  .980179446   R-squared       =    0.0230
--------------+----------------------------------   Adj R-squared   =    0.0198
-       Total |         916       916           1   Root MSE        =    .99004
-
-------------------------------------------------------------------------------
- z_va_4yrela | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-z_climatei~x |   .1490081   .0620212     2.40   0.016     .0272874    .2707288
-z_qualityi~x |  -.0023566   .0675062    -0.03   0.972     -.134842    .1301288
-z_supporti~x |   .0151035   .0418018     0.36   0.718    -.0669353    .0971422
-       _cons |    .002906   .0327027     0.09   0.929    -.0612753    .0670872
-------------------------------------------------------------------------------
-(est12 stored)
-
-      Source |       SS           df       MS      Number of obs   =       917
--------------+----------------------------------   F(3, 913)       =      3.22
-       Model |   9.5775788         3  3.19252627   Prob > F        =    0.0223
-    Residual |  906.422423       913  .992795644   R-squared       =    0.0105
--------------+----------------------------------   Adj R-squared   =    0.0072
-       Total |  916.000002       916           1   Root MSE        =    .99639
-
-------------------------------------------------------------------------------
-z_va_4yrmath | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-z_climatei~x |    .088192   .0624191     1.41   0.158    -.0343096    .2106936
-z_qualityi~x |  -.0010119   .0679393    -0.01   0.988    -.1343472    .1323235
-z_supporti~x |   .0277024     .04207     0.66   0.510    -.0548626    .1102675
-       _cons |   .0019601   .0329125     0.06   0.953    -.0626329    .0665531
-------------------------------------------------------------------------------
-(est13 stored)
-
-      Source |       SS           df       MS      Number of obs   =       917
--------------+----------------------------------   F(3, 913)       =      3.35
-       Model |  9.97972711         3   3.3265757   Prob > F        =    0.0185
-    Residual |  906.020274       913  .992355174   R-squared       =    0.0109
--------------+----------------------------------   Adj R-squared   =    0.0076
-       Total |  916.000001       916           1   Root MSE        =    .99617
-
-------------------------------------------------------------------------------
-  z_va_4yrdk | Coefficient  Std. err.      t    P>|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-z_climatei~x |   .0938046   .0624052     1.50   0.133    -.0286698     .216279
-z_qualityi~x |  -.0063027   .0679242    -0.09   0.926    -.1396084     .127003
-z_supporti~x |   .0293187   .0420606     0.70   0.486    -.0532281    .1118654
-       _cons |   .0019677   .0329052     0.06   0.952    -.0626109    .0665464
-------------------------------------------------------------------------------
-(est14 stored)
-
-. 
-. esttab using $projdir/out/csv/factoranalysis/indexhorserace/imputedhorserace.
-> csv, replace
-(output written to /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/fa
-> ctoranalysis/indexhorserace/imputedhorserace.csv)
-
-. 
-. eststo clear
-
 . 
 . 
 . log close
@@ -568,5 +524,5 @@ z_supporti~x |   .0293187   .0420606     0.70   0.486    -.0532281    .1118654
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factor
 > analysis/indexhorserace.smcl
   log type:  smcl
- closed on:  25 Jul 2022, 18:11:10
+ closed on:  21 Nov 2022, 22:13:10
 -------------------------------------------------------------------------------
