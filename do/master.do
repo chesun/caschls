@@ -369,6 +369,11 @@ if `do_index_va_reg' == 1 {
   do $projdir/do/share/factoranalysis/indexregwithdemo
   pause
 
+  /* Linear regressions of VA vars on all 3 index vars in a "horse race" type regression
+  with school demographic controls for both complete case and imputed data  */
+  do $projdir/do/share/factoranalysis/indexhorseracewithdemo
+  pause
+
   /* Cronbach's alpha test for survey qois */
   do $projdir/do/share/factoranalysis/alpha
   pause

@@ -168,7 +168,7 @@ foreach outcome in enr enr_2year enr_4year {
   label var old2_sib_`outcome' "`outcome' for second older sibling"
 
   gen touse_sib_lag1_lag2_`outcome' = 0
-  replace touse_sib_lag1_lag2_`outcome' = 1 if !mi(old1_sib_`outcome') | !mi(old2_sib_`outcome')
+  replace touse_sib_lag1_lag2_`outcome' = 1 if !mi(old1_sib_`outcome') & !mi(old2_sib_`outcome')
 
 }
 
