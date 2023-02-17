@@ -18,7 +18,7 @@ do $projdir/do/share/factoranalysis/indexhorseracewithdemo
 
 cap log close _all
 
-log using $projdir/log/share/factoranalysis/indexhorseracewithdemo.smcl, replace
+log using $projdir/log/share/factoranalysis/indexhorsewithdemo.smcl, replace
 
 graph drop _all
 set more off
@@ -79,7 +79,7 @@ foreach type of local datatype {
 
                 qui reg va_`va_outcome'_`sample'_sp_`control'_ct`peer' `indexsdvars' ln_* `scorevars'
 
-                regsave using $projdir/out/dta/factor/indexhorseracewithdemo/`type'/va_`va_outcome'_`sample'_sp_`control'_ct`peer' ///
+                regsave using $projdir/out/dta/factor/indexhorsewithdemo/`type'/va_`va_outcome'_`sample'_sp_`control'_ct`peer' ///
                   , replace ///
                   table(va_`va_outcome'_`sample'_sp_`control'_ct`peer', format(%7.2f) parentheses(stderr) asterisk()) ///
                   addlabel(va, `va_outcome', sample, `sample', control, `control', peer, `peer_yn')
@@ -118,7 +118,7 @@ foreach type of local datatype {
         di "peer controls in VA estimates (empty if no peer, _p if peer): `peer'"
 
 
-        `merge_command' $projdir/out/dta/factor/indexhorseracewithdemo/`type'/va_`va_outcome'_`sample'_sp_`control'_ct`peer', `merge_options'
+        `merge_command' $projdir/out/dta/factor/indexhorsewithdemo/`type'/va_`va_outcome'_`sample'_sp_`control'_ct`peer', `merge_options'
 
         local merge_command "merge 1:1 var using"
         local merge_options nogen
@@ -127,9 +127,9 @@ foreach type of local datatype {
   }
 
 
-  save $projdir/out/dta/factor/indexhorseracewithdemo/`type'/va_`type'regs_w_demo, replace
+  save $projdir/out/dta/factor/indexhorsewithdemo/`type'_index_horse_wdemo, replace
 
-  export excel using $projdir/out/csv/factoranalysis/indexhorseracewithdemo/indexhorserace_w_demo.csv, replace firstrow(variables)
+  export excel using $projdir/out/csv/factoranalysis/indexhorsewithdemo/`type'_index_horse_wdemo.csv, replace firstrow(variables)
 
 }
 
@@ -156,5 +156,5 @@ di "Start date time: `date1' `time1'"
 di "End date time: `date2' `time2'"
 
 log close
-translate $projdir/log/share/factoranalysis/indexhorseracewithdemo.smcl ///
-  $projdir/log/share/factoranalysis/indexhorseracewithdemo.log, replace
+translate $projdir/log/share/factoranalysis/indexhorsewithdemo.smcl ///
+  $projdir/log/share/factoranalysis/indexhorsewithdemo.log, replace

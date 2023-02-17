@@ -126,7 +126,7 @@ foreach index of local indexvars {
   //merge the va index reg datasets to produce combined table
   local merge_command use
   local merge_options clear
-  
+
   foreach va_outcome in ela math enr enr_2year enr_4year dk_enr dk_enr_2year dk_enr_4year {
     di "va: `va_outcome'"
     foreach sample in b las {
@@ -154,7 +154,7 @@ foreach index of local indexvars {
   }
 
   save $projdir/out/dta/factor/compcase/`index'_va_compregs, replace
-  export excel using $projdir/out/xls/factor/compcase/`index'_va_compregs, replace firstrow(variables)
+  export excel using $projdir/out/csv/factoranalysis/compcase/`index'_va_compregs, replace firstrow(variables)
 }
 
 log close

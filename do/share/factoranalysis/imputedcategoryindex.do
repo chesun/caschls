@@ -155,7 +155,7 @@ foreach va_outcome in ela math enr enr_2year enr_4year dk_enr dk_enr_2year dk_en
 
 save $projdir/out/dta/factor/imputed/vaindex_imputedregs_all, replace
 
-export excel using $projdir/out/xls/factor/imputed/vaindex_imputedregs_all, replace firstrow(variables)
+export excel using $projdir/out/csv/factoranalysis/imputed/vaindex_imputedregs_all, replace firstrow(variables)
 
 
 

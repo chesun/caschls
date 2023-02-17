@@ -95,14 +95,18 @@ foreach type of local datatype {
           local peer_yn "Y"
         }
 
+        local append_macro replace
 
         foreach index of local indexvars {
           reg va_`va_outcome'_`sample'_sp_`control'_ct`peer' z_`index' ln_* `scorevars'
 
-          regsave using $projdir/out/dta/factor/indexregwcontrols/`type'/va_`va_outcome'_`sample'_sp_`control'_ct`peer'_`index' ///
-            , replace ///
+          regsave using $projdir/out/dta/factor/indexbivarwithdemo/`type'/va_`va_outcome'_`sample'_sp_`control'_ct`peer'_index ///
+            , `append_macro' ///
             table(va_`va_outcome'_`sample'_sp_`control'_ct`peer', format(%7.2f) parentheses(stderr) asterisk()) ///
             addlabel(va, `va_outcome', sample, `sample', control, `control', peer, `peer_yn')
+
+          local append_macro append
+
         }
       }
     }
@@ -117,15 +121,14 @@ foreach type of local datatype {
 
 
 
-set trace on
+/* set trace on */
 
 
 
-  foreach index of local indexvars {
     //merge the va index reg datasets to produce combined table
     local merge_command use
     local merge_options clear
-    
+
     foreach va_outcome in ela math enr enr_2year enr_4year dk_enr dk_enr_2year dk_enr_4year {
       di "va: `va_outcome'"
       foreach sample in b las {
@@ -144,7 +147,7 @@ set trace on
           di "peer controls in VA estimates (empty if no peer, _p if peer): `peer'"
 
 
-          `merge_command' $projdir/out/dta/factor/indexregwcontrols/`type'/va_`va_outcome'_`sample'_sp_`control'_ct`peer'_`index', `merge_options'
+          `merge_command' $projdir/out/dta/factor/indexbivarwithdemo/`type'/va_`va_outcome'_`sample'_sp_`control'_ct`peer'_index, `merge_options'
 
           local merge_command "merge 1:1 var using"
           local merge_options nogen
@@ -152,13 +155,12 @@ set trace on
       }
     }
 
-    save $projdir/out/dta/factor/indexregwcontrols/`type'/`index'_va_`type'regs_wcontrols, replace
-    export excel using $projdir/out/xls/factor/indexregwcontrols/`type'/`index'_va_`type'regs_wcontrols, replace firstrow(variables)
+    save $projdir/out/dta/factor/indexbivarwithdemo/`type'_index_bivar_wdemo, replace
+    export excel using $projdir/out/csv/factoranalysis/indexbivarwithdemo/`type'_index_bivar_wdemo, replace firstrow(variables)
   }
 
 set trace off
 
-}
 
 log close
 translate $projdir/log/share/factoranalysis/indexregwithdemo.smcl $projdir/log/share/factoranalysis/indexregwithdemo.log, replace
