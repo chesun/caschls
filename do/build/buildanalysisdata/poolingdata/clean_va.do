@@ -5,7 +5,7 @@ analysis datasets */
 
 *****************************************************
 * First created by Christina (Che) Sun November 21, 2022
-* this do file supercedes poolingva.do and combineva.do
+* this do file replaces poolingva.do and combineva.do
 *****************************************************
 
 /* To run this do file, type:
