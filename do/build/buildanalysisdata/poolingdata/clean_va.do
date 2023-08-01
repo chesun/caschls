@@ -40,7 +40,7 @@ local time1_va_scatter_plot = c(current_time)
 //------------------------------------------------------------------------------
 
 foreach va_outcome in ela math enr enr_2year enr_4year {
-  use $vaprojdir/estimates/va_cfr_all/va_est_dta/va_`va_outcome'_all.dta, clear
+  use $vaprojdir/estimates/va_cfr_all_v1/va_est_dta/va_`va_outcome'_all.dta, clear
   collapse (mean) va*, by(cdscode)
 
   tempfile va_`va_outcome'

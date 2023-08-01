@@ -9,6 +9,8 @@
 /* IMPORTAMT: before running this master do file, make sure the directories global macros
 are set correctly in the settings.do file according to your current file structure
 cd "/home/research/ca_ed_lab/users/chesun/gsr/caschls"
+
+All regressions are run using version 1 VA data
  */
 
 
