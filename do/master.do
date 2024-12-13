@@ -122,7 +122,7 @@ if `do_match_siblings' == 1 {
 
 *************** This block are do files that prepare/build data *****************
 //Note: do not need to run this. no longer have access to raw data. Use clean data
-local do_build_data = 0
+local do_build_data = 1
 if `do_build_data'==1 {
   //running renamedata.do
   do $projdir/do/build/prepare/renamedata

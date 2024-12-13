@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/pcascore.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}25 Jul 2022, 18:13:29
+ {txt}opened on:  {res}31 Jul 2023, 21:45:35
 {txt}
 {com}. 
 . /* creating pca compiste score for secondary survey */
@@ -552,7 +552,7 @@ Scoring coefficients
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/pcascore.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}25 Jul 2022, 18:13:31
+ {txt}closed on:  {res}31 Jul 2023, 21:45:36
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

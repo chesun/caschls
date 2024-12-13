@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build//buildanalysisdata/clean_va.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}21 Nov 2022, 22:11:55
+ {txt}opened on:  {res} 9 Dec 2024, 17:31:06
 {txt}
 {com}. 
 . 
@@ -20,7 +20,7 @@
 . //------------------------------------------------------------------------------
 . 
 . foreach va_outcome in ela math enr enr_2year enr_4year {c -(}
-{txt}  2{com}.   use $vaprojdir/estimates/va_cfr_all/va_est_dta/va_`va_outcome'_all.dta, clear
+{txt}  2{com}.   use $vaprojdir/estimates/va_cfr_all_v1/va_est_dta/va_`va_outcome'_all.dta, clear
 {txt}  3{com}.   collapse (mean) va*, by(cdscode)
 {txt}  4{com}. 
 .   tempfile va_`va_outcome'
@@ -29,35 +29,35 @@
 {txt}(ela estimates from all sample and control combinations)
 {res}{txt}{p 0 4 2}
 file {bf}
-/home/tmp/St259486.000001{rm}
+/home/tmp/St185147.000001{rm}
 saved
 as .dta format
 {p_end}
 (math estimates from all sample and control combinations)
 {res}{txt}{p 0 4 2}
 file {bf}
-/home/tmp/St259486.000002{rm}
+/home/tmp/St185147.000002{rm}
 saved
 as .dta format
 {p_end}
 (enr estimates from all sample and control combinations)
 {res}{txt}{p 0 4 2}
 file {bf}
-/home/tmp/St259486.000003{rm}
+/home/tmp/St185147.000003{rm}
 saved
 as .dta format
 {p_end}
 (enr_2year estimates from all sample and control combinations)
 {res}{txt}{p 0 4 2}
 file {bf}
-/home/tmp/St259486.000004{rm}
+/home/tmp/St185147.000004{rm}
 saved
 as .dta format
 {p_end}
 (enr_4year estimates from all sample and control combinations)
 {res}{txt}{p 0 4 2}
 file {bf}
-/home/tmp/St259486.000005{rm}
+/home/tmp/St185147.000005{rm}
 saved
 as .dta format
 {p_end}
@@ -147,7 +147,7 @@ saved
 {txt}{col 9}from master{col 30}{res}           2,454{txt}  
 {col 9}from using{col 30}{res}               0{txt}  
 
-{col 5}Matched{col 30}{res}           1,380{txt}  
+{col 5}Matched{col 30}{res}             931{txt}  
 {col 5}{hline 41}
 {p 0 4 2}
 file {bf}
@@ -162,7 +162,7 @@ saved
 {txt}{col 9}from master{col 30}{res}           2,569{txt}  
 {col 9}from using{col 30}{res}               0{txt}  
 
-{col 5}Matched{col 30}{res}           1,380{txt}  
+{col 5}Matched{col 30}{res}             427{txt}  
 {col 5}{hline 41}
 {p 0 4 2}
 file {bf}
@@ -177,7 +177,7 @@ saved
 {txt}{col 9}from master{col 30}{res}           3,619{txt}  
 {col 9}from using{col 30}{res}               0{txt}  
 
-{col 5}Matched{col 30}{res}           1,380{txt}  
+{col 5}Matched{col 30}{res}             593{txt}  
 {col 5}{hline 41}
 {p 0 4 2}
 file {bf}
@@ -196,10 +196,10 @@ saved
 {txt}
 {com}. 
 . di "Do file clean_va.do start date time: `date1_va_scatter_plot' `time1_va_scatter_plot'"
-{res}Do file clean_va.do start date time: 21 Nov 2022 22:11:55
+{res}Do file clean_va.do start date time:  9 Dec 2024 17:31:06
 {txt}
 {com}. di "End date time: `date2_va_scatter_plot' `time2_va_scatter_plot'"
-{res}End date time: 21 Nov 2022 22:11:55
+{res}End date time:  9 Dec 2024 17:31:09
 {txt}
 {com}. 
 . 
@@ -207,7 +207,7 @@ saved
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build//buildanalysisdata/clean_va.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}21 Nov 2022, 22:11:55
+ {txt}closed on:  {res} 9 Dec 2024, 17:31:09
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

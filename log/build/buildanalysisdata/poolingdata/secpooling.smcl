@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/poolingdata/secpooling.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}25 Jul 2022, 18:10:36
+ {txt}opened on:  {res}31 Jul 2023, 21:28:23
 {txt}
 {com}. 
 . /* ssc install _gwtmean, replace //package to allow use of weights in egen mean  */
@@ -325,7 +325,7 @@ saved
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/poolingdata/secpooling.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}25 Jul 2022, 18:10:36
+ {txt}closed on:  {res}31 Jul 2023, 21:28:24
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

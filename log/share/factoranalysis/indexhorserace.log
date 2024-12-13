@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factor
 > analysis/indexhorserace.smcl
   log type:  smcl
- opened on:  21 Nov 2022, 22:13:10
+ opened on:  31 Jul 2023, 21:43:15
 
 . 
 . /////////////////////////////////////////////////////////////////////////////
@@ -285,99 +285,51 @@ file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/i
 > ndexhorserace/compcasehorserace.csv saved
 (parent pooled (over years) dataset ready for analysis with stats and response 
 > ra)
-(file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
-    > indexhorserace/va_ela_b_sp_b_ct_imputed.dta not found)
 file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
     > indexhorserace/va_ela_b_sp_b_ct_imputed.dta saved
-(file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
-    > indexhorserace/va_ela_las_sp_las_ct_p_imputed.dta not found)
 file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
     > indexhorserace/va_ela_las_sp_las_ct_p_imputed.dta saved
-(file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
-    > indexhorserace/va_math_b_sp_b_ct_imputed.dta not found)
 file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
     > indexhorserace/va_math_b_sp_b_ct_imputed.dta saved
-(file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
-    > indexhorserace/va_math_las_sp_las_ct_p_imputed.dta not found)
 file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
     > indexhorserace/va_math_las_sp_las_ct_p_imputed.dta saved
-(file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
-    > indexhorserace/va_enr_b_sp_b_ct_imputed.dta not found)
 file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
     > indexhorserace/va_enr_b_sp_b_ct_imputed.dta saved
-(file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
-    > indexhorserace/va_enr_las_sp_las_ct_p_imputed.dta not found)
 file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
     > indexhorserace/va_enr_las_sp_las_ct_p_imputed.dta saved
-(file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
-    > indexhorserace/va_enr_2year_b_sp_b_ct_imputed.dta not found)
 file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
     > indexhorserace/va_enr_2year_b_sp_b_ct_imputed.dta saved
-(file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
-    > indexhorserace/va_enr_2year_las_sp_las_ct_p_imputed.dta not found)
 file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
     > indexhorserace/va_enr_2year_las_sp_las_ct_p_imputed.dta saved
-(file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
-    > indexhorserace/va_enr_4year_b_sp_b_ct_imputed.dta not found)
 file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
     > indexhorserace/va_enr_4year_b_sp_b_ct_imputed.dta saved
-(file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
-    > indexhorserace/va_enr_4year_las_sp_las_ct_p_imputed.dta not found)
 file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
     > indexhorserace/va_enr_4year_las_sp_las_ct_p_imputed.dta saved
-(file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
-    > indexhorserace/va_dk_enr_b_sp_b_ct_imputed.dta not found)
 file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
     > indexhorserace/va_dk_enr_b_sp_b_ct_imputed.dta saved
-(file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
-    > indexhorserace/va_dk_enr_las_sp_las_ct_p_imputed.dta not found)
 file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
     > indexhorserace/va_dk_enr_las_sp_las_ct_p_imputed.dta saved
-(file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
-    > indexhorserace/va_dk_enr_2year_b_sp_b_ct_imputed.dta not found)
 file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
     > indexhorserace/va_dk_enr_2year_b_sp_b_ct_imputed.dta saved
-(file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
-    > indexhorserace/va_dk_enr_2year_las_sp_las_ct_p_imputed.dta not found)
 file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
     > indexhorserace/va_dk_enr_2year_las_sp_las_ct_p_imputed.dta saved
-(file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
-    > indexhorserace/va_dk_enr_4year_b_sp_b_ct_imputed.dta not found)
 file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
     > indexhorserace/va_dk_enr_4year_b_sp_b_ct_imputed.dta saved
-(file
-    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
-    > indexhorserace/va_dk_enr_4year_las_sp_las_ct_p_imputed.dta not found)
 file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/
     > indexhorserace/va_dk_enr_4year_las_sp_las_ct_p_imputed.dta saved
@@ -524,5 +476,5 @@ file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/i
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factor
 > analysis/indexhorserace.smcl
   log type:  smcl
- closed on:  21 Nov 2022, 22:13:10
+ closed on:  31 Jul 2023, 21:43:16
 -------------------------------------------------------------------------------

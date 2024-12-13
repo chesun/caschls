@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/indexhorserace.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}21 Nov 2022, 22:13:10
+ {txt}opened on:  {res}31 Jul 2023, 21:43:15
 {txt}
 {com}. 
 . ////////////////////////////////////////////////////////////////////////////////
@@ -305,19 +305,9 @@ peer controls in VA estimates (empty if no peer, _p if peer): _p
 {res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/compcasehorserace.csv} saved
 (parent pooled (over years) dataset ready for analysis with stats and response ra)
 {p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_ela_b_sp_b_ct_imputed.dta{rm}
-not found)
-{p_end}
-{p 0 4 2}
 file {bf}
 /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_ela_b_sp_b_ct_imputed.dta{rm}
 saved
-{p_end}
-{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_ela_las_sp_las_ct_p_imputed.dta{rm}
-not found)
 {p_end}
 {p 0 4 2}
 file {bf}
@@ -325,19 +315,9 @@ file {bf}
 saved
 {p_end}
 {p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_math_b_sp_b_ct_imputed.dta{rm}
-not found)
-{p_end}
-{p 0 4 2}
 file {bf}
 /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_math_b_sp_b_ct_imputed.dta{rm}
 saved
-{p_end}
-{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_math_las_sp_las_ct_p_imputed.dta{rm}
-not found)
 {p_end}
 {p 0 4 2}
 file {bf}
@@ -345,19 +325,9 @@ file {bf}
 saved
 {p_end}
 {p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_enr_b_sp_b_ct_imputed.dta{rm}
-not found)
-{p_end}
-{p 0 4 2}
 file {bf}
 /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_enr_b_sp_b_ct_imputed.dta{rm}
 saved
-{p_end}
-{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_enr_las_sp_las_ct_p_imputed.dta{rm}
-not found)
 {p_end}
 {p 0 4 2}
 file {bf}
@@ -365,19 +335,9 @@ file {bf}
 saved
 {p_end}
 {p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_enr_2year_b_sp_b_ct_imputed.dta{rm}
-not found)
-{p_end}
-{p 0 4 2}
 file {bf}
 /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_enr_2year_b_sp_b_ct_imputed.dta{rm}
 saved
-{p_end}
-{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_enr_2year_las_sp_las_ct_p_imputed.dta{rm}
-not found)
 {p_end}
 {p 0 4 2}
 file {bf}
@@ -385,19 +345,9 @@ file {bf}
 saved
 {p_end}
 {p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_enr_4year_b_sp_b_ct_imputed.dta{rm}
-not found)
-{p_end}
-{p 0 4 2}
 file {bf}
 /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_enr_4year_b_sp_b_ct_imputed.dta{rm}
 saved
-{p_end}
-{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_enr_4year_las_sp_las_ct_p_imputed.dta{rm}
-not found)
 {p_end}
 {p 0 4 2}
 file {bf}
@@ -405,19 +355,9 @@ file {bf}
 saved
 {p_end}
 {p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_dk_enr_b_sp_b_ct_imputed.dta{rm}
-not found)
-{p_end}
-{p 0 4 2}
 file {bf}
 /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_dk_enr_b_sp_b_ct_imputed.dta{rm}
 saved
-{p_end}
-{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_dk_enr_las_sp_las_ct_p_imputed.dta{rm}
-not found)
 {p_end}
 {p 0 4 2}
 file {bf}
@@ -425,19 +365,9 @@ file {bf}
 saved
 {p_end}
 {p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_dk_enr_2year_b_sp_b_ct_imputed.dta{rm}
-not found)
-{p_end}
-{p 0 4 2}
 file {bf}
 /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_dk_enr_2year_b_sp_b_ct_imputed.dta{rm}
 saved
-{p_end}
-{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_dk_enr_2year_las_sp_las_ct_p_imputed.dta{rm}
-not found)
 {p_end}
 {p 0 4 2}
 file {bf}
@@ -445,19 +375,9 @@ file {bf}
 saved
 {p_end}
 {p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_dk_enr_4year_b_sp_b_ct_imputed.dta{rm}
-not found)
-{p_end}
-{p 0 4 2}
 file {bf}
 /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_dk_enr_4year_b_sp_b_ct_imputed.dta{rm}
 saved
-{p_end}
-{p 0 4 2}
-(file {bf}
-/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/indexhorserace/va_dk_enr_4year_las_sp_las_ct_p_imputed.dta{rm}
-not found)
 {p_end}
 {p 0 4 2}
 file {bf}
@@ -605,7 +525,7 @@ peer controls in VA estimates (empty if no peer, _p if peer): _p
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/indexhorserace.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}21 Nov 2022, 22:13:10
+ {txt}closed on:  {res}31 Jul 2023, 21:43:16
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

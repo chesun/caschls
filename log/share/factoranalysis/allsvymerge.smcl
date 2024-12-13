@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/allsvymerge.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}21 Nov 2022, 22:12:27
+ {txt}opened on:  {res} 8 Dec 2024, 23:50:11
 {txt}
 {com}. 
 . /* rename vars and prep parentanalysisready.dta for merging */
@@ -75,16 +75,16 @@ saved
 {res}
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           2,995
-{txt}{col 9}from master{col 30}{res}           1,555{txt}  (_merge==1)
-{col 9}from using{col 30}{res}           1,440{txt}  (_merge==2)
+{col 5}Not matched{col 30}{res}           3,505
+{txt}{col 9}from master{col 30}{res}           1,558{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           1,947{txt}  (_merge==2)
 
-{col 5}Matched{col 30}{res}           2,394{txt}  (_merge==3)
+{col 5}Matched{col 30}{res}           1,438{txt}  (_merge==3)
 {col 5}{hline 41}
 
 {com}. /* keep only matched schools */
 . keep if _merge == 3
-{txt}(2,995 observations deleted)
+{txt}(3,505 observations deleted)
 
 {com}. drop _merge
 {txt}
@@ -93,15 +93,15 @@ saved
 {res}
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           2,755
-{txt}{col 9}from master{col 30}{res}              75{txt}  (_merge==1)
-{col 9}from using{col 30}{res}           2,680{txt}  (_merge==2)
+{col 5}Not matched{col 30}{res}           2,960
+{txt}{col 9}from master{col 30}{res}              93{txt}  (_merge==1)
+{col 9}from using{col 30}{res}           2,867{txt}  (_merge==2)
 
-{col 5}Matched{col 30}{res}           2,319{txt}  (_merge==3)
+{col 5}Matched{col 30}{res}           1,345{txt}  (_merge==3)
 {col 5}{hline 41}
 
 {com}. keep if _merge == 3
-{txt}(2,755 observations deleted)
+{txt}(2,960 observations deleted)
 
 {com}. // 2300 records matched among all 3 surveys
 . drop _merge
@@ -112,9 +112,9 @@ saved
 . missings dropobs *mean_pooled, force //drop all observations with all qoimean vars missing
 
 {p 0 4}{txt}Checking missings in {res} parentqoi9mean_pooled parentqoi15mean_pooled parentqoi16mean_pooled parentqoi17mean_pooled parentqoi27mean_pooled parentqoi30mean_pooled parentqoi31mean_pooled parentqoi32mean_pooled parentqoi33mean_pooled parentqoi34mean_pooled parentqoi64mean_pooled secqoi22mean_pooled secqoi23mean_pooled secqoi24mean_pooled secqoi25mean_pooled secqoi26mean_pooled secqoi27mean_pooled secqoi28mean_pooled secqoi29mean_pooled secqoi30mean_pooled secqoi31mean_pooled secqoi32mean_pooled secqoi33mean_pooled secqoi34mean_pooled secqoi35mean_pooled secqoi36mean_pooled secqoi37mean_pooled secqoi38mean_pooled secqoi39mean_pooled secqoi40mean_pooled staffqoi10mean_pooled staffqoi20mean_pooled staffqoi24mean_pooled staffqoi41mean_pooled staffqoi44mean_pooled staffqoi64mean_pooled staffqoi87mean_pooled staffqoi98mean_pooled staffqoi103mean_pooled staffqoi104mean_pooled staffqoi105mean_pooled staffqoi109mean_pooled staffqoi111mean_pooled staffqoi112mean_pooled staffqoi128mean_pooled:{txt}{p_end}
-1366 observations with missing values
+392 observations with missing values
 
-(445 observations deleted)
+note: no observations qualify
 
 {com}. 
 . save $projdir/dta/allsvyfactor/allsvyqoimeans, replace
@@ -130,7 +130,7 @@ saved
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/allsvymerge.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}21 Nov 2022, 22:12:27
+ {txt}closed on:  {res} 8 Dec 2024, 23:50:13
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factor
 > analysis/allsvymerge.smcl
   log type:  smcl
- opened on:  21 Nov 2022, 22:12:27
+ opened on:   8 Dec 2024, 23:50:11
 
 . 
 . /* rename vars and prep parentanalysisready.dta for merging */
@@ -72,16 +72,16 @@ file
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                         2,995
-        from master                     1,555  (_merge==1)
-        from using                      1,440  (_merge==2)
+    Not matched                         3,505
+        from master                     1,558  (_merge==1)
+        from using                      1,947  (_merge==2)
 
-    Matched                             2,394  (_merge==3)
+    Matched                             1,438  (_merge==3)
     -----------------------------------------
 
 . /* keep only matched schools */
 . keep if _merge == 3
-(2,995 observations deleted)
+(3,505 observations deleted)
 
 . drop _merge
 
@@ -90,15 +90,15 @@ file
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                         2,755
-        from master                        75  (_merge==1)
-        from using                      2,680  (_merge==2)
+    Not matched                         2,960
+        from master                        93  (_merge==1)
+        from using                      2,867  (_merge==2)
 
-    Matched                             2,319  (_merge==3)
+    Matched                             1,345  (_merge==3)
     -----------------------------------------
 
 . keep if _merge == 3
-(2,755 observations deleted)
+(2,960 observations deleted)
 
 . // 2300 records matched among all 3 surveys
 . drop _merge
@@ -125,9 +125,9 @@ Checking missings in parentqoi9mean_pooled parentqoi15mean_pooled
     staffqoi103mean_pooled staffqoi104mean_pooled staffqoi105mean_pooled
     staffqoi109mean_pooled staffqoi111mean_pooled staffqoi112mean_pooled
     staffqoi128mean_pooled:
-1366 observations with missing values
+392 observations with missing values
 
-(445 observations deleted)
+note: no observations qualify
 
 . 
 . save $projdir/dta/allsvyfactor/allsvyqoimeans, replace
@@ -142,5 +142,5 @@ file
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factor
 > analysis/allsvymerge.smcl
   log type:  smcl
- closed on:  21 Nov 2022, 22:12:27
+ closed on:   8 Dec 2024, 23:50:13
 -------------------------------------------------------------------------------

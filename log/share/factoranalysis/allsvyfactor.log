@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factor
 > analysis/allsvyfactor.smcl
   log type:  smcl
- opened on:  21 Nov 2022, 22:12:28
+ opened on:  31 Jul 2023, 21:43:10
 
 . 
 . /* use principal factoring method because data is not multinormal */
@@ -463,5 +463,5 @@ Factor loadings (pattern matrix) and unique variances
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factor
 > analysis/allsvyfactor.smcl
   log type:  smcl
- closed on:  21 Nov 2022, 22:12:28
+ closed on:  31 Jul 2023, 21:43:11
 -------------------------------------------------------------------------------
