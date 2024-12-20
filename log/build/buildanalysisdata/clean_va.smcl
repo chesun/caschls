@@ -1,0 +1,213 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build//buildanalysisdata/clean_va.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 9 Dec 2024, 17:31:06
+{txt}
+{com}. 
+. 
+. 
+. 
+. local date1_va_scatter_plot = c(current_date)
+{txt}
+{com}. local time1_va_scatter_plot = c(current_time)
+{txt}
+{com}. 
+. 
+. //------------------------------------------------------------------------------
+. // collapse VA estimates to school level mean over the years 2015-2018
+. //------------------------------------------------------------------------------
+. 
+. foreach va_outcome in ela math enr enr_2year enr_4year {c -(}
+{txt}  2{com}.   use $vaprojdir/estimates/va_cfr_all_v1/va_est_dta/va_`va_outcome'_all.dta, clear
+{txt}  3{com}.   collapse (mean) va*, by(cdscode)
+{txt}  4{com}. 
+.   tempfile va_`va_outcome'
+{txt}  5{com}.   save `va_`va_outcome''
+{txt}  6{com}. {c )-}
+{txt}(ela estimates from all sample and control combinations)
+{res}{txt}{p 0 4 2}
+file {bf}
+/home/tmp/St185147.000001{rm}
+saved
+as .dta format
+{p_end}
+(math estimates from all sample and control combinations)
+{res}{txt}{p 0 4 2}
+file {bf}
+/home/tmp/St185147.000002{rm}
+saved
+as .dta format
+{p_end}
+(enr estimates from all sample and control combinations)
+{res}{txt}{p 0 4 2}
+file {bf}
+/home/tmp/St185147.000003{rm}
+saved
+as .dta format
+{p_end}
+(enr_2year estimates from all sample and control combinations)
+{res}{txt}{p 0 4 2}
+file {bf}
+/home/tmp/St185147.000004{rm}
+saved
+as .dta format
+{p_end}
+(enr_4year estimates from all sample and control combinations)
+{res}{txt}{p 0 4 2}
+file {bf}
+/home/tmp/St185147.000005{rm}
+saved
+as .dta format
+{p_end}
+
+{com}. 
+. //------------------------------------------------------------------------------
+. // merge collapsed VA estimates
+. //------------------------------------------------------------------------------
+. 
+. // use a macro to store the command to initialize the data for merge
+. local merge_command use
+{txt}
+{com}. local merge_options clear
+{txt}
+{com}. 
+. foreach va_outcome in ela math enr enr_2year enr_4year {c -(}
+{txt}  2{com}.   `merge_command' `va_`va_outcome'', `merge_options'
+{txt}  3{com}.   local merge_command "merge 1:1 cdscode using"
+{txt}  4{com}.   local merge_options nogen
+{txt}  5{com}. {c )-}
+{txt}(ela estimates from all sample and control combinations)
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               4
+{txt}{col 9}from master{col 30}{res}               3{txt}  
+{col 9}from using{col 30}{res}               1{txt}  
+
+{col 5}Matched{col 30}{res}           1,366{txt}  
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}              14
+{txt}{col 9}from master{col 30}{res}               4{txt}  
+{col 9}from using{col 30}{res}              10{txt}  
+
+{col 5}Matched{col 30}{res}           1,366{txt}  
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               4
+{txt}{col 9}from master{col 30}{res}               4{txt}  
+{col 9}from using{col 30}{res}               0{txt}  
+
+{col 5}Matched{col 30}{res}           1,376{txt}  
+{col 5}{hline 41}
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}               4
+{txt}{col 9}from master{col 30}{res}               4{txt}  
+{col 9}from using{col 30}{res}               0{txt}  
+
+{col 5}Matched{col 30}{res}           1,376{txt}  
+{col 5}{hline 41}
+
+{com}. 
+. label data "Pooled  School Level VA mean estimates for all test scores and enrollment over 2015-2018"
+{txt}note: label truncated to 80 characters
+
+{com}. save $projdir/dta/buildanalysisdata/va/va_pooled_all.dta, replace
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/va/va_pooled_all.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. 
+. //------------------------------------------------------------------------------
+. // merge collapsed VA estimates onto survey data
+. //------------------------------------------------------------------------------
+. foreach svyname in sec parent staff {c -(}
+{txt}  2{com}.   use $projdir/dta/buildanalysisdata/analysisready/`svyname'analysisready, clear
+{txt}  3{com}.   merge 1:1 cdscode using $projdir/dta/buildanalysisdata/va/va_pooled_all.dta, keep(1 3) nogen
+{txt}  4{com}. 
+.   save, replace
+{txt}  5{com}. {c )-}
+{txt}(secondary pooled dataset ready for analysis with stats and response rate)
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}           2,454
+{txt}{col 9}from master{col 30}{res}           2,454{txt}  
+{col 9}from using{col 30}{res}               0{txt}  
+
+{col 5}Matched{col 30}{res}             931{txt}  
+{col 5}{hline 41}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/analysisready/secanalysisready.dta{rm}
+saved
+{p_end}
+(parent pooled (over years) dataset ready for analysis with stats and response ra)
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}           2,569
+{txt}{col 9}from master{col 30}{res}           2,569{txt}  
+{col 9}from using{col 30}{res}               0{txt}  
+
+{col 5}Matched{col 30}{res}             427{txt}  
+{col 5}{hline 41}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/analysisready/parentanalysisready.dta{rm}
+saved
+{p_end}
+(weighted average staff qoi statistics pooled over years)
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}           3,619
+{txt}{col 9}from master{col 30}{res}           3,619{txt}  
+{col 9}from using{col 30}{res}               0{txt}  
+
+{col 5}Matched{col 30}{res}             593{txt}  
+{col 5}{hline 41}
+{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/analysisready/staffanalysisready.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. 
+. 
+. 
+. 
+. local date2_va_scatter_plot = c(current_date)
+{txt}
+{com}. local time2_va_scatter_plot = c(current_time)
+{txt}
+{com}. 
+. di "Do file clean_va.do start date time: `date1_va_scatter_plot' `time1_va_scatter_plot'"
+{res}Do file clean_va.do start date time:  9 Dec 2024 17:31:06
+{txt}
+{com}. di "End date time: `date2_va_scatter_plot' `time2_va_scatter_plot'"
+{res}End date time:  9 Dec 2024 17:31:09
+{txt}
+{com}. 
+. 
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build//buildanalysisdata/clean_va.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 9 Dec 2024, 17:31:09
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

@@ -5,6 +5,9 @@
 *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************
 ********************************************************************************
 
+/* change log:
+12/19/2024: correct spelling error in supportimputedummies local macro */
+
 cap log close _all
 clear all
 set more off
@@ -44,13 +47,13 @@ foreach i of local qualityvars {
   local qualityimputedummies: list qualityimputedummies | addvar
 }
 
-local supportimputeddummies
+local supportimputedummies
 foreach i of local supportvars {
   gen imputed`i' = 0
   replace imputed`i' = 1 if missing(`i')
   label var imputed`i' "dummy for whether variable `i' is imputed"
   local addvar imputed`i'
-  local supportimputeddummies: list supportimputeddummies | addvar
+  local supportimputedummies: list supportimputedummies | addvar
 }
 
 local motivationimputedummies

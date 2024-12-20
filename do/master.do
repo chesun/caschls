@@ -3,12 +3,14 @@
 ***this master file executes all do files for the project in correct order *****
 ********************************************************************************
 ********************************************************************************
-*************** written by Che Sun. Email: ucsun@ucdavis.edu ********************
+*************** written by Christina Sun. Email: ucsun@ucdavis.edu ********************
 ********************************************************************************
 
 /* IMPORTAMT: before running this master do file, make sure the directories global macros
 are set correctly in the settings.do file according to your current file structure
 cd "/home/research/ca_ed_lab/users/chesun/gsr/caschls"
+
+All regressions are run using version 1 VA data
  */
 
 
@@ -21,6 +23,15 @@ do "/home/research/ca_ed_lab/users/chesun/gsr/caschls/do/master.do"
 cd "/home/research/ca_ed_lab/users/chesun/gsr/caschls"
 do "./do/settings.do"
 */
+
+/* CHANGE LOG:
+07/27/2023: 
+1. moved siblingoutxwalk.do to the match siblings code block;
+2. turned off sibling va regs code block;
+3. moved matching siblings code block to the beginning, because constructing
+VA samples needs sibling crosswalk but matching siblings does not require
+any VA file output
+ */
 
 cap log close _all
 clear all
@@ -66,9 +77,52 @@ if `installssc' == 1 {
 }
 
 
+/* matching siblings using CST data */
+////////////////////////////////////////////////////////////////////////////////
+local do_match_siblings = 0
+if `do_match_siblings' == 1 {
+
+  /* Use CST data to match students with their siblings. Code taken mostly from
+  do file by Matt Naven  */
+  do $projdir/do/share/siblingxwalk/siblingmatch
+  pause
+
+  /* use the sibling crosswalk dataset conditional on same year and create unique family ID
+  to link siblings from the same family across years and delete duplicates  */
+  do $projdir/do/share/siblingxwalk/uniquefamily
+  pause
+
+  /* create a dataset with all pairwise combinations of siblings and their state student IDs.
+  Same combination with different orders are different observations. */
+  do $projdir/do/share/siblingxwalk/siblingpairxwalk
+  pause
+
+  /* create a sibling enrollment outcomes crosswalk dataset by merging k-12 test scores
+  to the postsecondary outcomes and then merge to ufamilyxwalk.dta and calculuate
+  number of older siblings enrolled and proportion of older siblings enrolled   */
+   do $projdir/do/share/siblingvaregs/siblingoutxwalk.do
+   pause
+}
+
+
+
+//---------------------------------------------
+// THIS IS WHERE TO RUN THE VA ESTIMATES DO FILES
+
+
+
+
+
+
+
+
+
+
+
+
 *************** This block are do files that prepare/build data *****************
 //Note: do not need to run this. no longer have access to raw data. Use clean data
-local do_build_data = 0
+local do_build_data = 1
 if `do_build_data'==1 {
   //running renamedata.do
   do $projdir/do/build/prepare/renamedata
@@ -278,31 +332,16 @@ if `do_pool_gr11_enr' == 1 {
 
 
 
-
-***************** clean the VA datasets and merge with analysis data ****************
-////////////////////////////////////////////////////////////////////////////////
-local do_pool_merge_va = 1
-if `do_pool_merge_va' == 1 {
-  //create pooled average value added estimates over years
-  do $projdir/do/build/buildanalysisdata/poolingva/poolva
-  pause
-
-  //combine all VA datasets into one dataset
-  do $projdir/do/build/buildanalysisdata/poolingva/combineva
-  pause
-
-  //merge with analysis datasets
-  do $projdir/do/build/buildanalysisdata/poolingdata/mergeva
-  pause
-
-}
-
-
-
 ***************** run VA regressions for analysis datasets  ****************
 ////////////////////////////////////////////////////////////////////////////////
 local do_va_regs = 1
 if `do_va_regs' == 1 {
+  /* clean VA estimates to be used for survey data analysis, and merge to survey
+  analysis datasets */
+  do $projdir/do/build//buildanalysisdata/poolingdata/clean_va.do
+
+
+
   //run VA regressions for all analysis datasets
   do $projdir/do/share/svyvaregs/allvaregs
   pause
@@ -345,7 +384,7 @@ if `do_index' == 1 {
   pause
 
   /* creates a linear index for each question cateogry using imputed data: school climate, teacher staff quality,
-  student support, student motivation  */
+  student support, student motivation. Then run bivariate VA regressions on each index var */
   do $projdir/do/share/factoranalysis/imputedcategoryindex
   pause
 
@@ -381,6 +420,11 @@ if `do_index_va_reg' == 1 {
   do $projdir/do/share/factoranalysis/indexregwithdemo
   pause
 
+  /* Linear regressions of VA vars on all 3 index vars in a "horse race" type regression
+  with school demographic controls for both complete case and imputed data  */
+  do $projdir/do/share/factoranalysis/indexhorseracewithdemo
+  pause
+
   /* Cronbach's alpha test for survey qois */
   do $projdir/do/share/factoranalysis/alpha
   pause
@@ -397,27 +441,7 @@ if `do_index_va_reg' == 1 {
 
 
 
-/* matching siblings using CST data */
-////////////////////////////////////////////////////////////////////////////////
-local do_match_siblings = 1
-if `do_match_siblings' == 1 {
 
-  /* Use CST data to match students with their siblings. Code taken mostly from
-  do file by Matt Naven  */
-  do $projdir/do/share/siblingxwalk/siblingmatch
-  pause
-
-  /* use the sibling crosswalk dataset conditional on same year and create unique family ID
-  to link siblings from the same family across years and delete duplicates  */
-  do $projdir/do/share/siblingxwalk/uniquefamily
-  pause
-
-  /* create a dataset with all pairwise combinations of siblings and their state student IDs.
-  Same combination with different orders are different observations. */
-  do $projdir/do/share/siblingxwalk/siblingpairxwalk
-  pause
-
-}
 
 
 
@@ -436,7 +460,7 @@ if `dooutcomesumstats' == 1 {
 
 /* va regressions with sibling controls */
 ////////////////////////////////////////////////////////////////////////////////
-local do_sibling_va_regs = 1
+local do_sibling_va_regs = 0
 if `do_sibling_va_regs' == 1 {
 
   /* create the VA sample dataset to save processing time. Using doh helpher files
@@ -444,11 +468,7 @@ if `do_sibling_va_regs' == 1 {
   do $projdir/do/share/siblingvaregs/createvasample.do
   pause
 
-  /* create a sibling enrollment outcomes crosswalk dataset by merging k-12 test scores
-  to the postsecondary outcomes and then merge to ufamilyxwalk.dta and calculuate
-  number of older siblings enrolled and proportion of older siblings enrolled   */
-   do $projdir/do/share/siblingvaregs/siblingoutxwalk.do
-   pause
+
 
    /* create the VA samples markers with sibling outcomes merged on to make it easier
    to create sample sum stats.

@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factor
 > analysis/mattschlchar.smcl
   log type:  smcl
- opened on:  25 Jul 2022, 18:11:10
+ opened on:  31 Jul 2023, 21:43:16
 
 . 
 . // a macro toggle for cleaning the raw data from Matt's folder
@@ -149,5 +149,5 @@ file
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factor
 > analysis/mattschlchar.smcl
   log type:  smcl
- closed on:  25 Jul 2022, 18:11:27
+ closed on:  31 Jul 2023, 21:43:32
 -------------------------------------------------------------------------------

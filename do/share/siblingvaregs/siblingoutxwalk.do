@@ -15,7 +15,13 @@ so >0 logic does not work and will return true in case of missing
 4/28/2022: Added an indicator for the sibling controls sample for 2 yr and 4 yr
 sibling enrollment controls. This sample consists of obs with at least 1 sibling
 matched to postsec outcomes, and who have non-missing for 2yr and 4yr enr sibling controls
- */
+
+1/25/2023: added code to create outcome dummies for lag1 and lag2 older siblings
+
+07/27/2023: moved the code used to merges the entire k12 test score sample 
+onto postsecondary outcomes from createvasamples.do to the beginning of this 
+file
+*/
 
 /* to run this do file:
 do $projdir/do/share/siblingvaregs/siblingoutxwalk.do
@@ -31,6 +37,8 @@ cap log close _all
 
 /* file path macros  */
 include $projdir/do/share/siblingvaregs/vafilemacros.doh
+// VA macros 
+include $vaprojdir/do_files/sbac/macros_va.doh
 
 //change directory to common_core_va project directory
 cd $vaprojdir
@@ -42,13 +50,34 @@ log using $projdir/log/share/siblingvaregs/sibling_out_xwalk.smcl, replace
 //set a timer for this do file to see how long it runs
 timer on 1
 
+********************************************************************************
+*** This merges the entire k12 test score sample onto postsecondary outcomes
+//the output dataset is used subsequently
+use merge_id_k12_test_scores all_students_sample first_scores_sample ///
+  dataset test cdscode school_id state_student_id year grade ///
+  cohort_size ///
+  using $vaprojdir/data/restricted_access/clean/k12_test_scores/k12_test_scores_clean.dta, clear
+// merge on postsecondary Outcomes
+do $vaprojdir/do_files/merge_k12_postsecondary.doh enr_only
+drop enr enr_2year enr_4year
+rename enr_ontime enr
+rename enr_ontime_2year enr_2year
+rename enr_ontime_4year enr_4year
+drop if missing(state_student_id)
+
+//save the merged k12 to postsecondary outcome dataset that has the largest student sample in order to calculate sibling outcomes
+compress
+label data "Full K-12 test scores merged to postsecondary outcomes"
+save $projdir/dta/common_core_va/k12_postsecondary_out_merge, replace
+
+
 
 
 ********************************************************************************
 //create sibling college outcome vars
 //First load the k12 test score sample matched to postsecondary outcome data
 
-use `k12_postsecondary_out_merge', clear
+use $projdir/dta/common_core_va/k12_postsecondary_out_merge, clear
 
 //generate an indicator for observations matched to postsecondary outcomes data
 gen k12_postsec_match = 0
@@ -148,6 +177,34 @@ drop lower_bound
 // This sample consists of obs with at least 1 sibling matched to postsec outcomes, and who have non-missing for the sibling controls
 gen sibling_2y_4y_controls_sample = 0
 replace sibling_2y_4y_controls_sample = 1 if !mi(has_older_sibling_enr_2year) & !mi(has_older_sibling_enr_4year) & sibling_out_sample==1
+
+
+// lag 1 older sibling and lag 2 older sibling
+// degenerate interval bound for lag 1 and lag 2 older siblings for rangestat
+bysort ufamilyid: gen lag1_bound = birth_order - 1
+bysort ufamilyid: gen lag2_bound = birth_order - 2
+
+foreach outcome in enr enr_2year enr_4year {
+  // enrollment for lag 1 older sibling
+  rangestat (max) `outcome' if has_older_sibling_postsec_match == 1, interval(birth_order, lag1_bound, lag1_bound) by(ufamilyid)
+  rename `outcome'_max old1_sib_`outcome'
+  label var old1_sib_`outcome' "`outcome' for first older sibling"
+  // enrollment for lag 2 older sibling
+  rangestat (max) `outcome' if has_older_sibling_postsec_match == 1, interval(birth_order, lag2_bound, lag2_bound) by(ufamilyid)
+  rename `outcome'_max old2_sib_`outcome'
+  label var old2_sib_`outcome' "`outcome' for second older sibling"
+
+  gen touse_sib_lag1_lag2_`outcome' = 0
+  replace touse_sib_lag1_lag2_`outcome' = 1 if !mi(old1_sib_`outcome') & !mi(old2_sib_`outcome')
+
+}
+
+gen touse_sib_lag = 0
+replace touse_sib_lag = 1 if touse_sib_lag1_lag2_enr_2year == 1 & touse_sib_lag1_lag2_enr_4year == 1
+drop lag1_bound lag2_bound
+
+
+
 
 //create sibling outcomes crosswalk
 compress

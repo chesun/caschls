@@ -32,7 +32,7 @@ global vadtadir "/home/research/ca_ed_lab/projects/common_core_va/data/sbac"
 
 
 /* create global macro for CST data directory */
-global cstdtadir "/home/research/ca_ed_lab/data/restricted_access/clean//cde/cst"
+global cstdtadir "/home/research/ca_ed_lab/data/restricted_access/clean/cde/cst"
 
 
 /* create global macro for NSC data directory */
@@ -48,3 +48,6 @@ global mattxwalks "/home/research/ca_ed_lab/users/msnaven/data/restricted_access
 
 /* global macro for common core VA project crosswalks folder  */
 global vaprojxwalks "/home/research/ca_ed_lab/projects/common_core_va/data/restricted_access/clean/crosswalks"
+
+/* global macros for k12 and postsec distance data directory */
+global distance_dtadir "/home/research/ca_ed_lab/projects/common_core_va/data/k12_postsec_distance"

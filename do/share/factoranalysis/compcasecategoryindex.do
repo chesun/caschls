@@ -5,6 +5,20 @@ student support, student motivation. Then run bivariate VA regressions on each i
 ********************************************************************************
 *************** written by Che Sun. Email: ucsun@ucdavis.edu *******************
 ********************************************************************************
+
+/* to run this do file:
+
+do $projdir/do/share/factoranalysis/compcasecategoryindex
+
+ */
+
+
+
+/* CHANGE LOG:
+11/21/2022: Rewrote code for using new VA estimates
+ */
+
+
 cap log close _all
 clear all
 set more off
@@ -38,32 +52,67 @@ foreach supportvar of local supportvars {
 }
 
 
-//creating a local macro for va variables
-local vavars va_ela va_math va_enr va_enrela va_enrmath va_enrdk va_2yr va_2yrela va_2yrmath va_2yrdk va_4yr va_4yrela va_4yrmath va_4yrdk
-
 // local macro for index vars
 local indexvars climateindex qualityindex supportindex
 
 //generate standardized z scores for variables
-foreach i of local vavars {
-  sum `i'
-  gen z_`i' = (`i' - r(mean))/r(sd)
+foreach var of varlist va* {
+  sum `var'
+  replace `var' = (`var' - r(mean))/r(sd)
 }
+
 
 foreach i of local indexvars {
   sum `i'
   gen z_`i' = (`i' - r(mean))/r(sd)
 }
 
+
+
+//-------------------------------------------------------------
+// bivariate regression of VA z scores on index z scores
 // regress va vars on index vars, have one file for each index to save N in the dataset
-foreach i of local indexvars {
+
+ /* 1. base sample base contro, no peer effects
+ 2. leave out score - sibling - acs sample, kitchen sink controls, peer effects */
+//-------------------------------------------------------------
+
+// macros for different VA estimates to be used in each sample
+local b_sample_controls b
+local las_sample_controls las
 
 
-  foreach j of local vavars {
-    reg z_`j' z_`i'
-    regsave using $projdir/out/dta/factor/compcase/`i'_`j'_compregs, replace table(`j', format(%7.2f) parentheses(stderr) asterisk())
+foreach va_outcome in ela math enr enr_2year enr_4year dk_enr dk_enr_2year dk_enr_4year {
 
-  }
+      foreach sample in b las {
+        foreach control of local `sample'_sample_controls {
+          //macro for whether to use the VA estimates with peer effects
+          if "`sample'" == "b" {
+            local peer
+            local peer_yn "N"
+          }
+          if "`sample'" == "las" {
+            local peer "_p"
+            local peer_yn "Y"
+
+          }
+
+
+
+            foreach index of local indexvars {
+
+              qui reg va_`va_outcome'_`sample'_sp_`control'_ct`peer' z_`index'
+
+              regsave using $projdir/out/dta/factor/compcase/va_`va_outcome'_`sample'_sp_`control'_ct`peer'_`index' ///
+                , replace ///
+                table(va_`va_outcome'_`sample'_sp_`control'_ct`peer', format(%7.2f) parentheses(stderr) asterisk()) ///
+                addlabel(va, `va_outcome', sample, `sample', control, `control', peer, `peer_yn')
+
+
+            }
+          }
+
+        }
 }
 
 
@@ -71,19 +120,42 @@ foreach i of local indexvars {
 save $projdir/dta/allsvyfactor/categoryindex/compcasecategoryindex, replace
 
 
-//merge the va index reg datasets to produce combined table
-// local macro for all va vars except the first one (va_ela) for merging loop
-local vaminusfirst va_math va_enr va_enrela va_enrmath va_enrdk va_2yr va_2yrela va_2yrmath va_2yrdk va_4yr va_4yrela va_4yrmath va_4yrdk
 
-foreach i of local indexvars {
-  use $projdir/out/dta/factor/compcase/`i'_va_ela_compregs, clear
-  foreach j of local vaminusfirst {
-    merge 1:1 var using $projdir/out/dta/factor/compcase/`i'_`j'_compregs
-    drop _merge
+
+foreach index of local indexvars {
+  //merge the va index reg datasets to produce combined table
+  local merge_command use
+  local merge_options clear
+
+  foreach va_outcome in ela math enr enr_2year enr_4year dk_enr dk_enr_2year dk_enr_4year {
+    di "va: `va_outcome'"
+    foreach sample in b las {
+      di "sample: `sample'"
+      foreach control of local `sample'_sample_controls {
+        //macro for whether to use the VA estimates with peer effects
+        if "`sample'" == "b" {
+          local peer
+          local peer_yn "N"
+        }
+        if "`sample'" == "las" {
+          local peer "_p"
+          local peer_yn "Y"
+        }
+
+        di "peer controls in VA estimates (empty if no peer, _p if peer): `peer'"
+
+
+        `merge_command' $projdir/out/dta/factor/compcase/va_`va_outcome'_`sample'_sp_`control'_ct`peer'_`index', `merge_options'
+
+        local merge_command "merge 1:1 var using"
+        local merge_options nogen
+      }
+    }
   }
-  save $projdir/out/dta/factor/compcase/`i'_va_compregs, replace
-  export excel using $projdir/out/xls/factor/compcase/`i'_va_compregs, replace
+
+  save $projdir/out/dta/factor/compcase/`index'_va_compregs, replace
+  export excel using $projdir/out/csv/factoranalysis/compcase/`index'_va_compregs, replace firstrow(variables)
 }
 
 log close
-translate $projdir/log/share/factoranalysis/compcasecategoryindex.smcl $projdir/log/share/factoranalysis/compcasecategoryindex.log, replace 
+translate $projdir/log/share/factoranalysis/compcasecategoryindex.smcl $projdir/log/share/factoranalysis/compcasecategoryindex.log, replace

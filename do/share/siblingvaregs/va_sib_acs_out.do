@@ -254,7 +254,7 @@ timer off 1
 timer list
 
 //change directory back to my own personal directory
-cd $projdir 
+cd $projdir
 
 log close
 translate $projdir/log/share/siblingvaregs/va_sib_acs_out.smcl $projdir/log/share/siblingvaregs/va_sib_acs_out.log, replace

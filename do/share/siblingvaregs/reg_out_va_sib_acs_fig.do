@@ -15,6 +15,9 @@ do $projdir/do/share/siblingvaregs/reg_out_va_sib_acs_fig
 /* CHANGE LOG
 5/23/2022: Added code to create individual figures and combined panels for regressions
 by prior score by SED status heterogeneity
+
+11/28/2022: debugged code snippet gen xtile = subinstr()
+need to make 2 colors for figures with both VA het by prior score  
 */
 
 clear all
@@ -112,7 +115,7 @@ foreach outcome in enr enr_2year enr_4year {
         // keep only the interaction parameters
         keep if strpos(parm, "prior_`prior_subject'_z_score_xtile#c.va_`subject'_`control'") != 0
         // generate a var that is the decile number of the prior score, from 1 to 10
-        gen xtile = subinstr(substr(parm, 1, strpos(parm, ".")), "b", "", .)
+        gen xtile = subinstr(substr(parm, 1, strpos(parm, ".")-1), "b", "", .)
         // convert xtile var into a numeric var
         destring xtile, replace
 
@@ -162,7 +165,7 @@ foreach outcome in enr enr_2year enr_4year {
       // keep only interaction parameters
       keep if strpos(parm, "prior_`prior_subject'_z_score_xtile#c.va_ela_`control'")!=0 | strpos(parm, "prior_`prior_subject'_z_score_xtile#c.va_math_`control'")!=0
       // create a var that is the decile number of the prior score, from 1 to 10
-      gen xtile = subinstr(substr(parm, 1, strpos(parm, ".")), "b", "", .)
+      gen xtile = subinstr(substr(parm, 1, strpos(parm, ".")-1), "b", "", .)
       // convert xtile var into a numeric var
       destring xtile, replace
 

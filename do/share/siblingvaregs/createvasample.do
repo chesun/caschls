@@ -75,29 +75,6 @@ timer on 1
 
 
 
-  ********************************************************************************
-  *** This merges the entire k12 test score sample onto postsecondary outcomes
-  //the output dataset is used in siblingoutxwalk.do
-  use merge_id_k12_test_scores all_students_sample first_scores_sample ///
-  	dataset test cdscode school_id state_student_id year grade ///
-  	cohort_size ///
-  	using `k12_test_scores'/k12_test_scores_clean.dta, clear
-  // merge on postsecondary Outcomes
-  do $vaprojdir/do_files/merge_k12_postsecondary.doh enr_only
-  drop enr enr_2year enr_4year
-  rename enr_ontime enr
-  rename enr_ontime_2year enr_2year
-  rename enr_ontime_4year enr_4year
-  drop if missing(state_student_id)
-
-  //save the merged k12 to postsecondary outcome dataset that has the largest student sample in order to calculate sibling outcomes
-  compress
-  label data "Full K-12 test scores merged to postsecondary outcomes"
-  save $projdir/dta/common_core_va/k12_postsecondary_out_merge, replace
-
-
-
-
 
   ********************************************************************************
   ** create the VA dataset for the long term outcome VA regressions

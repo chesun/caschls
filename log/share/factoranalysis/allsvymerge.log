@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factor
 > analysis/allsvymerge.smcl
   log type:  smcl
- opened on:  25 Jul 2022, 18:11:06
+ opened on:   8 Dec 2024, 23:50:11
 
 . 
 . /* rename vars and prep parentanalysisready.dta for merging */
@@ -12,8 +12,8 @@
 > ra)
 
 . 
-. /* keep only the qoimean vars to be used in factor analysis */
-. keep cdscode qoi*
+. /* keep only the qoimean vars  and va to be used in factor analysis */
+. keep cdscode qoi* va*
 
 . 
 . /* rename variables and drop common vars to prepare for merging across survey
@@ -33,7 +33,7 @@ file
 (secondary pooled dataset ready for analysis with stats and response rate)
 
 . 
-. keep cdscode qoi*
+. keep cdscode qoi* va*
 
 . rename qoi* secqoi*
 
@@ -50,7 +50,7 @@ file
 (weighted average staff qoi statistics pooled over years)
 
 . 
-. keep cdscode qoi*
+. keep cdscode qoi* va*
 
 . rename qoi* staffqoi*
 
@@ -72,16 +72,16 @@ file
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                         2,995
-        from master                     1,555  (_merge==1)
-        from using                      1,440  (_merge==2)
+    Not matched                         3,505
+        from master                     1,558  (_merge==1)
+        from using                      1,947  (_merge==2)
 
-    Matched                             2,394  (_merge==3)
+    Matched                             1,438  (_merge==3)
     -----------------------------------------
 
 . /* keep only matched schools */
 . keep if _merge == 3
-(2,995 observations deleted)
+(3,505 observations deleted)
 
 . drop _merge
 
@@ -90,40 +90,21 @@ file
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                         2,755
-        from master                        75  (_merge==1)
-        from using                      2,680  (_merge==2)
+    Not matched                         2,960
+        from master                        93  (_merge==1)
+        from using                      2,867  (_merge==2)
 
-    Matched                             2,319  (_merge==3)
+    Matched                             1,345  (_merge==3)
     -----------------------------------------
 
 . keep if _merge == 3
-(2,755 observations deleted)
+(2,960 observations deleted)
 
 . // 2300 records matched among all 3 surveys
 . drop _merge
 
 . 
 . 
-. 
-. /* merge with va vars */
-. merge 1:1 cdscode using $projdir/dta/buildanalysisdata/va/combinedva
-
-    Result                      Number of obs
-    -----------------------------------------
-    Not matched                           939
-        from master                       939  (_merge==1)
-        from using                          0  (_merge==2)
-
-    Matched                             1,380  (_merge==3)
-    -----------------------------------------
-
-. //940 records not matched from the master dataset. 1360 records matched
-. keep if _merge == 3
-(939 observations deleted)
-
-. drop _merge
-
 . 
 . missings dropobs *mean_pooled, force //drop all observations with all qoimean
 >  vars missing
@@ -144,9 +125,9 @@ Checking missings in parentqoi9mean_pooled parentqoi15mean_pooled
     staffqoi103mean_pooled staffqoi104mean_pooled staffqoi105mean_pooled
     staffqoi109mean_pooled staffqoi111mean_pooled staffqoi112mean_pooled
     staffqoi128mean_pooled:
-1081 observations with missing values
+392 observations with missing values
 
-(445 observations deleted)
+note: no observations qualify
 
 . 
 . save $projdir/dta/allsvyfactor/allsvyqoimeans, replace
@@ -161,5 +142,5 @@ file
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factor
 > analysis/allsvymerge.smcl
   log type:  smcl
- closed on:  25 Jul 2022, 18:11:06
+ closed on:   8 Dec 2024, 23:50:13
 -------------------------------------------------------------------------------
