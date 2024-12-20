@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gxwalk/uniquefamily.smcl
   log type:  smcl
- opened on:  25 Jul 2022, 18:27:17
+ opened on:  17 Jan 2024, 10:33:28
 
 . 
 . use $projdir/dta/siblingxwalk/k12_xwalk_name_address_year, clear
@@ -43,55 +43,55 @@ Duplicates in terms of all variables
 (12,220,119 real changes made)
 (24,440,238 real changes made)
 (14,776,071 real changes made)
-(10,319,295 real changes made)
+(10,318,602 real changes made)
 0
-(9,152,397 real changes made)
-(1,793,950 real changes made)
+(9,151,417 real changes made)
+(1,792,702 real changes made)
 1
-(690,540 real changes made)
-(385,252 real changes made)
+(690,161 real changes made)
+(385,162 real changes made)
 2
-(117,430 real changes made)
-(103,646 real changes made)
+(117,141 real changes made)
+(104,014 real changes made)
 3
-(34,453 real changes made)
-(33,904 real changes made)
+(34,559 real changes made)
+(33,951 real changes made)
 4
-(11,545 real changes made)
-(11,513 real changes made)
+(11,487 real changes made)
+(11,436 real changes made)
 5
-(4,341 real changes made)
-(4,340 real changes made)
+(4,375 real changes made)
+(4,375 real changes made)
 6
-(1,857 real changes made)
-(1,857 real changes made)
+(1,890 real changes made)
+(1,890 real changes made)
 7
-(855 real changes made)
-(855 real changes made)
+(895 real changes made)
+(895 real changes made)
 8
-(535 real changes made)
-(535 real changes made)
+(542 real changes made)
+(542 real changes made)
 9
-(416 real changes made)
-(416 real changes made)
+(410 real changes made)
+(410 real changes made)
 10
-(246 real changes made)
-(246 real changes made)
+(330 real changes made)
+(330 real changes made)
 11
-(181 real changes made)
-(181 real changes made)
+(224 real changes made)
+(224 real changes made)
 12
-(69 real changes made)
-(69 real changes made)
+(101 real changes made)
+(101 real changes made)
 13
-(43 real changes made)
-(43 real changes made)
+(54 real changes made)
+(54 real changes made)
 14
-(11 real changes made)
-(11 real changes made)
+(29 real changes made)
+(29 real changes made)
 15
-(2 real changes made)
-(2 real changes made)
+(8 real changes made)
+(8 real changes made)
 16
 (0 real changes made)
 (0 real changes made)
@@ -100,7 +100,7 @@ Duplicates in terms of all variables
 Duplicates in terms of __000002
 
 (14,776,071 observations deleted)
-file /home/tmp/St35924.000001 saved as .dta format
+file /home/tmp/St25494.000001 saved as .dta format
 
     Result                      Number of obs
     -----------------------------------------
@@ -238,5 +238,5 @@ file
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gxwalk/uniquefamily.smcl
   log type:  smcl
- closed on:  25 Jul 2022, 18:43:43
+ closed on:  17 Jan 2024, 10:54:39
 -------------------------------------------------------------------------------

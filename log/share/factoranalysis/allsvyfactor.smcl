@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/allsvyfactor.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}31 Jul 2023, 21:43:10
+ {txt}opened on:  {res}19 Dec 2024, 19:17:29
 {txt}
 {com}. 
 . /* use principal factoring method because data is not multinormal */
@@ -279,7 +279,13 @@ Factor analysis/correlation{col 50}Number of obs    = {res}       953
 {com}. screeplot, yline(1)
 {res}{txt}
 {com}. graph export $projdir/out/graph/factoranalysis/allsvy/allsvyscreeplot.png, replace
-{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/factoranalysis/allsvy/allsvyscreeplot.png} written in PNG format
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/factoranalysis/allsvy/allsvyscreeplot.png{rm}
+saved as
+PNG
+format
+{p_end}
 
 {com}. //set minimum eigenvalue to 1
 . factor *mean_pooled, mineigen(1) //6 factors with eigenvalue above 1
@@ -451,7 +457,7 @@ Factor analysis/correlation{col 50}Number of obs    = {res}       953
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/allsvyfactor.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}31 Jul 2023, 21:43:11
+ {txt}closed on:  {res}19 Dec 2024, 19:17:38
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

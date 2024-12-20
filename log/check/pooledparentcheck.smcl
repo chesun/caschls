@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/check/pooledparentcheck.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}25 Jul 2022, 18:09:40
+ {txt}opened on:  {res}19 Dec 2024, 19:13:59
 {txt}
 {com}. 
 . use $projdir/dta/demographics/pooled/pooledparentdiagnostics, replace
@@ -52,13 +52,25 @@
 {txt}(bin={res}54{txt}, start={res}1{txt}, width={res}1{txt})
 {res}{txt}
 {com}. graph export $projdir/out/graph/pooleddiagnostics/parenttroubleshooting/gr9discrep.png, replace
-{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnostics/parenttroubleshooting/gr9discrep.png} written in PNG format
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnostics/parenttroubleshooting/gr9discrep.png{rm}
+saved as
+PNG
+format
+{p_end}
 
 {com}. histogram gr11discrep if checkgr11 == 1, freq width(1)
 {txt}(bin={res}5{txt}, start={res}1{txt}, width={res}1{txt})
 {res}{txt}
 {com}. graph export $projdir/out/graph/pooleddiagnostics/parenttroubleshooting/gr11discrep.png, replace
-{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnostics/parenttroubleshooting/gr11discrep.png} written in PNG format
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnostics/parenttroubleshooting/gr11discrep.png{rm}
+saved as
+PNG
+format
+{p_end}
 
 {com}. 
 . 
@@ -73,7 +85,7 @@
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/check/pooledparentcheck.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}25 Jul 2022, 18:09:41
+ {txt}closed on:  {res}19 Dec 2024, 19:14:02
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

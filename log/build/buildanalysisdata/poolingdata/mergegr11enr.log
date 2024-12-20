@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/builda
 > nalysisdata/poolingdata/mergegr11enr.smcl
   log type:  smcl
- opened on:  25 Jul 2022, 18:10:38
+ opened on:  19 Dec 2024, 19:15:33
 
 . 
 . /* merge gr11 enrollment with parent pooled dataset */
@@ -101,5 +101,5 @@ file
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/builda
 > nalysisdata/poolingdata/mergegr11enr.smcl
   log type:  smcl
- closed on:  25 Jul 2022, 18:10:38
+ closed on:  19 Dec 2024, 19:15:33
 -------------------------------------------------------------------------------

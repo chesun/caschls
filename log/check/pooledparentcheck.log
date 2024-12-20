@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/check/pooled
 > parentcheck.smcl
   log type:  smcl
- opened on:  25 Jul 2022, 18:09:40
+ opened on:  19 Dec 2024, 19:13:59
 
 . 
 . use $projdir/dta/demographics/pooled/pooledparentdiagnostics, replace
@@ -60,16 +60,18 @@
 
 . graph export $projdir/out/graph/pooleddiagnostics/parenttroubleshooting/gr9di
 > screp.png, replace
-file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnost
-> ics/parenttroubleshooting/gr9discrep.png written in PNG format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnos
+    > tics/parenttroubleshooting/gr9discrep.png saved as PNG format
 
 . histogram gr11discrep if checkgr11 == 1, freq width(1)
 (bin=5, start=1, width=1)
 
 . graph export $projdir/out/graph/pooleddiagnostics/parenttroubleshooting/gr11d
 > iscrep.png, replace
-file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnost
-> ics/parenttroubleshooting/gr11discrep.png written in PNG format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnos
+    > tics/parenttroubleshooting/gr11discrep.png saved as PNG format
 
 . 
 . 
@@ -85,5 +87,5 @@ file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnost
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/check/pooled
 > parentcheck.smcl
   log type:  smcl
- closed on:  25 Jul 2022, 18:09:41
+ closed on:  19 Dec 2024, 19:14:02
 -------------------------------------------------------------------------------

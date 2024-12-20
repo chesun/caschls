@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/pcascore.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}31 Jul 2023, 21:45:35
+ {txt}opened on:  {res}19 Dec 2024, 19:20:26
 {txt}
 {com}. 
 . /* creating pca compiste score for secondary survey */
@@ -246,7 +246,13 @@ Scoring coefficients
 {txt}(bin={res}35{txt}, start={res}-21.385639{txt}, width={res}1.1406883{txt})
 {res}{txt}
 {com}. graph export $projdir/out/graph/factoranalysis/pcascore/secpcascore.png, replace
-{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/factoranalysis/pcascore/secpcascore.png} written in PNG format
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/factoranalysis/pcascore/secpcascore.png{rm}
+saved as
+PNG
+format
+{p_end}
 
 {com}. 
 . 
@@ -370,7 +376,13 @@ Scoring coefficients
 {txt}(bin={res}33{txt}, start={res}-14.856897{txt}, width={res}.67467912{txt})
 {res}{txt}
 {com}. graph export $projdir/out/graph/factoranalysis/pcascore/parentpcascore.png, replace
-{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/factoranalysis/pcascore/parentpcascore.png} written in PNG format
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/factoranalysis/pcascore/parentpcascore.png{rm}
+saved as
+PNG
+format
+{p_end}
 
 {com}. 
 . 
@@ -538,13 +550,25 @@ Scoring coefficients
 {txt}(bin={res}34{txt}, start={res}-10.710596{txt}, width={res}.56375669{txt})
 {res}{txt}
 {com}. graph export $projdir/out/graph/factoranalysis/pcascore/staffpc1score.png, replace
-{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/factoranalysis/pcascore/staffpc1score.png} written in PNG format
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/factoranalysis/pcascore/staffpc1score.png{rm}
+saved as
+PNG
+format
+{p_end}
 
 {com}. histogram pc1, freq
 {txt}(bin={res}34{txt}, start={res}-10.710596{txt}, width={res}.56375669{txt})
 {res}{txt}
 {com}. graph export $projdir/out/graph/factoranalysis/pcascore/staffpc2score.png, replace
-{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/factoranalysis/pcascore/staffpc2score.png} written in PNG format
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/factoranalysis/pcascore/staffpc2score.png{rm}
+saved as
+PNG
+format
+{p_end}
 
 {com}. 
 . 
@@ -552,7 +576,7 @@ Scoring coefficients
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/pcascore.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}31 Jul 2023, 21:45:36
+ {txt}closed on:  {res}19 Dec 2024, 19:20:31
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

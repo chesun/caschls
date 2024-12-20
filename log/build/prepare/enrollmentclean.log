@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/prepar
 > e/enrollmentclean.smcl
   log type:  smcl
- opened on:  25 Jul 2022, 18:05:41
+ opened on:  19 Dec 2024, 19:00:19
 
 . 
 . local enrdtaname `" "enr1415" "enr1516" "enr1617" "enr1718" "enr1819" "'  //c
@@ -2155,5 +2155,5 @@ file
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/prepar
 > e/enrollmentclean.smcl
   log type:  smcl
- closed on:  25 Jul 2022, 18:06:47
+ closed on:  19 Dec 2024, 19:01:51
 -------------------------------------------------------------------------------

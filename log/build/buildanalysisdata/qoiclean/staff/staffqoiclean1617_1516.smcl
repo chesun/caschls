@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/qoiclean/staff/staffqoiclean1617_1516.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}25 Jul 2022, 18:10:34
+ {txt}opened on:  {res}19 Dec 2024, 19:15:28
 {txt}
 {com}. 
 . /* the code for cleaning 1516 and 1617 is exactly the same, so use the same code to clean them */
@@ -881,7 +881,7 @@ saved
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/qoiclean/staff/staffqoiclean1617_1516.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}25 Jul 2022, 18:10:35
+ {txt}closed on:  {res}19 Dec 2024, 19:15:29
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

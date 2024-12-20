@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/sample
 > /pooledparentdemographics.smcl
   log type:  smcl
- opened on:  25 Jul 2022, 18:09:40
+ opened on:  19 Dec 2024, 19:13:59
 
 . 
 . local years 1415 1516 1617 1718 1819 //local macro for dataset years
@@ -86,3 +86,5 @@ file
     > /paneldata/parentdemopanel.dta saved
 
 . 
+. translate $projdir/log/build/sample/pooledparentdemographics.smcl $projdir/lo
+> g/build/sample/pooledparentdemographics.log, replace 

@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/sample/parentcoveragedata.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}25 Jul 2022, 18:09:26
+ {txt}opened on:  {res}19 Dec 2024, 19:12:42
 {txt}
 {com}. 
 . local years `" "1415" "1516" "1617" "1718" "1819" "' //local macro for elementary dataset years
@@ -193,7 +193,7 @@ saved
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/sample/parentcoveragedata.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}25 Jul 2022, 18:09:26
+ {txt}closed on:  {res}19 Dec 2024, 19:12:42
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

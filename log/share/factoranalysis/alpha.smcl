@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/alpha.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}31 Jul 2023, 21:45:34
+ {txt}opened on:  {res}19 Dec 2024, 19:20:25
 {txt}
 {com}. 
 . /* Alpha for surveys  */
@@ -48,7 +48,7 @@ Test scale{col 14}{c |}{res}{col 59}   0.6142{col 73} 0.9680
 
 {com}. 
 . putexcel set $projdir/out/csv/factoranalysis/alpha.xlsx, sheet("alpha_sec", replace) replace
-{res}{txt}Note: File will be replaced when the first {cmd:putexcel} command is issued.
+{res}{p}{txt}note: file will be replaced when the first {cmd:putexcel} command is issued.{p_end}
 
 {com}. 
 . putexcel A1 = ("Secondary Survey QOI") A2 = ("Cronbach's Alpha") B2 = (r(alpha))
@@ -115,7 +115,7 @@ Test scale{col 14}{c |}{res}{col 59}   0.6384{col 73} 0.9510
 {com}. 
 . // use the open option so that stata writes to working memory, otherwise there are problems with changes not saving 
 . putexcel set $projdir/out/csv/factoranalysis/alpha.xlsx, sheet("alpha_parent", replace) modify open
-{res}{txt}Note: File will be modified when {cmd:putexcel save} command is issued.
+{res}{p}{txt}note: file will be modified when {cmd:putexcel save} command is issued.{p_end}
 
 {com}. 
 . putexcel A1 = ("Parent Survey QOI") A2 = ("Cronbach's Alpha") B2= (r(alpha))
@@ -183,7 +183,7 @@ Test scale{col 14}{c |}{res}{col 59}   0.3185{col 73} 0.8752
 
 {com}. 
 . putexcel set $projdir/out/csv/factoranalysis/alpha.xlsx, sheet("alpha_staff", replace) modify open
-{res}{txt}Note: File will be modified when {cmd:putexcel save} command is issued.
+{res}{p}{txt}note: file will be modified when {cmd:putexcel save} command is issued.{p_end}
 
 {com}. 
 . putexcel A1 = ("Staff Survey QOI") A2 = ("Cronbach's Alpha") B2 = (r(alpha))
@@ -231,33 +231,33 @@ Test scale{col 14}{c |}{res}{col 59}   0.3185{col 73} 0.8752
                              Item-test     Item-rest       interitem
 Item         {c |}  Obs  Sign   correlation   correlation     correlation     alpha
 {hline 13}{c +}{hline 65}
-parentqoi9~d{col 14}{c |}{res}{col 16}1263{col 24}+{col 31} 0.5237{col 45} 0.4636{col 59}   0.4285{col 73} 0.9344
-{txt}p~6mean_po~d{col 14}{c |}{res}{col 16}1262{col 24}+{col 31} 0.5925{col 45} 0.5389{col 59}   0.4233{col 73} 0.9331
-{txt}parentqoi17~{col 14}{c |}{res}{col 16}1262{col 24}+{col 31} 0.4740{col 45} 0.4109{col 59}   0.4325{col 73} 0.9354
-{txt}parentqoi2~d{col 14}{c |}{res}{col 16}1262{col 24}+{col 31} 0.5491{col 45} 0.4915{col 59}   0.4267{col 73} 0.9340
-{txt}secqoi22me~d{col 14}{c |}{res}{col 16}1345{col 24}+{col 31} 0.5189{col 45} 0.4572{col 59}   0.4300{col 73} 0.9348
-{txt}secqoi23me~d{col 14}{c |}{res}{col 16}1345{col 24}+{col 31} 0.7709{col 45} 0.7349{col 59}   0.4093{col 73} 0.9294
-{txt}secqoi24me~d{col 14}{c |}{res}{col 16}1345{col 24}+{col 31} 0.8006{col 45} 0.7683{col 59}   0.4067{col 73} 0.9287
-{txt}secqoi25me~d{col 14}{c |}{res}{col 16}1345{col 24}+{col 31} 0.7521{col 45} 0.7130{col 59}   0.4104{col 73} 0.9297
-{txt}secqoi26me~d{col 14}{c |}{res}{col 16}1345{col 24}+{col 31} 0.8399{col 45} 0.8132{col 59}   0.4036{col 73} 0.9278
-{txt}secqoi27me~d{col 14}{c |}{res}{col 16}1321{col 24}+{col 31} 0.7354{col 45} 0.6961{col 59}   0.4120{col 73} 0.9301
-{txt}secqoi28me~d{col 14}{c |}{res}{col 16}1321{col 24}+{col 31} 0.7660{col 45} 0.7298{col 59}   0.4095{col 73} 0.9295
-{txt}secqoi29me~d{col 14}{c |}{res}{col 16}1321{col 24}+{col 31} 0.8191{col 45} 0.7903{col 59}   0.4053{col 73} 0.9283
-{txt}secqoi30me~d{col 14}{c |}{res}{col 16}1321{col 24}+{col 31} 0.7962{col 45} 0.7642{col 59}   0.4072{col 73} 0.9288
-{txt}staffqoi20~d{col 14}{c |}{res}{col 16}1339{col 24}+{col 31} 0.2770{col 45} 0.2005{col 59}   0.4491{col 73} 0.9393
-{txt}staffqoi24~d{col 14}{c |}{res}{col 16}1051{col 24}+{col 31} 0.6599{col 45} 0.6140{col 59}   0.4174{col 73} 0.9316
-{txt}staffqoi41~d{col 14}{c |}{res}{col 16}1343{col 24}+{col 31} 0.6074{col 45} 0.5527{col 59}   0.4221{col 73} 0.9328
-{txt}staffqoi44~d{col 14}{c |}{res}{col 16}1342{col 24}+{col 31} 0.7440{col 45} 0.7047{col 59}   0.4113{col 73} 0.9299
-{txt}staffqoi64~d{col 14}{c |}{res}{col 16}1051{col 24}+{col 31} 0.7587{col 45} 0.7238{col 59}   0.4110{col 73} 0.9299
-{txt}staffqoi87~d{col 14}{c |}{res}{col 16}1264{col 24}+{col 31} 0.6763{col 45} 0.6301{col 59}   0.4165{col 73} 0.9313
-{txt}staffqoi98~d{col 14}{c |}{res}{col 16}1343{col 24}+{col 31} 0.6939{col 45} 0.6484{col 59}   0.4154{col 73} 0.9310
+parentqoi9~d{col 14}{c |}{res}{col 16}2784{col 24}+{col 31} 0.6295{col 45} 0.5481{col 59}   0.4613{col 73} 0.9421
+{txt}p~6mean_po~d{col 14}{c |}{res}{col 16}2785{col 24}+{col 31} 0.6859{col 45} 0.6185{col 59}   0.4567{col 73} 0.9411
+{txt}parentqoi17~{col 14}{c |}{res}{col 16}2786{col 24}+{col 31} 0.6148{col 45} 0.5385{col 59}   0.4626{col 73} 0.9424
+{txt}parentqoi2~d{col 14}{c |}{res}{col 16}2786{col 24}+{col 31} 0.6662{col 45} 0.5972{col 59}   0.4583{col 73} 0.9414
+{txt}secqoi22me~d{col 14}{c |}{res}{col 16}3385{col 24}+{col 31} 0.6062{col 45} 0.5330{col 59}   0.4611{col 73} 0.9421
+{txt}secqoi23me~d{col 14}{c |}{res}{col 16}3385{col 24}+{col 31} 0.8162{col 45} 0.7779{col 59}   0.4420{col 73} 0.9377
+{txt}secqoi24me~d{col 14}{c |}{res}{col 16}3384{col 24}+{col 31} 0.8538{col 45} 0.8241{col 59}   0.4390{col 73} 0.9370
+{txt}secqoi25me~d{col 14}{c |}{res}{col 16}3385{col 24}+{col 31} 0.7725{col 45} 0.7245{col 59}   0.4454{col 73} 0.9385
+{txt}secqoi26me~d{col 14}{c |}{res}{col 16}3385{col 24}+{col 31} 0.8490{col 45} 0.8158{col 59}   0.4386{col 73} 0.9369
+{txt}secqoi27me~d{col 14}{c |}{res}{col 16}3276{col 24}+{col 31} 0.6718{col 45} 0.6089{col 59}   0.4529{col 73} 0.9402
+{txt}secqoi28me~d{col 14}{c |}{res}{col 16}3276{col 24}+{col 31} 0.8094{col 45} 0.7710{col 59}   0.4426{col 73} 0.9378
+{txt}secqoi29me~d{col 14}{c |}{res}{col 16}3276{col 24}+{col 31} 0.8493{col 45} 0.8186{col 59}   0.4390{col 73} 0.9370
+{txt}secqoi30me~d{col 14}{c |}{res}{col 16}3276{col 24}+{col 31} 0.8355{col 45} 0.8018{col 59}   0.4406{col 73} 0.9374
+{txt}staffqoi20~d{col 14}{c |}{res}{col 16}4194{col 24}+{col 31} 0.3781{col 45} 0.2674{col 59}   0.4888{col 73} 0.9478
+{txt}staffqoi24~d{col 14}{c |}{res}{col 16}3036{col 24}+{col 31} 0.7177{col 45} 0.6585{col 59}   0.4528{col 73} 0.9402
+{txt}staffqoi41~d{col 14}{c |}{res}{col 16}4199{col 24}+{col 31} 0.6228{col 45} 0.5312{col 59}   0.4635{col 73} 0.9426
+{txt}staffqoi44~d{col 14}{c |}{res}{col 16}4197{col 24}+{col 31} 0.7488{col 45} 0.6822{col 59}   0.4496{col 73} 0.9395
+{txt}staffqoi64~d{col 14}{c |}{res}{col 16}3035{col 24}+{col 31} 0.7715{col 45} 0.7182{col 59}   0.4478{col 73} 0.9390
+{txt}staffqoi87~d{col 14}{c |}{res}{col 16}3828{col 24}+{col 31} 0.7128{col 45} 0.6458{col 59}   0.4530{col 73} 0.9402
+{txt}staffqoi98~d{col 14}{c |}{res}{col 16}4199{col 24}+{col 31} 0.6430{col 45} 0.5536{col 59}   0.4563{col 73} 0.9410
 {txt}{hline 13}{c +}{hline 65}
-Test scale{col 14}{c |}{res}{col 59}   0.4174{col 73} 0.9348
+Test scale{col 14}{c |}{res}{col 59}   0.4526{col 73} 0.9430
 {txt}{hline 13}{c BT}{hline 65}
 
 {com}. 
 . putexcel set $projdir/out/csv/factoranalysis/alpha.xlsx, sheet("alpha_school_climate", replace) modify open
-{res}{txt}Note: File will be modified when {cmd:putexcel save} command is issued.
+{res}{p}{txt}note: file will be modified when {cmd:putexcel save} command is issued.{p_end}
 
 {com}. 
 . putexcel A1 = ("School Climate Questions") A2 = ("Cronbach's Alpha") B2 = (r(alpha))
@@ -300,30 +300,30 @@ Test scale{col 14}{c |}{res}{col 59}   0.4174{col 73} 0.9348
                              Item-test     Item-rest       interitem
 Item         {c |}  Obs  Sign   correlation   correlation     correlation     alpha
 {hline 13}{c +}{hline 65}
-p~0mean_po~d{col 14}{c |}{res}{col 16}1148{col 24}+{col 31} 0.6082{col 45} 0.5394{col 59}   0.3238{col 73} 0.8846
-{txt}p~1mean_po~d{col 14}{c |}{res}{col 16}1258{col 24}+{col 31} 0.5778{col 45} 0.5028{col 59}   0.3261{col 73} 0.8856
-{txt}p~2mean_po~d{col 14}{c |}{res}{col 16}1033{col 24}+{col 31} 0.5700{col 45} 0.4977{col 59}   0.3264{col 73} 0.8857
-{txt}p~3mean_po~d{col 14}{c |}{res}{col 16}1259{col 24}+{col 31} 0.5365{col 45} 0.4565{col 59}   0.3296{col 73} 0.8872
-{txt}parentqoi34~{col 14}{c |}{res}{col 16}1148{col 24}+{col 31} 0.5477{col 45} 0.4720{col 59}   0.3285{col 73} 0.8867
-{txt}secqoi35me~d{col 14}{c |}{res}{col 16}1345{col 24}+{col 31} 0.7294{col 45} 0.6739{col 59}   0.3131{col 73} 0.8794
-{txt}secqoi36me~d{col 14}{c |}{res}{col 16}1345{col 24}+{col 31} 0.7555{col 45} 0.7051{col 59}   0.3108{col 73} 0.8783
-{txt}secqoi37me~d{col 14}{c |}{res}{col 16}1345{col 24}+{col 31} 0.7159{col 45} 0.6598{col 59}   0.3143{col 73} 0.8800
-{txt}secqoi38me~d{col 14}{c |}{res}{col 16}1345{col 24}+{col 31} 0.6871{col 45} 0.6268{col 59}   0.3170{col 73} 0.8813
-{txt}secqoi39me~d{col 14}{c |}{res}{col 16}1345{col 24}+{col 31} 0.7411{col 45} 0.6882{col 59}   0.3120{col 73} 0.8789
-{txt}secqoi40me~d{col 14}{c |}{res}{col 16}1345{col 24}+{col 31} 0.6886{col 45} 0.6280{col 59}   0.3169{col 73} 0.8813
-{txt}staffqoi103~{col 14}{c |}{res}{col 16}1342{col 24}+{col 31} 0.4404{col 45} 0.3507{col 59}   0.3394{col 73} 0.8916
-{txt}staffqoi104~{col 14}{c |}{res}{col 16}1342{col 24}+{col 31} 0.4652{col 45} 0.3774{col 59}   0.3371{col 73} 0.8906
-{txt}staffqoi105~{col 14}{c |}{res}{col 16}1342{col 24}+{col 31} 0.5548{col 45} 0.4762{col 59}   0.3293{col 73} 0.8871
-{txt}staffqoi109~{col 14}{c |}{res}{col 16}1342{col 24}+{col 31} 0.5065{col 45} 0.4226{col 59}   0.3332{col 73} 0.8888
-{txt}staffqoi111~{col 14}{c |}{res}{col 16}1342{col 24}+{col 31} 0.4924{col 45} 0.4074{col 59}   0.3349{col 73} 0.8896
-{txt}staffqoi112~{col 14}{c |}{res}{col 16}1342{col 24}+{col 31} 0.6361{col 45} 0.5668{col 59}   0.3218{col 73} 0.8836
+p~0mean_po~d{col 14}{c |}{res}{col 16}2505{col 24}+{col 31} 0.6824{col 45} 0.6044{col 59}   0.3701{col 73} 0.9039
+{txt}p~1mean_po~d{col 14}{c |}{res}{col 16}2778{col 24}+{col 31} 0.6287{col 45} 0.5353{col 59}   0.3734{col 73} 0.9051
+{txt}p~2mean_po~d{col 14}{c |}{res}{col 16}2262{col 24}+{col 31} 0.6128{col 45} 0.5243{col 59}   0.3735{col 73} 0.9051
+{txt}p~3mean_po~d{col 14}{c |}{res}{col 16}2781{col 24}+{col 31} 0.6177{col 45} 0.5232{col 59}   0.3747{col 73} 0.9056
+{txt}parentqoi34~{col 14}{c |}{res}{col 16}2505{col 24}+{col 31} 0.6326{col 45} 0.5447{col 59}   0.3742{col 73} 0.9054
+{txt}secqoi35me~d{col 14}{c |}{res}{col 16}3385{col 24}+{col 31} 0.8067{col 45} 0.7571{col 59}   0.3551{col 73} 0.8981
+{txt}secqoi36me~d{col 14}{c |}{res}{col 16}3385{col 24}+{col 31} 0.8183{col 45} 0.7722{col 59}   0.3536{col 73} 0.8975
+{txt}secqoi37me~d{col 14}{c |}{res}{col 16}3385{col 24}+{col 31} 0.7642{col 45} 0.7019{col 59}   0.3585{col 73} 0.8994
+{txt}secqoi38me~d{col 14}{c |}{res}{col 16}3383{col 24}+{col 31} 0.7729{col 45} 0.7162{col 59}   0.3578{col 73} 0.8991
+{txt}secqoi39me~d{col 14}{c |}{res}{col 16}3385{col 24}+{col 31} 0.8027{col 45} 0.7524{col 59}   0.3547{col 73} 0.8979
+{txt}secqoi40me~d{col 14}{c |}{res}{col 16}3385{col 24}+{col 31} 0.7818{col 45} 0.7261{col 59}   0.3584{col 73} 0.8994
+{txt}staffqoi103~{col 14}{c |}{res}{col 16}4197{col 24}+{col 31} 0.5971{col 45} 0.4968{col 59}   0.3837{col 73} 0.9088
+{txt}staffqoi104~{col 14}{c |}{res}{col 16}4197{col 24}+{col 31} 0.6038{col 45} 0.5035{col 59}   0.3826{col 73} 0.9084
+{txt}staffqoi105~{col 14}{c |}{res}{col 16}4197{col 24}+{col 31} 0.6195{col 45} 0.5175{col 59}   0.3785{col 73} 0.9069
+{txt}staffqoi109~{col 14}{c |}{res}{col 16}4197{col 24}+{col 31} 0.6304{col 45} 0.5312{col 59}   0.3781{col 73} 0.9068
+{txt}staffqoi111~{col 14}{c |}{res}{col 16}4197{col 24}+{col 31} 0.5821{col 45} 0.4722{col 59}   0.3829{col 73} 0.9085
+{txt}staffqoi112~{col 14}{c |}{res}{col 16}4197{col 24}+{col 31} 0.6765{col 45} 0.5833{col 59}   0.3699{col 73} 0.9038
 {txt}{hline 13}{c +}{hline 65}
-Test scale{col 14}{c |}{res}{col 59}   0.3244{col 73} 0.8909
+Test scale{col 14}{c |}{res}{col 59}   0.3693{col 73} 0.9087
 {txt}{hline 13}{c BT}{hline 65}
 
 {com}. 
 . putexcel set $projdir/out/csv/factoranalysis/alpha.xlsx, sheet("alpha_teacher_quality", replace) modify open
-{res}{txt}Note: File will be modified when {cmd:putexcel save} command is issued.
+{res}{p}{txt}note: file will be modified when {cmd:putexcel save} command is issued.{p_end}
 
 {com}. 
 . putexcel A1 = ("Teacher and Staff Quality Questions") A2 = ("Cronbach's Alpha") B2 = (r(alpha))
@@ -366,17 +366,17 @@ Test scale{col 14}{c |}{res}{col 59}   0.3244{col 73} 0.8909
                              Item-test     Item-rest       interitem
 Item         {c |}  Obs  Sign   correlation   correlation     correlation     alpha
 {hline 13}{c +}{hline 65}
-p~5mean_po~d{col 14}{c |}{res}{col 16}1263{col 24}+{col 31} 0.7234{col 45} 0.4519{col 59}   0.3068{col 73} 0.5704
-{txt}parentqoi6~d{col 14}{c |}{res}{col 16}1259{col 24}+{col 31} 0.6484{col 45} 0.3496{col 59}   0.3796{col 73} 0.6473
-{txt}staffqoi10m~{col 14}{c |}{res}{col 16}1342{col 24}+{col 31} 0.7415{col 45} 0.4572{col 59}   0.2982{col 73} 0.5603
-{txt}staffqoi12~d{col 14}{c |}{res}{col 16}1319{col 24}+{col 31} 0.7225{col 45} 0.4533{col 59}   0.3070{col 73} 0.5706
+p~5mean_po~d{col 14}{c |}{res}{col 16}2786{col 24}+{col 31} 0.7511{col 45} 0.4898{col 59}   0.3341{col 73} 0.6008
+{txt}parentqoi6~d{col 14}{c |}{res}{col 16}2753{col 24}+{col 31} 0.6947{col 45} 0.4102{col 59}   0.3875{col 73} 0.6549
+{txt}staffqoi10m~{col 14}{c |}{res}{col 16}4199{col 24}+{col 31} 0.7973{col 45} 0.4715{col 59}   0.3108{col 73} 0.5750
+{txt}staffqoi12~d{col 14}{c |}{res}{col 16}4058{col 24}+{col 31} 0.7842{col 45} 0.4730{col 59}   0.3242{col 73} 0.5901
 {txt}{hline 13}{c +}{hline 65}
-Test scale{col 14}{c |}{res}{col 59}   0.3231{col 73} 0.6562
+Test scale{col 14}{c |}{res}{col 59}   0.3408{col 73} 0.6741
 {txt}{hline 13}{c BT}{hline 65}
 
 {com}. 
 . putexcel set $projdir/out/csv/factoranalysis/alpha.xlsx, sheet("alpha_student_support", replace) modify open
-{res}{txt}Note: File will be modified when {cmd:putexcel save} command is issued.
+{res}{p}{txt}note: file will be modified when {cmd:putexcel save} command is issued.{p_end}
 
 {com}. 
 . putexcel A1 = ("Student Support Questions") A2 = ("Cronbach's Alpha") B2 = (r(alpha))
@@ -419,17 +419,17 @@ Test scale{col 14}{c |}{res}{col 59}   0.3231{col 73} 0.6562
                              Item-test     Item-rest       interitem
 Item         {c |}  Obs  Sign   correlation   correlation     correlation     alpha
 {hline 13}{c +}{hline 65}
-secqoi31me~d{col 14}{c |}{res}{col 16}1345{col 24}+{col 31} 0.9400{col 45} 0.8920{col 59}   0.8322{col 73} 0.9370
-{txt}secqoi32me~d{col 14}{c |}{res}{col 16}1345{col 24}+{col 31} 0.8830{col 45} 0.7954{col 59}   0.9049{col 73} 0.9661
-{txt}secqoi33me~d{col 14}{c |}{res}{col 16}1345{col 24}+{col 31} 0.9671{col 45} 0.9401{col 59}   0.7986{col 73} 0.9225
-{txt}secqoi34me~d{col 14}{c |}{res}{col 16}1344{col 24}+{col 31} 0.9583{col 45} 0.9238{col 59}   0.8110{col 73} 0.9279
+secqoi31me~d{col 14}{c |}{res}{col 16}3385{col 24}+{col 31} 0.9410{col 45} 0.8938{col 59}   0.8331{col 73} 0.9374
+{txt}secqoi32me~d{col 14}{c |}{res}{col 16}3383{col 24}+{col 31} 0.8877{col 45} 0.8032{col 59}   0.9001{col 73} 0.9643
+{txt}secqoi33me~d{col 14}{c |}{res}{col 16}3385{col 24}+{col 31} 0.9668{col 45} 0.9393{col 59}   0.8008{col 73} 0.9234
+{txt}secqoi34me~d{col 14}{c |}{res}{col 16}3384{col 24}+{col 31} 0.9539{col 45} 0.9163{col 59}   0.8173{col 73} 0.9307
 {txt}{hline 13}{c +}{hline 65}
-Test scale{col 14}{c |}{res}{col 59}   0.8367{col 73} 0.9535
+Test scale{col 14}{c |}{res}{col 59}   0.8378{col 73} 0.9538
 {txt}{hline 13}{c BT}{hline 65}
 
 {com}. 
 . putexcel set $projdir/out/csv/factoranalysis/alpha.xlsx, sheet("alpha_student_motivation", replace) modify open
-{res}{txt}Note: File will be modified when {cmd:putexcel save} command is issued.
+{res}{p}{txt}note: file will be modified when {cmd:putexcel save} command is issued.{p_end}
 
 {com}. 
 . putexcel A1 = ("Student Motivation Questions") A2 = ("Cronbach's Alpha") B2 = (r(alpha))
@@ -475,7 +475,7 @@ Test scale{col 14}{c |}{res}{col 59}   0.8367{col 73} 0.9535
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/alpha.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}31 Jul 2023, 21:45:35
+ {txt}closed on:  {res}19 Dec 2024, 19:20:26
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

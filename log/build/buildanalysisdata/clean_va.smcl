@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build//buildanalysisdata/clean_va.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 9 Dec 2024, 17:31:06
+ {txt}opened on:  {res}19 Dec 2024, 19:15:33
 {txt}
 {com}. 
 . 
@@ -29,35 +29,35 @@
 {txt}(ela estimates from all sample and control combinations)
 {res}{txt}{p 0 4 2}
 file {bf}
-/home/tmp/St185147.000001{rm}
+/home/tmp/St269807.000001{rm}
 saved
 as .dta format
 {p_end}
 (math estimates from all sample and control combinations)
 {res}{txt}{p 0 4 2}
 file {bf}
-/home/tmp/St185147.000002{rm}
+/home/tmp/St269807.000002{rm}
 saved
 as .dta format
 {p_end}
 (enr estimates from all sample and control combinations)
 {res}{txt}{p 0 4 2}
 file {bf}
-/home/tmp/St185147.000003{rm}
+/home/tmp/St269807.000003{rm}
 saved
 as .dta format
 {p_end}
 (enr_2year estimates from all sample and control combinations)
 {res}{txt}{p 0 4 2}
 file {bf}
-/home/tmp/St185147.000004{rm}
+/home/tmp/St269807.000004{rm}
 saved
 as .dta format
 {p_end}
 (enr_4year estimates from all sample and control combinations)
 {res}{txt}{p 0 4 2}
 file {bf}
-/home/tmp/St185147.000005{rm}
+/home/tmp/St269807.000005{rm}
 saved
 as .dta format
 {p_end}
@@ -196,10 +196,10 @@ saved
 {txt}
 {com}. 
 . di "Do file clean_va.do start date time: `date1_va_scatter_plot' `time1_va_scatter_plot'"
-{res}Do file clean_va.do start date time:  9 Dec 2024 17:31:06
+{res}Do file clean_va.do start date time: 19 Dec 2024 19:15:33
 {txt}
 {com}. di "End date time: `date2_va_scatter_plot' `time2_va_scatter_plot'"
-{res}End date time:  9 Dec 2024 17:31:09
+{res}End date time: 19 Dec 2024 19:15:34
 {txt}
 {com}. 
 . 
@@ -207,7 +207,7 @@ saved
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build//buildanalysisdata/clean_va.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 9 Dec 2024, 17:31:09
+ {txt}closed on:  {res}19 Dec 2024, 19:15:34
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

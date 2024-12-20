@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factor
 > analysis/indexhorsewithdemo.smcl
   log type:  smcl
- opened on:  31 Jul 2023, 21:45:33
+ opened on:  19 Dec 2024, 19:20:22
 
 . 
 . graph drop _all
@@ -148,32 +148,32 @@
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                            18
-        from master                        18  
+    Not matched                           160
+        from master                       160  
         from using                          0  
 
-    Matched                             1,327  
+    Matched                             5,465  
     -----------------------------------------
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                           709
-        from master                       709  
+    Not matched                         3,984
+        from master                     3,984  
         from using                          0  
 
-    Matched                               636  
+    Matched                             1,641  
     -----------------------------------------
-(18 missing values generated)
-(19 missing values generated)
-(18 missing values generated)
-(18 missing values generated)
-(18 missing values generated)
-(19 missing values generated)
-(18 missing values generated)
-(18 missing values generated)
-(18 missing values generated)
-(18 missing values generated)
-(18 missing values generated)
+(162 missing values generated)
+(162 missing values generated)
+(160 missing values generated)
+(160 missing values generated)
+(161 missing values generated)
+(169 missing values generated)
+(161 missing values generated)
+(161 missing values generated)
+(161 missing values generated)
+(161 missing values generated)
+(161 missing values generated)
 file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/indexhor
     > sewithdemo/compcase/va_ela_b_sp_b_ct.dta saved
@@ -362,32 +362,32 @@ file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/i
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                            18
-        from master                        18  
+    Not matched                           160
+        from master                       160  
         from using                          0  
 
-    Matched                             1,327  
+    Matched                             5,465  
     -----------------------------------------
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                           709
-        from master                       709  
+    Not matched                         3,984
+        from master                     3,984  
         from using                          0  
 
-    Matched                               636  
+    Matched                             1,641  
     -----------------------------------------
-(18 missing values generated)
-(19 missing values generated)
-(18 missing values generated)
-(18 missing values generated)
-(18 missing values generated)
-(19 missing values generated)
-(18 missing values generated)
-(18 missing values generated)
-(18 missing values generated)
-(18 missing values generated)
-(18 missing values generated)
+(162 missing values generated)
+(162 missing values generated)
+(160 missing values generated)
+(160 missing values generated)
+(161 missing values generated)
+(169 missing values generated)
+(161 missing values generated)
+(161 missing values generated)
+(161 missing values generated)
+(161 missing values generated)
+(161 missing values generated)
 file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/indexhor
     > sewithdemo/imputed/va_ela_b_sp_b_ct.dta saved
@@ -595,10 +595,10 @@ file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/csv/factoranalysis/i
 
 . 
 . di "Start date time: `date1' `time1'"
-Start date time: 31 Jul 2023 21:45:33
+Start date time: 19 Dec 2024 19:20:22
 
 . di "End date time: `date2' `time2'"
-End date time: 31 Jul 2023 21:45:34
+End date time: 19 Dec 2024 19:20:25
 
 . 
 . log close
@@ -606,5 +606,5 @@ End date time: 31 Jul 2023 21:45:34
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factor
 > analysis/indexhorsewithdemo.smcl
   log type:  smcl
- closed on:  31 Jul 2023, 21:45:34
+ closed on:  19 Dec 2024, 19:20:25
 -------------------------------------------------------------------------------

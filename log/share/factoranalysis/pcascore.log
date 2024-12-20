@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factor
 > analysis/pcascore.smcl
   log type:  smcl
- opened on:  31 Jul 2023, 21:45:35
+ opened on:  19 Dec 2024, 19:20:26
 
 . 
 . /* creating pca compiste score for secondary survey */
@@ -247,8 +247,9 @@ Scoring coefficients
 
 . graph export $projdir/out/graph/factoranalysis/pcascore/secpcascore.png, repl
 > ace
-file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/factoranalysis
-> /pcascore/secpcascore.png written in PNG format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/factoranalysi
+    > s/pcascore/secpcascore.png saved as PNG format
 
 . 
 . 
@@ -374,8 +375,9 @@ Scoring coefficients
 
 . graph export $projdir/out/graph/factoranalysis/pcascore/parentpcascore.png, r
 > eplace
-file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/factoranalysis
-> /pcascore/parentpcascore.png written in PNG format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/factoranalysi
+    > s/pcascore/parentpcascore.png saved as PNG format
 
 . 
 . 
@@ -544,16 +546,18 @@ Scoring coefficients
 
 . graph export $projdir/out/graph/factoranalysis/pcascore/staffpc1score.png, re
 > place
-file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/factoranalysis
-> /pcascore/staffpc1score.png written in PNG format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/factoranalysi
+    > s/pcascore/staffpc1score.png saved as PNG format
 
 . histogram pc1, freq
 (bin=34, start=-10.710596, width=.56375669)
 
 . graph export $projdir/out/graph/factoranalysis/pcascore/staffpc2score.png, re
 > place
-file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/factoranalysis
-> /pcascore/staffpc2score.png written in PNG format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/factoranalysi
+    > s/pcascore/staffpc2score.png saved as PNG format
 
 . 
 . 
@@ -562,5 +566,5 @@ file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/factoranalysis
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factor
 > analysis/pcascore.smcl
   log type:  smcl
- closed on:  31 Jul 2023, 21:45:36
+ closed on:  19 Dec 2024, 19:20:31
 -------------------------------------------------------------------------------

@@ -3,7 +3,7 @@
       name:  {res}sameschools
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/check/sameschools.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}25 Jul 2022, 18:04:47
+ {txt}opened on:  {res}19 Dec 2024, 18:59:18
 {txt}
 {com}. 
 . local elemdtaname `" "elem1415" "elem1516" "elem1617" "elem1718" "elem1819" "' //local macro for elementary dataset names
@@ -54442,7 +54442,7 @@ Total   54,142.0
       {txt}name:  {res}sameschools
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/check/sameschools.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}25 Jul 2022, 18:05:35
+ {txt}closed on:  {res}19 Dec 2024, 19:00:10
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

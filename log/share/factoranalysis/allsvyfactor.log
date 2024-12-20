@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factor
 > analysis/allsvyfactor.smcl
   log type:  smcl
- opened on:  31 Jul 2023, 21:43:10
+ opened on:  19 Dec 2024, 19:17:29
 
 . 
 . /* use principal factoring method because data is not multinormal */
@@ -285,8 +285,9 @@ Factor loadings (pattern matrix) and unique variances
 
 . graph export $projdir/out/graph/factoranalysis/allsvy/allsvyscreeplot.png, re
 > place
-file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/factoranalysis
-> /allsvy/allsvyscreeplot.png written in PNG format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/factoranalysi
+    > s/allsvy/allsvyscreeplot.png saved as PNG format
 
 . //set minimum eigenvalue to 1
 . factor *mean_pooled, mineigen(1) //6 factors with eigenvalue above 1
@@ -463,5 +464,5 @@ Factor loadings (pattern matrix) and unique variances
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factor
 > analysis/allsvyfactor.smcl
   log type:  smcl
- closed on:  31 Jul 2023, 21:43:11
+ closed on:  19 Dec 2024, 19:17:38
 -------------------------------------------------------------------------------

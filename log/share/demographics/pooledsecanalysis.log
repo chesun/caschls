@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/demogr
 > aphics/pooledsecanalysis.smcl
   log type:  smcl
- opened on:  25 Jul 2022, 18:09:39
+ opened on:  19 Dec 2024, 19:13:52
 
 . 
 . use $projdir/dta/demographics/pooled/pooledsecdiagnostics, replace
@@ -29,8 +29,9 @@
 
 . graph export $projdir/out/graph/pooleddiagnostics/secondary/pooledrr.png, rep
 > lace
-file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnost
-> ics/secondary/pooledrr.png written in PNG format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnos
+    > tics/secondary/pooledrr.png saved as PNG format
 
 . 
 . //create and export frequency histogram for pooled female response rate
@@ -39,8 +40,9 @@ file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnost
 
 . graph export $projdir/out/graph/pooleddiagnostics/secondary/pooledfemalerr.pn
 > g, replace
-file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnost
-> ics/secondary/pooledfemalerr.png written in PNG format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnos
+    > tics/secondary/pooledfemalerr.png saved as PNG format
 
 . 
 . //create and export frequency histograms for pooled response rates for 4 race
@@ -86,8 +88,9 @@ file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnost
 
 . graph export $projdir/out/graph/pooleddiagnostics/secondary/pooledhispanicrr.
 > png, replace
-file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnost
-> ics/secondary/pooledhispanicrr.png written in PNG format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnos
+    > tics/secondary/pooledhispanicrr.png saved as PNG format
 
 . 
 . histogram pooledasianrr, freq
@@ -95,8 +98,9 @@ file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnost
 
 . graph export $projdir/out/graph/pooleddiagnostics/secondary/pooledasianrr.png
 > , replace
-file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnost
-> ics/secondary/pooledasianrr.png written in PNG format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnos
+    > tics/secondary/pooledasianrr.png saved as PNG format
 
 . 
 . histogram pooledblackrr, freq
@@ -104,8 +108,9 @@ file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnost
 
 . graph export $projdir/out/graph/pooleddiagnostics/secondary/pooledblackrr.png
 > , replace
-file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnost
-> ics/secondary/pooledblackrr.png written in PNG format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnos
+    > tics/secondary/pooledblackrr.png saved as PNG format
 
 . 
 . histogram pooledwhiterr, freq
@@ -113,8 +118,9 @@ file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnost
 
 . graph export $projdir/out/graph/pooleddiagnostics/secondary/pooledwhiterr.png
 > , replace
-file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnost
-> ics/secondary/pooledwhiterr.png written in PNG format
+file
+    /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnos
+    > tics/secondary/pooledwhiterr.png saved as PNG format
 
 . 
 . 
@@ -129,5 +135,5 @@ file /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnost
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/demogr
 > aphics/pooledsecanalysis.smcl
   log type:  smcl
- closed on:  25 Jul 2022, 18:09:40
+ closed on:  19 Dec 2024, 19:13:59
 -------------------------------------------------------------------------------

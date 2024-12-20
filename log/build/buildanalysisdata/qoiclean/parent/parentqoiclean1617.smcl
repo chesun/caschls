@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/qoiclean/parent/parentqoiclean1617.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}25 Jul 2022, 18:10:29
+ {txt}opened on:  {res}19 Dec 2024, 19:15:22
 {txt}
 {com}. 
 . use $clndtadir/parent/parent1617, clear
@@ -552,7 +552,7 @@ saved
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/qoiclean/parent/parentqoiclean1617.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}25 Jul 2022, 18:10:31
+ {txt}closed on:  {res}19 Dec 2024, 19:15:24
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

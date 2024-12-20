@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/allsvymerge.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 8 Dec 2024, 23:50:11
+ {txt}opened on:  {res}19 Dec 2024, 19:17:28
 {txt}
 {com}. 
 . /* rename vars and prep parentanalysisready.dta for merging */
@@ -12,7 +12,7 @@
 
 {com}. 
 . /* keep only the qoimean vars  and va to be used in factor analysis */
-. keep cdscode qoi* va*
+. keep cdscode qoi* 
 {txt}
 {com}. 
 . /* rename variables and drop common vars to prepare for merging across surveys */
@@ -33,7 +33,7 @@ saved
 {txt}(secondary pooled dataset ready for analysis with stats and response rate)
 
 {com}. 
-. keep cdscode qoi* va*
+. keep cdscode qoi* 
 {txt}
 {com}. rename qoi* secqoi*
 {res}{txt}
@@ -52,7 +52,7 @@ saved
 {txt}(weighted average staff qoi statistics pooled over years)
 
 {com}. 
-. keep cdscode qoi* va*
+. keep cdscode qoi* 
 {txt}
 {com}. rename qoi* staffqoi*
 {res}{txt}
@@ -71,50 +71,40 @@ saved
 . use $projdir/dta/allsvyfactor/formerge/parentqoimeans, clear
 {txt}(parent pooled (over years) dataset ready for analysis with stats and response ra)
 
-{com}. merge 1:1 cdscode using $projdir/dta/allsvyfactor/formerge/secqoimeans
+{com}. merge 1:1 cdscode using $projdir/dta/allsvyfactor/formerge/secqoimeans, nogen 
 {res}
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
 {col 5}Not matched{col 30}{res}           3,505
-{txt}{col 9}from master{col 30}{res}           1,558{txt}  (_merge==1)
-{col 9}from using{col 30}{res}           1,947{txt}  (_merge==2)
+{txt}{col 9}from master{col 30}{res}           1,558{txt}  
+{col 9}from using{col 30}{res}           1,947{txt}  
 
-{col 5}Matched{col 30}{res}           1,438{txt}  (_merge==3)
+{col 5}Matched{col 30}{res}           1,438{txt}  
 {col 5}{hline 41}
 
-{com}. /* keep only matched schools */
-. keep if _merge == 3
-{txt}(3,505 observations deleted)
-
-{com}. drop _merge
-{txt}
-{com}. 
-. merge 1:1 cdscode using $projdir/dta/allsvyfactor/formerge/staffqoimeans
+{com}. merge 1:1 cdscode using $projdir/dta/allsvyfactor/formerge/staffqoimeans, nogen 
 {res}
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
-{col 5}Not matched{col 30}{res}           2,960
-{txt}{col 9}from master{col 30}{res}              93{txt}  (_merge==1)
-{col 9}from using{col 30}{res}           2,867{txt}  (_merge==2)
+{col 5}Not matched{col 30}{res}           2,095
+{txt}{col 9}from master{col 30}{res}           1,413{txt}  
+{col 9}from using{col 30}{res}             682{txt}  
 
-{col 5}Matched{col 30}{res}           1,345{txt}  (_merge==3)
+{col 5}Matched{col 30}{res}           3,530{txt}  
 {col 5}{hline 41}
 
-{com}. keep if _merge == 3
-{txt}(2,960 observations deleted)
-
-{com}. // 2300 records matched among all 3 surveys
-. drop _merge
-{txt}
 {com}. 
-. 
-. 
-. missings dropobs *mean_pooled, force //drop all observations with all qoimean vars missing
+. // merge on VA 
+. merge 1:1 cdscode using $projdir/dta/buildanalysisdata/va/va_pooled_all.dta, keep(1 3) nogen 
+{res}
+{txt}{col 5}Result{col 33}Number of obs
+{col 5}{hline 41}
+{col 5}Not matched{col 30}{res}           4,690
+{txt}{col 9}from master{col 30}{res}           4,690{txt}  
+{col 9}from using{col 30}{res}               0{txt}  
 
-{p 0 4}{txt}Checking missings in {res} parentqoi9mean_pooled parentqoi15mean_pooled parentqoi16mean_pooled parentqoi17mean_pooled parentqoi27mean_pooled parentqoi30mean_pooled parentqoi31mean_pooled parentqoi32mean_pooled parentqoi33mean_pooled parentqoi34mean_pooled parentqoi64mean_pooled secqoi22mean_pooled secqoi23mean_pooled secqoi24mean_pooled secqoi25mean_pooled secqoi26mean_pooled secqoi27mean_pooled secqoi28mean_pooled secqoi29mean_pooled secqoi30mean_pooled secqoi31mean_pooled secqoi32mean_pooled secqoi33mean_pooled secqoi34mean_pooled secqoi35mean_pooled secqoi36mean_pooled secqoi37mean_pooled secqoi38mean_pooled secqoi39mean_pooled secqoi40mean_pooled staffqoi10mean_pooled staffqoi20mean_pooled staffqoi24mean_pooled staffqoi41mean_pooled staffqoi44mean_pooled staffqoi64mean_pooled staffqoi87mean_pooled staffqoi98mean_pooled staffqoi103mean_pooled staffqoi104mean_pooled staffqoi105mean_pooled staffqoi109mean_pooled staffqoi111mean_pooled staffqoi112mean_pooled staffqoi128mean_pooled:{txt}{p_end}
-392 observations with missing values
-
-note: no observations qualify
+{col 5}Matched{col 30}{res}             935{txt}  
+{col 5}{hline 41}
 
 {com}. 
 . save $projdir/dta/allsvyfactor/allsvyqoimeans, replace
@@ -130,7 +120,7 @@ saved
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/allsvymerge.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 8 Dec 2024, 23:50:13
+ {txt}closed on:  {res}19 Dec 2024, 19:17:29
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/indexhorsewithdemo.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}31 Jul 2023, 21:45:33
+ {txt}opened on:  {res}19 Dec 2024, 19:20:22
 {txt}
 {com}. 
 . graph drop _all
@@ -131,32 +131,32 @@
 {res}
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
-{col 5}Not matched{col 30}{res}              18
-{txt}{col 9}from master{col 30}{res}              18{txt}  
+{col 5}Not matched{col 30}{res}             160
+{txt}{col 9}from master{col 30}{res}             160{txt}  
 {col 9}from using{col 30}{res}               0{txt}  
 
-{col 5}Matched{col 30}{res}           1,327{txt}  
+{col 5}Matched{col 30}{res}           5,465{txt}  
 {col 5}{hline 41}
 {res}
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
-{col 5}Not matched{col 30}{res}             709
-{txt}{col 9}from master{col 30}{res}             709{txt}  
+{col 5}Not matched{col 30}{res}           3,984
+{txt}{col 9}from master{col 30}{res}           3,984{txt}  
 {col 9}from using{col 30}{res}               0{txt}  
 
-{col 5}Matched{col 30}{res}             636{txt}  
+{col 5}Matched{col 30}{res}           1,641{txt}  
 {col 5}{hline 41}
-(18 missing values generated)
-(19 missing values generated)
-(18 missing values generated)
-(18 missing values generated)
-(18 missing values generated)
-(19 missing values generated)
-(18 missing values generated)
-(18 missing values generated)
-(18 missing values generated)
-(18 missing values generated)
-(18 missing values generated)
+(162 missing values generated)
+(162 missing values generated)
+(160 missing values generated)
+(160 missing values generated)
+(161 missing values generated)
+(169 missing values generated)
+(161 missing values generated)
+(161 missing values generated)
+(161 missing values generated)
+(161 missing values generated)
+(161 missing values generated)
 {p 0 4 2}
 file {bf}
 /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/indexhorsewithdemo/compcase/va_ela_b_sp_b_ct.dta{rm}
@@ -377,32 +377,32 @@ saved
 {res}
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
-{col 5}Not matched{col 30}{res}              18
-{txt}{col 9}from master{col 30}{res}              18{txt}  
+{col 5}Not matched{col 30}{res}             160
+{txt}{col 9}from master{col 30}{res}             160{txt}  
 {col 9}from using{col 30}{res}               0{txt}  
 
-{col 5}Matched{col 30}{res}           1,327{txt}  
+{col 5}Matched{col 30}{res}           5,465{txt}  
 {col 5}{hline 41}
 {res}
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
-{col 5}Not matched{col 30}{res}             709
-{txt}{col 9}from master{col 30}{res}             709{txt}  
+{col 5}Not matched{col 30}{res}           3,984
+{txt}{col 9}from master{col 30}{res}           3,984{txt}  
 {col 9}from using{col 30}{res}               0{txt}  
 
-{col 5}Matched{col 30}{res}             636{txt}  
+{col 5}Matched{col 30}{res}           1,641{txt}  
 {col 5}{hline 41}
-(18 missing values generated)
-(19 missing values generated)
-(18 missing values generated)
-(18 missing values generated)
-(18 missing values generated)
-(19 missing values generated)
-(18 missing values generated)
-(18 missing values generated)
-(18 missing values generated)
-(18 missing values generated)
-(18 missing values generated)
+(162 missing values generated)
+(162 missing values generated)
+(160 missing values generated)
+(160 missing values generated)
+(161 missing values generated)
+(169 missing values generated)
+(161 missing values generated)
+(161 missing values generated)
+(161 missing values generated)
+(161 missing values generated)
+(161 missing values generated)
 {p 0 4 2}
 file {bf}
 /home/research/ca_ed_lab/users/chesun/gsr/caschls/out/dta/factor/indexhorsewithdemo/imputed/va_ela_b_sp_b_ct.dta{rm}
@@ -643,17 +643,17 @@ saved
 {txt}
 {com}. 
 . di "Start date time: `date1' `time1'"
-{res}Start date time: 31 Jul 2023 21:45:33
+{res}Start date time: 19 Dec 2024 19:20:22
 {txt}
 {com}. di "End date time: `date2' `time2'"
-{res}End date time: 31 Jul 2023 21:45:34
+{res}End date time: 19 Dec 2024 19:20:25
 {txt}
 {com}. 
 . log close
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/factoranalysis/indexhorsewithdemo.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}31 Jul 2023, 21:45:34
+ {txt}closed on:  {res}19 Dec 2024, 19:20:25
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

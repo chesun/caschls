@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build//build
 > analysisdata/clean_va.smcl
   log type:  smcl
- opened on:  21 Nov 2022, 22:11:55
+ opened on:  19 Dec 2024, 19:15:33
 
 . 
 . 
@@ -22,23 +22,23 @@
 > ---
 . 
 . foreach va_outcome in ela math enr enr_2year enr_4year {
-  2.   use $vaprojdir/estimates/va_cfr_all/va_est_dta/va_`va_outcome'_all.dta, 
-> clear
+  2.   use $vaprojdir/estimates/va_cfr_all_v1/va_est_dta/va_`va_outcome'_all.dt
+> a, clear
   3.   collapse (mean) va*, by(cdscode)
   4. 
 .   tempfile va_`va_outcome'
   5.   save `va_`va_outcome''
   6. }
 (ela estimates from all sample and control combinations)
-file /home/tmp/St259486.000001 saved as .dta format
+file /home/tmp/St269807.000001 saved as .dta format
 (math estimates from all sample and control combinations)
-file /home/tmp/St259486.000002 saved as .dta format
+file /home/tmp/St269807.000002 saved as .dta format
 (enr estimates from all sample and control combinations)
-file /home/tmp/St259486.000003 saved as .dta format
+file /home/tmp/St269807.000003 saved as .dta format
 (enr_2year estimates from all sample and control combinations)
-file /home/tmp/St259486.000004 saved as .dta format
+file /home/tmp/St269807.000004 saved as .dta format
 (enr_4year estimates from all sample and control combinations)
-file /home/tmp/St259486.000005 saved as .dta format
+file /home/tmp/St269807.000005 saved as .dta format
 
 . 
 . //---------------------------------------------------------------------------
@@ -130,7 +130,7 @@ file
         from master                     2,454  
         from using                          0  
 
-    Matched                             1,380  
+    Matched                               931  
     -----------------------------------------
 file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/a
@@ -144,7 +144,7 @@ file
         from master                     2,569  
         from using                          0  
 
-    Matched                             1,380  
+    Matched                               427  
     -----------------------------------------
 file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/a
@@ -157,7 +157,7 @@ file
         from master                     3,619  
         from using                          0  
 
-    Matched                             1,380  
+    Matched                               593  
     -----------------------------------------
 file
     /home/research/ca_ed_lab/users/chesun/gsr/caschls/dta/buildanalysisdata/a
@@ -175,10 +175,10 @@ file
 . 
 . di "Do file clean_va.do start date time: `date1_va_scatter_plot' `time1_va_sc
 > atter_plot'"
-Do file clean_va.do start date time: 21 Nov 2022 22:11:55
+Do file clean_va.do start date time: 19 Dec 2024 19:15:33
 
 . di "End date time: `date2_va_scatter_plot' `time2_va_scatter_plot'"
-End date time: 21 Nov 2022 22:11:55
+End date time: 19 Dec 2024 19:15:34
 
 . 
 . 
@@ -187,5 +187,5 @@ End date time: 21 Nov 2022 22:11:55
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build//build
 > analysisdata/clean_va.smcl
   log type:  smcl
- closed on:  21 Nov 2022, 22:11:55
+ closed on:  19 Dec 2024, 19:15:34
 -------------------------------------------------------------------------------

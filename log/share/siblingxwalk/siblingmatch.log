@@ -3,7 +3,7 @@
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gxwalk/siblingmatch.smcl
   log type:  smcl
- opened on:  25 Jul 2022, 18:13:31
+ opened on:  17 Jan 2024, 10:15:37
 
 . 
 . //append all years of CST datasets, from 2004 to 2013
@@ -385,7 +385,7 @@
 . tempfile master
 
 . save `master'
-file /home/tmp/St35924.000001 saved as .dta format
+file /home/tmp/St25494.000001 saved as .dta format
 
 . 
 . 
@@ -563,5 +563,5 @@ file
        log:  /home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/siblin
 > gxwalk/siblingmatch.smcl
   log type:  smcl
- closed on:  25 Jul 2022, 18:27:16
+ closed on:  17 Jan 2024, 10:33:28
 -------------------------------------------------------------------------------

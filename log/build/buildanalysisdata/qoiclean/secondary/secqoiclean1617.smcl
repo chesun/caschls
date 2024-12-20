@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/qoiclean/secondary/secqoiclean1617.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 9 Dec 2024, 14:43:50
+ {txt}opened on:  {res}19 Dec 2024, 19:14:56
 {txt}
 {com}. 
 . use $clndtadir/secondary/sec1617, clear
@@ -550,7 +550,7 @@ saved
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/buildanalysisdata/qoiclean/secondary/secqoiclean1617.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 9 Dec 2024, 14:44:09
+ {txt}closed on:  {res}19 Dec 2024, 19:15:08
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

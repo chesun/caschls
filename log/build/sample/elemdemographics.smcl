@@ -3,7 +3,7 @@
       name:  {res}elemdemographics
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/sample/elemdemographics.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}25 Jul 2022, 18:06:47
+ {txt}opened on:  {res}19 Dec 2024, 19:01:51
 {txt}
 {com}. 
 . /* The following block of code rename sex and self reported grade variables to be consistent across datasets. THis creates temp datasets to build
@@ -561,7 +561,7 @@ saved
       {txt}name:  {res}elemdemographics
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/build/sample/elemdemographics.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}25 Jul 2022, 18:06:49
+ {txt}closed on:  {res}19 Dec 2024, 19:01:55
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

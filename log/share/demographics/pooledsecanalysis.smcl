@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/demographics/pooledsecanalysis.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}25 Jul 2022, 18:09:39
+ {txt}opened on:  {res}19 Dec 2024, 19:13:52
 {txt}
 {com}. 
 . use $projdir/dta/demographics/pooled/pooledsecdiagnostics, replace
@@ -24,7 +24,13 @@
 {txt}(bin={res}31{txt}, start={res}0{txt}, width={res}.16129032{txt})
 {res}{txt}
 {com}. graph export $projdir/out/graph/pooleddiagnostics/secondary/pooledrr.png, replace
-{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnostics/secondary/pooledrr.png} written in PNG format
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnostics/secondary/pooledrr.png{rm}
+saved as
+PNG
+format
+{p_end}
 
 {com}. 
 . //create and export frequency histogram for pooled female response rate
@@ -32,7 +38,13 @@
 {txt}(bin={res}31{txt}, start={res}0{txt}, width={res}.09677419{txt})
 {res}{txt}
 {com}. graph export $projdir/out/graph/pooleddiagnostics/secondary/pooledfemalerr.png, replace
-{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnostics/secondary/pooledfemalerr.png} written in PNG format
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnostics/secondary/pooledfemalerr.png{rm}
+saved as
+PNG
+format
+{p_end}
 
 {com}. 
 . //create and export frequency histograms for pooled response rates for 4 races/ethnicities
@@ -76,28 +88,52 @@
 {txt}(bin={res}29{txt}, start={res}0{txt}, width={res}.03448276{txt})
 {res}{txt}
 {com}. graph export $projdir/out/graph/pooleddiagnostics/secondary/pooledhispanicrr.png, replace
-{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnostics/secondary/pooledhispanicrr.png} written in PNG format
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnostics/secondary/pooledhispanicrr.png{rm}
+saved as
+PNG
+format
+{p_end}
 
 {com}. 
 . histogram pooledasianrr, freq
 {txt}(bin={res}25{txt}, start={res}0{txt}, width={res}.04{txt})
 {res}{txt}
 {com}. graph export $projdir/out/graph/pooleddiagnostics/secondary/pooledasianrr.png, replace
-{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnostics/secondary/pooledasianrr.png} written in PNG format
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnostics/secondary/pooledasianrr.png{rm}
+saved as
+PNG
+format
+{p_end}
 
 {com}. 
 . histogram pooledblackrr, freq
 {txt}(bin={res}26{txt}, start={res}0{txt}, width={res}.03846154{txt})
 {res}{txt}
 {com}. graph export $projdir/out/graph/pooleddiagnostics/secondary/pooledblackrr.png, replace
-{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnostics/secondary/pooledblackrr.png} written in PNG format
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnostics/secondary/pooledblackrr.png{rm}
+saved as
+PNG
+format
+{p_end}
 
 {com}. 
 . histogram pooledwhiterr, freq
 {txt}(bin={res}29{txt}, start={res}0{txt}, width={res}.03448276{txt})
 {res}{txt}
 {com}. graph export $projdir/out/graph/pooleddiagnostics/secondary/pooledwhiterr.png, replace
-{res}{txt}file {bf:/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnostics/secondary/pooledwhiterr.png} written in PNG format
+{txt}{p 0 4 2}
+file {bf}
+/home/research/ca_ed_lab/users/chesun/gsr/caschls/out/graph/pooleddiagnostics/secondary/pooledwhiterr.png{rm}
+saved as
+PNG
+format
+{p_end}
 
 {com}. 
 . 
@@ -111,7 +147,7 @@
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/home/research/ca_ed_lab/users/chesun/gsr/caschls/log/share/demographics/pooledsecanalysis.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}25 Jul 2022, 18:09:40
+ {txt}closed on:  {res}19 Dec 2024, 19:13:59
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}
