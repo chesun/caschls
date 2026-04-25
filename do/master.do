@@ -338,7 +338,7 @@ local do_va_regs = 1
 if `do_va_regs' == 1 {
   /* clean VA estimates to be used for survey data analysis, and merge to survey
   analysis datasets */
-  do $projdir/do/build//buildanalysisdata/poolingdata/clean_va.do
+  do $projdir/do/build/buildanalysisdata/poolingdata/clean_va.do
 
 
 
@@ -445,9 +445,9 @@ if `do_index_va_reg' == 1 {
 
 
 
-/*
+
 /* Create summary stats for NSC outcomes merged to K-12 test score data, both for 2010-2017
-and 2010-2018 */
+and 2010-2018, auxilliary, not production code*/
 local dooutcomesumstats = 0
 if `dooutcomesumstats' == 1 {
   /* create a txt file codebook for NSC clean datasets, both for 2010-2017
@@ -455,7 +455,7 @@ if `dooutcomesumstats' == 1 {
   do $projdir/do/share/outcomesumstats/nsc_codebook.do
   pause
 }
- */
+
 
 
 /* va regressions with sibling controls */
