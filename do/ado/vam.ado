@@ -249,7 +249,10 @@ program define vam
 
 
 		*** Estimate covariance of two classes taught by same teacher in the same year
-		if "`seed'"=="" {
+		* Bugfix 2026-04-25: option is named `noseed` (line 26) but original check
+		* referenced macro `seed` which was never defined, so the seed was always
+		* set regardless of caller's `noseed` flag. Now matches the option name.
+		if "`noseed'"=="" {
 			set seed 9827496
 		}
 		tempvar rand classnum
